@@ -1,0 +1,84 @@
+{
+  "$schema": "../cdk.schema.json",
+  "Resources": {
+    "Repo": {
+      "Type": "aws-cdk-lib.aws_codecommit.Repository",
+      "Properties": {
+        "repositoryName": "my-first-decdk-repo"
+      }
+    },
+    "Key": {
+      "Type": "aws-cdk-lib.aws_kms.Key"
+    },
+    "BuildProject": {
+      "Type": "aws-cdk-lib.aws_codebuild.PipelineProject",
+      "Properties": {
+        "encryptionKey": { "Ref": "Key" }
+      }
+    },
+    "Pipeline": {
+      "Type": "aws-cdk-lib.aws_codepipeline.Pipeline",
+      "Properties": {
+        "stages": [
+          {
+            "stageName": "Source",
+            "actions": [
+              {
+                "aws-cdk-lib.aws_codepipeline_actions.CodeCommitSourceAction":  {
+                  "repository": { "Ref": "Repo" },
+                  "output": {
+                    "artifact": {
+                      "name": "Source"
+                    }
+                  },
+                  "actionName": "Source"
+                }
+              }
+            ]
+          },
+          {
+            "stageName": "Build",
+            "actions": [
+              {
+                "aws-cdk-lib.aws_codepipeline_actions.CodeBuildAction":   {
+                  "actionName": "Build",
+                  "project": { "Ref": "BuildProject" },
+                  "input": {
+                    "artifact": {
+                      "name": "Source"
+                    }
+                  },
+                  "outputs": [
+                    {
+                      "artifact": {
+                        "name": "Build"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "stageName": "Deploy",
+            "actions": [
+              {
+                "aws-cdk-lib.aws_codepipeline_actions.CloudFormationCreateUpdateStackAction": {
+                  "actionName": "Deploy",
+                  "stackName": "MyStack",
+                  "adminPermissions": true,
+                  "templatePath":  {
+                    "artifactPath": {
+                      "artifactName": "Build",
+                      "fileName": "template.yaml"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

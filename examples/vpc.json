@@ -1,0 +1,8 @@
+{
+  "$schema": "../cdk.schema.json",
+  "Resources": {
+    "VPC": {
+      "Type": "aws-cdk-lib.aws_ec2.Vpc"
+    }
+  }
+}

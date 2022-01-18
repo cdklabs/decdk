@@ -1,0 +1,19 @@
+{
+  "$schema": "../cdk.schema.json",
+  "Resources": {
+    "Topic": {
+      "Type": "aws-cdk-lib.aws_sns.Topic"
+    },
+    "Lambda": {
+      "Type": "aws-cdk-lib.aws_lambda.Function",
+      "Properties": {
+        "code": { "fromAsset": { "path": "." } },
+        "runtime": "NODEJS",
+        "handler": "index.handler",
+        "events": [
+          { "aws-cdk-lib.aws_lambda_event_sources.SnsEventSource": { "topic": { "Ref": "Topic" } } }
+        ]
+      }
+    }
+  }
+}

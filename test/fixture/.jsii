@@ -1,0 +1,157 @@
+{
+  "author": {
+    "name": "Amazon Web Services",
+    "roles": [
+      "author"
+    ],
+    "url": "https://aws.amazon.com"
+  },
+  "description": "test fixtures for deCDK",
+  "homepage": "https://github.com/aws/aws-cdk",
+  "jsiiVersion": "1.52.1 (build 5ccc8f6)",
+  "license": "Apache-2.0",
+  "metadata": {
+    "jsii": {
+      "pacmak": {
+        "hasDefaultInterfaces": true
+      }
+    }
+  },
+  "name": "fixture",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aws/aws-cdk"
+  },
+  "schema": "jsii/0.10.0",
+  "targets": {
+    "js": {
+      "npm": "fixture"
+    }
+  },
+  "types": {
+    "fixture.InterfaceWithPrimitives": {
+      "assembly": "fixture",
+      "datatype": true,
+      "docs": {
+        "summary": "Tests how an array with a bunch of primitives is represented in JSON schema."
+      },
+      "fqn": "fixture.InterfaceWithPrimitives",
+      "kind": "interface",
+      "locationInModule": {
+        "filename": "index.ts",
+        "line": 4
+      },
+      "name": "InterfaceWithPrimitives",
+      "properties": [
+        {
+          "abstract": true,
+          "docs": {
+            "summary": "Array of strings."
+          },
+          "immutable": true,
+          "locationInModule": {
+            "filename": "index.ts",
+            "line": 18
+          },
+          "name": "arrayOfStrings",
+          "type": {
+            "collection": {
+              "elementtype": {
+                "primitive": "string"
+              },
+              "kind": "array"
+            }
+          }
+        },
+        {
+          "abstract": true,
+          "immutable": true,
+          "locationInModule": {
+            "filename": "index.ts",
+            "line": 28
+          },
+          "name": "mapOfNumbers",
+          "type": {
+            "collection": {
+              "elementtype": {
+                "primitive": "number"
+              },
+              "kind": "map"
+            }
+          }
+        },
+        {
+          "abstract": true,
+          "docs": {
+            "summary": "A property of type number."
+          },
+          "immutable": true,
+          "locationInModule": {
+            "filename": "index.ts",
+            "line": 8
+          },
+          "name": "numberProperty",
+          "type": {
+            "primitive": "number"
+          }
+        },
+        {
+          "abstract": true,
+          "docs": {
+            "summary": "A property of type string."
+          },
+          "immutable": true,
+          "locationInModule": {
+            "filename": "index.ts",
+            "line": 13
+          },
+          "name": "stringProperty",
+          "type": {
+            "primitive": "string"
+          }
+        },
+        {
+          "abstract": true,
+          "docs": {
+            "summary": "Optional boolean."
+          },
+          "immutable": true,
+          "locationInModule": {
+            "filename": "index.ts",
+            "line": 23
+          },
+          "name": "optionalBoolean",
+          "optional": true,
+          "type": {
+            "primitive": "boolean"
+          }
+        }
+      ],
+      "symbolId": "index:InterfaceWithPrimitives"
+    },
+    "fixture.MyNormalEnum": {
+      "assembly": "fixture",
+      "fqn": "fixture.MyNormalEnum",
+      "kind": "enum",
+      "locationInModule": {
+        "filename": "index.ts",
+        "line": 31
+      },
+      "members": [
+        {
+          "name": "ENUM_MEMBER_1"
+        },
+        {
+          "name": "ENUM_MEMBER_2"
+        },
+        {
+          "name": "ENUM_MEMBER_3"
+        }
+      ],
+      "name": "MyNormalEnum",
+      "symbolId": "index:MyNormalEnum"
+    }
+  },
+  "version": "0.0.0",
+  "fingerprint": "LcL+jQNbCwVgu+5p1itdbJdgrkLZAwl57U7uT5vICJg="
+}
