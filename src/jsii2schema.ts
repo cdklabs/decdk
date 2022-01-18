@@ -1,5 +1,5 @@
-import * as jsiiReflect from 'jsii-reflect';
 import * as util from 'util';
+import * as jsiiReflect from 'jsii-reflect';
 
 /* eslint-disable no-console */
 
@@ -51,7 +51,7 @@ export class SchemaContext {
   }
 
   public findDefinition(ref: string) {
-    const [ , , id ] = ref.split('/');
+    const [, , id] = ref.split('/');
     return this.definitions[id];
   }
 
@@ -134,7 +134,7 @@ export function schemaForTypeReference(type: jsiiReflect.TypeReference, ctx: Sch
   }
 
   if (!ctx.hasWarningsOrErrors) {
-    ctx.error(`didn't match any schematizable shape`);
+    ctx.error('didn\'t match any schematizable shape');
   }
 
   return undefined;
@@ -167,8 +167,8 @@ export function schemaForPolymorphic(type: jsiiReflect.Type | undefined, ctx: Sc
           type: 'object',
           additionalProperties: false,
           properties: {
-            [x.fqn]: methd
-          }
+            [x.fqn]: methd,
+          },
         });
       }
     }
@@ -189,7 +189,7 @@ function schemaForEnum(type: jsiiReflect.Type | undefined) {
   }
 
   return {
-    enum: type.members.map(m => m.name)
+    enum: type.members.map(m => m.name),
   };
 }
 
@@ -207,7 +207,7 @@ function schemaForMap(type: jsiiReflect.TypeReference, ctx: SchemaContext) {
 
   return {
     type: 'object',
-    additionalProperties: s
+    additionalProperties: s,
   };
 }
 
@@ -225,7 +225,7 @@ function schemaForArray(type: jsiiReflect.TypeReference, ctx: SchemaContext) {
 
   return {
     type: 'array',
-    items: schemaForTypeReference(type.arrayOfType, ctx)
+    items: schemaForTypeReference(type.arrayOfType, ctx),
   };
 }
 
@@ -268,8 +268,8 @@ function schemaForConstructRef(type: jsiiReflect.TypeReference) {
   return {
     type: 'object',
     properties: {
-      Ref: { type: 'string' }
-    }
+      Ref: { type: 'string' },
+    },
   };
 }
 
@@ -299,7 +299,7 @@ export function schemaForInterface(type: jsiiReflect.Type | undefined, ctx: Sche
         // if prop is not serializable but optional, we can still serialize
         // but without this property.
         if (prop.optional) {
-          ctx.warning(`optional proprety omitted because it cannot be schematized`);
+          ctx.warning('optional proprety omitted because it cannot be schematized');
           continue;
         }
 
@@ -362,8 +362,8 @@ function schemaForEnumLikeClass(type: jsiiReflect.Type | undefined, ctx: SchemaC
       type: 'object',
       additionalProperties: false,
       properties: {
-        [method.name]: methodSchema(method, ctx)
-      }
+        [method.name]: methodSchema(method, ctx),
+      },
     });
   }
 
@@ -392,7 +392,7 @@ function methodSchema(method: jsiiReflect.Callable, ctx: SchemaContext) {
 
       // bail out - can't serialize a required parameter, so we can't serialize the method
       if (!param && !prop.optional) {
-        ctx.error(`cannot schematize method because parameter cannot be schematized`);
+        ctx.error('cannot schematize method because parameter cannot be schematized');
         return undefined;
       }
 
@@ -424,7 +424,7 @@ function methodSchema(method: jsiiReflect.Callable, ctx: SchemaContext) {
       type: 'object',
       properties,
       additionalProperties: false,
-      required: required.length > 0 ? required : undefined
+      required: required.length > 0 ? required : undefined,
     };
   });
 }
@@ -503,7 +503,7 @@ export function isSerializableInterface(type: jsiiReflect.Type | undefined, erro
   }
 
   return type.allProperties.every(p =>
-      isSerializableTypeReference(p.type, errorPrefix)
+    isSerializableTypeReference(p.type, errorPrefix)
       || isConstruct(p.type)
       || p.optional);
 }
@@ -581,7 +581,7 @@ function allImplementationsOfType(type: jsiiReflect.Type) {
     return allImplementations(type).filter(x => !x.abstract);
   }
 
-  throw new Error(`Must either be a class or an interface`);
+  throw new Error('Must either be a class or an interface');
 }
 
 function allSubclasses(base: jsiiReflect.ClassType) {

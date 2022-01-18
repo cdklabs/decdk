@@ -2,19 +2,19 @@
   "$schema": "../cdk.schema.json",
   "Resources": {
     "VPC": {
-      "Type": "@aws-cdk/aws-ec2.Vpc",
+      "Type": "aws-cdk-lib.aws_ec2.Vpc",
       "Properties": {
         "maxAzs": 1
       }
     },
     "Cluster": {
-      "Type": "@aws-cdk/aws-ecs.Cluster",
+      "Type": "aws-cdk-lib.aws_ecs.Cluster",
       "Properties": {
         "vpc": { "Ref": "VPC" }
       }
     },
     "MyTaskDef": {
-      "Type": "@aws-cdk/aws-ecs.TaskDefinition",
+      "Type": "aws-cdk-lib.aws_ecs.TaskDefinition",
       "Properties": {
         "compatibility": "FARGATE",
         "family": "redis",
@@ -24,7 +24,7 @@
       }
     },
     "ContainerDef": {
-      "Type": "@aws-cdk/aws-ecs.ContainerDefinition",
+      "Type": "aws-cdk-lib.aws_ecs.ContainerDefinition",
       "Properties": {
         "taskDefinition": { "Ref": "MyTaskDef" },
         "essential": true,
@@ -37,7 +37,7 @@
       }
     },
     "Service": {
-      "Type": "@aws-cdk/aws-ecs.FargateService",
+      "Type": "aws-cdk-lib.aws_ecs.FargateService",
       "Properties": {
         "cluster": { "Ref": "Cluster" },
         "taskDefinition": { "Ref": "MyTaskDef" }

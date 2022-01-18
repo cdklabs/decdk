@@ -2,7 +2,7 @@
   "$schema": "../cdk.schema.json",
   "Resources": {
     "MyQueue": {
-      "Type": "@aws-cdk/aws-sqs.Queue",
+      "Type": "aws-cdk-lib.aws_sqs.Queue",
       "Properties": {
         "encryption": "KMS"
       }

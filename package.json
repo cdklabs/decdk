@@ -1,5 +1,10 @@
 {
   "name": "decdk",
+  "description": "Declarative CDK: a CloudFormation-like syntax for defining CDK stacks",
+  "bin": {
+    "decdk": "bin/decdk",
+    "decdk-schema": "bin/decdk-schema"
+  },
   "scripts": {
     "build": "npx projen build",
     "bump": "npx projen bump",
@@ -21,9 +26,17 @@
     "watch": "npx projen watch",
     "projen": "npx projen"
   },
+  "author": {
+    "name": "Amazon Web Services",
+    "url": "https://aws.amazon.com",
+    "organization": true
+  },
   "devDependencies": {
+    "@types/fs-extra": "^8",
     "@types/jest": "^27.4.0",
     "@types/node": "^12",
+    "@types/yaml": "^1.9.7",
+    "@types/yargs": "^17.0.8",
     "@typescript-eslint/eslint-plugin": "^5",
     "@typescript-eslint/parser": "^5",
     "eslint": "^8",
@@ -32,12 +45,23 @@
     "eslint-plugin-import": "^2.25.4",
     "jest": "^27.4.7",
     "jest-junit": "^13",
+    "jsii": "^1.52.1",
     "json-schema": "^0.4.0",
     "npm-check-updates": "^12",
     "projen": "^0.51.1",
     "standard-version": "^9",
     "ts-jest": "^27.1.3",
     "typescript": "^4.5.4"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "^2.8.0",
+    "chalk": "^4",
+    "constructs": "^10",
+    "fs-extra": "^8",
+    "jsii-reflect": "^1.52.1",
+    "jsonschema": "^1.4.0",
+    "yaml": "^1.10.2",
+    "yargs": "^17.3.1"
   },
   "main": "lib/index.js",
   "license": "Apache-2.0",

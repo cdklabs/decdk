@@ -2,29 +2,29 @@
   "$schema": "../cdk.schema.json",
   "Resources": {
     "Repo": {
-      "Type": "@aws-cdk/aws-codecommit.Repository",
+      "Type": "aws-cdk-lib.aws_codecommit.Repository",
       "Properties": {
         "repositoryName": "my-first-decdk-repo"
       }
     },
     "Key": {
-      "Type": "@aws-cdk/aws-kms.Key"
+      "Type": "aws-cdk-lib.aws_kms.Key"
     },
     "BuildProject": {
-      "Type": "@aws-cdk/aws-codebuild.PipelineProject",
+      "Type": "aws-cdk-lib.aws_codebuild.PipelineProject",
       "Properties": {
         "encryptionKey": { "Ref": "Key" }
       }
     },
     "Pipeline": {
-      "Type": "@aws-cdk/aws-codepipeline.Pipeline",
+      "Type": "aws-cdk-lib.aws_codepipeline.Pipeline",
       "Properties": {
         "stages": [
           {
             "stageName": "Source",
             "actions": [
               {
-                "@aws-cdk/aws-codepipeline-actions.CodeCommitSourceAction":  {
+                "aws-cdk-lib.aws_codepipeline_actions.CodeCommitSourceAction":  {
                   "repository": { "Ref": "Repo" },
                   "output": {
                     "artifact": {
@@ -40,7 +40,7 @@
             "stageName": "Build",
             "actions": [
               {
-                "@aws-cdk/aws-codepipeline-actions.CodeBuildAction":   {
+                "aws-cdk-lib.aws_codepipeline_actions.CodeBuildAction":   {
                   "actionName": "Build",
                   "project": { "Ref": "BuildProject" },
                   "input": {
@@ -63,7 +63,7 @@
             "stageName": "Deploy",
             "actions": [
               {
-                "@aws-cdk/aws-codepipeline-actions.CloudFormationCreateUpdateStackAction": {
+                "aws-cdk-lib.aws_codepipeline_actions.CloudFormationCreateUpdateStackAction": {
                   "actionName": "Deploy",
                   "stackName": "MyStack",
                   "adminPermissions": true,

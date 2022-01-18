@@ -218,7 +218,7 @@
           "exec": "yarn install --check-files"
         },
         {
-          "exec": "yarn upgrade @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-import-resolver-node eslint-import-resolver-typescript eslint-plugin-import eslint jest jest-junit json-schema npm-check-updates standard-version ts-jest typescript"
+          "exec": "yarn upgrade @types/fs-extra @types/jest @types/node @types/yaml @types/yargs @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-import-resolver-node eslint-import-resolver-typescript eslint-plugin-import eslint jest jest-junit jsii json-schema npm-check-updates standard-version ts-jest typescript aws-cdk-lib chalk constructs fs-extra jsii-reflect jsonschema yaml yargs"
         },
         {
           "exec": "npx projen"

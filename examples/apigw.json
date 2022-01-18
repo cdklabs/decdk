@@ -2,23 +2,23 @@
   "$schema": "../cdk.schema.json",
   "Resources": {
     "HelloLambda": {
-      "Type": "@aws-cdk/aws-lambda.Function",
+      "Type": "aws-cdk-lib.aws_lambda.Function",
       "Properties": {
         "code": {
-          "asset": { "path": "." }
+          "fromAsset": { "path": "." }
         },
         "runtime": "PYTHON_3_6",
         "handler": "index.handler"
       }
     },
     "MyApi": {
-      "Type": "@aws-cdk/aws-apigateway.LambdaRestApi",
+      "Type": "aws-cdk-lib.aws_apigateway.LambdaRestApi",
       "Properties": {
         "handler": { "Ref": "HelloLambda" }
       }
     },
     "GetRoot": {
-      "Type": "@aws-cdk/aws-apigateway.Method",
+      "Type": "aws-cdk-lib.aws_apigateway.Method",
       "Properties": {
         "resource": { "Fn::GetAtt": [ "MyApi", "root" ] },
         "httpMethod": "GET"

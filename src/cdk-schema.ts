@@ -1,6 +1,6 @@
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import * as jsiiReflect from 'jsii-reflect';
-import { SchemaContext, schemaForTypeReference } from '../lib/jsii2schema';
+import { SchemaContext, schemaForTypeReference } from './jsii2schema';
 
 /* eslint-disable no-console */
 
@@ -16,8 +16,8 @@ export interface RenderSchemaOptions {
 
 export function renderFullSchema(typeSystem: jsiiReflect.TypeSystem, options: RenderSchemaOptions = { }) {
   if (!process.stdin.isTTY || options.colors === false) {
-     // Disable chalk color highlighting
-     process.env.FORCE_COLOR = '0';
+    // Disable chalk color highlighting
+    process.env.FORCE_COLOR = '0';
   }
 
   // Find all constructs for which the props interface
@@ -30,6 +30,7 @@ export function renderFullSchema(typeSystem: jsiiReflect.TypeSystem, options: Re
     .map(unpackConstruct)
     .filter(c => c && !isCfnResource(c.constructClass)) as ConstructAndProps[];
 
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const output = require('../cloudformation.schema.json');
 
   output.definitions = output.definitions || { };
@@ -39,12 +40,12 @@ export function renderFullSchema(typeSystem: jsiiReflect.TypeSystem, options: Re
   for (const deco of deconstructs) {
     const resource = schemaForResource(deco, ctx);
     if (resource) {
-      output.properties.Resources.patternProperties["^[a-zA-Z0-9]+$"].anyOf.push(resource);
+      output.properties.Resources.patternProperties['^[a-zA-Z0-9]+$'].anyOf.push(resource);
     }
   }
 
   output.properties.$schema = {
-    type: 'string'
+    type: 'string',
   };
 
   if (options.warnings) {
@@ -92,16 +93,16 @@ export function schemaForResource(construct: ConstructAndProps, ctx: SchemaConte
       properties: {
         Properties: propsSchema,
         Type: {
-          enum: [ construct.constructClass.fqn ],
-          type: "string"
-        }
-      }
+          enum: [construct.constructClass.fqn],
+          type: 'string',
+        },
+      },
     };
   });
 }
 
 function isCfnResource(klass: jsiiReflect.ClassType) {
-  const resource = klass.system.findClass('@aws-cdk/core.CfnResource');
+  const resource = klass.system.findClass('aws-cdk-lib.CfnResource');
   return klass.extends(resource);
 }
 
@@ -115,7 +116,7 @@ function unpackConstruct(klass: jsiiReflect.ClassType): ConstructAndProps | unde
 
   return {
     constructClass: klass,
-    propsTypeRef: klass.initializer.parameters[2].type
+    propsTypeRef: klass.initializer.parameters[2].type,
   };
 }
 

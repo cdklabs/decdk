@@ -1,6 +1,6 @@
+import * as path from 'path';
 import * as fs from 'fs-extra';
 import * as jsiiReflect from 'jsii-reflect';
-import * as path from 'path';
 import * as YAML from 'yaml';
 
 /**

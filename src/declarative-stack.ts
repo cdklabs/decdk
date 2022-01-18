@@ -1,4 +1,8 @@
-import * as cdk from '@aws-cdk/core';
+import { mkdtempSync, writeFileSync } from 'fs';
+import { tmpdir } from 'os';
+import { join } from 'path';
+import * as cdk from 'aws-cdk-lib';
+import { CfnInclude } from 'aws-cdk-lib/cloudformation-include';
 import * as reflect from 'jsii-reflect';
 import * as jsonschema from 'jsonschema';
 import { renderFullSchema } from './cdk-schema';
@@ -49,8 +53,12 @@ export class DeclarativeStack extends cdk.Stack {
 
     delete template.$schema;
 
+    const workdir = mkdtempSync(join(tmpdir(), 'decdk-'));
+    const templateFile = join(workdir, 'template.json');
+    writeFileSync(templateFile, JSON.stringify(template));
+
     // Add an Include construct with what's left of the template
-    new cdk.CfnInclude(this, 'Include', { template });
+    new CfnInclude(this, 'Include', { templateFile });
 
     // replace all "Fn::GetAtt" with tokens that resolve correctly both for
     // constructs and raw resources.
@@ -59,9 +67,21 @@ export class DeclarativeStack extends cdk.Stack {
 }
 
 function resolveType(fqn: string) {
-  const [ mod, ...className ] = fqn.split('.');
+  const [mod, ...className] = fqn.split('.');
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const module = require(mod);
-  return module[className.join('.')];
+
+  let curr = module;
+  while (true) {
+    const next = className.shift();
+    if (!next) { break; }
+    curr = curr[next];
+    if (!curr) {
+      throw new Error(`unable to resolve class ${className}`);
+    }
+  }
+
+  return curr;
 }
 
 function tryResolveIntrinsic(value: any) {
@@ -127,12 +147,12 @@ function deserializeValue(stack: cdk.Stack, typeRef: reflect.TypeReference, opti
 
     throw new Error(
       `{ Ref } can only be used when a construct type is expected and this is ${typeRef}. ` +
-      `Use { Fn::GetAtt } to represent specific resource attributes`);
+      'Use { Fn::GetAtt } to represent specific resource attributes');
   }
 
   const getAtt = tryResolveGetAtt(value);
   if (getAtt) {
-    const [ logical, attr ] = getAtt;
+    const [logical, attr] = getAtt;
 
     if (isConstruct(typeRef)) {
       const obj: any = findConstruct(stack, logical);
@@ -155,7 +175,7 @@ function deserializeValue(stack: cdk.Stack, typeRef: reflect.TypeReference, opti
     }
 
     const out: any = { };
-    for (const [ k, v ] of Object.entries(value)) {
+    for (const [k, v] of Object.entries(value)) {
       out[k] = deserializeValue(stack, typeRef.mapOfType, false, `${key}.${k}`, v);
     }
 
@@ -290,7 +310,7 @@ function deconstructType(stack: cdk.Stack, typeRef: reflect.TypeReference, value
   const parts = methodFqn.split('.');
   const last = parts[parts.length - 1];
   if (last !== '<initializer>') {
-    throw new Error(`Expectring an initializer`);
+    throw new Error('Expectring an initializer');
   }
 
   const classFqn = parts.slice(0, parts.length - 1).join('.');
@@ -322,7 +342,7 @@ function deconstructStaticMethod(stack: cdk.Stack, typeRef: reflect.ClassType, v
       throw new Error(`Value for enum-like class ${typeRef.fqn} must be an object with a single key (one of: ${members.join(',')})`);
     }
 
-    const [ methodName, args ] = entries[0];
+    const [methodName, args] = entries[0];
     const method = methods.find(m => m.name === methodName);
     if (!method) {
       throw new Error(`Invalid member "${methodName}" for enum-like class ${typeRef.fqn}. Options: ${members.join(',')}`);
@@ -365,7 +385,7 @@ function invokeMethod(stack: cdk.Stack, method: reflect.Callable, parameters: an
     return new typeClass(...args);
   }
 
-  const methodFn: (...args: any[]) => any = typeClass[method.name];
+  const methodFn: (...s: any[]) => any = typeClass[method.name];
   if (!methodFn) {
     throw new Error(`Cannot find method named ${method.name} in ${typeClass.fqn}`);
   }
@@ -382,24 +402,26 @@ function invokeMethod(stack: cdk.Stack, method: reflect.Callable, parameters: an
  * an `Fn::GetAtt`.
  */
 function deconstructGetAtt(stack: cdk.Stack, id: string, attribute: string) {
-  return cdk.Lazy.string({ produce: () => {
-    const res = stack.node.tryFindChild(id);
-    if (!res) {
-      const include = stack.node.tryFindChild('Include') as cdk.CfnInclude;
-      if (!include) {
-        throw new Error(`Unexpected - "Include" should be in the stack at this point`);
-      }
+  return cdk.Lazy.string({
+    produce: () => {
+      const res = stack.node.tryFindChild(id);
+      if (!res) {
+        const include = stack.node.tryFindChild('Include') as CfnInclude;
+        if (!include) {
+          throw new Error('Unexpected - "Include" should be in the stack at this point');
+        }
 
-      const raw = (include.template as any).Resources[id];
-      if (!raw) {
-        throw new Error(`Unable to find a resource ${id}`);
-      }
+        const raw = include.getResource(id);
+        if (!raw) {
+          throw new Error(`Unable to find a resource ${id}`);
+        }
 
-      // just leak
-      return { "Fn::GetAtt": [ id, attribute ] };
-    }
-    return (res as any)[attribute];
-  }});
+        // just leak
+        return { 'Fn::GetAtt': [id, attribute] };
+      }
+      return (res as any)[attribute];
+    },
+  });
 }
 
 function findConstruct(stack: cdk.Stack, id: string) {
@@ -411,16 +433,16 @@ function findConstruct(stack: cdk.Stack, id: string) {
 }
 
 function processReferences(stack: cdk.Stack) {
-  const include = stack.node.findChild('Include') as cdk.CfnInclude;
+  const include = stack.node.findChild('Include') as CfnInclude;
   if (!include) {
     throw new Error('Unexpected');
   }
 
-  process(include.template as any);
+  process((include as any).template);
 
   function process(value: any): any {
     if (typeof(value) === 'object' && Object.keys(value).length === 1 && Object.keys(value)[0] === 'Fn::GetAtt') {
-      const [ id, attribute ] = value['Fn::GetAtt'];
+      const [id, attribute] = value['Fn::GetAtt'];
       return deconstructGetAtt(stack, id, attribute);
     }
 
@@ -429,7 +451,7 @@ function processReferences(stack: cdk.Stack) {
     }
 
     if (typeof(value) === 'object') {
-      for (const [ k, v ] of Object.entries(value)) {
+      for (const [k, v] of Object.entries(value)) {
         value[k] = process(v);
       }
       return value;
