@@ -7,6 +7,7 @@ const project = new typescript.TypeScriptProject({
   authorName: 'Amazon Web Services',
   authorUrl: 'https://aws.amazon.com',
   authorOrganization: true,
+  prerelease: 'pre',
   deps: [
     'aws-cdk-lib',
     'constructs@^10',
