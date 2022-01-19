@@ -1,7 +1,7 @@
 import * as cdk from 'aws-cdk-lib';
 import chalk from 'chalk';
 import yargs from 'yargs';
-import { DeclarativeStack, loadTypeSystem, readTemplate, stackNameFromFileName } from '../src';
+import { DeclarativeStack, loadTypeSystem, readTemplate, stackNameFromFileName } from '.';
 
 async function main() {
   const argv = await yargs
