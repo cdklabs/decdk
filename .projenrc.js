@@ -23,6 +23,7 @@ const project = new typescript.TypeScriptProject({
     '@types/yargs',
     'jsii',
   ],
+  releaseToNpm: true,
 });
 
 project.synth();
