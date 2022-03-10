@@ -25,6 +25,12 @@ const project = new typescript.TypeScriptProject({
     'jsii',
   ],
   releaseToNpm: true,
+
+  autoApproveOptions: {
+    allowedUsernames: ['cdklabs-automation'],
+    secret: 'GITHUB_TOKEN',
+  },
+  autoApproveUpgrades: true,
 });
 
 project.synth();
