@@ -7,6 +7,23 @@ Please read through this document before submitting any issues or pull requests 
 information to effectively respond to your bug report or contribution.
 
 
+## Getting Started
+
+The basic commands to get the repository cloned and built locally follow:
+
+```
+$ git clone https://github.com/cdklabs/decdk.git
+$ cd decdk
+$ yarn # install dependencies
+$ yarn build # build decdk
+```
+
+decdk uses [projen] to manage project configuration files like package.json,
+.gitignore, and so on. These can be updated by modifying `.projenrc.js` and
+running `yarn projen`.
+
+[projen]: https://github.com/projen/projen
+
 ## Reporting Bugs/Feature Requests
 
 We welcome you to use the GitHub issue tracker to report bugs or suggest features.
