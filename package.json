@@ -45,7 +45,7 @@
     "eslint-plugin-import": "^2.26.0",
     "jest": "^27.5.1",
     "jest-junit": "^13",
-    "jsii": "^1.55.1",
+    "jsii": "^1.56.0",
     "json-schema": "^0.4.0",
     "npm-check-updates": "^12",
     "projen": "^0.51.1",
@@ -58,7 +58,7 @@
     "chalk": "^4",
     "constructs": "^10",
     "fs-extra": "^8",
-    "jsii-reflect": "^1.55.1",
+    "jsii-reflect": "^1.56.0",
     "jsonschema": "^1.4.0",
     "yaml": "^1.10.2",
     "yargs": "^17.4.0"
