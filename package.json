@@ -61,7 +61,7 @@
     "jsii-reflect": "^1.56.0",
     "jsonschema": "^1.4.0",
     "yaml": "^1.10.2",
-    "yargs": "^17.4.0"
+    "yargs": "^17.4.1"
   },
   "main": "lib/index.js",
   "license": "Apache-2.0",
