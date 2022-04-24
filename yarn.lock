@@ -1126,10 +1126,10 @@ available-typed-arrays@^1.0.5:
   resolved "https://registry.yarnpkg.com/available-typed-arrays/-/available-typed-arrays-1.0.5.tgz#92f95616501069d07d10edb2fc37d3e1c65123b7"
   integrity sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==
 
-aws-cdk-lib@^2.21.0:
-  version "2.21.0"
-  resolved "https://registry.yarnpkg.com/aws-cdk-lib/-/aws-cdk-lib-2.21.0.tgz#3b326288c27179dae56e57448295c0c796fa9d90"
-  integrity sha512-ctwEOjkpp2DFfMiPQjRUC/OHnZBTprKcJ1sxHNEsOnMmN4w2Vqe22tiAXXmxThfdv0WdBKUdRuiYQybbsTb37g==
+aws-cdk-lib@^2.21.1:
+  version "2.21.1"
+  resolved "https://registry.yarnpkg.com/aws-cdk-lib/-/aws-cdk-lib-2.21.1.tgz#f83d5ccf8865ffe07d93428f8b21f632fec82dbb"
+  integrity sha512-dhJUZ50EfhV67Pq7oED3rwyg3eKebxR7LTHQXf52YAxmBSKkE2L6hPAshCyaP49uv4QmyAW14T41o+aVSgyHHw==
   dependencies:
     "@balena/dockerignore" "^1.0.2"
     case "1.6.3"
@@ -1541,9 +1541,9 @@ console-control-strings@^1.1.0:
   integrity sha1-PXz0Rk22RG6mRL9LOVB/mFEAjo4=
 
 constructs@^10:
-  version "10.0.123"
-  resolved "https://registry.yarnpkg.com/constructs/-/constructs-10.0.123.tgz#ff75ee277fdf445d8a7c35f4cc4c5d4e3022106b"
-  integrity sha512-PPw30hgbBLN4VAEqVjni4EtKziMT4/b+5WivsgXZi+U3U1jef/1oYLxV/LC3KDofrgb+1qDbg609ff4L2kSQ1w==
+  version "10.0.124"
+  resolved "https://registry.yarnpkg.com/constructs/-/constructs-10.0.124.tgz#96ecf7b4fb6797bc9930810ee6c068824f933b1a"
+  integrity sha512-jL8biyHZb5XdalUGLWazC1BP0/xeQnbgjCDBe8V0r2D/E5toPs5zmE72H5rcow2KRX4DGScHX1Kcm5H216TF3Q==
 
 conventional-changelog-angular@^5.0.12:
   version "5.0.13"
