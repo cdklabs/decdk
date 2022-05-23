@@ -33,4 +33,12 @@ const project = new typescript.TypeScriptProject({
   autoApproveUpgrades: true,
 });
 
+// resolve @types/prettier@2.6.0 conflicts with
+// typescript 3.9 (required by current jsii)
+project.addFields({
+  resolutions: {
+    '@types/prettier': '2.6.0',
+  },
+});
+
 project.synth();
