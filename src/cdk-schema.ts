@@ -14,7 +14,10 @@ export interface RenderSchemaOptions {
   colors?: boolean;
 }
 
-export function renderFullSchema(typeSystem: jsiiReflect.TypeSystem, options: RenderSchemaOptions = { }) {
+export function renderFullSchema(
+  typeSystem: jsiiReflect.TypeSystem,
+  options: RenderSchemaOptions = {}
+) {
   if (!process.stdin.isTTY || options.colors === false) {
     // Disable chalk color highlighting
     process.env.FORCE_COLOR = '0';
@@ -24,23 +27,27 @@ export function renderFullSchema(typeSystem: jsiiReflect.TypeSystem, options: Re
   // (transitively) only consists of JSON primitives or interfaces
   // that consist of JSON primitives
   const constructType = typeSystem.findClass('constructs.Construct');
-  const constructs = typeSystem.classes.filter(c => c.extends(constructType));
+  const constructs = typeSystem.classes.filter((c) => c.extends(constructType));
 
   const deconstructs = constructs
     .map(unpackConstruct)
-    .filter(c => c && !isCfnResource(c.constructClass)) as ConstructAndProps[];
+    .filter(
+      (c) => c && !isCfnResource(c.constructClass)
+    ) as ConstructAndProps[];
 
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   const output = require('../cloudformation.schema.json');
 
-  output.definitions = output.definitions || { };
+  output.definitions = output.definitions || {};
 
   const ctx = SchemaContext.root(output.definitions);
 
   for (const deco of deconstructs) {
     const resource = schemaForResource(deco, ctx);
     if (resource) {
-      output.properties.Resources.patternProperties['^[a-zA-Z0-9]+$'].anyOf.push(resource);
+      output.properties.Resources.patternProperties[
+        '^[a-zA-Z0-9]+$'
+      ].anyOf.push(resource);
     }
   }
 
@@ -79,7 +86,10 @@ function printWarnings(node: SchemaContext, indent = '') {
   }
 }
 
-export function schemaForResource(construct: ConstructAndProps, ctx: SchemaContext) {
+export function schemaForResource(
+  construct: ConstructAndProps,
+  ctx: SchemaContext
+) {
   ctx = ctx.child('resource', construct.constructClass.fqn);
 
   const propsSchema = schemaForTypeReference(construct.propsTypeRef, ctx);
@@ -106,13 +116,20 @@ function isCfnResource(klass: jsiiReflect.ClassType) {
   return klass.extends(resource);
 }
 
-function unpackConstruct(klass: jsiiReflect.ClassType): ConstructAndProps | undefined {
-
-  if (!klass.initializer || klass.abstract) { return undefined; }
-  if (klass.initializer.parameters.length < 3) { return undefined; }
+function unpackConstruct(
+  klass: jsiiReflect.ClassType
+): ConstructAndProps | undefined {
+  if (!klass.initializer || klass.abstract) {
+    return undefined;
+  }
+  if (klass.initializer.parameters.length < 3) {
+    return undefined;
+  }
 
   const propsParam = klass.initializer.parameters[2];
-  if (propsParam.type.fqn === undefined) { return undefined; }
+  if (propsParam.type.fqn === undefined) {
+    return undefined;
+  }
 
   return {
     constructClass: klass,

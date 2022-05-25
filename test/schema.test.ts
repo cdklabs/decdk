@@ -25,14 +25,19 @@ beforeAll(async () => {
 
 test('schemaForInterface: interface with primitives', async () => {
   // GIVEN
-  const defs = { };
+  const defs = {};
   const ctx = SchemaContext.root(defs);
 
   // WHEN
-  const ref = schemaForInterface(typesys.findFqn('fixture.InterfaceWithPrimitives'), ctx);
+  const ref = schemaForInterface(
+    typesys.findFqn('fixture.InterfaceWithPrimitives'),
+    ctx
+  );
 
   // THEN
-  expect(ref).toStrictEqual({ $ref: '#/definitions/fixture.InterfaceWithPrimitives' });
+  expect(ref).toStrictEqual({
+    $ref: '#/definitions/fixture.InterfaceWithPrimitives',
+  });
   expect(ctx.definitions).toStrictEqual({
     'fixture.InterfaceWithPrimitives': {
       type: 'object',
@@ -84,7 +89,9 @@ function spawn(command: string, options: SpawnOptions | undefined) {
 
     cp.on('error', reject);
     cp.on('exit', (code, signal) => {
-      if (code === 0) { resolve(); }
+      if (code === 0) {
+        resolve();
+      }
       reject(new Error(`Subprocess exited with ${code || signal}`));
     });
   });

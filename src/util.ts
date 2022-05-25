@@ -14,7 +14,9 @@ export async function readTemplate(templateFile: string) {
 
 export async function loadTypeSystem(validate = true) {
   const typeSystem = new jsiiReflect.TypeSystem();
-  await typeSystem.loadNpmDependencies(path.resolve(__dirname, '..'), { validate });
+  await typeSystem.loadNpmDependencies(path.resolve(__dirname, '..'), {
+    validate,
+  });
   return typeSystem;
 }
 

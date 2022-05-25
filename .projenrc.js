@@ -3,7 +3,8 @@ const { typescript } = require('projen');
 const project = new typescript.TypeScriptProject({
   defaultReleaseBranch: 'main',
   name: 'decdk',
-  description: 'Declarative CDK: a CloudFormation-like syntax for defining CDK stacks',
+  description:
+    'Declarative CDK: a CloudFormation-like syntax for defining CDK stacks',
   authorName: 'Amazon Web Services',
   authorUrl: 'https://aws.amazon.com',
   authorOrganization: true,
@@ -18,12 +19,7 @@ const project = new typescript.TypeScriptProject({
     'yargs',
     'chalk@^4',
   ],
-  devDeps: [
-    '@types/fs-extra@^8',
-    '@types/yaml',
-    '@types/yargs',
-    'jsii',
-  ],
+  devDeps: ['@types/fs-extra@^8', '@types/yaml', '@types/yargs', 'jsii'],
   releaseToNpm: true,
 
   autoApproveOptions: {
@@ -31,6 +27,13 @@ const project = new typescript.TypeScriptProject({
     secret: 'GITHUB_TOKEN',
   },
   autoApproveUpgrades: true,
+
+  prettier: true,
+  prettierOptions: {
+    settings: {
+      singleQuote: true,
+    },
+  },
 });
 
 // resolve @types/prettier@2.6.0 conflicts with

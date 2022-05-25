@@ -31,5 +31,5 @@ export interface InterfaceWithPrimitives {
 export enum MyNormalEnum {
   ENUM_MEMBER_1,
   ENUM_MEMBER_2,
-  ENUM_MEMBER_3
+  ENUM_MEMBER_3,
 }

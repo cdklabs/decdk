@@ -15,7 +15,6 @@ test('path.resolve is sane', async () => {
 
     const resolved = path.resolve('.');
     expect(resolved).toEqual(targetDir);
-
   } finally {
     process.chdir(cwd);
   }

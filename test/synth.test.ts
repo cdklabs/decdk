@@ -2,7 +2,12 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as cdk from 'aws-cdk-lib';
 import * as reflect from 'jsii-reflect';
-import { DeclarativeStack, loadTypeSystem, readTemplate, stackNameFromFileName } from '../lib';
+import {
+  DeclarativeStack,
+  loadTypeSystem,
+  readTemplate,
+  stackNameFromFileName,
+} from '../lib';
 
 const VALIDATE_ASSEMBLIES = true;
 
