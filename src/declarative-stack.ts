@@ -16,7 +16,12 @@ export interface DeclarativeStackProps extends cdk.StackProps {
 
 export class DeclarativeStack extends cdk.Stack {
   constructor(scope: cdk.App, id: string, props: DeclarativeStackProps) {
-    super(scope, id);
+    super(scope, id, {
+      env: {
+        account: process.env.CDK_DEPLOY_ACCOUNT || process.env.CDK_DEFAULT_ACCOUNT,
+        region: process.env.CDK_DEPLOY_REGION || process.env.CDK_DEFAULT_REGION,
+      },
+    });
 
     const typeSystem = props.typeSystem;
     const template = props.template;
@@ -39,14 +44,14 @@ export class DeclarativeStack extends cdk.Stack {
         continue;
       }
 
-      const typeInfo = typeSystem.findFqn(rprops.Type + 'Props');
-      const typeRef = new reflect.TypeReference(typeSystem, typeInfo);
+      const propsType = typeSystem.findFqn(rprops.Type + 'Props');
+      const propsTypeRef = new reflect.TypeReference(typeSystem, propsType);
       const Ctor = resolveType(rprops.Type);
 
       // Changing working directory if needed, such that relative paths in the template are resolved relative to the
       // template's location, and not to the current process' CWD.
       _cwd(props.workingDirectory, () =>
-        new Ctor(this, logicalId, deserializeValue(this, typeRef, true, 'Properties', rprops.Properties)));
+        new Ctor(this, logicalId, deserializeValue(this, propsTypeRef, true, 'Properties', rprops.Properties)));
 
       delete template.Resources[logicalId];
     }
@@ -310,7 +315,7 @@ function deconstructType(stack: cdk.Stack, typeRef: reflect.TypeReference, value
   const parts = methodFqn.split('.');
   const last = parts[parts.length - 1];
   if (last !== '<initializer>') {
-    throw new Error('Expectring an initializer');
+    throw new Error('Expecting an initializer');
   }
 
   const classFqn = parts.slice(0, parts.length - 1).join('.');
@@ -394,7 +399,7 @@ function invokeMethod(stack: cdk.Stack, method: reflect.Callable, parameters: an
 }
 
 /**
- * Returns a lazy string that includes a deconstructed Fn::GetAt to a certain
+ * Returns a lazy string that includes a deconstructed Fn::GetAtt to a certain
  * resource or construct.
  *
  * If `id` points to a CDK construct, the resolved value will be the value returned by

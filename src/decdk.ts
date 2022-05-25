@@ -5,7 +5,7 @@ import { DeclarativeStack, loadTypeSystem, readTemplate, stackNameFromFileName }
 
 async function main() {
   const argv = await yargs
-    .usage('$0 <filename>', 'Synthesize a CDK stack from a declarative JSON schema')
+    .usage('$0 <filename>', 'Synthesize a CDK stack from a declarative JSON or YAML template')
     .positional('filename', { type: 'string', required: true })
     .argv;
 
