@@ -1,11 +1,11 @@
-import { mkdtempSync, writeFileSync } from "fs";
-import { tmpdir } from "os";
-import { join } from "path";
-import * as cdk from "aws-cdk-lib";
-import { CfnInclude } from "aws-cdk-lib/cloudformation-include";
-import * as reflect from "jsii-reflect";
-import * as jsonschema from "jsonschema";
-import { renderFullSchema } from "./cdk-schema";
+import { mkdtempSync, writeFileSync } from 'fs';
+import { tmpdir } from 'os';
+import { join } from 'path';
+import * as cdk from 'aws-cdk-lib';
+import { CfnInclude } from 'aws-cdk-lib/cloudformation-include';
+import * as reflect from 'jsii-reflect';
+import * as jsonschema from 'jsonschema';
+import { renderFullSchema } from './cdk-schema';
 import {
   isConstruct,
   isDataType,
@@ -13,7 +13,7 @@ import {
   isSerializableInterface,
   SchemaContext,
   schemaForPolymorphic,
-} from "./jsii2schema";
+} from './jsii2schema';
 
 export interface DeclarativeStackProps extends cdk.StackProps {
   typeSystem: reflect.TypeSystem;
@@ -39,8 +39,8 @@ export class DeclarativeStack extends cdk.Stack {
     const result = jsonschema.validate(template, schema);
     if (!result.valid) {
       throw new ValidationError(
-        "Schema validation errors:\n  " +
-          result.errors.map((e) => `"${e.property}" ${e.message}`).join("\n  ")
+        'Schema validation errors:\n  ' +
+          result.errors.map((e) => `"${e.property}" ${e.message}`).join('\n  ')
       );
     }
 
@@ -51,7 +51,7 @@ export class DeclarativeStack extends cdk.Stack {
       const rprops: any = resourceProps;
       if (!rprops.Type) {
         throw new Error(
-          "Resource is missing type: " + JSON.stringify(resourceProps)
+          'Resource is missing type: ' + JSON.stringify(resourceProps)
         );
       }
 
@@ -59,7 +59,7 @@ export class DeclarativeStack extends cdk.Stack {
         continue;
       }
 
-      const propsType = typeSystem.findFqn(rprops.Type + "Props");
+      const propsType = typeSystem.findFqn(rprops.Type + 'Props');
       const propsTypeRef = new reflect.TypeReference(typeSystem, propsType);
       const Ctor = resolveType(rprops.Type);
 
@@ -75,7 +75,7 @@ export class DeclarativeStack extends cdk.Stack {
               this,
               propsTypeRef,
               true,
-              "Properties",
+              'Properties',
               rprops.Properties
             )
           )
@@ -86,12 +86,12 @@ export class DeclarativeStack extends cdk.Stack {
 
     delete template.$schema;
 
-    const workdir = mkdtempSync(join(tmpdir(), "decdk-"));
-    const templateFile = join(workdir, "template.json");
+    const workdir = mkdtempSync(join(tmpdir(), 'decdk-'));
+    const templateFile = join(workdir, 'template.json');
     writeFileSync(templateFile, JSON.stringify(template));
 
     // Add an Include construct with what's left of the template
-    new CfnInclude(this, "Include", { templateFile });
+    new CfnInclude(this, 'Include', { templateFile });
 
     // replace all "Fn::GetAtt" with tokens that resolve correctly both for
     // constructs and raw resources.
@@ -100,7 +100,7 @@ export class DeclarativeStack extends cdk.Stack {
 }
 
 function resolveType(fqn: string) {
-  const [mod, ...className] = fqn.split(".");
+  const [mod, ...className] = fqn.split('.');
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   const module = require(mod);
 
@@ -135,7 +135,7 @@ function tryResolveRef(value: any) {
     return undefined;
   }
 
-  if (fn.name !== "Ref") {
+  if (fn.name !== 'Ref') {
     return undefined;
   }
 
@@ -144,7 +144,7 @@ function tryResolveRef(value: any) {
 
 function tryResolveGetAtt(value: any) {
   const fn = tryResolveIntrinsic(value);
-  if (!fn || fn.name !== "Fn::GetAtt") {
+  if (!fn || fn.name !== 'Fn::GetAtt') {
     return undefined;
   }
 
@@ -190,7 +190,7 @@ function deserializeValue(
 
     throw new Error(
       `{ Ref } can only be used when a construct type is expected and this is ${typeRef}. ` +
-        "Use { Fn::GetAtt } to represent specific resource attributes"
+        'Use { Fn::GetAtt } to represent specific resource attributes'
     );
   }
 
@@ -203,7 +203,7 @@ function deserializeValue(
       return obj[attr];
     }
 
-    if (typeRef.primitive === "string") {
+    if (typeRef.primitive === 'string') {
       // return a lazy value, so we only try to find after all constructs
       // have been added to the stack.
       return deconstructGetAtt(stack, logical, attr);
@@ -216,7 +216,7 @@ function deserializeValue(
 
   // deserialize maps
   if (typeRef.mapOfType) {
-    if (typeof value !== "object") {
+    if (typeof value !== 'object') {
       throw new ValidationError(`Expecting object for ${key} in ${typeRef}`);
     }
 
@@ -251,7 +251,7 @@ function deserializeValue(
     throw new ValidationError(
       `Failed to deserialize union. Errors: \n  ${errors
         .map((e) => e.message)
-        .join("\n  ")}`
+        .join('\n  ')}`
     );
   }
 
@@ -349,12 +349,12 @@ function deconstructEnumLike(
   }
 
   // if the value is a string, we deconstruct it as a static property
-  if (typeof value === "string") {
+  if (typeof value === 'string') {
     return deconstructStaticProperty(typeRef.type, value);
   }
 
   // if the value is an object, we deconstruct it as a static method
-  if (typeof value === "object" && !Array.isArray(value)) {
+  if (typeof value === 'object' && !Array.isArray(value)) {
     return deconstructStaticMethod(stack, typeRef.type, value);
   }
 
@@ -397,13 +397,13 @@ function deconstructType(
   const def2 = findDefinition(schemaDefs, schema.properties[className].$ref);
   const methodFqn = def2.comment;
 
-  const parts = methodFqn.split(".");
+  const parts = methodFqn.split('.');
   const last = parts[parts.length - 1];
-  if (last !== "<initializer>") {
-    throw new Error("Expecting an initializer");
+  if (last !== '<initializer>') {
+    throw new Error('Expecting an initializer');
   }
 
-  const classFqn = parts.slice(0, parts.length - 1).join(".");
+  const classFqn = parts.slice(0, parts.length - 1).join('.');
   const method = typeRef.system.findClass(classFqn).initializer;
   if (!method) {
     throw new Error(`Cannot find the initializer for ${classFqn}`);
@@ -413,7 +413,7 @@ function deconstructType(
 }
 
 function findDefinition(defs: any, $ref: string) {
-  const k = $ref.split("/").slice(2).join("/");
+  const k = $ref.split('/').slice(2).join('/');
   return defs[k];
 }
 
@@ -430,13 +430,13 @@ function deconstructStaticMethod(
   const methods = typeRef.allMethods.filter((m) => m.static);
   const members = methods.map((x) => x.name);
 
-  if (typeof value === "object") {
+  if (typeof value === 'object') {
     const entries: Array<[string, any]> = Object.entries(value);
     if (entries.length !== 1) {
       throw new Error(
         `Value for enum-like class ${
           typeRef.fqn
-        } must be an object with a single key (one of: ${members.join(",")})`
+        } must be an object with a single key (one of: ${members.join(',')})`
       );
     }
 
@@ -446,11 +446,11 @@ function deconstructStaticMethod(
       throw new Error(
         `Invalid member "${methodName}" for enum-like class ${
           typeRef.fqn
-        }. Options: ${members.join(",")}`
+        }. Options: ${members.join(',')}`
       );
     }
 
-    if (typeof args !== "object") {
+    if (typeof args !== 'object') {
       throw new Error(
         `Expecting enum-like member ${methodName} to be an object for enum-like class ${typeRef.fqn}`
       );
@@ -524,7 +524,7 @@ function deconstructGetAtt(stack: cdk.Stack, id: string, attribute: string) {
     produce: () => {
       const res = stack.node.tryFindChild(id);
       if (!res) {
-        const include = stack.node.tryFindChild("Include") as CfnInclude;
+        const include = stack.node.tryFindChild('Include') as CfnInclude;
         if (!include) {
           throw new Error(
             'Unexpected - "Include" should be in the stack at this point'
@@ -537,7 +537,7 @@ function deconstructGetAtt(stack: cdk.Stack, id: string, attribute: string) {
         }
 
         // just leak
-        return { "Fn::GetAtt": [id, attribute] };
+        return { 'Fn::GetAtt': [id, attribute] };
       }
       return (res as any)[attribute];
     },
@@ -555,20 +555,20 @@ function findConstruct(stack: cdk.Stack, id: string) {
 }
 
 function processReferences(stack: cdk.Stack) {
-  const include = stack.node.findChild("Include") as CfnInclude;
+  const include = stack.node.findChild('Include') as CfnInclude;
   if (!include) {
-    throw new Error("Unexpected");
+    throw new Error('Unexpected');
   }
 
   process((include as any).template);
 
   function process(value: any): any {
     if (
-      typeof value === "object" &&
+      typeof value === 'object' &&
       Object.keys(value).length === 1 &&
-      Object.keys(value)[0] === "Fn::GetAtt"
+      Object.keys(value)[0] === 'Fn::GetAtt'
     ) {
-      const [id, attribute] = value["Fn::GetAtt"];
+      const [id, attribute] = value['Fn::GetAtt'];
       return deconstructGetAtt(stack, id, attribute);
     }
 
@@ -576,7 +576,7 @@ function processReferences(stack: cdk.Stack) {
       return value.map((x) => process(x));
     }
 
-    if (typeof value === "object") {
+    if (typeof value === 'object') {
       for (const [k, v] of Object.entries(value)) {
         value[k] = process(v);
       }
@@ -588,7 +588,7 @@ function processReferences(stack: cdk.Stack) {
 }
 
 function isCfnResourceType(resourceType: string) {
-  return resourceType.includes("::");
+  return resourceType.includes('::');
 }
 
 class ValidationError extends Error {}

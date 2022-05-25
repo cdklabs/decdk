@@ -1,9 +1,9 @@
-import { spawn as spawnAsync, SpawnOptions } from "child_process";
-import * as path from "path";
-import * as reflect from "jsii-reflect";
-import { SchemaContext, schemaForInterface } from "../lib/jsii2schema";
+import { spawn as spawnAsync, SpawnOptions } from 'child_process';
+import * as path from 'path';
+import * as reflect from 'jsii-reflect';
+import { SchemaContext, schemaForInterface } from '../lib/jsii2schema';
 
-const fixturedir = path.join(__dirname, "fixture");
+const fixturedir = path.join(__dirname, 'fixture');
 
 /* eslint-disable no-console */
 
@@ -16,63 +16,63 @@ beforeAll(async () => {
   typesys = new reflect.TypeSystem();
 
   // jsii-compile the fixtures module
-  await spawn(require.resolve("jsii/bin/jsii"), { cwd: fixturedir });
+  await spawn(require.resolve('jsii/bin/jsii'), { cwd: fixturedir });
 
   // load the resulting file system
-  await typesys.loadFile(path.join(fixturedir, ".jsii"));
-  await typesys.load(path.dirname(require.resolve("aws-cdk-lib/.jsii")));
+  await typesys.loadFile(path.join(fixturedir, '.jsii'));
+  await typesys.load(path.dirname(require.resolve('aws-cdk-lib/.jsii')));
 });
 
-test("schemaForInterface: interface with primitives", async () => {
+test('schemaForInterface: interface with primitives', async () => {
   // GIVEN
   const defs = {};
   const ctx = SchemaContext.root(defs);
 
   // WHEN
   const ref = schemaForInterface(
-    typesys.findFqn("fixture.InterfaceWithPrimitives"),
+    typesys.findFqn('fixture.InterfaceWithPrimitives'),
     ctx
   );
 
   // THEN
   expect(ref).toStrictEqual({
-    $ref: "#/definitions/fixture.InterfaceWithPrimitives",
+    $ref: '#/definitions/fixture.InterfaceWithPrimitives',
   });
   expect(ctx.definitions).toStrictEqual({
-    "fixture.InterfaceWithPrimitives": {
-      type: "object",
-      title: "InterfaceWithPrimitives",
+    'fixture.InterfaceWithPrimitives': {
+      type: 'object',
+      title: 'InterfaceWithPrimitives',
       additionalProperties: false,
       properties: {
         arrayOfStrings: {
-          type: "array",
-          items: { type: "string" },
-          description: "Array of strings.",
+          type: 'array',
+          items: { type: 'string' },
+          description: 'Array of strings.',
         },
         mapOfNumbers: {
-          type: "object",
-          additionalProperties: { type: "number" },
+          type: 'object',
+          additionalProperties: { type: 'number' },
         },
         numberProperty: {
-          type: "number",
-          description: "A property of type number.",
+          type: 'number',
+          description: 'A property of type number.',
         },
         stringProperty: {
-          type: "string",
-          description: "A property of type string.",
+          type: 'string',
+          description: 'A property of type string.',
         },
         optionalBoolean: {
-          type: "boolean",
-          description: "Optional boolean.",
+          type: 'boolean',
+          description: 'Optional boolean.',
         },
       },
       required: [
-        "arrayOfStrings",
-        "mapOfNumbers",
-        "numberProperty",
-        "stringProperty",
+        'arrayOfStrings',
+        'mapOfNumbers',
+        'numberProperty',
+        'stringProperty',
       ],
-      comment: "fixture.InterfaceWithPrimitives",
+      comment: 'fixture.InterfaceWithPrimitives',
     },
   });
 });
@@ -85,10 +85,10 @@ test("schemaForInterface: interface with primitives", async () => {
  */
 function spawn(command: string, options: SpawnOptions | undefined) {
   return new Promise<void>((resolve, reject) => {
-    const cp = spawnAsync(command, [], { stdio: "inherit", ...options });
+    const cp = spawnAsync(command, [], { stdio: 'inherit', ...options });
 
-    cp.on("error", reject);
-    cp.on("exit", (code, signal) => {
+    cp.on('error', reject);
+    cp.on('exit', (code, signal) => {
       if (code === 0) {
         resolve();
       }

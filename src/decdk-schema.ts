@@ -1,5 +1,5 @@
-import { renderFullSchema } from "./cdk-schema";
-import { loadTypeSystem } from "./util";
+import { renderFullSchema } from './cdk-schema';
+import { loadTypeSystem } from './util';
 
 /* eslint-disable no-console */
 

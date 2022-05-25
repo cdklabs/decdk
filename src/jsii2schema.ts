@@ -1,5 +1,5 @@
-import * as util from "util";
-import * as jsiiReflect from "jsii-reflect";
+import * as util from 'util';
+import * as jsiiReflect from 'jsii-reflect';
 
 /* eslint-disable no-console */
 
@@ -23,17 +23,17 @@ export class SchemaContext {
     parent?: SchemaContext,
     definitions?: { [fqn: string]: any }
   ) {
-    this.name = name || "";
+    this.name = name || '';
     if (parent) {
       this.root = false;
       parent.children.push(this);
       this.definitions = parent.definitions;
-      this.path = parent.path + "/" + this.name;
+      this.path = parent.path + '/' + this.name;
       this.definitionStack = parent.definitionStack;
     } else {
       this.root = true;
       this.definitions = definitions || {};
-      this.path = this.name || "";
+      this.path = this.name || '';
       this.definitionStack = new Array<string>();
     }
   }
@@ -59,13 +59,13 @@ export class SchemaContext {
   }
 
   public findDefinition(ref: string) {
-    const [, , id] = ref.split("/");
+    const [, , id] = ref.split('/');
     return this.definitions[id];
   }
 
   public define(fqn: string, schema: () => any) {
     const originalFqn = fqn;
-    fqn = fqn.replace("/", ".");
+    fqn = fqn.replace('/', '.');
 
     if (!(fqn in this.definitions)) {
       if (this.definitionStack.includes(fqn)) {
@@ -78,7 +78,7 @@ export class SchemaContext {
       try {
         const s = schema();
         if (!s) {
-          this.error("cannot schematize");
+          this.error('cannot schematize');
           return undefined;
         }
 
@@ -158,14 +158,14 @@ export function schemaForPolymorphic(
     return undefined;
   }
 
-  ctx = ctx.child("polymorphic", type.fqn);
+  ctx = ctx.child('polymorphic', type.fqn);
 
   const anyOf = new Array<any>();
 
   const parentctx = ctx;
 
   for (const x of allImplementationsOfType(type)) {
-    ctx = parentctx.child("impl", x.fqn);
+    ctx = parentctx.child('impl', x.fqn);
 
     const enumLike = schemaForEnumLikeClass(x, ctx);
     if (enumLike) {
@@ -176,7 +176,7 @@ export function schemaForPolymorphic(
       const methd = methodSchema(x.initializer, ctx);
       if (methd) {
         anyOf.push({
-          type: "object",
+          type: 'object',
           additionalProperties: false,
           properties: {
             [x.fqn]: methd,
@@ -206,7 +206,7 @@ function schemaForEnum(type: jsiiReflect.Type | undefined) {
 }
 
 function schemaForMap(type: jsiiReflect.TypeReference, ctx: SchemaContext) {
-  ctx = ctx.child("map", type.toString());
+  ctx = ctx.child('map', type.toString());
 
   if (!type.mapOfType) {
     return undefined;
@@ -218,13 +218,13 @@ function schemaForMap(type: jsiiReflect.TypeReference, ctx: SchemaContext) {
   }
 
   return {
-    type: "object",
+    type: 'object',
     additionalProperties: s,
   };
 }
 
 function schemaForArray(type: jsiiReflect.TypeReference, ctx: SchemaContext) {
-  ctx = ctx.child("array", type.toString());
+  ctx = ctx.child('array', type.toString());
 
   if (!type.arrayOfType) {
     return undefined;
@@ -236,7 +236,7 @@ function schemaForArray(type: jsiiReflect.TypeReference, ctx: SchemaContext) {
   }
 
   return {
-    type: "array",
+    type: 'array',
     items: schemaForTypeReference(type.arrayOfType, ctx),
   };
 }
@@ -247,11 +247,11 @@ function schemaForPrimitive(type: jsiiReflect.TypeReference): any {
   }
 
   switch (type.primitive) {
-    case "date":
-      return { type: "string", format: "date-time" };
-    case "json":
-      return { type: "object" };
-    case "any":
+    case 'date':
+      return { type: 'string', format: 'date-time' };
+    case 'json':
+      return { type: 'object' };
+    case 'any':
       return {}; // this means "any"
     default:
       return { type: type.primitive };
@@ -262,7 +262,7 @@ function schemaForUnion(
   type: jsiiReflect.TypeReference,
   ctx: SchemaContext
 ): any {
-  ctx = ctx.child("union", type.toString());
+  ctx = ctx.child('union', type.toString());
 
   if (!type.unionOfTypes) {
     return undefined;
@@ -285,9 +285,9 @@ function schemaForConstructRef(type: jsiiReflect.TypeReference) {
   }
 
   return {
-    type: "object",
+    type: 'object',
     properties: {
-      Ref: { type: "string" },
+      Ref: { type: 'string' },
     },
   };
 }
@@ -304,7 +304,7 @@ export function schemaForInterface(
     return undefined;
   }
 
-  ctx = ctx.child("interface", type.fqn);
+  ctx = ctx.child('interface', type.fqn);
 
   const ifctx = ctx;
 
@@ -314,7 +314,7 @@ export function schemaForInterface(
 
     for (const prop of type.allProperties) {
       ctx = ifctx.child(
-        prop.optional ? "optional" : "required" + " property",
+        prop.optional ? 'optional' : 'required' + ' property',
         prop.name
       );
 
@@ -324,13 +324,13 @@ export function schemaForInterface(
         // but without this property.
         if (prop.optional) {
           ctx.warning(
-            "optional proprety omitted because it cannot be schematized"
+            'optional proprety omitted because it cannot be schematized'
           );
           continue;
         }
 
         // error
-        ctx.error("property cannot be schematized");
+        ctx.error('property cannot be schematized');
         return undefined;
       }
 
@@ -347,7 +347,7 @@ export function schemaForInterface(
     }
 
     return {
-      type: "object",
+      type: 'object',
       title: type.name,
       additionalProperties: false,
       properties,
@@ -361,7 +361,7 @@ function schemaForEnumLikeClass(
   ctx: SchemaContext
 ) {
   if (type) {
-    ctx = ctx.child("enum-like", type.toString());
+    ctx = ctx.child('enum-like', type.toString());
   }
 
   if (!type || !(type instanceof jsiiReflect.ClassType)) {
@@ -388,7 +388,7 @@ function schemaForEnumLikeClass(
     }
 
     anyOf.push({
-      type: "object",
+      type: 'object',
       additionalProperties: false,
       properties: {
         [method.name]: methodSchema(method, ctx),
@@ -406,7 +406,7 @@ function schemaForEnumLikeClass(
 }
 
 function methodSchema(method: jsiiReflect.Callable, ctx: SchemaContext) {
-  ctx = ctx.child("method", method.name);
+  ctx = ctx.child('method', method.name);
 
   const fqn = `${method.parentType.fqn}.${method.name}`;
 
@@ -424,7 +424,7 @@ function methodSchema(method: jsiiReflect.Callable, ctx: SchemaContext) {
       // bail out - can't serialize a required parameter, so we can't serialize the method
       if (!param && !prop.optional) {
         ctx.error(
-          "cannot schematize method because parameter cannot be schematized"
+          'cannot schematize method because parameter cannot be schematized'
         );
         return undefined;
       }
@@ -438,7 +438,7 @@ function methodSchema(method: jsiiReflect.Callable, ctx: SchemaContext) {
 
     for (let i = 0; i < method.parameters.length; ++i) {
       const p = method.parameters[i];
-      methodctx.child("param", p.name);
+      methodctx.child('param', p.name);
 
       // if this is the last parameter and it's a data type, treat as keyword arguments
       if (i === method.parameters.length - 1 && isDataType(p.type.type)) {
@@ -454,7 +454,7 @@ function methodSchema(method: jsiiReflect.Callable, ctx: SchemaContext) {
     }
 
     return {
-      type: "object",
+      type: 'object',
       properties,
       additionalProperties: false,
       required: required.length > 0 ? required : undefined,
@@ -620,13 +620,13 @@ export function isConstruct(
 
   // if it is an interface, it should extend constructs.IConstruct
   if (type instanceof jsiiReflect.InterfaceType) {
-    const constructIface = type.system.findFqn("constructs.IConstruct");
+    const constructIface = type.system.findFqn('constructs.IConstruct');
     return type.extends(constructIface);
   }
 
   // if it is a class, it should extend constructs.Construct
   if (type instanceof jsiiReflect.ClassType) {
-    const constructClass = type.system.findFqn("constructs.Construct");
+    const constructClass = type.system.findFqn('constructs.Construct');
     return type.extends(constructClass);
   }
 
@@ -642,7 +642,7 @@ function allImplementationsOfType(type: jsiiReflect.Type) {
     return allImplementations(type).filter((x) => !x.abstract);
   }
 
-  throw new Error("Must either be a class or an interface");
+  throw new Error('Must either be a class or an interface');
 }
 
 function allSubclasses(base: jsiiReflect.ClassType) {

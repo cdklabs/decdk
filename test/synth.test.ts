@@ -1,17 +1,17 @@
-import * as fs from "fs";
-import * as path from "path";
-import * as cdk from "aws-cdk-lib";
-import * as reflect from "jsii-reflect";
+import * as fs from 'fs';
+import * as path from 'path';
+import * as cdk from 'aws-cdk-lib';
+import * as reflect from 'jsii-reflect';
 import {
   DeclarativeStack,
   loadTypeSystem,
   readTemplate,
   stackNameFromFileName,
-} from "../lib";
+} from '../lib';
 
 const VALIDATE_ASSEMBLIES = true;
 
-const dir = path.join(__dirname, "..", "examples");
+const dir = path.join(__dirname, '..', 'examples');
 
 if (VALIDATE_ASSEMBLIES) {
   // With validation loading all assemblies takes 10s on my machine.

@@ -1,24 +1,24 @@
-import * as cdk from "aws-cdk-lib";
-import chalk from "chalk";
-import yargs from "yargs";
+import * as cdk from 'aws-cdk-lib';
+import chalk from 'chalk';
+import yargs from 'yargs';
 import {
   DeclarativeStack,
   loadTypeSystem,
   readTemplate,
   stackNameFromFileName,
-} from ".";
+} from '.';
 
 async function main() {
   const argv = await yargs
     .usage(
-      "$0 <filename>",
-      "Synthesize a CDK stack from a declarative JSON or YAML template"
+      '$0 <filename>',
+      'Synthesize a CDK stack from a declarative JSON or YAML template'
     )
-    .positional("filename", { type: "string", required: true }).argv;
+    .positional('filename', { type: 'string', required: true }).argv;
 
   const templateFile = argv.filename;
   if (!templateFile) {
-    throw new Error("filename is missing");
+    throw new Error('filename is missing');
   }
 
   const template = await readTemplate(templateFile);

@@ -1,6 +1,6 @@
-import chalk from "chalk";
-import * as jsiiReflect from "jsii-reflect";
-import { SchemaContext, schemaForTypeReference } from "./jsii2schema";
+import chalk from 'chalk';
+import * as jsiiReflect from 'jsii-reflect';
+import { SchemaContext, schemaForTypeReference } from './jsii2schema';
 
 /* eslint-disable no-console */
 
@@ -20,13 +20,13 @@ export function renderFullSchema(
 ) {
   if (!process.stdin.isTTY || options.colors === false) {
     // Disable chalk color highlighting
-    process.env.FORCE_COLOR = "0";
+    process.env.FORCE_COLOR = '0';
   }
 
   // Find all constructs for which the props interface
   // (transitively) only consists of JSON primitives or interfaces
   // that consist of JSON primitives
-  const constructType = typeSystem.findClass("constructs.Construct");
+  const constructType = typeSystem.findClass('constructs.Construct');
   const constructs = typeSystem.classes.filter((c) => c.extends(constructType));
 
   const deconstructs = constructs
@@ -36,7 +36,7 @@ export function renderFullSchema(
     ) as ConstructAndProps[];
 
   // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const output = require("../cloudformation.schema.json");
+  const output = require('../cloudformation.schema.json');
 
   output.definitions = output.definitions || {};
 
@@ -46,13 +46,13 @@ export function renderFullSchema(
     const resource = schemaForResource(deco, ctx);
     if (resource) {
       output.properties.Resources.patternProperties[
-        "^[a-zA-Z0-9]+$"
+        '^[a-zA-Z0-9]+$'
       ].anyOf.push(resource);
     }
   }
 
   output.properties.$schema = {
-    type: "string",
+    type: 'string',
   };
 
   if (options.warnings) {
@@ -62,7 +62,7 @@ export function renderFullSchema(
   return output;
 }
 
-function printWarnings(node: SchemaContext, indent = "") {
+function printWarnings(node: SchemaContext, indent = '') {
   if (!node.hasWarningsOrErrors) {
     return;
   }
@@ -70,15 +70,15 @@ function printWarnings(node: SchemaContext, indent = "") {
   console.error(indent + node.name);
 
   for (const warning of node.warnings) {
-    console.error(chalk.yellow(indent + "  " + warning));
+    console.error(chalk.yellow(indent + '  ' + warning));
   }
 
   for (const error of node.errors) {
-    console.error(chalk.red(indent + "  " + error));
+    console.error(chalk.red(indent + '  ' + error));
   }
 
   if (!node.root) {
-    indent += "  ";
+    indent += '  ';
   }
 
   for (const child of node.children) {
@@ -90,7 +90,7 @@ export function schemaForResource(
   construct: ConstructAndProps,
   ctx: SchemaContext
 ) {
-  ctx = ctx.child("resource", construct.constructClass.fqn);
+  ctx = ctx.child('resource', construct.constructClass.fqn);
 
   const propsSchema = schemaForTypeReference(construct.propsTypeRef, ctx);
   if (!propsSchema) {
@@ -104,7 +104,7 @@ export function schemaForResource(
         Properties: propsSchema,
         Type: {
           enum: [construct.constructClass.fqn],
-          type: "string",
+          type: 'string',
         },
       },
     };
@@ -112,7 +112,7 @@ export function schemaForResource(
 }
 
 function isCfnResource(klass: jsiiReflect.ClassType) {
-  const resource = klass.system.findClass("aws-cdk-lib.CfnResource");
+  const resource = klass.system.findClass('aws-cdk-lib.CfnResource');
   return klass.extends(resource);
 }
 
