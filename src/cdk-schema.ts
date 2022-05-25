@@ -1,6 +1,6 @@
-import chalk from 'chalk';
-import * as jsiiReflect from 'jsii-reflect';
-import { SchemaContext, schemaForTypeReference } from './jsii2schema';
+import chalk from "chalk";
+import * as jsiiReflect from "jsii-reflect";
+import { SchemaContext, schemaForTypeReference } from "./jsii2schema";
 
 /* eslint-disable no-console */
 
@@ -14,38 +14,45 @@ export interface RenderSchemaOptions {
   colors?: boolean;
 }
 
-export function renderFullSchema(typeSystem: jsiiReflect.TypeSystem, options: RenderSchemaOptions = { }) {
+export function renderFullSchema(
+  typeSystem: jsiiReflect.TypeSystem,
+  options: RenderSchemaOptions = {}
+) {
   if (!process.stdin.isTTY || options.colors === false) {
     // Disable chalk color highlighting
-    process.env.FORCE_COLOR = '0';
+    process.env.FORCE_COLOR = "0";
   }
 
   // Find all constructs for which the props interface
   // (transitively) only consists of JSON primitives or interfaces
   // that consist of JSON primitives
-  const constructType = typeSystem.findClass('constructs.Construct');
-  const constructs = typeSystem.classes.filter(c => c.extends(constructType));
+  const constructType = typeSystem.findClass("constructs.Construct");
+  const constructs = typeSystem.classes.filter((c) => c.extends(constructType));
 
   const deconstructs = constructs
     .map(unpackConstruct)
-    .filter(c => c && !isCfnResource(c.constructClass)) as ConstructAndProps[];
+    .filter(
+      (c) => c && !isCfnResource(c.constructClass)
+    ) as ConstructAndProps[];
 
   // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const output = require('../cloudformation.schema.json');
+  const output = require("../cloudformation.schema.json");
 
-  output.definitions = output.definitions || { };
+  output.definitions = output.definitions || {};
 
   const ctx = SchemaContext.root(output.definitions);
 
   for (const deco of deconstructs) {
     const resource = schemaForResource(deco, ctx);
     if (resource) {
-      output.properties.Resources.patternProperties['^[a-zA-Z0-9]+$'].anyOf.push(resource);
+      output.properties.Resources.patternProperties[
+        "^[a-zA-Z0-9]+$"
+      ].anyOf.push(resource);
     }
   }
 
   output.properties.$schema = {
-    type: 'string',
+    type: "string",
   };
 
   if (options.warnings) {
@@ -55,7 +62,7 @@ export function renderFullSchema(typeSystem: jsiiReflect.TypeSystem, options: Re
   return output;
 }
 
-function printWarnings(node: SchemaContext, indent = '') {
+function printWarnings(node: SchemaContext, indent = "") {
   if (!node.hasWarningsOrErrors) {
     return;
   }
@@ -63,15 +70,15 @@ function printWarnings(node: SchemaContext, indent = '') {
   console.error(indent + node.name);
 
   for (const warning of node.warnings) {
-    console.error(chalk.yellow(indent + '  ' + warning));
+    console.error(chalk.yellow(indent + "  " + warning));
   }
 
   for (const error of node.errors) {
-    console.error(chalk.red(indent + '  ' + error));
+    console.error(chalk.red(indent + "  " + error));
   }
 
   if (!node.root) {
-    indent += '  ';
+    indent += "  ";
   }
 
   for (const child of node.children) {
@@ -79,8 +86,11 @@ function printWarnings(node: SchemaContext, indent = '') {
   }
 }
 
-export function schemaForResource(construct: ConstructAndProps, ctx: SchemaContext) {
-  ctx = ctx.child('resource', construct.constructClass.fqn);
+export function schemaForResource(
+  construct: ConstructAndProps,
+  ctx: SchemaContext
+) {
+  ctx = ctx.child("resource", construct.constructClass.fqn);
 
   const propsSchema = schemaForTypeReference(construct.propsTypeRef, ctx);
   if (!propsSchema) {
@@ -94,7 +104,7 @@ export function schemaForResource(construct: ConstructAndProps, ctx: SchemaConte
         Properties: propsSchema,
         Type: {
           enum: [construct.constructClass.fqn],
-          type: 'string',
+          type: "string",
         },
       },
     };
@@ -102,17 +112,24 @@ export function schemaForResource(construct: ConstructAndProps, ctx: SchemaConte
 }
 
 function isCfnResource(klass: jsiiReflect.ClassType) {
-  const resource = klass.system.findClass('aws-cdk-lib.CfnResource');
+  const resource = klass.system.findClass("aws-cdk-lib.CfnResource");
   return klass.extends(resource);
 }
 
-function unpackConstruct(klass: jsiiReflect.ClassType): ConstructAndProps | undefined {
-
-  if (!klass.initializer || klass.abstract) { return undefined; }
-  if (klass.initializer.parameters.length < 3) { return undefined; }
+function unpackConstruct(
+  klass: jsiiReflect.ClassType
+): ConstructAndProps | undefined {
+  if (!klass.initializer || klass.abstract) {
+    return undefined;
+  }
+  if (klass.initializer.parameters.length < 3) {
+    return undefined;
+  }
 
   const propsParam = klass.initializer.parameters[2];
-  if (propsParam.type.fqn === undefined) { return undefined; }
+  if (propsParam.type.fqn === undefined) {
+    return undefined;
+  }
 
   return {
     constructClass: klass,
