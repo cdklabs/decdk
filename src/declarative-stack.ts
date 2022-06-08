@@ -71,13 +71,13 @@ export class DeclarativeStack extends cdk.Stack {
           new Ctor(
             this,
             logicalId,
-            deserializeValue(
-              this,
-              propsTypeRef,
-              true,
-              'Properties',
-              rprops.Properties
-            )
+            deserializeValue({
+              stack: this,
+              typeRef: propsTypeRef,
+              optional: true,
+              key: 'Properties',
+              value: rprops.Properties,
+            })
           )
       );
 
@@ -151,13 +151,16 @@ function tryResolveGetAtt(value: any) {
   return fn.val;
 }
 
-function deserializeValue(
-  stack: cdk.Stack,
-  typeRef: reflect.TypeReference,
-  optional: boolean,
-  key: string,
-  value: any
-): any {
+interface DeserializeValueOptions {
+  readonly stack: cdk.Stack;
+  readonly typeRef: reflect.TypeReference;
+  readonly optional: boolean;
+  readonly key: string;
+  readonly value: any;
+}
+
+function deserializeValue(options: DeserializeValueOptions): any {
+  const { stack, typeRef, optional, key, value } = options;
   // console.error('====== deserializer ===================');
   // console.error(`type: ${typeRef}`);
   // console.error(`value: ${JSON.stringify(value, undefined, 2)}`);
@@ -178,7 +181,13 @@ function deserializeValue(
     }
 
     return value.map((x, i) =>
-      deserializeValue(stack, typeRef.arrayOfType!, false, `${key}[${i}]`, x)
+      deserializeValue({
+        stack,
+        typeRef: typeRef.arrayOfType!,
+        optional: false,
+        key: `${key}[${i}]`,
+        value: x,
+      })
     );
   }
 
@@ -222,13 +231,13 @@ function deserializeValue(
 
     const out: any = {};
     for (const [k, v] of Object.entries(value)) {
-      out[k] = deserializeValue(
+      out[k] = deserializeValue({
         stack,
-        typeRef.mapOfType,
-        false,
-        `${key}.${k}`,
-        v
-      );
+        typeRef: typeRef.mapOfType,
+        optional: false,
+        key: `${key}.${k}`,
+        value: v,
+      });
     }
 
     return out;
@@ -238,7 +247,13 @@ function deserializeValue(
     const errors = new Array<any>();
     for (const x of typeRef.unionOfTypes) {
       try {
-        return deserializeValue(stack, x, optional, key, value);
+        return deserializeValue({
+          stack,
+          typeRef: x,
+          optional,
+          key,
+          value,
+        });
       } catch (e) {
         if (!(e instanceof ValidationError)) {
           throw e;
@@ -327,13 +342,13 @@ function deconstructInterface(
       continue;
     }
 
-    out[prop.name] = deserializeValue(
+    out[prop.name] = deserializeValue({
       stack,
-      prop.type,
-      prop.optional,
-      `${key}.${prop.name}`,
-      propValue
-    );
+      typeRef: prop.type,
+      optional: prop.optional,
+      key: `${key}.${prop.name}`,
+      value: propValue,
+    });
   }
 
   return out;
@@ -475,24 +490,32 @@ function invokeMethod(
     if (i === method.parameters.length - 1 && isDataType(p.type.type)) {
       // we pass in all parameters are the value, and the positional arguments will be ignored since
       // we are promised there are no conflicts
-      const kwargs = deserializeValue(
+      const kwargs = deserializeValue({
         stack,
-        p.type,
-        p.optional,
-        p.name,
-        parameters
-      );
+        typeRef: p.type,
+        optional: p.optional,
+        key: p.name,
+        value: parameters,
+      });
       args.push(kwargs);
     } else {
-      const val = parameters[p.name];
-      if (val === undefined && !p.optional) {
+      const value = parameters[p.name];
+      if (value === undefined && !p.optional) {
         throw new Error(
           `Missing required parameter '${p.name}' for ${method.parentType.fqn}.${method.name}`
         );
       }
 
-      if (val !== undefined) {
-        args.push(deserializeValue(stack, p.type, p.optional, p.name, val));
+      if (value !== undefined) {
+        args.push(
+          deserializeValue({
+            stack,
+            typeRef: p.type,
+            optional: p.optional,
+            key: p.name,
+            value,
+          })
+        );
       }
     }
   }
