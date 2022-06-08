@@ -71,7 +71,7 @@ export class DeclarativeStack extends cdk.Stack {
           new Ctor(
             this,
             logicalId,
-            deserializeValue({
+            deconstructValue({
               stack: this,
               typeRef: propsTypeRef,
               optional: true,
@@ -151,7 +151,7 @@ function tryResolveGetAtt(value: any) {
   return fn.val;
 }
 
-interface DeserializeValueOptions {
+interface DeconstructValueOptions {
   readonly stack: cdk.Stack;
   readonly typeRef: reflect.TypeReference;
   readonly optional: boolean;
@@ -159,7 +159,7 @@ interface DeserializeValueOptions {
   readonly value: any;
 }
 
-function deserializeValue(options: DeserializeValueOptions): any {
+function deconstructValue(options: DeconstructValueOptions): any {
   const { stack, typeRef, optional, key, value } = options;
   // console.error('====== deserializer ===================');
   // console.error(`type: ${typeRef}`);
@@ -181,7 +181,7 @@ function deserializeValue(options: DeserializeValueOptions): any {
     }
 
     return value.map((x, i) =>
-      deserializeValue({
+      deconstructValue({
         stack,
         typeRef: typeRef.arrayOfType!,
         optional: false,
@@ -231,7 +231,7 @@ function deserializeValue(options: DeserializeValueOptions): any {
 
     const out: any = {};
     for (const [k, v] of Object.entries(value)) {
-      out[k] = deserializeValue({
+      out[k] = deconstructValue({
         stack,
         typeRef: typeRef.mapOfType,
         optional: false,
@@ -247,7 +247,7 @@ function deserializeValue(options: DeserializeValueOptions): any {
     const errors = new Array<any>();
     for (const x of typeRef.unionOfTypes) {
       try {
-        return deserializeValue({
+        return deconstructValue({
           stack,
           typeRef: x,
           optional,
@@ -342,7 +342,7 @@ function deconstructInterface(
       continue;
     }
 
-    out[prop.name] = deserializeValue({
+    out[prop.name] = deconstructValue({
       stack,
       typeRef: prop.type,
       optional: prop.optional,
@@ -490,7 +490,7 @@ function invokeMethod(
     if (i === method.parameters.length - 1 && isDataType(p.type.type)) {
       // we pass in all parameters are the value, and the positional arguments will be ignored since
       // we are promised there are no conflicts
-      const kwargs = deserializeValue({
+      const kwargs = deconstructValue({
         stack,
         typeRef: p.type,
         optional: p.optional,
@@ -508,7 +508,7 @@ function invokeMethod(
 
       if (value !== undefined) {
         args.push(
-          deserializeValue({
+          deconstructValue({
             stack,
             typeRef: p.type,
             optional: p.optional,
