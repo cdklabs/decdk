@@ -214,24 +214,9 @@ function deconstructValue(options: DeconstructValueOptions): any {
     );
   }
 
-  // deserialize maps
-  if (typeRef.mapOfType) {
-    if (typeof value !== 'object') {
-      throw new ValidationError(`Expecting object for ${key} in ${typeRef}`);
-    }
-
-    const out: any = {};
-    for (const [k, v] of Object.entries(value)) {
-      out[k] = deconstructValue({
-        stack,
-        typeRef: typeRef.mapOfType,
-        optional: false,
-        key: `${key}.${k}`,
-        value: v,
-      });
-    }
-
-    return out;
+  const map = deconstructMap(options);
+  if (map) {
+    return map;
   }
 
   if (typeRef.unionOfTypes) {
@@ -317,6 +302,31 @@ function deconstructArray(options: DeconstructCommonOptions) {
       value: x,
     })
   );
+}
+
+function deconstructMap(options: DeconstructCommonOptions) {
+  const { stack, typeRef, key, value } = options;
+
+  if (!typeRef.mapOfType) {
+    return undefined;
+  }
+
+  if (typeof value !== 'object') {
+    throw new ValidationError(`Expecting object for ${key} in ${typeRef}`);
+  }
+
+  const out: Record<string, any> = {};
+  for (const [k, v] of Object.entries(value)) {
+    out[k] = deconstructValue({
+      stack,
+      typeRef: typeRef.mapOfType,
+      optional: false,
+      key: `${key}.${k}`,
+      value: v,
+    });
+  }
+
+  return out;
 }
 
 function deconstructEnum(options: DeconstructCommonOptions) {
