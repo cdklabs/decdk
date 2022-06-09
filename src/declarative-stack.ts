@@ -199,16 +199,9 @@ function deconstructValue(options: DeconstructValueOptions): any {
     return arr;
   }
 
-  const asRef = tryResolveRef(value);
-  if (asRef) {
-    if (isConstruct(typeRef)) {
-      return findConstruct(stack, value.Ref);
-    }
-
-    throw new Error(
-      `{ Ref } can only be used when a construct type is expected and this is ${typeRef}. ` +
-        'Use { Fn::GetAtt } to represent specific resource attributes'
-    );
+  const ref = deconstructRef(value);
+  if (ref) {
+    return ref;
   }
 
   const getAtt = tryResolveGetAtt(value);
@@ -268,6 +261,25 @@ function deconstructValue(options: DeconstructValueOptions): any {
 
   throw new Error(
     `Unable to deconstruct "${JSON.stringify(value)}" for type ref ${typeRef}`
+  );
+}
+
+function deconstructRef(options: DeconstructCommonOptions) {
+  const { stack, typeRef, value } = options;
+
+  const asRef = tryResolveRef(value);
+
+  if (!asRef) {
+    return undefined;
+  }
+
+  if (isConstruct(typeRef)) {
+    return findConstruct(stack, value.Ref);
+  }
+
+  throw new Error(
+    `{ Ref } can only be used when a construct type is expected and this is ${typeRef}. ` +
+      'Use { Fn::GetAtt } to represent specific resource attributes'
   );
 }
 
