@@ -119,36 +119,53 @@ function resolveType(fqn: string) {
   return curr;
 }
 
-function tryResolveIntrinsic(value: any) {
-  if (Object.keys(value).length !== 1) {
+interface ParsedIntrinsic {
+  readonly name: string;
+  readonly value: any;
+}
+
+/**
+ * Parse an intrinsic into its name and its value.
+ *
+ * Returns `undefined` if the passed value does not look like an intrinsic.
+ *
+ * @example
+ * ```
+ * const parsed = tryParseIntrinsic({ "Fn::GetAtt": ["MyLambda", "Arn"] });
+ * parsed.name === "Fn::GetAtt";
+ * parsed.value === ["MyLambda", "Arn"]
+ * ```
+ */
+function tryParseIntrinsic(input: any): ParsedIntrinsic | undefined {
+  if (typeof input !== 'object') {
     return undefined;
   }
 
-  const name = Object.keys(value)[0];
-  const val = value[name];
-  return { name, val };
+  if (Object.keys(input).length !== 1) {
+    return undefined;
+  }
+
+  const name = Object.keys(input)[0];
+  const value = input[name];
+  return { name, value };
 }
 
 function tryResolveRef(value: any) {
-  const fn = tryResolveIntrinsic(value);
-  if (!fn) {
+  const fn = tryParseIntrinsic(value);
+  if (!fn || fn.name !== 'Ref') {
     return undefined;
   }
 
-  if (fn.name !== 'Ref') {
-    return undefined;
-  }
-
-  return fn.val;
+  return fn.value;
 }
 
 function tryResolveGetAtt(value: any) {
-  const fn = tryResolveIntrinsic(value);
+  const fn = tryParseIntrinsic(value);
   if (!fn || fn.name !== 'Fn::GetAtt') {
     return undefined;
   }
 
-  return fn.val;
+  return fn.value;
 }
 
 interface DeconstructCommonOptions {
