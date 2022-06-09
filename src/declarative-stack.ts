@@ -180,7 +180,7 @@ interface DeconstructValueOptions extends DeconstructCommonOptions {
 }
 
 function deconstructValue(options: DeconstructValueOptions): any {
-  const { stack, typeRef, optional, key, value } = options;
+  const { typeRef, optional, key, value } = options;
   // console.error('====== deserializer ===================');
   // console.error(`type: ${typeRef}`);
   // console.error(`value: ${JSON.stringify(value, undefined, 2)}`);
@@ -199,29 +199,14 @@ function deconstructValue(options: DeconstructValueOptions): any {
     return arr;
   }
 
-  const ref = deconstructRef(value);
+  const ref = deconstructRef(options);
   if (ref) {
     return ref;
   }
 
-  const getAtt = tryResolveGetAtt(value);
+  const getAtt = deconstructGetAtt(options);
   if (getAtt) {
-    const [logical, attr] = getAtt;
-
-    if (isConstruct(typeRef)) {
-      const obj: any = findConstruct(stack, logical);
-      return obj[attr];
-    }
-
-    if (typeRef.primitive === 'string') {
-      // return a lazy value, so we only try to find after all constructs
-      // have been added to the stack.
-      return deconstructGetAtt(stack, logical, attr);
-    }
-
-    throw new Error(
-      `Fn::GetAtt can only be used for string primitives and ${key} is ${typeRef}`
-    );
+    return getAtt;
   }
 
   const map = deconstructMap(options);
@@ -581,6 +566,30 @@ function invokeMethod(
   return methodFn.apply(typeClass, args);
 }
 
+function deconstructGetAtt(options: DeconstructCommonOptions) {
+  const { stack, typeRef, key, value } = options;
+
+  const getAtt = tryResolveGetAtt(value);
+  if (getAtt) {
+    const [logical, attr] = getAtt;
+
+    if (isConstruct(typeRef)) {
+      const obj: any = findConstruct(stack, logical);
+      return obj[attr];
+    }
+
+    if (typeRef.primitive === 'string') {
+      // return a lazy value, so we only try to find after all constructs
+      // have been added to the stack.
+      return produceLazyGetAtt(stack, logical, attr);
+    }
+
+    throw new Error(
+      `Fn::GetAtt can only be used for string primitives and ${key} is ${typeRef}`
+    );
+  }
+}
+
 /**
  * Returns a lazy string that includes a deconstructed Fn::GetAtt to a certain
  * resource or construct.
@@ -589,7 +598,7 @@ function invokeMethod(
  * the property `attribute`. If `id` points to a "raw" resource, the resolved value will be
  * an `Fn::GetAtt`.
  */
-function deconstructGetAtt(stack: cdk.Stack, id: string, attribute: string) {
+function produceLazyGetAtt(stack: cdk.Stack, id: string, attribute: string) {
   return cdk.Lazy.string({
     produce: () => {
       const res = stack.node.tryFindChild(id);
@@ -639,7 +648,7 @@ function processReferences(stack: cdk.Stack) {
       Object.keys(value)[0] === 'Fn::GetAtt'
     ) {
       const [id, attribute] = value['Fn::GetAtt'];
-      return deconstructGetAtt(stack, id, attribute);
+      return produceLazyGetAtt(stack, id, attribute);
     }
 
     if (Array.isArray(value)) {
