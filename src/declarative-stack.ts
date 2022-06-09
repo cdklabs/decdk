@@ -177,21 +177,9 @@ function deconstructValue(options: DeconstructValueOptions): any {
     throw new Error(`Missing required value for ${key} in ${typeRef}`);
   }
 
-  // deserialize arrays
-  if (typeRef.arrayOfType) {
-    if (!Array.isArray(value)) {
-      throw new Error(`Expecting array for ${key} in ${typeRef}`);
-    }
-
-    return value.map((x, i) =>
-      deconstructValue({
-        stack,
-        typeRef: typeRef.arrayOfType!,
-        optional: false,
-        key: `${key}[${i}]`,
-        value: x,
-      })
-    );
+  const arr = deconstructArray(options);
+  if (arr) {
+    return arr;
   }
 
   const asRef = tryResolveRef(value);
@@ -273,13 +261,13 @@ function deconstructValue(options: DeconstructValueOptions): any {
     );
   }
 
-  const enm = deconstructEnum({ stack, typeRef, key, value });
+  const enm = deconstructEnum(options);
   if (enm) {
     return enm;
   }
 
   // if this is an interface, deserialize each property
-  const ifc = deconstructInterface({ stack, typeRef, key, value });
+  const ifc = deconstructInterface(options);
   if (ifc) {
     return ifc;
   }
@@ -294,18 +282,40 @@ function deconstructValue(options: DeconstructValueOptions): any {
     return value;
   }
 
-  const enumLike = deconstructEnumLike({ stack, typeRef, key, value });
+  const enumLike = deconstructEnumLike(options);
   if (enumLike) {
     return enumLike;
   }
 
-  const asType = deconstructType({ stack, typeRef, key, value });
+  const asType = deconstructType(options);
   if (asType) {
     return asType;
   }
 
   throw new Error(
     `Unable to deconstruct "${JSON.stringify(value)}" for type ref ${typeRef}`
+  );
+}
+
+function deconstructArray(options: DeconstructCommonOptions) {
+  const { stack, typeRef, key, value } = options;
+
+  if (!typeRef.arrayOfType) {
+    return undefined;
+  }
+
+  if (!Array.isArray(value)) {
+    throw new Error(`Expecting array for ${key} in ${typeRef}`);
+  }
+
+  return value.map((x, i) =>
+    deconstructValue({
+      stack,
+      typeRef: typeRef.arrayOfType!,
+      optional: false,
+      key: `${key}[${i}]`,
+      value: x,
+    })
   );
 }
 
