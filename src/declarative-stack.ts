@@ -151,12 +151,15 @@ function tryResolveGetAtt(value: any) {
   return fn.val;
 }
 
-interface DeconstructValueOptions {
+interface DeconstructCommonOptions {
   readonly stack: cdk.Stack;
   readonly typeRef: reflect.TypeReference;
-  readonly optional: boolean;
   readonly key: string;
   readonly value: any;
+}
+
+interface DeconstructValueOptions extends DeconstructCommonOptions {
+  readonly optional: boolean;
 }
 
 function deconstructValue(options: DeconstructValueOptions): any {
@@ -270,13 +273,13 @@ function deconstructValue(options: DeconstructValueOptions): any {
     );
   }
 
-  const enm = deconstructEnum(stack, typeRef, key, value);
+  const enm = deconstructEnum({ stack, typeRef, key, value });
   if (enm) {
     return enm;
   }
 
   // if this is an interface, deserialize each property
-  const ifc = deconstructInterface(stack, typeRef, key, value);
+  const ifc = deconstructInterface({ stack, typeRef, key, value });
   if (ifc) {
     return ifc;
   }
@@ -291,12 +294,12 @@ function deconstructValue(options: DeconstructValueOptions): any {
     return value;
   }
 
-  const enumLike = deconstructEnumLike(stack, typeRef, value);
+  const enumLike = deconstructEnumLike({ stack, typeRef, key, value });
   if (enumLike) {
     return enumLike;
   }
 
-  const asType = deconstructType(stack, typeRef, value);
+  const asType = deconstructType({ stack, typeRef, key, value });
   if (asType) {
     return asType;
   }
@@ -306,12 +309,9 @@ function deconstructValue(options: DeconstructValueOptions): any {
   );
 }
 
-function deconstructEnum(
-  _stack: cdk.Stack,
-  typeRef: reflect.TypeReference,
-  _key: string,
-  value: any
-) {
+function deconstructEnum(options: DeconstructCommonOptions) {
+  const { typeRef, value } = options;
+
   if (!(typeRef.type instanceof reflect.EnumType)) {
     return undefined;
   }
@@ -320,12 +320,9 @@ function deconstructEnum(
   return enumType[value];
 }
 
-function deconstructInterface(
-  stack: cdk.Stack,
-  typeRef: reflect.TypeReference,
-  key: string,
-  value: any
-) {
+function deconstructInterface(options: DeconstructCommonOptions) {
+  const { stack, typeRef, key, value } = options;
+
   if (!isSerializableInterface(typeRef.type)) {
     return undefined;
   }
@@ -354,11 +351,9 @@ function deconstructInterface(
   return out;
 }
 
-function deconstructEnumLike(
-  stack: cdk.Stack,
-  typeRef: reflect.TypeReference,
-  value: any
-) {
+function deconstructEnumLike(options: DeconstructCommonOptions) {
+  const { stack, typeRef, value } = options;
+
   if (!isEnumLikeClass(typeRef.type)) {
     return undefined;
   }
@@ -378,11 +373,9 @@ function deconstructEnumLike(
   );
 }
 
-function deconstructType(
-  stack: cdk.Stack,
-  typeRef: reflect.TypeReference,
-  value: any
-) {
+function deconstructType(options: DeconstructCommonOptions) {
+  const { stack, typeRef, value } = options;
+
   const schemaDefs: any = {};
   const ctx = SchemaContext.root(schemaDefs);
   const schemaRef = schemaForPolymorphic(typeRef.type, ctx);
