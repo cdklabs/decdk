@@ -235,12 +235,6 @@ function deconstructValue(options: DeconstructValueOptions): any {
     return ifc;
   }
 
-  // if this is an enum type, use the name to dereference
-  if (typeRef.type instanceof reflect.EnumType) {
-    const enumType = resolveType(typeRef.type.fqn);
-    return enumType[value];
-  }
-
   if (typeRef.primitive) {
     return value;
   }
