@@ -219,31 +219,9 @@ function deconstructValue(options: DeconstructValueOptions): any {
     return map;
   }
 
-  if (typeRef.unionOfTypes) {
-    const errors = new Array<any>();
-    for (const x of typeRef.unionOfTypes) {
-      try {
-        return deconstructValue({
-          stack,
-          typeRef: x,
-          optional,
-          key,
-          value,
-        });
-      } catch (e) {
-        if (!(e instanceof ValidationError)) {
-          throw e;
-        }
-        errors.push(e);
-        continue;
-      }
-    }
-
-    throw new ValidationError(
-      `Failed to deserialize union. Errors: \n  ${errors
-        .map((e) => e.message)
-        .join('\n  ')}`
-    );
+  const union = deconstructUnion(options);
+  if (union) {
+    return union;
   }
 
   const enm = deconstructEnum(options);
@@ -327,6 +305,39 @@ function deconstructMap(options: DeconstructCommonOptions) {
   }
 
   return out;
+}
+
+function deconstructUnion(options: DeconstructCommonOptions) {
+  const { stack, typeRef, key, value } = options;
+
+  if (!typeRef.unionOfTypes) {
+    return undefined;
+  }
+
+  const errors = new Array<any>();
+  for (const x of typeRef.unionOfTypes) {
+    try {
+      return deconstructValue({
+        stack,
+        typeRef: x,
+        optional: false,
+        key,
+        value,
+      });
+    } catch (e) {
+      if (!(e instanceof ValidationError)) {
+        throw e;
+      }
+      errors.push(e);
+      continue;
+    }
+  }
+
+  throw new ValidationError(
+    `Failed to deserialize union. Errors: \n  ${errors
+      .map((e) => e.message)
+      .join('\n  ')}`
+  );
 }
 
 function deconstructEnum(options: DeconstructCommonOptions) {
