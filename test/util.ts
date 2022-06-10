@@ -14,18 +14,21 @@ async function obtainTypeSystem() {
   return _cachedTS;
 }
 
-export async function synthesize(template: any) {
-  const workingDirectory = fs.mkdtempSync(path.join(os.tmpdir(), 'decdk-'));
-  const stackName = 'test';
-  const typeSystem = await obtainTypeSystem();
+export class Testing {
+  public static async synth(stackName: string, template: any) {
+    const workingDirectory = fs.mkdtempSync(path.join(os.tmpdir(), 'decdk-'));
+    const typeSystem = await obtainTypeSystem();
 
-  const app = new cdk.App();
+    const app = new cdk.App();
 
-  new DeclarativeStack(app, stackName, {
-    workingDirectory,
-    template,
-    typeSystem,
-  });
+    new DeclarativeStack(app, stackName, {
+      workingDirectory,
+      template,
+      typeSystem,
+    });
 
-  return app.synth().getStackByName(stackName);
+    return app.synth().getStackByName(stackName);
+  }
+
+  private constructor() {}
 }

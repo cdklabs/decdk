@@ -1,4 +1,4 @@
-import { synthesize } from './util';
+import { Testing } from './util';
 
 test('invalid enum option raises an error', async () => {
   // GIVEN
@@ -14,7 +14,7 @@ test('invalid enum option raises an error', async () => {
   };
 
   // THEN
-  await expect(synthesize(template)).rejects.toThrow(
+  await expect(Testing.synth('test', template)).rejects.toThrow(
     'Could not find enum choice BOOM for enum type aws-cdk-lib.aws_sqs.QueueEncryption. Available options: [UNENCRYPTED, KMS_MANAGED, KMS]'
   );
 });
