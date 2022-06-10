@@ -15,8 +15,9 @@ async function obtainTypeSystem() {
 }
 
 export class Testing {
-  public static async synth(stackName: string, template: any) {
+  public static async synth(template: any) {
     const workingDirectory = fs.mkdtempSync(path.join(os.tmpdir(), 'decdk-'));
+    const stackName = 'Test';
     const typeSystem = await obtainTypeSystem();
 
     const app = new cdk.App();
