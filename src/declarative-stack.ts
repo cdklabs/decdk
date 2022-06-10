@@ -355,8 +355,24 @@ function deconstructEnum(options: DeconstructCommonOptions) {
     return undefined;
   }
 
+  if (typeof value !== 'string') {
+    throw new Error(
+      `Enum choice must be a string literal, found ${JSON.stringify(value)}.`
+    );
+  }
+
+  const enumChoice = value.toUpperCase();
   const enumType = resolveType(typeRef.type.fqn);
-  return enumType[value];
+
+  if (!(enumChoice in enumType)) {
+    throw new Error(
+      `Could not find enum choice ${enumChoice} for enum type ${
+        typeRef.type.fqn
+      }. Available options: [${Object.keys(enumType).join(', ')}]`
+    );
+  }
+
+  return enumType[enumChoice];
 }
 
 function deconstructInterface(options: DeconstructCommonOptions) {
