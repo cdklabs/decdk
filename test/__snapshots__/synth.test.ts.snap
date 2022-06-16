@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`apigw.json: apigw 1`] = `
+exports[`apigw.json 1`] = `
 Object {
   "Outputs": Object {
     "MyApiEndpoint869ABE96": Object {
@@ -81,44 +81,7 @@ Object {
       },
       "Type": "AWS::ApiGateway::Method",
     },
-    "GetRootApiPermissionTestapigwMyApiCBFBC5B0GET5B244F0C": Object {
-      "Properties": Object {
-        "Action": "lambda:InvokeFunction",
-        "FunctionName": Object {
-          "Fn::GetAtt": Array [
-            "HelloLambda3D9C82D6",
-            "Arn",
-          ],
-        },
-        "Principal": "apigateway.amazonaws.com",
-        "SourceArn": Object {
-          "Fn::Join": Array [
-            "",
-            Array [
-              "arn:",
-              Object {
-                "Ref": "AWS::Partition",
-              },
-              ":execute-api:",
-              Object {
-                "Ref": "AWS::Region",
-              },
-              ":",
-              Object {
-                "Ref": "AWS::AccountId",
-              },
-              ":",
-              Object {
-                "Ref": "MyApi49610EDF",
-              },
-              "/test-invoke-stage/GET/",
-            ],
-          ],
-        },
-      },
-      "Type": "AWS::Lambda::Permission",
-    },
-    "GetRootApiPermissionapigwMyApiCBFBC5B0GETC314E626": Object {
+    "GetRootApiPermissionTestMyApi8B2BE17AGET60A859EA": Object {
       "Properties": Object {
         "Action": "lambda:InvokeFunction",
         "FunctionName": Object {
@@ -159,6 +122,43 @@ Object {
       },
       "Type": "AWS::Lambda::Permission",
     },
+    "GetRootApiPermissionTestTestMyApi8B2BE17AGETD0B1F4C3": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "HelloLambda3D9C82D6",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "arn:",
+              Object {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              Object {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              Object {
+                "Ref": "MyApi49610EDF",
+              },
+              "/test-invoke-stage/GET/",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
     "HelloLambda3D9C82D6": Object {
       "DependsOn": Array [
         "HelloLambdaServiceRoleE071F162",
@@ -168,7 +168,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "15689ac064b611030f942500c2748f742e64ae1901db7bec75f6fbcb5924f628.zip",
+          "S3Key": "1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0.zip",
         },
         "Handler": "index.handler",
         "Role": Object {
@@ -218,44 +218,7 @@ Object {
       },
       "Type": "AWS::ApiGateway::RestApi",
     },
-    "MyApiANYApiPermissionTestapigwMyApiCBFBC5B0ANYAD86D377": Object {
-      "Properties": Object {
-        "Action": "lambda:InvokeFunction",
-        "FunctionName": Object {
-          "Fn::GetAtt": Array [
-            "HelloLambda3D9C82D6",
-            "Arn",
-          ],
-        },
-        "Principal": "apigateway.amazonaws.com",
-        "SourceArn": Object {
-          "Fn::Join": Array [
-            "",
-            Array [
-              "arn:",
-              Object {
-                "Ref": "AWS::Partition",
-              },
-              ":execute-api:",
-              Object {
-                "Ref": "AWS::Region",
-              },
-              ":",
-              Object {
-                "Ref": "AWS::AccountId",
-              },
-              ":",
-              Object {
-                "Ref": "MyApi49610EDF",
-              },
-              "/test-invoke-stage/*/",
-            ],
-          ],
-        },
-      },
-      "Type": "AWS::Lambda::Permission",
-    },
-    "MyApiANYApiPermissionapigwMyApiCBFBC5B0ANY5BBED348": Object {
+    "MyApiANYApiPermissionTestMyApi8B2BE17AANY689FE066": Object {
       "Properties": Object {
         "Action": "lambda:InvokeFunction",
         "FunctionName": Object {
@@ -290,6 +253,43 @@ Object {
                 "Ref": "MyApiDeploymentStageprodE1054AF0",
               },
               "/*/",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "MyApiANYApiPermissionTestTestMyApi8B2BE17AANYE4477AC0": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "HelloLambda3D9C82D6",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "arn:",
+              Object {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              Object {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              Object {
+                "Ref": "MyApi49610EDF",
+              },
+              "/test-invoke-stage/*/",
             ],
           ],
         },
@@ -414,44 +414,7 @@ Object {
       },
       "Type": "AWS::ApiGateway::Stage",
     },
-    "MyApiproxyANYApiPermissionTestapigwMyApiCBFBC5B0ANYproxy6DC68FBB": Object {
-      "Properties": Object {
-        "Action": "lambda:InvokeFunction",
-        "FunctionName": Object {
-          "Fn::GetAtt": Array [
-            "HelloLambda3D9C82D6",
-            "Arn",
-          ],
-        },
-        "Principal": "apigateway.amazonaws.com",
-        "SourceArn": Object {
-          "Fn::Join": Array [
-            "",
-            Array [
-              "arn:",
-              Object {
-                "Ref": "AWS::Partition",
-              },
-              ":execute-api:",
-              Object {
-                "Ref": "AWS::Region",
-              },
-              ":",
-              Object {
-                "Ref": "AWS::AccountId",
-              },
-              ":",
-              Object {
-                "Ref": "MyApi49610EDF",
-              },
-              "/test-invoke-stage/*/*",
-            ],
-          ],
-        },
-      },
-      "Type": "AWS::Lambda::Permission",
-    },
-    "MyApiproxyANYApiPermissionapigwMyApiCBFBC5B0ANYproxyB3375D73": Object {
+    "MyApiproxyANYApiPermissionTestMyApi8B2BE17AANYproxyD8FBCB14": Object {
       "Properties": Object {
         "Action": "lambda:InvokeFunction",
         "FunctionName": Object {
@@ -486,6 +449,43 @@ Object {
                 "Ref": "MyApiDeploymentStageprodE1054AF0",
               },
               "/*/*",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "MyApiproxyANYApiPermissionTestTestMyApi8B2BE17AANYproxy4A6D235F": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "HelloLambda3D9C82D6",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "arn:",
+              Object {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              Object {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              Object {
+                "Ref": "MyApi49610EDF",
+              },
+              "/test-invoke-stage/*/*",
             ],
           ],
         },
@@ -578,7 +578,7 @@ Object {
 }
 `;
 
-exports[`ecs.json: ecs 1`] = `
+exports[`ecs.json 1`] = `
 Object {
   "Parameters": Object {
     "BootstrapVersion": Object {
@@ -671,7 +671,7 @@ Object {
     },
     "ServiceSecurityGroupC96ED6A7": Object {
       "Properties": Object {
-        "GroupDescription": "ecs/Service/SecurityGroup",
+        "GroupDescription": "Test/Service/SecurityGroup",
         "SecurityGroupEgress": Array [
           Object {
             "CidrIp": "0.0.0.0/0",
@@ -694,7 +694,7 @@ Object {
         "Tags": Array [
           Object {
             "Key": "Name",
-            "Value": "ecs/VPC",
+            "Value": "Test/VPC",
           },
         ],
       },
@@ -705,7 +705,7 @@ Object {
         "Tags": Array [
           Object {
             "Key": "Name",
-            "Value": "ecs/VPC",
+            "Value": "Test/VPC",
           },
         ],
       },
@@ -739,7 +739,7 @@ Object {
         "Tags": Array [
           Object {
             "Key": "Name",
-            "Value": "ecs/VPC/PrivateSubnet1",
+            "Value": "Test/VPC/PrivateSubnet1",
           },
         ],
         "VpcId": Object {
@@ -771,7 +771,7 @@ Object {
           },
           Object {
             "Key": "Name",
-            "Value": "ecs/VPC/PrivateSubnet1",
+            "Value": "Test/VPC/PrivateSubnet1",
           },
         ],
         "VpcId": Object {
@@ -801,7 +801,7 @@ Object {
         "Tags": Array [
           Object {
             "Key": "Name",
-            "Value": "ecs/VPC/PublicSubnet1",
+            "Value": "Test/VPC/PublicSubnet1",
           },
         ],
       },
@@ -821,7 +821,7 @@ Object {
         "Tags": Array [
           Object {
             "Key": "Name",
-            "Value": "ecs/VPC/PublicSubnet1",
+            "Value": "Test/VPC/PublicSubnet1",
           },
         ],
       },
@@ -843,7 +843,7 @@ Object {
         "Tags": Array [
           Object {
             "Key": "Name",
-            "Value": "ecs/VPC/PublicSubnet1",
+            "Value": "Test/VPC/PublicSubnet1",
           },
         ],
         "VpcId": Object {
@@ -875,7 +875,7 @@ Object {
           },
           Object {
             "Key": "Name",
-            "Value": "ecs/VPC/PublicSubnet1",
+            "Value": "Test/VPC/PublicSubnet1",
           },
         ],
         "VpcId": Object {
@@ -926,17 +926,17 @@ Object {
 }
 `;
 
-exports[`lambda-events.json: lambda-events 1`] = `
+exports[`lambda-events.json 1`] = `
 Object {
   "Outputs": Object {
-    "lambdaeventsHelloWorldFunctionAB27BB65ApiEventSourceA7A86A4FEndpointC6202FF3": Object {
+    "TestHelloWorldFunctionE7E220B2ApiEventSourceA7A86A4FEndpointA8F0470B": Object {
       "Value": Object {
         "Fn::Join": Array [
           "",
           Array [
             "https://",
             Object {
-              "Ref": "lambdaeventsHelloWorldFunctionAB27BB65ApiEventSourceA7A86A4F12449C5F",
+              "Ref": "TestHelloWorldFunctionE7E220B2ApiEventSourceA7A86A4F040973BA",
             },
             ".execute-api.",
             Object {
@@ -948,7 +948,7 @@ Object {
             },
             "/",
             Object {
-              "Ref": "lambdaeventsHelloWorldFunctionAB27BB65ApiEventSourceA7A86A4FDeploymentStageprod6A86C016",
+              "Ref": "TestHelloWorldFunctionE7E220B2ApiEventSourceA7A86A4FDeploymentStageprodA76DE31E",
             },
             "/",
           ],
@@ -964,7 +964,7 @@ Object {
     },
   },
   "Resources": Object {
-    "HelloWorldFunctionAllowInvokelambdaeventsMyTopic988FAB3E43035740": Object {
+    "HelloWorldFunctionAllowInvokeTestMyTopic06942AEA43E66FD3": Object {
       "Properties": Object {
         "Action": "lambda:InvokeFunction",
         "FunctionName": Object {
@@ -990,7 +990,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "15689ac064b611030f942500c2748f742e64ae1901db7bec75f6fbcb5924f628.zip",
+          "S3Key": "1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0.zip",
         },
         "Environment": Object {
           "Variables": Object {
@@ -1008,7 +1008,7 @@ Object {
       },
       "Type": "AWS::Lambda::Function",
     },
-    "HelloWorldFunctionDynamoDBEventSourcelambdaeventsTableF97C65E3DE5C745C": Object {
+    "HelloWorldFunctionDynamoDBEventSourceTestTable7FB9A4AF14EA3849": Object {
       "Properties": Object {
         "BatchSize": 100,
         "EventSourceArn": Object {
@@ -1134,27 +1134,27 @@ Object {
       "Type": "AWS::DynamoDB::Table",
       "UpdateReplacePolicy": "Retain",
     },
-    "lambdaeventsHelloWorldFunctionAB27BB65ApiEventSourceA7A86A4F12449C5F": Object {
+    "TestHelloWorldFunctionE7E220B2ApiEventSourceA7A86A4F040973BA": Object {
       "Properties": Object {
-        "Name": "lambdaeventsHelloWorldFunctionAB27BB65:ApiEventSourceA7A86A4F",
+        "Name": "TestHelloWorldFunctionE7E220B2:ApiEventSourceA7A86A4F",
       },
       "Type": "AWS::ApiGateway::RestApi",
     },
-    "lambdaeventsHelloWorldFunctionAB27BB65ApiEventSourceA7A86A4FAccountF7734F1E": Object {
+    "TestHelloWorldFunctionE7E220B2ApiEventSourceA7A86A4FAccount3FF2838C": Object {
       "DependsOn": Array [
-        "lambdaeventsHelloWorldFunctionAB27BB65ApiEventSourceA7A86A4F12449C5F",
+        "TestHelloWorldFunctionE7E220B2ApiEventSourceA7A86A4F040973BA",
       ],
       "Properties": Object {
         "CloudWatchRoleArn": Object {
           "Fn::GetAtt": Array [
-            "lambdaeventsHelloWorldFunctionAB27BB65ApiEventSourceA7A86A4FCloudWatchRole495FDB9D",
+            "TestHelloWorldFunctionE7E220B2ApiEventSourceA7A86A4FCloudWatchRole6F1F54C4",
             "Arn",
           ],
         },
       },
       "Type": "AWS::ApiGateway::Account",
     },
-    "lambdaeventsHelloWorldFunctionAB27BB65ApiEventSourceA7A86A4FCloudWatchRole495FDB9D": Object {
+    "TestHelloWorldFunctionE7E220B2ApiEventSourceA7A86A4FCloudWatchRole6F1F54C4": Object {
       "Properties": Object {
         "AssumeRolePolicyDocument": Object {
           "Statement": Array [
@@ -1185,51 +1185,129 @@ Object {
       },
       "Type": "AWS::IAM::Role",
     },
-    "lambdaeventsHelloWorldFunctionAB27BB65ApiEventSourceA7A86A4FDeploymentFF3F4A1Ac00dde791d2719be3e8ea69f9a61a5cd": Object {
+    "TestHelloWorldFunctionE7E220B2ApiEventSourceA7A86A4FDeployment1521BDCD1184383c2312dd2bd094c1c0b9e7069a": Object {
       "DependsOn": Array [
-        "lambdaeventsHelloWorldFunctionAB27BB65ApiEventSourceA7A86A4FhelloGET04FBC7F6",
-        "lambdaeventsHelloWorldFunctionAB27BB65ApiEventSourceA7A86A4FhelloPOST53F177B1",
-        "lambdaeventsHelloWorldFunctionAB27BB65ApiEventSourceA7A86A4FhelloC30B3CD9",
+        "TestHelloWorldFunctionE7E220B2ApiEventSourceA7A86A4FhelloGETDEC3A558",
+        "TestHelloWorldFunctionE7E220B2ApiEventSourceA7A86A4FhelloPOST26F53363",
+        "TestHelloWorldFunctionE7E220B2ApiEventSourceA7A86A4Fhello434790F5",
       ],
       "Properties": Object {
         "Description": "Automatically created by the RestApi construct",
         "RestApiId": Object {
-          "Ref": "lambdaeventsHelloWorldFunctionAB27BB65ApiEventSourceA7A86A4F12449C5F",
+          "Ref": "TestHelloWorldFunctionE7E220B2ApiEventSourceA7A86A4F040973BA",
         },
       },
       "Type": "AWS::ApiGateway::Deployment",
     },
-    "lambdaeventsHelloWorldFunctionAB27BB65ApiEventSourceA7A86A4FDeploymentStageprod6A86C016": Object {
+    "TestHelloWorldFunctionE7E220B2ApiEventSourceA7A86A4FDeploymentStageprodA76DE31E": Object {
       "DependsOn": Array [
-        "lambdaeventsHelloWorldFunctionAB27BB65ApiEventSourceA7A86A4FAccountF7734F1E",
+        "TestHelloWorldFunctionE7E220B2ApiEventSourceA7A86A4FAccount3FF2838C",
       ],
       "Properties": Object {
         "DeploymentId": Object {
-          "Ref": "lambdaeventsHelloWorldFunctionAB27BB65ApiEventSourceA7A86A4FDeploymentFF3F4A1Ac00dde791d2719be3e8ea69f9a61a5cd",
+          "Ref": "TestHelloWorldFunctionE7E220B2ApiEventSourceA7A86A4FDeployment1521BDCD1184383c2312dd2bd094c1c0b9e7069a",
         },
         "RestApiId": Object {
-          "Ref": "lambdaeventsHelloWorldFunctionAB27BB65ApiEventSourceA7A86A4F12449C5F",
+          "Ref": "TestHelloWorldFunctionE7E220B2ApiEventSourceA7A86A4F040973BA",
         },
         "StageName": "prod",
       },
       "Type": "AWS::ApiGateway::Stage",
     },
-    "lambdaeventsHelloWorldFunctionAB27BB65ApiEventSourceA7A86A4FhelloC30B3CD9": Object {
+    "TestHelloWorldFunctionE7E220B2ApiEventSourceA7A86A4Fhello434790F5": Object {
       "Properties": Object {
         "ParentId": Object {
           "Fn::GetAtt": Array [
-            "lambdaeventsHelloWorldFunctionAB27BB65ApiEventSourceA7A86A4F12449C5F",
+            "TestHelloWorldFunctionE7E220B2ApiEventSourceA7A86A4F040973BA",
             "RootResourceId",
           ],
         },
         "PathPart": "hello",
         "RestApiId": Object {
-          "Ref": "lambdaeventsHelloWorldFunctionAB27BB65ApiEventSourceA7A86A4F12449C5F",
+          "Ref": "TestHelloWorldFunctionE7E220B2ApiEventSourceA7A86A4F040973BA",
         },
       },
       "Type": "AWS::ApiGateway::Resource",
     },
-    "lambdaeventsHelloWorldFunctionAB27BB65ApiEventSourceA7A86A4FhelloGET04FBC7F6": Object {
+    "TestHelloWorldFunctionE7E220B2ApiEventSourceA7A86A4FhelloGETApiPermissionTestTestHelloWorldFunctionE7E220B2ApiEventSourceA7A86A4F2B53EF41GEThello55F7F880": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "HelloWorldFunctionB2AB6E79",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "arn:",
+              Object {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              Object {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              Object {
+                "Ref": "TestHelloWorldFunctionE7E220B2ApiEventSourceA7A86A4F040973BA",
+              },
+              "/",
+              Object {
+                "Ref": "TestHelloWorldFunctionE7E220B2ApiEventSourceA7A86A4FDeploymentStageprodA76DE31E",
+              },
+              "/GET/hello",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "TestHelloWorldFunctionE7E220B2ApiEventSourceA7A86A4FhelloGETApiPermissionTestTestTestHelloWorldFunctionE7E220B2ApiEventSourceA7A86A4F2B53EF41GEThelloDA94F7CA": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "HelloWorldFunctionB2AB6E79",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "arn:",
+              Object {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              Object {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              Object {
+                "Ref": "TestHelloWorldFunctionE7E220B2ApiEventSourceA7A86A4F040973BA",
+              },
+              "/test-invoke-stage/GET/hello",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "TestHelloWorldFunctionE7E220B2ApiEventSourceA7A86A4FhelloGETDEC3A558": Object {
       "Properties": Object {
         "AuthorizationType": "NONE",
         "HttpMethod": "GET",
@@ -1261,93 +1339,15 @@ Object {
           },
         },
         "ResourceId": Object {
-          "Ref": "lambdaeventsHelloWorldFunctionAB27BB65ApiEventSourceA7A86A4FhelloC30B3CD9",
+          "Ref": "TestHelloWorldFunctionE7E220B2ApiEventSourceA7A86A4Fhello434790F5",
         },
         "RestApiId": Object {
-          "Ref": "lambdaeventsHelloWorldFunctionAB27BB65ApiEventSourceA7A86A4F12449C5F",
+          "Ref": "TestHelloWorldFunctionE7E220B2ApiEventSourceA7A86A4F040973BA",
         },
       },
       "Type": "AWS::ApiGateway::Method",
     },
-    "lambdaeventsHelloWorldFunctionAB27BB65ApiEventSourceA7A86A4FhelloGETApiPermissionTestlambdaeventslambdaeventsHelloWorldFunctionAB27BB65ApiEventSourceA7A86A4F0AAEF724GEThello5EA12CF5": Object {
-      "Properties": Object {
-        "Action": "lambda:InvokeFunction",
-        "FunctionName": Object {
-          "Fn::GetAtt": Array [
-            "HelloWorldFunctionB2AB6E79",
-            "Arn",
-          ],
-        },
-        "Principal": "apigateway.amazonaws.com",
-        "SourceArn": Object {
-          "Fn::Join": Array [
-            "",
-            Array [
-              "arn:",
-              Object {
-                "Ref": "AWS::Partition",
-              },
-              ":execute-api:",
-              Object {
-                "Ref": "AWS::Region",
-              },
-              ":",
-              Object {
-                "Ref": "AWS::AccountId",
-              },
-              ":",
-              Object {
-                "Ref": "lambdaeventsHelloWorldFunctionAB27BB65ApiEventSourceA7A86A4F12449C5F",
-              },
-              "/test-invoke-stage/GET/hello",
-            ],
-          ],
-        },
-      },
-      "Type": "AWS::Lambda::Permission",
-    },
-    "lambdaeventsHelloWorldFunctionAB27BB65ApiEventSourceA7A86A4FhelloGETApiPermissionlambdaeventslambdaeventsHelloWorldFunctionAB27BB65ApiEventSourceA7A86A4F0AAEF724GEThelloAC4AB5E4": Object {
-      "Properties": Object {
-        "Action": "lambda:InvokeFunction",
-        "FunctionName": Object {
-          "Fn::GetAtt": Array [
-            "HelloWorldFunctionB2AB6E79",
-            "Arn",
-          ],
-        },
-        "Principal": "apigateway.amazonaws.com",
-        "SourceArn": Object {
-          "Fn::Join": Array [
-            "",
-            Array [
-              "arn:",
-              Object {
-                "Ref": "AWS::Partition",
-              },
-              ":execute-api:",
-              Object {
-                "Ref": "AWS::Region",
-              },
-              ":",
-              Object {
-                "Ref": "AWS::AccountId",
-              },
-              ":",
-              Object {
-                "Ref": "lambdaeventsHelloWorldFunctionAB27BB65ApiEventSourceA7A86A4F12449C5F",
-              },
-              "/",
-              Object {
-                "Ref": "lambdaeventsHelloWorldFunctionAB27BB65ApiEventSourceA7A86A4FDeploymentStageprod6A86C016",
-              },
-              "/GET/hello",
-            ],
-          ],
-        },
-      },
-      "Type": "AWS::Lambda::Permission",
-    },
-    "lambdaeventsHelloWorldFunctionAB27BB65ApiEventSourceA7A86A4FhelloPOST53F177B1": Object {
+    "TestHelloWorldFunctionE7E220B2ApiEventSourceA7A86A4FhelloPOST26F53363": Object {
       "Properties": Object {
         "AuthorizationType": "NONE",
         "HttpMethod": "POST",
@@ -1379,15 +1379,15 @@ Object {
           },
         },
         "ResourceId": Object {
-          "Ref": "lambdaeventsHelloWorldFunctionAB27BB65ApiEventSourceA7A86A4FhelloC30B3CD9",
+          "Ref": "TestHelloWorldFunctionE7E220B2ApiEventSourceA7A86A4Fhello434790F5",
         },
         "RestApiId": Object {
-          "Ref": "lambdaeventsHelloWorldFunctionAB27BB65ApiEventSourceA7A86A4F12449C5F",
+          "Ref": "TestHelloWorldFunctionE7E220B2ApiEventSourceA7A86A4F040973BA",
         },
       },
       "Type": "AWS::ApiGateway::Method",
     },
-    "lambdaeventsHelloWorldFunctionAB27BB65ApiEventSourceA7A86A4FhelloPOSTApiPermissionTestlambdaeventslambdaeventsHelloWorldFunctionAB27BB65ApiEventSourceA7A86A4F0AAEF724POSThello991892DD": Object {
+    "TestHelloWorldFunctionE7E220B2ApiEventSourceA7A86A4FhelloPOSTApiPermissionTestTestHelloWorldFunctionE7E220B2ApiEventSourceA7A86A4F2B53EF41POSThelloAFA34AF4": Object {
       "Properties": Object {
         "Action": "lambda:InvokeFunction",
         "FunctionName": Object {
@@ -1415,16 +1415,20 @@ Object {
               },
               ":",
               Object {
-                "Ref": "lambdaeventsHelloWorldFunctionAB27BB65ApiEventSourceA7A86A4F12449C5F",
+                "Ref": "TestHelloWorldFunctionE7E220B2ApiEventSourceA7A86A4F040973BA",
               },
-              "/test-invoke-stage/POST/hello",
+              "/",
+              Object {
+                "Ref": "TestHelloWorldFunctionE7E220B2ApiEventSourceA7A86A4FDeploymentStageprodA76DE31E",
+              },
+              "/POST/hello",
             ],
           ],
         },
       },
       "Type": "AWS::Lambda::Permission",
     },
-    "lambdaeventsHelloWorldFunctionAB27BB65ApiEventSourceA7A86A4FhelloPOSTApiPermissionlambdaeventslambdaeventsHelloWorldFunctionAB27BB65ApiEventSourceA7A86A4F0AAEF724POSThello3501FACF": Object {
+    "TestHelloWorldFunctionE7E220B2ApiEventSourceA7A86A4FhelloPOSTApiPermissionTestTestTestHelloWorldFunctionE7E220B2ApiEventSourceA7A86A4F2B53EF41POSThello70EA31F2": Object {
       "Properties": Object {
         "Action": "lambda:InvokeFunction",
         "FunctionName": Object {
@@ -1452,13 +1456,9 @@ Object {
               },
               ":",
               Object {
-                "Ref": "lambdaeventsHelloWorldFunctionAB27BB65ApiEventSourceA7A86A4F12449C5F",
+                "Ref": "TestHelloWorldFunctionE7E220B2ApiEventSourceA7A86A4F040973BA",
               },
-              "/",
-              Object {
-                "Ref": "lambdaeventsHelloWorldFunctionAB27BB65ApiEventSourceA7A86A4FDeploymentStageprod6A86C016",
-              },
-              "/POST/hello",
+              "/test-invoke-stage/POST/hello",
             ],
           ],
         },
@@ -1496,7 +1496,7 @@ Object {
 }
 `;
 
-exports[`lambda-topic.json: lambda-topic 1`] = `
+exports[`lambda-topic.json 1`] = `
 Object {
   "Parameters": Object {
     "BootstrapVersion": Object {
@@ -1506,7 +1506,7 @@ Object {
     },
   },
   "Resources": Object {
-    "LambdaAllowInvokelambdatopicTopic702108A3CE1309A3": Object {
+    "LambdaAllowInvokeTestTopic346FF53781B07C89": Object {
       "Properties": Object {
         "Action": "lambda:InvokeFunction",
         "FunctionName": Object {
@@ -1531,7 +1531,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "15689ac064b611030f942500c2748f742e64ae1901db7bec75f6fbcb5924f628.zip",
+          "S3Key": "1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0.zip",
         },
         "Handler": "index.handler",
         "Role": Object {
@@ -1624,7 +1624,7 @@ Object {
 }
 `;
 
-exports[`pipeline.json: pipeline 1`] = `
+exports[`pipeline.json 1`] = `
 Object {
   "Parameters": Object {
     "BootstrapVersion": Object {
@@ -1960,7 +1960,7 @@ Object {
     "PipelineArtifactsBucketEncryptionKeyAlias5C510EEE": Object {
       "DeletionPolicy": "Delete",
       "Properties": Object {
-        "AliasName": "alias/codepipeline-pipelinepipeline22f2a91d",
+        "AliasName": "alias/codepipeline-testpipeline9942903c",
         "TargetKeyId": Object {
           "Fn::GetAtt": Array [
             "PipelineArtifactsBucketEncryptionKey01D58D69",
@@ -2735,7 +2735,7 @@ Object {
       },
       "Type": "AWS::CodeCommit::Repository",
     },
-    "RepopipelinePipeline22F2A91DEventRuleF314EE14": Object {
+    "RepoTestPipeline9942903CEventRule83B9BC8D": Object {
       "Properties": Object {
         "EventPattern": Object {
           "detail": Object {
@@ -2831,7 +2831,7 @@ Object {
 }
 `;
 
-exports[`pure-cfn.json: pure-cfn 1`] = `
+exports[`pure-cfn.json 1`] = `
 Object {
   "Parameters": Object {
     "BootstrapVersion": Object {
@@ -2885,7 +2885,7 @@ Object {
 }
 `;
 
-exports[`queue-kms.json: queue-kms 1`] = `
+exports[`queue-kms.json 1`] = `
 Object {
   "Parameters": Object {
     "BootstrapVersion": Object {
@@ -2911,7 +2911,7 @@ Object {
     "MyQueueKey6C31ABF3": Object {
       "DeletionPolicy": "Retain",
       "Properties": Object {
-        "Description": "Created by queue-kms/MyQueue",
+        "Description": "Created by Test/MyQueue",
         "KeyPolicy": Object {
           "Statement": Array [
             Object {
@@ -2975,7 +2975,7 @@ Object {
 }
 `;
 
-exports[`vpc.json: vpc 1`] = `
+exports[`vpc.json 1`] = `
 Object {
   "Parameters": Object {
     "BootstrapVersion": Object {
@@ -2994,7 +2994,7 @@ Object {
         "Tags": Array [
           Object {
             "Key": "Name",
-            "Value": "vpc/VPC",
+            "Value": "Test/VPC",
           },
         ],
       },
@@ -3005,7 +3005,7 @@ Object {
         "Tags": Array [
           Object {
             "Key": "Name",
-            "Value": "vpc/VPC",
+            "Value": "Test/VPC",
           },
         ],
       },
@@ -3039,7 +3039,7 @@ Object {
         "Tags": Array [
           Object {
             "Key": "Name",
-            "Value": "vpc/VPC/PrivateSubnet1",
+            "Value": "Test/VPC/PrivateSubnet1",
           },
         ],
         "VpcId": Object {
@@ -3071,7 +3071,7 @@ Object {
           },
           Object {
             "Key": "Name",
-            "Value": "vpc/VPC/PrivateSubnet1",
+            "Value": "Test/VPC/PrivateSubnet1",
           },
         ],
         "VpcId": Object {
@@ -3097,7 +3097,7 @@ Object {
         "Tags": Array [
           Object {
             "Key": "Name",
-            "Value": "vpc/VPC/PrivateSubnet2",
+            "Value": "Test/VPC/PrivateSubnet2",
           },
         ],
         "VpcId": Object {
@@ -3140,7 +3140,7 @@ Object {
           },
           Object {
             "Key": "Name",
-            "Value": "vpc/VPC/PrivateSubnet2",
+            "Value": "Test/VPC/PrivateSubnet2",
           },
         ],
         "VpcId": Object {
@@ -3170,7 +3170,7 @@ Object {
         "Tags": Array [
           Object {
             "Key": "Name",
-            "Value": "vpc/VPC/PublicSubnet1",
+            "Value": "Test/VPC/PublicSubnet1",
           },
         ],
       },
@@ -3190,7 +3190,7 @@ Object {
         "Tags": Array [
           Object {
             "Key": "Name",
-            "Value": "vpc/VPC/PublicSubnet1",
+            "Value": "Test/VPC/PublicSubnet1",
           },
         ],
       },
@@ -3212,7 +3212,7 @@ Object {
         "Tags": Array [
           Object {
             "Key": "Name",
-            "Value": "vpc/VPC/PublicSubnet1",
+            "Value": "Test/VPC/PublicSubnet1",
           },
         ],
         "VpcId": Object {
@@ -3244,7 +3244,7 @@ Object {
           },
           Object {
             "Key": "Name",
-            "Value": "vpc/VPC/PublicSubnet1",
+            "Value": "Test/VPC/PublicSubnet1",
           },
         ],
         "VpcId": Object {
@@ -3274,7 +3274,7 @@ Object {
         "Tags": Array [
           Object {
             "Key": "Name",
-            "Value": "vpc/VPC/PublicSubnet2",
+            "Value": "Test/VPC/PublicSubnet2",
           },
         ],
       },
@@ -3294,7 +3294,7 @@ Object {
         "Tags": Array [
           Object {
             "Key": "Name",
-            "Value": "vpc/VPC/PublicSubnet2",
+            "Value": "Test/VPC/PublicSubnet2",
           },
         ],
       },
@@ -3305,7 +3305,7 @@ Object {
         "Tags": Array [
           Object {
             "Key": "Name",
-            "Value": "vpc/VPC/PublicSubnet2",
+            "Value": "Test/VPC/PublicSubnet2",
           },
         ],
         "VpcId": Object {
@@ -3348,7 +3348,7 @@ Object {
           },
           Object {
             "Key": "Name",
-            "Value": "vpc/VPC/PublicSubnet2",
+            "Value": "Test/VPC/PublicSubnet2",
           },
         ],
         "VpcId": Object {

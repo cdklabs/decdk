@@ -71,13 +71,13 @@ export class DeclarativeStack extends cdk.Stack {
           new Ctor(
             this,
             logicalId,
-            deserializeValue(
-              this,
-              propsTypeRef,
-              true,
-              'Properties',
-              rprops.Properties
-            )
+            deconstructValue({
+              stack: this,
+              typeRef: propsTypeRef,
+              optional: true,
+              key: 'Properties',
+              value: rprops.Properties,
+            })
           )
       );
 
@@ -119,45 +119,68 @@ function resolveType(fqn: string) {
   return curr;
 }
 
-function tryResolveIntrinsic(value: any) {
-  if (Object.keys(value).length !== 1) {
+interface ParsedIntrinsic {
+  readonly name: string;
+  readonly value: any;
+}
+
+/**
+ * Parse an intrinsic into its name and its value.
+ *
+ * Returns `undefined` if the passed value does not look like an intrinsic.
+ *
+ * @example
+ * ```
+ * const parsed = tryParseIntrinsic({ "Fn::GetAtt": ["MyLambda", "Arn"] });
+ * parsed.name === "Fn::GetAtt";
+ * parsed.value === ["MyLambda", "Arn"]
+ * ```
+ */
+function tryParseIntrinsic(input: any): ParsedIntrinsic | undefined {
+  if (typeof input !== 'object') {
     return undefined;
   }
 
-  const name = Object.keys(value)[0];
-  const val = value[name];
-  return { name, val };
+  if (Object.keys(input).length !== 1) {
+    return undefined;
+  }
+
+  const name = Object.keys(input)[0];
+  const value = input[name];
+  return { name, value };
 }
 
 function tryResolveRef(value: any) {
-  const fn = tryResolveIntrinsic(value);
-  if (!fn) {
+  const fn = tryParseIntrinsic(value);
+  if (!fn || fn.name !== 'Ref') {
     return undefined;
   }
 
-  if (fn.name !== 'Ref') {
-    return undefined;
-  }
-
-  return fn.val;
+  return fn.value;
 }
 
 function tryResolveGetAtt(value: any) {
-  const fn = tryResolveIntrinsic(value);
+  const fn = tryParseIntrinsic(value);
   if (!fn || fn.name !== 'Fn::GetAtt') {
     return undefined;
   }
 
-  return fn.val;
+  return fn.value;
 }
 
-function deserializeValue(
-  stack: cdk.Stack,
-  typeRef: reflect.TypeReference,
-  optional: boolean,
-  key: string,
-  value: any
-): any {
+interface DeconstructCommonOptions {
+  readonly stack: cdk.Stack;
+  readonly typeRef: reflect.TypeReference;
+  readonly key: string;
+  readonly value: any;
+}
+
+interface DeconstructValueOptions extends DeconstructCommonOptions {
+  readonly optional: boolean;
+}
+
+function deconstructValue(options: DeconstructValueOptions): any {
+  const { typeRef, optional, key, value } = options;
   // console.error('====== deserializer ===================');
   // console.error(`type: ${typeRef}`);
   // console.error(`value: ${JSON.stringify(value, undefined, 2)}`);
@@ -171,117 +194,52 @@ function deserializeValue(
     throw new Error(`Missing required value for ${key} in ${typeRef}`);
   }
 
-  // deserialize arrays
-  if (typeRef.arrayOfType) {
-    if (!Array.isArray(value)) {
-      throw new Error(`Expecting array for ${key} in ${typeRef}`);
-    }
-
-    return value.map((x, i) =>
-      deserializeValue(stack, typeRef.arrayOfType!, false, `${key}[${i}]`, x)
-    );
+  const arr = deconstructArray(options);
+  if (arr) {
+    return arr;
   }
 
-  const asRef = tryResolveRef(value);
-  if (asRef) {
-    if (isConstruct(typeRef)) {
-      return findConstruct(stack, value.Ref);
-    }
-
-    throw new Error(
-      `{ Ref } can only be used when a construct type is expected and this is ${typeRef}. ` +
-        'Use { Fn::GetAtt } to represent specific resource attributes'
-    );
+  const ref = deconstructRef(options);
+  if (ref) {
+    return ref;
   }
 
-  const getAtt = tryResolveGetAtt(value);
+  const getAtt = deconstructGetAtt(options);
   if (getAtt) {
-    const [logical, attr] = getAtt;
-
-    if (isConstruct(typeRef)) {
-      const obj: any = findConstruct(stack, logical);
-      return obj[attr];
-    }
-
-    if (typeRef.primitive === 'string') {
-      // return a lazy value, so we only try to find after all constructs
-      // have been added to the stack.
-      return deconstructGetAtt(stack, logical, attr);
-    }
-
-    throw new Error(
-      `Fn::GetAtt can only be used for string primitives and ${key} is ${typeRef}`
-    );
+    return getAtt;
   }
 
-  // deserialize maps
-  if (typeRef.mapOfType) {
-    if (typeof value !== 'object') {
-      throw new ValidationError(`Expecting object for ${key} in ${typeRef}`);
-    }
-
-    const out: any = {};
-    for (const [k, v] of Object.entries(value)) {
-      out[k] = deserializeValue(
-        stack,
-        typeRef.mapOfType,
-        false,
-        `${key}.${k}`,
-        v
-      );
-    }
-
-    return out;
+  const map = deconstructMap(options);
+  if (map) {
+    return map;
   }
 
-  if (typeRef.unionOfTypes) {
-    const errors = new Array<any>();
-    for (const x of typeRef.unionOfTypes) {
-      try {
-        return deserializeValue(stack, x, optional, key, value);
-      } catch (e) {
-        if (!(e instanceof ValidationError)) {
-          throw e;
-        }
-        errors.push(e);
-        continue;
-      }
-    }
-
-    throw new ValidationError(
-      `Failed to deserialize union. Errors: \n  ${errors
-        .map((e) => e.message)
-        .join('\n  ')}`
-    );
+  const union = deconstructUnion(options);
+  if (union) {
+    return union;
   }
 
-  const enm = deconstructEnum(stack, typeRef, key, value);
+  const enm = deconstructEnum(options);
   if (enm) {
     return enm;
   }
 
   // if this is an interface, deserialize each property
-  const ifc = deconstructInterface(stack, typeRef, key, value);
+  const ifc = deconstructInterface(options);
   if (ifc) {
     return ifc;
-  }
-
-  // if this is an enum type, use the name to dereference
-  if (typeRef.type instanceof reflect.EnumType) {
-    const enumType = resolveType(typeRef.type.fqn);
-    return enumType[value];
   }
 
   if (typeRef.primitive) {
     return value;
   }
 
-  const enumLike = deconstructEnumLike(stack, typeRef, value);
+  const enumLike = deconstructEnumLike(options);
   if (enumLike) {
     return enumLike;
   }
 
-  const asType = deconstructType(stack, typeRef, value);
+  const asType = deconstructType(options);
   if (asType) {
     return asType;
   }
@@ -291,26 +249,135 @@ function deserializeValue(
   );
 }
 
-function deconstructEnum(
-  _stack: cdk.Stack,
-  typeRef: reflect.TypeReference,
-  _key: string,
-  value: any
-) {
+function deconstructRef(options: DeconstructCommonOptions) {
+  const { stack, typeRef, value } = options;
+
+  const asRef = tryResolveRef(value);
+
+  if (!asRef) {
+    return undefined;
+  }
+
+  if (isConstruct(typeRef)) {
+    return findConstruct(stack, value.Ref);
+  }
+
+  throw new Error(
+    `{ Ref } can only be used when a construct type is expected and this is ${typeRef}. ` +
+      'Use { Fn::GetAtt } to represent specific resource attributes'
+  );
+}
+
+function deconstructArray(options: DeconstructCommonOptions) {
+  const { stack, typeRef, key, value } = options;
+
+  if (!typeRef.arrayOfType) {
+    return undefined;
+  }
+
+  if (!Array.isArray(value)) {
+    throw new Error(`Expecting array for ${key} in ${typeRef}`);
+  }
+
+  return value.map((x, i) =>
+    deconstructValue({
+      stack,
+      typeRef: typeRef.arrayOfType!,
+      optional: false,
+      key: `${key}[${i}]`,
+      value: x,
+    })
+  );
+}
+
+function deconstructMap(options: DeconstructCommonOptions) {
+  const { stack, typeRef, key, value } = options;
+
+  if (!typeRef.mapOfType) {
+    return undefined;
+  }
+
+  if (typeof value !== 'object') {
+    throw new ValidationError(`Expecting object for ${key} in ${typeRef}`);
+  }
+
+  const out: Record<string, any> = {};
+  for (const [k, v] of Object.entries(value)) {
+    out[k] = deconstructValue({
+      stack,
+      typeRef: typeRef.mapOfType,
+      optional: false,
+      key: `${key}.${k}`,
+      value: v,
+    });
+  }
+
+  return out;
+}
+
+function deconstructUnion(options: DeconstructCommonOptions) {
+  const { stack, typeRef, key, value } = options;
+
+  if (!typeRef.unionOfTypes) {
+    return undefined;
+  }
+
+  const errors = new Array<any>();
+  for (const x of typeRef.unionOfTypes) {
+    try {
+      return deconstructValue({
+        stack,
+        typeRef: x,
+        optional: false,
+        key,
+        value,
+      });
+    } catch (e) {
+      if (!(e instanceof ValidationError)) {
+        throw e;
+      }
+      errors.push(e);
+      continue;
+    }
+  }
+
+  throw new ValidationError(
+    `Failed to deserialize union. Errors: \n  ${errors
+      .map((e) => e.message)
+      .join('\n  ')}`
+  );
+}
+
+function deconstructEnum(options: DeconstructCommonOptions) {
+  const { typeRef, value } = options;
+
   if (!(typeRef.type instanceof reflect.EnumType)) {
     return undefined;
   }
 
+  if (typeof value !== 'string') {
+    throw new Error(
+      `Enum choice must be a string literal, found ${JSON.stringify(value)}.`
+    );
+  }
+
+  const enumChoice = value.toUpperCase();
   const enumType = resolveType(typeRef.type.fqn);
-  return enumType[value];
+
+  if (!(enumChoice in enumType)) {
+    throw new Error(
+      `Could not find enum choice ${enumChoice} for enum type ${
+        typeRef.type.fqn
+      }. Available options: [${Object.keys(enumType).join(', ')}]`
+    );
+  }
+
+  return enumType[enumChoice];
 }
 
-function deconstructInterface(
-  stack: cdk.Stack,
-  typeRef: reflect.TypeReference,
-  key: string,
-  value: any
-) {
+function deconstructInterface(options: DeconstructCommonOptions) {
+  const { stack, typeRef, key, value } = options;
+
   if (!isSerializableInterface(typeRef.type)) {
     return undefined;
   }
@@ -327,23 +394,21 @@ function deconstructInterface(
       continue;
     }
 
-    out[prop.name] = deserializeValue(
+    out[prop.name] = deconstructValue({
       stack,
-      prop.type,
-      prop.optional,
-      `${key}.${prop.name}`,
-      propValue
-    );
+      typeRef: prop.type,
+      optional: prop.optional,
+      key: `${key}.${prop.name}`,
+      value: propValue,
+    });
   }
 
   return out;
 }
 
-function deconstructEnumLike(
-  stack: cdk.Stack,
-  typeRef: reflect.TypeReference,
-  value: any
-) {
+function deconstructEnumLike(options: DeconstructCommonOptions) {
+  const { stack, typeRef, value } = options;
+
   if (!isEnumLikeClass(typeRef.type)) {
     return undefined;
   }
@@ -363,11 +428,9 @@ function deconstructEnumLike(
   );
 }
 
-function deconstructType(
-  stack: cdk.Stack,
-  typeRef: reflect.TypeReference,
-  value: any
-) {
+function deconstructType(options: DeconstructCommonOptions) {
+  const { stack, typeRef, value } = options;
+
   const schemaDefs: any = {};
   const ctx = SchemaContext.root(schemaDefs);
   const schemaRef = schemaForPolymorphic(typeRef.type, ctx);
@@ -475,24 +538,32 @@ function invokeMethod(
     if (i === method.parameters.length - 1 && isDataType(p.type.type)) {
       // we pass in all parameters are the value, and the positional arguments will be ignored since
       // we are promised there are no conflicts
-      const kwargs = deserializeValue(
+      const kwargs = deconstructValue({
         stack,
-        p.type,
-        p.optional,
-        p.name,
-        parameters
-      );
+        typeRef: p.type,
+        optional: p.optional,
+        key: p.name,
+        value: parameters,
+      });
       args.push(kwargs);
     } else {
-      const val = parameters[p.name];
-      if (val === undefined && !p.optional) {
+      const value = parameters[p.name];
+      if (value === undefined && !p.optional) {
         throw new Error(
           `Missing required parameter '${p.name}' for ${method.parentType.fqn}.${method.name}`
         );
       }
 
-      if (val !== undefined) {
-        args.push(deserializeValue(stack, p.type, p.optional, p.name, val));
+      if (value !== undefined) {
+        args.push(
+          deconstructValue({
+            stack,
+            typeRef: p.type,
+            optional: p.optional,
+            key: p.name,
+            value,
+          })
+        );
       }
     }
   }
@@ -511,6 +582,30 @@ function invokeMethod(
   return methodFn.apply(typeClass, args);
 }
 
+function deconstructGetAtt(options: DeconstructCommonOptions) {
+  const { stack, typeRef, key, value } = options;
+
+  const getAtt = tryResolveGetAtt(value);
+  if (getAtt) {
+    const [logical, attr] = getAtt;
+
+    if (isConstruct(typeRef)) {
+      const obj: any = findConstruct(stack, logical);
+      return obj[attr];
+    }
+
+    if (typeRef.primitive === 'string') {
+      // return a lazy value, so we only try to find after all constructs
+      // have been added to the stack.
+      return produceLazyGetAtt(stack, logical, attr);
+    }
+
+    throw new Error(
+      `Fn::GetAtt can only be used for string primitives and ${key} is ${typeRef}`
+    );
+  }
+}
+
 /**
  * Returns a lazy string that includes a deconstructed Fn::GetAtt to a certain
  * resource or construct.
@@ -519,7 +614,7 @@ function invokeMethod(
  * the property `attribute`. If `id` points to a "raw" resource, the resolved value will be
  * an `Fn::GetAtt`.
  */
-function deconstructGetAtt(stack: cdk.Stack, id: string, attribute: string) {
+function produceLazyGetAtt(stack: cdk.Stack, id: string, attribute: string) {
   return cdk.Lazy.string({
     produce: () => {
       const res = stack.node.tryFindChild(id);
@@ -569,7 +664,7 @@ function processReferences(stack: cdk.Stack) {
       Object.keys(value)[0] === 'Fn::GetAtt'
     ) {
       const [id, attribute] = value['Fn::GetAtt'];
-      return deconstructGetAtt(stack, id, attribute);
+      return produceLazyGetAtt(stack, id, attribute);
     }
 
     if (Array.isArray(value)) {
