@@ -51,13 +51,13 @@
     "json-schema": "^0.4.0",
     "npm-check-updates": "^15",
     "prettier": "^2.7.1",
-    "projen": "^0.58.35",
+    "projen": "^0.59.2",
     "standard-version": "^9",
     "ts-jest": "^27",
     "typescript": "^4.7.4"
   },
   "dependencies": {
-    "aws-cdk-lib": "^2.32.1",
+    "aws-cdk-lib": "^2.33.0",
     "chalk": "^4",
     "constructs": "^10",
     "fs-extra": "^8",
