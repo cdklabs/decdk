@@ -115,3 +115,39 @@ FunctionCalls:
     Arguments: 'live'
     AssignTo: MyAlias # This name can be referenced elsewhere as a regular resource
 ```
+
+## Conciseness
+
+All elements explicitly defined using field names:
+
+```yaml
+Resources:
+  Bla:
+    Type: # either inferred or explicitly declared
+    Target:
+      Ref: MyBucket
+    Method: 'ArnForObjects'
+    Arguments: 
+      - "*.txt"
+```
+
+Resource names and methods inferred from the context:
+
+```yaml
+Resources:
+  Bla:
+    Type: # either inferred or explicitly declared
+    Target: MyBucket # using the name directly (without Ref:). The context makes it clear that this is a reference
+      ArnForObjects: # the context also makes it clear that this is a function name...
+        - "*.txt" # and that this is the parameter list
+```
+
+Using a fully qualified name to identify a method call (with type inference):
+
+```yaml
+Resources:
+  Bla:
+    Type: # either inferred or explicitly declared
+    From: MyBucket::ArnForObjects
+      - "*.txt" # and that this is the parameter list
+```
