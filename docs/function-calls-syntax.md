@@ -137,9 +137,9 @@ Resource names and methods inferred from the context:
 Resources:
   Bla:
     Type: # either inferred or explicitly declared
-      Target: MyBucket # using the name directly (without Ref:). The context makes it clear that this is a reference
-      ArnForObjects: # the context also makes it clear that this is a function name...
-        - "*.txt" # and that this is the parameter list
+    Target: MyBucket # using the name directly (without Ref:). The context makes it clear that this is a reference
+    ArnForObjects: # the context also makes it clear that this is a function name...
+      - "*.txt" # and that this is the parameter list
 ```
 
 Using a fully qualified name to identify a method call (with type inference):
