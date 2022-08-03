@@ -3,6 +3,7 @@ import { tmpdir } from 'os';
 import { join } from 'path';
 import * as cdk from 'aws-cdk-lib';
 import { CfnInclude } from 'aws-cdk-lib/cloudformation-include';
+import { Construct } from 'constructs';
 import * as reflect from 'jsii-reflect';
 import * as jsonschema from 'jsonschema';
 import { renderFullSchema } from './cdk-schema';
@@ -19,6 +20,32 @@ export interface DeclarativeStackProps extends cdk.StackProps {
   typeSystem: reflect.TypeSystem;
   template: any;
   workingDirectory?: string;
+}
+
+function tryAddDependency(
+  resourceProperties: any,
+  resourceIndex: Map<string, Construct>,
+  resource: any
+) {
+  if (resourceProperties.DependsOn != null) {
+    const ref = tryResolveRef(resourceProperties.DependsOn);
+
+    if (ref == null) {
+      throw new Error(
+        `The value of a DependsOn property must be a reference to another construct. Got ${JSON.stringify(
+          resourceProperties.DependsOn
+        )}`
+      );
+    }
+
+    if (resourceIndex.has(ref)) {
+      resource.node.addDependency(resourceIndex.get(ref));
+    } else {
+      throw new Error(
+        `Construct with ID ${ref} not found (it must be defined before it is referenced)`
+      );
+    }
+  }
 }
 
 export class DeclarativeStack extends cdk.Stack {
@@ -44,6 +71,8 @@ export class DeclarativeStack extends cdk.Stack {
       );
     }
 
+    const resourceIndex: Map<string, Construct> = new Map();
+
     // Replace every resource that starts with CDK::
     for (const [logicalId, resourceProps] of Object.entries(
       template.Resources || {}
@@ -65,21 +94,23 @@ export class DeclarativeStack extends cdk.Stack {
 
       // Changing working directory if needed, such that relative paths in the template are resolved relative to the
       // template's location, and not to the current process' CWD.
-      _cwd(
-        props.workingDirectory,
-        () =>
-          new Ctor(
-            this,
-            logicalId,
-            deconstructValue({
-              stack: this,
-              typeRef: propsTypeRef,
-              optional: true,
-              key: 'Properties',
-              value: rprops.Properties,
-            })
-          )
-      );
+      _cwd(props.workingDirectory, () => {
+        const resource = new Ctor(
+          this,
+          logicalId,
+          deconstructValue({
+            stack: this,
+            typeRef: propsTypeRef,
+            optional: true,
+            key: 'Properties',
+            value: rprops.Properties,
+          })
+        );
+
+        resourceIndex.set(logicalId, resource);
+        tryAddDependency(rprops, resourceIndex, resource);
+        return resource;
+      });
 
       delete template.Resources[logicalId];
     }

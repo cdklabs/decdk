@@ -1635,6 +1635,9 @@ Object {
   },
   "Resources": Object {
     "BuildProject097C5DB7": Object {
+      "DependsOn": Array [
+        "Key961B73FD",
+      ],
       "Properties": Object {
         "Artifacts": Object {
           "Type": "CODEPIPELINE",
@@ -1668,6 +1671,9 @@ Object {
       "Type": "AWS::CodeBuild::Project",
     },
     "BuildProjectRoleAA92C755": Object {
+      "DependsOn": Array [
+        "Key961B73FD",
+      ],
       "Properties": Object {
         "AssumeRolePolicyDocument": Object {
           "Statement": Array [
@@ -1685,6 +1691,9 @@ Object {
       "Type": "AWS::IAM::Role",
     },
     "BuildProjectRoleDefaultPolicy3E9F248C": Object {
+      "DependsOn": Array [
+        "Key961B73FD",
+      ],
       "Properties": Object {
         "PolicyDocument": Object {
           "Statement": Array [

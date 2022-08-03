@@ -14,7 +14,8 @@
       "Type": "aws-cdk-lib.aws_codebuild.PipelineProject",
       "Properties": {
         "encryptionKey": { "Ref": "Key" }
-      }
+      },
+      "DependsOn": { "Ref": "Key" }
     },
     "Pipeline": {
       "Type": "aws-cdk-lib.aws_codepipeline.Pipeline",
