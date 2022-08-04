@@ -1905,6 +1905,12 @@ Object {
     },
     "PipelineArtifactsBucket22248F97": Object {
       "DeletionPolicy": "Retain",
+      "DependsOn": Array [
+        "BuildProject097C5DB7",
+        "BuildProjectRoleDefaultPolicy3E9F248C",
+        "BuildProjectRoleAA92C755",
+        "Key961B73FD",
+      ],
       "Properties": Object {
         "BucketEncryption": Object {
           "ServerSideEncryptionConfiguration": Array [
@@ -1933,6 +1939,12 @@ Object {
     },
     "PipelineArtifactsBucketEncryptionKey01D58D69": Object {
       "DeletionPolicy": "Delete",
+      "DependsOn": Array [
+        "BuildProject097C5DB7",
+        "BuildProjectRoleDefaultPolicy3E9F248C",
+        "BuildProjectRoleAA92C755",
+        "Key961B73FD",
+      ],
       "Properties": Object {
         "KeyPolicy": Object {
           "Statement": Array [
@@ -1968,6 +1980,12 @@ Object {
     },
     "PipelineArtifactsBucketEncryptionKeyAlias5C510EEE": Object {
       "DeletionPolicy": "Delete",
+      "DependsOn": Array [
+        "BuildProject097C5DB7",
+        "BuildProjectRoleDefaultPolicy3E9F248C",
+        "BuildProjectRoleAA92C755",
+        "Key961B73FD",
+      ],
       "Properties": Object {
         "AliasName": "alias/codepipeline-testpipeline9942903c",
         "TargetKeyId": Object {
@@ -1981,6 +1999,12 @@ Object {
       "UpdateReplacePolicy": "Delete",
     },
     "PipelineArtifactsBucketPolicyD4F9712A": Object {
+      "DependsOn": Array [
+        "BuildProject097C5DB7",
+        "BuildProjectRoleDefaultPolicy3E9F248C",
+        "BuildProjectRoleAA92C755",
+        "Key961B73FD",
+      ],
       "Properties": Object {
         "Bucket": Object {
           "Ref": "PipelineArtifactsBucket22248F97",
@@ -2028,6 +2052,12 @@ Object {
       "Type": "AWS::S3::BucketPolicy",
     },
     "PipelineBuildCodePipelineActionRoleD77A08E6": Object {
+      "DependsOn": Array [
+        "BuildProject097C5DB7",
+        "BuildProjectRoleDefaultPolicy3E9F248C",
+        "BuildProjectRoleAA92C755",
+        "Key961B73FD",
+      ],
       "Properties": Object {
         "AssumeRolePolicyDocument": Object {
           "Statement": Array [
@@ -2060,6 +2090,12 @@ Object {
       "Type": "AWS::IAM::Role",
     },
     "PipelineBuildCodePipelineActionRoleDefaultPolicyC9CB73F8": Object {
+      "DependsOn": Array [
+        "BuildProject097C5DB7",
+        "BuildProjectRoleDefaultPolicy3E9F248C",
+        "BuildProjectRoleAA92C755",
+        "Key961B73FD",
+      ],
       "Properties": Object {
         "PolicyDocument": Object {
           "Statement": Array [
@@ -2091,6 +2127,10 @@ Object {
     },
     "PipelineC660917D": Object {
       "DependsOn": Array [
+        "BuildProject097C5DB7",
+        "BuildProjectRoleDefaultPolicy3E9F248C",
+        "BuildProjectRoleAA92C755",
+        "Key961B73FD",
         "PipelineRoleDefaultPolicyC7A05455",
         "PipelineRoleD68726F7",
       ],
@@ -2232,6 +2272,12 @@ Object {
       "Type": "AWS::CodePipeline::Pipeline",
     },
     "PipelineDeployCodePipelineActionRole8B83082E": Object {
+      "DependsOn": Array [
+        "BuildProject097C5DB7",
+        "BuildProjectRoleDefaultPolicy3E9F248C",
+        "BuildProjectRoleAA92C755",
+        "Key961B73FD",
+      ],
       "Properties": Object {
         "AssumeRolePolicyDocument": Object {
           "Statement": Array [
@@ -2264,6 +2310,12 @@ Object {
       "Type": "AWS::IAM::Role",
     },
     "PipelineDeployCodePipelineActionRoleDefaultPolicyEE6D615B": Object {
+      "DependsOn": Array [
+        "BuildProject097C5DB7",
+        "BuildProjectRoleDefaultPolicy3E9F248C",
+        "BuildProjectRoleAA92C755",
+        "Key961B73FD",
+      ],
       "Properties": Object {
         "PolicyDocument": Object {
           "Statement": Array [
@@ -2365,6 +2417,12 @@ Object {
       "Type": "AWS::IAM::Policy",
     },
     "PipelineDeployRole97597E3E": Object {
+      "DependsOn": Array [
+        "BuildProject097C5DB7",
+        "BuildProjectRoleDefaultPolicy3E9F248C",
+        "BuildProjectRoleAA92C755",
+        "Key961B73FD",
+      ],
       "Properties": Object {
         "AssumeRolePolicyDocument": Object {
           "Statement": Array [
@@ -2382,6 +2440,12 @@ Object {
       "Type": "AWS::IAM::Role",
     },
     "PipelineDeployRoleDefaultPolicy90429F22": Object {
+      "DependsOn": Array [
+        "BuildProject097C5DB7",
+        "BuildProjectRoleDefaultPolicy3E9F248C",
+        "BuildProjectRoleAA92C755",
+        "Key961B73FD",
+      ],
       "Properties": Object {
         "PolicyDocument": Object {
           "Statement": Array [
@@ -2446,6 +2510,12 @@ Object {
       "Type": "AWS::IAM::Policy",
     },
     "PipelineEventsRole46BEEA7C": Object {
+      "DependsOn": Array [
+        "BuildProject097C5DB7",
+        "BuildProjectRoleDefaultPolicy3E9F248C",
+        "BuildProjectRoleAA92C755",
+        "Key961B73FD",
+      ],
       "Properties": Object {
         "AssumeRolePolicyDocument": Object {
           "Statement": Array [
@@ -2463,6 +2533,12 @@ Object {
       "Type": "AWS::IAM::Role",
     },
     "PipelineEventsRoleDefaultPolicyFF4FCCE0": Object {
+      "DependsOn": Array [
+        "BuildProject097C5DB7",
+        "BuildProjectRoleDefaultPolicy3E9F248C",
+        "BuildProjectRoleAA92C755",
+        "Key961B73FD",
+      ],
       "Properties": Object {
         "PolicyDocument": Object {
           "Statement": Array [
@@ -2506,6 +2582,12 @@ Object {
       "Type": "AWS::IAM::Policy",
     },
     "PipelineRoleD68726F7": Object {
+      "DependsOn": Array [
+        "BuildProject097C5DB7",
+        "BuildProjectRoleDefaultPolicy3E9F248C",
+        "BuildProjectRoleAA92C755",
+        "Key961B73FD",
+      ],
       "Properties": Object {
         "AssumeRolePolicyDocument": Object {
           "Statement": Array [
@@ -2523,6 +2605,12 @@ Object {
       "Type": "AWS::IAM::Role",
     },
     "PipelineRoleDefaultPolicyC7A05455": Object {
+      "DependsOn": Array [
+        "BuildProject097C5DB7",
+        "BuildProjectRoleDefaultPolicy3E9F248C",
+        "BuildProjectRoleAA92C755",
+        "Key961B73FD",
+      ],
       "Properties": Object {
         "PolicyDocument": Object {
           "Statement": Array [
@@ -2622,6 +2710,12 @@ Object {
       "Type": "AWS::IAM::Policy",
     },
     "PipelineSourceCodePipelineActionRoleC6F9E7F5": Object {
+      "DependsOn": Array [
+        "BuildProject097C5DB7",
+        "BuildProjectRoleDefaultPolicy3E9F248C",
+        "BuildProjectRoleAA92C755",
+        "Key961B73FD",
+      ],
       "Properties": Object {
         "AssumeRolePolicyDocument": Object {
           "Statement": Array [
@@ -2654,6 +2748,12 @@ Object {
       "Type": "AWS::IAM::Role",
     },
     "PipelineSourceCodePipelineActionRoleDefaultPolicy2D565925": Object {
+      "DependsOn": Array [
+        "BuildProject097C5DB7",
+        "BuildProjectRoleDefaultPolicy3E9F248C",
+        "BuildProjectRoleAA92C755",
+        "Key961B73FD",
+      ],
       "Properties": Object {
         "PolicyDocument": Object {
           "Statement": Array [

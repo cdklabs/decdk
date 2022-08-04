@@ -79,7 +79,15 @@
             ]
           }
         ]
-      }
+      },
+      "DependsOn": [
+        {
+          "Ref": "Key"
+        },
+        {
+          "Ref": "BuildProject"
+        }
+      ]
     }
   }
 }

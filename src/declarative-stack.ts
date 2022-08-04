@@ -22,32 +22,6 @@ export interface DeclarativeStackProps extends cdk.StackProps {
   workingDirectory?: string;
 }
 
-function tryAddDependency(
-  resourceProperties: any,
-  resourceIndex: Map<string, Construct>,
-  resource: any
-) {
-  if (resourceProperties.DependsOn != null) {
-    const ref = tryResolveRef(resourceProperties.DependsOn);
-
-    if (ref == null) {
-      throw new Error(
-        `The value of a DependsOn property must be a reference to another construct. Got ${JSON.stringify(
-          resourceProperties.DependsOn
-        )}`
-      );
-    }
-
-    if (resourceIndex.has(ref)) {
-      resource.node.addDependency(resourceIndex.get(ref));
-    } else {
-      throw new Error(
-        `Construct with ID ${ref} not found (it must be defined before it is referenced)`
-      );
-    }
-  }
-}
-
 export class DeclarativeStack extends cdk.Stack {
   constructor(scope: cdk.App, id: string, props: DeclarativeStackProps) {
     super(scope, id, {
@@ -678,6 +652,38 @@ function findConstruct(stack: cdk.Stack, id: string) {
     );
   }
   return child;
+}
+
+function tryAddDependency(
+  resourceProperties: any,
+  resourceIndex: Map<string, Construct>,
+  resource: any
+) {
+  if (resourceProperties.DependsOn != null) {
+    const dependencies = Array.isArray(resourceProperties.DependsOn)
+      ? resourceProperties.DependsOn
+      : [resourceProperties.DependsOn];
+
+    for (const dependency of dependencies) {
+      const ref = tryResolveRef(dependency);
+
+      if (ref == null) {
+        throw new Error(
+          `The value of a DependsOn property must be a reference to another construct. Got ${JSON.stringify(
+            resourceProperties.DependsOn
+          )}`
+        );
+      }
+
+      if (resourceIndex.has(ref)) {
+        resource.node.addDependency(resourceIndex.get(ref));
+      } else {
+        throw new Error(
+          `Construct with ID ${ref} not found (it must be defined before it is referenced)`
+        );
+      }
+    }
+  }
 }
 
 function processReferences(stack: cdk.Stack) {
