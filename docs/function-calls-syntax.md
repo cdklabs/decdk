@@ -11,11 +11,11 @@ Explicit, but optional, type declaration for resources constructed by a function
 ```yaml
 Resources:
   MyAccessPoint:
-    Type: AWSCDK::Efs::AccessPoint
+    Type: aws-cdk-lib.aws_efs.AccessPoint
     From:
       AWSCDK::Invoke:
         Target:
-          Ref: MyFileSystem # A resource of type AWSCDK::Efs::FileSystem
+          Ref: MyFileSystem # A resource of type aws-cdk-lib.aws_efs.FileSystem
         Function: 'AddAccessPoint'
         Arguments:
             - 'AccessPoint'
@@ -40,7 +40,7 @@ A special type name to indicate that the result will be inferred:
 ```yaml
 Resources:
   MyBucket:
-    Type: AWSCDK::S3::Bucket
+    Type: aws-cdk-lib.aws_s3.Bucket
     Properties: # ...
   MyBucketGrantResult: # Techinically a resource name, but one that can't be used as a reference anywhere
     Type: AWSCDK::Void
@@ -57,7 +57,7 @@ Calling the function in a special section (`After`) within the resource definiti
 ```yaml
 Resources:
   MyBucket:
-    Type: AWSCDK::S3::Bucket
+    Type: aws-cdk-lib.aws_s3.Bucket
     Properties: # ...
     After:
       - AWSCDK::Invoke:
@@ -83,11 +83,11 @@ Inline:
 ```yaml
 Resources:
   MyLambda:
-    Type: AWSCDK::Lambda::Function
+    Type: aws-cdk-lib.aws_lambda.Function
     Properties:
       # ...
   MyDataSource:
-    Type: AWSCDK::AppSync::LambdaDataSource
+    Type: aws-cdk-lib.aws_appsync..LambdaDataSource
     Properties:
       # ...
       Lambda: # expects an IFunction
