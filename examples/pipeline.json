@@ -7,14 +7,14 @@
         "repositoryName": "my-first-decdk-repo"
       }
     },
-    "Key": {
-      "Type": "aws-cdk-lib.aws_kms.Key"
-    },
     "BuildProject": {
       "Type": "aws-cdk-lib.aws_codebuild.PipelineProject",
       "Properties": {
         "encryptionKey": { "Ref": "Key" }
       }
+    },
+    "Key": {
+      "Type": "aws-cdk-lib.aws_kms.Key"
     },
     "Pipeline": {
       "Type": "aws-cdk-lib.aws_codepipeline.Pipeline",
