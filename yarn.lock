@@ -44,9 +44,9 @@
     semver "^6.3.0"
 
 "@babel/generator@^7.18.10", "@babel/generator@^7.7.2":
-  version "7.18.10"
-  resolved "https://registry.yarnpkg.com/@babel/generator/-/generator-7.18.10.tgz#794f328bfabdcbaf0ebf9bf91b5b57b61fa77a2a"
-  integrity sha512-0+sW7e3HjQbiHbj1NeU/vN8ornohYlacAfZIaXhdoGweQqgcNy69COVciYYqEXJ/v+9OBA7Frxm4CVAuNqKeNA==
+  version "7.18.12"
+  resolved "https://registry.yarnpkg.com/@babel/generator/-/generator-7.18.12.tgz#fa58daa303757bd6f5e4bbca91b342040463d9f4"
+  integrity sha512-dfQ8ebCN98SvyL7IxNMCUtZQSq5R7kxgN+r8qYTGDmmSion1hX2C0zq2yo1bsCDhXixokv1SAWTZUMYbO/V5zg==
   dependencies:
     "@babel/types" "^7.18.10"
     "@jridgewell/gen-mapping" "^0.3.2"
@@ -914,10 +914,10 @@
   dependencies:
     "@types/yargs-parser" "*"
 
-"@types/yargs@^17.0.10":
-  version "17.0.10"
-  resolved "https://registry.yarnpkg.com/@types/yargs/-/yargs-17.0.10.tgz#591522fce85d8739bca7b8bb90d048e4478d186a"
-  integrity sha512-gmEaFwpj/7f/ROdtIlci1R1VYU1J4j95m8T+Tj3iBgiBFKg1foE/PSl93bBd5T9LDXNPo8UlNN6W0qwD8O5OaA==
+"@types/yargs@^17.0.11":
+  version "17.0.11"
+  resolved "https://registry.yarnpkg.com/@types/yargs/-/yargs-17.0.11.tgz#5e10ca33e219807c0eee0f08b5efcba9b6a42c06"
+  integrity sha512-aB4y9UDUXTSMxmM4MH+YnuR0g5Cph3FLQBoWoMB21DSvFVAxRVEHEMx3TLh+zUZYMCQtKiqazz0Q4Rre31f/OA==
   dependencies:
     "@types/yargs-parser" "*"
 
@@ -1406,9 +1406,9 @@ cacache@^16.0.0, cacache@^16.1.0:
     unique-filename "^1.1.1"
 
 cacheable-lookup@^6.0.4:
-  version "6.0.4"
-  resolved "https://registry.yarnpkg.com/cacheable-lookup/-/cacheable-lookup-6.0.4.tgz#65c0e51721bb7f9f2cb513aed6da4a1b93ad7dc8"
-  integrity sha512-mbcDEZCkv2CZF4G01kr8eBd/5agkt9oCqz75tJMSIsquvRZ2sL6Hi5zGVKi/0OSC9oO1GHfJ2AV0ZIOY9vye0A==
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/cacheable-lookup/-/cacheable-lookup-6.1.0.tgz#0330a543471c61faa4e9035db583aad753b36385"
+  integrity sha512-KJ/Dmo1lDDhmW2XDPMo+9oiy/CeqosPguPCrgcVzKyZrL6pM1gU2GmPY/xo6OQPTUaA/c0kwHuywB4E6nmT9ww==
 
 cacheable-request@^7.0.2:
   version "7.0.2"
@@ -1657,9 +1657,9 @@ console-control-strings@^1.1.0:
   integrity sha512-ty/fTekppD2fIwRvnZAVdeOiGd1c7YXEixbgJTNzqcxJWKQnjJ/V1bNEEE6hygpM3WjwHFUVK6HTjWSzV4a8sQ==
 
 constructs@^10:
-  version "10.1.67"
-  resolved "https://registry.yarnpkg.com/constructs/-/constructs-10.1.67.tgz#8a8e1a30228c0cc9c2af20c777d92f1f28323564"
-  integrity sha512-KhzH9QQmlgRRqwL5/+Arg/e9Nk7XAwYV4kBHNYf9cpRluACdaDSTJV2JPICwioWHSdkHoq8ChtQAgIq5KcNEnA==
+  version "10.1.68"
+  resolved "https://registry.yarnpkg.com/constructs/-/constructs-10.1.68.tgz#2fdd1b2bf7330dbb8323d94fe0429e85af702361"
+  integrity sha512-UsWVyGg+6YMRTRiDr/+TGWaFJ5tYCEuiHonpYu+yY6z9hdmZ81NsA7jHkCrCq/iVHa5zsx9MEIQ/cYWnT4SZ7Q==
 
 conventional-changelog-angular@^5.0.12:
   version "5.0.13"
@@ -4827,10 +4827,10 @@ progress@^2.0.3:
   resolved "https://registry.yarnpkg.com/progress/-/progress-2.0.3.tgz#7e8cf8d8f5b8f239c1bc68beb4eb78567d572ef8"
   integrity sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==
 
-projen@^0.60.17:
-  version "0.60.17"
-  resolved "https://registry.yarnpkg.com/projen/-/projen-0.60.17.tgz#f98afa986807c8052eefd0691aab2ea7ff142ba5"
-  integrity sha512-kzSkn+0MJrcPov3mvcvwShlOzGM6NDStvGNePPznodQP6Q9NWWistGgcu4S8+pP+REHy3UB0Zj/HeRyK8jfq1Q==
+projen@^0.61.0:
+  version "0.61.0"
+  resolved "https://registry.yarnpkg.com/projen/-/projen-0.61.0.tgz#1969550a2d092d9e7ee715ec7e4c1aa7649f414a"
+  integrity sha512-rH4cTJsrZlgJKErCw7nOcILeKdgW2XxQC+I+/xF4ztybgCEiqN4xAtdynetgfwtWt5Wd6X3QU3RyvWbEFahtNg==
   dependencies:
     "@iarna/toml" "^2.2.5"
     case "^1.6.3"
