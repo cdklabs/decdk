@@ -8,6 +8,7 @@ import { tryResolveRef } from './deconstruction';
 export function topologicalSort(resources: any): [string, any][] {
   const stack: string[] = [];
   const sorted: string[] = [];
+  const visited: Set<string> = new Set();
   Object.keys(resources).forEach(visit);
   return sorted.map((id: string) => [id, resources[id]]);
 
@@ -26,25 +27,23 @@ export function topologicalSort(resources: any): [string, any][] {
     assertNoCycle(id);
 
     // No cycle detected. Proceed with the DFS
-    if (!hasBeenVisited(id)) {
+    if (!visited.has(id)) {
       stack.push(id);
       adjacent(id).forEach(visit);
       stack.pop();
       sorted.push(id);
+      visited.add(id);
     }
   }
 
   function assertNoCycle(id: string) {
-    // Since we're going depth-first, the stack corresponds to a path in the graph;
-    // So if any node appears again, we have a back edge, which creates a cycle.
+    // Since we're going depth-first, the stack corresponds to a path in the graph.
+    // So if any node appears twice in the stack, it means we have a back edge and,
+    // therefore, a cycle.
     if (stack.includes(id)) {
       const path = stack.concat(id).slice(stack.indexOf(id)).join(' -> ');
       throw new Error(`Cycle detected: ${path}`);
     }
-  }
-
-  function hasBeenVisited(id: string): boolean {
-    return sorted.includes(id);
   }
 
   /**
