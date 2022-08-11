@@ -178,6 +178,12 @@ Object {
           ],
         },
         "Runtime": "python3.6",
+        "Tags": Array [
+          Object {
+            "Key": "category",
+            "Value": "ecommerce",
+          },
+        ],
       },
       "Type": "AWS::Lambda::Function",
     },
@@ -207,6 +213,12 @@ Object {
                 ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
               ],
             ],
+          },
+        ],
+        "Tags": Array [
+          Object {
+            "Key": "category",
+            "Value": "ecommerce",
           },
         ],
       },
@@ -1053,6 +1065,7 @@ Object {
           ],
           "Version": "2012-10-17",
         },
+        "Description": "This value has been overridden",
         "ManagedPolicyArns": Array [
           Object {
             "Fn::Join": Array [
@@ -1464,6 +1477,70 @@ Object {
         },
       },
       "Type": "AWS::Lambda::Permission",
+    },
+  },
+  "Rules": Object {
+    "CheckBootstrapVersion": Object {
+      "Assertions": Array [
+        Object {
+          "Assert": Object {
+            "Fn::Not": Array [
+              Object {
+                "Fn::Contains": Array [
+                  Array [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  Object {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`lambda-role-removed.json 1`] = `
+Object {
+  "Parameters": Object {
+    "BootstrapVersion": Object {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": Object {
+    "LambdaD247545B": Object {
+      "DependsOn": Array [
+        "LambdaServiceRoleA8ED4D3B",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+          },
+          "S3Key": "1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0.zip",
+        },
+        "Description": "This function has its service role removed, for demonstration purposes. You probably wouldn't do this in a real function",
+        "Handler": "index.handler",
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "LambdaServiceRoleA8ED4D3B",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs",
+      },
+      "Type": "AWS::Lambda::Function",
     },
   },
   "Rules": Object {
@@ -2730,12 +2807,24 @@ Object {
       "Type": "AWS::IAM::Policy",
     },
     "Repo02AC86CF": Object {
+      "DependsOn": Array [
+        "BuildProject097C5DB7",
+        "BuildProjectRoleDefaultPolicy3E9F248C",
+        "BuildProjectRoleAA92C755",
+        "Key961B73FD",
+      ],
       "Properties": Object {
         "RepositoryName": "my-first-decdk-repo",
       },
       "Type": "AWS::CodeCommit::Repository",
     },
     "RepoTestPipeline9942903CEventRule83B9BC8D": Object {
+      "DependsOn": Array [
+        "BuildProject097C5DB7",
+        "BuildProjectRoleDefaultPolicy3E9F248C",
+        "BuildProjectRoleAA92C755",
+        "Key961B73FD",
+      ],
       "Properties": Object {
         "EventPattern": Object {
           "detail": Object {
@@ -2911,7 +3000,6 @@ Object {
     "MyQueueKey6C31ABF3": Object {
       "DeletionPolicy": "Retain",
       "Properties": Object {
-        "Description": "Created by Test/MyQueue",
         "KeyPolicy": Object {
           "Statement": Array [
             Object {

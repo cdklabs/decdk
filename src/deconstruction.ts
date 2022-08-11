@@ -1,5 +1,7 @@
 import * as cdk from 'aws-cdk-lib';
+import { CfnResource, Tags } from 'aws-cdk-lib';
 import { CfnInclude } from 'aws-cdk-lib/cloudformation-include';
+import { IConstruct } from 'constructs';
 import * as reflect from 'jsii-reflect';
 import {
   isConstruct,
@@ -9,6 +11,26 @@ import {
   SchemaContext,
   schemaForPolymorphic,
 } from './jsii2schema';
+
+export interface Tag {
+  Key: string;
+  Value: string;
+}
+
+export interface Override {
+  ResourcePath: string;
+  Update: { Path: string; Value: any };
+  Delete?: { Path: string };
+  RemoveResource?: boolean;
+}
+
+export interface DeclarativeResource {
+  Type: string;
+  Properties?: any;
+  Overrides?: Override[];
+  DependsOn?: string | string[];
+  Tags?: Tag[];
+}
 
 export function resolveType(fqn: string) {
   const [mod, ...className] = fqn.split('.');
@@ -616,5 +638,85 @@ export function _cwd<T>(workDir: string | undefined, cb: () => T): T {
     return cb();
   } finally {
     process.chdir(prevWd);
+  }
+}
+
+export function applyDependency(
+  stack: cdk.Stack,
+  resource: IConstruct,
+  dependsOn?: string | string[]
+) {
+  if (dependsOn != null) {
+    const dependencyIds = Array.isArray(dependsOn) ? dependsOn : [dependsOn];
+
+    for (const id of dependencyIds) {
+      const dependency = stack.node.tryFindChild(id);
+      if (dependency == null) {
+        throw new Error(
+          `Resource '${id}', listed as a dependency of '${resource.node.id}', does not exist in the template`
+        );
+      }
+
+      resource.node.addDependency(dependency);
+    }
+  }
+}
+
+export function applyTags(resource: IConstruct, tags: Tag[] = []) {
+  tags.forEach((tag: Tag) => {
+    Tags.of(resource).add(tag.Key, tag.Value);
+  });
+}
+
+export function applyOverrides(
+  resource: IConstruct,
+  overrides: Override[] = []
+) {
+  overrides.forEach((override: Override) => {
+    validate(override);
+
+    if (override.RemoveResource === true) {
+      resource.node.tryRemoveChild(override.ResourcePath);
+    } else if (override.Update != null) {
+      const descendent = resolvePath(resource, override.ResourcePath);
+      const { Path, Value } = override.Update;
+      descendent.addOverride(Path, Value);
+    } else if (override.Delete != null) {
+      const descendent = resolvePath(resource, override.ResourcePath);
+      descendent.addDeletionOverride(override.Delete.Path);
+    }
+  });
+
+  function validate(override: Override) {
+    const actions = [override.RemoveResource, override.Update, override.Delete];
+    if (actions.filter((action) => action != null).length !== 1) {
+      throw new Error(
+        "Exactly one of these actions should be provided in an Override: 'RemoveResource', 'Update' or 'Delete'"
+      );
+    }
+  }
+}
+
+function resolvePath(root: IConstruct, path: string): CfnResource {
+  const ids = path.split('.');
+  const destination = ids.reduce(descend, root);
+  if (CfnResource.isCfnResource(destination)) {
+    return destination;
+  } else if (
+    destination.node.defaultChild != null &&
+    CfnResource.isCfnResource(destination.node.defaultChild)
+  ) {
+    return destination.node.defaultChild;
+  }
+  throw new Error(
+    `Resource ${path} does not have a default child. Please specify the Cfn resource`
+  );
+
+  function descend(construct: IConstruct, id: string): IConstruct {
+    const child = construct.node.tryFindChild(id);
+    if (child == null) {
+      throw new Error(`${id} does not exist`);
+    }
+    return child;
   }
 }

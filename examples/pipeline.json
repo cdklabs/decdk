@@ -5,7 +5,8 @@
       "Type": "aws-cdk-lib.aws_codecommit.Repository",
       "Properties": {
         "repositoryName": "my-first-decdk-repo"
-      }
+      },
+      "DependsOn": ["Key", "BuildProject"]
     },
     "BuildProject": {
       "Type": "aws-cdk-lib.aws_codebuild.PipelineProject",

@@ -31,7 +31,14 @@
           { "aws-cdk-lib.aws_lambda_event_sources.ApiEventSource": { "method": "POST", "path": "/hello" } },
           { "aws-cdk-lib.aws_lambda_event_sources.SnsEventSource": { "topic": { "Ref": "MyTopic" } } }
         ]
-      }
+      },
+      "Overrides": [{
+        "ResourcePath": "ServiceRole",
+        "Update": {
+          "Path": "Properties.Description",
+          "Value": "This value has been overridden"
+        }
+      }]
     }
   }
 }

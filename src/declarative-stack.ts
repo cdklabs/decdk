@@ -7,11 +7,14 @@ import * as reflect from 'jsii-reflect';
 import * as jsonschema from 'jsonschema';
 import { renderFullSchema } from './cdk-schema';
 import {
-  isCfnResourceType,
-  deconstructValue,
   _cwd,
+  applyOverrides,
+  deconstructValue,
+  isCfnResourceType,
   processReferences,
   resolveType,
+  applyDependency,
+  applyTags,
   ValidationError,
 } from './deconstruction';
 import { topologicalSort } from './toposort';
@@ -45,9 +48,8 @@ export class DeclarativeStack extends cdk.Stack {
       );
     }
 
-    for (const [logicalId, resourceProps] of topologicalSort(
-      template.Resources ?? {}
-    )) {
+    const sortedResources = topologicalSort(template.Resources ?? {});
+    for (const [logicalId, resourceProps] of sortedResources) {
       const rprops: any = resourceProps;
       if (!rprops.Type) {
         throw new Error('Resource is missing type: ' + JSON.stringify(rprops));
@@ -63,21 +65,22 @@ export class DeclarativeStack extends cdk.Stack {
 
       // Changing working directory if needed, such that relative paths in the template are resolved relative to the
       // template's location, and not to the current process' CWD.
-      _cwd(
-        props.workingDirectory,
-        () =>
-          new Ctor(
-            this,
-            logicalId,
-            deconstructValue({
-              stack: this,
-              typeRef: propsTypeRef,
-              optional: true,
-              key: 'Properties',
-              value: rprops.Properties,
-            })
-          )
-      );
+      _cwd(props.workingDirectory, () => {
+        const resource = new Ctor(
+          this,
+          logicalId,
+          deconstructValue({
+            stack: this,
+            typeRef: propsTypeRef,
+            optional: true,
+            key: 'Properties',
+            value: rprops.Properties,
+          })
+        );
+        applyDependency(this, resource, rprops.DependsOn);
+        applyTags(resource, rprops.Tags);
+        applyOverrides(resource, rprops.Overrides);
+      });
 
       delete template.Resources[logicalId];
     }

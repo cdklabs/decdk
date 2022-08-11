@@ -8,31 +8,13 @@ describe('Topological sort', () => {
       },
       Foo: {
         Type: 'cdk.Foo',
-        Properties: {
-          bar: { Ref: 'Bar' },
-        },
+        DependsOn: 'Bar',
       },
     };
 
     const sorted = topologicalSort(resources);
 
-    expect(sorted).toEqual([
-      [
-        'Bar',
-        {
-          Type: 'cdk.Bar',
-        },
-      ],
-      [
-        'Foo',
-        {
-          Type: 'cdk.Foo',
-          Properties: {
-            bar: { Ref: 'Bar' },
-          },
-        },
-      ],
-    ]);
+    expect(sorted.map(toId)).toEqual(['Bar', 'Foo']);
   });
 
   test('not sorted', () => {
@@ -50,23 +32,7 @@ describe('Topological sort', () => {
 
     const sorted = topologicalSort(resources);
 
-    expect(sorted).toEqual([
-      [
-        'Bar',
-        {
-          Type: 'cdk.Bar',
-        },
-      ],
-      [
-        'Foo',
-        {
-          Type: 'cdk.Foo',
-          Properties: {
-            bar: { Ref: 'Bar' },
-          },
-        },
-      ],
-    ]);
+    expect(sorted.map(toId)).toEqual(['Bar', 'Foo']);
   });
 
   test('disconnected graph', () => {
@@ -74,7 +40,7 @@ describe('Topological sort', () => {
       A: {
         Type: 'cdk.Foo',
         Properties: {
-          bar: { Ref: 'B' },
+          bar: { 'Fn::GetAtt': ['B', 'name'] },
         },
       },
       B: {
@@ -93,38 +59,7 @@ describe('Topological sort', () => {
 
     const sorted = topologicalSort(resources);
 
-    expect(sorted).toEqual([
-      [
-        'B',
-        {
-          Type: 'cdk.Foo',
-        },
-      ],
-      [
-        'A',
-        {
-          Type: 'cdk.Foo',
-          Properties: {
-            bar: { Ref: 'B' },
-          },
-        },
-      ],
-      [
-        'C',
-        {
-          Type: 'cdk.Foo',
-        },
-      ],
-      [
-        'D',
-        {
-          Type: 'cdk.Foo',
-          Properties: {
-            bar: [{ Ref: 'C' }],
-          },
-        },
-      ],
-    ]);
+    expect(sorted.map(toId)).toEqual(['B', 'A', 'C', 'D']);
   });
 
   test('cycles', () => {
@@ -154,3 +89,7 @@ describe('Topological sort', () => {
     );
   });
 });
+
+function toId(entry: [string, any]): string {
+  return entry[0];
+}
