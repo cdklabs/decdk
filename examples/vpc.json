@@ -2,7 +2,17 @@
   "$schema": "../cdk.schema.json",
   "Resources": {
     "VPC": {
-      "Type": "aws-cdk-lib.aws_ec2.Vpc"
+      "Type": "aws-cdk-lib.aws_ec2.Vpc",
+      "Tags": [
+        {
+          "Key": "keyname1",
+          "Value": "value1"
+        },
+        {
+          "Key": "keyname2",
+          "Value": "value2"
+        }
+      ]
     }
   }
 }

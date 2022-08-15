@@ -2,6 +2,7 @@ import { mkdtempSync, writeFileSync } from 'fs';
 import { tmpdir } from 'os';
 import { join } from 'path';
 import * as cdk from 'aws-cdk-lib';
+import { Tags } from 'aws-cdk-lib';
 import { CfnInclude } from 'aws-cdk-lib/cloudformation-include';
 import * as reflect from 'jsii-reflect';
 import * as jsonschema from 'jsonschema';
@@ -65,21 +66,28 @@ export class DeclarativeStack extends cdk.Stack {
 
       // Changing working directory if needed, such that relative paths in the template are resolved relative to the
       // template's location, and not to the current process' CWD.
-      _cwd(
-        props.workingDirectory,
-        () =>
-          new Ctor(
-            this,
-            logicalId,
-            deconstructValue({
-              stack: this,
-              typeRef: propsTypeRef,
-              optional: true,
-              key: 'Properties',
-              value: rprops.Properties,
-            })
-          )
-      );
+      _cwd(props.workingDirectory, () => {
+        const construct = new Ctor(
+          this,
+          logicalId,
+          deconstructValue({
+            stack: this,
+            typeRef: propsTypeRef,
+            optional: true,
+            key: 'Properties',
+            value: rprops.Properties,
+          })
+        );
+
+        if (rprops.Tags) {
+          const tags = Tags.of(construct);
+          (rprops.Tags as { Key: string; Value: string }[]).forEach(
+            ({ Key, Value }) => tags.add(Key, Value)
+          );
+        }
+
+        return construct;
+      });
 
       delete template.Resources[logicalId];
     }

@@ -106,6 +106,12 @@ export function schemaForResource(
           enum: [construct.constructClass.fqn],
           type: 'string',
         },
+        Tags: {
+          type: 'array',
+          items: {
+            $ref: '#/definitions/Tag',
+          },
+        },
       },
     };
   });
