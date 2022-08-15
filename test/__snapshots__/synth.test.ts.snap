@@ -2993,6 +2993,14 @@ Object {
         "InstanceTenancy": "default",
         "Tags": Array [
           Object {
+            "Key": "keyname1",
+            "Value": "value1",
+          },
+          Object {
+            "Key": "keyname2",
+            "Value": "value2",
+          },
+          Object {
             "Key": "Name",
             "Value": "Test/VPC",
           },
@@ -3003,6 +3011,14 @@ Object {
     "VPCIGWB7E252D3": Object {
       "Properties": Object {
         "Tags": Array [
+          Object {
+            "Key": "keyname1",
+            "Value": "value1",
+          },
+          Object {
+            "Key": "keyname2",
+            "Value": "value2",
+          },
           Object {
             "Key": "Name",
             "Value": "Test/VPC",
@@ -3038,6 +3054,14 @@ Object {
       "Properties": Object {
         "Tags": Array [
           Object {
+            "Key": "keyname1",
+            "Value": "value1",
+          },
+          Object {
+            "Key": "keyname2",
+            "Value": "value2",
+          },
+          Object {
             "Key": "Name",
             "Value": "Test/VPC/PrivateSubnet1",
           },
@@ -3070,6 +3094,14 @@ Object {
             "Value": "Private",
           },
           Object {
+            "Key": "keyname1",
+            "Value": "value1",
+          },
+          Object {
+            "Key": "keyname2",
+            "Value": "value2",
+          },
+          Object {
             "Key": "Name",
             "Value": "Test/VPC/PrivateSubnet1",
           },
@@ -3095,6 +3127,14 @@ Object {
     "VPCPrivateSubnet2RouteTable0A19E10E": Object {
       "Properties": Object {
         "Tags": Array [
+          Object {
+            "Key": "keyname1",
+            "Value": "value1",
+          },
+          Object {
+            "Key": "keyname2",
+            "Value": "value2",
+          },
           Object {
             "Key": "Name",
             "Value": "Test/VPC/PrivateSubnet2",
@@ -3139,6 +3179,14 @@ Object {
             "Value": "Private",
           },
           Object {
+            "Key": "keyname1",
+            "Value": "value1",
+          },
+          Object {
+            "Key": "keyname2",
+            "Value": "value2",
+          },
+          Object {
             "Key": "Name",
             "Value": "Test/VPC/PrivateSubnet2",
           },
@@ -3169,6 +3217,14 @@ Object {
         "Domain": "vpc",
         "Tags": Array [
           Object {
+            "Key": "keyname1",
+            "Value": "value1",
+          },
+          Object {
+            "Key": "keyname2",
+            "Value": "value2",
+          },
+          Object {
             "Key": "Name",
             "Value": "Test/VPC/PublicSubnet1",
           },
@@ -3188,6 +3244,14 @@ Object {
           "Ref": "VPCPublicSubnet1SubnetB4246D30",
         },
         "Tags": Array [
+          Object {
+            "Key": "keyname1",
+            "Value": "value1",
+          },
+          Object {
+            "Key": "keyname2",
+            "Value": "value2",
+          },
           Object {
             "Key": "Name",
             "Value": "Test/VPC/PublicSubnet1",
@@ -3210,6 +3274,14 @@ Object {
     "VPCPublicSubnet1RouteTableFEE4B781": Object {
       "Properties": Object {
         "Tags": Array [
+          Object {
+            "Key": "keyname1",
+            "Value": "value1",
+          },
+          Object {
+            "Key": "keyname2",
+            "Value": "value2",
+          },
           Object {
             "Key": "Name",
             "Value": "Test/VPC/PublicSubnet1",
@@ -3243,6 +3315,14 @@ Object {
             "Value": "Public",
           },
           Object {
+            "Key": "keyname1",
+            "Value": "value1",
+          },
+          Object {
+            "Key": "keyname2",
+            "Value": "value2",
+          },
+          Object {
             "Key": "Name",
             "Value": "Test/VPC/PublicSubnet1",
           },
@@ -3273,6 +3353,14 @@ Object {
         "Domain": "vpc",
         "Tags": Array [
           Object {
+            "Key": "keyname1",
+            "Value": "value1",
+          },
+          Object {
+            "Key": "keyname2",
+            "Value": "value2",
+          },
+          Object {
             "Key": "Name",
             "Value": "Test/VPC/PublicSubnet2",
           },
@@ -3293,6 +3381,14 @@ Object {
         },
         "Tags": Array [
           Object {
+            "Key": "keyname1",
+            "Value": "value1",
+          },
+          Object {
+            "Key": "keyname2",
+            "Value": "value2",
+          },
+          Object {
             "Key": "Name",
             "Value": "Test/VPC/PublicSubnet2",
           },
@@ -3303,6 +3399,14 @@ Object {
     "VPCPublicSubnet2RouteTable6F1A15F1": Object {
       "Properties": Object {
         "Tags": Array [
+          Object {
+            "Key": "keyname1",
+            "Value": "value1",
+          },
+          Object {
+            "Key": "keyname2",
+            "Value": "value2",
+          },
           Object {
             "Key": "Name",
             "Value": "Test/VPC/PublicSubnet2",
@@ -3345,6 +3449,14 @@ Object {
           Object {
             "Key": "aws-cdk:subnet-type",
             "Value": "Public",
+          },
+          Object {
+            "Key": "keyname1",
+            "Value": "value1",
+          },
+          Object {
+            "Key": "keyname2",
+            "Value": "value2",
           },
           Object {
             "Key": "Name",
