@@ -1,6 +1,7 @@
-const { typescript } = require('projen');
+import { typescript } from 'projen';
 
 const project = new typescript.TypeScriptProject({
+  projenrcTs: true,
   defaultReleaseBranch: 'main',
   name: 'decdk',
   description:
