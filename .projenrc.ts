@@ -35,6 +35,8 @@ const project = new typescript.TypeScriptProject({
       singleQuote: true,
     },
   },
+
+  gitignore: ['cdk.schema.json', 'cdk.out'],
 });
 
 // resolve @types/prettier@2.6.0 conflicts with
