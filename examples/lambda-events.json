@@ -26,10 +26,29 @@
           "Param": "f"
         },
         "events": [
-          { "aws-cdk-lib.aws_lambda_event_sources.DynamoEventSource": { "table": { "Ref": "Table" }, "startingPosition": "TRIM_HORIZON" } },
-          { "aws-cdk-lib.aws_lambda_event_sources.ApiEventSource": { "method": "GET", "path": "/hello" } },
-          { "aws-cdk-lib.aws_lambda_event_sources.ApiEventSource": { "method": "POST", "path": "/hello" } },
-          { "aws-cdk-lib.aws_lambda_event_sources.SnsEventSource": { "topic": { "Ref": "MyTopic" } } }
+          {
+            "aws-cdk-lib.aws_lambda_event_sources.DynamoEventSource": {
+              "table": { "Ref": "Table" },
+              "startingPosition": "TRIM_HORIZON"
+            }
+          },
+          {
+            "aws-cdk-lib.aws_lambda_event_sources.ApiEventSource": {
+              "method": "GET",
+              "path": "/hello"
+            }
+          },
+          {
+            "aws-cdk-lib.aws_lambda_event_sources.ApiEventSource": {
+              "method": "POST",
+              "path": "/hello"
+            }
+          },
+          {
+            "aws-cdk-lib.aws_lambda_event_sources.SnsEventSource": {
+              "topic": { "Ref": "MyTopic" }
+            }
+          }
         ]
       }
     }
