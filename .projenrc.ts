@@ -1,6 +1,7 @@
-const { typescript } = require('projen');
+import { typescript } from 'projen';
 
 const project = new typescript.TypeScriptProject({
+  projenrcTs: true,
   defaultReleaseBranch: 'main',
   name: 'decdk',
   description:
@@ -34,6 +35,8 @@ const project = new typescript.TypeScriptProject({
       singleQuote: true,
     },
   },
+
+  gitignore: ['cdk.schema.json', 'cdk.out'],
 });
 
 // resolve @types/prettier@2.6.0 conflicts with

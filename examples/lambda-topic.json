@@ -11,7 +11,11 @@
         "runtime": "NODEJS",
         "handler": "index.handler",
         "events": [
-          { "aws-cdk-lib.aws_lambda_event_sources.SnsEventSource": { "topic": { "Ref": "Topic" } } }
+          {
+            "aws-cdk-lib.aws_lambda_event_sources.SnsEventSource": {
+              "topic": { "Ref": "Topic" }
+            }
+          }
         ]
       }
     }

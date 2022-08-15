@@ -31,6 +31,8 @@ jspm_packages/
 *.tgz
 .yarn-integrity
 .cache
+cdk.schema.json
+cdk.out
 !/.projenrc.js
 /test-reports/
 junit.xml
