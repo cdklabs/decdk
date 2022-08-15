@@ -1,4 +1,4 @@
-import { typescript } from 'projen';
+import { JsonFile, typescript, vscode } from 'projen';
 
 const project = new typescript.TypeScriptProject({
   projenrcTs: true,
@@ -46,5 +46,56 @@ project.addFields({
     '@types/prettier': '2.6.0',
   },
 });
+
+// VSCode
+new JsonFile(project, '.vscode/extensions.json', {
+  readonly: false,
+  marker: false,
+  obj: {
+    recommendations: [
+      'dbaeumer.vscode-eslint',
+      'esbenp.prettier-vscode',
+      'orta.vscode-jest',
+    ],
+  },
+});
+
+new JsonFile(project, '.vscode/settings.json', {
+  readonly: false,
+  marker: false,
+  obj: {
+    'editor.defaultFormatter': 'esbenp.prettier-vscode',
+    'eslint.format.enable': true,
+    '[javascript]': {
+      'editor.defaultFormatter': 'dbaeumer.vscode-eslint',
+    },
+    '[typescript]': {
+      'editor.defaultFormatter': 'dbaeumer.vscode-eslint',
+    },
+    'jest.autoRun': 'off',
+    'jest.jestCommandLine': './node_modules/.bin/jest',
+  },
+});
+
+new vscode.VsCode(project).launchConfiguration.addConfiguration({
+  type: 'node',
+  name: 'vscode-jest-tests.v2',
+  request: 'launch',
+  internalConsoleOptions: vscode.InternalConsoleOptions.NEVER_OPEN,
+  program: '${workspaceFolder}/node_modules/.bin/jest',
+  args: [
+    '--runInBand',
+    '--watchAll=false',
+    '--testNamePattern',
+    '${jest.testNamePattern}',
+    '--runTestsByPath',
+    '${jest.testFile}',
+  ],
+});
+// The following options are currently not supported by projen
+const launchConfig = project.tryFindObjectFile('.vscode/launch.json');
+launchConfig?.addOverride('configurations.0.console', 'integratedTerminal');
+launchConfig?.addOverride('configurations.0.disableOptimisticBPs', true);
+launchConfig?.addOverride('configurations.0.cwd', '${workspaceFolder}');
 
 project.synth();
