@@ -36,6 +36,13 @@ const project = new typescript.TypeScriptProject({
     },
   },
 
+  tsconfig: {
+    compilerOptions: {
+      target: 'ES2020',
+      lib: ['es2020'],
+    },
+  },
+
   gitignore: ['cdk.schema.json', 'cdk.out'],
 });
 
