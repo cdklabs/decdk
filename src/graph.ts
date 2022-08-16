@@ -9,7 +9,7 @@ export interface Edge<E> {
  * A directed acyclic graph with labelled edges
  */
 export class DirectedAcyclicGraph<V, E> {
-  private readonly sortedIds: string[];
+  private _sortedIds: string[] = [];
   constructor(
     private readonly vertices: Record<string, V>,
     private readonly edges: Record<string, Edge<E>[]>
@@ -17,10 +17,6 @@ export class DirectedAcyclicGraph<V, E> {
     if (!sameElements(Object.keys(vertices), Object.keys(edges))) {
       throw new Error('Vertices and edges must have the same keys');
     }
-    this.sortedIds = topologicalSort(
-      this.vertices,
-      mapValues(edges, (es) => es.map((e) => e.target))
-    );
   }
 
   /**
@@ -31,7 +27,10 @@ export class DirectedAcyclicGraph<V, E> {
     const mappedVertices = Object.fromEntries(
       this.sortedIds.map((id) => [id, fn(this.vertices[id])])
     );
-    return new DirectedAcyclicGraph<W, E>(mappedVertices, this.edges);
+    const graph = new DirectedAcyclicGraph<W, E>(mappedVertices, this.edges);
+    // We're not changing any edge, so the order is preserved
+    graph._sortedIds = this._sortedIds;
+    return graph;
   }
 
   /**
@@ -55,6 +54,16 @@ export class DirectedAcyclicGraph<V, E> {
    */
   public get sortedVertices(): V[] {
     return this.sortedIds.map((id) => this.vertices[id]);
+  }
+
+  private get sortedIds(): string[] {
+    if (this._sortedIds.length === 0) {
+      this._sortedIds = topologicalSort(
+        this.vertices,
+        mapValues(this.edges, (es) => es.map((e) => e.target))
+      );
+    }
+    return this._sortedIds;
   }
 }
 
