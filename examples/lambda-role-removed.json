@@ -7,7 +7,7 @@
         "code": { "fromAsset": { "path": "." } },
         "runtime": "NODEJS",
         "handler": "index.handler",
-        "description": "This function has its service role removed, for demonstration purposes. You probably wouldn't do this in a real function"
+        "description": "This function has its service role removed, for demonstration purposes. You probably wouldn't do this to a real function"
       },
       "Overrides": [{
         "ChildConstructPath": "ServiceRole",

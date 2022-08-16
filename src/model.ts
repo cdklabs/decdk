@@ -46,7 +46,9 @@ export interface Override {
   removeResource: boolean;
 }
 
+export type ReferenceType = 'Ref' | 'FnGetAtt' | 'DependsOn' | 'FnSub';
+
 export interface Reference {
-  type: 'Ref' | 'FnGetAtt' | 'DependsOn' | 'FnSub';
+  type: ReferenceType;
   target: string;
 }

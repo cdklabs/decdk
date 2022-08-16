@@ -51,19 +51,19 @@ export class DeclarativeStack extends cdk.Stack {
     });
 
     // Recover the graph structure encoded in the template
-    let graph = graphFromTemplate(template);
-
-    // Convert the user provided input into an intermediate representation
-    graph
-      .map(parse)
+    graphFromTemplate(template)
+      // Convert the user provided input into an intermediate representation
+      .mapVertices(parse)
 
       // Transform each declaration in the intermediate representation into a CDK construct
-      .mapWithEdges((declaration, edges) =>
-        builder.build(
-          declaration,
-          edges.map((e) => ({ declaration, reference: e.label }))
-        )
-      );
+      .mapVertices((declaration) => builder.build(declaration))
+
+      // Add dependencies where necessary
+      .forEachEdge((from, to, label) => {
+        if (from != null && to != null && label === 'DependsOn') {
+          from.node.addDependency(to);
+        }
+      });
 
     delete template.$schema;
 

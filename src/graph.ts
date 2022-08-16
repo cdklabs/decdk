@@ -1,18 +1,18 @@
 import { mapValues } from './deconstruction';
 
-export interface Edge<L> {
-  label: L;
+export interface Edge<E> {
+  label: E;
   target: string;
 }
 
 /**
  * A directed acyclic graph with labelled edges
  */
-export class DirectedAcyclicGraph<V, L> {
+export class DirectedAcyclicGraph<V, E> {
   private readonly sortedIds: string[];
   constructor(
     private readonly vertices: Record<string, V>,
-    private readonly edges: Record<string, Edge<L>[]>
+    private readonly edges: Record<string, Edge<E>[]>
   ) {
     if (!sameElements(Object.keys(vertices), Object.keys(edges))) {
       throw new Error('Vertices and edges must have the same keys');
@@ -27,52 +27,25 @@ export class DirectedAcyclicGraph<V, L> {
    * Produces a new graph with the same structure, but with the content of the
    * vertices mapped using the provided function.
    */
-  public map<W>(fn: (vertex: V) => W): DirectedAcyclicGraph<W, L> {
+  public mapVertices<W>(fn: (vertex: V) => W): DirectedAcyclicGraph<W, E> {
     const mappedVertices = Object.fromEntries(
       this.sortedIds.map((id) => [id, fn(this.vertices[id])])
     );
-    return new DirectedAcyclicGraph<W, L>(mappedVertices, this.edges);
+    return new DirectedAcyclicGraph<W, E>(mappedVertices, this.edges);
   }
 
   /**
-   * Produces a new graph with the same structure, but with the content of the
-   * vertices mapped using the provided function. The dependencies of the
-   * vertex are taken into account.
-   *
-   * @param fn A function that, given an element and its dependencies, returns a
-   * new element.
+   * Calls a function with side effects for each edge in the graph.
    */
-  public mapWithAdjacent<W>(
-    fn: (a: V, deps: V[]) => W
-  ): DirectedAcyclicGraph<W, L> {
-    const vertices = this.vertices;
-    const edges = this.edges;
-    const mappedVertices = Object.fromEntries(
-      this.sortedIds.map(transformEntry)
-    );
-    return new DirectedAcyclicGraph<W, L>(mappedVertices, this.edges);
-
-    function transformEntry(id: string): [string, W] {
-      const vertex = vertices[id];
-      const adjacent = edges[id].map((edge) => vertices[edge.target]);
-      return [id, fn(vertex, adjacent)];
-    }
-  }
-
-  public mapWithEdges<W>(
-    fn: (vertex: V, out: Edge<L>[]) => W
-  ): DirectedAcyclicGraph<W, L> {
-    const vertices = this.vertices;
-    const edges = this.edges;
-    const mappedVertices = Object.fromEntries(
-      this.sortedIds.map(transformEntry)
-    );
-    return new DirectedAcyclicGraph<W, L>(mappedVertices, this.edges);
-
-    function transformEntry(id: string): [string, W] {
-      const vertex = vertices[id];
-      return [id, fn(vertex, edges[id])];
-    }
+  public forEachEdge(fn: (from: V, to: V, label: E) => void) {
+    Object.entries(this.edges).forEach(([fromId, edges]) => {
+      edges.forEach((edge) => {
+        const source = this.vertices[fromId];
+        const target = this.vertices[edge.target];
+        const label = edge.label;
+        fn(source, target, label);
+      });
+    });
   }
 
   /**

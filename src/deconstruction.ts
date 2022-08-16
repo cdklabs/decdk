@@ -16,6 +16,7 @@ import {
   CfnResourceEntry,
   Override,
   Reference,
+  ReferenceType,
   ResourceDeclaration,
   Tag,
 } from './model';
@@ -713,7 +714,7 @@ export function mapValues<A, B>(
  */
 export function graphFromTemplate(
   template: any
-): DirectedAcyclicGraph<CfnResourceEntry, Reference> {
+): DirectedAcyclicGraph<CfnResourceEntry, ReferenceType> {
   const resources = template.Resources as Record<string, CfnResourceEntry>;
   const identified = Object.fromEntries(
     Object.entries(resources).map(([id, v]) => [id, { ...v, logicalId: id }])
@@ -725,10 +726,10 @@ export function graphFromTemplate(
 
   return new DirectedAcyclicGraph(identified, mapValues(resources, toEdges));
 
-  function toEdges(entry: CfnResourceEntry): Edge<Reference>[] {
+  function toEdges(entry: CfnResourceEntry): Edge<ReferenceType>[] {
     return matcher
       .match(entry)
-      .map((ref) => ({ label: ref, target: ref.target }));
+      .map((ref) => ({ label: ref.type, target: ref.target }));
   }
 }
 
@@ -864,10 +865,7 @@ export class ConstructBuilder {
    * Creates a new CDK Construct based on its resource declaration and the
    * declarations of its dependencies.
    */
-  public build(
-    resource: ResourceDeclaration,
-    dependencies: Dependency[]
-  ): IConstruct | undefined {
+  public build(resource: ResourceDeclaration): IConstruct | undefined {
     if (isCfnResourceType(resource.type)) {
       return undefined;
     }
@@ -891,7 +889,6 @@ export class ConstructBuilder {
           value: resource.properties,
         })
       );
-      applyDependencies(stack, cdkConstruct, dependencies);
       applyTags(cdkConstruct, resource.tags);
       applyOverrides(cdkConstruct, resource.overrides);
       return cdkConstruct;

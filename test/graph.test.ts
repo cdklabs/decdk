@@ -11,10 +11,10 @@ describe(DirectedAcyclicGraph, () => {
   const edges: Record<string, Edge<string>[]> = {
     a: [
       { target: 'b', label: 'foo' },
-      { target: 'c', label: 'foo' },
+      { target: 'c', label: 'bar' },
     ],
     b: [{ target: 'd', label: 'foo' }],
-    c: [{ target: 'd', label: 'foo' }],
+    c: [{ target: 'd', label: 'bar' }],
     d: [],
   };
 
@@ -47,17 +47,20 @@ describe(DirectedAcyclicGraph, () => {
     expect(makeGraph).toThrow('Vertices and edges must have the same keys');
   });
 
-  test('map', () => {
-    const squares = graph.map((x) => x * x);
+  test('mapVertices', () => {
+    const squares = graph.mapVertices((x) => x * x);
     expect(squares.sortedVertices).toEqual([16, 4, 9, 1]);
   });
 
-  test('extended map', () => {
-    const sumOfVertexAndAdjacents = graph.mapWithAdjacent(
-      (x, xs) => x + xs.reduce((a, b) => a + b, 0)
-    );
+  test('forEachEdge', () => {
+    const edgesAsStrings: string[] = [];
+    graph.forEachEdge((from, to, label) => {
+      edgesAsStrings.push(`${from} -${label}-> ${to}`);
+    });
+    const graphAsString = edgesAsStrings.join('; ');
 
-    const sortedVertices = sumOfVertexAndAdjacents.sortedVertices;
-    expect(sortedVertices).toEqual([4, 6, 7, 6]);
+    expect(graphAsString).toEqual(
+      `1 -foo-> 2; 1 -bar-> 3; 2 -foo-> 4; 3 -bar-> 4`
+    );
   });
 });

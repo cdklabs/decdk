@@ -1530,7 +1530,7 @@ Object {
           },
           "S3Key": "1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0.zip",
         },
-        "Description": "This function has its service role removed, for demonstration purposes. You probably wouldn't do this in a real function",
+        "Description": "This function has its service role removed, for demonstration purposes. You probably wouldn't do this to a real function",
         "Handler": "index.handler",
         "Role": Object {
           "Fn::GetAtt": Array [
