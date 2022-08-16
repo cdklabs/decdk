@@ -25,7 +25,7 @@
             "stageName": "Source",
             "actions": [
               {
-                "aws-cdk-lib.aws_codepipeline_actions.CodeCommitSourceAction":  {
+                "aws-cdk-lib.aws_codepipeline_actions.CodeCommitSourceAction": {
                   "repository": { "Ref": "Repo" },
                   "output": {
                     "artifact": {
@@ -41,7 +41,7 @@
             "stageName": "Build",
             "actions": [
               {
-                "aws-cdk-lib.aws_codepipeline_actions.CodeBuildAction":   {
+                "aws-cdk-lib.aws_codepipeline_actions.CodeBuildAction": {
                   "actionName": "Build",
                   "project": { "Ref": "BuildProject" },
                   "input": {
@@ -68,7 +68,7 @@
                   "actionName": "Deploy",
                   "stackName": "MyStack",
                   "adminPermissions": true,
-                  "templatePath":  {
+                  "templatePath": {
                     "artifactPath": {
                       "artifactName": "Build",
                       "fileName": "template.yaml"
