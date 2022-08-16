@@ -33,7 +33,7 @@
         ]
       },
       "Overrides": [{
-        "ResourcePath": "ServiceRole",
+        "ChildConstructPath": "ServiceRole",
         "Update": {
           "Path": "Properties.Description",
           "Value": "This value has been overridden"

@@ -34,6 +34,12 @@ const project = new typescript.TypeScriptProject({
       singleQuote: true,
     },
   },
+  tsconfig: {
+    compilerOptions: {
+      target: 'ES2020',
+      lib: ['es2020'],
+    },
+  },
 });
 
 // resolve @types/prettier@2.6.0 conflicts with

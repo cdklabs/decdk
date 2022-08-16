@@ -7,7 +7,7 @@
         "encryption": "KMS"
       },
       "Overrides": [{
-        "ResourcePath": "Key",
+        "ChildConstructPath": "Key",
         "Delete": {
           "Path": "Properties.Description"
         }

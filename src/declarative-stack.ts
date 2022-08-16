@@ -7,17 +7,12 @@ import * as reflect from 'jsii-reflect';
 import * as jsonschema from 'jsonschema';
 import { renderFullSchema } from './cdk-schema';
 import {
-  _cwd,
-  applyOverrides,
-  deconstructValue,
-  isCfnResourceType,
+  ConstructBuilder,
+  graphFromTemplate,
+  parse,
   processReferences,
-  resolveType,
-  applyDependency,
-  applyTags,
   ValidationError,
 } from './deconstruction';
-import { topologicalSort } from './toposort';
 
 export interface DeclarativeStackProps extends cdk.StackProps {
   typeSystem: reflect.TypeSystem;
@@ -48,42 +43,27 @@ export class DeclarativeStack extends cdk.Stack {
       );
     }
 
-    const sortedResources = topologicalSort(template.Resources ?? {});
-    for (const [logicalId, resourceProps] of sortedResources) {
-      const rprops: any = resourceProps;
-      if (!rprops.Type) {
-        throw new Error('Resource is missing type: ' + JSON.stringify(rprops));
-      }
+    const builder = new ConstructBuilder({
+      stack: this,
+      template,
+      typeSystem,
+      workingDirectory: props.workingDirectory,
+    });
 
-      if (isCfnResourceType(rprops.Type)) {
-        continue;
-      }
+    // Recover the graph structure encoded in the template
+    let graph = graphFromTemplate(template);
 
-      const propsType = typeSystem.findFqn(rprops.Type + 'Props');
-      const propsTypeRef = new reflect.TypeReference(typeSystem, propsType);
-      const Ctor = resolveType(rprops.Type);
+    // Convert the user provided input into an intermediate representation
+    graph
+      .map(parse)
 
-      // Changing working directory if needed, such that relative paths in the template are resolved relative to the
-      // template's location, and not to the current process' CWD.
-      _cwd(props.workingDirectory, () => {
-        const resource = new Ctor(
-          this,
-          logicalId,
-          deconstructValue({
-            stack: this,
-            typeRef: propsTypeRef,
-            optional: true,
-            key: 'Properties',
-            value: rprops.Properties,
-          })
-        );
-        applyDependency(this, resource, rprops.DependsOn);
-        applyTags(resource, rprops.Tags);
-        applyOverrides(resource, rprops.Overrides);
-      });
-
-      delete template.Resources[logicalId];
-    }
+      // Transform each declaration in the intermediate representation into a CDK construct
+      .mapWithEdges((declaration, edges) =>
+        builder.build(
+          declaration,
+          edges.map((e) => ({ declaration, reference: e.label }))
+        )
+      );
 
     delete template.$schema;
 

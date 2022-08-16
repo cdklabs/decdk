@@ -10,7 +10,7 @@
         "description": "This function has its service role removed, for demonstration purposes. You probably wouldn't do this in a real function"
       },
       "Overrides": [{
-        "ResourcePath": "ServiceRole",
+        "ChildConstructPath": "ServiceRole",
         "RemoveResource": true
       }]
     }

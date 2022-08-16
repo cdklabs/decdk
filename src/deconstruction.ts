@@ -3,6 +3,7 @@ import { CfnResource, Tags } from 'aws-cdk-lib';
 import { CfnInclude } from 'aws-cdk-lib/cloudformation-include';
 import { IConstruct } from 'constructs';
 import * as reflect from 'jsii-reflect';
+import { DirectedAcyclicGraph, Edge } from './graph';
 import {
   isConstruct,
   isDataType,
@@ -11,26 +12,14 @@ import {
   SchemaContext,
   schemaForPolymorphic,
 } from './jsii2schema';
-
-export interface Tag {
-  Key: string;
-  Value: string;
-}
-
-export interface Override {
-  ResourcePath: string;
-  Update: { Path: string; Value: any };
-  Delete?: { Path: string };
-  RemoveResource?: boolean;
-}
-
-export interface DeclarativeResource {
-  Type: string;
-  Properties?: any;
-  Overrides?: Override[];
-  DependsOn?: string | string[];
-  Tags?: Tag[];
-}
+import {
+  CfnResourceEntry,
+  Override,
+  Reference,
+  ResourceDeclaration,
+  Tag,
+} from './model';
+import { CompositeMatcher } from './object-matchers';
 
 export function resolveType(fqn: string) {
   const [mod, ...className] = fqn.split('.');
@@ -641,30 +630,31 @@ export function _cwd<T>(workDir: string | undefined, cb: () => T): T {
   }
 }
 
-export function applyDependency(
+export function applyDependencies(
   stack: cdk.Stack,
   resource: IConstruct,
-  dependsOn?: string | string[]
+  dependencies: Dependency[]
 ) {
-  if (dependsOn != null) {
-    const dependencyIds = Array.isArray(dependsOn) ? dependsOn : [dependsOn];
+  const dependencyIds = dependencies
+    .map((dep) => dep.reference)
+    .filter((reference) => reference.type === 'DependsOn')
+    .map((reference) => reference.target);
 
-    for (const id of dependencyIds) {
-      const dependency = stack.node.tryFindChild(id);
-      if (dependency == null) {
-        throw new Error(
-          `Resource '${id}', listed as a dependency of '${resource.node.id}', does not exist in the template`
-        );
-      }
-
-      resource.node.addDependency(dependency);
+  for (const id of dependencyIds) {
+    const dependency = stack.node.tryFindChild(id);
+    if (dependency == null) {
+      throw new Error(
+        `Resource '${id}', listed as a dependency of '${resource.node.id}', does not exist in the template`
+      );
     }
+
+    resource.node.addDependency(dependency);
   }
 }
 
 export function applyTags(resource: IConstruct, tags: Tag[] = []) {
   tags.forEach((tag: Tag) => {
-    Tags.of(resource).add(tag.Key, tag.Value);
+    Tags.of(resource).add(tag.key, tag.value);
   });
 }
 
@@ -673,28 +663,17 @@ export function applyOverrides(
   overrides: Override[] = []
 ) {
   overrides.forEach((override: Override) => {
-    validate(override);
-
-    if (override.RemoveResource === true) {
-      resource.node.tryRemoveChild(override.ResourcePath);
-    } else if (override.Update != null) {
-      const descendent = resolvePath(resource, override.ResourcePath);
-      const { Path, Value } = override.Update;
-      descendent.addOverride(Path, Value);
-    } else if (override.Delete != null) {
-      const descendent = resolvePath(resource, override.ResourcePath);
-      descendent.addDeletionOverride(override.Delete.Path);
+    if (override.removeResource) {
+      resource.node.tryRemoveChild(override.childConstructPath);
+    } else if (override.update != null) {
+      const descendent = resolvePath(resource, override.childConstructPath);
+      const { path, value } = override.update;
+      descendent.addOverride(path, value);
+    } else if (override.delete != null) {
+      const descendent = resolvePath(resource, override.childConstructPath);
+      descendent.addDeletionOverride(override.delete.path);
     }
   });
-
-  function validate(override: Override) {
-    const actions = [override.RemoveResource, override.Update, override.Delete];
-    if (actions.filter((action) => action != null).length !== 1) {
-      throw new Error(
-        "Exactly one of these actions should be provided in an Override: 'RemoveResource', 'Update' or 'Delete'"
-      );
-    }
-  }
 }
 
 function resolvePath(root: IConstruct, path: string): CfnResource {
@@ -718,5 +697,208 @@ function resolvePath(root: IConstruct, path: string): CfnResource {
       throw new Error(`${id} does not exist`);
     }
     return child;
+  }
+}
+
+export function mapValues<A, B>(
+  rec: Record<string, A>,
+  fn: (a: A) => B
+): Record<string, B> {
+  return Object.fromEntries(Object.entries(rec).map(([k, v]) => [k, fn(v)]));
+}
+
+/**
+ * Extracts the graph structure encoded in the template
+ * @param template a deCDK template
+ */
+export function graphFromTemplate(
+  template: any
+): DirectedAcyclicGraph<CfnResourceEntry, Reference> {
+  const resources = template.Resources as Record<string, CfnResourceEntry>;
+  const identified = Object.fromEntries(
+    Object.entries(resources).map(([id, v]) => [id, { ...v, logicalId: id }])
+  );
+  const parameterNames = Object.keys(template.Parameters ?? {});
+  const resourceNames = Object.keys(template.Resources ?? {});
+
+  const matcher = new CompositeMatcher(parameterNames, resourceNames);
+
+  return new DirectedAcyclicGraph(identified, mapValues(resources, toEdges));
+
+  function toEdges(entry: CfnResourceEntry): Edge<Reference>[] {
+    return matcher
+      .match(entry)
+      .map((ref) => ({ label: ref, target: ref.target }));
+  }
+}
+
+/**
+ * Transforms a resource entry provided by the user into a strongly typed
+ * declaration. If the entry is not valid, a specific error will be thrown.
+ */
+export function parse(entry: CfnResourceEntry): ResourceDeclaration {
+  return {
+    logicalId: entry.logicalId,
+    type: validateType(entry.Type),
+    properties: validateProperties(entry.Properties),
+    tags: validateTags(entry.Tags),
+    overrides: validateOverrides(entry.Overrides),
+  };
+
+  function validateType(value: unknown): string {
+    if (value == null) {
+      throw new Error('Resource is missing type: ' + JSON.stringify(value));
+    }
+    if (typeof value !== 'string') {
+      throw new Error('Type should be a string');
+    }
+    return value;
+  }
+
+  function validateProperties(value: unknown): Record<string, unknown> {
+    if (value == null) {
+      return {};
+    }
+    if (typeof value !== 'object') {
+      throw new Error('Properties must be an object');
+    }
+    return Object.fromEntries(Object.entries(value));
+  }
+
+  function validateTags(value: unknown): Tag[] {
+    if (value == null) {
+      return [];
+    }
+
+    if (!Array.isArray(value)) {
+      throw new Error('Tags must be an array');
+    }
+
+    return value.map((element) => {
+      if (
+        element == null ||
+        typeof element !== 'object' ||
+        element.Key == null ||
+        element.Value == null
+      ) {
+        throw new Error(
+          'Tags must contain only elements of the form {Key: string, Value: string}'
+        );
+      }
+      return { key: element.Key, value: element.Value };
+    });
+  }
+
+  function validateOverrides(value: unknown): Override[] {
+    if (value == null) {
+      return [];
+    }
+    if (!Array.isArray(value)) {
+      throw new Error('Overrides must be an array');
+    }
+
+    return value.map((element) => {
+      if (element.ChildConstructPath == null) {
+        throw new Error("Overrides must have a 'ChildConstructPath' attribute");
+      }
+      const actions = [element.RemoveResource, element.Update, element.Delete];
+      if (actions.filter((action) => action != null).length !== 1) {
+        throw new Error(
+          "Exactly one of these actions should be provided in an Override: 'RemoveResource', 'Update' or 'Delete'"
+        );
+      }
+
+      return {
+        update: validateUpdate(element.Update),
+        delete: validateDelete(element.Delete),
+        childConstructPath: element.ChildConstructPath,
+        removeResource: element.RemoveResource ?? false,
+      };
+    });
+  }
+
+  function validateUpdate(
+    update: any
+  ): { path: string; value: unknown } | undefined {
+    if (update == null) return undefined;
+
+    if (update.Path == null || update.Value == null) {
+      throw new Error(
+        "Update overrides must have a 'Path' and a 'Value' attribute"
+      );
+    }
+    return {
+      path: update.Path,
+      value: update.Value,
+    };
+  }
+
+  function validateDelete(del: any): { path: string } | undefined {
+    if (del == null) return undefined;
+
+    if (del.Path == null) {
+      throw new Error("Delete overrides must have a 'Path' attribute");
+    }
+    return {
+      path: del.Path,
+    };
+  }
+}
+
+export interface ConstructBuilderProps {
+  readonly typeSystem: reflect.TypeSystem;
+  readonly workingDirectory?: string;
+  readonly stack: cdk.Stack;
+  readonly template: any;
+}
+
+export interface Dependency {
+  declaration: ResourceDeclaration;
+  reference: Reference;
+}
+
+export class ConstructBuilder {
+  constructor(private readonly props: ConstructBuilderProps) {}
+
+  /**
+   * Creates a new CDK Construct based on its resource declaration and the
+   * declarations of its dependencies.
+   */
+  public build(
+    resource: ResourceDeclaration,
+    dependencies: Dependency[]
+  ): IConstruct | undefined {
+    if (isCfnResourceType(resource.type)) {
+      return undefined;
+    }
+
+    const { typeSystem, workingDirectory, stack, template } = this.props;
+    const propsType = typeSystem.findFqn(resource.type + 'Props');
+    const propsTypeRef = new reflect.TypeReference(typeSystem, propsType);
+    const Ctor = resolveType(resource.type);
+
+    // Changing working directory if needed, such that relative paths in the template are resolved relative to the
+    // template's location, and not to the current process' CWD.
+    const construct = _cwd(workingDirectory, () => {
+      const cdkConstruct = new Ctor(
+        stack,
+        resource.logicalId,
+        deconstructValue({
+          stack,
+          typeRef: propsTypeRef,
+          optional: true,
+          key: 'Properties',
+          value: resource.properties,
+        })
+      );
+      applyDependencies(stack, cdkConstruct, dependencies);
+      applyTags(cdkConstruct, resource.tags);
+      applyOverrides(cdkConstruct, resource.overrides);
+      return cdkConstruct;
+    });
+
+    delete template.Resources[resource.logicalId];
+
+    return construct;
   }
 }
