@@ -631,28 +631,6 @@ export function _cwd<T>(workDir: string | undefined, cb: () => T): T {
   }
 }
 
-export function applyDependencies(
-  stack: cdk.Stack,
-  resource: IConstruct,
-  dependencies: Dependency[]
-) {
-  const dependencyIds = dependencies
-    .map((dep) => dep.reference)
-    .filter((reference) => reference.type === 'DependsOn')
-    .map((reference) => reference.target);
-
-  for (const id of dependencyIds) {
-    const dependency = stack.node.tryFindChild(id);
-    if (dependency == null) {
-      throw new Error(
-        `Resource '${id}', listed as a dependency of '${resource.node.id}', does not exist in the template`
-      );
-    }
-
-    resource.node.addDependency(dependency);
-  }
-}
-
 export function applyTags(resource: IConstruct, tags: Tag[] = []) {
   tags.forEach((tag: Tag) => {
     Tags.of(resource).add(tag.key, tag.value);
