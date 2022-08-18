@@ -831,11 +831,6 @@ export interface ConstructBuilderProps {
   readonly template: any;
 }
 
-export interface Dependency {
-  declaration: ResourceDeclaration;
-  reference: Reference;
-}
-
 export class ConstructBuilder {
   constructor(private readonly props: ConstructBuilderProps) {}
 
