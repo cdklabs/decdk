@@ -352,6 +352,7 @@ Object {
       "Type": "AWS::ApiGateway::Method",
     },
     "MyApiAccount13882D84": Object {
+      "DeletionPolicy": "Retain",
       "DependsOn": Array [
         "MyApi49610EDF",
       ],
@@ -364,8 +365,10 @@ Object {
         },
       },
       "Type": "AWS::ApiGateway::Account",
+      "UpdateReplacePolicy": "Retain",
     },
     "MyApiCloudWatchRole2BEC1A9C": Object {
+      "DeletionPolicy": "Retain",
       "Properties": Object {
         "AssumeRolePolicyDocument": Object {
           "Statement": Array [
@@ -395,6 +398,7 @@ Object {
         ],
       },
       "Type": "AWS::IAM::Role",
+      "UpdateReplacePolicy": "Retain",
     },
     "MyApiDeploymentECB0D05E0597cc4592870e54c401cccc6090bd86": Object {
       "DependsOn": Array [
@@ -1154,6 +1158,7 @@ Object {
       "Type": "AWS::ApiGateway::RestApi",
     },
     "TestHelloWorldFunctionE7E220B2ApiEventSourceA7A86A4FAccount3FF2838C": Object {
+      "DeletionPolicy": "Retain",
       "DependsOn": Array [
         "TestHelloWorldFunctionE7E220B2ApiEventSourceA7A86A4F040973BA",
       ],
@@ -1166,8 +1171,10 @@ Object {
         },
       },
       "Type": "AWS::ApiGateway::Account",
+      "UpdateReplacePolicy": "Retain",
     },
     "TestHelloWorldFunctionE7E220B2ApiEventSourceA7A86A4FCloudWatchRole6F1F54C4": Object {
+      "DeletionPolicy": "Retain",
       "Properties": Object {
         "AssumeRolePolicyDocument": Object {
           "Statement": Array [
@@ -1197,6 +1204,7 @@ Object {
         ],
       },
       "Type": "AWS::IAM::Role",
+      "UpdateReplacePolicy": "Retain",
     },
     "TestHelloWorldFunctionE7E220B2ApiEventSourceA7A86A4FDeployment1521BDCD1184383c2312dd2bd094c1c0b9e7069a": Object {
       "DependsOn": Array [
