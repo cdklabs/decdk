@@ -19,7 +19,7 @@ function overrideDefinition() {
     additionalProperties: false,
     type: 'object',
     properties: {
-      ResourcePath: {
+      ChildConstructPath: {
         type: 'string',
         pattern: '[a-zA-Z0-9\\-\\._]+',
       },
