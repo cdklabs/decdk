@@ -15,12 +15,11 @@ import {
 import {
   CfnResourceEntry,
   Override,
-  Reference,
   ReferenceType,
   ResourceDeclaration,
   Tag,
 } from './model';
-import { CompositeMatcher } from './object-matchers';
+import { IntrinsicFunctionsMatcher } from './object-matchers';
 
 export function resolveType(fqn: string) {
   const [mod, ...className] = fqn.split('.');
@@ -642,7 +641,7 @@ export function applyOverrides(
 ) {
   overrides.forEach((override: Override) => {
     if (override.removeResource) {
-      resource.node.tryRemoveChild(override.childConstructPath);
+      resource.node.tryRemoveChild(override.childConstructPath!);
     } else if (override.update != null) {
       const descendent = resolvePath(resource, override.childConstructPath);
       const { path, value } = override.update;
@@ -654,8 +653,8 @@ export function applyOverrides(
   });
 }
 
-function resolvePath(root: IConstruct, path: string): CfnResource {
-  const ids = path.split('.');
+function resolvePath(root: IConstruct, path?: string): CfnResource {
+  const ids = path != null ? path.split('.') : [];
   const destination = ids.reduce(descend, root);
   if (CfnResource.isCfnResource(destination)) {
     return destination;
@@ -699,7 +698,7 @@ export function graphFromTemplate(
   const parameterNames = Object.keys(template.Parameters ?? {});
   const resourceNames = Object.keys(template.Resources ?? {});
 
-  const matcher = new CompositeMatcher(parameterNames, resourceNames);
+  const matcher = new IntrinsicFunctionsMatcher(parameterNames, resourceNames);
 
   return new DirectedAcyclicGraph(identified, mapValues(resources, toEdges));
 
@@ -776,8 +775,13 @@ export function parse(entry: CfnResourceEntry): ResourceDeclaration {
     }
 
     return value.map((element) => {
-      if (element.ChildConstructPath == null) {
-        throw new Error("Overrides must have a 'ChildConstructPath' attribute");
+      if (
+        element.RemoveResource === true &&
+        element.ChildConstructPath == null
+      ) {
+        throw new Error(
+          "Overrides must have a 'ChildConstructPath' attribute when RemoveResource is true"
+        );
       }
       const actions = [element.RemoveResource, element.Update, element.Delete];
       if (actions.filter((action) => action != null).length !== 1) {

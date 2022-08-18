@@ -1,6 +1,6 @@
 import { PSEUDO_PARAMETER_NAMES } from '../src/model';
 import {
-  CompositeMatcher,
+  IntrinsicFunctionsMatcher,
   DependsOnMatcher,
   FnGetAttMatcher,
   FnSubMatcher,
@@ -326,7 +326,7 @@ describe('Pattern matching', () => {
         DependsOn: 'Key',
       };
 
-      const matcher = new CompositeMatcher(
+      const matcher = new IntrinsicFunctionsMatcher(
         ['Foo', 'Bar'],
         ['Key', 'Node', 'Repo', 'Pipeline']
       );
@@ -363,7 +363,7 @@ describe('Pattern matching', () => {
         },
       };
 
-      const matcher = new CompositeMatcher(
+      const matcher = new IntrinsicFunctionsMatcher(
         ['Foo', 'Bar'],
         ['Key', 'Node', 'Repo', 'Pipeline']
       );

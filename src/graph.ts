@@ -56,6 +56,10 @@ export class DirectedAcyclicGraph<V, E> {
     return this.sortedIds.map((id) => this.vertices[id]);
   }
 
+  public getVertex(id: string): V | undefined {
+    return this.vertices[id];
+  }
+
   private get sortedIds(): string[] {
     if (this._sortedIds.length === 0) {
       this._sortedIds = topologicalSort(

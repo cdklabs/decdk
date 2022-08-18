@@ -40,7 +40,7 @@ export interface Tag {
 }
 
 export interface Override {
-  childConstructPath: string;
+  childConstructPath?: string;
   update?: { path: string; value: unknown };
   delete?: { path: string };
   removeResource: boolean;

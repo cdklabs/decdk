@@ -11,31 +11,28 @@ export class RefMatcher implements Matcher {
   ) {}
 
   match(value: unknown): Reference[] {
-    if (
-      value != null &&
-      typeof value === 'object' &&
-      Object.entries(value).length === 1
-    ) {
-      const [key, val] = Object.entries(value)[0];
-      if (key === 'Ref') {
-        if (typeof val !== 'string') {
-          throw new Error("The target of a 'Ref' call must be a string");
-        }
-        if (this.resourceNames.includes(val)) {
-          return [{ type: 'Ref', target: val }];
-        }
-        if (
-          this.parameterNames.includes(val) ||
-          PSEUDO_PARAMETER_NAMES.includes(val)
-        ) {
-          return [];
-        }
-        throw new Error(
-          `'${val}' must be either a parameter name or a resource name`
-        );
-      }
+    if (!isSingleKeyObject(value)) {
+      return [];
     }
-    return [];
+    const [key, val] = Object.entries(value)[0];
+    if (key !== 'Ref') {
+      return [];
+    }
+    if (typeof val !== 'string') {
+      throw new Error("The target of a 'Ref' call must be a string");
+    }
+    if (this.resourceNames.includes(val)) {
+      return [{ type: 'Ref', target: val }];
+    }
+    if (
+      this.parameterNames.includes(val) ||
+      PSEUDO_PARAMETER_NAMES.includes(val)
+    ) {
+      return [];
+    }
+    throw new Error(
+      `'${val}' must be either a parameter name or a resource name`
+    );
   }
 }
 
@@ -43,11 +40,7 @@ export class FnGetAttMatcher implements Matcher {
   constructor(private readonly resourceNames: string[]) {}
 
   match(value: unknown): Reference[] {
-    if (
-      value != null &&
-      typeof value === 'object' &&
-      Object.entries(value).length === 1
-    ) {
+    if (isSingleKeyObject(value)) {
       const [key, val] = Object.entries(value)[0];
       if (key === 'Fn::GetAtt') {
         if (Array.isArray(val)) {
@@ -88,11 +81,7 @@ export class FnSubMatcher implements Matcher {
   match(value: unknown): Reference[] {
     const regex = /\$\{([A-Za-z0-9]+)}/g;
 
-    if (
-      value != null &&
-      typeof value === 'object' &&
-      Object.entries(value).length === 1
-    ) {
+    if (isSingleKeyObject(value)) {
       const [key, val] = Object.entries(value)[0];
       if (key === 'Fn::Sub') {
         if (Array.isArray(val)) {
@@ -168,7 +157,7 @@ export class DependsOnMatcher implements Matcher {
   }
 }
 
-export class CompositeMatcher implements Matcher {
+export class IntrinsicFunctionsMatcher implements Matcher {
   private readonly terminalMatchers: Matcher[];
   private readonly nonTerminalMatchers: Matcher[];
 
@@ -212,4 +201,12 @@ function compositeMatch(
   }
 
   return [];
+}
+
+function isSingleKeyObject(value: unknown): value is Record<string, unknown> {
+  return (
+    value != null &&
+    typeof value === 'object' &&
+    Object.entries(value).length === 1
+  );
 }
