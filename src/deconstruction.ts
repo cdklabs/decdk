@@ -68,8 +68,7 @@ export function tryParseIntrinsic(input: any): ParsedIntrinsic | undefined {
     return undefined;
   }
 
-  const name = Object.keys(input)[0];
-  const value = input[name];
+  const [name, value] = Object.entries(input)[0];
   return { name, value };
 }
 
