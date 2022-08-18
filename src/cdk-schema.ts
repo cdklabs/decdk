@@ -48,7 +48,7 @@ function overrideDefinition() {
         required: ['Path'],
       },
     },
-    required: ['ResourcePath'],
+    required: ['ChildConstructPath'],
     oneOf: [
       {
         required: ['Delete'],
