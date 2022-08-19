@@ -14,6 +14,65 @@ export interface RenderSchemaOptions {
   colors?: boolean;
 }
 
+function overrideDefinition() {
+  return {
+    additionalProperties: false,
+    type: 'object',
+    properties: {
+      ChildConstructPath: {
+        type: 'string',
+        pattern: '[a-zA-Z0-9\\-\\._]+',
+      },
+      RemoveResource: {
+        type: 'boolean',
+      },
+      Delete: {
+        type: 'object',
+        properties: {
+          Path: {
+            type: 'string',
+            pattern: '[a-zA-Z0-9\\-\\._]+',
+          },
+        },
+        required: ['Path'],
+      },
+      Update: {
+        type: 'object',
+        properties: {
+          Path: {
+            type: 'string',
+            pattern: '[a-zA-Z0-9\\-\\._]+',
+          },
+          Value: {},
+        },
+        required: ['Path'],
+      },
+    },
+    required: ['ChildConstructPath'],
+    oneOf: [
+      {
+        required: ['Delete'],
+      },
+      {
+        required: ['Update'],
+      },
+      {
+        required: ['RemoveResource'],
+      },
+    ],
+  };
+}
+
+function dependsOnDefinition() {
+  return {
+    additionalProperties: false,
+    type: ['array', 'string'],
+    items: {
+      type: 'string',
+    },
+  };
+}
+
 export function renderFullSchema(
   typeSystem: jsiiReflect.TypeSystem,
   options: RenderSchemaOptions = {}
@@ -106,7 +165,17 @@ export function schemaForResource(
           enum: [construct.constructClass.fqn],
           type: 'string',
         },
+        Tags: {
+          type: 'array',
+          items: ctx.define('Tag', () => {}),
+        },
+        DependsOn: ctx.define('DependsOn', dependsOnDefinition),
+        Overrides: {
+          type: 'array',
+          items: ctx.define('Override', overrideDefinition),
+        },
       },
+      required: ['Type'],
     };
   });
 }
