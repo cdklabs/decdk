@@ -50,7 +50,14 @@
             }
           }
         ]
-      }
+      },
+      "Overrides": [{
+        "ChildConstructPath": "ServiceRole",
+        "Update": {
+          "Path": "Properties.Description",
+          "Value": "This value has been overridden"
+        }
+      }]
     }
   }
 }

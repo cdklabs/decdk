@@ -9,7 +9,13 @@
         },
         "runtime": "PYTHON_3_6",
         "handler": "index.handler"
-      }
+      },
+      "Tags": [
+        {
+          "Key": "category",
+          "Value": "ecommerce"
+        }
+      ]
     },
     "MyApi": {
       "Type": "aws-cdk-lib.aws_apigateway.LambdaRestApi",

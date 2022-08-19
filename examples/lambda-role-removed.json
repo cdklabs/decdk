@@ -1,0 +1,18 @@
+{
+  "$schema": "../cdk.schema.json",
+  "Resources": {
+    "Lambda": {
+      "Type": "aws-cdk-lib.aws_lambda.Function",
+      "Properties": {
+        "code": { "fromAsset": { "path": "." } },
+        "runtime": "NODEJS",
+        "handler": "index.handler",
+        "description": "This function has its service role removed, for demonstration purposes. You probably wouldn't do this to a real function"
+      },
+      "Overrides": [{
+        "ChildConstructPath": "ServiceRole",
+        "RemoveResource": true
+      }]
+    }
+  }
+}
