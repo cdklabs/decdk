@@ -59,6 +59,14 @@ When deCDK processes a template, it identifies these special resources and under
 
 When you build this module, it will produce a `cdk.schema.json` file at the root, which is referenced by the examples in the [`examples`](./examples) directory. This directory includes working examples of deCDK templates for various areas. We also snapshot-test those to ensure there are no unwanted regressions.
 
+### Running local code
+
+You can execute `decdk` using the current TypeScript code, without having to build the project. Provide this as your app argument to `cdk`:
+
+```sh
+cdk -a "ts-node src/decdk.ts template.json" synth
+```
+
 ## Design
 
 "Deconstruction" is the process of reflecting on the AWS Construct Library's type system and determining what would be the declarative interface for each API. This section describes how various elements in the library's type system are represented through the template format.

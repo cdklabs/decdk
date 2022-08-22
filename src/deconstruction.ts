@@ -846,25 +846,24 @@ export class ConstructBuilder {
       return undefined;
     }
 
-    const { typeSystem, workingDirectory, stack, template } = this.props;
-    const propsType = typeSystem.findFqn(resource.type + 'Props');
-    const propsTypeRef = new reflect.TypeReference(typeSystem, propsType);
+    const { workingDirectory, stack, template } = this.props;
+    const propsTypeRef = this.extractPropsType(resource.type);
     const Ctor = resolveType(resource.type);
 
     // Changing working directory if needed, such that relative paths in the template are resolved relative to the
     // template's location, and not to the current process' CWD.
     const construct = _cwd(workingDirectory, () => {
-      const cdkConstruct = new Ctor(
-        stack,
-        resource.logicalId,
-        deconstructValue({
-          stack,
-          typeRef: propsTypeRef,
-          optional: true,
-          key: 'Properties',
-          value: resource.properties,
-        })
-      );
+      const props = propsTypeRef
+        ? deconstructValue({
+            stack,
+            typeRef: propsTypeRef,
+            optional: true,
+            key: 'Properties',
+            value: resource.properties,
+          })
+        : undefined;
+
+      const cdkConstruct = new Ctor(stack, resource.logicalId, props);
       applyTags(cdkConstruct, resource.tags);
       applyOverrides(cdkConstruct, resource.overrides);
       return cdkConstruct;
@@ -873,5 +872,17 @@ export class ConstructBuilder {
     delete template.Resources[resource.logicalId];
 
     return construct;
+  }
+
+  private extractPropsType(fqn: string): reflect.TypeReference | undefined {
+    const construct = this.props.typeSystem.findFqn(fqn);
+    if (!construct.isClassType()) {
+      return;
+    }
+
+    const [_scopeParam, _idParam, propsParam] =
+      construct.initializer?.parameters ?? [];
+
+    return propsParam?.type;
   }
 }

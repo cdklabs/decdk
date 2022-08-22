@@ -1,0 +1,25 @@
+{
+  "$schema": "../cdk.schema.json",
+  "Resources": {
+    "AwsCliLayer": {
+      "Type": "aws-cdk-lib.lambda_layer_awscli.AwsCliLayer"
+    },
+    "Lambda": {
+      "Type": "aws-cdk-lib.aws_lambda.Function",
+      "Properties": {
+        "code": {
+          "fromInline": {
+            "code": "exports.handler = async function() { return 'SUCCESS'; }"
+          }
+        },
+        "runtime": "NODEJS_16_X",
+        "handler": "index.handler",
+        "layers": [
+          {
+            "Ref": "AwsCliLayer"
+          }
+        ]
+      }
+    }
+  }
+}
