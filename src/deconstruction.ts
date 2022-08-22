@@ -306,7 +306,7 @@ export function deconstructInterface(options: DeconstructCommonOptions) {
   const out: any = {};
   for (const prop of typeRef.type.allProperties) {
     const propValue = value[prop.name];
-    if (!propValue) {
+    if (propValue === undefined) {
       if (!prop.optional) {
         throw new ValidationError(
           `Missing required property ${key}.${prop.name} in ${typeRef}`
