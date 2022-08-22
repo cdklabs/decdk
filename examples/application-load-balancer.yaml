@@ -1,0 +1,52 @@
+# yaml-language-server: $schema=../cdk.schema.json
+Resources:
+  VPC:
+    Type: aws-cdk-lib.aws_ec2.Vpc
+  ASG:
+    Type: aws-cdk-lib.aws_autoscaling.AutoScalingGroup
+    Properties:
+      vpc:
+        Ref: VPC
+      instanceType:
+        aws-cdk-lib.aws_ec2.InstanceType.of:
+          instanceClass: T2
+          instanceSize: MICRO
+      machineImage:
+        aws-cdk-lib.aws_ec2.AmazonLinuxImage: {}
+  AModestLoad:
+    Type: aws-cdk-lib.aws_autoscaling.TargetTrackingScalingPolicy
+    'On': ASG
+    Call:
+      scaleOnRequestCount:
+        id: AModestLoad
+        targetRequestsPerMinute: 60
+    DependsOn: # Needed because of: Error: Attach the AutoScalingGroup to a non-imported Application Load Balancer before calling scaleOnRequestCount()
+      - 'Target'
+  LB:
+    Type: aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationLoadBalancer
+    Properties:
+      vpc:
+        Ref: VPC
+      internetFacing: true
+  Listener:
+    Type: aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationListener
+    'On': LB
+    Call:
+      addListener:
+        id: 'Listener'
+        port: 80
+  Target:
+    Type: aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationTargetGroup
+    'On': Listener
+    Call:
+      addTargets:
+        id: 'Target'
+        port: 80
+        targets:
+          - Ref: ASG
+  # AllowFromEverywhere:
+  #   Type: Void # No support for optional return type yet
+  #   'On': Listener
+  #   Call:
+  #     connections.allowDefaultPortFromAnyIpv4:
+  #       description: Open to the world
