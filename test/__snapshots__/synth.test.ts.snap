@@ -168,7 +168,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0.zip",
+          "S3Key": "41b1de375e679030ee7361874b689e99ab0657e9d274a8e6193d1513940a0c2f.zip",
         },
         "Handler": "index.handler",
         "Role": Object {
@@ -1006,7 +1006,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0.zip",
+          "S3Key": "41b1de375e679030ee7361874b689e99ab0657e9d274a8e6193d1513940a0c2f.zip",
         },
         "Environment": Object {
           "Variables": Object {
@@ -1644,7 +1644,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0.zip",
+          "S3Key": "41b1de375e679030ee7361874b689e99ab0657e9d274a8e6193d1513940a0c2f.zip",
         },
         "Description": "This function has its service role removed, for demonstration purposes. You probably wouldn't do this to a real function",
         "Handler": "index.handler",
@@ -1724,7 +1724,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0.zip",
+          "S3Key": "41b1de375e679030ee7361874b689e99ab0657e9d274a8e6193d1513940a0c2f.zip",
         },
         "Handler": "index.handler",
         "Role": Object {

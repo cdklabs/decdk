@@ -4,15 +4,17 @@
     "Lambda": {
       "Type": "aws-cdk-lib.aws_lambda.Function",
       "Properties": {
-        "code": { "fromAsset": { "path": "." } },
+        "code": { "fromAsset": { "path": "examples/lambda-handler" } },
         "runtime": "NODEJS",
         "handler": "index.handler",
         "description": "This function has its service role removed, for demonstration purposes. You probably wouldn't do this to a real function"
       },
-      "Overrides": [{
-        "ChildConstructPath": "ServiceRole",
-        "RemoveResource": true
-      }]
+      "Overrides": [
+        {
+          "ChildConstructPath": "ServiceRole",
+          "RemoveResource": true
+        }
+      ]
     }
   }
 }
