@@ -6,4 +6,4 @@ syntax tree, with all the necessary annotations, that can be used later for eval
 This code was copied and adapted from [cfnengine], by Rico Huijbers.
 
 
-[cfnengine]: https://github.com/rix0rrr/cfngine
+[cfngine]: https://github.com/rix0rrr/cfngine
