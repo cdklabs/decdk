@@ -20,7 +20,7 @@
         "handler": "app.hello_handler",
         "runtime": "PYTHON_3_6",
         "code": {
-          "fromAsset": { "path": "." }
+          "fromAsset": { "path": "examples/lambda-handler" }
         },
         "environment": {
           "Param": "f"
@@ -51,13 +51,15 @@
           }
         ]
       },
-      "Overrides": [{
-        "ChildConstructPath": "ServiceRole",
-        "Update": {
-          "Path": "Properties.Description",
-          "Value": "This value has been overridden"
+      "Overrides": [
+        {
+          "ChildConstructPath": "ServiceRole",
+          "Update": {
+            "Path": "Properties.Description",
+            "Value": "This value has been overridden"
+          }
         }
-      }]
+      ]
     }
   }
 }
