@@ -87,7 +87,7 @@ Resources:
     Properties:
       # ...
   MyDataSource:
-    Type: aws-cdk-lib.aws_appsync..LambdaDataSource
+    Type: aws-cdk-lib.aws_appsync.LambdaDataSource
     Properties:
       # ...
       Lambda: # expects an IFunction
