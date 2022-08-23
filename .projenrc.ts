@@ -20,7 +20,13 @@ const project = new typescript.TypeScriptProject({
     'yargs',
     'chalk@^4',
   ],
-  devDeps: ['@types/fs-extra@^8', '@types/yaml', '@types/yargs', 'jsii'],
+  devDeps: [
+    '@types/fs-extra@^8',
+    '@types/yaml',
+    '@types/yargs',
+    'jsii',
+    'fast-check',
+  ],
   releaseToNpm: true,
 
   autoApproveOptions: {
