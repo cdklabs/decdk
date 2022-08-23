@@ -30,7 +30,7 @@ export namespace schema {
   }
 
   export interface UpdatePolicy {
-    // TODO
+    // @TODO
     [key: string]: any;
   }
 
