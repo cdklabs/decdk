@@ -1,8 +1,5 @@
-import * as os from 'os';
-import * as path from 'path';
 import * as cdk from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
-import * as fs from 'fs-extra';
 import * as reflect from 'jsii-reflect';
 import { DeclarativeStack, loadTypeSystem } from '../src';
 
@@ -29,14 +26,12 @@ export class Testing {
   }
 
   private static async prepare(template: any) {
-    const workingDirectory = fs.mkdtempSync(path.join(os.tmpdir(), 'decdk-'));
     const stackName = 'Test';
     const typeSystem = await obtainTypeSystem();
 
     const app = new cdk.App();
 
     const stack = new DeclarativeStack(app, stackName, {
-      workingDirectory,
       template,
       typeSystem,
     });
