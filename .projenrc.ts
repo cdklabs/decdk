@@ -1,4 +1,4 @@
-import { JsonFile, typescript, vscode } from 'projen';
+import { typescript, vscode } from 'projen';
 
 const project = new typescript.TypeScriptProject({
   projenrcTs: true,
@@ -55,36 +55,23 @@ project.addFields({
 });
 
 // VSCode
-new JsonFile(project, '.vscode/extensions.json', {
-  readonly: false,
-  marker: false,
-  obj: {
-    recommendations: [
-      'dbaeumer.vscode-eslint',
-      'esbenp.prettier-vscode',
-      'orta.vscode-jest',
-    ],
-  },
+const vsCode = new vscode.VsCode(project);
+vsCode.extensions.addRecommendations(
+  'dbaeumer.vscode-eslint',
+  'esbenp.prettier-vscode',
+  'orta.vscode-jest'
+);
+vsCode.settings.addSettings({
+  'editor.defaultFormatter': 'esbenp.prettier-vscode',
+  'eslint.format.enable': true,
+  'jest.autoRun': 'off',
+  'jest.jestCommandLine': './node_modules/.bin/jest',
 });
-
-new JsonFile(project, '.vscode/settings.json', {
-  readonly: false,
-  marker: false,
-  obj: {
-    'editor.defaultFormatter': 'esbenp.prettier-vscode',
-    'eslint.format.enable': true,
-    '[javascript]': {
-      'editor.defaultFormatter': 'dbaeumer.vscode-eslint',
-    },
-    '[typescript]': {
-      'editor.defaultFormatter': 'dbaeumer.vscode-eslint',
-    },
-    'jest.autoRun': 'off',
-    'jest.jestCommandLine': './node_modules/.bin/jest',
-  },
-});
-
-new vscode.VsCode(project).launchConfiguration.addConfiguration({
+vsCode.settings.addSettings(
+  { 'editor.defaultFormatter': 'dbaeumer.vscode-eslint' },
+  ['javascript', 'typescript']
+);
+vsCode.launchConfiguration.addConfiguration({
   type: 'node',
   name: 'vscode-jest-tests.v2',
   request: 'launch',
@@ -98,11 +85,9 @@ new vscode.VsCode(project).launchConfiguration.addConfiguration({
     '--runTestsByPath',
     '${jest.testFile}',
   ],
+  console: vscode.Console.INTEGRATED_TERMINAL,
+  disableOptimisticBPs: true,
+  cwd: '${workspaceFolder}',
 });
-// The following options are currently not supported by projen
-const launchConfig = project.tryFindObjectFile('.vscode/launch.json');
-launchConfig?.addOverride('configurations.0.console', 'integratedTerminal');
-launchConfig?.addOverride('configurations.0.disableOptimisticBPs', true);
-launchConfig?.addOverride('configurations.0.cwd', '${workspaceFolder}');
 
 project.synth();
