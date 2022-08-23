@@ -61,7 +61,7 @@ function parseParamValue(name: string, param: schema.Parameter, value: string) {
     );
   }
 
-  // FIXME: More validations here
+  // @TODO: More validations here
 
   return ret;
 
