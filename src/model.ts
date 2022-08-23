@@ -1,3 +1,5 @@
+import { TemplateExpression } from './parser/template';
+
 export const PSEUDO_PARAMETER_NAMES = [
   'AWS::AccountId',
   'AWS::Region',
@@ -29,7 +31,7 @@ export interface CfnResourceEntry {
 export interface ResourceDeclaration {
   logicalId: string;
   type: string;
-  properties: Record<string, unknown>;
+  properties: Record<string, TemplateExpression>;
   overrides: Override[];
   tags: Tag[];
 }

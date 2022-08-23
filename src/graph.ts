@@ -23,9 +23,11 @@ export class DirectedAcyclicGraph<V, E> {
    * Produces a new graph with the same structure, but with the content of the
    * vertices mapped using the provided function.
    */
-  public mapVertices<W>(fn: (vertex: V) => W): DirectedAcyclicGraph<W, E> {
+  public mapVertices<W>(
+    fn: (id: string, vertex: V) => W
+  ): DirectedAcyclicGraph<W, E> {
     const mappedVertices = Object.fromEntries(
-      this.sortedIds.map((id) => [id, fn(this.vertices[id])])
+      this.sortedIds.map((id) => [id, fn(id, this.vertices[id])])
     );
     const graph = new DirectedAcyclicGraph<W, E>(mappedVertices, this.edges);
     // We're not changing any edge, so the order is preserved

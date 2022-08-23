@@ -178,12 +178,6 @@ Object {
           ],
         },
         "Runtime": "python3.6",
-        "Tags": Array [
-          Object {
-            "Key": "category",
-            "Value": "ecommerce",
-          },
-        ],
       },
       "Type": "AWS::Lambda::Function",
     },
@@ -213,12 +207,6 @@ Object {
                 ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
               ],
             ],
-          },
-        ],
-        "Tags": Array [
-          Object {
-            "Key": "category",
-            "Value": "ecommerce",
           },
         ],
       },
@@ -1069,7 +1057,6 @@ Object {
           ],
           "Version": "2012-10-17",
         },
-        "Description": "This value has been overridden",
         "ManagedPolicyArns": Array [
           Object {
             "Fn::Join": Array [
@@ -1657,6 +1644,37 @@ Object {
         "Runtime": "nodejs",
       },
       "Type": "AWS::Lambda::Function",
+    },
+    "LambdaServiceRoleA8ED4D3B": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
     },
   },
   "Rules": Object {
@@ -3051,14 +3069,6 @@ Object {
       "Type": "AWS::SQS::Queue",
       "UpdateReplacePolicy": "Delete",
     },
-    "MyLogGroup": Object {
-      "Properties": Object {
-        "LogGroupName": Object {
-          "Ref": "AWS::AccountId",
-        },
-      },
-      "Type": "AWS::Logs::LogGroup",
-    },
   },
   "Rules": Object {
     "CheckBootstrapVersion": Object {
@@ -3116,6 +3126,7 @@ Object {
     "MyQueueKey6C31ABF3": Object {
       "DeletionPolicy": "Retain",
       "Properties": Object {
+        "Description": "Created by Test/MyQueue",
         "KeyPolicy": Object {
           "Statement": Array [
             Object {

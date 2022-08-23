@@ -4,19 +4,17 @@ import { join } from 'path';
 import * as cdk from 'aws-cdk-lib';
 import { CfnInclude } from 'aws-cdk-lib/cloudformation-include';
 import * as reflect from 'jsii-reflect';
-import * as jsonschema from 'jsonschema';
-import { renderFullSchema } from './cdk-schema';
 import {
   ConstructBuilder,
   graphFromTemplate,
   parse,
   processReferences,
-  ValidationError,
 } from './deconstruction';
+import { Template } from './parser/template';
 
 export interface DeclarativeStackProps extends cdk.StackProps {
   typeSystem: reflect.TypeSystem;
-  template: any;
+  template: Template;
   workingDirectory?: string;
 }
 
@@ -33,15 +31,15 @@ export class DeclarativeStack extends cdk.Stack {
     const typeSystem = props.typeSystem;
     const template = props.template;
 
-    const schema = renderFullSchema(typeSystem);
+    // const schema = renderFullSchema(typeSystem);
 
-    const result = jsonschema.validate(template, schema);
-    if (!result.valid) {
-      throw new ValidationError(
-        'Schema validation errors:\n  ' +
-          result.errors.map((e) => `"${e.property}" ${e.message}`).join('\n  ')
-      );
-    }
+    // const result = jsonschema.validate(template, schema);
+    // if (!result.valid) {
+    //   throw new ValidationError(
+    //     'Schema validation errors:\n  ' +
+    //       result.errors.map((e) => `"${e.property}" ${e.message}`).join('\n  ')
+    //   );
+    // }
 
     const builder = new ConstructBuilder({
       stack: this,
@@ -56,7 +54,7 @@ export class DeclarativeStack extends cdk.Stack {
       .mapVertices(parse)
 
       // Transform each declaration in the intermediate representation into a CDK construct
-      .mapVertices((declaration) => builder.build(declaration))
+      .mapVertices((_, declaration) => builder.build(declaration))
 
       // Add dependencies where necessary
       .forEachEdge((from, to, label) => {
@@ -65,11 +63,16 @@ export class DeclarativeStack extends cdk.Stack {
         }
       });
 
-    delete template.$schema;
-
     const workdir = mkdtempSync(join(tmpdir(), 'decdk-'));
     const templateFile = join(workdir, 'template.json');
-    writeFileSync(templateFile, JSON.stringify(template));
+    writeFileSync(
+      templateFile,
+      JSON.stringify({
+        Resources: [
+          // convert template.resources back to cfn or we Ctor CFN resources as well
+        ],
+      })
+    );
 
     // Add an Include construct with what's left of the template
     new CfnInclude(this, 'Include', { templateFile });
