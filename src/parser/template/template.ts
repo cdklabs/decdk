@@ -22,7 +22,7 @@ export class Template {
     return new Template(tpl);
   }
 
-  public static async fromObject(template: object): Promise<Template> {
+  public static fromObject(template: object): Template {
     return new Template(template);
   }
 
