@@ -4,11 +4,14 @@ import { join } from 'path';
 import * as cdk from 'aws-cdk-lib';
 import { CfnInclude } from 'aws-cdk-lib/cloudformation-include';
 import * as reflect from 'jsii-reflect';
+import * as jsonschema from 'jsonschema';
+import { renderFullSchema } from './cdk-schema';
 import {
   ConstructBuilder,
   graphFromTemplate,
   parse,
   processReferences,
+  ValidationError,
 } from './deconstruction';
 import { Template } from './parser/template';
 
@@ -31,15 +34,15 @@ export class DeclarativeStack extends cdk.Stack {
     const typeSystem = props.typeSystem;
     const template = props.template;
 
-    // const schema = renderFullSchema(typeSystem);
+    const schema = renderFullSchema(typeSystem);
 
-    // const result = jsonschema.validate(template, schema);
-    // if (!result.valid) {
-    //   throw new ValidationError(
-    //     'Schema validation errors:\n  ' +
-    //       result.errors.map((e) => `"${e.property}" ${e.message}`).join('\n  ')
-    //   );
-    // }
+    const result = jsonschema.validate(template.template, schema);
+    if (!result.valid) {
+      throw new ValidationError(
+        'Schema validation errors:\n  ' +
+          result.errors.map((e) => `"${e.property}" ${e.message}`).join('\n  ')
+      );
+    }
 
     const builder = new ConstructBuilder({
       stack: this,
