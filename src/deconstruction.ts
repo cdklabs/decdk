@@ -883,6 +883,7 @@ export class ConstructBuilder {
     });
 
     template.resources.delete(resource.logicalId);
+    delete template.template.Resources?.[resource.logicalId];
 
     return construct;
   }

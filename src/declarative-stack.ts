@@ -63,16 +63,12 @@ export class DeclarativeStack extends cdk.Stack {
         }
       });
 
+    const cfnTemplate = JSON.parse(JSON.stringify(template.template));
+    delete cfnTemplate.$schema;
+
     const workdir = mkdtempSync(join(tmpdir(), 'decdk-'));
     const templateFile = join(workdir, 'template.json');
-    writeFileSync(
-      templateFile,
-      JSON.stringify({
-        Resources: [
-          // convert template.resources back to cfn or we Ctor CFN resources as well
-        ],
-      })
-    );
+    writeFileSync(templateFile, JSON.stringify(cfnTemplate));
 
     // Add an Include construct with what's left of the template
     new CfnInclude(this, 'Include', { templateFile });

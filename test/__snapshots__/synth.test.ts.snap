@@ -3069,6 +3069,14 @@ Object {
       "Type": "AWS::SQS::Queue",
       "UpdateReplacePolicy": "Delete",
     },
+    "MyLogGroup": Object {
+      "Properties": Object {
+        "LogGroupName": Object {
+          "Ref": "AWS::AccountId",
+        },
+      },
+      "Type": "AWS::Logs::LogGroup",
+    },
   },
   "Rules": Object {
     "CheckBootstrapVersion": Object {
