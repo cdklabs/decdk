@@ -16,6 +16,7 @@ export interface TemplateResource {
   readonly properties: Record<string, TemplateExpression>;
   readonly conditionName?: string;
   readonly dependencies: Set<string>;
+  readonly dependsOn: Set<string>;
   readonly deletionPolicy: RetentionPolicy;
   readonly updateReplacePolicy: RetentionPolicy;
   readonly metadata: Record<string, unknown>;
@@ -38,6 +39,9 @@ export function parseTemplateResource(
     dependencies: new Set([
       ...(ifField(resource, 'DependsOn', assertStringOrList) ?? []),
       ...findReferencedLogicalIds(properties),
+    ]),
+    dependsOn: new Set([
+      ...(ifField(resource, 'DependsOn', assertStringOrList) ?? []),
     ]),
     deletionPolicy:
       ifField(resource, 'DeletionPolicy', parseRetentionPolicy) ?? 'Delete',

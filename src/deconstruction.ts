@@ -1,5 +1,4 @@
 import * as cdk from 'aws-cdk-lib';
-import { CfnResource, Tags } from 'aws-cdk-lib';
 import { CfnInclude } from 'aws-cdk-lib/cloudformation-include';
 import { IConstruct } from 'constructs';
 import * as reflect from 'jsii-reflect';
@@ -640,9 +639,19 @@ export function _cwd<T>(workDir: string | undefined, cb: () => T): T {
   }
 }
 
+export function applyDependsOn(
+  stack: cdk.Stack,
+  from: IConstruct,
+  dependencies: string[] = []
+) {
+  dependencies.forEach((to) =>
+    from.node.addDependency(findConstruct(stack, to))
+  );
+}
+
 export function applyTags(resource: IConstruct, tags: ResourceTag[] = []) {
   tags.forEach((tag: ResourceTag) => {
-    Tags.of(resource).add(tag.key, tag.value);
+    cdk.Tags.of(resource).add(tag.key, tag.value);
   });
 }
 
@@ -665,14 +674,14 @@ export function applyOverrides(
   });
 }
 
-function resolvePath(root: IConstruct, path?: string): CfnResource {
+function resolvePath(root: IConstruct, path?: string): cdk.CfnResource {
   const ids = path != null ? path.split('.') : [];
   const destination = ids.reduce(descend, root);
-  if (CfnResource.isCfnResource(destination)) {
+  if (cdk.CfnResource.isCfnResource(destination)) {
     return destination;
   } else if (
     destination.node.defaultChild != null &&
-    CfnResource.isCfnResource(destination.node.defaultChild)
+    cdk.CfnResource.isCfnResource(destination.node.defaultChild)
   ) {
     return destination.node.defaultChild;
   }
@@ -763,6 +772,7 @@ export class ConstructBuilder {
       const cdkConstruct = new Ctor(stack, logicalId, props);
       applyTags(cdkConstruct, resource.tags);
       applyOverrides(cdkConstruct, resource.overrides);
+      applyDependsOn(stack, cdkConstruct, Array.from(resource.dependsOn));
       return cdkConstruct;
     });
 
