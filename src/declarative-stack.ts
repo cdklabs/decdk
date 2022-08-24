@@ -8,7 +8,6 @@ import * as jsonschema from 'jsonschema';
 import { renderFullSchema } from './cdk-schema';
 import {
   ConstructBuilder,
-  // graphFromTemplate,
   processReferences,
   ValidationError,
 } from './deconstruction';

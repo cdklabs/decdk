@@ -2,7 +2,6 @@ import * as cdk from 'aws-cdk-lib';
 import { CfnInclude } from 'aws-cdk-lib/cloudformation-include';
 import { IConstruct } from 'constructs';
 import * as reflect from 'jsii-reflect';
-import { DirectedAcyclicGraph, Edge } from './graph';
 import {
   isConstruct,
   isDataType,
@@ -11,7 +10,6 @@ import {
   SchemaContext,
   schemaForPolymorphic,
 } from './jsii2schema';
-import { IntrinsicFunctionsMatcher, ReferenceType } from './object-matchers';
 import {
   IntrinsicExpression,
   ObjectLiteral,
@@ -703,31 +701,6 @@ export function mapValues<A, B>(
   fn: (a: A) => B
 ): Record<string, B> {
   return Object.fromEntries(Object.entries(rec).map(([k, v]) => [k, fn(v)]));
-}
-
-/**
- * Extracts the graph structure encoded in the template
- * @param template a deCDK template
- */
-export function graphFromTemplate(
-  template: Template
-): DirectedAcyclicGraph<TemplateResource, ReferenceType> {
-  const resources = Object.fromEntries(template.resources);
-  const identified = Object.fromEntries(
-    Object.entries(resources).map(([id, v]) => [id, { ...v, logicalId: id }])
-  );
-  const parameterNames = Object.keys(template.parameters ?? {});
-  const resourceNames = Object.keys(template.resources ?? {});
-
-  const matcher = new IntrinsicFunctionsMatcher(parameterNames, resourceNames);
-
-  return new DirectedAcyclicGraph(identified, mapValues(resources, toEdges));
-
-  function toEdges(entry: TemplateResource): Edge<ReferenceType>[] {
-    return matcher
-      .match(entry)
-      .map((ref) => ({ label: ref.type, target: ref.target }));
-  }
 }
 
 export interface ConstructBuilderProps {
