@@ -12,8 +12,7 @@ import {
   SchemaContext,
   schemaForPolymorphic,
 } from './jsii2schema';
-import { Override, ReferenceType, ResourceDeclaration, Tag } from './model';
-import { IntrinsicFunctionsMatcher } from './object-matchers';
+import { IntrinsicFunctionsMatcher, ReferenceType } from './object-matchers';
 import {
   IntrinsicExpression,
   ObjectLiteral,
@@ -22,6 +21,8 @@ import {
   TemplateExpression,
   TemplateResource,
 } from './parser/template';
+import { ResourceOverride } from './parser/template/overrides';
+import { ResourceTag } from './parser/template/tags';
 
 export function resolveType(fqn: string) {
   const [mod, ...className] = fqn.split('.');
@@ -639,17 +640,17 @@ export function _cwd<T>(workDir: string | undefined, cb: () => T): T {
   }
 }
 
-export function applyTags(resource: IConstruct, tags: Tag[] = []) {
-  tags.forEach((tag: Tag) => {
+export function applyTags(resource: IConstruct, tags: ResourceTag[] = []) {
+  tags.forEach((tag: ResourceTag) => {
     Tags.of(resource).add(tag.key, tag.value);
   });
 }
 
 export function applyOverrides(
   resource: IConstruct,
-  overrides: Override[] = []
+  overrides: ResourceOverride[] = []
 ) {
-  overrides.forEach((override: Override) => {
+  overrides.forEach((override: ResourceOverride) => {
     if (override.removeResource) {
       resource.node.tryRemoveChild(override.childConstructPath!);
     } else if (override.update != null) {
@@ -720,23 +721,6 @@ export function graphFromTemplate(
   }
 }
 
-/**
- * Transforms a resource entry provided by the user into a strongly typed
- * declaration. If the entry is not valid, a specific error will be thrown.
- */
-export function parse(
-  id: string,
-  entry: TemplateResource
-): ResourceDeclaration {
-  return {
-    logicalId: id,
-    type: entry.type,
-    properties: entry.properties,
-    tags: entry.tags,
-    overrides: entry.overrides,
-  };
-}
-
 export interface ConstructBuilderProps {
   readonly typeSystem: reflect.TypeSystem;
   readonly workingDirectory?: string;
@@ -751,7 +735,10 @@ export class ConstructBuilder {
    * Creates a new CDK Construct based on its resource declaration and the
    * declarations of its dependencies.
    */
-  public build(resource: ResourceDeclaration): IConstruct | undefined {
+  public build(
+    logicalId: string,
+    resource: TemplateResource
+  ): IConstruct | undefined {
     if (isCfnResourceType(resource.type)) {
       return undefined;
     }
@@ -773,14 +760,14 @@ export class ConstructBuilder {
           })
         : undefined;
 
-      const cdkConstruct = new Ctor(stack, resource.logicalId, props);
+      const cdkConstruct = new Ctor(stack, logicalId, props);
       applyTags(cdkConstruct, resource.tags);
       applyOverrides(cdkConstruct, resource.overrides);
       return cdkConstruct;
     });
 
-    template.resources.delete(resource.logicalId);
-    delete template.template.Resources?.[resource.logicalId];
+    template.resources.delete(logicalId);
+    delete template.template.Resources?.[logicalId];
 
     return construct;
   }

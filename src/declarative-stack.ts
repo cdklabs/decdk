@@ -9,7 +9,6 @@ import { renderFullSchema } from './cdk-schema';
 import {
   ConstructBuilder,
   graphFromTemplate,
-  parse,
   processReferences,
   ValidationError,
 } from './deconstruction';
@@ -53,11 +52,8 @@ export class DeclarativeStack extends cdk.Stack {
 
     // Recover the graph structure encoded in the template
     graphFromTemplate(template)
-      // Convert the user provided input into an intermediate representation
-      .mapVertices(parse)
-
       // Transform each declaration in the intermediate representation into a CDK construct
-      .mapVertices((_, declaration) => builder.build(declaration))
+      .mapVertices((logicalId, resource) => builder.build(logicalId, resource))
 
       // Add dependencies where necessary
       .forEachEdge((from, to, label) => {

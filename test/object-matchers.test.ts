@@ -1,5 +1,5 @@
-import { PSEUDO_PARAMETER_NAMES } from '../src/model';
 import {
+  PSEUDO_PARAMETER_NAMES,
   IntrinsicFunctionsMatcher,
   DependsOnMatcher,
   FnGetAttMatcher,

@@ -1,4 +1,19 @@
-import { PSEUDO_PARAMETER_NAMES, Reference } from './model';
+export const PSEUDO_PARAMETER_NAMES = [
+  'AWS::AccountId',
+  'AWS::Region',
+  'AWS::Partition',
+  'AWS::URLSuffix',
+  'AWS::NotificationARNs',
+  'AWS::StackId',
+  'AWS::StackName',
+  'AWS::NoValue',
+];
+export type ReferenceType = 'Ref' | 'FnGetAtt' | 'DependsOn' | 'FnSub';
+
+export interface Reference {
+  type: ReferenceType;
+  target: string;
+}
 
 export interface Matcher {
   match(value: unknown): Reference[];
