@@ -4,14 +4,13 @@ import {
   assertObject,
   assertString,
 } from '../private/types';
-import { schema } from '../schema';
 
 export interface ResourceTag {
   key: string;
   value: string;
 }
 
-export function parseTags(x: schema.Resource['Tags']): ResourceTag[] {
+export function parseTags(x: unknown): ResourceTag[] {
   return assertListOfForm(x ?? [], parseTag, '{Key: string, Value: string}');
 }
 

@@ -23,6 +23,7 @@ export namespace schema {
     readonly CreationPolicy?: CreationPolicy;
     readonly UpdatePolicy?: UpdatePolicy;
     readonly Tags?: Tag[];
+    readonly Overrides?: Override[];
   }
 
   export interface CreationPolicy {
@@ -72,6 +73,18 @@ export namespace schema {
   export interface Tag {
     readonly Key: string;
     readonly Value: string;
+  }
+
+  export interface Override {
+    readonly ChildConstructPath?: string;
+    readonly Update?: {
+      readonly Path: string;
+      readonly Value: CfnValue<any>;
+    };
+    readonly Delete?: {
+      readonly Path: string;
+    };
+    readonly RemoveResource?: boolean;
   }
 
   export type Mapping = Record<string, any>;

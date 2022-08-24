@@ -50,7 +50,7 @@ export function assertList(x: unknown, lengths?: number[]): unknown[] {
 export function assertListOfForm<T>(
   x: unknown,
   assertForm: (e: unknown) => T,
-  form: string
+  form?: string
 ): T[] {
   try {
     return assertList(x).map(assertForm);
@@ -72,6 +72,14 @@ export function assertBoolean(x: unknown): boolean {
   return x;
 }
 
+export function assertTrue(x: unknown): true {
+  assertBoolean(x);
+  if (x !== true) {
+    throw new ParserError(`Expected 'true', got: ${JSON.stringify(x)}`);
+  }
+  return x;
+}
+
 export function assertObject(x: unknown): Record<string, unknown> {
   if (typeof x !== 'object' || x == null || Array.isArray(x)) {
     throw new ParserError(`Expected object, got: ${JSON.stringify(x)}`);
@@ -87,6 +95,21 @@ export function assertField<A extends object, K extends keyof A>(
     throw new ParserError(`Expected field named '${String(fieldName)}'`);
   }
   return xs[fieldName];
+}
+
+export function assertExactlyOneOfFields<A extends object, K extends keyof A>(
+  xs: A,
+  fieldNames: K[]
+): K {
+  const foundFields = fieldNames.filter((f) => f in xs);
+  if (foundFields.length !== 1) {
+    throw new ParserError(
+      `Expected exactly one of the fields ${fieldNames
+        .map((f) => `'${String(f)}'`)
+        .join(', ')}, got: ${JSON.stringify(xs)}`
+    );
+  }
+  return foundFields[0];
 }
 
 export function assertStringOrList(x: unknown): string[] {

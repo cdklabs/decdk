@@ -655,7 +655,8 @@ export function applyOverrides(
     } else if (override.update != null) {
       const descendent = resolvePath(resource, override.childConstructPath);
       const { path, value } = override.update;
-      descendent.addOverride(path, value);
+      // @todo this can be any template expression
+      descendent.addOverride(path, (value as StringLiteral).value);
     } else if (override.delete != null) {
       const descendent = resolvePath(resource, override.childConstructPath);
       descendent.addDeletionOverride(override.delete.path);
@@ -729,91 +730,11 @@ export function parse(
 ): ResourceDeclaration {
   return {
     logicalId: id,
-    type: validateType(entry.type),
+    type: entry.type,
     properties: entry.properties,
     tags: entry.tags,
-    overrides: [], // overrides: validateOverrides(entry.overrides),
+    overrides: entry.overrides,
   };
-
-  function validateType(value: unknown): string {
-    if (value == null) {
-      throw new Error('Resource is missing type: ' + JSON.stringify(value));
-    }
-    if (typeof value !== 'string') {
-      throw new Error('Type should be a string');
-    }
-    return value;
-  }
-
-  // function validateProperties(value: unknown): Record<string, unknown> {
-  //   if (value == null) {
-  //     return {};
-  //   }
-  //   if (typeof value !== 'object') {
-  //     throw new Error('Properties must be an object');
-  //   }
-  //   return Object.fromEntries(Object.entries(value));
-  // }
-
-  // function validateOverrides(value: unknown): Override[] {
-  //   if (value == null) {
-  //     return [];
-  //   }
-  //   if (!Array.isArray(value)) {
-  //     throw new Error('Overrides must be an array');
-  //   }
-
-  //   return value.map((element) => {
-  //     if (
-  //       element.RemoveResource === true &&
-  //       element.ChildConstructPath == null
-  //     ) {
-  //       throw new Error(
-  //         "Overrides must have a 'ChildConstructPath' attribute when RemoveResource is true"
-  //       );
-  //     }
-  //     const actions = [element.RemoveResource, element.Update, element.Delete];
-  //     if (actions.filter((action) => action != null).length !== 1) {
-  //       throw new Error(
-  //         "Exactly one of these actions should be provided in an Override: 'RemoveResource', 'Update' or 'Delete'"
-  //       );
-  //     }
-
-  //     return {
-  //       update: validateUpdate(element.Update),
-  //       delete: validateDelete(element.Delete),
-  //       childConstructPath: element.ChildConstructPath,
-  //       removeResource: element.RemoveResource ?? false,
-  //     };
-  //   });
-  // }
-
-  // function validateUpdate(
-  //   update: any
-  // ): { path: string; value: unknown } | undefined {
-  //   if (update == null) return undefined;
-
-  //   if (update.Path == null || update.Value == null) {
-  //     throw new Error(
-  //       "Update overrides must have a 'Path' and a 'Value' attribute"
-  //     );
-  //   }
-  //   return {
-  //     path: update.Path,
-  //     value: update.Value,
-  //   };
-  // }
-
-  // function validateDelete(del: any): { path: string } | undefined {
-  //   if (del == null) return undefined;
-
-  //   if (del.Path == null) {
-  //     throw new Error("Delete overrides must have a 'Path' attribute");
-  //   }
-  //   return {
-  //     path: del.Path,
-  //   };
-  // }
 }
 
 export interface ConstructBuilderProps {
