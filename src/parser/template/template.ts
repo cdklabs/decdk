@@ -22,6 +22,10 @@ export class Template {
     return new Template(tpl);
   }
 
+  public static async fromObject(template: object): Promise<Template> {
+    return new Template(template);
+  }
+
   public static empty(): Template {
     return new Template({
       Resources: {},

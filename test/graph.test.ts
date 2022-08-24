@@ -48,7 +48,7 @@ describe(DirectedAcyclicGraph, () => {
   });
 
   test('mapVertices', () => {
-    const squares = graph.mapVertices((x) => x * x);
+    const squares = graph.mapVertices((_, x) => x * x);
     expect(squares.sortedVertices).toEqual([16, 4, 9, 1]);
   });
 
