@@ -8,6 +8,7 @@ import {
 import { schema } from '../schema';
 import { RetentionPolicy } from './enums';
 import { ifField, parseObject, TemplateExpression } from './expression';
+import { parseTags, ResourceTag } from './tags';
 
 export interface TemplateResource {
   readonly type: string;
@@ -17,6 +18,7 @@ export interface TemplateResource {
   readonly deletionPolicy: RetentionPolicy;
   readonly updateReplacePolicy: RetentionPolicy;
   readonly metadata: Record<string, unknown>;
+  readonly tags: ResourceTag[];
   // readonly creationPolicy?: CreationPolicy;
   // readonly updatePolicy?: UpdatePolicy;
 }
@@ -40,6 +42,7 @@ export function parseTemplateResource(
     updateReplacePolicy:
       ifField(resource, 'UpdateReplacePolicy', parseRetentionPolicy) ??
       'Delete',
+    tags: parseTags(resource.Tags),
   };
 }
 

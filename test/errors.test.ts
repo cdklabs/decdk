@@ -21,3 +21,22 @@ test('invalid enum option raises an error', async () => {
     'Could not find enum choice BOOM for enum type aws-cdk-lib.aws_sqs.QueueEncryption. Available options: [UNENCRYPTED, KMS_MANAGED, KMS]'
   );
 });
+test('invalid tags raises an error', async () => {
+  // GIVEN
+  const template = {
+    Resources: {
+      Hello: {
+        Type: 'aws-cdk-lib.aws_sqs.Queue',
+        Properties: {
+          encryption: 'boom',
+        },
+        Tags: [{}],
+      },
+    },
+  };
+
+  // THEN
+  await expect(async () => Template.fromObject(template)).rejects.toThrow(
+    'Expected list of form {Key: string, Value: string}'
+  );
+});

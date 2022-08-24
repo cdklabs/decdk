@@ -731,7 +731,7 @@ export function parse(
     logicalId: id,
     type: validateType(entry.type),
     properties: entry.properties,
-    tags: [], // tags: validateTags(entry.tags),
+    tags: entry.tags,
     overrides: [], // overrides: validateOverrides(entry.overrides),
   };
 
@@ -753,30 +753,6 @@ export function parse(
   //     throw new Error('Properties must be an object');
   //   }
   //   return Object.fromEntries(Object.entries(value));
-  // }
-
-  // function validateTags(value: unknown): Tag[] {
-  //   if (value == null) {
-  //     return [];
-  //   }
-
-  //   if (!Array.isArray(value)) {
-  //     throw new Error('Tags must be an array');
-  //   }
-
-  //   return value.map((element) => {
-  //     if (
-  //       element == null ||
-  //       typeof element !== 'object' ||
-  //       element.Key == null ||
-  //       element.Value == null
-  //     ) {
-  //       throw new Error(
-  //         'Tags must contain only elements of the form {Key: string, Value: string}'
-  //       );
-  //     }
-  //     return { key: element.Key, value: element.Value };
-  //   });
   // }
 
   // function validateOverrides(value: unknown): Override[] {

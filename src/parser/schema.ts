@@ -22,6 +22,7 @@ export namespace schema {
     readonly Metadata?: Record<string, any>;
     readonly CreationPolicy?: CreationPolicy;
     readonly UpdatePolicy?: UpdatePolicy;
+    readonly Tags?: Tag[];
   }
 
   export interface CreationPolicy {
@@ -66,6 +67,11 @@ export namespace schema {
       readonly Name: CfnValue<string>;
     };
     readonly Condition?: string;
+  }
+
+  export interface Tag {
+    readonly Key: string;
+    readonly Value: string;
   }
 
   export type Mapping = Record<string, any>;

@@ -178,6 +178,12 @@ Object {
           ],
         },
         "Runtime": "python3.6",
+        "Tags": Array [
+          Object {
+            "Key": "category",
+            "Value": "ecommerce",
+          },
+        ],
       },
       "Type": "AWS::Lambda::Function",
     },
@@ -207,6 +213,12 @@ Object {
                 ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
               ],
             ],
+          },
+        ],
+        "Tags": Array [
+          Object {
+            "Key": "category",
+            "Value": "ecommerce",
           },
         ],
       },
