@@ -766,7 +766,7 @@ export class ConstructBuilder {
       return cdkConstruct;
     });
 
-    template.resources.delete(logicalId);
+    // @todo this is bad. keep track differently
     delete template.template.Resources?.[logicalId];
 
     return construct;

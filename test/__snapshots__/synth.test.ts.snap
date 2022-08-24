@@ -2923,24 +2923,12 @@ Object {
       "Type": "AWS::IAM::Policy",
     },
     "Repo02AC86CF": Object {
-      "DependsOn": Array [
-        "BuildProject097C5DB7",
-        "BuildProjectRoleDefaultPolicy3E9F248C",
-        "BuildProjectRoleAA92C755",
-        "Key961B73FD",
-      ],
       "Properties": Object {
         "RepositoryName": "my-first-decdk-repo",
       },
       "Type": "AWS::CodeCommit::Repository",
     },
     "RepoTestPipeline9942903CEventRule83B9BC8D": Object {
-      "DependsOn": Array [
-        "BuildProject097C5DB7",
-        "BuildProjectRoleDefaultPolicy3E9F248C",
-        "BuildProjectRoleAA92C755",
-        "Key961B73FD",
-      ],
       "Properties": Object {
         "EventPattern": Object {
           "detail": Object {

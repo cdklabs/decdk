@@ -8,7 +8,7 @@ import * as jsonschema from 'jsonschema';
 import { renderFullSchema } from './cdk-schema';
 import {
   ConstructBuilder,
-  graphFromTemplate,
+  // graphFromTemplate,
   processReferences,
   ValidationError,
 } from './deconstruction';
@@ -50,17 +50,14 @@ export class DeclarativeStack extends cdk.Stack {
       workingDirectory: props.workingDirectory,
     });
 
-    // Recover the graph structure encoded in the template
-    graphFromTemplate(template)
-      // Transform each declaration in the intermediate representation into a CDK construct
-      .mapVertices((logicalId, resource) => builder.build(logicalId, resource))
+    const graph = template.resourceGraph();
+    const topoQueue = graph.topoQueue();
 
-      // Add dependencies where necessary
-      .forEachEdge((from, to, label) => {
-        if (from != null && to != null && label === 'DependsOn') {
-          from.node.addDependency(to);
-        }
-      });
+    while (!topoQueue.isEmpty()) {
+      topoQueue.withNext((logicalId, resource) =>
+        builder.build(logicalId, resource)
+      );
+    }
 
     const cfnTemplate = JSON.parse(JSON.stringify(template.template));
     delete cfnTemplate.$schema;
