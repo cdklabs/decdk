@@ -1,6 +1,6 @@
 import * as cdk from 'aws-cdk-lib';
+import { Fn } from 'aws-cdk-lib';
 import { CfnInclude } from 'aws-cdk-lib/cloudformation-include';
-import { IConstruct } from 'constructs';
 import * as reflect from 'jsii-reflect';
 import {
   isConstruct,
@@ -14,12 +14,8 @@ import {
   IntrinsicExpression,
   ObjectLiteral,
   StringLiteral,
-  Template,
   TemplateExpression,
-  TemplateResource,
 } from './parser/template';
-import { ResourceOverride } from './parser/template/overrides';
-import { ResourceTag } from './parser/template/tags';
 
 export function resolveType(fqn: string) {
   const [mod, ...className] = fqn.split('.');
@@ -150,8 +146,9 @@ export function deconstructValue(options: DeconstructValueOptions): any {
     return ifc;
   }
 
-  if (typeRef.primitive === value.type && 'value' in value) {
-    return value.value;
+  const primitive = deconstructPrimitive(options);
+  if (primitive) {
+    return primitive;
   }
 
   const enumLike = deconstructEnumLike(options);
@@ -164,11 +161,70 @@ export function deconstructValue(options: DeconstructValueOptions): any {
     return asType;
   }
 
+  const asAny = deconstructAny(options);
+  if (asAny) {
+    return asAny;
+  }
+
   throw new Error(
     `Unable to deconstruct "${JSON.stringify(value)}" for type ref ${typeRef}`
   );
 }
 
+export function deconstructPrimitive(options: DeconstructCommonOptions) {
+  const { typeRef, value } = options;
+
+  if (typeRef.primitive !== value.type || !('value' in value)) {
+    return undefined;
+  }
+
+  return value.value;
+}
+
+export function deconstructAny(options: DeconstructCommonOptions) {
+  const { stack, typeRef, key, value } = options;
+
+  if (!typeRef.isAny) {
+    return undefined;
+  }
+
+  switch (value.type) {
+    case 'object':
+      const out: Record<string, any> = {};
+      for (const [k, v] of Object.entries(value.fields)) {
+        out[k] = deconstructValue({
+          stack,
+          typeRef: typeRef,
+          optional: false,
+          key: `${key}.${k}`,
+          value: v,
+        });
+      }
+      return out;
+    case 'string':
+      return deconstructPrimitive({
+        stack,
+        typeRef: new reflect.TypeReference(typeRef.system, {
+          primitive: 'string' as any,
+        }),
+        key,
+        value,
+      });
+    case 'array':
+      return deconstructArray({
+        stack,
+        typeRef: new reflect.TypeReference(typeRef.system, {
+          primitive: 'any' as any,
+        }),
+        key,
+        value,
+      });
+    default:
+      return undefined;
+  }
+}
+
+// special
 export function deconstructRef(options: DeconstructCommonOptions) {
   const { stack, typeRef, value } = options;
 
@@ -180,6 +236,10 @@ export function deconstructRef(options: DeconstructCommonOptions) {
 
   if (isConstruct(typeRef)) {
     return findConstruct(stack, asRef);
+  }
+
+  if (typeRef.isAny || typeRef.primitive === 'string') {
+    return Fn.ref(asRef);
   }
 
   throw new Error(
@@ -334,6 +394,49 @@ export function deconstructEnumLike(options: DeconstructCommonOptions) {
     return undefined;
   }
 
+  function deconstructStaticProperty(tr: reflect.ClassType, v: string) {
+    const typeClass = resolveType(tr.fqn);
+    return typeClass[v];
+  }
+
+  function deconstructStaticMethod(
+    s: cdk.Stack,
+    tr: reflect.ClassType,
+    v: ObjectLiteral
+  ) {
+    const methods = tr.allMethods.filter((m) => m.static);
+    const members = methods.map((x) => x.name);
+
+    if (v.type === 'object') {
+      const entries: Array<[string, any]> = Object.entries(v.fields);
+      if (entries.length !== 1) {
+        throw new Error(
+          `Value for enum-like class ${
+            tr.fqn
+          } must be an object with a single key (one of: ${members.join(',')})`
+        );
+      }
+
+      const [methodName, args] = entries[0];
+      const method = methods.find((m) => m.name === methodName);
+      if (!method) {
+        throw new Error(
+          `Invalid member "${methodName}" for enum-like class ${
+            tr.fqn
+          }. Options: ${members.join(',')}`
+        );
+      }
+
+      if (args.type !== 'object') {
+        throw new Error(
+          `Expecting enum-like member ${methodName} to be an object for enum-like class ${typeRef.fqn}`
+        );
+      }
+
+      return invokeMethod(s, method, args);
+    }
+  }
+
   // if the value is a string, we deconstruct it as a static property
   if (value.type === 'string') {
     return deconstructStaticProperty(typeRef.type, value.value);
@@ -402,52 +505,6 @@ export function findDefinition(defs: any, $ref: string) {
   return defs[k];
 }
 
-export function deconstructStaticProperty(
-  typeRef: reflect.ClassType,
-  value: string
-) {
-  const typeClass = resolveType(typeRef.fqn);
-  return typeClass[value];
-}
-
-export function deconstructStaticMethod(
-  stack: cdk.Stack,
-  typeRef: reflect.ClassType,
-  value: ObjectLiteral
-) {
-  const methods = typeRef.allMethods.filter((m) => m.static);
-  const members = methods.map((x) => x.name);
-
-  if (value.type === 'object') {
-    const entries: Array<[string, any]> = Object.entries(value.fields);
-    if (entries.length !== 1) {
-      throw new Error(
-        `Value for enum-like class ${
-          typeRef.fqn
-        } must be an object with a single key (one of: ${members.join(',')})`
-      );
-    }
-
-    const [methodName, args] = entries[0];
-    const method = methods.find((m) => m.name === methodName);
-    if (!method) {
-      throw new Error(
-        `Invalid member "${methodName}" for enum-like class ${
-          typeRef.fqn
-        }. Options: ${members.join(',')}`
-      );
-    }
-
-    if (args.type !== 'object') {
-      throw new Error(
-        `Expecting enum-like member ${methodName} to be an object for enum-like class ${typeRef.fqn}`
-      );
-    }
-
-    return invokeMethod(stack, method, args);
-  }
-}
-
 export function invokeMethod(
   stack: cdk.Stack,
   method: reflect.Callable,
@@ -507,6 +564,7 @@ export function invokeMethod(
   return methodFn.apply(typeClass, args);
 }
 
+// special
 export function deconstructGetAtt(options: DeconstructCommonOptions) {
   const { stack, typeRef, key, value } = options;
 
@@ -578,185 +636,8 @@ export function findConstruct(stack: cdk.Stack, id: string) {
   return child;
 }
 
-export function processReferences(stack: cdk.Stack) {
-  const include = stack.node.findChild('Include') as CfnInclude;
-  if (!include) {
-    throw new Error('Unexpected');
-  }
-
-  process((include as any).template);
-
-  function process(value: any): any {
-    if (
-      typeof value === 'object' &&
-      Object.keys(value).length === 1 &&
-      Object.keys(value)[0] === 'Fn::GetAtt'
-    ) {
-      const [id, attribute] = value['Fn::GetAtt'];
-      return produceLazyGetAtt(stack, id, attribute);
-    }
-
-    if (Array.isArray(value)) {
-      return value.map((x) => process(x));
-    }
-
-    if (typeof value === 'object') {
-      for (const [k, v] of Object.entries(value)) {
-        value[k] = process(v);
-      }
-      return value;
-    }
-
-    return value;
-  }
-}
-
 export function isCfnResourceType(resourceType: string) {
   return resourceType.includes('::');
 }
 
 export class ValidationError extends Error {}
-
-export function _cwd<T>(workDir: string | undefined, cb: () => T): T {
-  if (!workDir) {
-    return cb();
-  }
-  const prevWd = process.cwd();
-  try {
-    process.chdir(workDir);
-    return cb();
-  } finally {
-    process.chdir(prevWd);
-  }
-}
-
-export function applyDependsOn(
-  stack: cdk.Stack,
-  from: IConstruct,
-  dependencies: string[] = []
-) {
-  dependencies.forEach((to) =>
-    from.node.addDependency(findConstruct(stack, to))
-  );
-}
-
-export function applyTags(resource: IConstruct, tags: ResourceTag[] = []) {
-  tags.forEach((tag: ResourceTag) => {
-    cdk.Tags.of(resource).add(tag.key, tag.value);
-  });
-}
-
-export function applyOverrides(
-  resource: IConstruct,
-  overrides: ResourceOverride[] = []
-) {
-  overrides.forEach((override: ResourceOverride) => {
-    if (override.removeResource) {
-      resource.node.tryRemoveChild(override.childConstructPath!);
-    } else if (override.update != null) {
-      const descendent = resolvePath(resource, override.childConstructPath);
-      const { path, value } = override.update;
-      // @todo this can be any template expression
-      descendent.addOverride(path, (value as StringLiteral).value);
-    } else if (override.delete != null) {
-      const descendent = resolvePath(resource, override.childConstructPath);
-      descendent.addDeletionOverride(override.delete.path);
-    }
-  });
-}
-
-function resolvePath(root: IConstruct, path?: string): cdk.CfnResource {
-  const ids = path != null ? path.split('.') : [];
-  const destination = ids.reduce(descend, root);
-  if (cdk.CfnResource.isCfnResource(destination)) {
-    return destination;
-  } else if (
-    destination.node.defaultChild != null &&
-    cdk.CfnResource.isCfnResource(destination.node.defaultChild)
-  ) {
-    return destination.node.defaultChild;
-  }
-  throw new Error(
-    `Resource ${path} does not have a default child. Please specify the Cfn resource`
-  );
-
-  function descend(construct: IConstruct, id: string): IConstruct {
-    const child = construct.node.tryFindChild(id);
-    if (child == null) {
-      throw new Error(`${id} does not exist`);
-    }
-    return child;
-  }
-}
-
-export function mapValues<A, B>(
-  rec: Record<string, A>,
-  fn: (a: A) => B
-): Record<string, B> {
-  return Object.fromEntries(Object.entries(rec).map(([k, v]) => [k, fn(v)]));
-}
-
-export interface ConstructBuilderProps {
-  readonly typeSystem: reflect.TypeSystem;
-  readonly workingDirectory?: string;
-  readonly stack: cdk.Stack;
-  readonly template: Template;
-}
-
-export class ConstructBuilder {
-  constructor(private readonly props: ConstructBuilderProps) {}
-
-  /**
-   * Creates a new CDK Construct based on its resource declaration and the
-   * declarations of its dependencies.
-   */
-  public build(
-    logicalId: string,
-    resource: TemplateResource
-  ): IConstruct | undefined {
-    if (isCfnResourceType(resource.type)) {
-      return undefined;
-    }
-
-    const { workingDirectory, stack, template } = this.props;
-    const propsTypeRef = this.extractPropsType(resource.type);
-    const Ctor = resolveType(resource.type);
-
-    // Changing working directory if needed, such that relative paths in the template are resolved relative to the
-    // template's location, and not to the current process' CWD.
-    const construct = _cwd(workingDirectory, () => {
-      const props = propsTypeRef
-        ? deconstructValue({
-            stack,
-            typeRef: propsTypeRef,
-            optional: true,
-            key: 'Properties',
-            value: { type: 'object', fields: resource.properties },
-          })
-        : undefined;
-
-      const cdkConstruct = new Ctor(stack, logicalId, props);
-      applyTags(cdkConstruct, resource.tags);
-      applyOverrides(cdkConstruct, resource.overrides);
-      applyDependsOn(stack, cdkConstruct, Array.from(resource.dependsOn));
-      return cdkConstruct;
-    });
-
-    // @todo this is bad. keep track differently
-    delete template.template.Resources?.[logicalId];
-
-    return construct;
-  }
-
-  private extractPropsType(fqn: string): reflect.TypeReference | undefined {
-    const construct = this.props.typeSystem.findFqn(fqn);
-    if (!construct.isClassType()) {
-      return;
-    }
-
-    const [_scopeParam, _idParam, propsParam] =
-      construct.initializer?.parameters ?? [];
-
-    return propsParam?.type;
-  }
-}
