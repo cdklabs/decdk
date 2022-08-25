@@ -1,15 +1,12 @@
 import * as path from 'path';
-import * as fs from 'fs-extra';
 import * as jsiiReflect from 'jsii-reflect';
-import * as YAML from 'yaml';
+import { Template } from './parser/template';
 
 /**
  * Reads a YAML/JSON template file.
  */
-export async function readTemplate(templateFile: string) {
-  const str = await fs.readFile(templateFile, { encoding: 'utf-8' });
-  const template = YAML.parse(str, { schema: 'yaml-1.1' });
-  return template;
+export async function readTemplate(templateFile: string): Promise<Template> {
+  return Template.fromFile(templateFile);
 }
 
 export async function loadTypeSystem(validate = true) {

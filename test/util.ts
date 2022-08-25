@@ -1,7 +1,8 @@
 import * as cdk from 'aws-cdk-lib';
-import { Template } from 'aws-cdk-lib/assertions';
+import { Template as AssertionTemplate } from 'aws-cdk-lib/assertions';
 import * as reflect from 'jsii-reflect';
 import { DeclarativeStack, loadTypeSystem } from '../src';
+import { Template } from '../src/parser/template';
 
 let _cachedTS: reflect.TypeSystem;
 async function obtainTypeSystem() {
@@ -13,19 +14,19 @@ async function obtainTypeSystem() {
 }
 
 export class Testing {
-  public static async synth(template: any) {
+  public static async synth(template: Template) {
     const { app, stack } = await this.prepare(template);
 
     return app.synth().getStackByName(stack.stackName);
   }
 
-  public static async template(template: any) {
+  public static async template(template: Template) {
     const { stack } = await this.prepare(template);
 
-    return Template.fromStack(stack);
+    return AssertionTemplate.fromStack(stack);
   }
 
-  private static async prepare(template: any) {
+  private static async prepare(template: Template) {
     const stackName = 'Test';
     const typeSystem = await obtainTypeSystem();
 

@@ -1,9 +1,7 @@
 import * as cdk from 'aws-cdk-lib';
-import { CfnResource, Tags } from 'aws-cdk-lib';
 import { CfnInclude } from 'aws-cdk-lib/cloudformation-include';
 import { IConstruct } from 'constructs';
 import * as reflect from 'jsii-reflect';
-import { DirectedAcyclicGraph, Edge } from './graph';
 import {
   isConstruct,
   isDataType,
@@ -13,13 +11,15 @@ import {
   schemaForPolymorphic,
 } from './jsii2schema';
 import {
-  CfnResourceEntry,
-  Override,
-  ReferenceType,
-  ResourceDeclaration,
-  Tag,
-} from './model';
-import { IntrinsicFunctionsMatcher } from './object-matchers';
+  IntrinsicExpression,
+  ObjectLiteral,
+  StringLiteral,
+  Template,
+  TemplateExpression,
+  TemplateResource,
+} from './parser/template';
+import { ResourceOverride } from './parser/template/overrides';
+import { ResourceTag } from './parser/template/tags';
 
 export function resolveType(fqn: string) {
   const [mod, ...className] = fqn.split('.');
@@ -58,42 +58,41 @@ export interface ParsedIntrinsic {
  * parsed.value === ["MyLambda", "Arn"]
  * ```
  */
-export function tryParseIntrinsic(input: any): ParsedIntrinsic | undefined {
-  if (typeof input !== 'object') {
+export function tryParseIntrinsic(
+  input: TemplateExpression
+): IntrinsicExpression | undefined {
+  if (input.type !== 'intrinsic') {
     return undefined;
   }
 
-  if (Object.keys(input).length !== 1) {
-    return undefined;
-  }
-
-  const [name, value] = Object.entries(input)[0];
-  return { name, value };
+  return input;
 }
 
-export function tryResolveRef(value: any) {
-  const fn = tryParseIntrinsic(value);
-  if (!fn || fn.name !== 'Ref') {
+export function tryResolveRef(value: TemplateExpression) {
+  const intrinsic = tryParseIntrinsic(value);
+  if (!intrinsic || intrinsic.fn !== 'ref') {
     return undefined;
   }
 
-  return fn.value;
+  return intrinsic.logicalId;
 }
 
-export function tryResolveGetAtt(value: any) {
-  const fn = tryParseIntrinsic(value);
-  if (!fn || fn.name !== 'Fn::GetAtt') {
+export function tryResolveGetAtt(
+  value: TemplateExpression
+): [string, TemplateExpression] | undefined {
+  const intrinsic = tryParseIntrinsic(value);
+  if (!intrinsic || intrinsic.fn !== 'getAtt') {
     return undefined;
   }
 
-  return fn.value;
+  return [intrinsic.logicalId, intrinsic.attribute];
 }
 
 export interface DeconstructCommonOptions {
   readonly stack: cdk.Stack;
   readonly typeRef: reflect.TypeReference;
   readonly key: string;
-  readonly value: any;
+  readonly value: TemplateExpression;
 }
 
 export interface DeconstructValueOptions extends DeconstructCommonOptions {
@@ -151,8 +150,15 @@ export function deconstructValue(options: DeconstructValueOptions): any {
     return ifc;
   }
 
-  if (typeRef.primitive) {
-    return value;
+  if (typeRef.primitive && value.type === 'string') {
+    switch (typeRef.primitive) {
+      case 'number':
+        return parseInt(value.value, 10);
+      case 'boolean':
+        return value.value === 'true';
+      default:
+        return value.value;
+    }
   }
 
   const enumLike = deconstructEnumLike(options);
@@ -180,7 +186,7 @@ export function deconstructRef(options: DeconstructCommonOptions) {
   }
 
   if (isConstruct(typeRef)) {
-    return findConstruct(stack, value.Ref);
+    return findConstruct(stack, asRef);
   }
 
   throw new Error(
@@ -196,11 +202,11 @@ export function deconstructArray(options: DeconstructCommonOptions) {
     return undefined;
   }
 
-  if (!Array.isArray(value)) {
+  if (value.type !== 'array' || !Array.isArray(value.array)) {
     throw new Error(`Expecting array for ${key} in ${typeRef}`);
   }
 
-  return value.map((x, i) =>
+  return value.array.map((x, i) =>
     deconstructValue({
       stack,
       typeRef: typeRef.arrayOfType!,
@@ -218,12 +224,12 @@ export function deconstructMap(options: DeconstructCommonOptions) {
     return undefined;
   }
 
-  if (typeof value !== 'object') {
+  if (value.type !== 'object') {
     throw new ValidationError(`Expecting object for ${key} in ${typeRef}`);
   }
 
   const out: Record<string, any> = {};
-  for (const [k, v] of Object.entries(value)) {
+  for (const [k, v] of Object.entries(value.fields)) {
     out[k] = deconstructValue({
       stack,
       typeRef: typeRef.mapOfType,
@@ -276,13 +282,13 @@ export function deconstructEnum(options: DeconstructCommonOptions) {
     return undefined;
   }
 
-  if (typeof value !== 'string') {
+  if (value.type !== 'string' || typeof value.value !== 'string') {
     throw new Error(
       `Enum choice must be a string literal, found ${JSON.stringify(value)}.`
     );
   }
 
-  const enumChoice = value.toUpperCase();
+  const enumChoice = value.value.toUpperCase();
   const enumType = resolveType(typeRef.type.fqn);
 
   if (!(enumChoice in enumType)) {
@@ -305,7 +311,8 @@ export function deconstructInterface(options: DeconstructCommonOptions) {
 
   const out: any = {};
   for (const prop of typeRef.type.allProperties) {
-    const propValue = value[prop.name];
+    // @todo
+    const propValue = (value as ObjectLiteral)?.fields?.[prop.name];
     if (propValue === undefined) {
       if (!prop.optional) {
         throw new ValidationError(
@@ -335,12 +342,12 @@ export function deconstructEnumLike(options: DeconstructCommonOptions) {
   }
 
   // if the value is a string, we deconstruct it as a static property
-  if (typeof value === 'string') {
-    return deconstructStaticProperty(typeRef.type, value);
+  if (value.type === 'string') {
+    return deconstructStaticProperty(typeRef.type, value.value);
   }
 
   // if the value is an object, we deconstruct it as a static method
-  if (typeof value === 'object' && !Array.isArray(value)) {
+  if (value.type === 'object') {
     return deconstructStaticMethod(stack, typeRef.type, value);
   }
 
@@ -361,13 +368,13 @@ export function deconstructType(options: DeconstructCommonOptions) {
 
   const def = findDefinition(schemaDefs, schemaRef.$ref);
 
-  const keys = Object.keys(value);
-  if (keys.length !== 1) {
+  // @todo
+  if (value.type !== 'object' || Object.keys(value.fields).length !== 1) {
     throw new ValidationError(
       `Cannot parse class type ${typeRef} with value ${value}`
     );
   }
-
+  const keys = Object.keys(value.fields);
   const className = keys[0];
 
   // now we need to check if it's an enum or a normal class
@@ -393,7 +400,8 @@ export function deconstructType(options: DeconstructCommonOptions) {
     throw new Error(`Cannot find the initializer for ${classFqn}`);
   }
 
-  return invokeMethod(stack, method, value[className]);
+  // @todo
+  return invokeMethod(stack, method, value.fields[className] as ObjectLiteral);
 }
 
 export function findDefinition(defs: any, $ref: string) {
@@ -412,13 +420,13 @@ export function deconstructStaticProperty(
 export function deconstructStaticMethod(
   stack: cdk.Stack,
   typeRef: reflect.ClassType,
-  value: any
+  value: ObjectLiteral
 ) {
   const methods = typeRef.allMethods.filter((m) => m.static);
   const members = methods.map((x) => x.name);
 
-  if (typeof value === 'object') {
-    const entries: Array<[string, any]> = Object.entries(value);
+  if (value.type === 'object') {
+    const entries: Array<[string, any]> = Object.entries(value.fields);
     if (entries.length !== 1) {
       throw new Error(
         `Value for enum-like class ${
@@ -437,7 +445,7 @@ export function deconstructStaticMethod(
       );
     }
 
-    if (typeof args !== 'object') {
+    if (args.type !== 'object') {
       throw new Error(
         `Expecting enum-like member ${methodName} to be an object for enum-like class ${typeRef.fqn}`
       );
@@ -450,7 +458,7 @@ export function deconstructStaticMethod(
 export function invokeMethod(
   stack: cdk.Stack,
   method: reflect.Callable,
-  parameters: any
+  parameters: ObjectLiteral
 ) {
   const typeClass = resolveType(method.parentType.fqn);
   const args = new Array<any>();
@@ -471,7 +479,7 @@ export function invokeMethod(
       });
       args.push(kwargs);
     } else {
-      const value = parameters[p.name];
+      const value = parameters.fields[p.name];
       if (value === undefined && !p.optional) {
         throw new Error(
           `Missing required parameter '${p.name}' for ${method.parentType.fqn}.${method.name}`
@@ -515,7 +523,7 @@ export function deconstructGetAtt(options: DeconstructCommonOptions) {
 
     if (isConstruct(typeRef)) {
       const obj: any = findConstruct(stack, logical);
-      return obj[attr];
+      return obj[(attr as StringLiteral).value];
     }
 
     if (typeRef.primitive === 'string') {
@@ -541,7 +549,7 @@ export function deconstructGetAtt(options: DeconstructCommonOptions) {
 export function produceLazyGetAtt(
   stack: cdk.Stack,
   id: string,
-  attribute: string
+  attribute: TemplateExpression
 ) {
   return cdk.Lazy.string({
     produce: () => {
@@ -562,7 +570,7 @@ export function produceLazyGetAtt(
         // just leak
         return { 'Fn::GetAtt': [id, attribute] };
       }
-      return (res as any)[attribute];
+      return (res as any)[(attribute as StringLiteral).value];
     },
   });
 }
@@ -629,23 +637,34 @@ export function _cwd<T>(workDir: string | undefined, cb: () => T): T {
   }
 }
 
-export function applyTags(resource: IConstruct, tags: Tag[] = []) {
-  tags.forEach((tag: Tag) => {
-    Tags.of(resource).add(tag.key, tag.value);
+export function applyDependsOn(
+  stack: cdk.Stack,
+  from: IConstruct,
+  dependencies: string[] = []
+) {
+  dependencies.forEach((to) =>
+    from.node.addDependency(findConstruct(stack, to))
+  );
+}
+
+export function applyTags(resource: IConstruct, tags: ResourceTag[] = []) {
+  tags.forEach((tag: ResourceTag) => {
+    cdk.Tags.of(resource).add(tag.key, tag.value);
   });
 }
 
 export function applyOverrides(
   resource: IConstruct,
-  overrides: Override[] = []
+  overrides: ResourceOverride[] = []
 ) {
-  overrides.forEach((override: Override) => {
+  overrides.forEach((override: ResourceOverride) => {
     if (override.removeResource) {
       resource.node.tryRemoveChild(override.childConstructPath!);
     } else if (override.update != null) {
       const descendent = resolvePath(resource, override.childConstructPath);
       const { path, value } = override.update;
-      descendent.addOverride(path, value);
+      // @todo this can be any template expression
+      descendent.addOverride(path, (value as StringLiteral).value);
     } else if (override.delete != null) {
       const descendent = resolvePath(resource, override.childConstructPath);
       descendent.addDeletionOverride(override.delete.path);
@@ -653,14 +672,14 @@ export function applyOverrides(
   });
 }
 
-function resolvePath(root: IConstruct, path?: string): CfnResource {
+function resolvePath(root: IConstruct, path?: string): cdk.CfnResource {
   const ids = path != null ? path.split('.') : [];
   const destination = ids.reduce(descend, root);
-  if (CfnResource.isCfnResource(destination)) {
+  if (cdk.CfnResource.isCfnResource(destination)) {
     return destination;
   } else if (
     destination.node.defaultChild != null &&
-    CfnResource.isCfnResource(destination.node.defaultChild)
+    cdk.CfnResource.isCfnResource(destination.node.defaultChild)
   ) {
     return destination.node.defaultChild;
   }
@@ -684,154 +703,11 @@ export function mapValues<A, B>(
   return Object.fromEntries(Object.entries(rec).map(([k, v]) => [k, fn(v)]));
 }
 
-/**
- * Extracts the graph structure encoded in the template
- * @param template a deCDK template
- */
-export function graphFromTemplate(
-  template: any
-): DirectedAcyclicGraph<CfnResourceEntry, ReferenceType> {
-  const resources = template.Resources as Record<string, CfnResourceEntry>;
-  const identified = Object.fromEntries(
-    Object.entries(resources).map(([id, v]) => [id, { ...v, logicalId: id }])
-  );
-  const parameterNames = Object.keys(template.Parameters ?? {});
-  const resourceNames = Object.keys(template.Resources ?? {});
-
-  const matcher = new IntrinsicFunctionsMatcher(parameterNames, resourceNames);
-
-  return new DirectedAcyclicGraph(identified, mapValues(resources, toEdges));
-
-  function toEdges(entry: CfnResourceEntry): Edge<ReferenceType>[] {
-    return matcher
-      .match(entry)
-      .map((ref) => ({ label: ref.type, target: ref.target }));
-  }
-}
-
-/**
- * Transforms a resource entry provided by the user into a strongly typed
- * declaration. If the entry is not valid, a specific error will be thrown.
- */
-export function parse(entry: CfnResourceEntry): ResourceDeclaration {
-  return {
-    logicalId: entry.logicalId,
-    type: validateType(entry.Type),
-    properties: validateProperties(entry.Properties),
-    tags: validateTags(entry.Tags),
-    overrides: validateOverrides(entry.Overrides),
-  };
-
-  function validateType(value: unknown): string {
-    if (value == null) {
-      throw new Error('Resource is missing type: ' + JSON.stringify(value));
-    }
-    if (typeof value !== 'string') {
-      throw new Error('Type should be a string');
-    }
-    return value;
-  }
-
-  function validateProperties(value: unknown): Record<string, unknown> {
-    if (value == null) {
-      return {};
-    }
-    if (typeof value !== 'object') {
-      throw new Error('Properties must be an object');
-    }
-    return Object.fromEntries(Object.entries(value));
-  }
-
-  function validateTags(value: unknown): Tag[] {
-    if (value == null) {
-      return [];
-    }
-
-    if (!Array.isArray(value)) {
-      throw new Error('Tags must be an array');
-    }
-
-    return value.map((element) => {
-      if (
-        element == null ||
-        typeof element !== 'object' ||
-        element.Key == null ||
-        element.Value == null
-      ) {
-        throw new Error(
-          'Tags must contain only elements of the form {Key: string, Value: string}'
-        );
-      }
-      return { key: element.Key, value: element.Value };
-    });
-  }
-
-  function validateOverrides(value: unknown): Override[] {
-    if (value == null) {
-      return [];
-    }
-    if (!Array.isArray(value)) {
-      throw new Error('Overrides must be an array');
-    }
-
-    return value.map((element) => {
-      if (
-        element.RemoveResource === true &&
-        element.ChildConstructPath == null
-      ) {
-        throw new Error(
-          "Overrides must have a 'ChildConstructPath' attribute when RemoveResource is true"
-        );
-      }
-      const actions = [element.RemoveResource, element.Update, element.Delete];
-      if (actions.filter((action) => action != null).length !== 1) {
-        throw new Error(
-          "Exactly one of these actions should be provided in an Override: 'RemoveResource', 'Update' or 'Delete'"
-        );
-      }
-
-      return {
-        update: validateUpdate(element.Update),
-        delete: validateDelete(element.Delete),
-        childConstructPath: element.ChildConstructPath,
-        removeResource: element.RemoveResource ?? false,
-      };
-    });
-  }
-
-  function validateUpdate(
-    update: any
-  ): { path: string; value: unknown } | undefined {
-    if (update == null) return undefined;
-
-    if (update.Path == null || update.Value == null) {
-      throw new Error(
-        "Update overrides must have a 'Path' and a 'Value' attribute"
-      );
-    }
-    return {
-      path: update.Path,
-      value: update.Value,
-    };
-  }
-
-  function validateDelete(del: any): { path: string } | undefined {
-    if (del == null) return undefined;
-
-    if (del.Path == null) {
-      throw new Error("Delete overrides must have a 'Path' attribute");
-    }
-    return {
-      path: del.Path,
-    };
-  }
-}
-
 export interface ConstructBuilderProps {
   readonly typeSystem: reflect.TypeSystem;
   readonly workingDirectory?: string;
   readonly stack: cdk.Stack;
-  readonly template: any;
+  readonly template: Template;
 }
 
 export class ConstructBuilder {
@@ -841,7 +717,10 @@ export class ConstructBuilder {
    * Creates a new CDK Construct based on its resource declaration and the
    * declarations of its dependencies.
    */
-  public build(resource: ResourceDeclaration): IConstruct | undefined {
+  public build(
+    logicalId: string,
+    resource: TemplateResource
+  ): IConstruct | undefined {
     if (isCfnResourceType(resource.type)) {
       return undefined;
     }
@@ -859,17 +738,19 @@ export class ConstructBuilder {
             typeRef: propsTypeRef,
             optional: true,
             key: 'Properties',
-            value: resource.properties,
+            value: { type: 'object', fields: resource.properties },
           })
         : undefined;
 
-      const cdkConstruct = new Ctor(stack, resource.logicalId, props);
+      const cdkConstruct = new Ctor(stack, logicalId, props);
       applyTags(cdkConstruct, resource.tags);
       applyOverrides(cdkConstruct, resource.overrides);
+      applyDependsOn(stack, cdkConstruct, Array.from(resource.dependsOn));
       return cdkConstruct;
     });
 
-    delete template.Resources[resource.logicalId];
+    // @todo this is bad. keep track differently
+    delete template.template.Resources?.[logicalId];
 
     return construct;
   }

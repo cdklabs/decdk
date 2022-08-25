@@ -8,15 +8,14 @@ import * as jsonschema from 'jsonschema';
 import { renderFullSchema } from './cdk-schema';
 import {
   ConstructBuilder,
-  graphFromTemplate,
-  parse,
   processReferences,
   ValidationError,
 } from './deconstruction';
+import { Template } from './parser/template';
 
 export interface DeclarativeStackProps extends cdk.StackProps {
   typeSystem: reflect.TypeSystem;
-  template: any;
+  template: Template;
   workingDirectory?: string;
 }
 
@@ -35,7 +34,7 @@ export class DeclarativeStack extends cdk.Stack {
 
     const schema = renderFullSchema(typeSystem);
 
-    const result = jsonschema.validate(template, schema);
+    const result = jsonschema.validate(template.template, schema);
     if (!result.valid) {
       throw new ValidationError(
         'Schema validation errors:\n  ' +
@@ -50,26 +49,21 @@ export class DeclarativeStack extends cdk.Stack {
       workingDirectory: props.workingDirectory,
     });
 
-    // Recover the graph structure encoded in the template
-    graphFromTemplate(template)
-      // Convert the user provided input into an intermediate representation
-      .mapVertices(parse)
+    const graph = template.resourceGraph();
+    const topoQueue = graph.topoQueue();
 
-      // Transform each declaration in the intermediate representation into a CDK construct
-      .mapVertices((declaration) => builder.build(declaration))
+    while (!topoQueue.isEmpty()) {
+      topoQueue.withNext((logicalId, resource) =>
+        builder.build(logicalId, resource)
+      );
+    }
 
-      // Add dependencies where necessary
-      .forEachEdge((from, to, label) => {
-        if (from != null && to != null && label === 'DependsOn') {
-          from.node.addDependency(to);
-        }
-      });
-
-    delete template.$schema;
+    const cfnTemplate = JSON.parse(JSON.stringify(template.template));
+    delete cfnTemplate.$schema;
 
     const workdir = mkdtempSync(join(tmpdir(), 'decdk-'));
     const templateFile = join(workdir, 'template.json');
-    writeFileSync(templateFile, JSON.stringify(template));
+    writeFileSync(templateFile, JSON.stringify(cfnTemplate));
 
     // Add an Include construct with what's left of the template
     new CfnInclude(this, 'Include', { templateFile });

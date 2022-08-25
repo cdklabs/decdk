@@ -22,6 +22,10 @@ export class Template {
     return new Template(tpl);
   }
 
+  public static fromObject(template: object): Template {
+    return new Template(template);
+  }
+
   public static empty(): Template {
     return new Template({
       Resources: {},
@@ -34,7 +38,7 @@ export class Template {
   public readonly mappings: Map<string, TemplateMapping>;
   public readonly outputs: Map<string, TemplateOutput>;
 
-  constructor(private readonly template: schema.Template) {
+  constructor(public template: schema.Template) {
     this.parameters = new TemplateParameters(this.template.Parameters ?? {});
 
     this.resources = new Map(
