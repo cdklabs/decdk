@@ -824,6 +824,10 @@ Object {
       "Type": "AWS::EC2::EIP",
     },
     "VPCPublicSubnet1NATGatewayE0556630": Object {
+      "DependsOn": Array [
+        "VPCPublicSubnet1DefaultRoute91CEF279",
+        "VPCPublicSubnet1RouteTableAssociation0B0896DC",
+      ],
       "Properties": Object {
         "AllocationId": Object {
           "Fn::GetAtt": Array [
@@ -1533,7 +1537,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "1d3b5490cd99feddeb525a62c046988997469f2a765d0f12b43cff9d87a284fa.zip",
+          "S3Key": "39ee629321f531fffd853b944b2d6f3fa7b5276431c9a4fd4dc681303ab15080.zip",
         },
         "Description": "/opt/awscli/aws",
       },
@@ -3381,6 +3385,10 @@ Object {
       "Type": "AWS::EC2::EIP",
     },
     "VPCPublicSubnet1NATGatewayE0556630": Object {
+      "DependsOn": Array [
+        "VPCPublicSubnet1DefaultRoute91CEF279",
+        "VPCPublicSubnet1RouteTableAssociation0B0896DC",
+      ],
       "Properties": Object {
         "AllocationId": Object {
           "Fn::GetAtt": Array [
@@ -3485,6 +3493,10 @@ Object {
       "Type": "AWS::EC2::EIP",
     },
     "VPCPublicSubnet2NATGateway3C070193": Object {
+      "DependsOn": Array [
+        "VPCPublicSubnet2DefaultRouteB7481BBA",
+        "VPCPublicSubnet2RouteTableAssociation5A808732",
+      ],
       "Properties": Object {
         "AllocationId": Object {
           "Fn::GetAtt": Array [
