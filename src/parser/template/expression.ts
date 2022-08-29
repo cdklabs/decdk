@@ -180,6 +180,9 @@ export function parseExpression(x: unknown): TemplateExpression {
       logicalId: assertString(value),
     }),
     'Fn::GetAtt': (value) => {
+      if (typeof value == 'string') {
+        value = value.split('.');
+      }
       const xs = assertList(value, [2]);
       return {
         type: 'intrinsic',
