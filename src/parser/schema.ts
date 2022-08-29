@@ -114,7 +114,7 @@ export namespace schema {
     'Fn::FindInMap': [CfnValue<string>, CfnValue<string>, CfnValue<string>];
   };
   export type FnGetAZs = { 'Fn::GetAZs': string | Ref };
-  export type FnGetAtt = { 'Fn::GetAtt': [string, string | Ref] };
+  export type FnGetAtt = { 'Fn::GetAtt': string | [string, string | Ref] };
   export type FnIf = { 'Fn::If': [string, CfnValue<any>, CfnValue<any>] };
   export type FnImportValue = { 'Fn::ImportValue': CfnValue<string> };
   export type FnJoin = {
