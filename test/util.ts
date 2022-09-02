@@ -14,6 +14,10 @@ async function obtainTypeSystem() {
 }
 
 export class Testing {
+  public static get typeSystem() {
+    return obtainTypeSystem();
+  }
+
   public static async synth(template: Template) {
     const { app, stack } = await this.prepare(template);
 

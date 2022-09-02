@@ -150,15 +150,8 @@ export function deconstructValue(options: DeconstructValueOptions): any {
     return ifc;
   }
 
-  if (typeRef.primitive && value.type === 'string') {
-    switch (typeRef.primitive) {
-      case 'number':
-        return parseInt(value.value, 10);
-      case 'boolean':
-        return value.value === 'true';
-      default:
-        return value.value;
-    }
+  if (typeRef.primitive === value.type && 'value' in value) {
+    return value.value;
   }
 
   const enumLike = deconstructEnumLike(options);

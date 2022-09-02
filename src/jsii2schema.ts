@@ -555,7 +555,19 @@ export function isSerializableInterface(
   );
 }
 
-function isEnum(type: jsiiReflect.Type): type is jsiiReflect.EnumType {
+export function isBehavioralInterface(
+  type: jsiiReflect.Type | undefined
+): type is jsiiReflect.InterfaceType {
+  if (!type || !type.isInterfaceType()) {
+    return false;
+  }
+
+  return type.name.toLocaleUpperCase().startsWith('I');
+}
+
+export function isEnum(
+  type: jsiiReflect.Type | undefined
+): type is jsiiReflect.EnumType {
   return type instanceof jsiiReflect.EnumType;
 }
 
@@ -633,7 +645,7 @@ export function isConstruct(
   return false;
 }
 
-function allImplementationsOfType(type: jsiiReflect.Type) {
+export function allImplementationsOfType(type: jsiiReflect.Type) {
   if (type instanceof jsiiReflect.ClassType) {
     return allSubclasses(type).filter((x) => !x.abstract);
   }
@@ -645,7 +657,7 @@ function allImplementationsOfType(type: jsiiReflect.Type) {
   throw new Error('Must either be a class or an interface');
 }
 
-function allSubclasses(base: jsiiReflect.ClassType) {
+export function allSubclasses(base: jsiiReflect.ClassType) {
   return base.system.classes.filter((x) => x.extends(base));
 }
 

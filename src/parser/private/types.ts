@@ -35,7 +35,10 @@ export function assertNumber(x: unknown): number {
   throw new ParserError(`Expected number, got: ${JSON.stringify(x)}`);
 }
 
-export function assertList(x: unknown, lengths?: number[]): unknown[] {
+export function assertList<T = unknown>(
+  x: T[] | unknown,
+  lengths?: number[]
+): T[] | unknown[] {
   if (!Array.isArray(x)) {
     throw new ParserError(`Expected list, got: ${JSON.stringify(x)}`);
   }
