@@ -1,3 +1,6 @@
+import * as fs from 'fs';
+import * as path from 'path';
+import { join } from 'path';
 import * as cdk from 'aws-cdk-lib';
 import { Template as AssertionTemplate } from 'aws-cdk-lib/assertions';
 import * as reflect from 'jsii-reflect';
@@ -13,9 +16,32 @@ async function obtainTypeSystem() {
   return _cachedTS;
 }
 
+let _cachedExamples: fs.Dirent[];
+function loadExamples() {
+  // Load only once, it's quite expensive
+  if (!_cachedExamples) {
+    const isTemplateFile = (dirent: fs.Dirent): boolean =>
+      dirent.isFile() &&
+      (dirent.name.endsWith('.json') || dirent.name.endsWith('.yaml'));
+
+    _cachedExamples = fs
+      .readdirSync(Testing.examples_dir, { withFileTypes: true })
+      .filter(isTemplateFile);
+  }
+  return _cachedExamples;
+}
+
 export class Testing {
   public static get typeSystem() {
     return obtainTypeSystem();
+  }
+
+  public static get examples_dir() {
+    return path.join(__dirname, '..', 'examples');
+  }
+
+  public static get examples() {
+    return loadExamples();
   }
 
   public static async synth(template: Template) {
@@ -45,4 +71,19 @@ export class Testing {
   }
 
   private constructor() {}
+}
+
+export function testExamples(
+  testCase: (example: { name: string; path: string }) => any,
+  timeout?: number
+) {
+  test.each(Testing.examples.map((file) => ({ file })))(
+    '$file.name',
+    ({ file }) =>
+      testCase({
+        name: file.name,
+        path: join(Testing.examples_dir, file.name),
+      }),
+    timeout
+  );
 }

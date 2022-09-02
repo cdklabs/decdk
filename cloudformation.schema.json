@@ -2,6 +2,19 @@
     "$schema": "http://json-schema.org/draft-04/schema#",
     "additionalProperties": false,
     "definitions": {
+        "CfnResource": {
+            "additionalProperties": true,
+            "properties": {
+                "Type": {
+                    "type": "string",
+                    "pattern": ".*::.*"
+                }
+            },
+            "required": [
+                "Type"
+            ],
+            "type": "object"
+        },
         "Parameter": {
             "additionalProperties": false,
             "properties": {
@@ -123,7 +136,9 @@
             "patternProperties": {
                 "^[a-zA-Z0-9]+$": {
                     "anyOf": [
-                        { }
+                        {
+                            "$ref": "#/definitions/CfnResource"
+                        }
                     ]
                 }
             },

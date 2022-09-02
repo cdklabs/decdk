@@ -151,16 +151,11 @@ export function schemaForResource(
 ) {
   ctx = ctx.child('resource', construct.constructClass.fqn);
 
-  const propsSchema = schemaForTypeReference(construct.propsTypeRef, ctx);
-  if (!propsSchema) {
-    return undefined;
-  }
-
   return ctx.define(construct.constructClass.fqn, () => {
     return {
       additionalProperties: false,
       properties: {
-        Properties: propsSchema,
+        Properties: schemaForProps(construct.propsTypeRef, ctx),
         Type: {
           enum: [construct.constructClass.fqn],
           type: 'string',
@@ -180,6 +175,17 @@ export function schemaForResource(
   });
 }
 
+function schemaForProps(
+  propsTypeRef: jsiiReflect.TypeReference | undefined,
+  ctx: SchemaContext
+) {
+  if (!propsTypeRef) {
+    return;
+  }
+
+  return schemaForTypeReference(propsTypeRef, ctx);
+}
+
 function isCfnResource(klass: jsiiReflect.ClassType) {
   const resource = klass.system.findClass('aws-cdk-lib.CfnResource');
   return klass.extends(resource);
@@ -191,8 +197,15 @@ function unpackConstruct(
   if (!klass.initializer || klass.abstract) {
     return undefined;
   }
-  if (klass.initializer.parameters.length < 3) {
+  if (klass.initializer.parameters.length < 2) {
     return undefined;
+  }
+
+  if (klass.initializer.parameters.length == 2) {
+    return {
+      constructClass: klass,
+      propsTypeRef: undefined,
+    };
   }
 
   const propsParam = klass.initializer.parameters[2];
@@ -208,5 +221,5 @@ function unpackConstruct(
 
 export interface ConstructAndProps {
   constructClass: jsiiReflect.ClassType;
-  propsTypeRef: jsiiReflect.TypeReference;
+  propsTypeRef?: jsiiReflect.TypeReference;
 }
