@@ -5,7 +5,7 @@ test('path.resolve is sane', async () => {
   // graceful-fs, which is used by Jest, hooks into process.cwd() and
   // process.chdir() and caches the values. Because... profit?
 
-  const targetDir = path.join(__dirname, 'fixture');
+  const targetDir = path.join(__dirname, 'schema', 'fixture');
 
   const cwd = process.cwd();
 
