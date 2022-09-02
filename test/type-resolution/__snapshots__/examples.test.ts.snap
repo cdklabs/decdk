@@ -1783,7 +1783,7 @@ DependencyGraph {
         "properties": Object {
           "encryption": Object {
             "type": "string",
-            "value": "Unencrypted",
+            "value": "UNENCRYPTED",
           },
         },
         "tags": Array [],
