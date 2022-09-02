@@ -35,6 +35,10 @@ const project = new typescript.TypeScriptProject({
   },
   autoApproveUpgrades: true,
 
+  jestOptions: {
+    extraCliOptions: ['--runInBand'],
+  },
+
   prettier: true,
   prettierOptions: {
     settings: {

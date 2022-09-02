@@ -4,12 +4,15 @@ import {
   assertList,
   assertObject,
   assertString,
+  ParserError,
 } from '../private/types';
 
 export type TemplateExpression =
   | StringLiteral
   | ObjectLiteral
   | ArrayLiteral
+  | NumberLiteral
+  | BooleanLiteral
   | IntrinsicExpression;
 
 export interface StringLiteral {
@@ -17,15 +20,28 @@ export interface StringLiteral {
   readonly value: string;
 }
 
-export interface ObjectLiteral {
-  readonly type: 'object';
-  readonly fields: Record<string, TemplateExpression>;
+export interface NumberLiteral {
+  readonly type: 'number';
+  readonly value: number;
 }
 
-export interface ArrayLiteral {
-  readonly type: 'array';
-  readonly array: TemplateExpression[];
+export interface BooleanLiteral {
+  readonly type: 'boolean';
+  readonly value: boolean;
 }
+
+export interface ObjectExpression<T> {
+  readonly type: 'object';
+  readonly fields: Record<string, T>;
+}
+
+export interface ArrayExpression<T> {
+  readonly type: 'array';
+  readonly array: T[];
+}
+
+export interface ArrayLiteral extends ArrayExpression<TemplateExpression> {}
+export interface ObjectLiteral extends ObjectExpression<TemplateExpression> {}
 
 export type IntrinsicExpression =
   | RefIntrinsic
@@ -161,14 +177,40 @@ export interface EqualsIntrinsic {
   readonly value2: TemplateExpression;
 }
 
+export function isExpression(x: unknown): x is TemplateExpression {
+  try {
+    assertExpression(x);
+    return true;
+  } catch (_) {
+    return false;
+  }
+}
+
+export function assertExpression(x: unknown): TemplateExpression {
+  const expressionType = assertString(assertField(assertObject(x), 'type'));
+  const expressionTypes = ['string', 'object', 'array', 'intrinsic'];
+  if (!expressionTypes.includes(expressionType)) {
+    throw new ParserError(
+      `Expected ${expressionTypes.join('|')}, got: '${JSON.stringify(
+        expressionType
+      )}'`
+    );
+  }
+
+  return x as TemplateExpression;
+}
+
 export function parseExpression(x: unknown): TemplateExpression {
   if (typeof x === 'string') {
     return { type: 'string', value: x };
   }
-  // There are no such things as numbers or booleans in CloudFormation.
-  if (typeof x === 'number' || typeof x === 'boolean') {
-    return { type: 'string', value: `${x}` };
+  if (typeof x === 'number') {
+    return { type: 'number', value: x };
   }
+  if (typeof x === 'boolean') {
+    return { type: 'boolean', value: x };
+  }
+
   if (Array.isArray(x)) {
     return { type: 'array', array: x.map(parseExpression) };
   }

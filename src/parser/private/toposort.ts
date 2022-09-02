@@ -118,6 +118,33 @@ export class DependencyGraph<A> {
     return this._dependencies;
   }
 
+  /**
+   * Iterate over all elements in the graph in execution order
+   */
+  public forEach<B>(block: (identifier: string, element: A) => B): void {
+    const queue = this.topoQueue();
+
+    while (!queue.isEmpty()) {
+      queue.withNext(block);
+    }
+  }
+
+  /**
+   * Map over all elements in the graph in execution order, without changing dependencies
+   */
+  public map<B>(
+    block: (identifier: string, element: A) => B
+  ): DependencyGraph<B> {
+    const mappedNodes: Record<string, B> = {};
+    const deps = this.copyDependencies();
+
+    this.forEach((id: string, element) => {
+      mappedNodes[id] = block(id, element);
+    });
+
+    return new DependencyGraph<B>(mappedNodes, deps);
+  }
+
   private copyDependencies() {
     return new Map(
       Array.from(this._dependencies.entries()).map(
