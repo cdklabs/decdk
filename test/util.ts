@@ -6,7 +6,6 @@ import { Template as AssertionTemplate } from 'aws-cdk-lib/assertions';
 import * as reflect from 'jsii-reflect';
 import * as jsonschema from 'jsonschema';
 import { DeclarativeStack, loadTypeSystem } from '../src';
-import { renderFullSchema } from '../src/cdk-schema';
 import { Template } from '../src/parser/template';
 
 let _cachedTS: reflect.TypeSystem;
@@ -19,10 +18,12 @@ async function obtainTypeSystem() {
 }
 
 let _cachedSchema: jsonschema.Schema;
-async function loadJsonSchema() {
+function loadJsonSchemaFromFile() {
   // Load only once, it's quite expensive
   if (!_cachedSchema) {
-    _cachedSchema = renderFullSchema(await obtainTypeSystem());
+    _cachedSchema = JSON.parse(
+      fs.readFileSync(path.join(__dirname, '..', 'cdk.schema.json')).toString()
+    );
   }
   return _cachedSchema;
 }
@@ -45,10 +46,6 @@ function loadExamples() {
 export class Testing {
   public static get typeSystem() {
     return obtainTypeSystem();
-  }
-
-  public static get schema() {
-    return loadJsonSchema();
   }
 
   public static get examples_dir() {
@@ -112,8 +109,9 @@ declare global {
 }
 
 expect.extend({
-  async toBeValidTemplate(template) {
-    const result = jsonschema.validate(template, await Testing.schema);
+  toBeValidTemplate(template) {
+    const schema = loadJsonSchemaFromFile();
+    const result = jsonschema.validate(template, schema);
 
     if (!result.valid) {
       return {

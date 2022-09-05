@@ -73,7 +73,7 @@ describe('overrides', () => {
 
   test("can only have one of 'RemoveResource', 'Update' or 'Delete'", async () => {
     // GIVEN
-    const template: schema.Template = {
+    const template = {
       Resources: {
         Hello: {
           Type: 'aws-cdk-lib.aws_sqs.Queue',
