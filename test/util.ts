@@ -102,3 +102,32 @@ export function testExamples(
     timeout
   );
 }
+
+declare global {
+  namespace jest {
+    interface Matchers<R> {
+      toBeValidTemplate: () => CustomMatcherResult;
+    }
+  }
+}
+
+expect.extend({
+  async toBeValidTemplate(template) {
+    const result = jsonschema.validate(template, await Testing.schema);
+
+    if (!result.valid) {
+      return {
+        pass: false,
+        message: () =>
+          'Expected valid template, got:' +
+          '\n' +
+          result.errors.map((e) => e.message).join('\n'),
+      };
+    }
+
+    return {
+      pass: true,
+      message: () => 'Expected template to be invalid, but it was valid.',
+    };
+  },
+});

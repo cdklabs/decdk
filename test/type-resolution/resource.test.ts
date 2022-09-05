@@ -33,6 +33,7 @@ test('ResourceLikes are resolved correctly', async () => {
     .map((_, resource) => resolveResourceLike(resource, typeSystem));
 
   // THEN
+  expect(template.template).toBeValidTemplate();
   expect(typedTemplate.get('CdkTopic').type).toBe('construct');
   expect(typedTemplate.get('CfnTopic').type).toBe('resource');
 });

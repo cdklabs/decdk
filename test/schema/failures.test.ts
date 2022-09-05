@@ -1,12 +1,3 @@
-import * as jsonschema from 'jsonschema';
-import { Schema } from 'jsonschema';
-import { Testing } from '../util';
-
-let schema: Schema;
-beforeAll(async () => {
-  schema = await Testing.schema;
-});
-
 test('invalid schema will fail', () => {
   // GIVEN
   const template = {
@@ -22,6 +13,5 @@ test('invalid schema will fail', () => {
   };
 
   // THEN
-  const result = jsonschema.validate(template, schema);
-  expect(result.valid).toBe(false);
+  expect(template).not.toBeValidTemplate();
 });

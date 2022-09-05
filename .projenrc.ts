@@ -37,6 +37,9 @@ const project = new typescript.TypeScriptProject({
 
   jestOptions: {
     extraCliOptions: ['--runInBand'],
+    jestConfig: {
+      setupFilesAfterEnv: ['<rootDir>/test/util.ts'],
+    },
   },
 
   prettier: true,

@@ -15,5 +15,6 @@ testExamples(async (example) => {
     .resourceGraph()
     .map((_, resource) => resolveResourceLike(resource, typeSystem));
 
+  expect(template.template).toBeValidTemplate();
   expect(typedTemplate).toMatchSnapshot();
 });
