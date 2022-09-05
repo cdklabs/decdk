@@ -1,16 +1,3 @@
-import * as reflect from 'jsii-reflect';
-import * as jsonschema from 'jsonschema';
-import { Schema } from 'jsonschema';
-import { renderFullSchema } from '../../src/cdk-schema';
-import { Testing } from '../util';
-
-let typeSystem: reflect.TypeSystem;
-let schema: Schema;
-beforeAll(async () => {
-  typeSystem = await Testing.typeSystem;
-  schema = renderFullSchema(typeSystem);
-});
-
 test('invalid schema will fail', () => {
   // GIVEN
   const template = {
@@ -26,6 +13,5 @@ test('invalid schema will fail', () => {
   };
 
   // THEN
-  const result = jsonschema.validate(template, schema);
-  expect(result.valid).toBe(false);
+  expect(template).not.toBeValidTemplate();
 });

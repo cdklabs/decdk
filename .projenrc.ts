@@ -37,6 +37,10 @@ const project = new typescript.TypeScriptProject({
 
   jestOptions: {
     extraCliOptions: ['--runInBand'],
+    jestConfig: {
+      testTimeout: 10000,
+      setupFilesAfterEnv: ['<rootDir>/test/util.ts'],
+    },
   },
 
   prettier: true,
@@ -53,8 +57,13 @@ const project = new typescript.TypeScriptProject({
     },
   },
 
-  gitignore: ['cdk.schema.json', 'cdk.out'],
+  gitignore: ['cdk.out'],
 });
+
+// Build schema after compilation
+project.tasks
+  .tryFind('post-compile')
+  ?.exec('node bin/decdk-schema --no-warnings > cdk.schema.json');
 
 // resolve @types/prettier@2.6.0 conflicts with
 // typescript 3.9 (required by current jsii)

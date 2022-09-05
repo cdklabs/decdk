@@ -32,6 +32,7 @@ test('Static Methods are resolved correctly', async () => {
     .map((_, resource) => resolveResourceLike(resource, typeSystem));
 
   // THEN
+  expect(template.template).toBeValidTemplate();
   const myLambda = typedTemplate.get('MyLambda');
   expect(myLambda.type).toBe('construct');
   expect(myLambda.props?.type).toBe('struct');

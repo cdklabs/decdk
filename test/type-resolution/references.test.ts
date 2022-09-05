@@ -45,6 +45,7 @@ test('Constructs can be referenced', async () => {
     .map((_, resource) => resolveResourceLike(resource, typeSystem));
 
   // THEN
+  expect(template.template).toBeValidTemplate();
   const myApi = typedTemplate.get('MyApi');
   expect(myApi.type).toBe('construct');
   expect(myApi.props?.type).toBe('struct');

@@ -4,6 +4,7 @@ import { join } from 'path';
 import * as cdk from 'aws-cdk-lib';
 import { Template as AssertionTemplate } from 'aws-cdk-lib/assertions';
 import * as reflect from 'jsii-reflect';
+import * as jsonschema from 'jsonschema';
 import { DeclarativeStack, loadTypeSystem } from '../src';
 import { Template } from '../src/parser/template';
 
@@ -14,6 +15,17 @@ async function obtainTypeSystem() {
     _cachedTS = await loadTypeSystem(true);
   }
   return _cachedTS;
+}
+
+let _cachedSchema: jsonschema.Schema;
+function loadJsonSchemaFromFile() {
+  // Load only once, it's quite expensive
+  if (!_cachedSchema) {
+    _cachedSchema = JSON.parse(
+      fs.readFileSync(path.join(__dirname, '..', 'cdk.schema.json')).toString()
+    );
+  }
+  return _cachedSchema;
 }
 
 let _cachedExamples: fs.Dirent[];
@@ -44,19 +56,23 @@ export class Testing {
     return loadExamples();
   }
 
-  public static async synth(template: Template) {
-    const { app, stack } = await this.prepare(template);
+  public static async synth(template: Template, validateTemplate = true) {
+    const { app, stack } = await this.prepare(template, validateTemplate);
 
     return app.synth().getStackByName(stack.stackName);
   }
 
-  public static async template(template: Template) {
-    const { stack } = await this.prepare(template);
+  public static async template(template: Template, validateTemplate = true) {
+    const { stack } = await this.prepare(template, validateTemplate);
 
     return AssertionTemplate.fromStack(stack);
   }
 
-  private static async prepare(template: Template) {
+  private static async prepare(template: Template, validateTemplate: boolean) {
+    if (validateTemplate) {
+      expect(template.template).toBeValidTemplate();
+    }
+
     const stackName = 'Test';
     const typeSystem = await obtainTypeSystem();
 
@@ -87,3 +103,33 @@ export function testExamples(
     timeout
   );
 }
+
+declare global {
+  namespace jest {
+    interface Matchers<R> {
+      toBeValidTemplate: () => CustomMatcherResult;
+    }
+  }
+}
+
+expect.extend({
+  toBeValidTemplate(template) {
+    const schema = loadJsonSchemaFromFile();
+    const result = jsonschema.validate(template, schema);
+
+    if (!result.valid) {
+      return {
+        pass: false,
+        message: () =>
+          'Expected valid template, got:' +
+          '\n' +
+          result.errors.map((e) => e.message).join('\n'),
+      };
+    }
+
+    return {
+      pass: true,
+      message: () => 'Expected template to be invalid, but it was valid.',
+    };
+  },
+});

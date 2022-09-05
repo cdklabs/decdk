@@ -40,6 +40,7 @@ test('Array of Types are resolved correctly', async () => {
     .map((_, resource) => resolveResourceLike(resource, typeSystem));
 
   // THEN
+  expect(template.template).toBeValidTemplate();
   const myQueue = typedTemplate.get('MyFunction');
   expect(myQueue.type).toBe('construct');
   expect(myQueue.props?.type).toBe('struct');
