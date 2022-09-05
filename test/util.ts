@@ -56,19 +56,23 @@ export class Testing {
     return loadExamples();
   }
 
-  public static async synth(template: Template) {
-    const { app, stack } = await this.prepare(template);
+  public static async synth(template: Template, validateTemplate = true) {
+    const { app, stack } = await this.prepare(template, validateTemplate);
 
     return app.synth().getStackByName(stack.stackName);
   }
 
-  public static async template(template: Template) {
-    const { stack } = await this.prepare(template);
+  public static async template(template: Template, validateTemplate = true) {
+    const { stack } = await this.prepare(template, validateTemplate);
 
     return AssertionTemplate.fromStack(stack);
   }
 
-  private static async prepare(template: Template) {
+  private static async prepare(template: Template, validateTemplate: boolean) {
+    if (validateTemplate) {
+      expect(template.template).toBeValidTemplate();
+    }
+
     const stackName = 'Test';
     const typeSystem = await obtainTypeSystem();
 

@@ -129,7 +129,7 @@
       "description": "Runs after successful compilation",
       "steps": [
         {
-          "exec": "node bin/decdk-schema > cdk.schema.json"
+          "exec": "node bin/decdk-schema --no-warnings > cdk.schema.json"
         }
       ]
     },
