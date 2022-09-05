@@ -4,7 +4,9 @@ import { join } from 'path';
 import * as cdk from 'aws-cdk-lib';
 import { Template as AssertionTemplate } from 'aws-cdk-lib/assertions';
 import * as reflect from 'jsii-reflect';
+import * as jsonschema from 'jsonschema';
 import { DeclarativeStack, loadTypeSystem } from '../src';
+import { renderFullSchema } from '../src/cdk-schema';
 import { Template } from '../src/parser/template';
 
 let _cachedTS: reflect.TypeSystem;
@@ -14,6 +16,15 @@ async function obtainTypeSystem() {
     _cachedTS = await loadTypeSystem(true);
   }
   return _cachedTS;
+}
+
+let _cachedSchema: jsonschema.Schema;
+async function loadJsonSchema() {
+  // Load only once, it's quite expensive
+  if (!_cachedSchema) {
+    _cachedSchema = renderFullSchema(await obtainTypeSystem());
+  }
+  return _cachedSchema;
 }
 
 let _cachedExamples: fs.Dirent[];
@@ -34,6 +45,10 @@ function loadExamples() {
 export class Testing {
   public static get typeSystem() {
     return obtainTypeSystem();
+  }
+
+  public static get schema() {
+    return loadJsonSchema();
   }
 
   public static get examples_dir() {
