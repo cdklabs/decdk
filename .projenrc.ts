@@ -38,6 +38,7 @@ const project = new typescript.TypeScriptProject({
   jestOptions: {
     extraCliOptions: ['--runInBand'],
     jestConfig: {
+      testTimeout: 10000,
       setupFilesAfterEnv: ['<rootDir>/test/util.ts'],
     },
   },
