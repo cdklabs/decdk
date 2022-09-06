@@ -14,8 +14,6 @@ import { resolveResourceLike, ResourceLike } from '../type-resolution';
 import { TypedTemplateExpression } from '../type-resolution/expression';
 import { EvaluationContext } from './context';
 
-export interface DeploymentEvaluator {}
-
 export class Evaluator {
   private currentResource?: ResourceLike;
 
@@ -38,14 +36,15 @@ export class Evaluator {
   ): IConstruct {
     this.currentResource = resource;
 
-    const result = this.evaluate(resource);
+    const construct = this.evaluate(resource);
+    this.applyTags(construct, resource.tags);
 
     this.context.addReferenceable(logicalId, {
-      primaryValue: result,
-      attributes: result,
+      primaryValue: construct,
+      attributes: construct,
     });
 
-    return result;
+    return construct;
   }
 
   public evaluate(x: TypedTemplateExpression): any {

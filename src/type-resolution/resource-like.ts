@@ -1,26 +1,24 @@
 import * as reflect from 'jsii-reflect';
 import { ObjectLiteral, TemplateResource } from '../parser/template';
+import { ResourceTag } from '../parser/template/tags';
 import { TypedTemplateExpression } from './expression';
 import { resolveExpressionType } from './resolve';
 
 export type ResourceLike = CfnResource | CdkConstruct;
 
-export interface CfnResource {
-  readonly type: 'resource';
+interface BaseConstruct {
   readonly logicalId: string;
   readonly namespace?: string;
   readonly fqn: string;
-  readonly resource: TemplateResource;
   readonly props: TypedTemplateExpression;
+  readonly tags: ResourceTag[];
+}
+export interface CfnResource extends BaseConstruct {
+  readonly type: 'resource';
 }
 
-export interface CdkConstruct {
+export interface CdkConstruct extends BaseConstruct {
   readonly type: 'construct';
-  readonly logicalId: string;
-  readonly namespace?: string;
-  readonly fqn: string;
-  readonly resource: TemplateResource;
-  readonly props: TypedTemplateExpression;
 }
 
 export function resolveResourceLike(
@@ -70,7 +68,7 @@ function resolveCfnResource(
     logicalId,
     namespace: type.namespace,
     fqn: type.fqn,
-    resource,
+    tags: resource.tags,
     props: resolveExpressionType(
       propsExpressions,
       type.system.findFqn('aws-cdk-lib.CfnResourceProps').reference
@@ -96,7 +94,7 @@ function resolveCdkConstruct(
     logicalId,
     namespace: type.namespace,
     fqn: type.fqn,
-    resource,
+    tags: resource.tags,
     props: propsParam
       ? resolveExpressionType(propsExpressions, propsParam.type)
       : { type: 'void' },
