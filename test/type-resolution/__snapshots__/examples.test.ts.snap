@@ -19,6 +19,7 @@ DependencyGraph {
   "nodes": Object {
     "GetRoot": Object {
       "fqn": "aws-cdk-lib.aws_apigateway.Method",
+      "logicalId": "GetRoot",
       "namespace": "aws_apigateway",
       "props": Object {
         "fields": Object {
@@ -70,22 +71,23 @@ DependencyGraph {
     },
     "HelloLambda": Object {
       "fqn": "aws-cdk-lib.aws_lambda.Function",
+      "logicalId": "HelloLambda",
       "namespace": "aws_lambda",
       "props": Object {
         "fields": Object {
           "code": Object {
             "args": Object {
-              "fields": Object {
-                "options": Object {
-                  "fields": Object {},
-                  "type": "struct",
-                },
-                "path": Object {
+              "array": Array [
+                Object {
                   "type": "string",
                   "value": "examples/lambda-handler",
                 },
-              },
-              "type": "object",
+                Object {
+                  "fields": Object {},
+                  "type": "struct",
+                },
+              ],
+              "type": "array",
             },
             "fqn": "aws-cdk-lib.aws_lambda.Code",
             "method": "fromAsset",
@@ -149,6 +151,7 @@ DependencyGraph {
     },
     "MyApi": Object {
       "fqn": "aws-cdk-lib.aws_apigateway.LambdaRestApi",
+      "logicalId": "MyApi",
       "namespace": "aws_apigateway",
       "props": Object {
         "fields": Object {
@@ -212,6 +215,7 @@ DependencyGraph {
   "nodes": Object {
     "Cluster": Object {
       "fqn": "aws-cdk-lib.aws_ecs.Cluster",
+      "logicalId": "Cluster",
       "namespace": "aws_ecs",
       "props": Object {
         "fields": Object {
@@ -247,6 +251,7 @@ DependencyGraph {
     },
     "ContainerDef": Object {
       "fqn": "aws-cdk-lib.aws_ecs.ContainerDefinition",
+      "logicalId": "ContainerDef",
       "namespace": "aws_ecs",
       "props": Object {
         "fields": Object {
@@ -256,17 +261,17 @@ DependencyGraph {
           },
           "image": Object {
             "args": Object {
-              "fields": Object {
-                "name": Object {
+              "array": Array [
+                Object {
                   "type": "string",
                   "value": "redis",
                 },
-                "props": Object {
+                Object {
                   "fields": Object {},
                   "type": "struct",
                 },
-              },
-              "type": "object",
+              ],
+              "type": "array",
             },
             "fqn": "aws-cdk-lib.aws_ecs.ContainerImage",
             "method": "fromRegistry",
@@ -331,6 +336,7 @@ DependencyGraph {
     },
     "MyTaskDef": Object {
       "fqn": "aws-cdk-lib.aws_ecs.TaskDefinition",
+      "logicalId": "MyTaskDef",
       "namespace": "aws_ecs",
       "props": Object {
         "fields": Object {
@@ -398,6 +404,7 @@ DependencyGraph {
     },
     "Service": Object {
       "fqn": "aws-cdk-lib.aws_ecs.FargateService",
+      "logicalId": "Service",
       "namespace": "aws_ecs",
       "props": Object {
         "fields": Object {
@@ -444,6 +451,7 @@ DependencyGraph {
     },
     "VPC": Object {
       "fqn": "aws-cdk-lib.aws_ec2.Vpc",
+      "logicalId": "VPC",
       "namespace": "aws_ec2",
       "props": Object {
         "fields": Object {
@@ -495,22 +503,23 @@ DependencyGraph {
   "nodes": Object {
     "HelloWorldFunction": Object {
       "fqn": "aws-cdk-lib.aws_lambda.Function",
+      "logicalId": "HelloWorldFunction",
       "namespace": "aws_lambda",
       "props": Object {
         "fields": Object {
           "code": Object {
             "args": Object {
-              "fields": Object {
-                "options": Object {
-                  "fields": Object {},
-                  "type": "struct",
-                },
-                "path": Object {
+              "array": Array [
+                Object {
                   "type": "string",
                   "value": "examples/lambda-handler",
                 },
-              },
-              "type": "object",
+                Object {
+                  "fields": Object {},
+                  "type": "struct",
+                },
+              ],
+              "type": "array",
             },
             "fqn": "aws-cdk-lib.aws_lambda.Code",
             "method": "fromAsset",
@@ -530,8 +539,13 @@ DependencyGraph {
             "array": Array [
               Object {
                 "args": Object {
-                  "fields": Object {
-                    "props": Object {
+                  "array": Array [
+                    Object {
+                      "fn": "ref",
+                      "logicalId": "Table",
+                      "type": "intrinsic",
+                    },
+                    Object {
                       "fields": Object {
                         "startingPosition": Object {
                           "choice": "TRIM_HORIZON",
@@ -542,13 +556,8 @@ DependencyGraph {
                       },
                       "type": "struct",
                     },
-                    "table": Object {
-                      "fn": "ref",
-                      "logicalId": "Table",
-                      "type": "intrinsic",
-                    },
-                  },
-                  "type": "object",
+                  ],
+                  "type": "array",
                 },
                 "fqn": "aws-cdk-lib.aws_lambda_event_sources.DynamoEventSource",
                 "namespace": "aws_lambda_event_sources",
@@ -556,21 +565,21 @@ DependencyGraph {
               },
               Object {
                 "args": Object {
-                  "fields": Object {
-                    "method": Object {
+                  "array": Array [
+                    Object {
                       "type": "string",
                       "value": "GET",
                     },
-                    "options": Object {
-                      "fields": Object {},
-                      "type": "struct",
-                    },
-                    "path": Object {
+                    Object {
                       "type": "string",
                       "value": "/hello",
                     },
-                  },
-                  "type": "object",
+                    Object {
+                      "fields": Object {},
+                      "type": "struct",
+                    },
+                  ],
+                  "type": "array",
                 },
                 "fqn": "aws-cdk-lib.aws_lambda_event_sources.ApiEventSource",
                 "namespace": "aws_lambda_event_sources",
@@ -578,21 +587,21 @@ DependencyGraph {
               },
               Object {
                 "args": Object {
-                  "fields": Object {
-                    "method": Object {
+                  "array": Array [
+                    Object {
                       "type": "string",
                       "value": "POST",
                     },
-                    "options": Object {
-                      "fields": Object {},
-                      "type": "struct",
-                    },
-                    "path": Object {
+                    Object {
                       "type": "string",
                       "value": "/hello",
                     },
-                  },
-                  "type": "object",
+                    Object {
+                      "fields": Object {},
+                      "type": "struct",
+                    },
+                  ],
+                  "type": "array",
                 },
                 "fqn": "aws-cdk-lib.aws_lambda_event_sources.ApiEventSource",
                 "namespace": "aws_lambda_event_sources",
@@ -600,18 +609,18 @@ DependencyGraph {
               },
               Object {
                 "args": Object {
-                  "fields": Object {
-                    "props": Object {
-                      "fields": Object {},
-                      "type": "struct",
-                    },
-                    "topic": Object {
+                  "array": Array [
+                    Object {
                       "fn": "ref",
                       "logicalId": "MyTopic",
                       "type": "intrinsic",
                     },
-                  },
-                  "type": "object",
+                    Object {
+                      "fields": Object {},
+                      "type": "struct",
+                    },
+                  ],
+                  "type": "array",
                 },
                 "fqn": "aws-cdk-lib.aws_lambda_event_sources.SnsEventSource",
                 "namespace": "aws_lambda_event_sources",
@@ -770,6 +779,7 @@ DependencyGraph {
     },
     "MyTopic": Object {
       "fqn": "aws-cdk-lib.aws_sns.Topic",
+      "logicalId": "MyTopic",
       "namespace": "aws_sns",
       "props": Object {
         "fields": Object {},
@@ -791,6 +801,7 @@ DependencyGraph {
     },
     "Table": Object {
       "fqn": "aws-cdk-lib.aws_dynamodb.Table",
+      "logicalId": "Table",
       "namespace": "aws_dynamodb",
       "props": Object {
         "fields": Object {
@@ -869,8 +880,11 @@ DependencyGraph {
   "nodes": Object {
     "AwsCliLayer": Object {
       "fqn": "aws-cdk-lib.lambda_layer_awscli.AwsCliLayer",
+      "logicalId": "AwsCliLayer",
       "namespace": "lambda_layer_awscli",
-      "props": undefined,
+      "props": Object {
+        "type": "void",
+      },
       "resource": Object {
         "conditionName": undefined,
         "deletionPolicy": "Delete",
@@ -887,18 +901,19 @@ DependencyGraph {
     },
     "Lambda": Object {
       "fqn": "aws-cdk-lib.aws_lambda.Function",
+      "logicalId": "Lambda",
       "namespace": "aws_lambda",
       "props": Object {
         "fields": Object {
           "code": Object {
             "args": Object {
-              "fields": Object {
-                "code": Object {
+              "array": Array [
+                Object {
                   "type": "string",
                   "value": "exports.handler = async function() { return 'SUCCESS'; }",
                 },
-              },
-              "type": "object",
+              ],
+              "type": "array",
             },
             "fqn": "aws-cdk-lib.aws_lambda.Code",
             "method": "fromInline",
@@ -992,22 +1007,23 @@ DependencyGraph {
   "nodes": Object {
     "Lambda": Object {
       "fqn": "aws-cdk-lib.aws_lambda.Function",
+      "logicalId": "Lambda",
       "namespace": "aws_lambda",
       "props": Object {
         "fields": Object {
           "code": Object {
             "args": Object {
-              "fields": Object {
-                "options": Object {
-                  "fields": Object {},
-                  "type": "struct",
-                },
-                "path": Object {
+              "array": Array [
+                Object {
                   "type": "string",
                   "value": "examples/lambda-handler",
                 },
-              },
-              "type": "object",
+                Object {
+                  "fields": Object {},
+                  "type": "struct",
+                },
+              ],
+              "type": "array",
             },
             "fqn": "aws-cdk-lib.aws_lambda.Code",
             "method": "fromAsset",
@@ -1096,22 +1112,23 @@ DependencyGraph {
   "nodes": Object {
     "Lambda": Object {
       "fqn": "aws-cdk-lib.aws_lambda.Function",
+      "logicalId": "Lambda",
       "namespace": "aws_lambda",
       "props": Object {
         "fields": Object {
           "code": Object {
             "args": Object {
-              "fields": Object {
-                "options": Object {
-                  "fields": Object {},
-                  "type": "struct",
-                },
-                "path": Object {
+              "array": Array [
+                Object {
                   "type": "string",
                   "value": "examples/lambda-handler",
                 },
-              },
-              "type": "object",
+                Object {
+                  "fields": Object {},
+                  "type": "struct",
+                },
+              ],
+              "type": "array",
             },
             "fqn": "aws-cdk-lib.aws_lambda.Code",
             "method": "fromAsset",
@@ -1122,18 +1139,18 @@ DependencyGraph {
             "array": Array [
               Object {
                 "args": Object {
-                  "fields": Object {
-                    "props": Object {
-                      "fields": Object {},
-                      "type": "struct",
-                    },
-                    "topic": Object {
+                  "array": Array [
+                    Object {
                       "fn": "ref",
                       "logicalId": "Topic",
                       "type": "intrinsic",
                     },
-                  },
-                  "type": "object",
+                    Object {
+                      "fields": Object {},
+                      "type": "struct",
+                    },
+                  ],
+                  "type": "array",
                 },
                 "fqn": "aws-cdk-lib.aws_lambda_event_sources.SnsEventSource",
                 "namespace": "aws_lambda_event_sources",
@@ -1216,6 +1233,7 @@ DependencyGraph {
     },
     "Topic": Object {
       "fqn": "aws-cdk-lib.aws_sns.Topic",
+      "logicalId": "Topic",
       "namespace": "aws_sns",
       "props": Object {
         "fields": Object {},
@@ -1264,6 +1282,7 @@ DependencyGraph {
   "nodes": Object {
     "BuildProject": Object {
       "fqn": "aws-cdk-lib.aws_codebuild.PipelineProject",
+      "logicalId": "BuildProject",
       "namespace": "aws_codebuild",
       "props": Object {
         "fields": Object {
@@ -1299,6 +1318,7 @@ DependencyGraph {
     },
     "Key": Object {
       "fqn": "aws-cdk-lib.aws_kms.Key",
+      "logicalId": "Key",
       "namespace": "aws_kms",
       "props": Object {
         "fields": Object {},
@@ -1320,6 +1340,7 @@ DependencyGraph {
     },
     "Pipeline": Object {
       "fqn": "aws-cdk-lib.aws_codepipeline.Pipeline",
+      "logicalId": "Pipeline",
       "namespace": "aws_codepipeline",
       "props": Object {
         "fields": Object {
@@ -1331,8 +1352,8 @@ DependencyGraph {
                     "array": Array [
                       Object {
                         "args": Object {
-                          "fields": Object {
-                            "props": Object {
+                          "array": Array [
+                            Object {
                               "fields": Object {
                                 "actionName": Object {
                                   "type": "string",
@@ -1340,13 +1361,13 @@ DependencyGraph {
                                 },
                                 "output": Object {
                                   "args": Object {
-                                    "fields": Object {
-                                      "name": Object {
+                                    "array": Array [
+                                      Object {
                                         "type": "string",
                                         "value": "Source",
                                       },
-                                    },
-                                    "type": "object",
+                                    ],
+                                    "type": "array",
                                   },
                                   "fqn": "aws-cdk-lib.aws_codepipeline.Artifact",
                                   "method": "artifact",
@@ -1361,8 +1382,8 @@ DependencyGraph {
                               },
                               "type": "struct",
                             },
-                          },
-                          "type": "object",
+                          ],
+                          "type": "array",
                         },
                         "fqn": "aws-cdk-lib.aws_codepipeline_actions.CodeCommitSourceAction",
                         "namespace": "aws_codepipeline_actions",
@@ -1384,8 +1405,8 @@ DependencyGraph {
                     "array": Array [
                       Object {
                         "args": Object {
-                          "fields": Object {
-                            "props": Object {
+                          "array": Array [
+                            Object {
                               "fields": Object {
                                 "actionName": Object {
                                   "type": "string",
@@ -1393,13 +1414,13 @@ DependencyGraph {
                                 },
                                 "input": Object {
                                   "args": Object {
-                                    "fields": Object {
-                                      "name": Object {
+                                    "array": Array [
+                                      Object {
                                         "type": "string",
                                         "value": "Source",
                                       },
-                                    },
-                                    "type": "object",
+                                    ],
+                                    "type": "array",
                                   },
                                   "fqn": "aws-cdk-lib.aws_codepipeline.Artifact",
                                   "method": "artifact",
@@ -1410,13 +1431,13 @@ DependencyGraph {
                                   "array": Array [
                                     Object {
                                       "args": Object {
-                                        "fields": Object {
-                                          "name": Object {
+                                        "array": Array [
+                                          Object {
                                             "type": "string",
                                             "value": "Build",
                                           },
-                                        },
-                                        "type": "object",
+                                        ],
+                                        "type": "array",
                                       },
                                       "fqn": "aws-cdk-lib.aws_codepipeline.Artifact",
                                       "method": "artifact",
@@ -1434,8 +1455,8 @@ DependencyGraph {
                               },
                               "type": "struct",
                             },
-                          },
-                          "type": "object",
+                          ],
+                          "type": "array",
                         },
                         "fqn": "aws-cdk-lib.aws_codepipeline_actions.CodeBuildAction",
                         "namespace": "aws_codepipeline_actions",
@@ -1457,8 +1478,8 @@ DependencyGraph {
                     "array": Array [
                       Object {
                         "args": Object {
-                          "fields": Object {
-                            "props": Object {
+                          "array": Array [
+                            Object {
                               "fields": Object {
                                 "actionName": Object {
                                   "type": "string",
@@ -1474,17 +1495,17 @@ DependencyGraph {
                                 },
                                 "templatePath": Object {
                                   "args": Object {
-                                    "fields": Object {
-                                      "artifactName": Object {
+                                    "array": Array [
+                                      Object {
                                         "type": "string",
                                         "value": "Build",
                                       },
-                                      "fileName": Object {
+                                      Object {
                                         "type": "string",
                                         "value": "template.yaml",
                                       },
-                                    },
-                                    "type": "object",
+                                    ],
+                                    "type": "array",
                                   },
                                   "fqn": "aws-cdk-lib.aws_codepipeline.ArtifactPath",
                                   "method": "artifactPath",
@@ -1494,8 +1515,8 @@ DependencyGraph {
                               },
                               "type": "struct",
                             },
-                          },
-                          "type": "object",
+                          ],
+                          "type": "array",
                         },
                         "fqn": "aws-cdk-lib.aws_codepipeline_actions.CloudFormationCreateUpdateStackAction",
                         "namespace": "aws_codepipeline_actions",
@@ -1709,6 +1730,7 @@ DependencyGraph {
     },
     "Repo": Object {
       "fqn": "aws-cdk-lib.aws_codecommit.Repository",
+      "logicalId": "Repo",
       "namespace": "aws_codecommit",
       "props": Object {
         "fields": Object {
@@ -1761,6 +1783,7 @@ DependencyGraph {
   "nodes": Object {
     "Hello": Object {
       "fqn": "aws-cdk-lib.aws_sqs.Queue",
+      "logicalId": "Hello",
       "namespace": "aws_sqs",
       "props": Object {
         "fields": Object {
@@ -1794,6 +1817,7 @@ DependencyGraph {
     },
     "MyLogGroup": Object {
       "fqn": "aws-cdk-lib.CfnResource",
+      "logicalId": "MyLogGroup",
       "namespace": undefined,
       "props": Object {
         "fields": Object {
@@ -1854,6 +1878,7 @@ DependencyGraph {
   "nodes": Object {
     "MyQueue": Object {
       "fqn": "aws-cdk-lib.aws_sqs.Queue",
+      "logicalId": "MyQueue",
       "namespace": "aws_sqs",
       "props": Object {
         "fields": Object {
@@ -1907,6 +1932,7 @@ DependencyGraph {
   "nodes": Object {
     "VPC": Object {
       "fqn": "aws-cdk-lib.aws_ec2.Vpc",
+      "logicalId": "VPC",
       "namespace": "aws_ec2",
       "props": Object {
         "fields": Object {},

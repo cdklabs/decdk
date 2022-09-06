@@ -1,3 +1,5 @@
+import * as cdk from 'aws-cdk-lib';
+import { Construct, IConstruct } from 'constructs';
 import { SubFragment } from '../parser/private/sub';
 import {
   assertBoolean,
@@ -6,47 +8,59 @@ import {
   assertNumber,
   assertString,
 } from '../parser/private/types';
-import {
-  assertExpression,
-  Template,
-  TemplateExpression,
-  TemplateResource,
-} from '../parser/template';
-import { EvaluationContext, NO_VALUE } from './context';
+import { assertExpression } from '../parser/template';
+import { ResourceTag } from '../parser/template/tags';
+import { resolveResourceLike, ResourceLike } from '../type-resolution';
+import { TypedTemplateExpression } from '../type-resolution/expression';
+import { EvaluationContext } from './context';
 
 export interface DeploymentEvaluator {}
 
-export abstract class Evaluator<
-  Context extends EvaluationContext<unknown, unknown>,
-  Resource
-> {
-  constructor(public readonly context: Context) {}
+export class Evaluator {
+  private currentResource?: ResourceLike;
 
-  public evaluateTemplate(template: Template) {
-    const queue = template.resourceGraph().topoQueue();
+  constructor(public readonly context: EvaluationContext) {}
 
-    while (!queue.isEmpty()) {
-      queue.withNext((logicalId, resource) => {
-        this.evaluateResource(logicalId, resource);
-      });
-    }
+  public evaluateTemplate(block: <T>(fn: () => T) => T) {
+    this.context.template.resourceGraph().forEach((logicalId, resource) => {
+      block(() =>
+        this.evaluateResource(
+          logicalId,
+          resolveResourceLike(resource, logicalId, this.context.typeSystem)
+        )
+      );
+    });
   }
 
-  public abstract evaluateResource(
+  public evaluateResource(
     logicalId: string,
-    resource: TemplateResource
-  ): Resource;
+    resource: ResourceLike
+  ): IConstruct {
+    this.currentResource = resource;
 
-  public evaluate(x: TemplateExpression): any {
+    const result = this.evaluate(resource);
+
+    this.context.addReferenceable(logicalId, {
+      primaryValue: result,
+      attributes: result,
+    });
+
+    return result;
+  }
+
+  public evaluate(x: TypedTemplateExpression): any {
     const ev = this.evaluate.bind(this);
 
     switch (x.type) {
       case 'string':
-      case 'boolean':
       case 'number':
+      case 'boolean':
         return x.value;
+      case 'date':
+        return x.date;
       case 'array':
         return this.evaluateArray(x.array);
+      case 'struct':
       case 'object':
         return this.evaluateObject(x.fields);
       case 'intrinsic':
@@ -102,21 +116,37 @@ export abstract class Evaluator<
           case 'equals':
             return this.fnEquals(ev(x.value1), ev(x.value2));
         }
+      case 'enum':
+        return this.enum(x.fqn, x.choice);
+      case 'staticProperty':
+        return this.enum(x.fqn, x.property);
+      case 'any':
+        return ev(x.value);
+      case 'void':
+        return;
+      case 'construct':
+      case 'resource':
+        return this.initializer(x.fqn, [
+          this.context.stack,
+          x.logicalId,
+          ev(x.props),
+        ]);
+      case 'initializer':
+        return this.initializer(x.fqn, this.evaluateArray(x.args.array));
+      case 'staticMethodCall':
+        return this.invoke(x.fqn, x.method, this.evaluateArray(x.args.array));
     }
   }
-
   public evaluateObject(
-    xs: Record<string, TemplateExpression>
+    xs: Record<string, TypedTemplateExpression>
   ): Record<string, unknown> {
     return Object.fromEntries(
-      Object.entries(xs)
-        .map(([k, v]) => [k, this.evaluate(v)])
-        .filter(([_, v]) => v !== NO_VALUE)
+      Object.entries(xs).map(([k, v]) => [k, this.evaluate(v)])
     );
   }
 
-  public evaluateArray(xs: TemplateExpression[]) {
-    return xs.map(this.evaluate.bind(this)).filter((x) => x !== NO_VALUE);
+  public evaluateArray(xs: TypedTemplateExpression[]) {
+    return xs.map(this.evaluate.bind(this));
   }
 
   public evaluateCondition(conditionName: string) {
@@ -128,6 +158,21 @@ export abstract class Evaluator<
       );
     }
     return result;
+  }
+
+  protected invoke(fqn: string, method: string, parameters: unknown[]): any {
+    const typeClass = this.context.resolveClass(fqn);
+    return typeClass[method](...parameters);
+  }
+
+  protected initializer(fqn: string, parameters: unknown[]): any {
+    const typeClass = this.context.resolveClass(fqn);
+    return new typeClass(...parameters);
+  }
+
+  protected enum(fqn: string, choice: string): any {
+    const typeClass = this.context.resolveClass(fqn);
+    return typeClass[choice];
   }
 
   protected fnBase64(x: string) {
@@ -169,30 +214,24 @@ export abstract class Evaluator<
   }
 
   protected fnGetAzs(region: string) {
-    //@todo: need this from somewhere
-    //@todo: Empty string == current region
-    return this.context.azs(region) ?? [];
+    return cdk.Fn.getAzs(region);
   }
 
   protected fnIf(
     conditionName: string,
-    ifYes: TemplateExpression,
-    ifNo: TemplateExpression
+    ifYes: TypedTemplateExpression,
+    ifNo: TypedTemplateExpression
   ) {
     const evaled = this.evaluateCondition(conditionName);
     return evaled ? this.evaluate(ifYes) : this.evaluate(ifNo);
   }
 
   protected fnImportValue(exportName: string) {
-    const exp = this.context.exportValue(exportName);
-    if (exp === undefined) {
-      throw new Error(`Fn::ImportValue: no such export '${exportName}'`);
-    }
-    return exp;
+    return cdk.Fn.importValue(exportName);
   }
 
-  protected fnJoin(separator: string, array: TemplateExpression[]) {
-    return this.evaluateArray(array).join(separator);
+  protected fnJoin(separator: string, array: TypedTemplateExpression[]) {
+    return cdk.Fn.join(separator, this.evaluateArray(array));
   }
 
   protected ref(logicalId: string) {
@@ -200,7 +239,23 @@ export abstract class Evaluator<
     if (!c) {
       throw new Error(`Ref: unknown identifier: ${logicalId}`);
     }
-    return c.primaryValue;
+
+    if (!(c instanceof Construct)) {
+      return c.primaryValue;
+    }
+
+    switch (this.currentResource?.type) {
+      case 'resource':
+        return cdk.Fn.ref(
+          this.context.stack.getLogicalId(
+            findConstruct(this.context.stack, logicalId).node
+              .defaultChild as cdk.CfnElement
+          )
+        );
+      case 'construct':
+      default:
+        return c.primaryValue;
+    }
   }
 
   protected fnSelect(index: number, elements: unknown[]) {
@@ -209,11 +264,15 @@ export abstract class Evaluator<
         `Fn::Select: index ${index} of out range: [0..${elements.length - 1}]`
       );
     }
+
+    // @todo
+    // Need to resolve to intrinsic function, since index can be not a number
+    // @see https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-select.html#w2ab1c31c28c56c15
     return elements[index]!;
   }
 
   protected fnSplit(separator: string, value: string) {
-    return value.split(separator);
+    return cdk.Fn.split(separator, value);
   }
 
   protected fnSub(
@@ -238,25 +297,52 @@ export abstract class Evaluator<
   }
 
   protected fnTransform(
-    _transformName: string,
-    _parameters: Record<string, unknown>
+    transformName: string,
+    parameters: Record<string, unknown>
   ) {
-    throw new Error('Fn::Transform not yet supported');
+    return cdk.Fn.transform(transformName, parameters);
+  }
+  protected fnAnd(_operands: boolean[]): boolean {
+    // @todo
+    throw Error('not implemented');
+    // return operands.every((x) => x);
+    // return cdk.Fn.conditionAnd(...operands) as any;
   }
 
-  protected fnAnd(operands: boolean[]) {
-    return operands.every((x) => x);
+  protected fnOr(_operands: boolean[]): boolean {
+    // @todo
+    throw Error('not implemented');
+    // return operands.some((x) => x);
+    // return cdk.Fn.conditionOr(...operands);
   }
 
-  protected fnOr(operands: boolean[]) {
-    return operands.some((x) => x);
+  protected fnNot(_operand: boolean): boolean {
+    // @todo
+    throw Error('not implemented');
+    // return !operand;
+    // return cdk.Fn.conditionNot(operand);
   }
 
-  protected fnNot(operand: boolean) {
-    return !operand;
+  protected fnEquals(_value1: unknown, _value2: unknown): boolean {
+    // @todo
+    throw Error('not implemented');
+    // return assertString(value1) === assertString(value2);
+    // return cdk.Fn.conditionEquals(value1, value2);
   }
 
-  protected fnEquals(value1: unknown, value2: unknown) {
-    return assertString(value1) === assertString(value2);
+  protected applyTags(resource: IConstruct, tags: ResourceTag[] = []) {
+    tags.forEach((tag: ResourceTag) => {
+      cdk.Tags.of(resource).add(tag.key, tag.value);
+    });
   }
+}
+
+function findConstruct(stack: cdk.Stack, id: string) {
+  const child = stack.node.tryFindChild(id);
+  if (!child) {
+    throw new Error(
+      `Construct with ID ${id} not found (it must be defined before it is referenced)`
+    );
+  }
+  return child;
 }

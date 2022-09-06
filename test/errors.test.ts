@@ -20,7 +20,7 @@ test('invalid enum option raises an error', async () => {
   await expect(
     Testing.synth(await Template.fromObject(template), false)
   ).rejects.toThrow(
-    'Could not find enum choice BOOM for enum type aws-cdk-lib.aws_sqs.QueueEncryption. Available options: [UNENCRYPTED, KMS_MANAGED, KMS]'
+    'Expected choice for enum type aws-cdk-lib.aws_sqs.QueueEncryption to be one of UNENCRYPTED|KMS_MANAGED|KMS, got: boom'
   );
 });
 

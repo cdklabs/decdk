@@ -37,7 +37,9 @@ test('Array of Types are resolved correctly', async () => {
 
   const typedTemplate = template
     .resourceGraph()
-    .map((_, resource) => resolveResourceLike(resource, typeSystem));
+    .map((logicalId, resource) =>
+      resolveResourceLike(resource, logicalId, typeSystem)
+    );
 
   // THEN
   expect(template.template).toBeValidTemplate();

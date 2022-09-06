@@ -1,62 +1,54 @@
-// import { Environment } from '../environment';
-// import { schema } from '../parser/schema';
+import * as cdk from 'aws-cdk-lib';
+import { IConstruct } from 'constructs';
+import * as reflect from 'jsii-reflect';
 import { Template } from '../parser/template';
-// import { TemplateMapping } from '../parser/template/mappings';
-export type ContextValue = string | string[] | symbol;
+export type ContextValue = IConstruct | string | string[];
 
-export const NO_VALUE = Symbol('AWS::NoValue');
-
-export interface ContextRecord<Primary, Attribute = Primary> {
-  readonly primaryValue: Primary;
-  readonly attributes?: Record<string, Attribute>;
+export interface ContextRecord {
+  readonly primaryValue: ContextValue;
+  readonly attributes?: Record<string, any>;
 }
 
-export type Context<Primary, Attribute = Primary> = Map<
-  string,
-  ContextRecord<Primary, Attribute>
->;
+export type Context = Map<string, ContextRecord>;
 
 export interface EvaluationContextOptions {
-  readonly template?: Template;
-  // readonly environment?: Environment;
+  readonly stack: cdk.Stack;
+  readonly template: Template;
+  readonly typeSystem: reflect.TypeSystem;
 }
 
-export abstract class EvaluationContext<P, A = P> {
-  protected readonly context = new Map<string, ContextRecord<P, A>>();
-  protected readonly template?: Template;
-  // private readonly environment?: Environment;
+export class EvaluationContext {
+  public readonly stack: cdk.Stack;
+  public readonly typeSystem: reflect.TypeSystem;
+  public readonly template: Template;
+  protected readonly context: Context = new Map();
 
-  constructor(opts: EvaluationContextOptions = {}) {
+  constructor(opts: EvaluationContextOptions) {
+    this.stack = opts.stack;
     this.template = opts.template;
-    // this.environment = opts.environment;
+    this.typeSystem = opts.typeSystem;
 
-    // this.context.set('AWS::NoValue', { primaryValue: NO_VALUE });
-    // this.context.set('AWS::NotificationARNs', { primaryValue: [] });
-
-    // this.template?.parameters.seedDefaults(this.context);
-    // this.environment?.seedContext(this.context);
+    this.context.set('AWS::AccountId', { primaryValue: cdk.Aws.ACCOUNT_ID });
+    this.context.set('AWS::NotificationARNs', {
+      primaryValue: cdk.Aws.NOTIFICATION_ARNS,
+    });
+    this.context.set('AWS::NoValue', { primaryValue: cdk.Aws.NO_VALUE });
+    this.context.set('AWS::Partition', { primaryValue: cdk.Aws.PARTITION });
+    this.context.set('AWS::Region', { primaryValue: cdk.Aws.REGION });
+    this.context.set('AWS::StackId', { primaryValue: cdk.Aws.STACK_ID });
+    this.context.set('AWS::StackName', { primaryValue: cdk.Aws.STACK_NAME });
+    this.context.set('AWS::URLSuffix', { primaryValue: cdk.Aws.URL_SUFFIX });
   }
 
-  public addReferenceable(logicalId: string, record: ContextRecord<P, A>) {
+  public addReferenceable(logicalId: string, record: ContextRecord) {
     this.context.set(logicalId, record);
   }
 
-  public setPrimaryContextValues(contextValues: Record<string, P>) {
+  public setPrimaryContextValues(contextValues: Record<string, ContextValue>) {
     for (const [name, primaryValue] of Object.entries(contextValues ?? {})) {
       this.context.set(name, { primaryValue });
     }
   }
-
-  // public setParameterValues(parameterValues: Record<string, string>) {
-  //   for (const [name, value] of Object.entries(parameterValues ?? {})) {
-  //     this.context.set(name, {
-  //       primaryValue: this.template
-  //         ? this.template.parameters.parse(name, value)
-  //         : value,
-  //     });
-  //   }
-  //   this.template?.parameters.assertAllPresent(this.context);
-  // }
 
   public referenceable(logicalId: string) {
     const r = this.context.get(logicalId);
@@ -82,16 +74,26 @@ export abstract class EvaluationContext<P, A = P> {
     return condition;
   }
 
-  public exportValue(exportName: string): string {
-    // const exp = this.environment?.exports.get(exportName);
-    const exp = false;
-    if (!exp) {
-      throw new Error(`No such export: ${exportName}`);
-    }
-    return exp;
-  }
+  /**
+   * Return the Class for a given FQN
+   */
+  public resolveClass(fqn: string) {
+    const [mod, ...className] = fqn.split('.');
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const module = require(mod);
 
-  public azs(_regionName: string): string[] {
-    throw new Error('AZs not supported yet');
+    let curr = module;
+    while (true) {
+      const next = className.shift();
+      if (!next) {
+        break;
+      }
+      curr = curr[next];
+      if (!curr) {
+        throw new Error(`unable to resolve class ${className}`);
+      }
+    }
+
+    return curr;
   }
 }

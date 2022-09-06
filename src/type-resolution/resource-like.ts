@@ -7,34 +7,38 @@ export type ResourceLike = CfnResource | CdkConstruct;
 
 export interface CfnResource {
   readonly type: 'resource';
+  readonly logicalId: string;
   readonly namespace?: string;
   readonly fqn: string;
   readonly resource: TemplateResource;
-  readonly props?: TypedTemplateExpression;
+  readonly props: TypedTemplateExpression;
 }
 
 export interface CdkConstruct {
   readonly type: 'construct';
+  readonly logicalId: string;
   readonly namespace?: string;
   readonly fqn: string;
   readonly resource: TemplateResource;
-  readonly props?: TypedTemplateExpression;
+  readonly props: TypedTemplateExpression;
 }
 
 export function resolveResourceLike(
   resource: TemplateResource,
+  logicalId: string,
   typeSystem: reflect.TypeSystem
 ): ResourceLike {
   if (isCfnResource(resource)) {
     return resolveCfnResource(
       resource,
+      logicalId,
       typeSystem.findFqn('aws-cdk-lib.CfnResource') as reflect.ClassType
     );
   }
 
   const type = typeSystem.findFqn(resource.type);
   if (isConstruct(type)) {
-    return resolveCdkConstruct(resource, type);
+    return resolveCdkConstruct(resource, logicalId, type);
   }
 
   throw new TypeError(
@@ -44,6 +48,7 @@ export function resolveResourceLike(
 
 function resolveCfnResource(
   resource: TemplateResource,
+  logicalId: string,
   type: reflect.ClassType
 ): CfnResource {
   const propsExpressions: ObjectLiteral = {
@@ -62,6 +67,7 @@ function resolveCfnResource(
 
   return {
     type: 'resource',
+    logicalId,
     namespace: type.namespace,
     fqn: type.fqn,
     resource,
@@ -74,6 +80,7 @@ function resolveCfnResource(
 
 function resolveCdkConstruct(
   resource: TemplateResource,
+  logicalId: string,
   type: reflect.ClassType
 ): CdkConstruct {
   const [_scopeParam, _idParam, propsParam] =
@@ -86,16 +93,17 @@ function resolveCdkConstruct(
 
   return {
     type: 'construct',
+    logicalId,
     namespace: type.namespace,
     fqn: type.fqn,
     resource,
     props: propsParam
       ? resolveExpressionType(propsExpressions, propsParam.type)
-      : undefined,
+      : { type: 'void' },
   };
 }
 
-function isCfnResource(resource: TemplateResource) {
+export function isCfnResource(resource: TemplateResource) {
   return resource.type.includes('::');
 }
 

@@ -12,6 +12,7 @@ import { InitializerExpression, StaticMethodCallExpression } from './callables';
 import { EnumExpression, StaticPropertyExpression } from './enums';
 import { DateLiteral } from './literals';
 import { AnyTemplateExpression, VoidExpression } from './primitives';
+import { ResourceLike } from './resource-like';
 import { StructExpression } from './struct';
 
 export type TypedTemplateExpression =
@@ -28,7 +29,8 @@ export type TypedTemplateExpression =
   | StaticMethodCallExpression
   | InitializerExpression
   | VoidExpression
-  | AnyTemplateExpression;
+  | AnyTemplateExpression
+  | ResourceLike;
 
 export interface TypedArrayExpression
   extends ArrayExpression<TypedTemplateExpression> {}

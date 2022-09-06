@@ -1,4 +1,5 @@
 import * as reflect from 'jsii-reflect';
+import { assertString } from '../parser/private/types';
 import { StringLiteral, TemplateExpression } from '../parser/template';
 import {
   resolveStaticMethodCallExpression,
@@ -51,14 +52,14 @@ export function resolveEnumExpression(
   x: StringLiteral,
   type: reflect.EnumType
 ): EnumExpression {
-  const enumChoice = String(x.value).toUpperCase();
+  const enumChoice = assertString(x.value).toUpperCase();
   const options = type.members.map((m) => m.name);
 
   if (!type.members.map((m) => m.name).includes(enumChoice)) {
     throw new TypeError(
-      `Expected choice for ${type.fqn} to be one of ${options.join(
+      `Expected choice for enum type ${type.fqn} to be one of ${options.join(
         '|'
-      )} , got: ${enumChoice}`
+      )}, got: ${x.value}`
     );
   }
 

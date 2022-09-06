@@ -1,6 +1,6 @@
 import * as cdk from 'aws-cdk-lib';
 import * as reflect from 'jsii-reflect';
-import { CdkContext, CdkEvaluator } from './evaluate/cdk';
+import { EvaluationContext, Evaluator } from './evaluate';
 import { Template } from './parser/template';
 
 export interface DeclarativeStackProps extends cdk.StackProps {
@@ -22,18 +22,17 @@ export class DeclarativeStack extends cdk.Stack {
     const typeSystem = props.typeSystem;
     const template = props.template;
 
-    const context = new CdkContext({
+    const context = new EvaluationContext({
       stack: this,
+      template,
       typeSystem,
-      template, // ?? needed?
     });
-    const ev = new CdkEvaluator(context);
 
-    // Changing working directory if needed, such that relative paths in the template are resolved relative to the
-    // template's location, and not to the current process' CWD.
-    _cwd(props.workingDirectory, () => {
-      ev.evaluateTemplate(template);
-    });
+    new Evaluator(context).evaluateTemplate((fn) =>
+      // Changing working directory if needed, such that relative paths in the template are resolved relative to the
+      // template's location, and not to the current process' CWD.
+      _cwd(props.workingDirectory, fn)
+    );
   }
 }
 

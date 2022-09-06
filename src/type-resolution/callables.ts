@@ -4,7 +4,7 @@ import { assertExactlyOneOfFields } from '../parser/private/types';
 import { ObjectLiteral } from '../parser/template';
 import {
   assertExpressionType,
-  TypedObjectExpression,
+  TypedArrayExpression,
   TypedTemplateExpression,
 } from './expression';
 import { resolveExpressionType } from './resolve';
@@ -14,7 +14,7 @@ export interface StaticMethodCallExpression {
   readonly fqn: string;
   readonly namespace?: string;
   readonly method: string;
-  readonly args: TypedObjectExpression;
+  readonly args: TypedArrayExpression;
 }
 
 export function resolveStaticMethodCallExpression(
@@ -43,7 +43,7 @@ export interface InitializerExpression {
   readonly type: 'initializer';
   readonly fqn: string;
   readonly namespace?: string;
-  readonly args: TypedObjectExpression;
+  readonly args: TypedArrayExpression;
 }
 
 export function resolveInitializerExpression(
@@ -84,8 +84,8 @@ export function assertInitializer(type: reflect.Type): reflect.Initializer {
 export function resolveCallableParameters(
   x: ObjectLiteral,
   callable: reflect.Callable
-): TypedObjectExpression {
-  const args: Record<string, TypedTemplateExpression> = {};
+): TypedArrayExpression {
+  const args: TypedTemplateExpression[] = [];
 
   for (let i = 0; i < callable.parameters.length; ++i) {
     const p = callable.parameters[i];
@@ -94,7 +94,7 @@ export function resolveCallableParameters(
     // we pass in all parameters as the value, and the positional arguments will be ignored since
     // we are promised there are no conflicts
     if (i === callable.parameters.length - 1 && isDataType(p.type.type)) {
-      args[p.name] = resolveExpressionType(x, p.type);
+      args.push(resolveExpressionType(x, p.type));
       continue;
     }
 
@@ -104,11 +104,11 @@ export function resolveCallableParameters(
       );
     }
 
-    args[p.name] = resolveExpressionType(x.fields[p.name], p.type);
+    args.push(resolveExpressionType(x.fields[p.name], p.type));
   }
 
   return {
-    type: 'object',
-    fields: args,
+    type: 'array',
+    array: args,
   };
 }
