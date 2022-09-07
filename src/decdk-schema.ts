@@ -1,5 +1,5 @@
 import yargs from 'yargs';
-import { renderFullSchema } from './cdk-schema';
+import { renderFullSchema } from './schema/cdk-schema';
 import { loadTypeSystem } from './util';
 
 /* eslint-disable no-console */
