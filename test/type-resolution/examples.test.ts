@@ -13,7 +13,9 @@ testExamples(async (example) => {
 
   const typedTemplate = template
     .resourceGraph()
-    .map((_, resource) => resolveResourceLike(resource, typeSystem));
+    .map((logicalId, resource) =>
+      resolveResourceLike(resource, logicalId, typeSystem)
+    );
 
   expect(template.template).toBeValidTemplate();
   expect(typedTemplate).toMatchSnapshot();

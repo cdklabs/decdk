@@ -1,40 +1,48 @@
 import * as reflect from 'jsii-reflect';
 import { ObjectLiteral, TemplateResource } from '../parser/template';
-import { TypedTemplateExpression } from './expression';
+import { ResourceTag } from '../parser/template/tags';
+import { isExpressionShaped, TypedTemplateExpression } from './expression';
 import { resolveExpressionType } from './resolve';
 
 export type ResourceLike = CfnResource | CdkConstruct;
 
-export interface CfnResource {
-  readonly type: 'resource';
+interface BaseConstruct {
+  readonly logicalId: string;
   readonly namespace?: string;
   readonly fqn: string;
-  readonly resource: TemplateResource;
-  readonly props?: TypedTemplateExpression;
+  readonly props: TypedTemplateExpression;
+  readonly tags: ResourceTag[];
+  readonly dependsOn: string[];
+}
+export interface CfnResource extends BaseConstruct {
+  readonly type: 'resource';
 }
 
-export interface CdkConstruct {
+export interface CdkConstruct extends BaseConstruct {
   readonly type: 'construct';
-  readonly namespace?: string;
-  readonly fqn: string;
-  readonly resource: TemplateResource;
-  readonly props?: TypedTemplateExpression;
+  readonly overrides: any;
+}
+
+export function isCdkConstructExpression(x: unknown): x is CdkConstruct {
+  return isExpressionShaped(x) && x.type === 'construct';
 }
 
 export function resolveResourceLike(
   resource: TemplateResource,
+  logicalId: string,
   typeSystem: reflect.TypeSystem
 ): ResourceLike {
   if (isCfnResource(resource)) {
     return resolveCfnResource(
       resource,
+      logicalId,
       typeSystem.findFqn('aws-cdk-lib.CfnResource') as reflect.ClassType
     );
   }
 
   const type = typeSystem.findFqn(resource.type);
   if (isConstruct(type)) {
-    return resolveCdkConstruct(resource, type);
+    return resolveCdkConstruct(resource, logicalId, type);
   }
 
   throw new TypeError(
@@ -44,6 +52,7 @@ export function resolveResourceLike(
 
 function resolveCfnResource(
   resource: TemplateResource,
+  logicalId: string,
   type: reflect.ClassType
 ): CfnResource {
   const propsExpressions: ObjectLiteral = {
@@ -62,9 +71,11 @@ function resolveCfnResource(
 
   return {
     type: 'resource',
+    logicalId,
     namespace: type.namespace,
     fqn: type.fqn,
-    resource,
+    tags: resource.tags,
+    dependsOn: Array.from(resource.dependsOn),
     props: resolveExpressionType(
       propsExpressions,
       type.system.findFqn('aws-cdk-lib.CfnResourceProps').reference
@@ -74,6 +85,7 @@ function resolveCfnResource(
 
 function resolveCdkConstruct(
   resource: TemplateResource,
+  logicalId: string,
   type: reflect.ClassType
 ): CdkConstruct {
   const [_scopeParam, _idParam, propsParam] =
@@ -86,16 +98,19 @@ function resolveCdkConstruct(
 
   return {
     type: 'construct',
+    logicalId,
     namespace: type.namespace,
     fqn: type.fqn,
-    resource,
+    tags: resource.tags,
+    dependsOn: Array.from(resource.dependsOn),
+    overrides: resource.overrides,
     props: propsParam
       ? resolveExpressionType(propsExpressions, propsParam.type)
-      : undefined,
+      : { type: 'void' },
   };
 }
 
-function isCfnResource(resource: TemplateResource) {
+export function isCfnResource(resource: TemplateResource) {
   return resource.type.includes('::');
 }
 
