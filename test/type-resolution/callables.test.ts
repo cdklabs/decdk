@@ -44,7 +44,57 @@ test('Static Methods are resolved correctly', async () => {
     expect.objectContaining({
       type: 'staticMethodCall',
       fqn: 'aws-cdk-lib.aws_lambda.Code',
+      namespace: 'aws_lambda',
       method: 'fromAsset',
+    })
+  );
+  expect(template.template).toBeValidTemplate();
+});
+
+test('Can provide implementation via static method', async () => {
+  // GIVEN
+  const template = await Template.fromObject({
+    Resources: {
+      MyVpc: {
+        Type: 'aws-cdk-lib.aws_ec2.Vpc',
+        Properties: {
+          maxAzs: 2,
+        },
+      },
+      MyFleet: {
+        Type: 'aws-cdk-lib.aws_autoscaling.AutoScalingGroup',
+        Properties: {
+          vpc: { Ref: 'MyVpc' },
+          instanceType: {
+            'aws-cdk-lib.aws_ec2.InstanceType.of': {
+              instanceClass: 'T2',
+              instanceSize: 'XLARGE',
+            },
+          },
+          machineImage: {
+            'aws-cdk-lib.aws_ecs.EcsOptimizedImage.amazonLinux2': {},
+          },
+          desiredCapacity: 3,
+        },
+      },
+    },
+  });
+
+  const typedTemplate = template
+    .resourceGraph()
+    .map((logicalId, resource) =>
+      resolveResourceLike(resource, logicalId, typeSystem)
+    );
+
+  // THEN
+  const myLambda = typedTemplate.get('MyFleet');
+  expect((myLambda.props as StructExpression)?.fields).toHaveProperty(
+    'machineImage',
+    expect.objectContaining({
+      type: 'staticMethodCall',
+      fqn: 'aws-cdk-lib.aws_ecs.EcsOptimizedImage',
+      namespace: 'aws_ecs',
+      method: 'amazonLinux2',
     })
   );
   expect(template.template).toBeValidTemplate();

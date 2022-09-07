@@ -51,3 +51,11 @@ export function assertExpressionType<T extends TemplateExpression['type']>(
 export function isExpressionShaped(x: unknown): x is TypedTemplateExpression {
   return x !== null && typeof x === 'object' && 'type' in x;
 }
+
+export function assertExpressionShaped(x: unknown): TypedTemplateExpression {
+  if (!isExpressionShaped(x)) {
+    throw new Error(`Expected expression, got: ${JSON.stringify(x)}`);
+  }
+
+  return x as TypedTemplateExpression;
+}

@@ -99,6 +99,16 @@ export function assertField<A extends object, K extends keyof A>(
   }
   return xs[fieldName];
 }
+export function assertOneOf<A extends unknown>(x: A, allowed: unknown[]): A {
+  if (!allowed.includes(x)) {
+    throw new ParserError(
+      `Expected one of ${allowed
+        .map((f) => `'${String(f)}'`)
+        .join('|')}, got: ${JSON.stringify(x)}`
+    );
+  }
+  return x;
+}
 
 export function assertExactlyOneOfFields<A extends object, K extends keyof A>(
   xs: A,
@@ -113,6 +123,16 @@ export function assertExactlyOneOfFields<A extends object, K extends keyof A>(
     );
   }
   return foundFields[0];
+}
+
+export function assertOneField(xs: unknown): string {
+  const fields = Object.keys(assertObject(xs));
+  if (fields.length !== 1) {
+    throw new ParserError(
+      `Expected exactly one field, got: ${JSON.stringify(xs)}`
+    );
+  }
+  return fields[0];
 }
 
 export function assertStringOrList(x: unknown): string[] {
