@@ -12,6 +12,7 @@ interface BaseConstruct {
   readonly fqn: string;
   readonly props: TypedTemplateExpression;
   readonly tags: ResourceTag[];
+  readonly dependsOn: string[];
 }
 export interface CfnResource extends BaseConstruct {
   readonly type: 'resource';
@@ -69,6 +70,7 @@ function resolveCfnResource(
     namespace: type.namespace,
     fqn: type.fqn,
     tags: resource.tags,
+    dependsOn: Array.from(resource.dependsOn),
     props: resolveExpressionType(
       propsExpressions,
       type.system.findFqn('aws-cdk-lib.CfnResourceProps').reference
@@ -95,6 +97,7 @@ function resolveCdkConstruct(
     namespace: type.namespace,
     fqn: type.fqn,
     tags: resource.tags,
+    dependsOn: Array.from(resource.dependsOn),
     props: propsParam
       ? resolveExpressionType(propsExpressions, propsParam.type)
       : { type: 'void' },

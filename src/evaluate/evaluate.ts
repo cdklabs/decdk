@@ -38,6 +38,7 @@ export class Evaluator {
 
     const construct = this.evaluate(resource);
     this.applyTags(construct, resource.tags);
+    this.applyDependsOn(construct, resource.dependsOn);
 
     this.context.addReferenceable(logicalId, {
       primaryValue: construct,
@@ -333,6 +334,12 @@ export class Evaluator {
     tags.forEach((tag: ResourceTag) => {
       cdk.Tags.of(resource).add(tag.key, tag.value);
     });
+  }
+
+  protected applyDependsOn(from: IConstruct, dependencies: string[] = []) {
+    from.node.addDependency(
+      ...dependencies.map((to) => this.context.stack.node.findChild(to))
+    );
   }
 }
 

@@ -18,6 +18,7 @@ DependencyGraph {
   },
   "nodes": Object {
     "GetRoot": Object {
+      "dependsOn": Array [],
       "fqn": "aws-cdk-lib.aws_apigateway.Method",
       "logicalId": "GetRoot",
       "namespace": "aws_apigateway",
@@ -43,6 +44,7 @@ DependencyGraph {
       "type": "construct",
     },
     "HelloLambda": Object {
+      "dependsOn": Array [],
       "fqn": "aws-cdk-lib.aws_lambda.Function",
       "logicalId": "HelloLambda",
       "namespace": "aws_lambda",
@@ -89,6 +91,7 @@ DependencyGraph {
       "type": "construct",
     },
     "MyApi": Object {
+      "dependsOn": Array [],
       "fqn": "aws-cdk-lib.aws_apigateway.LambdaRestApi",
       "logicalId": "MyApi",
       "namespace": "aws_apigateway",
@@ -134,6 +137,7 @@ DependencyGraph {
   },
   "nodes": Object {
     "Cluster": Object {
+      "dependsOn": Array [],
       "fqn": "aws-cdk-lib.aws_ecs.Cluster",
       "logicalId": "Cluster",
       "namespace": "aws_ecs",
@@ -151,6 +155,7 @@ DependencyGraph {
       "type": "construct",
     },
     "ContainerDef": Object {
+      "dependsOn": Array [],
       "fqn": "aws-cdk-lib.aws_ecs.ContainerDefinition",
       "logicalId": "ContainerDef",
       "namespace": "aws_ecs",
@@ -195,6 +200,7 @@ DependencyGraph {
       "type": "construct",
     },
     "MyTaskDef": Object {
+      "dependsOn": Array [],
       "fqn": "aws-cdk-lib.aws_ecs.TaskDefinition",
       "logicalId": "MyTaskDef",
       "namespace": "aws_ecs",
@@ -231,6 +237,7 @@ DependencyGraph {
       "type": "construct",
     },
     "Service": Object {
+      "dependsOn": Array [],
       "fqn": "aws-cdk-lib.aws_ecs.FargateService",
       "logicalId": "Service",
       "namespace": "aws_ecs",
@@ -253,6 +260,7 @@ DependencyGraph {
       "type": "construct",
     },
     "VPC": Object {
+      "dependsOn": Array [],
       "fqn": "aws-cdk-lib.aws_ec2.Vpc",
       "logicalId": "VPC",
       "namespace": "aws_ec2",
@@ -289,6 +297,7 @@ DependencyGraph {
   },
   "nodes": Object {
     "HelloWorldFunction": Object {
+      "dependsOn": Array [],
       "fqn": "aws-cdk-lib.aws_lambda.Function",
       "logicalId": "HelloWorldFunction",
       "namespace": "aws_lambda",
@@ -433,6 +442,7 @@ DependencyGraph {
       "type": "construct",
     },
     "MyTopic": Object {
+      "dependsOn": Array [],
       "fqn": "aws-cdk-lib.aws_sns.Topic",
       "logicalId": "MyTopic",
       "namespace": "aws_sns",
@@ -444,6 +454,7 @@ DependencyGraph {
       "type": "construct",
     },
     "Table": Object {
+      "dependsOn": Array [],
       "fqn": "aws-cdk-lib.aws_dynamodb.Table",
       "logicalId": "Table",
       "namespace": "aws_dynamodb",
@@ -494,6 +505,7 @@ DependencyGraph {
   },
   "nodes": Object {
     "AwsCliLayer": Object {
+      "dependsOn": Array [],
       "fqn": "aws-cdk-lib.lambda_layer_awscli.AwsCliLayer",
       "logicalId": "AwsCliLayer",
       "namespace": "lambda_layer_awscli",
@@ -504,6 +516,7 @@ DependencyGraph {
       "type": "construct",
     },
     "Lambda": Object {
+      "dependsOn": Array [],
       "fqn": "aws-cdk-lib.aws_lambda.Function",
       "logicalId": "Lambda",
       "namespace": "aws_lambda",
@@ -564,6 +577,7 @@ DependencyGraph {
   },
   "nodes": Object {
     "Lambda": Object {
+      "dependsOn": Array [],
       "fqn": "aws-cdk-lib.aws_lambda.Function",
       "logicalId": "Lambda",
       "namespace": "aws_lambda",
@@ -626,6 +640,7 @@ DependencyGraph {
   },
   "nodes": Object {
     "Lambda": Object {
+      "dependsOn": Array [],
       "fqn": "aws-cdk-lib.aws_lambda.Function",
       "logicalId": "Lambda",
       "namespace": "aws_lambda",
@@ -691,6 +706,7 @@ DependencyGraph {
       "type": "construct",
     },
     "Topic": Object {
+      "dependsOn": Array [],
       "fqn": "aws-cdk-lib.aws_sns.Topic",
       "logicalId": "Topic",
       "namespace": "aws_sns",
@@ -729,6 +745,7 @@ DependencyGraph {
   },
   "nodes": Object {
     "BuildProject": Object {
+      "dependsOn": Array [],
       "fqn": "aws-cdk-lib.aws_codebuild.PipelineProject",
       "logicalId": "BuildProject",
       "namespace": "aws_codebuild",
@@ -746,6 +763,7 @@ DependencyGraph {
       "type": "construct",
     },
     "Key": Object {
+      "dependsOn": Array [],
       "fqn": "aws-cdk-lib.aws_kms.Key",
       "logicalId": "Key",
       "namespace": "aws_kms",
@@ -757,6 +775,7 @@ DependencyGraph {
       "type": "construct",
     },
     "Pipeline": Object {
+      "dependsOn": Array [],
       "fqn": "aws-cdk-lib.aws_codepipeline.Pipeline",
       "logicalId": "Pipeline",
       "namespace": "aws_codepipeline",
@@ -960,6 +979,10 @@ DependencyGraph {
       "type": "construct",
     },
     "Repo": Object {
+      "dependsOn": Array [
+        "Key",
+        "BuildProject",
+      ],
       "fqn": "aws-cdk-lib.aws_codecommit.Repository",
       "logicalId": "Repo",
       "namespace": "aws_codecommit",
@@ -991,6 +1014,7 @@ DependencyGraph {
   },
   "nodes": Object {
     "Hello": Object {
+      "dependsOn": Array [],
       "fqn": "aws-cdk-lib.aws_sqs.Queue",
       "logicalId": "Hello",
       "namespace": "aws_sqs",
@@ -1009,6 +1033,7 @@ DependencyGraph {
       "type": "construct",
     },
     "MyLogGroup": Object {
+      "dependsOn": Array [],
       "fqn": "aws-cdk-lib.CfnResource",
       "logicalId": "MyLogGroup",
       "namespace": undefined,
@@ -1051,6 +1076,7 @@ DependencyGraph {
   },
   "nodes": Object {
     "MyQueue": Object {
+      "dependsOn": Array [],
       "fqn": "aws-cdk-lib.aws_sqs.Queue",
       "logicalId": "MyQueue",
       "namespace": "aws_sqs",
@@ -1082,6 +1108,7 @@ DependencyGraph {
   },
   "nodes": Object {
     "VPC": Object {
+      "dependsOn": Array [],
       "fqn": "aws-cdk-lib.aws_ec2.Vpc",
       "logicalId": "VPC",
       "namespace": "aws_ec2",
