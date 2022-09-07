@@ -4,12 +4,17 @@ import * as reflect from 'jsii-reflect';
 import { Template } from '../parser/template';
 export type ContextValue = IConstruct | string | string[];
 
-export interface ContextRecord {
+/**
+ * A referenceable record.
+ *
+ * If `attributes` is set, the references is a map of sort and can return an attribute value for a given key.
+ */
+interface ReferenceRecord {
   readonly primaryValue: ContextValue;
   readonly attributes?: Record<string, any>;
 }
 
-export type Context = Map<string, ContextRecord>;
+type References = Map<string, ReferenceRecord>;
 
 export interface EvaluationContextOptions {
   readonly stack: cdk.Stack;
@@ -21,37 +26,45 @@ export class EvaluationContext {
   public readonly stack: cdk.Stack;
   public readonly typeSystem: reflect.TypeSystem;
   public readonly template: Template;
-  protected readonly context: Context = new Map();
+  protected readonly availableRefs: References = new Map();
 
   constructor(opts: EvaluationContextOptions) {
     this.stack = opts.stack;
     this.template = opts.template;
     this.typeSystem = opts.typeSystem;
 
-    this.context.set('AWS::AccountId', { primaryValue: cdk.Aws.ACCOUNT_ID });
-    this.context.set('AWS::NotificationARNs', {
+    this.availableRefs.set('AWS::AccountId', {
+      primaryValue: cdk.Aws.ACCOUNT_ID,
+    });
+    this.availableRefs.set('AWS::NotificationARNs', {
       primaryValue: cdk.Aws.NOTIFICATION_ARNS,
     });
-    this.context.set('AWS::NoValue', { primaryValue: cdk.Aws.NO_VALUE });
-    this.context.set('AWS::Partition', { primaryValue: cdk.Aws.PARTITION });
-    this.context.set('AWS::Region', { primaryValue: cdk.Aws.REGION });
-    this.context.set('AWS::StackId', { primaryValue: cdk.Aws.STACK_ID });
-    this.context.set('AWS::StackName', { primaryValue: cdk.Aws.STACK_NAME });
-    this.context.set('AWS::URLSuffix', { primaryValue: cdk.Aws.URL_SUFFIX });
+    this.availableRefs.set('AWS::NoValue', { primaryValue: cdk.Aws.NO_VALUE });
+    this.availableRefs.set('AWS::Partition', {
+      primaryValue: cdk.Aws.PARTITION,
+    });
+    this.availableRefs.set('AWS::Region', { primaryValue: cdk.Aws.REGION });
+    this.availableRefs.set('AWS::StackId', { primaryValue: cdk.Aws.STACK_ID });
+    this.availableRefs.set('AWS::StackName', {
+      primaryValue: cdk.Aws.STACK_NAME,
+    });
+    this.availableRefs.set('AWS::URLSuffix', {
+      primaryValue: cdk.Aws.URL_SUFFIX,
+    });
   }
 
-  public addReferenceable(logicalId: string, record: ContextRecord) {
-    this.context.set(logicalId, record);
+  public addReferenceable(logicalId: string, record: ReferenceRecord) {
+    this.availableRefs.set(logicalId, record);
   }
 
   public setPrimaryContextValues(contextValues: Record<string, ContextValue>) {
     for (const [name, primaryValue] of Object.entries(contextValues ?? {})) {
-      this.context.set(name, { primaryValue });
+      this.availableRefs.set(name, { primaryValue });
     }
   }
 
   public referenceable(logicalId: string) {
-    const r = this.context.get(logicalId);
+    const r = this.availableRefs.get(logicalId);
     if (!r) {
       throw new Error(`No resource or parameter with name: ${logicalId}`);
     }
