@@ -249,14 +249,16 @@ export class Evaluator {
       throw new Error(`Ref: unknown identifier: ${logicalId}`);
     }
 
-    if (!(c instanceof Construct)) {
+    if (!(c.primaryValue instanceof Construct)) {
       return c.primaryValue;
     }
 
     switch (this.currentResource?.type) {
       case 'resource':
         return cdk.Fn.ref(
-          this.context.stack.getLogicalId(c.node.defaultChild as cdk.CfnElement)
+          this.context.stack.getLogicalId(
+            c.primaryValue.node.defaultChild as cdk.CfnElement
+          )
         );
       case 'construct':
       default:
