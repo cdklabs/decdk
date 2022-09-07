@@ -22,6 +22,7 @@ DependencyGraph {
       "fqn": "aws-cdk-lib.aws_apigateway.Method",
       "logicalId": "GetRoot",
       "namespace": "aws_apigateway",
+      "overrides": Array [],
       "props": Object {
         "fields": Object {
           "httpMethod": Object {
@@ -48,6 +49,7 @@ DependencyGraph {
       "fqn": "aws-cdk-lib.aws_lambda.Function",
       "logicalId": "HelloLambda",
       "namespace": "aws_lambda",
+      "overrides": Array [],
       "props": Object {
         "fields": Object {
           "code": Object {
@@ -95,6 +97,7 @@ DependencyGraph {
       "fqn": "aws-cdk-lib.aws_apigateway.LambdaRestApi",
       "logicalId": "MyApi",
       "namespace": "aws_apigateway",
+      "overrides": Array [],
       "props": Object {
         "fields": Object {
           "handler": Object {
@@ -141,6 +144,7 @@ DependencyGraph {
       "fqn": "aws-cdk-lib.aws_ecs.Cluster",
       "logicalId": "Cluster",
       "namespace": "aws_ecs",
+      "overrides": Array [],
       "props": Object {
         "fields": Object {
           "vpc": Object {
@@ -159,6 +163,7 @@ DependencyGraph {
       "fqn": "aws-cdk-lib.aws_ecs.ContainerDefinition",
       "logicalId": "ContainerDef",
       "namespace": "aws_ecs",
+      "overrides": Array [],
       "props": Object {
         "fields": Object {
           "essential": Object {
@@ -204,6 +209,7 @@ DependencyGraph {
       "fqn": "aws-cdk-lib.aws_ecs.TaskDefinition",
       "logicalId": "MyTaskDef",
       "namespace": "aws_ecs",
+      "overrides": Array [],
       "props": Object {
         "fields": Object {
           "compatibility": Object {
@@ -241,6 +247,7 @@ DependencyGraph {
       "fqn": "aws-cdk-lib.aws_ecs.FargateService",
       "logicalId": "Service",
       "namespace": "aws_ecs",
+      "overrides": Array [],
       "props": Object {
         "fields": Object {
           "cluster": Object {
@@ -264,6 +271,7 @@ DependencyGraph {
       "fqn": "aws-cdk-lib.aws_ec2.Vpc",
       "logicalId": "VPC",
       "namespace": "aws_ec2",
+      "overrides": Array [],
       "props": Object {
         "fields": Object {
           "maxAzs": Object {
@@ -301,6 +309,18 @@ DependencyGraph {
       "fqn": "aws-cdk-lib.aws_lambda.Function",
       "logicalId": "HelloWorldFunction",
       "namespace": "aws_lambda",
+      "overrides": Array [
+        Object {
+          "childConstructPath": "ServiceRole",
+          "update": Object {
+            "path": "Properties.Description",
+            "value": Object {
+              "type": "string",
+              "value": "This value has been overridden",
+            },
+          },
+        },
+      ],
       "props": Object {
         "fields": Object {
           "code": Object {
@@ -446,6 +466,7 @@ DependencyGraph {
       "fqn": "aws-cdk-lib.aws_sns.Topic",
       "logicalId": "MyTopic",
       "namespace": "aws_sns",
+      "overrides": Array [],
       "props": Object {
         "fields": Object {},
         "type": "struct",
@@ -458,6 +479,7 @@ DependencyGraph {
       "fqn": "aws-cdk-lib.aws_dynamodb.Table",
       "logicalId": "Table",
       "namespace": "aws_dynamodb",
+      "overrides": Array [],
       "props": Object {
         "fields": Object {
           "partitionKey": Object {
@@ -509,6 +531,7 @@ DependencyGraph {
       "fqn": "aws-cdk-lib.lambda_layer_awscli.AwsCliLayer",
       "logicalId": "AwsCliLayer",
       "namespace": "lambda_layer_awscli",
+      "overrides": Array [],
       "props": Object {
         "type": "void",
       },
@@ -520,6 +543,7 @@ DependencyGraph {
       "fqn": "aws-cdk-lib.aws_lambda.Function",
       "logicalId": "Lambda",
       "namespace": "aws_lambda",
+      "overrides": Array [],
       "props": Object {
         "fields": Object {
           "code": Object {
@@ -581,6 +605,12 @@ DependencyGraph {
       "fqn": "aws-cdk-lib.aws_lambda.Function",
       "logicalId": "Lambda",
       "namespace": "aws_lambda",
+      "overrides": Array [
+        Object {
+          "childConstructPath": "ServiceRole",
+          "removeResource": true,
+        },
+      ],
       "props": Object {
         "fields": Object {
           "code": Object {
@@ -644,6 +674,7 @@ DependencyGraph {
       "fqn": "aws-cdk-lib.aws_lambda.Function",
       "logicalId": "Lambda",
       "namespace": "aws_lambda",
+      "overrides": Array [],
       "props": Object {
         "fields": Object {
           "code": Object {
@@ -710,6 +741,7 @@ DependencyGraph {
       "fqn": "aws-cdk-lib.aws_sns.Topic",
       "logicalId": "Topic",
       "namespace": "aws_sns",
+      "overrides": Array [],
       "props": Object {
         "fields": Object {},
         "type": "struct",
@@ -749,6 +781,7 @@ DependencyGraph {
       "fqn": "aws-cdk-lib.aws_codebuild.PipelineProject",
       "logicalId": "BuildProject",
       "namespace": "aws_codebuild",
+      "overrides": Array [],
       "props": Object {
         "fields": Object {
           "encryptionKey": Object {
@@ -767,6 +800,7 @@ DependencyGraph {
       "fqn": "aws-cdk-lib.aws_kms.Key",
       "logicalId": "Key",
       "namespace": "aws_kms",
+      "overrides": Array [],
       "props": Object {
         "fields": Object {},
         "type": "struct",
@@ -779,6 +813,7 @@ DependencyGraph {
       "fqn": "aws-cdk-lib.aws_codepipeline.Pipeline",
       "logicalId": "Pipeline",
       "namespace": "aws_codepipeline",
+      "overrides": Array [],
       "props": Object {
         "fields": Object {
           "stages": Object {
@@ -986,6 +1021,7 @@ DependencyGraph {
       "fqn": "aws-cdk-lib.aws_codecommit.Repository",
       "logicalId": "Repo",
       "namespace": "aws_codecommit",
+      "overrides": Array [],
       "props": Object {
         "fields": Object {
           "repositoryName": Object {
@@ -1018,6 +1054,7 @@ DependencyGraph {
       "fqn": "aws-cdk-lib.aws_sqs.Queue",
       "logicalId": "Hello",
       "namespace": "aws_sqs",
+      "overrides": Array [],
       "props": Object {
         "fields": Object {
           "encryption": Object {
@@ -1080,6 +1117,14 @@ DependencyGraph {
       "fqn": "aws-cdk-lib.aws_sqs.Queue",
       "logicalId": "MyQueue",
       "namespace": "aws_sqs",
+      "overrides": Array [
+        Object {
+          "childConstructPath": "Key",
+          "delete": Object {
+            "path": "Properties.Description",
+          },
+        },
+      ],
       "props": Object {
         "fields": Object {
           "encryption": Object {
@@ -1112,6 +1157,7 @@ DependencyGraph {
       "fqn": "aws-cdk-lib.aws_ec2.Vpc",
       "logicalId": "VPC",
       "namespace": "aws_ec2",
+      "overrides": Array [],
       "props": Object {
         "fields": Object {},
         "type": "struct",

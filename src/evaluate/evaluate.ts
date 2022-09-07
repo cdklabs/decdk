@@ -9,10 +9,16 @@ import {
   assertString,
 } from '../parser/private/types';
 import { assertExpression } from '../parser/template';
+import { ResourceOverride } from '../parser/template/overrides';
 import { ResourceTag } from '../parser/template/tags';
-import { resolveResourceLike, ResourceLike } from '../type-resolution';
+import {
+  isCdkConstructExpression,
+  resolveResourceLike,
+  ResourceLike,
+} from '../type-resolution';
 import { TypedTemplateExpression } from '../type-resolution/expression';
 import { EvaluationContext } from './context';
+import { applyOverride } from './overrides';
 
 export class Evaluator {
   private currentResource?: ResourceLike;
@@ -39,6 +45,9 @@ export class Evaluator {
     const construct = this.evaluate(resource);
     this.applyTags(construct, resource.tags);
     this.applyDependsOn(construct, resource.dependsOn);
+    if (isCdkConstructExpression(resource)) {
+      this.applyOverrides(construct, resource.overrides);
+    }
 
     this.context.addReferenceable(logicalId, {
       primaryValue: construct,
@@ -247,10 +256,7 @@ export class Evaluator {
     switch (this.currentResource?.type) {
       case 'resource':
         return cdk.Fn.ref(
-          this.context.stack.getLogicalId(
-            findConstruct(this.context.stack, logicalId).node
-              .defaultChild as cdk.CfnElement
-          )
+          this.context.stack.getLogicalId(c.node.defaultChild as cdk.CfnElement)
         );
       case 'construct':
       default:
@@ -341,14 +347,14 @@ export class Evaluator {
       ...dependencies.map((to) => this.context.stack.node.findChild(to))
     );
   }
-}
 
-function findConstruct(stack: cdk.Stack, id: string) {
-  const child = stack.node.tryFindChild(id);
-  if (!child) {
-    throw new Error(
-      `Construct with ID ${id} not found (it must be defined before it is referenced)`
-    );
+  protected applyOverrides(
+    resource: IConstruct,
+    overrides: ResourceOverride[]
+  ) {
+    const ev = this.evaluate.bind(this);
+    overrides.forEach((override: ResourceOverride) => {
+      applyOverride(resource, override, ev);
+    });
   }
-  return child;
 }

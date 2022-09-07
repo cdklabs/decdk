@@ -1,7 +1,7 @@
 import * as reflect from 'jsii-reflect';
 import { ObjectLiteral, TemplateResource } from '../parser/template';
 import { ResourceTag } from '../parser/template/tags';
-import { TypedTemplateExpression } from './expression';
+import { isExpressionShaped, TypedTemplateExpression } from './expression';
 import { resolveExpressionType } from './resolve';
 
 export type ResourceLike = CfnResource | CdkConstruct;
@@ -20,6 +20,11 @@ export interface CfnResource extends BaseConstruct {
 
 export interface CdkConstruct extends BaseConstruct {
   readonly type: 'construct';
+  readonly overrides: any;
+}
+
+export function isCdkConstructExpression(x: unknown): x is CdkConstruct {
+  return isExpressionShaped(x) && x.type === 'construct';
 }
 
 export function resolveResourceLike(
@@ -98,6 +103,7 @@ function resolveCdkConstruct(
     fqn: type.fqn,
     tags: resource.tags,
     dependsOn: Array.from(resource.dependsOn),
+    overrides: resource.overrides,
     props: propsParam
       ? resolveExpressionType(propsExpressions, propsParam.type)
       : { type: 'void' },

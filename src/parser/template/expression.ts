@@ -188,7 +188,14 @@ export function isExpression(x: unknown): x is TemplateExpression {
 
 export function assertExpression(x: unknown): TemplateExpression {
   const expressionType = assertString(assertField(assertObject(x), 'type'));
-  const expressionTypes = ['string', 'object', 'array', 'intrinsic'];
+  const expressionTypes = [
+    'string',
+    'boolean',
+    'number',
+    'object',
+    'array',
+    'intrinsic',
+  ];
   if (!expressionTypes.includes(expressionType)) {
     throw new ParserError(
       `Expected ${expressionTypes.join('|')}, got: '${JSON.stringify(

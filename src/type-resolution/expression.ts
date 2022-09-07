@@ -47,3 +47,7 @@ export function assertExpressionType<T extends TemplateExpression['type']>(
 
   return x as TemplateExpression & { type: T };
 }
+
+export function isExpressionShaped(x: unknown): x is TypedTemplateExpression {
+  return x !== null && typeof x === 'object' && 'type' in x;
+}
