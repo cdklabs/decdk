@@ -95,7 +95,7 @@ export function renderFullSchema(
     ) as ConstructAndProps[];
 
   // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const output = require('../cloudformation.schema.json');
+  const output = require('../../cloudformation.schema.json');
 
   output.definitions = output.definitions || {};
 

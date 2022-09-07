@@ -1,7 +1,7 @@
 import * as reflect from 'jsii-reflect';
-import { enumLikeClassMethods, isDataType } from '../jsii2schema';
 import { assertExactlyOneOfFields } from '../parser/private/types';
 import { ObjectLiteral } from '../parser/template';
+import { enumLikeClassMethods, isDataType } from '../schema/jsii2schema';
 import {
   assertExpressionType,
   TypedArrayExpression,

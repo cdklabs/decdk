@@ -1,11 +1,11 @@
 import * as reflect from 'jsii-reflect';
+import { TemplateExpression } from '../parser/template';
 import {
   isBehavioralInterface,
   isEnum,
   isEnumLikeClass,
   isSerializableInterface,
-} from '../jsii2schema';
-import { TemplateExpression } from '../parser/template';
+} from '../schema/jsii2schema';
 import { resolveInitializerExpression } from './callables';
 import {
   assertArrayOfType,
