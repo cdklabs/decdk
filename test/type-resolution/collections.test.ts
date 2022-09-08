@@ -20,7 +20,9 @@ test('Array of Types are resolved correctly', async () => {
           handler: 'app.hello_handler',
           runtime: 'PYTHON_3_6',
           code: {
-            fromAsset: { path: 'examples/lambda-handler' },
+            'aws-cdk-lib.aws_lambda.Code.fromAsset': {
+              path: 'examples/lambda-handler',
+            },
           },
           events: [
             {
@@ -42,7 +44,6 @@ test('Array of Types are resolved correctly', async () => {
     );
 
   // THEN
-  expect(template.template).toBeValidTemplate();
   const myQueue = typedTemplate.get('MyFunction');
   expect(myQueue.type).toBe('construct');
   expect(myQueue.props?.type).toBe('struct');
@@ -58,4 +59,5 @@ test('Array of Types are resolved correctly', async () => {
       ]),
     })
   );
+  expect(template.template).toBeValidTemplate();
 });

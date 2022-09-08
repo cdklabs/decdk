@@ -18,7 +18,9 @@ test('Constructs can be referenced', async () => {
         Type: 'aws-cdk-lib.aws_lambda.Function',
         Properties: {
           code: {
-            fromAsset: { path: 'examples/lambda-handler' },
+            'aws-cdk-lib.aws_lambda.Code.fromAsset': {
+              path: 'examples/lambda-handler',
+            },
           },
           runtime: 'PYTHON_3_6',
           handler: 'index.handler',
@@ -47,7 +49,6 @@ test('Constructs can be referenced', async () => {
     );
 
   // THEN
-  expect(template.template).toBeValidTemplate();
   const myApi = typedTemplate.get('MyApi');
   expect(myApi.type).toBe('construct');
   expect(myApi.props?.type).toBe('struct');
@@ -59,4 +60,5 @@ test('Constructs can be referenced', async () => {
       logicalId: 'MyLambda',
     })
   );
+  expect(template.template).toBeValidTemplate();
 });

@@ -324,7 +324,7 @@ export function schemaForInterface(
         // but without this property.
         if (prop.optional) {
           ctx.warning(
-            'optional proprety omitted because it cannot be schematized'
+            'optional property omitted because it cannot be schematized'
           );
           continue;
         }

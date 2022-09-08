@@ -18,7 +18,9 @@ test('Static Methods are resolved correctly', async () => {
         Type: 'aws-cdk-lib.aws_lambda.Function',
         Properties: {
           code: {
-            fromAsset: { path: 'examples/lambda-handler' },
+            'aws-cdk-lib.aws_lambda.Code.fromAsset': {
+              path: 'examples/lambda-handler',
+            },
           },
           runtime: 'PYTHON_3_6',
           handler: 'index.handler',
@@ -34,7 +36,6 @@ test('Static Methods are resolved correctly', async () => {
     );
 
   // THEN
-  expect(template.template).toBeValidTemplate();
   const myLambda = typedTemplate.get('MyLambda');
   expect(myLambda.type).toBe('construct');
   expect(myLambda.props?.type).toBe('struct');
@@ -46,4 +47,5 @@ test('Static Methods are resolved correctly', async () => {
       method: 'fromAsset',
     })
   );
+  expect(template.template).toBeValidTemplate();
 });
