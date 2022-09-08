@@ -9923,6 +9923,7 @@
         "subnetType": {
           "enum": [
             "PRIVATE_ISOLATED",
+            "PRIVATE_WITH_EGRESS",
             "PRIVATE_WITH_NAT",
             "PUBLIC"
           ],
@@ -14871,6 +14872,10 @@
           "type": "string",
           "description": "The Kafka topic to subscribe to."
         },
+        "consumerGroupId": {
+          "type": "string",
+          "description": "The identifier for the Kafka consumer group to join.\n\nThe consumer group ID must be unique among all your Kafka event sources. After creating a Kafka event source mapping with the consumer group ID specified, you cannot update this value.  The value must have a lenght between 1 and 200 and full the pattern '[a-zA-Z0-9-\\/*:_+=.@-]*'."
+        },
         "secret": {
           "type": "object",
           "properties": {
@@ -14912,6 +14917,9 @@
           "$ref": "#/definitions/aws-cdk-lib.Duration"
         },
         "topic": {
+          "type": "string"
+        },
+        "consumerGroupId": {
           "type": "string"
         },
         "secret": {
@@ -15087,6 +15095,10 @@
           "type": "string",
           "description": "The Kafka topic to subscribe to."
         },
+        "consumerGroupId": {
+          "type": "string",
+          "description": "The identifier for the Kafka consumer group to join.\n\nThe consumer group ID must be unique among all your Kafka event sources. After creating a Kafka event source mapping with the consumer group ID specified, you cannot update this value.  The value must have a lenght between 1 and 200 and full the pattern '[a-zA-Z0-9-\\/*:_+=.@-]*'."
+        },
         "secret": {
           "type": "object",
           "properties": {
@@ -15171,6 +15183,9 @@
           "$ref": "#/definitions/aws-cdk-lib.Duration"
         },
         "topic": {
+          "type": "string"
+        },
+        "consumerGroupId": {
           "type": "string"
         },
         "secret": {
@@ -32999,6 +33014,7 @@
         "subnetType": {
           "enum": [
             "PRIVATE_ISOLATED",
+            "PRIVATE_WITH_EGRESS",
             "PRIVATE_WITH_NAT",
             "PUBLIC"
           ],
@@ -33142,7 +33158,7 @@
           "items": {
             "$ref": "#/definitions/aws-cdk-lib.aws_ec2.SubnetConfiguration"
           },
-          "description": "Configure the subnets to build for each AZ.\n\nEach entry in this list configures a Subnet Group; each group will contain a\nsubnet for each Availability Zone.\n\nFor example, if you want 1 public subnet, 1 private subnet, and 1 isolated\nsubnet in each AZ provide the following:\n\n```ts\nnew ec2.Vpc(this, 'VPC', {\n   subnetConfiguration: [\n      {\n        cidrMask: 24,\n        name: 'ingress',\n        subnetType: ec2.SubnetType.PUBLIC,\n      },\n      {\n        cidrMask: 24,\n        name: 'application',\n        subnetType: ec2.SubnetType.PRIVATE_WITH_NAT,\n      },\n      {\n        cidrMask: 28,\n        name: 'rds',\n        subnetType: ec2.SubnetType.PRIVATE_ISOLATED,\n      }\n   ]\n});\n```"
+          "description": "Configure the subnets to build for each AZ.\n\nEach entry in this list configures a Subnet Group; each group will contain a\nsubnet for each Availability Zone.\n\nFor example, if you want 1 public subnet, 1 private subnet, and 1 isolated\nsubnet in each AZ provide the following:\n\n```ts\nnew ec2.Vpc(this, 'VPC', {\n   subnetConfiguration: [\n      {\n        cidrMask: 24,\n        name: 'ingress',\n        subnetType: ec2.SubnetType.PUBLIC,\n      },\n      {\n        cidrMask: 24,\n        name: 'application',\n        subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,\n      },\n      {\n        cidrMask: 28,\n        name: 'rds',\n        subnetType: ec2.SubnetType.PRIVATE_ISOLATED,\n      }\n   ]\n});\n```"
         },
         "vpcName": {
           "type": "string",
@@ -36672,9 +36688,17 @@
           "type": "boolean",
           "description": "Specifies whether to run an init process inside the container that forwards signals and reaps processes."
         },
+        "maxSwap": {
+          "$ref": "#/definitions/aws-cdk-lib.Size",
+          "description": "The total amount of swap memory a container can use.\n\nThis parameter\nwill be translated to the --memory-swap option to docker run.\n\nThis parameter is only supported when you are using the EC2 launch type.\nAccepted values are positive integers."
+        },
         "sharedMemorySize": {
           "type": "number",
-          "description": "The value for the size (in MiB) of the /dev/shm volume."
+          "description": "The value for the size of the /dev/shm volume."
+        },
+        "swappiness": {
+          "type": "number",
+          "description": "This allows you to tune a container's memory swappiness behavior.\n\nThis parameter\nmaps to the --memory-swappiness option to docker run. The swappiness relates\nto the kernel's tendency to swap memory. A value of 0 will cause swapping to\nnot happen unless absolutely necessary. A value of 100 will cause pages to\nbe swapped very aggressively.\n\nThis parameter is only supported when you are using the EC2 launch type.\nAccepted values are whole numbers between 0 and 100. If a value is not\nspecified for maxSwap then this parameter is ignored."
         }
       },
       "comment": "aws-cdk-lib.aws_ecs.LinuxParametersProps"
@@ -40487,7 +40511,7 @@
           "items": {
             "$ref": "#/definitions/aws-cdk-lib.aws_ec2.SubnetSelection"
           },
-          "description": "Where to place EKS Control Plane ENIs.\n\nIf you want to create public load balancers, this must include public subnets.\n\nFor example, to only select private subnets, supply the following:\n\n`vpcSubnets: [{ subnetType: ec2.SubnetType.PRIVATE_WITH_NAT }]`"
+          "description": "Where to place EKS Control Plane ENIs.\n\nIf you want to create public load balancers, this must include public subnets.\n\nFor example, to only select private subnets, supply the following:\n\n`vpcSubnets: [{ subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS }]`"
         },
         "albController": {
           "$ref": "#/definitions/aws-cdk-lib.aws_eks.AlbControllerOptions",
@@ -40785,7 +40809,7 @@
           "items": {
             "$ref": "#/definitions/aws-cdk-lib.aws_ec2.SubnetSelection"
           },
-          "description": "Where to place EKS Control Plane ENIs.\n\nIf you want to create public load balancers, this must include public subnets.\n\nFor example, to only select private subnets, supply the following:\n\n`vpcSubnets: [{ subnetType: ec2.SubnetType.PRIVATE_WITH_NAT }]`"
+          "description": "Where to place EKS Control Plane ENIs.\n\nIf you want to create public load balancers, this must include public subnets.\n\nFor example, to only select private subnets, supply the following:\n\n`vpcSubnets: [{ subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS }]`"
         },
         "albController": {
           "$ref": "#/definitions/aws-cdk-lib.aws_eks.AlbControllerOptions",
@@ -49659,6 +49683,10 @@
             "type": "string"
           },
           "description": "A list of host and port pairs that are the addresses of the Kafka brokers in a self managed \"bootstrap\" Kafka cluster that a Kafka client connects to initially to bootstrap itself.\n\nThey are in the format `abc.example.com:9096`."
+        },
+        "kafkaConsumerGroupId": {
+          "type": "string",
+          "description": "The identifier for the Kafka consumer group to join.\n\nThe consumer group ID must be unique among all your Kafka event sources. After creating a Kafka event source mapping with the consumer group ID specified, you cannot update this value. The value must have a lenght between 1 and 200 and full the pattern '[a-zA-Z0-9-\\/*:_+=.@-]*'. For more information, see [Customizable consumer group ID](https://docs.aws.amazon.com/lambda/latest/dg/with-msk.html#services-msk-consumer-group-id)."
         },
         "kafkaTopic": {
           "type": "string",
@@ -73048,6 +73076,19 @@
         "timeout": {
           "$ref": "#/definitions/aws-cdk-lib.Duration",
           "description": "The timeout for the singleton Lambda function implementing this custom resource."
+        },
+        "vpc": {
+          "type": "object",
+          "properties": {
+            "Ref": {
+              "type": "string"
+            }
+          },
+          "description": "The vpc to provision the lambda function in."
+        },
+        "vpcSubnets": {
+          "$ref": "#/definitions/aws-cdk-lib.aws_ec2.SubnetSelection",
+          "description": "Which subnets from the VPC to place the lambda function in.\n\nOnly used if 'vpc' is supplied. Note: internet access for Lambdas\nrequires a NAT gateway, so picking Public subnets is not allowed."
         }
       },
       "comment": "aws-cdk-lib.custom_resources.AwsCustomResourceProps"
