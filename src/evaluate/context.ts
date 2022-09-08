@@ -1,7 +1,7 @@
 import * as cdk from 'aws-cdk-lib';
 import { IConstruct } from 'constructs';
 import * as reflect from 'jsii-reflect';
-import { Template } from '../parser/template';
+import { TypedTemplate } from '../type-resolution/template';
 export type ContextValue = IConstruct | string | string[];
 
 /**
@@ -18,14 +18,14 @@ type References = Map<string, ReferenceRecord>;
 
 export interface EvaluationContextOptions {
   readonly stack: cdk.Stack;
-  readonly template: Template;
+  readonly template: TypedTemplate;
   readonly typeSystem: reflect.TypeSystem;
 }
 
 export class EvaluationContext {
   public readonly stack: cdk.Stack;
   public readonly typeSystem: reflect.TypeSystem;
-  public readonly template: Template;
+  public readonly template: TypedTemplate;
   protected readonly availableRefs: References = new Map();
 
   constructor(opts: EvaluationContextOptions) {
