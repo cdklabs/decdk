@@ -22,7 +22,15 @@ async function main() {
   const typeSystem = await loadTypeSystem();
 
   const app = new cdk.App();
-  new DeclarativeStack(app, stackName, { template, typeSystem });
+  new DeclarativeStack(app, stackName, {
+    template,
+    typeSystem,
+    env: {
+      account:
+        process.env.CDK_DEPLOY_ACCOUNT || process.env.CDK_DEFAULT_ACCOUNT,
+      region: process.env.CDK_DEPLOY_REGION || process.env.CDK_DEFAULT_REGION,
+    },
+  });
   app.synth();
 }
 
