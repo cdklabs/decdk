@@ -1,0 +1,29 @@
+{
+  "$schema": "../cdk.schema.json",
+  "Resources": {
+    "MyVpc": {
+      "Type": "aws-cdk-lib.aws_ec2.Vpc",
+      "Properties": {
+        "maxAzs": 2
+      }
+    },
+    "MyFleet": {
+      "Type": "aws-cdk-lib.aws_autoscaling.AutoScalingGroup",
+      "Properties": {
+        "vpc": {
+          "Ref": "MyVpc"
+        },
+        "instanceType": {
+          "aws-cdk-lib.aws_ec2.InstanceType.of": {
+            "instanceClass": "T2",
+            "instanceSize": "XLARGE"
+          }
+        },
+        "machineImage": {
+          "aws-cdk-lib.aws_ecs.EcsOptimizedImage.amazonLinux2": {}
+        },
+        "desiredCapacity": 3
+      }
+    }
+  }
+}

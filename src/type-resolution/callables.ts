@@ -1,5 +1,8 @@
 import * as reflect from 'jsii-reflect';
-import { assertExactlyOneOfFields } from '../parser/private/types';
+import {
+  assertExactlyOneOfFields,
+  assertOneField,
+} from '../parser/private/types';
 import { ObjectLiteral } from '../parser/template';
 import { enumLikeClassMethods, isDataType } from '../schema/jsii2schema';
 import {
@@ -8,6 +11,7 @@ import {
   TypedTemplateExpression,
 } from './expression';
 import { resolveExpressionType } from './resolve';
+import { assertImplements } from './types';
 
 export interface StaticMethodCallExpression {
   readonly type: 'staticMethodCall';
@@ -23,13 +27,18 @@ function methodFQN(method: reflect.Method): string {
 
 export function resolveStaticMethodCallExpression(
   x: ObjectLiteral,
-  type: reflect.ClassType
+  resultType: reflect.Type
 ): StaticMethodCallExpression {
-  const methods = enumLikeClassMethods(type);
+  const candidateFQN = assertFullyQualifiedStaticMethodCall(x);
+  const candidateClass = resultType.system.findClass(candidateFQN);
+
+  const methods = enumLikeClassMethods(candidateClass);
   const methodNames = methods.map(methodFQN);
 
   const methodName = assertExactlyOneOfFields(x.fields, methodNames);
   const method = methods.find((m) => methodFQN(m) === methodName)!;
+
+  assertImplements(method.returns.type, resultType);
 
   const parameters = assertExpressionType(x.fields[methodName], 'object');
   const args = resolveCallableParameters(parameters, method);
@@ -37,10 +46,20 @@ export function resolveStaticMethodCallExpression(
   return {
     type: 'staticMethodCall',
     fqn: method.parentType.fqn,
-    namespace: type.namespace,
+    namespace: method.parentType.namespace,
     method: method.name,
     args,
   };
+}
+
+function assertFullyQualifiedStaticMethodCall(x: ObjectLiteral): string {
+  const fqn = assertOneField(x.fields);
+  const lastIndex = fqn.lastIndexOf('.');
+  if (lastIndex <= 0 || lastIndex >= fqn.length) {
+    throw new TypeError(`Expected static method call FQN, got: ${fqn}`);
+  }
+
+  return fqn.slice(0, lastIndex);
 }
 
 export interface InitializerExpression {
@@ -50,23 +69,32 @@ export interface InitializerExpression {
   readonly args: TypedArrayExpression;
 }
 
-export function resolveInitializerExpression(
+export function resolveInstanceExpression(
   x: ObjectLiteral,
   type: reflect.InterfaceType
-): InitializerExpression {
+): InitializerExpression | StaticMethodCallExpression {
   const allSubClasses = type.system.classes.filter((i) => i.extends(type));
+
+  const candidateFQN = assertOneField(x.fields);
+  const candidateClass = type.system.tryFindFqn(candidateFQN);
+
+  // Cannot find a class for the fqn, try a static method call instead
+  if (!candidateClass) {
+    return resolveStaticMethodCallExpression(x, type);
+  }
 
   const selectedSubClassFQN = assertExactlyOneOfFields(
     x.fields,
     allSubClasses.map((s) => s.fqn)
   );
-  const selectedSubClass = type.system.findClass(selectedSubClassFQN);
-  const initializer = assertInitializer(selectedSubClass);
+  const selectedSubClass = candidateClass;
 
   const parameters = assertExpressionType(
     x.fields[selectedSubClassFQN],
     'object'
   );
+
+  const initializer = assertInitializer(selectedSubClass);
   const args = resolveCallableParameters(parameters, initializer);
 
   return {
@@ -102,10 +130,14 @@ export function resolveCallableParameters(
       continue;
     }
 
-    if (!p.optional && x.fields[p.name] === undefined) {
-      throw new TypeError(
-        `Expected required parameter '${p.name}' for ${callable.parentType.fqn}.${callable.name}`
-      );
+    if (x.fields[p.name] === undefined) {
+      if (!p.optional) {
+        throw new TypeError(
+          `Expected required parameter '${p.name}' for ${callable.parentType.fqn}.${callable.name}`
+        );
+      }
+      args.push({ type: 'void' });
+      continue;
     }
 
     args.push(resolveExpressionType(x.fields[p.name], p.type));

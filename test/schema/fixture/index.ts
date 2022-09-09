@@ -33,3 +33,44 @@ export enum MyNormalEnum {
   ENUM_MEMBER_2,
   ENUM_MEMBER_3,
 }
+
+/**
+ * Tests how properties accepting a Behavioral Interface are represented in JSON Schema
+ */
+export interface InterfaceWithBehavioral {
+  /**
+   * A feature implementation.
+   */
+  readonly feature: IFeature;
+}
+
+export interface IFeature {
+  /**
+   * A behavioral interface method.
+   */
+  doStuff(): string;
+}
+
+export class FeatureFactory implements IFeature {
+  public static baseFeature(): FeatureFactory {
+    return new FeatureFactory();
+  }
+
+  private constructor() {}
+
+  doStuff(): string {
+    throw new Error('Method not implemented.');
+  }
+}
+
+export class AnotherFactory implements IFeature {
+  public static baseFeature(value: string): AnotherFactory {
+    return new AnotherFactory(value);
+  }
+
+  private constructor(private readonly value: string) {}
+
+  doStuff(): string {
+    throw new Error('Method not ' + this.value + '.');
+  }
+}

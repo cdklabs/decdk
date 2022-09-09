@@ -77,6 +77,46 @@ test('schemaForInterface: interface with primitives', async () => {
   });
 });
 
+test('schemaForInterface: Behavioral Interface Implementation Factories', async () => {
+  // GIVEN
+  const defs = {};
+  const ctx = SchemaContext.root(defs);
+
+  // WHEN
+  const ref = schemaForInterface(
+    typesys.findFqn('fixture.InterfaceWithBehavioral'),
+    ctx
+  );
+
+  // THEN
+  expect(ref).toStrictEqual({
+    $ref: '#/definitions/fixture.InterfaceWithBehavioral',
+  });
+  expect(ctx.definitions).toMatchObject({
+    'fixture.IFeature': {
+      anyOf: [
+        { $ref: '#/definitions/fixture.AnotherFactory' },
+        { $ref: '#/definitions/fixture.FeatureFactory' },
+      ],
+      comment: 'fixture.IFeature',
+    },
+    'fixture.FeatureFactory': {
+      anyOf: [
+        {
+          additionalProperties: false,
+          properties: {
+            'fixture.FeatureFactory.baseFeature': {
+              $ref: '#/definitions/fixture.FeatureFactory.baseFeature',
+            },
+          },
+          type: 'object',
+        },
+      ],
+      comment: 'fixture.FeatureFactory',
+    },
+  });
+});
+
 /**
  * Version of spawn() that returns a promise
  *
