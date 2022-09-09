@@ -11,11 +11,7 @@ import {
 import { assertExpression } from '../parser/template';
 import { ResourceOverride } from '../parser/template/overrides';
 import { ResourceTag } from '../parser/template/tags';
-import {
-  isCdkConstructExpression,
-  resolveResourceLike,
-  ResourceLike,
-} from '../type-resolution';
+import { isCdkConstructExpression, ResourceLike } from '../type-resolution';
 import { TypedTemplateExpression } from '../type-resolution/expression';
 import { EvaluationContext } from './context';
 import { applyOverride } from './overrides';
@@ -25,15 +21,10 @@ export class Evaluator {
 
   constructor(public readonly context: EvaluationContext) {}
 
-  public evaluateTemplate(block: <T>(fn: () => T) => T) {
-    this.context.template.resourceGraph().forEach((logicalId, resource) => {
-      block(() =>
-        this.evaluateResource(
-          logicalId,
-          resolveResourceLike(resource, logicalId, this.context.typeSystem)
-        )
-      );
-    });
+  public evaluateTemplate() {
+    return this.context.template.resources.forEach((logicalId, resource) =>
+      this.evaluateResource(logicalId, resource)
+    );
   }
 
   public evaluateResource(
