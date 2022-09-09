@@ -26,5 +26,5 @@ We use the nomenclature provided by the jsii assembly.
 
 We do not have to convert between different nomenclature styles.
 
-Users have to adapt their mental model when writing deCDK templates, compared to
+Users have to adapt their mental model when authoring deCDK templates, compared to
 plain CloudFormation templates.
