@@ -324,7 +324,7 @@ export function schemaForInterface(
         // but without this property.
         if (prop.optional) {
           ctx.warning(
-            'optional proprety omitted because it cannot be schematized'
+            'optional property omitted because it cannot be schematized'
           );
           continue;
         }
@@ -391,7 +391,7 @@ function schemaForEnumLikeClass(
       type: 'object',
       additionalProperties: false,
       properties: {
-        [method.name]: methodSchema(method, ctx),
+        [`${method.parentType.fqn}.${method.name}`]: methodSchema(method, ctx),
       },
     });
   }

@@ -20,7 +20,9 @@
         "handler": "app.hello_handler",
         "runtime": "PYTHON_3_6",
         "code": {
-          "fromAsset": { "path": "examples/lambda-handler" }
+          "aws-cdk-lib.aws_lambda.Code.fromAsset": {
+            "path": "examples/lambda-handler"
+          }
         },
         "environment": {
           "Param": "f"

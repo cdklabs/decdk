@@ -7,7 +7,11 @@
     "Lambda": {
       "Type": "aws-cdk-lib.aws_lambda.Function",
       "Properties": {
-        "code": { "fromAsset": { "path": "examples/lambda-handler" } },
+        "code": {
+          "aws-cdk-lib.aws_lambda.Code.fromAsset": {
+            "path": "examples/lambda-handler"
+          }
+        },
         "runtime": "NODEJS",
         "handler": "index.handler",
         "events": [

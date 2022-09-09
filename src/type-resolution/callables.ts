@@ -17,24 +17,28 @@ export interface StaticMethodCallExpression {
   readonly args: TypedArrayExpression;
 }
 
+function methodFQN(method: reflect.Method): string {
+  return `${method.parentType.fqn}.${method.name}`;
+}
+
 export function resolveStaticMethodCallExpression(
   x: ObjectLiteral,
   type: reflect.ClassType
 ): StaticMethodCallExpression {
   const methods = enumLikeClassMethods(type);
-  const methodNames = methods.map((m) => m.name);
+  const methodNames = methods.map(methodFQN);
 
   const methodName = assertExactlyOneOfFields(x.fields, methodNames);
-  const method = methods.find((m) => m.name === methodName)!;
+  const method = methods.find((m) => methodFQN(m) === methodName)!;
 
   const parameters = assertExpressionType(x.fields[methodName], 'object');
   const args = resolveCallableParameters(parameters, method);
 
   return {
     type: 'staticMethodCall',
-    fqn: type.fqn,
+    fqn: method.parentType.fqn,
     namespace: type.namespace,
-    method: methodName,
+    method: method.name,
     args,
   };
 }

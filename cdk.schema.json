@@ -160,7 +160,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "days": {
+            "aws-cdk-lib.Duration.days": {
               "$ref": "#/definitions/aws-cdk-lib.Duration.days"
             }
           }
@@ -169,7 +169,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "hours": {
+            "aws-cdk-lib.Duration.hours": {
               "$ref": "#/definitions/aws-cdk-lib.Duration.hours"
             }
           }
@@ -178,7 +178,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "millis": {
+            "aws-cdk-lib.Duration.millis": {
               "$ref": "#/definitions/aws-cdk-lib.Duration.millis"
             }
           }
@@ -187,7 +187,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "minutes": {
+            "aws-cdk-lib.Duration.minutes": {
               "$ref": "#/definitions/aws-cdk-lib.Duration.minutes"
             }
           }
@@ -196,7 +196,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "parse": {
+            "aws-cdk-lib.Duration.parse": {
               "$ref": "#/definitions/aws-cdk-lib.Duration.parse"
             }
           }
@@ -205,7 +205,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "seconds": {
+            "aws-cdk-lib.Duration.seconds": {
               "$ref": "#/definitions/aws-cdk-lib.Duration.seconds"
             }
           }
@@ -1584,7 +1584,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "of": {
+            "aws-cdk-lib.aws_apigateway.ResponseType.of": {
               "$ref": "#/definitions/aws-cdk-lib.aws_apigateway.ResponseType.of"
             }
           }
@@ -1825,7 +1825,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "clf": {
+            "aws-cdk-lib.aws_apigateway.AccessLogFormat.clf": {
               "$ref": "#/definitions/aws-cdk-lib.aws_apigateway.AccessLogFormat.clf"
             }
           }
@@ -1834,7 +1834,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "custom": {
+            "aws-cdk-lib.aws_apigateway.AccessLogFormat.custom": {
               "$ref": "#/definitions/aws-cdk-lib.aws_apigateway.AccessLogFormat.custom"
             }
           }
@@ -1843,7 +1843,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "jsonWithStandardFields": {
+            "aws-cdk-lib.aws_apigateway.AccessLogFormat.jsonWithStandardFields": {
               "$ref": "#/definitions/aws-cdk-lib.aws_apigateway.AccessLogFormat.jsonWithStandardFields"
             }
           }
@@ -2054,7 +2054,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromJson": {
+            "aws-cdk-lib.aws_iam.PolicyDocument.fromJson": {
               "$ref": "#/definitions/aws-cdk-lib.aws_iam.PolicyDocument.fromJson"
             }
           }
@@ -3230,7 +3230,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromBuild": {
+            "aws-cdk-lib.DockerImage.fromBuild": {
               "$ref": "#/definitions/aws-cdk-lib.DockerImage.fromBuild"
             }
           }
@@ -3239,7 +3239,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromRegistry": {
+            "aws-cdk-lib.DockerImage.fromRegistry": {
               "$ref": "#/definitions/aws-cdk-lib.DockerImage.fromRegistry"
             }
           }
@@ -3904,7 +3904,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "cfnDynamicReference": {
+            "aws-cdk-lib.SecretValue.cfnDynamicReference": {
               "$ref": "#/definitions/aws-cdk-lib.SecretValue.cfnDynamicReference"
             }
           }
@@ -3913,7 +3913,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "cfnParameter": {
+            "aws-cdk-lib.SecretValue.cfnParameter": {
               "$ref": "#/definitions/aws-cdk-lib.SecretValue.cfnParameter"
             }
           }
@@ -3922,7 +3922,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "plainText": {
+            "aws-cdk-lib.SecretValue.plainText": {
               "$ref": "#/definitions/aws-cdk-lib.SecretValue.plainText"
             }
           }
@@ -3931,7 +3931,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "resourceAttribute": {
+            "aws-cdk-lib.SecretValue.resourceAttribute": {
               "$ref": "#/definitions/aws-cdk-lib.SecretValue.resourceAttribute"
             }
           }
@@ -3940,7 +3940,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "secretsManager": {
+            "aws-cdk-lib.SecretValue.secretsManager": {
               "$ref": "#/definitions/aws-cdk-lib.SecretValue.secretsManager"
             }
           }
@@ -3949,7 +3949,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "ssmSecure": {
+            "aws-cdk-lib.SecretValue.ssmSecure": {
               "$ref": "#/definitions/aws-cdk-lib.SecretValue.ssmSecure"
             }
           }
@@ -3958,7 +3958,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "unsafePlainText": {
+            "aws-cdk-lib.SecretValue.unsafePlainText": {
               "$ref": "#/definitions/aws-cdk-lib.SecretValue.unsafePlainText"
             }
           }
@@ -4697,7 +4697,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromAsset": {
+            "aws-cdk-lib.aws_apigateway.ApiDefinition.fromAsset": {
               "$ref": "#/definitions/aws-cdk-lib.aws_apigateway.ApiDefinition.fromAsset"
             }
           }
@@ -4706,7 +4706,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromBucket": {
+            "aws-cdk-lib.aws_apigateway.ApiDefinition.fromBucket": {
               "$ref": "#/definitions/aws-cdk-lib.aws_apigateway.ApiDefinition.fromBucket"
             }
           }
@@ -4715,7 +4715,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromInline": {
+            "aws-cdk-lib.aws_apigateway.ApiDefinition.fromInline": {
               "$ref": "#/definitions/aws-cdk-lib.aws_apigateway.ApiDefinition.fromInline"
             }
           }
@@ -6119,7 +6119,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "endsWith": {
+            "aws-cdk-lib.aws_appmesh.GatewayRouteHostnameMatch.endsWith": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.GatewayRouteHostnameMatch.endsWith"
             }
           }
@@ -6128,7 +6128,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "exactly": {
+            "aws-cdk-lib.aws_appmesh.GatewayRouteHostnameMatch.exactly": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.GatewayRouteHostnameMatch.exactly"
             }
           }
@@ -6320,7 +6320,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "valueDoesNotEndWith": {
+            "aws-cdk-lib.aws_appmesh.HeaderMatch.valueDoesNotEndWith": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.HeaderMatch.valueDoesNotEndWith"
             }
           }
@@ -6329,7 +6329,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "valueDoesNotMatchRegex": {
+            "aws-cdk-lib.aws_appmesh.HeaderMatch.valueDoesNotMatchRegex": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.HeaderMatch.valueDoesNotMatchRegex"
             }
           }
@@ -6338,7 +6338,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "valueDoesNotStartWith": {
+            "aws-cdk-lib.aws_appmesh.HeaderMatch.valueDoesNotStartWith": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.HeaderMatch.valueDoesNotStartWith"
             }
           }
@@ -6347,7 +6347,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "valueEndsWith": {
+            "aws-cdk-lib.aws_appmesh.HeaderMatch.valueEndsWith": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.HeaderMatch.valueEndsWith"
             }
           }
@@ -6356,7 +6356,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "valueIs": {
+            "aws-cdk-lib.aws_appmesh.HeaderMatch.valueIs": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.HeaderMatch.valueIs"
             }
           }
@@ -6365,7 +6365,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "valueIsNot": {
+            "aws-cdk-lib.aws_appmesh.HeaderMatch.valueIsNot": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.HeaderMatch.valueIsNot"
             }
           }
@@ -6374,7 +6374,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "valueMatchesRegex": {
+            "aws-cdk-lib.aws_appmesh.HeaderMatch.valueMatchesRegex": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.HeaderMatch.valueMatchesRegex"
             }
           }
@@ -6383,7 +6383,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "valuesIsInRange": {
+            "aws-cdk-lib.aws_appmesh.HeaderMatch.valuesIsInRange": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.HeaderMatch.valuesIsInRange"
             }
           }
@@ -6392,7 +6392,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "valuesIsNotInRange": {
+            "aws-cdk-lib.aws_appmesh.HeaderMatch.valuesIsNotInRange": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.HeaderMatch.valuesIsNotInRange"
             }
           }
@@ -6401,7 +6401,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "valueStartsWith": {
+            "aws-cdk-lib.aws_appmesh.HeaderMatch.valueStartsWith": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.HeaderMatch.valueStartsWith"
             }
           }
@@ -6544,7 +6544,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "exactly": {
+            "aws-cdk-lib.aws_appmesh.HttpGatewayRoutePathMatch.exactly": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.HttpGatewayRoutePathMatch.exactly"
             }
           }
@@ -6553,7 +6553,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "regex": {
+            "aws-cdk-lib.aws_appmesh.HttpGatewayRoutePathMatch.regex": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.HttpGatewayRoutePathMatch.regex"
             }
           }
@@ -6562,7 +6562,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "startsWith": {
+            "aws-cdk-lib.aws_appmesh.HttpGatewayRoutePathMatch.startsWith": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.HttpGatewayRoutePathMatch.startsWith"
             }
           }
@@ -6593,7 +6593,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "valueIs": {
+            "aws-cdk-lib.aws_appmesh.QueryParameterMatch.valueIs": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.QueryParameterMatch.valueIs"
             }
           }
@@ -6731,7 +6731,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "grpc": {
+            "aws-cdk-lib.aws_appmesh.GatewayRouteSpec.grpc": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.GatewayRouteSpec.grpc"
             }
           }
@@ -6740,7 +6740,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "http": {
+            "aws-cdk-lib.aws_appmesh.GatewayRouteSpec.http": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.GatewayRouteSpec.http"
             }
           }
@@ -6749,7 +6749,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "http2": {
+            "aws-cdk-lib.aws_appmesh.GatewayRouteSpec.http2": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.GatewayRouteSpec.http2"
             }
           }
@@ -7118,7 +7118,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "exactly": {
+            "aws-cdk-lib.aws_appmesh.HttpRoutePathMatch.exactly": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.HttpRoutePathMatch.exactly"
             }
           }
@@ -7127,7 +7127,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "regex": {
+            "aws-cdk-lib.aws_appmesh.HttpRoutePathMatch.regex": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.HttpRoutePathMatch.regex"
             }
           }
@@ -7136,7 +7136,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "startsWith": {
+            "aws-cdk-lib.aws_appmesh.HttpRoutePathMatch.startsWith": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.HttpRoutePathMatch.startsWith"
             }
           }
@@ -7404,7 +7404,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "grpc": {
+            "aws-cdk-lib.aws_appmesh.RouteSpec.grpc": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.RouteSpec.grpc"
             }
           }
@@ -7413,7 +7413,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "http": {
+            "aws-cdk-lib.aws_appmesh.RouteSpec.http": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.RouteSpec.http"
             }
           }
@@ -7422,7 +7422,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "http2": {
+            "aws-cdk-lib.aws_appmesh.RouteSpec.http2": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.RouteSpec.http2"
             }
           }
@@ -7431,7 +7431,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "tcp": {
+            "aws-cdk-lib.aws_appmesh.RouteSpec.tcp": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.RouteSpec.tcp"
             }
           }
@@ -7530,7 +7530,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromFilePath": {
+            "aws-cdk-lib.aws_appmesh.AccessLog.fromFilePath": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.AccessLog.fromFilePath"
             }
           }
@@ -7591,7 +7591,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "acm": {
+            "aws-cdk-lib.aws_appmesh.TlsValidationTrust.acm": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.TlsValidationTrust.acm"
             }
           }
@@ -7600,7 +7600,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "file": {
+            "aws-cdk-lib.aws_appmesh.TlsValidationTrust.file": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.TlsValidationTrust.file"
             }
           }
@@ -7609,7 +7609,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "sds": {
+            "aws-cdk-lib.aws_appmesh.TlsValidationTrust.sds": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.TlsValidationTrust.sds"
             }
           }
@@ -7636,7 +7636,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "matchingExactly": {
+            "aws-cdk-lib.aws_appmesh.SubjectAlternativeNames.matchingExactly": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.SubjectAlternativeNames.matchingExactly"
             }
           }
@@ -7699,7 +7699,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "file": {
+            "aws-cdk-lib.aws_appmesh.MutualTlsCertificate.file": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.MutualTlsCertificate.file"
             }
           }
@@ -7708,7 +7708,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "sds": {
+            "aws-cdk-lib.aws_appmesh.MutualTlsCertificate.sds": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.MutualTlsCertificate.sds"
             }
           }
@@ -7937,7 +7937,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "grpc": {
+            "aws-cdk-lib.aws_appmesh.HealthCheck.grpc": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.HealthCheck.grpc"
             }
           }
@@ -7946,7 +7946,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "http": {
+            "aws-cdk-lib.aws_appmesh.HealthCheck.http": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.HealthCheck.http"
             }
           }
@@ -7955,7 +7955,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "http2": {
+            "aws-cdk-lib.aws_appmesh.HealthCheck.http2": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.HealthCheck.http2"
             }
           }
@@ -7964,7 +7964,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "tcp": {
+            "aws-cdk-lib.aws_appmesh.HealthCheck.tcp": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.HealthCheck.tcp"
             }
           }
@@ -8026,7 +8026,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "acm": {
+            "aws-cdk-lib.aws_appmesh.TlsCertificate.acm": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.TlsCertificate.acm"
             }
           }
@@ -8035,7 +8035,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "file": {
+            "aws-cdk-lib.aws_appmesh.TlsCertificate.file": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.TlsCertificate.file"
             }
           }
@@ -8044,7 +8044,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "sds": {
+            "aws-cdk-lib.aws_appmesh.TlsCertificate.sds": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.TlsCertificate.sds"
             }
           }
@@ -8084,7 +8084,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "file": {
+            "aws-cdk-lib.aws_appmesh.MutualTlsValidationTrust.file": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.MutualTlsValidationTrust.file"
             }
           }
@@ -8093,7 +8093,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "sds": {
+            "aws-cdk-lib.aws_appmesh.MutualTlsValidationTrust.sds": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.MutualTlsValidationTrust.sds"
             }
           }
@@ -8318,7 +8318,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "grpc": {
+            "aws-cdk-lib.aws_appmesh.VirtualGatewayListener.grpc": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.VirtualGatewayListener.grpc"
             }
           }
@@ -8327,7 +8327,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "http": {
+            "aws-cdk-lib.aws_appmesh.VirtualGatewayListener.http": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.VirtualGatewayListener.http"
             }
           }
@@ -8336,7 +8336,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "http2": {
+            "aws-cdk-lib.aws_appmesh.VirtualGatewayListener.http2": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.VirtualGatewayListener.http2"
             }
           }
@@ -8455,7 +8455,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "virtualService": {
+            "aws-cdk-lib.aws_appmesh.Backend.virtualService": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.Backend.virtualService"
             }
           }
@@ -8742,7 +8742,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "grpc": {
+            "aws-cdk-lib.aws_appmesh.VirtualNodeListener.grpc": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.VirtualNodeListener.grpc"
             }
           }
@@ -8751,7 +8751,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "http": {
+            "aws-cdk-lib.aws_appmesh.VirtualNodeListener.http": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.VirtualNodeListener.http"
             }
           }
@@ -8760,7 +8760,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "http2": {
+            "aws-cdk-lib.aws_appmesh.VirtualNodeListener.http2": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.VirtualNodeListener.http2"
             }
           }
@@ -8769,7 +8769,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "tcp": {
+            "aws-cdk-lib.aws_appmesh.VirtualNodeListener.tcp": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.VirtualNodeListener.tcp"
             }
           }
@@ -8842,7 +8842,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "cloudMap": {
+            "aws-cdk-lib.aws_appmesh.ServiceDiscovery.cloudMap": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.ServiceDiscovery.cloudMap"
             }
           }
@@ -8851,7 +8851,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "dns": {
+            "aws-cdk-lib.aws_appmesh.ServiceDiscovery.dns": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.ServiceDiscovery.dns"
             }
           }
@@ -8988,7 +8988,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "grpc": {
+            "aws-cdk-lib.aws_appmesh.VirtualRouterListener.grpc": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.VirtualRouterListener.grpc"
             }
           }
@@ -8997,7 +8997,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "http": {
+            "aws-cdk-lib.aws_appmesh.VirtualRouterListener.http": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.VirtualRouterListener.http"
             }
           }
@@ -9006,7 +9006,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "http2": {
+            "aws-cdk-lib.aws_appmesh.VirtualRouterListener.http2": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.VirtualRouterListener.http2"
             }
           }
@@ -9015,7 +9015,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "tcp": {
+            "aws-cdk-lib.aws_appmesh.VirtualRouterListener.tcp": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.VirtualRouterListener.tcp"
             }
           }
@@ -9147,7 +9147,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "none": {
+            "aws-cdk-lib.aws_appmesh.VirtualServiceProvider.none": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.VirtualServiceProvider.none"
             }
           }
@@ -9156,7 +9156,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "virtualNode": {
+            "aws-cdk-lib.aws_appmesh.VirtualServiceProvider.virtualNode": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.VirtualServiceProvider.virtualNode"
             }
           }
@@ -9165,7 +9165,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "virtualRouter": {
+            "aws-cdk-lib.aws_appmesh.VirtualServiceProvider.virtualRouter": {
               "$ref": "#/definitions/aws-cdk-lib.aws_appmesh.VirtualServiceProvider.virtualRouter"
             }
           }
@@ -9376,7 +9376,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "ebs": {
+            "aws-cdk-lib.aws_autoscaling.BlockDeviceVolume.ebs": {
               "$ref": "#/definitions/aws-cdk-lib.aws_autoscaling.BlockDeviceVolume.ebs"
             }
           }
@@ -9385,7 +9385,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "ebsFromSnapshot": {
+            "aws-cdk-lib.aws_autoscaling.BlockDeviceVolume.ebsFromSnapshot": {
               "$ref": "#/definitions/aws-cdk-lib.aws_autoscaling.BlockDeviceVolume.ebsFromSnapshot"
             }
           }
@@ -9394,7 +9394,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "ephemeral": {
+            "aws-cdk-lib.aws_autoscaling.BlockDeviceVolume.ephemeral": {
               "$ref": "#/definitions/aws-cdk-lib.aws_autoscaling.BlockDeviceVolume.ephemeral"
             }
           }
@@ -9403,7 +9403,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "noDevice": {
+            "aws-cdk-lib.aws_autoscaling.BlockDeviceVolume.noDevice": {
               "$ref": "#/definitions/aws-cdk-lib.aws_autoscaling.BlockDeviceVolume.noDevice"
             }
           }
@@ -9443,7 +9443,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "all": {
+            "aws-cdk-lib.aws_autoscaling.GroupMetrics.all": {
               "$ref": "#/definitions/aws-cdk-lib.aws_autoscaling.GroupMetrics.all"
             }
           }
@@ -9507,7 +9507,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "ec2": {
+            "aws-cdk-lib.aws_autoscaling.HealthCheck.ec2": {
               "$ref": "#/definitions/aws-cdk-lib.aws_autoscaling.HealthCheck.ec2"
             }
           }
@@ -9516,7 +9516,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "elb": {
+            "aws-cdk-lib.aws_autoscaling.HealthCheck.elb": {
               "$ref": "#/definitions/aws-cdk-lib.aws_autoscaling.HealthCheck.elb"
             }
           }
@@ -9628,7 +9628,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "waitForAll": {
+            "aws-cdk-lib.aws_autoscaling.Signals.waitForAll": {
               "$ref": "#/definitions/aws-cdk-lib.aws_autoscaling.Signals.waitForAll"
             }
           }
@@ -9637,7 +9637,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "waitForCount": {
+            "aws-cdk-lib.aws_autoscaling.Signals.waitForCount": {
               "$ref": "#/definitions/aws-cdk-lib.aws_autoscaling.Signals.waitForCount"
             }
           }
@@ -9646,7 +9646,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "waitForMinCapacity": {
+            "aws-cdk-lib.aws_autoscaling.Signals.waitForMinCapacity": {
               "$ref": "#/definitions/aws-cdk-lib.aws_autoscaling.Signals.waitForMinCapacity"
             }
           }
@@ -9747,7 +9747,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "replacingUpdate": {
+            "aws-cdk-lib.aws_autoscaling.UpdatePolicy.replacingUpdate": {
               "$ref": "#/definitions/aws-cdk-lib.aws_autoscaling.UpdatePolicy.replacingUpdate"
             }
           }
@@ -9756,7 +9756,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "rollingUpdate": {
+            "aws-cdk-lib.aws_autoscaling.UpdatePolicy.rollingUpdate": {
               "$ref": "#/definitions/aws-cdk-lib.aws_autoscaling.UpdatePolicy.rollingUpdate"
             }
           }
@@ -9837,7 +9837,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "availabilityZones": {
+            "aws-cdk-lib.aws_ec2.SubnetFilter.availabilityZones": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.SubnetFilter.availabilityZones"
             }
           }
@@ -9846,7 +9846,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "byCidrMask": {
+            "aws-cdk-lib.aws_ec2.SubnetFilter.byCidrMask": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.SubnetFilter.byCidrMask"
             }
           }
@@ -9855,7 +9855,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "byIds": {
+            "aws-cdk-lib.aws_ec2.SubnetFilter.byIds": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.SubnetFilter.byIds"
             }
           }
@@ -9864,7 +9864,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "containsIpAddresses": {
+            "aws-cdk-lib.aws_ec2.SubnetFilter.containsIpAddresses": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.SubnetFilter.containsIpAddresses"
             }
           }
@@ -9873,7 +9873,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "onePerAz": {
+            "aws-cdk-lib.aws_ec2.SubnetFilter.onePerAz": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.SubnetFilter.onePerAz"
             }
           }
@@ -9983,7 +9983,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "forever": {
+            "aws-cdk-lib.aws_ec2.InitCommandWaitDuration.forever": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.InitCommandWaitDuration.forever"
             }
           }
@@ -9992,7 +9992,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "none": {
+            "aws-cdk-lib.aws_ec2.InitCommandWaitDuration.none": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.InitCommandWaitDuration.none"
             }
           }
@@ -10001,7 +10001,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "of": {
+            "aws-cdk-lib.aws_ec2.InitCommandWaitDuration.of": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.InitCommandWaitDuration.of"
             }
           }
@@ -10140,7 +10140,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "argvCommand": {
+            "aws-cdk-lib.aws_ec2.InitCommand.argvCommand": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.InitCommand.argvCommand"
             }
           }
@@ -10149,7 +10149,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "shellCommand": {
+            "aws-cdk-lib.aws_ec2.InitCommand.shellCommand": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.InitCommand.shellCommand"
             }
           }
@@ -10179,7 +10179,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromName": {
+            "aws-cdk-lib.aws_ec2.InitGroup.fromName": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.InitGroup.fromName"
             }
           }
@@ -10394,7 +10394,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "apt": {
+            "aws-cdk-lib.aws_ec2.InitPackage.apt": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.InitPackage.apt"
             }
           }
@@ -10403,7 +10403,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "msi": {
+            "aws-cdk-lib.aws_ec2.InitPackage.msi": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.InitPackage.msi"
             }
           }
@@ -10412,7 +10412,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "python": {
+            "aws-cdk-lib.aws_ec2.InitPackage.python": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.InitPackage.python"
             }
           }
@@ -10421,7 +10421,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "rpm": {
+            "aws-cdk-lib.aws_ec2.InitPackage.rpm": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.InitPackage.rpm"
             }
           }
@@ -10430,7 +10430,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "rubyGem": {
+            "aws-cdk-lib.aws_ec2.InitPackage.rubyGem": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.InitPackage.rubyGem"
             }
           }
@@ -10439,7 +10439,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "yum": {
+            "aws-cdk-lib.aws_ec2.InitPackage.yum": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.InitPackage.yum"
             }
           }
@@ -10537,7 +10537,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "disable": {
+            "aws-cdk-lib.aws_ec2.InitService.disable": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.InitService.disable"
             }
           }
@@ -10546,7 +10546,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "enable": {
+            "aws-cdk-lib.aws_ec2.InitService.enable": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.InitService.enable"
             }
           }
@@ -10608,7 +10608,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromName": {
+            "aws-cdk-lib.aws_ec2.InitUser.fromName": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.InitUser.fromName"
             }
           }
@@ -10805,7 +10805,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromConfig": {
+            "aws-cdk-lib.aws_ec2.CloudFormationInit.fromConfig": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.CloudFormationInit.fromConfig"
             }
           }
@@ -10814,7 +10814,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromConfigSets": {
+            "aws-cdk-lib.aws_ec2.CloudFormationInit.fromConfigSets": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.CloudFormationInit.fromConfigSets"
             }
           }
@@ -10823,7 +10823,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromElements": {
+            "aws-cdk-lib.aws_ec2.CloudFormationInit.fromElements": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.CloudFormationInit.fromElements"
             }
           }
@@ -11088,7 +11088,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "of": {
+            "aws-cdk-lib.aws_ec2.InstanceType.of": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.InstanceType.of"
             }
           }
@@ -11160,7 +11160,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "custom": {
+            "aws-cdk-lib.aws_ec2.UserData.custom": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.UserData.custom"
             }
           }
@@ -11169,7 +11169,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "forLinux": {
+            "aws-cdk-lib.aws_ec2.UserData.forLinux": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.UserData.forLinux"
             }
           }
@@ -11178,7 +11178,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "forOperatingSystem": {
+            "aws-cdk-lib.aws_ec2.UserData.forOperatingSystem": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.UserData.forOperatingSystem"
             }
           }
@@ -11187,7 +11187,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "forWindows": {
+            "aws-cdk-lib.aws_ec2.UserData.forWindows": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.UserData.forWindows"
             }
           }
@@ -11872,7 +11872,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "amazonLinux": {
+            "aws-cdk-lib.aws_ecs.EcsOptimizedImage.amazonLinux": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ecs.EcsOptimizedImage.amazonLinux"
             }
           }
@@ -11881,7 +11881,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "amazonLinux2": {
+            "aws-cdk-lib.aws_ecs.EcsOptimizedImage.amazonLinux2": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ecs.EcsOptimizedImage.amazonLinux2"
             }
           }
@@ -11890,7 +11890,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "windows": {
+            "aws-cdk-lib.aws_ecs.EcsOptimizedImage.windows": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ecs.EcsOptimizedImage.windows"
             }
           }
@@ -12605,7 +12605,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "cron": {
+            "aws-cdk-lib.aws_autoscaling.Schedule.cron": {
               "$ref": "#/definitions/aws-cdk-lib.aws_autoscaling.Schedule.cron"
             }
           }
@@ -12614,7 +12614,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "expression": {
+            "aws-cdk-lib.aws_autoscaling.Schedule.expression": {
               "$ref": "#/definitions/aws-cdk-lib.aws_autoscaling.Schedule.expression"
             }
           }
@@ -13148,7 +13148,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "daily": {
+            "aws-cdk-lib.aws_backup.BackupPlanRule.daily": {
               "$ref": "#/definitions/aws-cdk-lib.aws_backup.BackupPlanRule.daily"
             }
           }
@@ -13157,7 +13157,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "monthly1Year": {
+            "aws-cdk-lib.aws_backup.BackupPlanRule.monthly1Year": {
               "$ref": "#/definitions/aws-cdk-lib.aws_backup.BackupPlanRule.monthly1Year"
             }
           }
@@ -13166,7 +13166,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "monthly5Year": {
+            "aws-cdk-lib.aws_backup.BackupPlanRule.monthly5Year": {
               "$ref": "#/definitions/aws-cdk-lib.aws_backup.BackupPlanRule.monthly5Year"
             }
           }
@@ -13175,7 +13175,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "monthly7Year": {
+            "aws-cdk-lib.aws_backup.BackupPlanRule.monthly7Year": {
               "$ref": "#/definitions/aws-cdk-lib.aws_backup.BackupPlanRule.monthly7Year"
             }
           }
@@ -13184,7 +13184,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "weekly": {
+            "aws-cdk-lib.aws_backup.BackupPlanRule.weekly": {
               "$ref": "#/definitions/aws-cdk-lib.aws_backup.BackupPlanRule.weekly"
             }
           }
@@ -13425,7 +13425,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromArn": {
+            "aws-cdk-lib.aws_backup.BackupResource.fromArn": {
               "$ref": "#/definitions/aws-cdk-lib.aws_backup.BackupResource.fromArn"
             }
           }
@@ -13434,7 +13434,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromConstruct": {
+            "aws-cdk-lib.aws_backup.BackupResource.fromConstruct": {
               "$ref": "#/definitions/aws-cdk-lib.aws_backup.BackupResource.fromConstruct"
             }
           }
@@ -13443,7 +13443,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromDynamoDbTable": {
+            "aws-cdk-lib.aws_backup.BackupResource.fromDynamoDbTable": {
               "$ref": "#/definitions/aws-cdk-lib.aws_backup.BackupResource.fromDynamoDbTable"
             }
           }
@@ -13452,7 +13452,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromEc2Instance": {
+            "aws-cdk-lib.aws_backup.BackupResource.fromEc2Instance": {
               "$ref": "#/definitions/aws-cdk-lib.aws_backup.BackupResource.fromEc2Instance"
             }
           }
@@ -13461,7 +13461,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromEfsFileSystem": {
+            "aws-cdk-lib.aws_backup.BackupResource.fromEfsFileSystem": {
               "$ref": "#/definitions/aws-cdk-lib.aws_backup.BackupResource.fromEfsFileSystem"
             }
           }
@@ -13470,7 +13470,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromRdsDatabaseCluster": {
+            "aws-cdk-lib.aws_backup.BackupResource.fromRdsDatabaseCluster": {
               "$ref": "#/definitions/aws-cdk-lib.aws_backup.BackupResource.fromRdsDatabaseCluster"
             }
           }
@@ -13479,7 +13479,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromRdsDatabaseInstance": {
+            "aws-cdk-lib.aws_backup.BackupResource.fromRdsDatabaseInstance": {
               "$ref": "#/definitions/aws-cdk-lib.aws_backup.BackupResource.fromRdsDatabaseInstance"
             }
           }
@@ -13488,7 +13488,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromRdsServerlessCluster": {
+            "aws-cdk-lib.aws_backup.BackupResource.fromRdsServerlessCluster": {
               "$ref": "#/definitions/aws-cdk-lib.aws_backup.BackupResource.fromRdsServerlessCluster"
             }
           }
@@ -13497,7 +13497,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromTag": {
+            "aws-cdk-lib.aws_backup.BackupResource.fromTag": {
               "$ref": "#/definitions/aws-cdk-lib.aws_backup.BackupResource.fromTag"
             }
           }
@@ -13767,7 +13767,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromDns": {
+            "aws-cdk-lib.aws_certificatemanager.CertificateValidation.fromDns": {
               "$ref": "#/definitions/aws-cdk-lib.aws_certificatemanager.CertificateValidation.fromDns"
             }
           }
@@ -13776,7 +13776,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromDnsMultiZone": {
+            "aws-cdk-lib.aws_certificatemanager.CertificateValidation.fromDnsMultiZone": {
               "$ref": "#/definitions/aws-cdk-lib.aws_certificatemanager.CertificateValidation.fromDnsMultiZone"
             }
           }
@@ -13785,7 +13785,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromEmail": {
+            "aws-cdk-lib.aws_certificatemanager.CertificateValidation.fromEmail": {
               "$ref": "#/definitions/aws-cdk-lib.aws_certificatemanager.CertificateValidation.fromEmail"
             }
           }
@@ -14311,7 +14311,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "custom": {
+            "aws-cdk-lib.aws_lambda.Architecture.custom": {
               "$ref": "#/definitions/aws-cdk-lib.aws_lambda.Architecture.custom"
             }
           }
@@ -14434,7 +14434,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "gibibytes": {
+            "aws-cdk-lib.Size.gibibytes": {
               "$ref": "#/definitions/aws-cdk-lib.Size.gibibytes"
             }
           }
@@ -14443,7 +14443,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "kibibytes": {
+            "aws-cdk-lib.Size.kibibytes": {
               "$ref": "#/definitions/aws-cdk-lib.Size.kibibytes"
             }
           }
@@ -14452,7 +14452,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "mebibytes": {
+            "aws-cdk-lib.Size.mebibytes": {
               "$ref": "#/definitions/aws-cdk-lib.Size.mebibytes"
             }
           }
@@ -14461,7 +14461,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "pebibytes": {
+            "aws-cdk-lib.Size.pebibytes": {
               "$ref": "#/definitions/aws-cdk-lib.Size.pebibytes"
             }
           }
@@ -14470,7 +14470,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "tebibytes": {
+            "aws-cdk-lib.Size.tebibytes": {
               "$ref": "#/definitions/aws-cdk-lib.Size.tebibytes"
             }
           }
@@ -15402,7 +15402,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "existsFilter": {
+            "aws-cdk-lib.aws_sns.SubscriptionFilter.existsFilter": {
               "$ref": "#/definitions/aws-cdk-lib.aws_sns.SubscriptionFilter.existsFilter"
             }
           }
@@ -15411,7 +15411,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "numericFilter": {
+            "aws-cdk-lib.aws_sns.SubscriptionFilter.numericFilter": {
               "$ref": "#/definitions/aws-cdk-lib.aws_sns.SubscriptionFilter.numericFilter"
             }
           }
@@ -15420,7 +15420,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "stringFilter": {
+            "aws-cdk-lib.aws_sns.SubscriptionFilter.stringFilter": {
               "$ref": "#/definitions/aws-cdk-lib.aws_sns.SubscriptionFilter.stringFilter"
             }
           }
@@ -15643,7 +15643,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromEfsAccessPoint": {
+            "aws-cdk-lib.aws_lambda.FileSystem.fromEfsAccessPoint": {
               "$ref": "#/definitions/aws-cdk-lib.aws_lambda.FileSystem.fromEfsAccessPoint"
             }
           }
@@ -15668,7 +15668,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromJson": {
+            "aws-cdk-lib.aws_iam.PolicyStatement.fromJson": {
               "$ref": "#/definitions/aws-cdk-lib.aws_iam.PolicyStatement.fromJson"
             }
           }
@@ -15705,7 +15705,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromInsightVersionArn": {
+            "aws-cdk-lib.aws_lambda.LambdaInsightsVersion.fromInsightVersionArn": {
               "$ref": "#/definitions/aws-cdk-lib.aws_lambda.LambdaInsightsVersion.fromInsightVersionArn"
             }
           }
@@ -15857,7 +15857,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "custom": {
+            "aws-cdk-lib.aws_ecr_assets.NetworkMode.custom": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ecr_assets.NetworkMode.custom"
             }
           }
@@ -15866,7 +15866,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromContainer": {
+            "aws-cdk-lib.aws_ecr_assets.NetworkMode.fromContainer": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ecr_assets.NetworkMode.fromContainer"
             }
           }
@@ -15899,7 +15899,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "custom": {
+            "aws-cdk-lib.aws_ecr_assets.Platform.custom": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ecr_assets.Platform.custom"
             }
           }
@@ -16296,7 +16296,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromAsset": {
+            "aws-cdk-lib.aws_lambda.Code.fromAsset": {
               "$ref": "#/definitions/aws-cdk-lib.aws_lambda.Code.fromAsset"
             }
           }
@@ -16305,7 +16305,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromAssetImage": {
+            "aws-cdk-lib.aws_lambda.Code.fromAssetImage": {
               "$ref": "#/definitions/aws-cdk-lib.aws_lambda.Code.fromAssetImage"
             }
           }
@@ -16314,7 +16314,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromBucket": {
+            "aws-cdk-lib.aws_lambda.Code.fromBucket": {
               "$ref": "#/definitions/aws-cdk-lib.aws_lambda.Code.fromBucket"
             }
           }
@@ -16323,7 +16323,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromCfnParameters": {
+            "aws-cdk-lib.aws_lambda.Code.fromCfnParameters": {
               "$ref": "#/definitions/aws-cdk-lib.aws_lambda.Code.fromCfnParameters"
             }
           }
@@ -16332,7 +16332,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromDockerBuild": {
+            "aws-cdk-lib.aws_lambda.Code.fromDockerBuild": {
               "$ref": "#/definitions/aws-cdk-lib.aws_lambda.Code.fromDockerBuild"
             }
           }
@@ -16341,7 +16341,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromEcrImage": {
+            "aws-cdk-lib.aws_lambda.Code.fromEcrImage": {
               "$ref": "#/definitions/aws-cdk-lib.aws_lambda.Code.fromEcrImage"
             }
           }
@@ -16350,7 +16350,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromInline": {
+            "aws-cdk-lib.aws_lambda.Code.fromInline": {
               "$ref": "#/definitions/aws-cdk-lib.aws_lambda.Code.fromInline"
             }
           }
@@ -16732,7 +16732,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "all": {
+            "aws-cdk-lib.aws_cloudfront.CacheCookieBehavior.all": {
               "$ref": "#/definitions/aws-cdk-lib.aws_cloudfront.CacheCookieBehavior.all"
             }
           }
@@ -16741,7 +16741,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "allowList": {
+            "aws-cdk-lib.aws_cloudfront.CacheCookieBehavior.allowList": {
               "$ref": "#/definitions/aws-cdk-lib.aws_cloudfront.CacheCookieBehavior.allowList"
             }
           }
@@ -16750,7 +16750,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "denyList": {
+            "aws-cdk-lib.aws_cloudfront.CacheCookieBehavior.denyList": {
               "$ref": "#/definitions/aws-cdk-lib.aws_cloudfront.CacheCookieBehavior.denyList"
             }
           }
@@ -16759,7 +16759,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "none": {
+            "aws-cdk-lib.aws_cloudfront.CacheCookieBehavior.none": {
               "$ref": "#/definitions/aws-cdk-lib.aws_cloudfront.CacheCookieBehavior.none"
             }
           }
@@ -16792,7 +16792,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "allowList": {
+            "aws-cdk-lib.aws_cloudfront.CacheHeaderBehavior.allowList": {
               "$ref": "#/definitions/aws-cdk-lib.aws_cloudfront.CacheHeaderBehavior.allowList"
             }
           }
@@ -16801,7 +16801,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "none": {
+            "aws-cdk-lib.aws_cloudfront.CacheHeaderBehavior.none": {
               "$ref": "#/definitions/aws-cdk-lib.aws_cloudfront.CacheHeaderBehavior.none"
             }
           }
@@ -16853,7 +16853,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "all": {
+            "aws-cdk-lib.aws_cloudfront.CacheQueryStringBehavior.all": {
               "$ref": "#/definitions/aws-cdk-lib.aws_cloudfront.CacheQueryStringBehavior.all"
             }
           }
@@ -16862,7 +16862,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "allowList": {
+            "aws-cdk-lib.aws_cloudfront.CacheQueryStringBehavior.allowList": {
               "$ref": "#/definitions/aws-cdk-lib.aws_cloudfront.CacheQueryStringBehavior.allowList"
             }
           }
@@ -16871,7 +16871,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "denyList": {
+            "aws-cdk-lib.aws_cloudfront.CacheQueryStringBehavior.denyList": {
               "$ref": "#/definitions/aws-cdk-lib.aws_cloudfront.CacheQueryStringBehavior.denyList"
             }
           }
@@ -16880,7 +16880,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "none": {
+            "aws-cdk-lib.aws_cloudfront.CacheQueryStringBehavior.none": {
               "$ref": "#/definitions/aws-cdk-lib.aws_cloudfront.CacheQueryStringBehavior.none"
             }
           }
@@ -17650,7 +17650,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "allowlist": {
+            "aws-cdk-lib.aws_cloudfront.GeoRestriction.allowlist": {
               "$ref": "#/definitions/aws-cdk-lib.aws_cloudfront.GeoRestriction.allowlist"
             }
           }
@@ -17659,7 +17659,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "denylist": {
+            "aws-cdk-lib.aws_cloudfront.GeoRestriction.denylist": {
               "$ref": "#/definitions/aws-cdk-lib.aws_cloudfront.GeoRestriction.denylist"
             }
           }
@@ -17822,7 +17822,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromAcmCertificate": {
+            "aws-cdk-lib.aws_cloudfront.ViewerCertificate.fromAcmCertificate": {
               "$ref": "#/definitions/aws-cdk-lib.aws_cloudfront.ViewerCertificate.fromAcmCertificate"
             }
           }
@@ -17831,7 +17831,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromCloudFrontDefaultCertificate": {
+            "aws-cdk-lib.aws_cloudfront.ViewerCertificate.fromCloudFrontDefaultCertificate": {
               "$ref": "#/definitions/aws-cdk-lib.aws_cloudfront.ViewerCertificate.fromCloudFrontDefaultCertificate"
             }
           }
@@ -17840,7 +17840,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromIamCertificate": {
+            "aws-cdk-lib.aws_cloudfront.ViewerCertificate.fromIamCertificate": {
               "$ref": "#/definitions/aws-cdk-lib.aws_cloudfront.ViewerCertificate.fromIamCertificate"
             }
           }
@@ -18885,7 +18885,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromFile": {
+            "aws-cdk-lib.aws_cloudfront.FunctionCode.fromFile": {
               "$ref": "#/definitions/aws-cdk-lib.aws_cloudfront.FunctionCode.fromFile"
             }
           }
@@ -18894,7 +18894,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromInline": {
+            "aws-cdk-lib.aws_cloudfront.FunctionCode.fromInline": {
               "$ref": "#/definitions/aws-cdk-lib.aws_cloudfront.FunctionCode.fromInline"
             }
           }
@@ -19098,7 +19098,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "all": {
+            "aws-cdk-lib.aws_cloudfront.OriginRequestCookieBehavior.all": {
               "$ref": "#/definitions/aws-cdk-lib.aws_cloudfront.OriginRequestCookieBehavior.all"
             }
           }
@@ -19107,7 +19107,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "allowList": {
+            "aws-cdk-lib.aws_cloudfront.OriginRequestCookieBehavior.allowList": {
               "$ref": "#/definitions/aws-cdk-lib.aws_cloudfront.OriginRequestCookieBehavior.allowList"
             }
           }
@@ -19116,7 +19116,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "none": {
+            "aws-cdk-lib.aws_cloudfront.OriginRequestCookieBehavior.none": {
               "$ref": "#/definitions/aws-cdk-lib.aws_cloudfront.OriginRequestCookieBehavior.none"
             }
           }
@@ -19162,7 +19162,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "all": {
+            "aws-cdk-lib.aws_cloudfront.OriginRequestHeaderBehavior.all": {
               "$ref": "#/definitions/aws-cdk-lib.aws_cloudfront.OriginRequestHeaderBehavior.all"
             }
           }
@@ -19171,7 +19171,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "allowList": {
+            "aws-cdk-lib.aws_cloudfront.OriginRequestHeaderBehavior.allowList": {
               "$ref": "#/definitions/aws-cdk-lib.aws_cloudfront.OriginRequestHeaderBehavior.allowList"
             }
           }
@@ -19180,7 +19180,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "none": {
+            "aws-cdk-lib.aws_cloudfront.OriginRequestHeaderBehavior.none": {
               "$ref": "#/definitions/aws-cdk-lib.aws_cloudfront.OriginRequestHeaderBehavior.none"
             }
           }
@@ -19219,7 +19219,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "all": {
+            "aws-cdk-lib.aws_cloudfront.OriginRequestQueryStringBehavior.all": {
               "$ref": "#/definitions/aws-cdk-lib.aws_cloudfront.OriginRequestQueryStringBehavior.all"
             }
           }
@@ -19228,7 +19228,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "allowList": {
+            "aws-cdk-lib.aws_cloudfront.OriginRequestQueryStringBehavior.allowList": {
               "$ref": "#/definitions/aws-cdk-lib.aws_cloudfront.OriginRequestQueryStringBehavior.allowList"
             }
           }
@@ -19237,7 +19237,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "none": {
+            "aws-cdk-lib.aws_cloudfront.OriginRequestQueryStringBehavior.none": {
               "$ref": "#/definitions/aws-cdk-lib.aws_cloudfront.OriginRequestQueryStringBehavior.none"
             }
           }
@@ -21216,7 +21216,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromObject": {
+            "aws-cdk-lib.aws_codebuild.BuildSpec.fromObject": {
               "$ref": "#/definitions/aws-cdk-lib.aws_codebuild.BuildSpec.fromObject"
             }
           }
@@ -21225,7 +21225,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromObjectToYaml": {
+            "aws-cdk-lib.aws_codebuild.BuildSpec.fromObjectToYaml": {
               "$ref": "#/definitions/aws-cdk-lib.aws_codebuild.BuildSpec.fromObjectToYaml"
             }
           }
@@ -21234,7 +21234,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromSourceFilename": {
+            "aws-cdk-lib.aws_codebuild.BuildSpec.fromSourceFilename": {
               "$ref": "#/definitions/aws-cdk-lib.aws_codebuild.BuildSpec.fromSourceFilename"
             }
           }
@@ -21304,7 +21304,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "bucket": {
+            "aws-cdk-lib.aws_codebuild.Cache.bucket": {
               "$ref": "#/definitions/aws-cdk-lib.aws_codebuild.Cache.bucket"
             }
           }
@@ -21313,7 +21313,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "local": {
+            "aws-cdk-lib.aws_codebuild.Cache.local": {
               "$ref": "#/definitions/aws-cdk-lib.aws_codebuild.Cache.local"
             }
           }
@@ -21322,7 +21322,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "none": {
+            "aws-cdk-lib.aws_codebuild.Cache.none": {
               "$ref": "#/definitions/aws-cdk-lib.aws_codebuild.Cache.none"
             }
           }
@@ -21952,7 +21952,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromAsset": {
+            "aws-cdk-lib.aws_codecommit.Code.fromAsset": {
               "$ref": "#/definitions/aws-cdk-lib.aws_codecommit.Code.fromAsset"
             }
           }
@@ -21961,7 +21961,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromDirectory": {
+            "aws-cdk-lib.aws_codecommit.Code.fromDirectory": {
               "$ref": "#/definitions/aws-cdk-lib.aws_codecommit.Code.fromDirectory"
             }
           }
@@ -21970,7 +21970,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromZipFile": {
+            "aws-cdk-lib.aws_codecommit.Code.fromZipFile": {
               "$ref": "#/definitions/aws-cdk-lib.aws_codecommit.Code.fromZipFile"
             }
           }
@@ -22421,7 +22421,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "count": {
+            "aws-cdk-lib.aws_codedeploy.MinimumHealthyHosts.count": {
               "$ref": "#/definitions/aws-cdk-lib.aws_codedeploy.MinimumHealthyHosts.count"
             }
           }
@@ -22430,7 +22430,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "percentage": {
+            "aws-cdk-lib.aws_codedeploy.MinimumHealthyHosts.percentage": {
               "$ref": "#/definitions/aws-cdk-lib.aws_codedeploy.MinimumHealthyHosts.percentage"
             }
           }
@@ -22601,7 +22601,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "application": {
+            "aws-cdk-lib.aws_codedeploy.LoadBalancer.application": {
               "$ref": "#/definitions/aws-cdk-lib.aws_codedeploy.LoadBalancer.application"
             }
           }
@@ -22610,7 +22610,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "classic": {
+            "aws-cdk-lib.aws_codedeploy.LoadBalancer.classic": {
               "$ref": "#/definitions/aws-cdk-lib.aws_codedeploy.LoadBalancer.classic"
             }
           }
@@ -22619,7 +22619,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "network": {
+            "aws-cdk-lib.aws_codedeploy.LoadBalancer.network": {
               "$ref": "#/definitions/aws-cdk-lib.aws_codedeploy.LoadBalancer.network"
             }
           }
@@ -22963,7 +22963,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "artifact": {
+            "aws-cdk-lib.aws_codepipeline.Artifact.artifact": {
               "$ref": "#/definitions/aws-cdk-lib.aws_codepipeline.Artifact.artifact"
             }
           }
@@ -23088,7 +23088,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "artifactPath": {
+            "aws-cdk-lib.aws_codepipeline.ArtifactPath.artifactPath": {
               "$ref": "#/definitions/aws-cdk-lib.aws_codepipeline.ArtifactPath.artifactPath"
             }
           }
@@ -23724,7 +23724,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromArtifactPath": {
+            "aws-cdk-lib.aws_codepipeline_actions.StackInstances.fromArtifactPath": {
               "$ref": "#/definitions/aws-cdk-lib.aws_codepipeline_actions.StackInstances.fromArtifactPath"
             }
           }
@@ -23733,7 +23733,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "inAccounts": {
+            "aws-cdk-lib.aws_codepipeline_actions.StackInstances.inAccounts": {
               "$ref": "#/definitions/aws-cdk-lib.aws_codepipeline_actions.StackInstances.inAccounts"
             }
           }
@@ -23742,7 +23742,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "inOrganizationalUnits": {
+            "aws-cdk-lib.aws_codepipeline_actions.StackInstances.inOrganizationalUnits": {
               "$ref": "#/definitions/aws-cdk-lib.aws_codepipeline_actions.StackInstances.inOrganizationalUnits"
             }
           }
@@ -23791,7 +23791,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromArtifactPath": {
+            "aws-cdk-lib.aws_codepipeline_actions.StackSetParameters.fromArtifactPath": {
               "$ref": "#/definitions/aws-cdk-lib.aws_codepipeline_actions.StackSetParameters.fromArtifactPath"
             }
           }
@@ -23800,7 +23800,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromLiteral": {
+            "aws-cdk-lib.aws_codepipeline_actions.StackSetParameters.fromLiteral": {
               "$ref": "#/definitions/aws-cdk-lib.aws_codepipeline_actions.StackSetParameters.fromLiteral"
             }
           }
@@ -23932,7 +23932,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromArtifactPath": {
+            "aws-cdk-lib.aws_codepipeline_actions.StackSetTemplate.fromArtifactPath": {
               "$ref": "#/definitions/aws-cdk-lib.aws_codepipeline_actions.StackSetTemplate.fromArtifactPath"
             }
           }
@@ -24015,7 +24015,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "organizations": {
+            "aws-cdk-lib.aws_codepipeline_actions.StackSetDeploymentModel.organizations": {
               "$ref": "#/definitions/aws-cdk-lib.aws_codepipeline_actions.StackSetDeploymentModel.organizations"
             }
           }
@@ -24024,7 +24024,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "selfManaged": {
+            "aws-cdk-lib.aws_codepipeline_actions.StackSetDeploymentModel.selfManaged": {
               "$ref": "#/definitions/aws-cdk-lib.aws_codepipeline_actions.StackSetDeploymentModel.selfManaged"
             }
           }
@@ -25623,7 +25623,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromString": {
+            "aws-cdk-lib.aws_codepipeline_actions.CacheControl.fromString": {
               "$ref": "#/definitions/aws-cdk-lib.aws_codepipeline_actions.CacheControl.fromString"
             }
           }
@@ -25632,7 +25632,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "maxAge": {
+            "aws-cdk-lib.aws_codepipeline_actions.CacheControl.maxAge": {
               "$ref": "#/definitions/aws-cdk-lib.aws_codepipeline_actions.CacheControl.maxAge"
             }
           }
@@ -25641,7 +25641,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "mustRevalidate": {
+            "aws-cdk-lib.aws_codepipeline_actions.CacheControl.mustRevalidate": {
               "$ref": "#/definitions/aws-cdk-lib.aws_codepipeline_actions.CacheControl.mustRevalidate"
             }
           }
@@ -25650,7 +25650,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "noCache": {
+            "aws-cdk-lib.aws_codepipeline_actions.CacheControl.noCache": {
               "$ref": "#/definitions/aws-cdk-lib.aws_codepipeline_actions.CacheControl.noCache"
             }
           }
@@ -25659,7 +25659,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "noTransform": {
+            "aws-cdk-lib.aws_codepipeline_actions.CacheControl.noTransform": {
               "$ref": "#/definitions/aws-cdk-lib.aws_codepipeline_actions.CacheControl.noTransform"
             }
           }
@@ -25668,7 +25668,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "proxyRevalidate": {
+            "aws-cdk-lib.aws_codepipeline_actions.CacheControl.proxyRevalidate": {
               "$ref": "#/definitions/aws-cdk-lib.aws_codepipeline_actions.CacheControl.proxyRevalidate"
             }
           }
@@ -25677,7 +25677,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "setPrivate": {
+            "aws-cdk-lib.aws_codepipeline_actions.CacheControl.setPrivate": {
               "$ref": "#/definitions/aws-cdk-lib.aws_codepipeline_actions.CacheControl.setPrivate"
             }
           }
@@ -25686,7 +25686,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "setPublic": {
+            "aws-cdk-lib.aws_codepipeline_actions.CacheControl.setPublic": {
               "$ref": "#/definitions/aws-cdk-lib.aws_codepipeline_actions.CacheControl.setPublic"
             }
           }
@@ -25695,7 +25695,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "sMaxAge": {
+            "aws-cdk-lib.aws_codepipeline_actions.CacheControl.sMaxAge": {
               "$ref": "#/definitions/aws-cdk-lib.aws_codepipeline_actions.CacheControl.sMaxAge"
             }
           }
@@ -26077,7 +26077,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "filePath": {
+            "aws-cdk-lib.aws_codepipeline_actions.StateMachineInput.filePath": {
               "$ref": "#/definitions/aws-cdk-lib.aws_codepipeline_actions.StateMachineInput.filePath"
             }
           }
@@ -26086,7 +26086,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "literal": {
+            "aws-cdk-lib.aws_codepipeline_actions.StateMachineInput.literal": {
               "$ref": "#/definitions/aws-cdk-lib.aws_codepipeline_actions.StateMachineInput.literal"
             }
           }
@@ -27475,7 +27475,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "withCognito": {
+            "aws-cdk-lib.aws_cognito.UserPoolEmail.withCognito": {
               "$ref": "#/definitions/aws-cdk-lib.aws_cognito.UserPoolEmail.withCognito"
             }
           }
@@ -27484,7 +27484,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "withSES": {
+            "aws-cdk-lib.aws_cognito.UserPoolEmail.withSES": {
               "$ref": "#/definitions/aws-cdk-lib.aws_cognito.UserPoolEmail.withSES"
             }
           }
@@ -28149,7 +28149,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "custom": {
+            "aws-cdk-lib.aws_cognito.OAuthScope.custom": {
               "$ref": "#/definitions/aws-cdk-lib.aws_cognito.OAuthScope.custom"
             }
           }
@@ -28158,7 +28158,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "resourceServer": {
+            "aws-cdk-lib.aws_cognito.OAuthScope.resourceServer": {
               "$ref": "#/definitions/aws-cdk-lib.aws_cognito.OAuthScope.resourceServer"
             }
           }
@@ -28247,7 +28247,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "custom": {
+            "aws-cdk-lib.aws_cognito.UserPoolClientIdentityProvider.custom": {
               "$ref": "#/definitions/aws-cdk-lib.aws_cognito.UserPoolClientIdentityProvider.custom"
             }
           }
@@ -28513,7 +28513,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "other": {
+            "aws-cdk-lib.aws_cognito.ProviderAttribute.other": {
               "$ref": "#/definitions/aws-cdk-lib.aws_cognito.ProviderAttribute.other"
             }
           }
@@ -29275,7 +29275,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "of": {
+            "aws-cdk-lib.aws_config.ResourceType.of": {
               "$ref": "#/definitions/aws-cdk-lib.aws_config.ResourceType.of"
             }
           }
@@ -29337,7 +29337,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromResource": {
+            "aws-cdk-lib.aws_config.RuleScope.fromResource": {
               "$ref": "#/definitions/aws-cdk-lib.aws_config.RuleScope.fromResource"
             }
           }
@@ -29346,7 +29346,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromResources": {
+            "aws-cdk-lib.aws_config.RuleScope.fromResources": {
               "$ref": "#/definitions/aws-cdk-lib.aws_config.RuleScope.fromResources"
             }
           }
@@ -29355,7 +29355,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromTag": {
+            "aws-cdk-lib.aws_config.RuleScope.fromTag": {
               "$ref": "#/definitions/aws-cdk-lib.aws_config.RuleScope.fromTag"
             }
           }
@@ -30554,7 +30554,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "ebs": {
+            "aws-cdk-lib.aws_ec2.BlockDeviceVolume.ebs": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.BlockDeviceVolume.ebs"
             }
           }
@@ -30563,7 +30563,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "ebsFromSnapshot": {
+            "aws-cdk-lib.aws_ec2.BlockDeviceVolume.ebsFromSnapshot": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.BlockDeviceVolume.ebsFromSnapshot"
             }
           }
@@ -30572,7 +30572,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "ephemeral": {
+            "aws-cdk-lib.aws_ec2.BlockDeviceVolume.ephemeral": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.BlockDeviceVolume.ephemeral"
             }
           }
@@ -30874,7 +30874,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "activeDirectory": {
+            "aws-cdk-lib.aws_ec2.ClientVpnUserBasedAuthentication.activeDirectory": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.ClientVpnUserBasedAuthentication.activeDirectory"
             }
           }
@@ -30883,7 +30883,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "federated": {
+            "aws-cdk-lib.aws_ec2.ClientVpnUserBasedAuthentication.federated": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.ClientVpnUserBasedAuthentication.federated"
             }
           }
@@ -31084,7 +31084,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "local": {
+            "aws-cdk-lib.aws_ec2.ClientVpnRouteTarget.local": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.ClientVpnRouteTarget.local"
             }
           }
@@ -31093,7 +31093,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "subnet": {
+            "aws-cdk-lib.aws_ec2.ClientVpnRouteTarget.subnet": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.ClientVpnRouteTarget.subnet"
             }
           }
@@ -31249,7 +31249,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "toCloudWatchLogs": {
+            "aws-cdk-lib.aws_ec2.FlowLogDestination.toCloudWatchLogs": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.FlowLogDestination.toCloudWatchLogs"
             }
           }
@@ -31258,7 +31258,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "toS3": {
+            "aws-cdk-lib.aws_ec2.FlowLogDestination.toS3": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.FlowLogDestination.toS3"
             }
           }
@@ -31321,7 +31321,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromNetworkInterfaceId": {
+            "aws-cdk-lib.aws_ec2.FlowLogResourceType.fromNetworkInterfaceId": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.FlowLogResourceType.fromNetworkInterfaceId"
             }
           }
@@ -31330,7 +31330,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromSubnet": {
+            "aws-cdk-lib.aws_ec2.FlowLogResourceType.fromSubnet": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.FlowLogResourceType.fromSubnet"
             }
           }
@@ -31339,7 +31339,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromVpc": {
+            "aws-cdk-lib.aws_ec2.FlowLogResourceType.fromVpc": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.FlowLogResourceType.fromVpc"
             }
           }
@@ -31808,7 +31808,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "after": {
+            "aws-cdk-lib.Expiration.after": {
               "$ref": "#/definitions/aws-cdk-lib.Expiration.after"
             }
           }
@@ -31817,7 +31817,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "atDate": {
+            "aws-cdk-lib.Expiration.atDate": {
               "$ref": "#/definitions/aws-cdk-lib.Expiration.atDate"
             }
           }
@@ -31826,7 +31826,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "atTimestamp": {
+            "aws-cdk-lib.Expiration.atTimestamp": {
               "$ref": "#/definitions/aws-cdk-lib.Expiration.atTimestamp"
             }
           }
@@ -31835,7 +31835,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromString": {
+            "aws-cdk-lib.Expiration.fromString": {
               "$ref": "#/definitions/aws-cdk-lib.Expiration.fromString"
             }
           }
@@ -32111,7 +32111,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "anyIpv4": {
+            "aws-cdk-lib.aws_ec2.AclCidr.anyIpv4": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.AclCidr.anyIpv4"
             }
           }
@@ -32120,7 +32120,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "anyIpv6": {
+            "aws-cdk-lib.aws_ec2.AclCidr.anyIpv6": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.AclCidr.anyIpv6"
             }
           }
@@ -32129,7 +32129,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "ipv4": {
+            "aws-cdk-lib.aws_ec2.AclCidr.ipv4": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.AclCidr.ipv4"
             }
           }
@@ -32138,7 +32138,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "ipv6": {
+            "aws-cdk-lib.aws_ec2.AclCidr.ipv6": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.AclCidr.ipv6"
             }
           }
@@ -32260,7 +32260,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "allTraffic": {
+            "aws-cdk-lib.aws_ec2.AclTraffic.allTraffic": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.AclTraffic.allTraffic"
             }
           }
@@ -32269,7 +32269,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "icmp": {
+            "aws-cdk-lib.aws_ec2.AclTraffic.icmp": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.AclTraffic.icmp"
             }
           }
@@ -32278,7 +32278,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "icmpv6": {
+            "aws-cdk-lib.aws_ec2.AclTraffic.icmpv6": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.AclTraffic.icmpv6"
             }
           }
@@ -32287,7 +32287,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "tcpPort": {
+            "aws-cdk-lib.aws_ec2.AclTraffic.tcpPort": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.AclTraffic.tcpPort"
             }
           }
@@ -32296,7 +32296,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "tcpPortRange": {
+            "aws-cdk-lib.aws_ec2.AclTraffic.tcpPortRange": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.AclTraffic.tcpPortRange"
             }
           }
@@ -32305,7 +32305,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "udpPort": {
+            "aws-cdk-lib.aws_ec2.AclTraffic.udpPort": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.AclTraffic.udpPort"
             }
           }
@@ -32314,7 +32314,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "udpPortRange": {
+            "aws-cdk-lib.aws_ec2.AclTraffic.udpPortRange": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.AclTraffic.udpPortRange"
             }
           }
@@ -32985,7 +32985,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "gateway": {
+            "aws-cdk-lib.aws_ec2.NatProvider.gateway": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.NatProvider.gateway"
             }
           }
@@ -32994,7 +32994,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "instance": {
+            "aws-cdk-lib.aws_ec2.NatProvider.instance": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.NatProvider.instance"
             }
           }
@@ -34398,7 +34398,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromAsset": {
+            "aws-cdk-lib.aws_ecs.ContainerImage.fromAsset": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ecs.ContainerImage.fromAsset"
             }
           }
@@ -34407,7 +34407,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromDockerImageAsset": {
+            "aws-cdk-lib.aws_ecs.ContainerImage.fromDockerImageAsset": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ecs.ContainerImage.fromDockerImageAsset"
             }
           }
@@ -34416,7 +34416,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromEcrRepository": {
+            "aws-cdk-lib.aws_ecs.ContainerImage.fromEcrRepository": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ecs.ContainerImage.fromEcrRepository"
             }
           }
@@ -34425,7 +34425,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromRegistry": {
+            "aws-cdk-lib.aws_ecs.ContainerImage.fromRegistry": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ecs.ContainerImage.fromRegistry"
             }
           }
@@ -34434,7 +34434,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromTarball": {
+            "aws-cdk-lib.aws_ecs.ContainerImage.fromTarball": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ecs.ContainerImage.fromTarball"
             }
           }
@@ -34526,7 +34526,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromAsset": {
+            "aws-cdk-lib.aws_ecs.EnvironmentFile.fromAsset": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ecs.EnvironmentFile.fromAsset"
             }
           }
@@ -34535,7 +34535,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromBucket": {
+            "aws-cdk-lib.aws_ecs.EnvironmentFile.fromBucket": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ecs.EnvironmentFile.fromBucket"
             }
           }
@@ -34708,7 +34708,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "awsLogs": {
+            "aws-cdk-lib.aws_ecs.LogDriver.awsLogs": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ecs.LogDriver.awsLogs"
             }
           }
@@ -34828,7 +34828,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromSecretsManager": {
+            "aws-cdk-lib.aws_ecs.Secret.fromSecretsManager": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ecs.Secret.fromSecretsManager"
             }
           }
@@ -34837,7 +34837,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromSecretsManagerVersion": {
+            "aws-cdk-lib.aws_ecs.Secret.fromSecretsManagerVersion": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ecs.Secret.fromSecretsManagerVersion"
             }
           }
@@ -34846,7 +34846,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromSsmParameter": {
+            "aws-cdk-lib.aws_ecs.Secret.fromSsmParameter": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ecs.Secret.fromSsmParameter"
             }
           }
@@ -35224,7 +35224,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "distinctInstances": {
+            "aws-cdk-lib.aws_ecs.PlacementConstraint.distinctInstances": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ecs.PlacementConstraint.distinctInstances"
             }
           }
@@ -35233,7 +35233,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "memberOf": {
+            "aws-cdk-lib.aws_ecs.PlacementConstraint.memberOf": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ecs.PlacementConstraint.memberOf"
             }
           }
@@ -35300,7 +35300,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "packedBy": {
+            "aws-cdk-lib.aws_ecs.PlacementStrategy.packedBy": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ecs.PlacementStrategy.packedBy"
             }
           }
@@ -35309,7 +35309,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "packedByCpu": {
+            "aws-cdk-lib.aws_ecs.PlacementStrategy.packedByCpu": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ecs.PlacementStrategy.packedByCpu"
             }
           }
@@ -35318,7 +35318,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "packedByMemory": {
+            "aws-cdk-lib.aws_ecs.PlacementStrategy.packedByMemory": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ecs.PlacementStrategy.packedByMemory"
             }
           }
@@ -35327,7 +35327,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "randomly": {
+            "aws-cdk-lib.aws_ecs.PlacementStrategy.randomly": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ecs.PlacementStrategy.randomly"
             }
           }
@@ -35336,7 +35336,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "spreadAcross": {
+            "aws-cdk-lib.aws_ecs.PlacementStrategy.spreadAcross": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ecs.PlacementStrategy.spreadAcross"
             }
           }
@@ -35345,7 +35345,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "spreadAcrossInstances": {
+            "aws-cdk-lib.aws_ecs.PlacementStrategy.spreadAcrossInstances": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ecs.PlacementStrategy.spreadAcrossInstances"
             }
           }
@@ -36254,7 +36254,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "of": {
+            "aws-cdk-lib.aws_ecs.CpuArchitecture.of": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ecs.CpuArchitecture.of"
             }
           }
@@ -36293,7 +36293,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "of": {
+            "aws-cdk-lib.aws_ecs.OperatingSystemFamily.of": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ecs.OperatingSystemFamily.of"
             }
           }
@@ -39541,7 +39541,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "at": {
+            "aws-cdk-lib.aws_applicationautoscaling.Schedule.at": {
               "$ref": "#/definitions/aws-cdk-lib.aws_applicationautoscaling.Schedule.at"
             }
           }
@@ -39550,7 +39550,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "cron": {
+            "aws-cdk-lib.aws_applicationautoscaling.Schedule.cron": {
               "$ref": "#/definitions/aws-cdk-lib.aws_applicationautoscaling.Schedule.cron"
             }
           }
@@ -39559,7 +39559,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "expression": {
+            "aws-cdk-lib.aws_applicationautoscaling.Schedule.expression": {
               "$ref": "#/definitions/aws-cdk-lib.aws_applicationautoscaling.Schedule.expression"
             }
           }
@@ -39568,7 +39568,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "rate": {
+            "aws-cdk-lib.aws_applicationautoscaling.Schedule.rate": {
               "$ref": "#/definitions/aws-cdk-lib.aws_applicationautoscaling.Schedule.rate"
             }
           }
@@ -40259,7 +40259,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "of": {
+            "aws-cdk-lib.aws_eks.AlbControllerVersion.of": {
               "$ref": "#/definitions/aws-cdk-lib.aws_eks.AlbControllerVersion.of"
             }
           }
@@ -40416,7 +40416,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "of": {
+            "aws-cdk-lib.aws_eks.KubernetesVersion.of": {
               "$ref": "#/definitions/aws-cdk-lib.aws_eks.KubernetesVersion.of"
             }
           }
@@ -41964,7 +41964,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "ah": {
+            "aws-cdk-lib.aws_ec2.Port.ah": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.Port.ah"
             }
           }
@@ -41973,7 +41973,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "allIcmp": {
+            "aws-cdk-lib.aws_ec2.Port.allIcmp": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.Port.allIcmp"
             }
           }
@@ -41982,7 +41982,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "allIcmpV6": {
+            "aws-cdk-lib.aws_ec2.Port.allIcmpV6": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.Port.allIcmpV6"
             }
           }
@@ -41991,7 +41991,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "allTcp": {
+            "aws-cdk-lib.aws_ec2.Port.allTcp": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.Port.allTcp"
             }
           }
@@ -42000,7 +42000,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "allTraffic": {
+            "aws-cdk-lib.aws_ec2.Port.allTraffic": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.Port.allTraffic"
             }
           }
@@ -42009,7 +42009,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "allUdp": {
+            "aws-cdk-lib.aws_ec2.Port.allUdp": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.Port.allUdp"
             }
           }
@@ -42018,7 +42018,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "esp": {
+            "aws-cdk-lib.aws_ec2.Port.esp": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.Port.esp"
             }
           }
@@ -42027,7 +42027,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "icmpPing": {
+            "aws-cdk-lib.aws_ec2.Port.icmpPing": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.Port.icmpPing"
             }
           }
@@ -42036,7 +42036,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "icmpType": {
+            "aws-cdk-lib.aws_ec2.Port.icmpType": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.Port.icmpType"
             }
           }
@@ -42045,7 +42045,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "icmpTypeAndCode": {
+            "aws-cdk-lib.aws_ec2.Port.icmpTypeAndCode": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.Port.icmpTypeAndCode"
             }
           }
@@ -42054,7 +42054,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "tcp": {
+            "aws-cdk-lib.aws_ec2.Port.tcp": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.Port.tcp"
             }
           }
@@ -42063,7 +42063,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "tcpRange": {
+            "aws-cdk-lib.aws_ec2.Port.tcpRange": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.Port.tcpRange"
             }
           }
@@ -42072,7 +42072,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "udp": {
+            "aws-cdk-lib.aws_ec2.Port.udp": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.Port.udp"
             }
           }
@@ -42081,7 +42081,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "udpRange": {
+            "aws-cdk-lib.aws_ec2.Port.udpRange": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ec2.Port.udpRange"
             }
           }
@@ -43083,7 +43083,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fixedResponse": {
+            "aws-cdk-lib.aws_elasticloadbalancingv2.ListenerAction.fixedResponse": {
               "$ref": "#/definitions/aws-cdk-lib.aws_elasticloadbalancingv2.ListenerAction.fixedResponse"
             }
           }
@@ -43092,7 +43092,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "forward": {
+            "aws-cdk-lib.aws_elasticloadbalancingv2.ListenerAction.forward": {
               "$ref": "#/definitions/aws-cdk-lib.aws_elasticloadbalancingv2.ListenerAction.forward"
             }
           }
@@ -43101,7 +43101,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "redirect": {
+            "aws-cdk-lib.aws_elasticloadbalancingv2.ListenerAction.redirect": {
               "$ref": "#/definitions/aws-cdk-lib.aws_elasticloadbalancingv2.ListenerAction.redirect"
             }
           }
@@ -43110,7 +43110,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "weightedForward": {
+            "aws-cdk-lib.aws_elasticloadbalancingv2.ListenerAction.weightedForward": {
               "$ref": "#/definitions/aws-cdk-lib.aws_elasticloadbalancingv2.ListenerAction.weightedForward"
             }
           }
@@ -43547,7 +43547,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "hostHeaders": {
+            "aws-cdk-lib.aws_elasticloadbalancingv2.ListenerCondition.hostHeaders": {
               "$ref": "#/definitions/aws-cdk-lib.aws_elasticloadbalancingv2.ListenerCondition.hostHeaders"
             }
           }
@@ -43556,7 +43556,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "httpHeader": {
+            "aws-cdk-lib.aws_elasticloadbalancingv2.ListenerCondition.httpHeader": {
               "$ref": "#/definitions/aws-cdk-lib.aws_elasticloadbalancingv2.ListenerCondition.httpHeader"
             }
           }
@@ -43565,7 +43565,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "httpRequestMethods": {
+            "aws-cdk-lib.aws_elasticloadbalancingv2.ListenerCondition.httpRequestMethods": {
               "$ref": "#/definitions/aws-cdk-lib.aws_elasticloadbalancingv2.ListenerCondition.httpRequestMethods"
             }
           }
@@ -43574,7 +43574,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "pathPatterns": {
+            "aws-cdk-lib.aws_elasticloadbalancingv2.ListenerCondition.pathPatterns": {
               "$ref": "#/definitions/aws-cdk-lib.aws_elasticloadbalancingv2.ListenerCondition.pathPatterns"
             }
           }
@@ -43583,7 +43583,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "queryStrings": {
+            "aws-cdk-lib.aws_elasticloadbalancingv2.ListenerCondition.queryStrings": {
               "$ref": "#/definitions/aws-cdk-lib.aws_elasticloadbalancingv2.ListenerCondition.queryStrings"
             }
           }
@@ -43592,7 +43592,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "sourceIps": {
+            "aws-cdk-lib.aws_elasticloadbalancingv2.ListenerCondition.sourceIps": {
               "$ref": "#/definitions/aws-cdk-lib.aws_elasticloadbalancingv2.ListenerCondition.sourceIps"
             }
           }
@@ -44181,7 +44181,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "forward": {
+            "aws-cdk-lib.aws_elasticloadbalancingv2.NetworkListenerAction.forward": {
               "$ref": "#/definitions/aws-cdk-lib.aws_elasticloadbalancingv2.NetworkListenerAction.forward"
             }
           }
@@ -44190,7 +44190,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "weightedForward": {
+            "aws-cdk-lib.aws_elasticloadbalancingv2.NetworkListenerAction.weightedForward": {
               "$ref": "#/definitions/aws-cdk-lib.aws_elasticloadbalancingv2.NetworkListenerAction.weightedForward"
             }
           }
@@ -44670,7 +44670,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "of": {
+            "aws-cdk-lib.aws_elasticsearch.ElasticsearchVersion.of": {
               "$ref": "#/definitions/aws-cdk-lib.aws_elasticsearch.ElasticsearchVersion.of"
             }
           }
@@ -45370,7 +45370,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromSecret": {
+            "aws-cdk-lib.aws_events.HttpParameter.fromSecret": {
               "$ref": "#/definitions/aws-cdk-lib.aws_events.HttpParameter.fromSecret"
             }
           }
@@ -45379,7 +45379,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromString": {
+            "aws-cdk-lib.aws_events.HttpParameter.fromString": {
               "$ref": "#/definitions/aws-cdk-lib.aws_events.HttpParameter.fromString"
             }
           }
@@ -45503,7 +45503,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "apiKey": {
+            "aws-cdk-lib.aws_events.Authorization.apiKey": {
               "$ref": "#/definitions/aws-cdk-lib.aws_events.Authorization.apiKey"
             }
           }
@@ -45512,7 +45512,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "basic": {
+            "aws-cdk-lib.aws_events.Authorization.basic": {
               "$ref": "#/definitions/aws-cdk-lib.aws_events.Authorization.basic"
             }
           }
@@ -45521,7 +45521,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "oauth": {
+            "aws-cdk-lib.aws_events.Authorization.oauth": {
               "$ref": "#/definitions/aws-cdk-lib.aws_events.Authorization.oauth"
             }
           }
@@ -45744,7 +45744,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "cron": {
+            "aws-cdk-lib.aws_events.Schedule.cron": {
               "$ref": "#/definitions/aws-cdk-lib.aws_events.Schedule.cron"
             }
           }
@@ -45753,7 +45753,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "expression": {
+            "aws-cdk-lib.aws_events.Schedule.expression": {
               "$ref": "#/definitions/aws-cdk-lib.aws_events.Schedule.expression"
             }
           }
@@ -45762,7 +45762,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "rate": {
+            "aws-cdk-lib.aws_events.Schedule.rate": {
               "$ref": "#/definitions/aws-cdk-lib.aws_events.Schedule.rate"
             }
           }
@@ -45826,7 +45826,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromEventPath": {
+            "aws-cdk-lib.aws_events.RuleTargetInput.fromEventPath": {
               "$ref": "#/definitions/aws-cdk-lib.aws_events.RuleTargetInput.fromEventPath"
             }
           }
@@ -45835,7 +45835,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromMultilineText": {
+            "aws-cdk-lib.aws_events.RuleTargetInput.fromMultilineText": {
               "$ref": "#/definitions/aws-cdk-lib.aws_events.RuleTargetInput.fromMultilineText"
             }
           }
@@ -45844,7 +45844,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromObject": {
+            "aws-cdk-lib.aws_events.RuleTargetInput.fromObject": {
               "$ref": "#/definitions/aws-cdk-lib.aws_events.RuleTargetInput.fromObject"
             }
           }
@@ -45853,7 +45853,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromText": {
+            "aws-cdk-lib.aws_events.RuleTargetInput.fromText": {
               "$ref": "#/definitions/aws-cdk-lib.aws_events.RuleTargetInput.fromText"
             }
           }
@@ -48584,7 +48584,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromFile": {
+            "aws-cdk-lib.aws_iam.SamlMetadataDocument.fromFile": {
               "$ref": "#/definitions/aws-cdk-lib.aws_iam.SamlMetadataDocument.fromFile"
             }
           }
@@ -48593,7 +48593,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromXml": {
+            "aws-cdk-lib.aws_iam.SamlMetadataDocument.fromXml": {
               "$ref": "#/definitions/aws-cdk-lib.aws_iam.SamlMetadataDocument.fromXml"
             }
           }
@@ -49228,7 +49228,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromEcr": {
+            "aws-cdk-lib.aws_lambda.DockerImageCode.fromEcr": {
               "$ref": "#/definitions/aws-cdk-lib.aws_lambda.DockerImageCode.fromEcr"
             }
           }
@@ -49237,7 +49237,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromImageAsset": {
+            "aws-cdk-lib.aws_lambda.DockerImageCode.fromImageAsset": {
               "$ref": "#/definitions/aws-cdk-lib.aws_lambda.DockerImageCode.fromImageAsset"
             }
           }
@@ -49628,7 +49628,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "of": {
+            "aws-cdk-lib.aws_lambda.SourceAccessConfigurationType.of": {
               "$ref": "#/definitions/aws-cdk-lib.aws_lambda.SourceAccessConfigurationType.of"
             }
           }
@@ -52007,7 +52007,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "elasticsearch": {
+            "aws-cdk-lib.aws_opensearchservice.EngineVersion.elasticsearch": {
               "$ref": "#/definitions/aws-cdk-lib.aws_opensearchservice.EngineVersion.elasticsearch"
             }
           }
@@ -52016,7 +52016,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "openSearch": {
+            "aws-cdk-lib.aws_opensearchservice.EngineVersion.openSearch": {
               "$ref": "#/definitions/aws-cdk-lib.aws_opensearchservice.EngineVersion.openSearch"
             }
           }
@@ -52924,7 +52924,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "of": {
+            "aws-cdk-lib.aws_rds.SessionPinningFilter.of": {
               "$ref": "#/definitions/aws-cdk-lib.aws_rds.SessionPinningFilter.of"
             }
           }
@@ -52974,7 +52974,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromCluster": {
+            "aws-cdk-lib.aws_rds.ProxyTarget.fromCluster": {
               "$ref": "#/definitions/aws-cdk-lib.aws_rds.ProxyTarget.fromCluster"
             }
           }
@@ -52983,7 +52983,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromInstance": {
+            "aws-cdk-lib.aws_rds.ProxyTarget.fromInstance": {
               "$ref": "#/definitions/aws-cdk-lib.aws_rds.ProxyTarget.fromInstance"
             }
           }
@@ -53953,7 +53953,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromAlias": {
+            "aws-cdk-lib.aws_route53.RecordTarget.fromAlias": {
               "$ref": "#/definitions/aws-cdk-lib.aws_route53.RecordTarget.fromAlias"
             }
           }
@@ -53962,7 +53962,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromIpAddresses": {
+            "aws-cdk-lib.aws_route53.RecordTarget.fromIpAddresses": {
               "$ref": "#/definitions/aws-cdk-lib.aws_route53.RecordTarget.fromIpAddresses"
             }
           }
@@ -53971,7 +53971,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromValues": {
+            "aws-cdk-lib.aws_route53.RecordTarget.fromValues": {
               "$ref": "#/definitions/aws-cdk-lib.aws_route53.RecordTarget.fromValues"
             }
           }
@@ -55840,7 +55840,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "prefixWith": {
+            "aws-cdk-lib.aws_s3.ReplaceKey.prefixWith": {
               "$ref": "#/definitions/aws-cdk-lib.aws_s3.ReplaceKey.prefixWith"
             }
           }
@@ -55849,7 +55849,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "with": {
+            "aws-cdk-lib.aws_s3.ReplaceKey.with": {
               "$ref": "#/definitions/aws-cdk-lib.aws_s3.ReplaceKey.with"
             }
           }
@@ -56994,7 +56994,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "mariaDbMultiUser": {
+            "aws-cdk-lib.aws_secretsmanager.HostedRotation.mariaDbMultiUser": {
               "$ref": "#/definitions/aws-cdk-lib.aws_secretsmanager.HostedRotation.mariaDbMultiUser"
             }
           }
@@ -57003,7 +57003,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "mariaDbSingleUser": {
+            "aws-cdk-lib.aws_secretsmanager.HostedRotation.mariaDbSingleUser": {
               "$ref": "#/definitions/aws-cdk-lib.aws_secretsmanager.HostedRotation.mariaDbSingleUser"
             }
           }
@@ -57012,7 +57012,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "mongoDbMultiUser": {
+            "aws-cdk-lib.aws_secretsmanager.HostedRotation.mongoDbMultiUser": {
               "$ref": "#/definitions/aws-cdk-lib.aws_secretsmanager.HostedRotation.mongoDbMultiUser"
             }
           }
@@ -57021,7 +57021,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "mongoDbSingleUser": {
+            "aws-cdk-lib.aws_secretsmanager.HostedRotation.mongoDbSingleUser": {
               "$ref": "#/definitions/aws-cdk-lib.aws_secretsmanager.HostedRotation.mongoDbSingleUser"
             }
           }
@@ -57030,7 +57030,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "mysqlMultiUser": {
+            "aws-cdk-lib.aws_secretsmanager.HostedRotation.mysqlMultiUser": {
               "$ref": "#/definitions/aws-cdk-lib.aws_secretsmanager.HostedRotation.mysqlMultiUser"
             }
           }
@@ -57039,7 +57039,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "mysqlSingleUser": {
+            "aws-cdk-lib.aws_secretsmanager.HostedRotation.mysqlSingleUser": {
               "$ref": "#/definitions/aws-cdk-lib.aws_secretsmanager.HostedRotation.mysqlSingleUser"
             }
           }
@@ -57048,7 +57048,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "oracleMultiUser": {
+            "aws-cdk-lib.aws_secretsmanager.HostedRotation.oracleMultiUser": {
               "$ref": "#/definitions/aws-cdk-lib.aws_secretsmanager.HostedRotation.oracleMultiUser"
             }
           }
@@ -57057,7 +57057,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "oracleSingleUser": {
+            "aws-cdk-lib.aws_secretsmanager.HostedRotation.oracleSingleUser": {
               "$ref": "#/definitions/aws-cdk-lib.aws_secretsmanager.HostedRotation.oracleSingleUser"
             }
           }
@@ -57066,7 +57066,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "postgreSqlMultiUser": {
+            "aws-cdk-lib.aws_secretsmanager.HostedRotation.postgreSqlMultiUser": {
               "$ref": "#/definitions/aws-cdk-lib.aws_secretsmanager.HostedRotation.postgreSqlMultiUser"
             }
           }
@@ -57075,7 +57075,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "postgreSqlSingleUser": {
+            "aws-cdk-lib.aws_secretsmanager.HostedRotation.postgreSqlSingleUser": {
               "$ref": "#/definitions/aws-cdk-lib.aws_secretsmanager.HostedRotation.postgreSqlSingleUser"
             }
           }
@@ -57084,7 +57084,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "redshiftMultiUser": {
+            "aws-cdk-lib.aws_secretsmanager.HostedRotation.redshiftMultiUser": {
               "$ref": "#/definitions/aws-cdk-lib.aws_secretsmanager.HostedRotation.redshiftMultiUser"
             }
           }
@@ -57093,7 +57093,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "redshiftSingleUser": {
+            "aws-cdk-lib.aws_secretsmanager.HostedRotation.redshiftSingleUser": {
               "$ref": "#/definitions/aws-cdk-lib.aws_secretsmanager.HostedRotation.redshiftSingleUser"
             }
           }
@@ -57102,7 +57102,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "sqlServerMultiUser": {
+            "aws-cdk-lib.aws_secretsmanager.HostedRotation.sqlServerMultiUser": {
               "$ref": "#/definitions/aws-cdk-lib.aws_secretsmanager.HostedRotation.sqlServerMultiUser"
             }
           }
@@ -57111,7 +57111,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "sqlServerSingleUser": {
+            "aws-cdk-lib.aws_secretsmanager.HostedRotation.sqlServerSingleUser": {
               "$ref": "#/definitions/aws-cdk-lib.aws_secretsmanager.HostedRotation.sqlServerSingleUser"
             }
           }
@@ -57269,7 +57269,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromToken": {
+            "aws-cdk-lib.aws_secretsmanager.SecretStringValueBeta1.fromToken": {
               "$ref": "#/definitions/aws-cdk-lib.aws_secretsmanager.SecretStringValueBeta1.fromToken"
             }
           }
@@ -57278,7 +57278,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromUnsafePlaintext": {
+            "aws-cdk-lib.aws_secretsmanager.SecretStringValueBeta1.fromUnsafePlaintext": {
               "$ref": "#/definitions/aws-cdk-lib.aws_secretsmanager.SecretStringValueBeta1.fromUnsafePlaintext"
             }
           }
@@ -58393,7 +58393,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromAsset": {
+            "aws-cdk-lib.aws_servicecatalog.CloudFormationTemplate.fromAsset": {
               "$ref": "#/definitions/aws-cdk-lib.aws_servicecatalog.CloudFormationTemplate.fromAsset"
             }
           }
@@ -58402,7 +58402,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromProductStack": {
+            "aws-cdk-lib.aws_servicecatalog.CloudFormationTemplate.fromProductStack": {
               "$ref": "#/definitions/aws-cdk-lib.aws_servicecatalog.CloudFormationTemplate.fromProductStack"
             }
           }
@@ -58411,7 +58411,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromUrl": {
+            "aws-cdk-lib.aws_servicecatalog.CloudFormationTemplate.fromUrl": {
               "$ref": "#/definitions/aws-cdk-lib.aws_servicecatalog.CloudFormationTemplate.fromUrl"
             }
           }
@@ -60078,7 +60078,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "domain": {
+            "aws-cdk-lib.aws_ses.Identity.domain": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ses.Identity.domain"
             }
           }
@@ -60087,7 +60087,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "email": {
+            "aws-cdk-lib.aws_ses.Identity.email": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ses.Identity.email"
             }
           }
@@ -60096,7 +60096,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "publicHostedZone": {
+            "aws-cdk-lib.aws_ses.Identity.publicHostedZone": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ses.Identity.publicHostedZone"
             }
           }
@@ -60167,7 +60167,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "byoDkim": {
+            "aws-cdk-lib.aws_ses.DkimIdentity.byoDkim": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ses.DkimIdentity.byoDkim"
             }
           }
@@ -60176,7 +60176,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "easyDkim": {
+            "aws-cdk-lib.aws_ses.DkimIdentity.easyDkim": {
               "$ref": "#/definitions/aws-cdk-lib.aws_ses.DkimIdentity.easyDkim"
             }
           }
@@ -61558,7 +61558,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromArray": {
+            "aws-cdk-lib.aws_stepfunctions.Result.fromArray": {
               "$ref": "#/definitions/aws-cdk-lib.aws_stepfunctions.Result.fromArray"
             }
           }
@@ -61567,7 +61567,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromBoolean": {
+            "aws-cdk-lib.aws_stepfunctions.Result.fromBoolean": {
               "$ref": "#/definitions/aws-cdk-lib.aws_stepfunctions.Result.fromBoolean"
             }
           }
@@ -61576,7 +61576,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromNumber": {
+            "aws-cdk-lib.aws_stepfunctions.Result.fromNumber": {
               "$ref": "#/definitions/aws-cdk-lib.aws_stepfunctions.Result.fromNumber"
             }
           }
@@ -61585,7 +61585,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromObject": {
+            "aws-cdk-lib.aws_stepfunctions.Result.fromObject": {
               "$ref": "#/definitions/aws-cdk-lib.aws_stepfunctions.Result.fromObject"
             }
           }
@@ -61594,7 +61594,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromString": {
+            "aws-cdk-lib.aws_stepfunctions.Result.fromString": {
               "$ref": "#/definitions/aws-cdk-lib.aws_stepfunctions.Result.fromString"
             }
           }
@@ -61880,7 +61880,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "duration": {
+            "aws-cdk-lib.aws_stepfunctions.WaitTime.duration": {
               "$ref": "#/definitions/aws-cdk-lib.aws_stepfunctions.WaitTime.duration"
             }
           }
@@ -61889,7 +61889,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "secondsPath": {
+            "aws-cdk-lib.aws_stepfunctions.WaitTime.secondsPath": {
               "$ref": "#/definitions/aws-cdk-lib.aws_stepfunctions.WaitTime.secondsPath"
             }
           }
@@ -61898,7 +61898,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "timestamp": {
+            "aws-cdk-lib.aws_stepfunctions.WaitTime.timestamp": {
               "$ref": "#/definitions/aws-cdk-lib.aws_stepfunctions.WaitTime.timestamp"
             }
           }
@@ -61907,7 +61907,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "timestampPath": {
+            "aws-cdk-lib.aws_stepfunctions.WaitTime.timestampPath": {
               "$ref": "#/definitions/aws-cdk-lib.aws_stepfunctions.WaitTime.timestampPath"
             }
           }
@@ -62617,7 +62617,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromJsonPathAt": {
+            "aws-cdk-lib.aws_stepfunctions.TaskInput.fromJsonPathAt": {
               "$ref": "#/definitions/aws-cdk-lib.aws_stepfunctions.TaskInput.fromJsonPathAt"
             }
           }
@@ -62626,7 +62626,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromObject": {
+            "aws-cdk-lib.aws_stepfunctions.TaskInput.fromObject": {
               "$ref": "#/definitions/aws-cdk-lib.aws_stepfunctions.TaskInput.fromObject"
             }
           }
@@ -62635,7 +62635,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromText": {
+            "aws-cdk-lib.aws_stepfunctions.TaskInput.fromText": {
               "$ref": "#/definitions/aws-cdk-lib.aws_stepfunctions.TaskInput.fromText"
             }
           }
@@ -63668,7 +63668,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "booleanFromJsonPath": {
+            "aws-cdk-lib.aws_stepfunctions_tasks.DynamoAttributeValue.booleanFromJsonPath": {
               "$ref": "#/definitions/aws-cdk-lib.aws_stepfunctions_tasks.DynamoAttributeValue.booleanFromJsonPath"
             }
           }
@@ -63677,7 +63677,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromBinary": {
+            "aws-cdk-lib.aws_stepfunctions_tasks.DynamoAttributeValue.fromBinary": {
               "$ref": "#/definitions/aws-cdk-lib.aws_stepfunctions_tasks.DynamoAttributeValue.fromBinary"
             }
           }
@@ -63686,7 +63686,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromBinarySet": {
+            "aws-cdk-lib.aws_stepfunctions_tasks.DynamoAttributeValue.fromBinarySet": {
               "$ref": "#/definitions/aws-cdk-lib.aws_stepfunctions_tasks.DynamoAttributeValue.fromBinarySet"
             }
           }
@@ -63695,7 +63695,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromBoolean": {
+            "aws-cdk-lib.aws_stepfunctions_tasks.DynamoAttributeValue.fromBoolean": {
               "$ref": "#/definitions/aws-cdk-lib.aws_stepfunctions_tasks.DynamoAttributeValue.fromBoolean"
             }
           }
@@ -63704,7 +63704,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromNull": {
+            "aws-cdk-lib.aws_stepfunctions_tasks.DynamoAttributeValue.fromNull": {
               "$ref": "#/definitions/aws-cdk-lib.aws_stepfunctions_tasks.DynamoAttributeValue.fromNull"
             }
           }
@@ -63713,7 +63713,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromNumber": {
+            "aws-cdk-lib.aws_stepfunctions_tasks.DynamoAttributeValue.fromNumber": {
               "$ref": "#/definitions/aws-cdk-lib.aws_stepfunctions_tasks.DynamoAttributeValue.fromNumber"
             }
           }
@@ -63722,7 +63722,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromNumberSet": {
+            "aws-cdk-lib.aws_stepfunctions_tasks.DynamoAttributeValue.fromNumberSet": {
               "$ref": "#/definitions/aws-cdk-lib.aws_stepfunctions_tasks.DynamoAttributeValue.fromNumberSet"
             }
           }
@@ -63731,7 +63731,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromString": {
+            "aws-cdk-lib.aws_stepfunctions_tasks.DynamoAttributeValue.fromString": {
               "$ref": "#/definitions/aws-cdk-lib.aws_stepfunctions_tasks.DynamoAttributeValue.fromString"
             }
           }
@@ -63740,7 +63740,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromStringSet": {
+            "aws-cdk-lib.aws_stepfunctions_tasks.DynamoAttributeValue.fromStringSet": {
               "$ref": "#/definitions/aws-cdk-lib.aws_stepfunctions_tasks.DynamoAttributeValue.fromStringSet"
             }
           }
@@ -63749,7 +63749,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "listFromJsonPath": {
+            "aws-cdk-lib.aws_stepfunctions_tasks.DynamoAttributeValue.listFromJsonPath": {
               "$ref": "#/definitions/aws-cdk-lib.aws_stepfunctions_tasks.DynamoAttributeValue.listFromJsonPath"
             }
           }
@@ -63758,7 +63758,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "mapFromJsonPath": {
+            "aws-cdk-lib.aws_stepfunctions_tasks.DynamoAttributeValue.mapFromJsonPath": {
               "$ref": "#/definitions/aws-cdk-lib.aws_stepfunctions_tasks.DynamoAttributeValue.mapFromJsonPath"
             }
           }
@@ -63767,7 +63767,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "numberFromString": {
+            "aws-cdk-lib.aws_stepfunctions_tasks.DynamoAttributeValue.numberFromString": {
               "$ref": "#/definitions/aws-cdk-lib.aws_stepfunctions_tasks.DynamoAttributeValue.numberFromString"
             }
           }
@@ -63776,7 +63776,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "numberSetFromStrings": {
+            "aws-cdk-lib.aws_stepfunctions_tasks.DynamoAttributeValue.numberSetFromStrings": {
               "$ref": "#/definitions/aws-cdk-lib.aws_stepfunctions_tasks.DynamoAttributeValue.numberSetFromStrings"
             }
           }
@@ -65527,7 +65527,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromCluster": {
+            "aws-cdk-lib.aws_stepfunctions_tasks.EksClusterInput.fromCluster": {
               "$ref": "#/definitions/aws-cdk-lib.aws_stepfunctions_tasks.EksClusterInput.fromCluster"
             }
           }
@@ -65536,7 +65536,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromTaskInput": {
+            "aws-cdk-lib.aws_stepfunctions_tasks.EksClusterInput.fromTaskInput": {
               "$ref": "#/definitions/aws-cdk-lib.aws_stepfunctions_tasks.EksClusterInput.fromTaskInput"
             }
           }
@@ -65868,7 +65868,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromTaskInput": {
+            "aws-cdk-lib.aws_stepfunctions_tasks.VirtualClusterInput.fromTaskInput": {
               "$ref": "#/definitions/aws-cdk-lib.aws_stepfunctions_tasks.VirtualClusterInput.fromTaskInput"
             }
           }
@@ -65877,7 +65877,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromVirtualClusterId": {
+            "aws-cdk-lib.aws_stepfunctions_tasks.VirtualClusterInput.fromVirtualClusterId": {
               "$ref": "#/definitions/aws-cdk-lib.aws_stepfunctions_tasks.VirtualClusterInput.fromVirtualClusterId"
             }
           }
@@ -68533,7 +68533,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "of": {
+            "aws-cdk-lib.aws_stepfunctions_tasks.AcceleratorClass.of": {
               "$ref": "#/definitions/aws-cdk-lib.aws_stepfunctions_tasks.AcceleratorClass.of"
             }
           }
@@ -68587,7 +68587,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "of": {
+            "aws-cdk-lib.aws_stepfunctions_tasks.AcceleratorType.of": {
               "$ref": "#/definitions/aws-cdk-lib.aws_stepfunctions_tasks.AcceleratorType.of"
             }
           }
@@ -68905,7 +68905,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromAsset": {
+            "aws-cdk-lib.aws_stepfunctions_tasks.DockerImage.fromAsset": {
               "$ref": "#/definitions/aws-cdk-lib.aws_stepfunctions_tasks.DockerImage.fromAsset"
             }
           }
@@ -68914,7 +68914,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromEcrRepository": {
+            "aws-cdk-lib.aws_stepfunctions_tasks.DockerImage.fromEcrRepository": {
               "$ref": "#/definitions/aws-cdk-lib.aws_stepfunctions_tasks.DockerImage.fromEcrRepository"
             }
           }
@@ -68923,7 +68923,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromJsonExpression": {
+            "aws-cdk-lib.aws_stepfunctions_tasks.DockerImage.fromJsonExpression": {
               "$ref": "#/definitions/aws-cdk-lib.aws_stepfunctions_tasks.DockerImage.fromJsonExpression"
             }
           }
@@ -68932,7 +68932,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromRegistry": {
+            "aws-cdk-lib.aws_stepfunctions_tasks.DockerImage.fromRegistry": {
               "$ref": "#/definitions/aws-cdk-lib.aws_stepfunctions_tasks.DockerImage.fromRegistry"
             }
           }
@@ -68981,7 +68981,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromBucket": {
+            "aws-cdk-lib.aws_stepfunctions_tasks.S3Location.fromBucket": {
               "$ref": "#/definitions/aws-cdk-lib.aws_stepfunctions_tasks.S3Location.fromBucket"
             }
           }
@@ -68990,7 +68990,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromJsonExpression": {
+            "aws-cdk-lib.aws_stepfunctions_tasks.S3Location.fromJsonExpression": {
               "$ref": "#/definitions/aws-cdk-lib.aws_stepfunctions_tasks.S3Location.fromJsonExpression"
             }
           }
@@ -72864,7 +72864,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromResponse": {
+            "aws-cdk-lib.custom_resources.PhysicalResourceId.fromResponse": {
               "$ref": "#/definitions/aws-cdk-lib.custom_resources.PhysicalResourceId.fromResponse"
             }
           }
@@ -72873,7 +72873,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "of": {
+            "aws-cdk-lib.custom_resources.PhysicalResourceId.of": {
               "$ref": "#/definitions/aws-cdk-lib.custom_resources.PhysicalResourceId.of"
             }
           }
@@ -72987,7 +72987,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromSdkCalls": {
+            "aws-cdk-lib.custom_resources.AwsCustomResourcePolicy.fromSdkCalls": {
               "$ref": "#/definitions/aws-cdk-lib.custom_resources.AwsCustomResourcePolicy.fromSdkCalls"
             }
           }
@@ -72996,7 +72996,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromStatements": {
+            "aws-cdk-lib.custom_resources.AwsCustomResourcePolicy.fromStatements": {
               "$ref": "#/definitions/aws-cdk-lib.custom_resources.AwsCustomResourcePolicy.fromStatements"
             }
           }
@@ -73370,7 +73370,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "fromArtifact": {
+            "aws-cdk-lib.pipelines.CodePipelineFileSet.fromArtifact": {
               "$ref": "#/definitions/aws-cdk-lib.pipelines.CodePipelineFileSet.fromArtifact"
             }
           }
@@ -74121,7 +74121,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "customRegistry": {
+            "aws-cdk-lib.pipelines.DockerCredential.customRegistry": {
               "$ref": "#/definitions/aws-cdk-lib.pipelines.DockerCredential.customRegistry"
             }
           }
@@ -74130,7 +74130,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "dockerHub": {
+            "aws-cdk-lib.pipelines.DockerCredential.dockerHub": {
               "$ref": "#/definitions/aws-cdk-lib.pipelines.DockerCredential.dockerHub"
             }
           }
@@ -74139,7 +74139,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "ecr": {
+            "aws-cdk-lib.pipelines.DockerCredential.ecr": {
               "$ref": "#/definitions/aws-cdk-lib.pipelines.DockerCredential.ecr"
             }
           }
