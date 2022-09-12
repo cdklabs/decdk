@@ -4,11 +4,15 @@ import * as jsiiReflect from 'jsii-reflect';
 /* eslint-disable no-console */
 
 export class SchemaContext {
-  public static root(definitions?: { [fqn: string]: any }): SchemaContext {
-    return new SchemaContext(undefined, undefined, definitions);
+  public static root(
+    definitions?: { [fqn: string]: any },
+    primitives?: { [type: string]: string }
+  ): SchemaContext {
+    return new SchemaContext(undefined, undefined, definitions, primitives);
   }
 
   public readonly definitions: { [fqn: string]: any };
+  public readonly primitives: { [type: string]: any };
   public readonly path: string;
   public readonly children = new Array<SchemaContext>();
   public readonly name: string;
@@ -21,18 +25,21 @@ export class SchemaContext {
   private constructor(
     name?: string,
     parent?: SchemaContext,
-    definitions?: { [fqn: string]: any }
+    definitions?: { [fqn: string]: any },
+    primitives?: { [type: string]: string }
   ) {
     this.name = name || '';
     if (parent) {
       this.root = false;
       parent.children.push(this);
       this.definitions = parent.definitions;
+      this.primitives = parent.primitives;
       this.path = parent.path + '/' + this.name;
       this.definitionStack = parent.definitionStack;
     } else {
       this.root = true;
       this.definitions = definitions || {};
+      this.primitives = primitives || {};
       this.path = this.name || '';
       this.definitionStack = new Array<string>();
     }
@@ -63,7 +70,7 @@ export class SchemaContext {
     return this.definitions[id];
   }
 
-  public define(fqn: string, schema: () => any) {
+  public define(fqn: string, schema: (ctx: SchemaContext) => any) {
     const originalFqn = fqn;
     fqn = fqn.replace('/', '.');
 
@@ -76,7 +83,7 @@ export class SchemaContext {
       this.definitionStack.push(fqn);
 
       try {
-        const s = schema();
+        const s = schema(this.child('definition', fqn));
         if (!s) {
           this.error('cannot schematize');
           return undefined;
@@ -98,7 +105,7 @@ export function schemaForTypeReference(
   type: jsiiReflect.TypeReference,
   ctx: SchemaContext
 ): any {
-  const prim = schemaForPrimitive(type);
+  const prim = schemaForPrimitive(type, ctx);
   if (prim) {
     return prim;
   }
@@ -241,9 +248,16 @@ function schemaForArray(type: jsiiReflect.TypeReference, ctx: SchemaContext) {
   };
 }
 
-function schemaForPrimitive(type: jsiiReflect.TypeReference): any {
+function schemaForPrimitive(
+  type: jsiiReflect.TypeReference,
+  ctx: SchemaContext
+): any {
   if (!type.primitive) {
     return undefined;
+  }
+
+  if (ctx.primitives[type.primitive]) {
+    return { $ref: `#/definitions/${ctx.primitives[type.primitive]}` };
   }
 
   switch (type.primitive) {
@@ -253,6 +267,9 @@ function schemaForPrimitive(type: jsiiReflect.TypeReference): any {
       return { type: 'object' };
     case 'any':
       return {}; // this means "any"
+    case 'string':
+    case 'number':
+    case 'boolean':
     default:
       return { type: type.primitive };
   }
