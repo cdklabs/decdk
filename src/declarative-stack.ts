@@ -12,13 +12,7 @@ export interface DeclarativeStackProps extends cdk.StackProps {
 
 export class DeclarativeStack extends cdk.Stack {
   constructor(scope: cdk.App, id: string, props: DeclarativeStackProps) {
-    super(scope, id, {
-      env: {
-        account:
-          process.env.CDK_DEPLOY_ACCOUNT || process.env.CDK_DEFAULT_ACCOUNT,
-        region: process.env.CDK_DEPLOY_REGION || process.env.CDK_DEFAULT_REGION,
-      },
-    });
+    super(scope, id, props);
 
     const typeSystem = props.typeSystem;
     const template = new TypedTemplate(props.template, { typeSystem });
