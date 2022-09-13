@@ -29,6 +29,165 @@
     }
   },
   "types": {
+    "fixture.AnotherFactory": {
+      "assembly": "fixture",
+      "fqn": "fixture.AnotherFactory",
+      "interfaces": [
+        "fixture.IFeature"
+      ],
+      "kind": "class",
+      "locationInModule": {
+        "filename": "index.ts",
+        "line": 66
+      },
+      "methods": [
+        {
+          "locationInModule": {
+            "filename": "index.ts",
+            "line": 67
+          },
+          "name": "baseFeature",
+          "parameters": [
+            {
+              "name": "value",
+              "type": {
+                "primitive": "string"
+              }
+            }
+          ],
+          "returns": {
+            "type": {
+              "fqn": "fixture.AnotherFactory"
+            }
+          },
+          "static": true
+        },
+        {
+          "docs": {
+            "summary": "A behavioral interface method."
+          },
+          "locationInModule": {
+            "filename": "index.ts",
+            "line": 73
+          },
+          "name": "doStuff",
+          "overrides": "fixture.IFeature",
+          "returns": {
+            "type": {
+              "primitive": "string"
+            }
+          }
+        }
+      ],
+      "name": "AnotherFactory",
+      "symbolId": "index:AnotherFactory"
+    },
+    "fixture.FeatureFactory": {
+      "assembly": "fixture",
+      "fqn": "fixture.FeatureFactory",
+      "interfaces": [
+        "fixture.IFeature"
+      ],
+      "kind": "class",
+      "locationInModule": {
+        "filename": "index.ts",
+        "line": 54
+      },
+      "methods": [
+        {
+          "locationInModule": {
+            "filename": "index.ts",
+            "line": 55
+          },
+          "name": "baseFeature",
+          "returns": {
+            "type": {
+              "fqn": "fixture.FeatureFactory"
+            }
+          },
+          "static": true
+        },
+        {
+          "docs": {
+            "summary": "A behavioral interface method."
+          },
+          "locationInModule": {
+            "filename": "index.ts",
+            "line": 61
+          },
+          "name": "doStuff",
+          "overrides": "fixture.IFeature",
+          "returns": {
+            "type": {
+              "primitive": "string"
+            }
+          }
+        }
+      ],
+      "name": "FeatureFactory",
+      "symbolId": "index:FeatureFactory"
+    },
+    "fixture.IFeature": {
+      "assembly": "fixture",
+      "fqn": "fixture.IFeature",
+      "kind": "interface",
+      "locationInModule": {
+        "filename": "index.ts",
+        "line": 47
+      },
+      "methods": [
+        {
+          "abstract": true,
+          "docs": {
+            "summary": "A behavioral interface method."
+          },
+          "locationInModule": {
+            "filename": "index.ts",
+            "line": 51
+          },
+          "name": "doStuff",
+          "returns": {
+            "type": {
+              "primitive": "string"
+            }
+          }
+        }
+      ],
+      "name": "IFeature",
+      "symbolId": "index:IFeature"
+    },
+    "fixture.InterfaceWithBehavioral": {
+      "assembly": "fixture",
+      "datatype": true,
+      "docs": {
+        "summary": "Tests how properties accepting a Behavioral Interface are represented in JSON Schema."
+      },
+      "fqn": "fixture.InterfaceWithBehavioral",
+      "kind": "interface",
+      "locationInModule": {
+        "filename": "index.ts",
+        "line": 40
+      },
+      "name": "InterfaceWithBehavioral",
+      "properties": [
+        {
+          "abstract": true,
+          "docs": {
+            "summary": "A feature implementation."
+          },
+          "immutable": true,
+          "locationInModule": {
+            "filename": "index.ts",
+            "line": 44
+          },
+          "name": "feature",
+          "type": {
+            "fqn": "fixture.IFeature"
+          }
+        }
+      ],
+      "symbolId": "index:InterfaceWithBehavioral"
+    },
     "fixture.InterfaceWithPrimitives": {
       "assembly": "fixture",
       "datatype": true,
@@ -153,5 +312,5 @@
     }
   },
   "version": "0.0.0",
-  "fingerprint": "c6kLkB4dJHHXjptnBpF9vIn++eVe3WQscPKNZGqcxaE="
+  "fingerprint": "kGcexsMmd5EbYfgfWO+xgBpPHgAz1UgEamBRIMq5Ou4="
 }

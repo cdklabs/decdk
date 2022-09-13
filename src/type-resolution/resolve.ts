@@ -6,7 +6,7 @@ import {
   isEnumLikeClass,
   isSerializableInterface,
 } from '../schema/jsii2schema';
-import { resolveInitializerExpression } from './callables';
+import { resolveInstanceExpression } from './callables';
 import {
   assertArrayOfType,
   assertMapOfType,
@@ -19,7 +19,11 @@ import {
   resolveEnumExpression,
   resolveEnumLikeExpression,
 } from './enums';
-import { assertExpressionType, TypedTemplateExpression } from './expression';
+import {
+  assertExpressionShaped,
+  assertExpressionType,
+  TypedTemplateExpression,
+} from './expression';
 import { resolveDateLiteral } from './literals';
 import {
   assertLiteralOrIntrinsic,
@@ -37,6 +41,7 @@ export function resolveExpressionType(
   x: TemplateExpression,
   typeRef: reflect.TypeReference
 ): TypedTemplateExpression {
+  assertExpressionShaped(x);
   const expectedType = analyzeTypeReference(typeRef);
 
   switch (expectedType) {
@@ -75,7 +80,7 @@ export function resolveExpressionType(
 
     case ResolvableExpressionType.BEHAVIORAL_INTERFACE:
       return refOrResolve(x, (y) =>
-        resolveInitializerExpression(
+        resolveInstanceExpression(
           assertExpressionType(y, 'object'),
           assertInterface(typeRef)
         )

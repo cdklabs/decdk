@@ -288,6 +288,105 @@ DependencyGraph {
 }
 `;
 
+exports[`fleet.json 1`] = `
+DependencyGraph {
+  "_dependencies": Map {
+    "MyVpc" => Set {},
+    "MyFleet" => Set {
+      "MyVpc",
+    },
+  },
+  "keys": Set {
+    "MyVpc",
+    "MyFleet",
+  },
+  "nodes": Object {
+    "MyFleet": Object {
+      "dependsOn": Array [],
+      "fqn": "aws-cdk-lib.aws_autoscaling.AutoScalingGroup",
+      "logicalId": "MyFleet",
+      "namespace": "aws_autoscaling",
+      "overrides": Array [],
+      "props": Object {
+        "fields": Object {
+          "desiredCapacity": Object {
+            "type": "number",
+            "value": 3,
+          },
+          "instanceType": Object {
+            "args": Object {
+              "array": Array [
+                Object {
+                  "choice": "T2",
+                  "fqn": "aws-cdk-lib.aws_ec2.InstanceClass",
+                  "namespace": "aws_ec2",
+                  "type": "enum",
+                },
+                Object {
+                  "choice": "XLARGE",
+                  "fqn": "aws-cdk-lib.aws_ec2.InstanceSize",
+                  "namespace": "aws_ec2",
+                  "type": "enum",
+                },
+              ],
+              "type": "array",
+            },
+            "fqn": "aws-cdk-lib.aws_ec2.InstanceType",
+            "method": "of",
+            "namespace": "aws_ec2",
+            "type": "staticMethodCall",
+          },
+          "machineImage": Object {
+            "args": Object {
+              "array": Array [
+                Object {
+                  "type": "void",
+                },
+                Object {
+                  "fields": Object {},
+                  "type": "struct",
+                },
+              ],
+              "type": "array",
+            },
+            "fqn": "aws-cdk-lib.aws_ecs.EcsOptimizedImage",
+            "method": "amazonLinux2",
+            "namespace": "aws_ecs",
+            "type": "staticMethodCall",
+          },
+          "vpc": Object {
+            "fn": "ref",
+            "logicalId": "MyVpc",
+            "type": "intrinsic",
+          },
+        },
+        "type": "struct",
+      },
+      "tags": Array [],
+      "type": "construct",
+    },
+    "MyVpc": Object {
+      "dependsOn": Array [],
+      "fqn": "aws-cdk-lib.aws_ec2.Vpc",
+      "logicalId": "MyVpc",
+      "namespace": "aws_ec2",
+      "overrides": Array [],
+      "props": Object {
+        "fields": Object {
+          "maxAzs": Object {
+            "type": "number",
+            "value": 2,
+          },
+        },
+        "type": "struct",
+      },
+      "tags": Array [],
+      "type": "construct",
+    },
+  },
+}
+`;
+
 exports[`lambda-events.json 1`] = `
 DependencyGraph {
   "_dependencies": Map {
