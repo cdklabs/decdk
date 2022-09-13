@@ -77,7 +77,7 @@ test('can NOT use intrinsic where primitive date is expected', () => {
   // GIVEN
   const template = {
     Resources: {
-      Topic: {
+      Action: {
         Type: 'aws-cdk-lib.aws_autoscaling.ScheduledAction',
         Properties: {
           autoScalingGroup: { Ref: 'SomeASG' },

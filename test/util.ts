@@ -133,3 +133,83 @@ expect.extend({
     };
   },
 });
+
+export function matchStringLiteral(value: string) {
+  return { type: 'string', value };
+}
+
+export function matchConstruct(props: object) {
+  return expect.objectContaining({
+    type: 'construct',
+    props: matchStruct(props),
+  });
+}
+
+export function matchInitializer(fqn: string, args: object[]) {
+  return expect.objectContaining({
+    type: 'initializer',
+    fqn,
+    namespace: ns(fqn),
+    args: {
+      type: 'array',
+      array: expect.arrayContaining(args),
+    },
+  });
+}
+const ns = (fqn: string, take = 1) => {
+  return (
+    fqn
+      .split('.')
+      .slice(1, take * -1)
+      .join('.') || undefined
+  );
+};
+
+export function matchStaticMethodCall(fqn: string, args: object[]) {
+  return expect.objectContaining({
+    type: 'staticMethodCall',
+    fqn: fqn.split('.').slice(0, -1).join('.'),
+    namespace: ns(fqn, 2),
+    method: fqn.split('.').slice(-1).pop(),
+    args: {
+      type: 'array',
+      array: expect.arrayContaining(args),
+    },
+  });
+}
+
+export function matchStruct(fields: object) {
+  return {
+    type: 'struct',
+    fields: expect.objectContaining(fields),
+  };
+}
+
+export function matchFnRef(logicalId: string) {
+  return { type: 'intrinsic', fn: 'ref', logicalId };
+}
+
+export function matchFnGetAtt(logicalId: string, attribute?: object) {
+  return expect.objectContaining({
+    type: 'intrinsic',
+    fn: 'getAtt',
+    logicalId,
+    ...(attribute ? { attribute } : {}),
+  });
+}
+
+export function matchFnSub(fragments: object[], additionalContext: object) {
+  return {
+    type: 'intrinsic',
+    fn: 'sub',
+    fragments: expect.arrayContaining(fragments),
+    additionalContext: expect.objectContaining(additionalContext),
+  };
+}
+
+export function matchSubRefFragment(logicalId: string) {
+  return { type: 'ref', logicalId };
+}
+export function matchSubLiteralFragment(content: string) {
+  return { type: 'literal', content };
+}
