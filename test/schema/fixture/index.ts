@@ -74,3 +74,18 @@ export class AnotherFactory implements IFeature {
     throw new Error('Method not ' + this.value + '.');
   }
 }
+
+export interface InterfaceWithEnumLike {
+  /**
+   * Enum like helpers like Duration
+   */
+  readonly classType: EnumLikeThing;
+}
+
+export class EnumLikeThing {
+  public static factory(singleValue: string): EnumLikeThing {
+    return new EnumLikeThing(singleValue);
+  }
+
+  private constructor(public readonly value: string) {}
+}

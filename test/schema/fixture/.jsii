@@ -82,6 +82,53 @@
       "name": "AnotherFactory",
       "symbolId": "index:AnotherFactory"
     },
+    "fixture.EnumLikeThing": {
+      "assembly": "fixture",
+      "fqn": "fixture.EnumLikeThing",
+      "kind": "class",
+      "locationInModule": {
+        "filename": "index.ts",
+        "line": 85
+      },
+      "methods": [
+        {
+          "locationInModule": {
+            "filename": "index.ts",
+            "line": 86
+          },
+          "name": "factory",
+          "parameters": [
+            {
+              "name": "singleValue",
+              "type": {
+                "primitive": "string"
+              }
+            }
+          ],
+          "returns": {
+            "type": {
+              "fqn": "fixture.EnumLikeThing"
+            }
+          },
+          "static": true
+        }
+      ],
+      "name": "EnumLikeThing",
+      "properties": [
+        {
+          "immutable": true,
+          "locationInModule": {
+            "filename": "index.ts",
+            "line": 90
+          },
+          "name": "value",
+          "type": {
+            "primitive": "string"
+          }
+        }
+      ],
+      "symbolId": "index:EnumLikeThing"
+    },
     "fixture.FeatureFactory": {
       "assembly": "fixture",
       "fqn": "fixture.FeatureFactory",
@@ -187,6 +234,35 @@
         }
       ],
       "symbolId": "index:InterfaceWithBehavioral"
+    },
+    "fixture.InterfaceWithEnumLike": {
+      "assembly": "fixture",
+      "datatype": true,
+      "fqn": "fixture.InterfaceWithEnumLike",
+      "kind": "interface",
+      "locationInModule": {
+        "filename": "index.ts",
+        "line": 78
+      },
+      "name": "InterfaceWithEnumLike",
+      "properties": [
+        {
+          "abstract": true,
+          "docs": {
+            "summary": "Enum like helpers like Duration."
+          },
+          "immutable": true,
+          "locationInModule": {
+            "filename": "index.ts",
+            "line": 82
+          },
+          "name": "classType",
+          "type": {
+            "fqn": "fixture.EnumLikeThing"
+          }
+        }
+      ],
+      "symbolId": "index:InterfaceWithEnumLike"
     },
     "fixture.InterfaceWithPrimitives": {
       "assembly": "fixture",
@@ -312,5 +388,5 @@
     }
   },
   "version": "0.0.0",
-  "fingerprint": "kGcexsMmd5EbYfgfWO+xgBpPHgAz1UgEamBRIMq5Ou4="
+  "fingerprint": "HdS7fUAfQVDztUf3OXp8g6IWxkWB430b33UO6x73vec="
 }

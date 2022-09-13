@@ -117,6 +117,71 @@ test('schemaForInterface: Behavioral Interface Implementation Factories', async 
   });
 });
 
+test('schemaForInterface: interface with enum like', async () => {
+  // GIVEN
+  const defs = {};
+  const ctx = SchemaContext.root(defs);
+
+  // WHEN
+  const ref = schemaForInterface(
+    typesys.findFqn('fixture.InterfaceWithEnumLike'),
+    ctx
+  );
+
+  // THEN
+  expect(ref).toStrictEqual({
+    $ref: '#/definitions/fixture.InterfaceWithEnumLike',
+  });
+  expect(ctx.definitions).toStrictEqual({
+    'fixture.EnumLikeThing.factory': {
+      type: 'string',
+      properties: {
+        singleValue: {
+          anyOf: [
+            { type: 'string' },
+            {
+              type: 'array',
+              items: { type: 'string' },
+              minItems: 1,
+              maxItems: 1,
+            },
+          ],
+        },
+      },
+      additionalProperties: false,
+      required: ['singleValue'],
+      comment: 'fixture.EnumLikeThing.factory',
+    },
+    'fixture.EnumLikeThing': {
+      anyOf: [
+        {
+          type: 'object',
+          additionalProperties: false,
+          properties: {
+            'fixture.EnumLikeThing.factory': {
+              $ref: '#/definitions/fixture.EnumLikeThing.factory',
+            },
+          },
+        },
+      ],
+      comment: 'fixture.EnumLikeThing',
+    },
+    'fixture.InterfaceWithEnumLike': {
+      type: 'object',
+      title: 'InterfaceWithEnumLike',
+      additionalProperties: false,
+      properties: {
+        classType: {
+          $ref: '#/definitions/fixture.EnumLikeThing',
+          description: 'Enum like helpers like Duration.',
+        },
+      },
+      required: ['classType'],
+      comment: 'fixture.InterfaceWithEnumLike',
+    },
+  });
+});
+
 /**
  * Version of spawn() that returns a promise
  *
