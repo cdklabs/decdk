@@ -131,3 +131,20 @@ test('can use nested intrinsic', () => {
   // THEN
   expect(template).toBeValidTemplate();
 });
+
+test('FnJoin', () => {
+  // GIVEN
+  const template = {
+    Resources: {
+      Topic: {
+        Type: 'aws-cdk-lib.aws_sns.Topic',
+        Properties: {
+          displayName: { 'Fn::Join': ['-', ['A', 'B', 'C']] },
+        },
+      },
+    },
+  };
+
+  // THEN
+  expect(template).toBeValidTemplate();
+});
