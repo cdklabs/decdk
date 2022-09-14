@@ -1588,6 +1588,162 @@ TypedTemplate {
 }
 `;
 
+exports[`lambda-policy.yaml 1`] = `
+DependencyGraph {
+  "_dependencies": Map {
+    "MyLambda" => Set {
+      "MyBucket",
+    },
+    "MyBucket" => Set {},
+  },
+  "keys": Set {
+    "MyBucket",
+    "MyLambda",
+  },
+  "nodes": Object {
+    "MyBucket": Object {
+      "dependsOn": Array [],
+      "fqn": "aws-cdk-lib.aws_s3.Bucket",
+      "logicalId": "MyBucket",
+      "namespace": "aws_s3",
+      "overrides": Array [],
+      "props": Object {
+        "fields": Object {},
+        "type": "struct",
+      },
+      "tags": Array [],
+      "type": "construct",
+    },
+    "MyLambda": Object {
+      "dependsOn": Array [],
+      "fqn": "aws-cdk-lib.aws_lambda.Function",
+      "logicalId": "MyLambda",
+      "namespace": "aws_lambda",
+      "overrides": Array [],
+      "props": Object {
+        "fields": Object {
+          "code": Object {
+            "args": Object {
+              "array": Array [
+                Object {
+                  "fn": "ref",
+                  "logicalId": "MyBucket",
+                  "type": "intrinsic",
+                },
+                Object {
+                  "type": "string",
+                  "value": "handler.zip",
+                },
+                Object {
+                  "type": "void",
+                },
+              ],
+              "type": "array",
+            },
+            "fqn": "aws-cdk-lib.aws_lambda.Code",
+            "method": "fromBucket",
+            "namespace": "aws_lambda",
+            "type": "staticMethodCall",
+          },
+          "handler": Object {
+            "type": "string",
+            "value": "index.handler",
+          },
+          "initialPolicy": Object {
+            "array": Array [
+              Object {
+                "args": Object {
+                  "array": Array [
+                    Object {
+                      "type": "any",
+                      "value": Object {
+                        "fields": Object {
+                          "Action": Object {
+                            "array": Array [
+                              Object {
+                                "type": "string",
+                                "value": "s3:GetObject*",
+                              },
+                              Object {
+                                "type": "string",
+                                "value": "s3:PutObject*",
+                              },
+                            ],
+                            "type": "array",
+                          },
+                          "Effect": Object {
+                            "type": "string",
+                            "value": "Allow",
+                          },
+                          "Resource": Object {
+                            "array": Array [
+                              Object {
+                                "attribute": Object {
+                                  "type": "string",
+                                  "value": "bucketArn",
+                                },
+                                "fn": "getAtt",
+                                "logicalId": "MyBucket",
+                                "type": "intrinsic",
+                              },
+                              Object {
+                                "array": Array [
+                                  Object {
+                                    "attribute": Object {
+                                      "type": "string",
+                                      "value": "bucketArn",
+                                    },
+                                    "fn": "getAtt",
+                                    "logicalId": "MyBucket",
+                                    "type": "intrinsic",
+                                  },
+                                  Object {
+                                    "type": "string",
+                                    "value": "/*",
+                                  },
+                                ],
+                                "fn": "join",
+                                "separator": "",
+                                "type": "intrinsic",
+                              },
+                            ],
+                            "type": "array",
+                          },
+                        },
+                        "type": "object",
+                      },
+                    },
+                  ],
+                  "type": "array",
+                },
+                "fqn": "aws-cdk-lib.aws_iam.PolicyStatement",
+                "method": "fromJson",
+                "namespace": "aws_iam",
+                "type": "staticMethodCall",
+              },
+            ],
+            "type": "array",
+          },
+          "memorySize": Object {
+            "type": "number",
+            "value": 10240,
+          },
+          "runtime": Object {
+            "fqn": "aws-cdk-lib.aws_lambda.Runtime",
+            "namespace": "aws_lambda",
+            "property": "NODEJS_16_X",
+            "type": "staticProperty",
+          },
+        },
+        "type": "struct",
+      },
+      "tags": Array [],
+      "type": "construct",
+    },
+  },
+}
+`;
+
 exports[`lambda-role-removed.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
