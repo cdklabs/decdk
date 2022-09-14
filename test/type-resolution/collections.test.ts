@@ -1,9 +1,7 @@
 import * as reflect from 'jsii-reflect';
 import { Template } from '../../src/parser/template';
-import { StructExpression } from '../../src/type-resolution/struct';
 import { TypedTemplate } from '../../src/type-resolution/template';
-import { getCdkConstruct } from '../template';
-import { Testing } from '../util';
+import { matchConstruct, Testing } from '../util';
 
 let typeSystem: reflect.TypeSystem;
 
@@ -41,19 +39,19 @@ test('Array of Types are resolved correctly', async () => {
   const typedTemplate = new TypedTemplate(template, { typeSystem });
 
   // THEN
-  const myQueue = getCdkConstruct(typedTemplate, 'MyFunction');
-  expect(myQueue.type).toBe('construct');
-  expect(myQueue.props?.type).toBe('struct');
-  expect((myQueue.props as StructExpression)?.fields).toHaveProperty(
-    'events',
-    expect.objectContaining({
-      type: 'array',
-      array: expect.arrayContaining([
-        expect.objectContaining({
-          type: 'initializer',
-          fqn: 'aws-cdk-lib.aws_lambda_event_sources.ApiEventSource',
-        }),
-      ]),
+  const resource = typedTemplate.resource('MyFunction');
+
+  expect(resource).toEqual(
+    matchConstruct({
+      events: expect.objectContaining({
+        type: 'array',
+        array: expect.arrayContaining([
+          expect.objectContaining({
+            type: 'initializer',
+            fqn: 'aws-cdk-lib.aws_lambda_event_sources.ApiEventSource',
+          }),
+        ]),
+      }),
     })
   );
   expect(template.template).toBeValidTemplate();

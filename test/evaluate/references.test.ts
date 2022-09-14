@@ -1,6 +1,6 @@
 import { Match } from 'aws-cdk-lib/assertions';
-import { Template } from '../src/parser/template';
-import { Testing } from './util';
+import { Template } from '../../src/parser/template';
+import { Testing } from '../util';
 
 test('can references L2 construct from L1 resource', async () => {
   // GIVEN

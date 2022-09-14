@@ -1,5 +1,5 @@
-import { Template } from '../src/parser/template';
-import { Testing } from './util';
+import { Template } from '../../src/parser/template';
+import { Testing } from '../util';
 
 test('can define boolean property as "false"', async () => {
   // GIVEN
