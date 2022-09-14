@@ -1,3 +1,4 @@
+import { FnGetProp } from './cdk-intrinsics';
 import { ConditionExpression } from './conditions';
 import { $ref, schemaForExpressions } from './expression';
 import { SchemaContext } from './jsii2schema';
@@ -363,27 +364,71 @@ const FnRef = () => ({
   ),
 });
 
+const ANYS = {
+  FnRef,
+  FnFindInMap,
+  FnGetAtt,
+  FnGetProp,
+  FnIf,
+};
+
+const STRINGS = {
+  FnBase64,
+  FnImportValue,
+  FnJoin,
+  FnSelect,
+  FnSub,
+};
+
+const NUMBERS = {
+  FnImportValue,
+  FnSelect,
+};
+
+const BOOLEANS = {
+  FnImportValue,
+  FnSelect,
+};
+
+const LISTS = {
+  FnCidr,
+  FnGetAZs,
+  FnSplit,
+};
+
 export function schemaForIntrinsicFunctions(ctx: SchemaContext) {
-  schemaForExpressions(ctx);
+  const any = Object.keys(ANYS);
+  schemaForExpressions(ctx, {
+    string: Object.keys(STRINGS).concat(any),
+    number: Object.keys(NUMBERS).concat(any),
+    boolean: Object.keys(BOOLEANS).concat(any),
+    list: Object.keys(LISTS).concat(any),
+  });
+
+  const intrinsicFunctions: Record<string, (ctx: SchemaContext) => any> = {
+    FnBase64,
+    FnCidr,
+    FnFindInMap,
+    FnGetAtt,
+    FnGetProp,
+    FnGetAZs,
+    FnImportValue,
+    FnJoin,
+    FnSelect,
+    FnSplit,
+    FnSub,
+    FnTransform,
+    FnRef,
+    FnIf,
+  };
   ctx.define('IntrinsicExpression', () => ({
     $comment: 'Intrinsic function token expression',
     type: ['string'],
-    anyOf: [
-      ctx.define('FnBase64', FnBase64),
-      ctx.define('FnCidr', FnCidr),
-      ctx.define('FnFindInMap', FnFindInMap),
-      ctx.define('FnGetAtt', FnGetAtt),
-      ctx.define('FnGetAZs', FnGetAZs),
-      ctx.define('FnImportValue', FnImportValue),
-      ctx.define('FnJoin', FnJoin),
-      ctx.define('FnSelect', FnSelect),
-      ctx.define('FnSplit', FnSplit),
-      ctx.define('FnSub', FnSub),
-      ctx.define('FnTransform', FnTransform),
-      ctx.define('FnRef', FnRef),
-      ctx.define('FnIf', FnIf),
-    ],
+    anyOf: Object.entries(intrinsicFunctions).map(([name, fn]) =>
+      ctx.define(name, fn)
+    ),
   }));
+
   ctx.define('ConditionExpression', ConditionExpression);
 }
 

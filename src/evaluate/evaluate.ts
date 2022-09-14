@@ -76,6 +76,8 @@ export class Evaluator {
             );
           case 'getAtt':
             return this.fnGetAtt(x.logicalId, assertString(ev(x.attribute)));
+          case 'getProp':
+            return this.fnGetAtt(x.logicalId, assertString(x.property));
           case 'getAzs':
             return this.fnGetAzs(assertString(ev(x.region)));
           case 'if':

@@ -23,79 +23,56 @@ const DateLiteral = () => ({
   format: 'date-time',
 });
 
-const PrimitiveLiteral = (ctx: SchemaContext) => ({
-  $comment: 'A literal value',
-  anyOf: [
-    ctx.define('StringLiteral', StringLiteral),
-    ctx.define('NumberLiteral', NumberLiteral),
-    ctx.define('BooleanLiteral', BooleanLiteral),
-    ctx.define('DateLiteral', DateLiteral),
-  ],
-});
-
-const StringExpression = () => ({
-  $comment: 'Intrinsic function token expression or literal string value',
-  type: ['string', 'object'],
-  anyOf: [
-    $ref('StringLiteral'),
-    $ref('FnRef'),
-    $ref('FnBase64'),
-    $ref('FnFindInMap'),
-    $ref('FnGetAtt'),
-    $ref('FnImportValue'),
-    $ref('FnJoin'),
-    $ref('FnSelect'),
-    $ref('FnSub'),
-    $ref('FnIf'),
-  ],
-});
-
-const NumberExpression = () => ({
-  $comment: 'Intrinsic function token expression or literal number value',
-  type: ['number', 'object'],
-  anyOf: [
-    $ref('NumberLiteral'),
-    $ref('FnRef'),
-    $ref('FnFindInMap'),
-    $ref('FnGetAtt'),
-    $ref('FnImportValue'),
-    $ref('FnSelect'),
-    $ref('FnIf'),
-  ],
-});
-
-const BooleanExpression = () => ({
-  $comment: 'Intrinsic function token expression or literal boolean value',
-  type: ['boolean', 'object'],
-  anyOf: [
-    $ref('BooleanLiteral'),
-    $ref('FnRef'),
-    $ref('FnFindInMap'),
-    $ref('FnGetAtt'),
-    $ref('FnImportValue'),
-    $ref('FnSelect'),
-    $ref('FnIf'),
-  ],
-});
-
-const ListExpression = () => ({
-  $comment: 'Intrinsic function returning a list',
-  type: ['object'],
-  anyOf: [
-    $ref('FnRef'),
-    $ref('FnCidr'),
-    $ref('FnFindInMap'),
-    $ref('FnGetAtt'),
-    $ref('FnGetAZs'),
-    $ref('FnIf'),
-    $ref('FnSplit'),
-  ],
-});
-
-export function schemaForExpressions(ctx: SchemaContext) {
-  ctx.define('PrimitiveLiteral', PrimitiveLiteral);
-  ctx.define('StringExpression', StringExpression);
-  ctx.define('NumberExpression', NumberExpression);
-  ctx.define('BooleanExpression', BooleanExpression);
-  ctx.define('ListExpression', ListExpression);
+export function schemaForExpressions(
+  ctx: SchemaContext,
+  supportedIntrinsicFunctions: {
+    string: string[];
+    number: string[];
+    boolean: string[];
+    list: string[];
+  } = {
+    string: [],
+    number: [],
+    boolean: [],
+    list: [],
+  }
+) {
+  ctx.define('PrimitiveLiteral', () => ({
+    $comment: 'A literal value',
+    anyOf: [
+      ctx.define('StringLiteral', StringLiteral),
+      ctx.define('NumberLiteral', NumberLiteral),
+      ctx.define('BooleanLiteral', BooleanLiteral),
+      ctx.define('DateLiteral', DateLiteral),
+    ],
+  }));
+  ctx.define('StringExpression', () => ({
+    $comment: 'Intrinsic function token expression or literal string value',
+    type: ['string', 'object'],
+    anyOf: [
+      $ref('StringLiteral'),
+      ...supportedIntrinsicFunctions.string.map($ref),
+    ],
+  }));
+  ctx.define('NumberExpression', () => ({
+    $comment: 'Intrinsic function token expression or literal number value',
+    type: ['number', 'object'],
+    anyOf: [
+      $ref('NumberLiteral'),
+      ...supportedIntrinsicFunctions.number.map($ref),
+    ],
+  }));
+  ctx.define('BooleanExpression', () => ({
+    $comment: 'Intrinsic function token expression or literal boolean value',
+    type: ['boolean', 'object'],
+    anyOf: [
+      $ref('BooleanLiteral'),
+      ...supportedIntrinsicFunctions.boolean.map($ref),
+    ],
+  }));
+  ctx.define('ListExpression', () => ({
+    $comment: 'Intrinsic function returning a list',
+    type: ['object'],
+    anyOf: supportedIntrinsicFunctions.list.map($ref),
+  }));
 }
