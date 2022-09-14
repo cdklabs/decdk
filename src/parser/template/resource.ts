@@ -1,4 +1,5 @@
 import {
+  assertAtMostOneOfFields,
   assertField,
   assertObject,
   assertString,
@@ -6,8 +7,14 @@ import {
   parseRetentionPolicy,
 } from '../private/types';
 import { schema } from '../schema';
+import { parseCall } from './calls';
 import { RetentionPolicy } from './enums';
-import { ifField, parseObject, TemplateExpression } from './expression';
+import {
+  ifField,
+  ObjectLiteral,
+  parseObject,
+  TemplateExpression,
+} from './expression';
 import { parseOverrides, ResourceOverride } from './overrides';
 import { parseTags, ResourceTag } from './tags';
 
@@ -22,6 +29,8 @@ export interface TemplateResource {
   readonly metadata: Record<string, unknown>;
   readonly tags: ResourceTag[];
   readonly overrides: ResourceOverride[];
+  readonly call: ObjectLiteral;
+
   // readonly creationPolicy?: CreationPolicy;
   // readonly updatePolicy?: UpdatePolicy;
 }
@@ -29,6 +38,8 @@ export interface TemplateResource {
 export function parseTemplateResource(
   resource: schema.Resource
 ): TemplateResource {
+  assertAtMostOneOfFields(resource, ['Properties', 'Call']);
+
   const properties = parseObject(resource.Properties);
 
   return {
@@ -50,6 +61,7 @@ export function parseTemplateResource(
       'Delete',
     tags: parseTags(resource.Tags),
     overrides: parseOverrides(resource.Overrides),
+    call: parseCall(resource.Call),
   };
 }
 

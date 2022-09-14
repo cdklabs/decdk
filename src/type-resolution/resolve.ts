@@ -76,7 +76,9 @@ export function resolveExpressionType(
         assertEnum(typeRef)
       );
     case ResolvableExpressionType.ENUM_LIKE_CLASS:
-      return resolveEnumLikeExpression(x, assertClass(typeRef));
+      return refOrResolve(x, (y) =>
+        resolveEnumLikeExpression(y, assertClass(typeRef))
+      );
 
     case ResolvableExpressionType.BEHAVIORAL_INTERFACE:
       return refOrResolve(x, (y) =>

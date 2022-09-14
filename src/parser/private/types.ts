@@ -125,6 +125,21 @@ export function assertExactlyOneOfFields<A extends object, K extends keyof A>(
   return foundFields[0];
 }
 
+export function assertAtMostOneOfFields<A extends object, K extends keyof A>(
+  xs: A,
+  fieldNames: K[]
+): K | undefined {
+  const foundFields = fieldNames.filter((f) => f in xs);
+  if (foundFields.length > 1) {
+    throw new ParserError(
+      `Expected at most one of the fields ${fieldNames
+        .map((f) => `'${String(f)}'`)
+        .join(', ')}, got: ${JSON.stringify(xs)}`
+    );
+  }
+  return foundFields[0];
+}
+
 export function assertOneField(xs: unknown): string {
   const fields = Object.keys(assertObject(xs));
   if (fields.length !== 1) {

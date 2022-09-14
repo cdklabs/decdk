@@ -1,7 +1,7 @@
 import * as reflect from 'jsii-reflect';
 import { Template } from '../../src/parser/template';
-import { resolveResourceLike } from '../../src/type-resolution';
 import { StructExpression } from '../../src/type-resolution/struct';
+import { getCdkConstruct, typed } from '../template';
 import { Testing } from '../util';
 
 let typeSystem: reflect.TypeSystem;
@@ -37,14 +37,10 @@ test('Array of Types are resolved correctly', async () => {
     },
   });
 
-  const typedTemplate = template
-    .resourceGraph()
-    .map((logicalId, resource) =>
-      resolveResourceLike(resource, logicalId, typeSystem)
-    );
+  const typedTemplate = typed(typeSystem, template);
 
   // THEN
-  const myQueue = typedTemplate.get('MyFunction');
+  const myQueue = getCdkConstruct(typedTemplate, 'MyFunction');
   expect(myQueue.type).toBe('construct');
   expect(myQueue.props?.type).toBe('struct');
   expect((myQueue.props as StructExpression)?.fields).toHaveProperty(

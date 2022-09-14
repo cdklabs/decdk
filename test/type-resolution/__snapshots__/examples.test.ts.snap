@@ -1242,6 +1242,99 @@ DependencyGraph {
 }
 `;
 
+exports[`reusable-lambda-code.json 1`] = `
+DependencyGraph {
+  "_dependencies": Map {
+    "SourceBucket" => Set {},
+    "BusinessLogic" => Set {},
+    "MyFunction" => Set {
+      "BusinessLogic",
+    },
+  },
+  "keys": Set {
+    "SourceBucket",
+    "BusinessLogic",
+    "MyFunction",
+  },
+  "nodes": Object {
+    "BusinessLogic": Object {
+      "call": Object {
+        "args": Object {
+          "array": Array [
+            Object {
+              "fn": "ref",
+              "logicalId": "SourceBucket",
+              "type": "intrinsic",
+            },
+            Object {
+              "type": "string",
+              "value": "foo-bar",
+            },
+            Object {
+              "type": "void",
+            },
+          ],
+          "type": "array",
+        },
+        "fqn": "aws-cdk-lib.aws_lambda.Code",
+        "method": "fromBucket",
+        "namespace": "aws_lambda",
+        "type": "staticMethodCall",
+      },
+      "dependsOn": Array [],
+      "fqn": "aws-cdk-lib.aws_lambda.Code",
+      "logicalId": "BusinessLogic",
+      "namespace": "aws_lambda",
+      "overrides": Array [],
+      "tags": Array [],
+      "type": "lazy-construct",
+    },
+    "MyFunction": Object {
+      "dependsOn": Array [],
+      "fqn": "aws-cdk-lib.aws_lambda.Function",
+      "logicalId": "MyFunction",
+      "namespace": "aws_lambda",
+      "overrides": Array [],
+      "props": Object {
+        "fields": Object {
+          "code": Object {
+            "fn": "ref",
+            "logicalId": "BusinessLogic",
+            "type": "intrinsic",
+          },
+          "handler": Object {
+            "type": "string",
+            "value": "index.handler",
+          },
+          "runtime": Object {
+            "fqn": "aws-cdk-lib.aws_lambda.Runtime",
+            "namespace": "aws_lambda",
+            "property": "NODEJS_14_X",
+            "type": "staticProperty",
+          },
+        },
+        "type": "struct",
+      },
+      "tags": Array [],
+      "type": "construct",
+    },
+    "SourceBucket": Object {
+      "dependsOn": Array [],
+      "fqn": "aws-cdk-lib.aws_s3.Bucket",
+      "logicalId": "SourceBucket",
+      "namespace": "aws_s3",
+      "overrides": Array [],
+      "props": Object {
+        "fields": Object {},
+        "type": "struct",
+      },
+      "tags": Array [],
+      "type": "construct",
+    },
+  },
+}
+`;
+
 exports[`vpc.json 1`] = `
 DependencyGraph {
   "_dependencies": Map {

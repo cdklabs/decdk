@@ -334,16 +334,36 @@ export function schemaForInterface(
         return undefined;
       }
 
-      properties[prop.name] = schema;
-
-      const docstring = prop.docs.toString();
-      if (docstring) {
-        properties[prop.name].description = docstring;
+      if (schema.$ref != null) {
+        properties[prop.name] = {
+          anyOf: [
+            withDescription(prop, schema),
+            withDescription(prop, {
+              type: 'object',
+              properties: {
+                Ref: {
+                  type: 'string',
+                },
+              },
+              additionalProperties: false,
+            }),
+          ],
+        };
+      } else {
+        properties[prop.name] = withDescription(prop, schema);
       }
 
       if (!prop.optional) {
         required.push(prop.name);
       }
+    }
+
+    function withDescription(
+      prop: jsiiReflect.Property,
+      obj: Record<string, unknown>
+    ) {
+      const docstring = prop.docs.toString();
+      return docstring ? { ...obj, description: docstring } : obj;
     }
 
     return {
@@ -356,7 +376,7 @@ export function schemaForInterface(
   });
 }
 
-function schemaForEnumLikeClass(
+export function schemaForEnumLikeClass(
   type: jsiiReflect.Type | undefined,
   ctx: SchemaContext
 ) {
@@ -392,6 +412,24 @@ function schemaForEnumLikeClass(
       additionalProperties: false,
       properties: {
         [`${method.parentType.fqn}.${method.name}`]: methodSchema(method, ctx),
+      },
+    });
+    anyOf.push({
+      additionalProperties: false,
+      type: 'object',
+      properties: {
+        Type: {
+          type: 'string',
+        },
+        Call: {
+          type: 'object',
+          properties: {
+            [`${method.parentType.fqn}.${method.name}`]: methodSchema(
+              method,
+              ctx
+            ),
+          },
+        },
       },
     });
   }

@@ -1,7 +1,7 @@
 import * as reflect from 'jsii-reflect';
 import { Template } from '../../src/parser/template';
-import { resolveResourceLike } from '../../src/type-resolution';
 import { StructExpression } from '../../src/type-resolution/struct';
+import { getCdkConstruct, typed } from '../template';
 import { Testing } from '../util';
 
 let typeSystem: reflect.TypeSystem;
@@ -42,14 +42,10 @@ test('Constructs can be referenced', async () => {
     },
   });
 
-  const typedTemplate = template
-    .resourceGraph()
-    .map((logicalId, resource) =>
-      resolveResourceLike(resource, logicalId, typeSystem)
-    );
+  const typedTemplate = typed(typeSystem, template);
 
   // THEN
-  const myApi = typedTemplate.get('MyApi');
+  const myApi = getCdkConstruct(typedTemplate, 'MyApi');
   expect(myApi.type).toBe('construct');
   expect(myApi.props?.type).toBe('struct');
   expect((myApi.props as StructExpression)?.fields).toHaveProperty(
