@@ -148,3 +148,20 @@ test('FnJoin', () => {
   // THEN
   expect(template).toBeValidTemplate();
 });
+
+test('FnFindInMap', () => {
+  // GIVEN
+  const template = {
+    Resources: {
+      Topic: {
+        Type: 'aws-cdk-lib.aws_sns.Topic',
+        Properties: {
+          displayName: { 'Fn::FindInMap': ['A', 'B', 'C'] },
+        },
+      },
+    },
+  };
+
+  // THEN
+  expect(template).toBeValidTemplate();
+});

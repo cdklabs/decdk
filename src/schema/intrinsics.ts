@@ -68,7 +68,7 @@ const FnCidr = () => {
 };
 
 const FnFindInMap = () => {
-  const types = [$ref('FnRef'), $ref('FnSelect')];
+  const types = [$ref('StringLiteral'), $ref('FnRef'), $ref('FnSelect')];
 
   return schemaForIntrinsic('Fn::FindInMap', {
     description:
