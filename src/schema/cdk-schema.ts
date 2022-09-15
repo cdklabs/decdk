@@ -1,6 +1,7 @@
 import chalk from 'chalk';
 import { ClassType } from 'jsii-reflect';
 import * as jsiiReflect from 'jsii-reflect';
+import { schemaForIntrinsicFunctions } from './intrinsics';
 import {
   enumLikeClassMethods,
   enumLikeClassProperties,
@@ -106,7 +107,13 @@ export function renderFullSchema(
 
   output.definitions = output.definitions || {};
 
-  const ctx = SchemaContext.root(output.definitions);
+  const ctx = SchemaContext.root(output.definitions, {
+    string: 'StringExpression',
+    number: 'NumberExpression',
+    boolean: 'BooleanExpression',
+  });
+
+  schemaForIntrinsicFunctions(ctx);
 
   for (const deco of deconstructs) {
     addResource(schemaForResource(deco, ctx));

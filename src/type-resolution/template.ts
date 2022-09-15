@@ -35,4 +35,8 @@ export class TypedTemplate {
     this.mappings = template.mappings;
     this.outputs = template.outputs;
   }
+
+  public resource(logicalId: string) {
+    return this.resources.get(logicalId);
+  }
 }

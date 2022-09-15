@@ -78,7 +78,8 @@ const vsCode = new vscode.VsCode(project);
 vsCode.extensions.addRecommendations(
   'dbaeumer.vscode-eslint',
   'esbenp.prettier-vscode',
-  'orta.vscode-jest'
+  'orta.vscode-jest',
+  'redhat.vscode-yaml'
 );
 vsCode.settings.addSettings({
   'editor.defaultFormatter': 'esbenp.prettier-vscode',

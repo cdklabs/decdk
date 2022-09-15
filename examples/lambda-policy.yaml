@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=../cdk.schema.json
+Resources:
+  MyLambda:
+    Type: aws-cdk-lib.aws_lambda.Function
+    Properties:
+      runtime: NODEJS_16_X
+      handler: index.handler
+      memorySize: 10240
+      code:
+        aws-cdk-lib.aws_lambda.Code.fromBucket:
+          bucket:
+            Ref: 'MyBucket'
+          key: 'handler.zip'
+      initialPolicy:
+        - aws-cdk-lib.aws_iam.PolicyStatement.fromJson:
+            obj:
+              Effect: Allow
+              Action:
+                - s3:GetObject*
+                - s3:PutObject*
+              Resource:
+                - { Fn::GetAtt: MyBucket.bucketArn }
+                - { Fn::Join: ['', [{ Fn::GetAtt: MyBucket.bucketArn }, '/*']] }
+
+  MyBucket:
+    Type: aws-cdk-lib.aws_s3.Bucket

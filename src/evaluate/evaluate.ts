@@ -4,11 +4,9 @@ import { SubFragment } from '../parser/private/sub';
 import {
   assertBoolean,
   assertList,
-  assertListOfForm,
   assertNumber,
   assertString,
 } from '../parser/private/types';
-import { assertExpression } from '../parser/template';
 import { ResourceOverride } from '../parser/template/overrides';
 import { ResourceTag } from '../parser/template/tags';
 import { isCdkConstructExpression, ResourceLike } from '../type-resolution';
@@ -85,15 +83,15 @@ export class Evaluator {
             return this.fnImportValue(assertString(ev(x.export)));
           case 'join':
             return this.fnJoin(
-              x.separator,
-              assertListOfForm(x.array, assertExpression)
+              assertString(x.separator),
+              this.evaluateArray(x.array)
             );
           case 'ref':
             return this.ref(x.logicalId);
           case 'select':
             return this.fnSelect(
               assertNumber(ev(x.index)),
-              assertList(ev(x.array))
+              assertList(this.evaluateArray(x.array))
             );
           case 'split':
             return this.fnSplit(x.separator, assertString(ev(x.value)));
@@ -236,8 +234,8 @@ export class Evaluator {
     return cdk.Fn.importValue(exportName);
   }
 
-  protected fnJoin(separator: string, array: TypedTemplateExpression[]) {
-    return cdk.Fn.join(separator, this.evaluateArray(array));
+  protected fnJoin(separator: string, array: any[]) {
+    return cdk.Fn.join(separator, array);
   }
 
   protected ref(logicalId: string) {

@@ -121,14 +121,14 @@ export interface JoinIntrinsic {
   readonly type: 'intrinsic';
   readonly fn: 'join';
   readonly separator: string;
-  readonly array: TemplateExpression;
+  readonly array: TemplateExpression[];
 }
 
 export interface SelectIntrinsic {
   readonly type: 'intrinsic';
   readonly fn: 'select';
   readonly index: TemplateExpression;
-  readonly array: TemplateExpression;
+  readonly array: TemplateExpression[];
 }
 
 export interface SplitIntrinsic {
@@ -287,20 +287,22 @@ export function parseExpression(x: unknown): TemplateExpression {
     }),
     'Fn::Join': (value) => {
       const xs = assertList(value, [2]);
+      const args = assertList(xs[1]);
       return {
         type: 'intrinsic',
         fn: 'join',
         separator: assertString(xs[0]),
-        array: parseExpression(xs[1]),
+        array: args.map(parseExpression),
       };
     },
     'Fn::Select': (value) => {
       const xs = assertList(value, [2]);
+      const args = assertList(xs[1]);
       return {
         type: 'intrinsic',
         fn: 'select',
         index: parseExpression(xs[0]),
-        array: parseExpression(xs[1]),
+        array: args.map(parseExpression),
       };
     },
     'Fn::Split': (value) => {
