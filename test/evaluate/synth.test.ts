@@ -1,5 +1,5 @@
-import { readTemplate } from '../src';
-import { testExamples, Testing } from './util';
+import { readTemplate } from '../../src';
+import { testExamples, Testing } from '../util';
 
 testExamples(async (templateFile) => {
   const template = await readTemplate(templateFile.path);
