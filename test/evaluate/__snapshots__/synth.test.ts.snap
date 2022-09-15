@@ -2094,10 +2094,7 @@ Object {
               "Effect": "Allow",
               "Resource": Array [
                 Object {
-                  "Fn::GetAtt": Array [
-                    "MyBucketF68F3FF0",
-                    "Arn",
-                  ],
+                  "Ref": "MyBucketF68F3FF0",
                 },
                 Object {
                   "Fn::Join": Array [

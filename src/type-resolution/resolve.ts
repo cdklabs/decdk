@@ -32,7 +32,7 @@ import {
   resolveAnyExpression,
   resolveVoidExpression,
 } from './primitives';
-import { assertRef, refOrResolve } from './references';
+import { assertRef, refOrResolve, resolveRef } from './references';
 import { isConstruct } from './resource-like';
 import { assertInterface, resolveStructExpression } from './struct';
 import { assertUnionOfTypes, resolveUnionOfTypesExpression } from './union';
@@ -89,7 +89,7 @@ export function resolveExpressionType(
       );
 
     case ResolvableExpressionType.CONSTRUCT:
-      return assertRef(x);
+      return resolveRef(assertRef(x));
 
     case ResolvableExpressionType.ANY:
       return resolveAnyExpression(x);

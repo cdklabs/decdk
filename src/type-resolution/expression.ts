@@ -12,11 +12,13 @@ import { InitializerExpression, StaticMethodCallExpression } from './callables';
 import { EnumExpression, StaticPropertyExpression } from './enums';
 import { DateLiteral } from './literals';
 import { AnyTemplateExpression, VoidExpression } from './primitives';
+import { ResolveReferenceExpression } from './references';
 import { ResourceLike } from './resource-like';
 import { StructExpression } from './struct';
 
 export type TypedTemplateExpression =
   | IntrinsicExpression
+  | ResolveReferenceExpression
   | StringLiteral
   | NumberLiteral
   | BooleanLiteral

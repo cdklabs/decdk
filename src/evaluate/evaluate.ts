@@ -1,4 +1,5 @@
 import * as cdk from 'aws-cdk-lib';
+import { CfnElement } from 'aws-cdk-lib';
 import { Construct, IConstruct } from 'constructs';
 import { SubFragment } from '../parser/private/sub';
 import {
@@ -7,6 +8,7 @@ import {
   assertNumber,
   assertString,
 } from '../parser/private/types';
+import { GetAttIntrinsic, RefIntrinsic } from '../parser/template';
 import { ResourceOverride } from '../parser/template/overrides';
 import { ResourceTag } from '../parser/template/tags';
 import { isCdkConstructExpression, ResourceLike } from '../type-resolution';
@@ -15,8 +17,6 @@ import { EvaluationContext } from './context';
 import { applyOverride } from './overrides';
 
 export class Evaluator {
-  private currentResource?: ResourceLike;
-
   constructor(public readonly context: EvaluationContext) {}
 
   public evaluateTemplate() {
@@ -29,8 +29,6 @@ export class Evaluator {
     logicalId: string,
     resource: ResourceLike
   ): IConstruct {
-    this.currentResource = resource;
-
     const construct = this.evaluate(resource);
     this.applyTags(construct, resource.tags);
     this.applyDependsOn(construct, resource.dependsOn);
@@ -61,6 +59,8 @@ export class Evaluator {
       case 'struct':
       case 'object':
         return this.evaluateObject(x.fields);
+      case 'resolve-reference':
+        return this.resolveReferences(x.reference);
       case 'intrinsic':
         switch (x.fn) {
           case 'base64':
@@ -238,27 +238,48 @@ export class Evaluator {
     return cdk.Fn.join(separator, array);
   }
 
+  protected resolveReferences(intrinsic: RefIntrinsic | GetAttIntrinsic) {
+    const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+
+    const { logicalId, fn } = intrinsic;
+    const c = this.context.referenceable(logicalId);
+
+    if (!c) {
+      throw new Error(
+        `Fn::${capitalize(fn)}: unknown identifier: ${logicalId}`
+      );
+    }
+
+    if (fn === 'getAtt') {
+      return this.evaluate(intrinsic);
+    }
+
+    if (!c.primaryValue) {
+      return this.ref(logicalId);
+    }
+
+    return c.primaryValue;
+  }
+
   protected ref(logicalId: string) {
     const c = this.context.referenceable(logicalId);
     if (!c) {
       throw new Error(`Ref: unknown identifier: ${logicalId}`);
     }
 
-    if (!(c.primaryValue instanceof Construct)) {
-      return c.primaryValue;
+    if (
+      c.primaryValue instanceof Construct &&
+      !CfnElement.isCfnElement(c.primaryValue)
+    ) {
+      return cdk.Fn.ref(
+        this.context.stack.getLogicalId(
+          c.primaryValue.node.defaultChild as cdk.CfnElement
+        )
+      );
     }
 
-    switch (this.currentResource?.type) {
-      case 'resource':
-        return cdk.Fn.ref(
-          this.context.stack.getLogicalId(
-            c.primaryValue.node.defaultChild as cdk.CfnElement
-          )
-        );
-      case 'construct':
-      default:
-        return c.primaryValue;
-    }
+    // This covers CloudFormation Resources, Parameters and Pseudo Parameters
+    return cdk.Fn.ref(logicalId);
   }
 
   protected fnSelect(index: number, elements: unknown[]) {
