@@ -1,6 +1,13 @@
 import chalk from 'chalk';
+import { ClassType } from 'jsii-reflect';
 import * as jsiiReflect from 'jsii-reflect';
-import { SchemaContext, schemaForTypeReference } from './jsii2schema';
+import {
+  enumLikeClassMethods,
+  enumLikeClassProperties,
+  SchemaContext,
+  schemaForEnumLikeClass,
+  schemaForTypeReference,
+} from './jsii2schema';
 
 /* eslint-disable no-console */
 
@@ -102,12 +109,19 @@ export function renderFullSchema(
   const ctx = SchemaContext.root(output.definitions);
 
   for (const deco of deconstructs) {
-    const resource = schemaForResource(deco, ctx);
-    if (resource) {
-      output.properties.Resources.patternProperties[
-        '^[a-zA-Z0-9]+$'
-      ].anyOf.push(resource);
-    }
+    addResource(schemaForResource(deco, ctx));
+  }
+
+  const enumLikeClasses = typeSystem.classes.filter(
+    (c: ClassType) =>
+      enumLikeClassProperties(c).length > 0 ||
+      enumLikeClassMethods(c).length > 0
+  );
+
+  for (const type of enumLikeClasses) {
+    addResource(
+      ctx.define(type.spec.fqn, () => schemaForEnumLikeClass(type, ctx))
+    );
   }
 
   output.properties.$schema = {
@@ -116,6 +130,14 @@ export function renderFullSchema(
 
   if (options.warnings) {
     printWarnings(ctx);
+  }
+
+  function addResource(resource?: { $ref: string }) {
+    if (resource) {
+      output.properties.Resources.patternProperties[
+        '^[a-zA-Z0-9]+$'
+      ].anyOf.push(resource);
+    }
   }
 
   return output;
@@ -156,6 +178,9 @@ export function schemaForResource(
       additionalProperties: false,
       properties: {
         Properties: schemaForProps(construct.propsTypeRef, ctx),
+        Call: {
+          type: 'object',
+        },
         Type: {
           enum: [construct.constructClass.fqn],
           type: 'string',

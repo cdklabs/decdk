@@ -103,10 +103,29 @@ test('schemaForInterface: Behavioral Interface Implementation Factories', async 
     'fixture.FeatureFactory': {
       anyOf: [
         {
+          // inline static method call
           additionalProperties: false,
           properties: {
             'fixture.FeatureFactory.baseFeature': {
               $ref: '#/definitions/fixture.FeatureFactory.baseFeature',
+            },
+          },
+          type: 'object',
+        },
+        {
+          // top-level declaration using a static method call
+          additionalProperties: false,
+          properties: {
+            Call: {
+              properties: {
+                'fixture.FeatureFactory.baseFeature': {
+                  $ref: '#/definitions/fixture.FeatureFactory.baseFeature',
+                },
+              },
+              type: 'object',
+            },
+            Type: {
+              type: 'string',
             },
           },
           type: 'object',

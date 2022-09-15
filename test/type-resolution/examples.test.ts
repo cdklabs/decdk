@@ -1,6 +1,6 @@
 import * as reflect from 'jsii-reflect';
 import { readTemplate } from '../../src';
-import { resolveResourceLike } from '../../src/type-resolution';
+import { TypedTemplate } from '../../src/type-resolution/template';
 import { testExamples, Testing } from '../util';
 
 let typeSystem: reflect.TypeSystem;
@@ -11,11 +11,7 @@ beforeAll(async () => {
 testExamples(async (example) => {
   const template = await readTemplate(example.path);
 
-  const typedTemplate = template
-    .resourceGraph()
-    .map((logicalId, resource) =>
-      resolveResourceLike(resource, logicalId, typeSystem)
-    );
+  const typedTemplate = new TypedTemplate(template, { typeSystem });
 
   expect(template.template).toBeValidTemplate();
   expect(typedTemplate).toMatchSnapshot();

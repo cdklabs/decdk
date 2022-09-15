@@ -1,0 +1,29 @@
+{
+  "$schema": "../cdk.schema.json",
+  "Resources": {
+    "SourceBucket": {
+      "Type": "aws-cdk-lib.aws_s3.Bucket"
+    },
+    "BusinessLogic": {
+      "Type": "aws-cdk-lib.aws_lambda.Code",
+      "Call": {
+        "aws-cdk-lib.aws_lambda.Code.fromBucket": {
+          "bucket": {
+            "Ref": "SourceBucket"
+          },
+          "key": "foo-bar"
+        }
+      }
+    },
+    "MyFunction": {
+      "Type": "aws-cdk-lib.aws_lambda.Function",
+      "Properties": {
+        "handler": "index.handler",
+        "runtime": "NODEJS_14_X",
+        "code": {
+          "Ref": "BusinessLogic"
+        }
+      }
+    }
+  }
+}

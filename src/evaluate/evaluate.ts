@@ -124,6 +124,12 @@ export class Evaluator {
         return ev(x.value);
       case 'void':
         return;
+      case 'lazyResource':
+        return this.invoke(
+          x.call.fqn,
+          x.call.method,
+          this.evaluateArray(x.call.args.array)
+        );
       case 'construct':
       case 'resource':
         return this.initializer(x.fqn, [
@@ -336,7 +342,7 @@ export class Evaluator {
   }
 
   protected applyDependsOn(from: IConstruct, dependencies: string[] = []) {
-    from.node.addDependency(
+    from.node?.addDependency(
       ...dependencies.map((to) => this.context.stack.node.findChild(to))
     );
   }

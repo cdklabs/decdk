@@ -1,7 +1,8 @@
 import * as reflect from 'jsii-reflect';
 import { Template } from '../../src/parser/template';
-import { resolveResourceLike } from '../../src/type-resolution';
 import { StructExpression } from '../../src/type-resolution/struct';
+import { TypedTemplate } from '../../src/type-resolution/template';
+import { getCdkConstruct } from '../template';
 import { Testing } from '../util';
 
 let typeSystem: reflect.TypeSystem;
@@ -29,14 +30,10 @@ test('Static Methods are resolved correctly', async () => {
     },
   });
 
-  const typedTemplate = template
-    .resourceGraph()
-    .map((logicalId, resource) =>
-      resolveResourceLike(resource, logicalId, typeSystem)
-    );
+  const typedTemplate = new TypedTemplate(template, { typeSystem });
 
   // THEN
-  const myLambda = typedTemplate.get('MyLambda');
+  const myLambda = getCdkConstruct(typedTemplate, 'MyLambda');
   expect(myLambda.type).toBe('construct');
   expect(myLambda.props?.type).toBe('struct');
   expect((myLambda.props as StructExpression)?.fields).toHaveProperty(
@@ -80,14 +77,10 @@ test('Can provide implementation via static method', async () => {
     },
   });
 
-  const typedTemplate = template
-    .resourceGraph()
-    .map((logicalId, resource) =>
-      resolveResourceLike(resource, logicalId, typeSystem)
-    );
+  const typedTemplate = new TypedTemplate(template, { typeSystem });
 
   // THEN
-  const myLambda = typedTemplate.get('MyFleet');
+  const myLambda = getCdkConstruct(typedTemplate, 'MyFleet');
   expect((myLambda.props as StructExpression)?.fields).toHaveProperty(
     'machineImage',
     expect.objectContaining({
