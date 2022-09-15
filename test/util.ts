@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { join } from 'path';
 import * as cdk from 'aws-cdk-lib';
+import { DefaultStackSynthesizer } from 'aws-cdk-lib';
 import { Template as AssertionTemplate } from 'aws-cdk-lib/assertions';
 import * as reflect from 'jsii-reflect';
 import * as jsonschema from 'jsonschema';
@@ -76,11 +77,16 @@ export class Testing {
     const stackName = 'Test';
     const typeSystem = await obtainTypeSystem();
 
-    const app = new cdk.App();
+    const app = new cdk.App({
+      analyticsReporting: false,
+    });
 
     const stack = new DeclarativeStack(app, stackName, {
       template,
       typeSystem,
+      synthesizer: new DefaultStackSynthesizer({
+        generateBootstrapVersionRule: false,
+      }),
     });
 
     return { app, stack };
