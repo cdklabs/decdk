@@ -37,13 +37,16 @@ TypedTemplate {
               "value": "GET",
             },
             "resource": Object {
-              "attribute": Object {
-                "type": "string",
-                "value": "root",
+              "reference": Object {
+                "attribute": Object {
+                  "type": "string",
+                  "value": "root",
+                },
+                "fn": "getAtt",
+                "logicalId": "MyApi",
+                "type": "intrinsic",
               },
-              "fn": "getAtt",
-              "logicalId": "MyApi",
-              "type": "intrinsic",
+              "type": "resolve-reference",
             },
           },
           "type": "struct",
@@ -108,9 +111,12 @@ TypedTemplate {
         "props": Object {
           "fields": Object {
             "handler": Object {
-              "fn": "ref",
-              "logicalId": "HelloLambda",
-              "type": "intrinsic",
+              "reference": Object {
+                "fn": "ref",
+                "logicalId": "HelloLambda",
+                "type": "intrinsic",
+              },
+              "type": "resolve-reference",
             },
           },
           "type": "struct",
@@ -313,9 +319,12 @@ TypedTemplate {
         "props": Object {
           "fields": Object {
             "vpc": Object {
-              "fn": "ref",
-              "logicalId": "VPC",
-              "type": "intrinsic",
+              "reference": Object {
+                "fn": "ref",
+                "logicalId": "VPC",
+                "type": "intrinsic",
+              },
+              "type": "resolve-reference",
             },
           },
           "type": "struct",
@@ -359,9 +368,12 @@ TypedTemplate {
               "value": 1024,
             },
             "taskDefinition": Object {
-              "fn": "ref",
-              "logicalId": "MyTaskDef",
-              "type": "intrinsic",
+              "reference": Object {
+                "fn": "ref",
+                "logicalId": "MyTaskDef",
+                "type": "intrinsic",
+              },
+              "type": "resolve-reference",
             },
           },
           "type": "struct",
@@ -416,14 +428,20 @@ TypedTemplate {
         "props": Object {
           "fields": Object {
             "cluster": Object {
-              "fn": "ref",
-              "logicalId": "Cluster",
-              "type": "intrinsic",
+              "reference": Object {
+                "fn": "ref",
+                "logicalId": "Cluster",
+                "type": "intrinsic",
+              },
+              "type": "resolve-reference",
             },
             "taskDefinition": Object {
-              "fn": "ref",
-              "logicalId": "MyTaskDef",
-              "type": "intrinsic",
+              "reference": Object {
+                "fn": "ref",
+                "logicalId": "MyTaskDef",
+                "type": "intrinsic",
+              },
+              "type": "resolve-reference",
             },
           },
           "type": "struct",
@@ -751,9 +769,12 @@ TypedTemplate {
               "type": "staticMethodCall",
             },
             "vpc": Object {
-              "fn": "ref",
-              "logicalId": "MyVpc",
-              "type": "intrinsic",
+              "reference": Object {
+                "fn": "ref",
+                "logicalId": "MyVpc",
+                "type": "intrinsic",
+              },
+              "type": "resolve-reference",
             },
           },
           "type": "struct",
@@ -975,9 +996,12 @@ TypedTemplate {
                   "args": Object {
                     "array": Array [
                       Object {
-                        "fn": "ref",
-                        "logicalId": "Table",
-                        "type": "intrinsic",
+                        "reference": Object {
+                          "fn": "ref",
+                          "logicalId": "Table",
+                          "type": "intrinsic",
+                        },
+                        "type": "resolve-reference",
                       },
                       Object {
                         "fields": Object {
@@ -1045,9 +1069,12 @@ TypedTemplate {
                   "args": Object {
                     "array": Array [
                       Object {
-                        "fn": "ref",
-                        "logicalId": "MyTopic",
-                        "type": "intrinsic",
+                        "reference": Object {
+                          "fn": "ref",
+                          "logicalId": "MyTopic",
+                          "type": "intrinsic",
+                        },
+                        "type": "resolve-reference",
                       },
                       Object {
                         "fields": Object {},
@@ -1462,9 +1489,12 @@ TypedTemplate {
             "layers": Object {
               "array": Array [
                 Object {
-                  "fn": "ref",
-                  "logicalId": "AwsCliLayer",
-                  "type": "intrinsic",
+                  "reference": Object {
+                    "fn": "ref",
+                    "logicalId": "AwsCliLayer",
+                    "type": "intrinsic",
+                  },
+                  "type": "resolve-reference",
                 },
               ],
               "type": "array",
@@ -1633,9 +1663,12 @@ TypedTemplate {
               "args": Object {
                 "array": Array [
                   Object {
-                    "fn": "ref",
-                    "logicalId": "MyBucket",
-                    "type": "intrinsic",
+                    "reference": Object {
+                      "fn": "ref",
+                      "logicalId": "MyBucket",
+                      "type": "intrinsic",
+                    },
+                    "type": "resolve-reference",
                   },
                   Object {
                     "type": "string",
@@ -1685,11 +1718,7 @@ TypedTemplate {
                             "Resource": Object {
                               "array": Array [
                                 Object {
-                                  "attribute": Object {
-                                    "type": "string",
-                                    "value": "bucketArn",
-                                  },
-                                  "fn": "getAtt",
+                                  "fn": "ref",
                                   "logicalId": "MyBucket",
                                   "type": "intrinsic",
                                 },
@@ -1822,11 +1851,7 @@ TypedTemplate {
                           "Resource": Object {
                             "array": Array [
                               Object {
-                                "attribute": Object {
-                                  "type": "string",
-                                  "value": "bucketArn",
-                                },
-                                "fn": "getAtt",
+                                "fn": "ref",
                                 "logicalId": "MyBucket",
                                 "type": "intrinsic",
                               },
@@ -1922,7 +1947,7 @@ TypedTemplate {
                     "Effect": "Allow",
                     "Resource": Array [
                       Object {
-                        "Fn::GetAtt": "MyBucket.bucketArn",
+                        "Ref": "MyBucket",
                       },
                       Object {
                         "Fn::Join": Array [
@@ -2159,9 +2184,12 @@ TypedTemplate {
                   "args": Object {
                     "array": Array [
                       Object {
-                        "fn": "ref",
-                        "logicalId": "Topic",
-                        "type": "intrinsic",
+                        "reference": Object {
+                          "fn": "ref",
+                          "logicalId": "Topic",
+                          "type": "intrinsic",
+                        },
+                        "type": "resolve-reference",
                       },
                       Object {
                         "fields": Object {},
@@ -2366,9 +2394,12 @@ TypedTemplate {
         "props": Object {
           "fields": Object {
             "encryptionKey": Object {
-              "fn": "ref",
-              "logicalId": "Key",
-              "type": "intrinsic",
+              "reference": Object {
+                "fn": "ref",
+                "logicalId": "Key",
+                "type": "intrinsic",
+              },
+              "type": "resolve-reference",
             },
           },
           "type": "struct",
@@ -2428,9 +2459,12 @@ TypedTemplate {
                                     "type": "staticMethodCall",
                                   },
                                   "repository": Object {
-                                    "fn": "ref",
-                                    "logicalId": "Repo",
-                                    "type": "intrinsic",
+                                    "reference": Object {
+                                      "fn": "ref",
+                                      "logicalId": "Repo",
+                                      "type": "intrinsic",
+                                    },
+                                    "type": "resolve-reference",
                                   },
                                 },
                                 "type": "struct",
@@ -2501,9 +2535,12 @@ TypedTemplate {
                                     "type": "array",
                                   },
                                   "project": Object {
-                                    "fn": "ref",
-                                    "logicalId": "BuildProject",
-                                    "type": "intrinsic",
+                                    "reference": Object {
+                                      "fn": "ref",
+                                      "logicalId": "BuildProject",
+                                      "type": "intrinsic",
+                                    },
+                                    "type": "resolve-reference",
                                   },
                                 },
                                 "type": "struct",
@@ -3262,9 +3299,12 @@ TypedTemplate {
           "args": Object {
             "array": Array [
               Object {
-                "fn": "ref",
-                "logicalId": "SourceBucket",
-                "type": "intrinsic",
+                "reference": Object {
+                  "fn": "ref",
+                  "logicalId": "SourceBucket",
+                  "type": "intrinsic",
+                },
+                "type": "resolve-reference",
               },
               Object {
                 "type": "string",
@@ -3298,9 +3338,12 @@ TypedTemplate {
         "props": Object {
           "fields": Object {
             "code": Object {
-              "fn": "ref",
-              "logicalId": "BusinessLogic",
-              "type": "intrinsic",
+              "reference": Object {
+                "fn": "ref",
+                "logicalId": "BusinessLogic",
+                "type": "intrinsic",
+              },
+              "type": "resolve-reference",
             },
             "handler": Object {
               "type": "string",

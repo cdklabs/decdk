@@ -19,7 +19,7 @@ Resources:
                 - s3:GetObject*
                 - s3:PutObject*
               Resource:
-                - { Fn::GetAtt: MyBucket.bucketArn }
+                - { Ref: MyBucket }
                 - { Fn::Join: ['', [{ Fn::GetAtt: MyBucket.bucketArn }, '/*']] }
 
   MyBucket:

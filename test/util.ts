@@ -195,6 +195,13 @@ export function matchFnRef(logicalId: string) {
   return { type: 'intrinsic', fn: 'ref', logicalId };
 }
 
+export function matchResolveFnRef(logicalId: string) {
+  return {
+    type: 'resolve-reference',
+    reference: { type: 'intrinsic', fn: 'ref', logicalId },
+  };
+}
+
 export function matchFnGetAtt(logicalId: string, attribute?: object) {
   return expect.objectContaining({
     type: 'intrinsic',

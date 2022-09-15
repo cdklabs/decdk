@@ -1,7 +1,7 @@
 import * as reflect from 'jsii-reflect';
 import { Template } from '../../src/parser/template';
 import { TypedTemplate } from '../../src/type-resolution/template';
-import { matchConstruct, Testing } from '../util';
+import { matchConstruct, matchResolveFnRef, Testing } from '../util';
 
 let typeSystem: reflect.TypeSystem;
 
@@ -47,11 +47,7 @@ test('Constructs can be referenced', async () => {
   const myApi = typedTemplate.resource('MyApi');
   expect(myApi).toEqual(
     matchConstruct({
-      handler: expect.objectContaining({
-        type: 'intrinsic',
-        fn: 'ref',
-        logicalId: 'MyLambda',
-      }),
+      handler: matchResolveFnRef('MyLambda'),
     })
   );
   expect(template.template).toBeValidTemplate();
