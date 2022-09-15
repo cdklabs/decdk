@@ -8,7 +8,7 @@ import {
 import { isExpressionShaped, TypedTemplateExpression } from './expression';
 import { resolveExpressionType } from './resolve';
 
-export type ResourceLike = CfnResource | CdkConstruct | LazyCdkConstruct;
+export type ResourceLike = CfnResource | CdkConstruct | LazyResource;
 
 interface BaseConstruct {
   readonly logicalId: string;
@@ -28,8 +28,8 @@ export interface CdkConstruct extends BaseConstruct {
   readonly overrides: any;
 }
 
-export interface LazyCdkConstruct extends BaseConstruct {
-  readonly type: 'lazy-construct';
+export interface LazyResource extends BaseConstruct {
+  readonly type: 'lazyResource';
   readonly call: StaticMethodCallExpression;
   readonly overrides: any;
 }
@@ -59,7 +59,7 @@ export function resolveResourceLike(
   if (Object.keys(resource.call.fields).length > 0) {
     // @todo type inference
     return {
-      type: 'lazy-construct',
+      type: 'lazyResource',
       logicalId,
       namespace: type.namespace,
       fqn: type.fqn,

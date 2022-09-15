@@ -1,30 +1,215 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`apigw.json 1`] = `
-DependencyGraph {
-  "_dependencies": Map {
-    "HelloLambda" => Set {},
-    "MyApi" => Set {
+TypedTemplate {
+  "conditions": Map {},
+  "mappings": Map {},
+  "outputs": Map {},
+  "parameters": TemplateParameters {
+    "parameters": Object {},
+  },
+  "resources": DependencyGraph {
+    "_dependencies": Map {
+      "HelloLambda" => Set {},
+      "MyApi" => Set {
+        "HelloLambda",
+      },
+      "GetRoot" => Set {
+        "MyApi",
+      },
+    },
+    "keys": Set {
       "HelloLambda",
-    },
-    "GetRoot" => Set {
       "MyApi",
+      "GetRoot",
+    },
+    "nodes": Object {
+      "GetRoot": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_apigateway.Method",
+        "logicalId": "GetRoot",
+        "namespace": "aws_apigateway",
+        "overrides": Array [],
+        "props": Object {
+          "fields": Object {
+            "httpMethod": Object {
+              "type": "string",
+              "value": "GET",
+            },
+            "resource": Object {
+              "attribute": Object {
+                "type": "string",
+                "value": "root",
+              },
+              "fn": "getAtt",
+              "logicalId": "MyApi",
+              "type": "intrinsic",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "construct",
+      },
+      "HelloLambda": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_lambda.Function",
+        "logicalId": "HelloLambda",
+        "namespace": "aws_lambda",
+        "overrides": Array [],
+        "props": Object {
+          "fields": Object {
+            "code": Object {
+              "args": Object {
+                "array": Array [
+                  Object {
+                    "type": "string",
+                    "value": "examples/lambda-handler",
+                  },
+                  Object {
+                    "fields": Object {},
+                    "type": "struct",
+                  },
+                ],
+                "type": "array",
+              },
+              "fqn": "aws-cdk-lib.aws_lambda.Code",
+              "method": "fromAsset",
+              "namespace": "aws_lambda",
+              "type": "staticMethodCall",
+            },
+            "handler": Object {
+              "type": "string",
+              "value": "index.handler",
+            },
+            "runtime": Object {
+              "fqn": "aws-cdk-lib.aws_lambda.Runtime",
+              "namespace": "aws_lambda",
+              "property": "PYTHON_3_6",
+              "type": "staticProperty",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [
+          Object {
+            "key": "category",
+            "value": "ecommerce",
+          },
+        ],
+        "type": "construct",
+      },
+      "MyApi": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_apigateway.LambdaRestApi",
+        "logicalId": "MyApi",
+        "namespace": "aws_apigateway",
+        "overrides": Array [],
+        "props": Object {
+          "fields": Object {
+            "handler": Object {
+              "fn": "ref",
+              "logicalId": "HelloLambda",
+              "type": "intrinsic",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "construct",
+      },
     },
   },
-  "keys": Set {
-    "HelloLambda",
-    "MyApi",
-    "GetRoot",
-  },
-  "nodes": Object {
-    "GetRoot": Object {
-      "dependsOn": Array [],
-      "fqn": "aws-cdk-lib.aws_apigateway.Method",
-      "logicalId": "GetRoot",
-      "namespace": "aws_apigateway",
-      "overrides": Array [],
-      "props": Object {
-        "fields": Object {
+  "template": Template {
+    "conditions": Map {},
+    "mappings": Map {},
+    "outputs": Map {},
+    "parameters": TemplateParameters {
+      "parameters": Object {},
+    },
+    "resources": Map {
+      "HelloLambda" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {},
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "overrides": Array [],
+        "properties": Object {
+          "code": Object {
+            "fields": Object {
+              "aws-cdk-lib.aws_lambda.Code.fromAsset": Object {
+                "fields": Object {
+                  "path": Object {
+                    "type": "string",
+                    "value": "examples/lambda-handler",
+                  },
+                },
+                "type": "object",
+              },
+            },
+            "type": "object",
+          },
+          "handler": Object {
+            "type": "string",
+            "value": "index.handler",
+          },
+          "runtime": Object {
+            "type": "string",
+            "value": "PYTHON_3_6",
+          },
+        },
+        "tags": Array [
+          Object {
+            "key": "category",
+            "value": "ecommerce",
+          },
+        ],
+        "type": "aws-cdk-lib.aws_lambda.Function",
+        "updateReplacePolicy": "Delete",
+      },
+      "MyApi" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "HelloLambda",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "overrides": Array [],
+        "properties": Object {
+          "handler": Object {
+            "fn": "ref",
+            "logicalId": "HelloLambda",
+            "type": "intrinsic",
+          },
+        },
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_apigateway.LambdaRestApi",
+        "updateReplacePolicy": "Delete",
+      },
+      "GetRoot" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "MyApi",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "overrides": Array [],
+        "properties": Object {
           "httpMethod": Object {
             "type": "string",
             "value": "GET",
@@ -39,184 +224,301 @@ DependencyGraph {
             "type": "intrinsic",
           },
         },
-        "type": "struct",
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_apigateway.Method",
+        "updateReplacePolicy": "Delete",
       },
-      "tags": Array [],
-      "type": "construct",
     },
-    "HelloLambda": Object {
-      "dependsOn": Array [],
-      "fqn": "aws-cdk-lib.aws_lambda.Function",
-      "logicalId": "HelloLambda",
-      "namespace": "aws_lambda",
-      "overrides": Array [],
-      "props": Object {
-        "fields": Object {
-          "code": Object {
-            "args": Object {
-              "array": Array [
-                Object {
-                  "type": "string",
-                  "value": "examples/lambda-handler",
-                },
-                Object {
-                  "fields": Object {},
-                  "type": "struct",
-                },
-              ],
-              "type": "array",
+    "template": Object {
+      "$schema": "../cdk.schema.json",
+      "Resources": Object {
+        "GetRoot": Object {
+          "Properties": Object {
+            "httpMethod": "GET",
+            "resource": Object {
+              "Fn::GetAtt": "MyApi.root",
             },
-            "fqn": "aws-cdk-lib.aws_lambda.Code",
-            "method": "fromAsset",
-            "namespace": "aws_lambda",
-            "type": "staticMethodCall",
           },
-          "handler": Object {
-            "type": "string",
-            "value": "index.handler",
-          },
-          "runtime": Object {
-            "fqn": "aws-cdk-lib.aws_lambda.Runtime",
-            "namespace": "aws_lambda",
-            "property": "PYTHON_3_6",
-            "type": "staticProperty",
-          },
+          "Type": "aws-cdk-lib.aws_apigateway.Method",
         },
-        "type": "struct",
+        "HelloLambda": Object {
+          "Properties": Object {
+            "code": Object {
+              "aws-cdk-lib.aws_lambda.Code.fromAsset": Object {
+                "path": "examples/lambda-handler",
+              },
+            },
+            "handler": "index.handler",
+            "runtime": "PYTHON_3_6",
+          },
+          "Tags": Array [
+            Object {
+              "Key": "category",
+              "Value": "ecommerce",
+            },
+          ],
+          "Type": "aws-cdk-lib.aws_lambda.Function",
+        },
+        "MyApi": Object {
+          "Properties": Object {
+            "handler": Object {
+              "Ref": "HelloLambda",
+            },
+          },
+          "Type": "aws-cdk-lib.aws_apigateway.LambdaRestApi",
+        },
       },
-      "tags": Array [
-        Object {
-          "key": "category",
-          "value": "ecommerce",
-        },
-      ],
-      "type": "construct",
-    },
-    "MyApi": Object {
-      "dependsOn": Array [],
-      "fqn": "aws-cdk-lib.aws_apigateway.LambdaRestApi",
-      "logicalId": "MyApi",
-      "namespace": "aws_apigateway",
-      "overrides": Array [],
-      "props": Object {
-        "fields": Object {
-          "handler": Object {
-            "fn": "ref",
-            "logicalId": "HelloLambda",
-            "type": "intrinsic",
-          },
-        },
-        "type": "struct",
-      },
-      "tags": Array [],
-      "type": "construct",
     },
   },
 }
 `;
 
 exports[`ecs.json 1`] = `
-DependencyGraph {
-  "_dependencies": Map {
-    "VPC" => Set {},
-    "Cluster" => Set {
+TypedTemplate {
+  "conditions": Map {},
+  "mappings": Map {},
+  "outputs": Map {},
+  "parameters": TemplateParameters {
+    "parameters": Object {},
+  },
+  "resources": DependencyGraph {
+    "_dependencies": Map {
+      "VPC" => Set {},
+      "Cluster" => Set {
+        "VPC",
+      },
+      "MyTaskDef" => Set {},
+      "ContainerDef" => Set {
+        "MyTaskDef",
+      },
+      "Service" => Set {
+        "Cluster",
+        "MyTaskDef",
+      },
+    },
+    "keys": Set {
       "VPC",
-    },
-    "MyTaskDef" => Set {},
-    "ContainerDef" => Set {
       "MyTaskDef",
-    },
-    "Service" => Set {
       "Cluster",
-      "MyTaskDef",
+      "ContainerDef",
+      "Service",
+    },
+    "nodes": Object {
+      "Cluster": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_ecs.Cluster",
+        "logicalId": "Cluster",
+        "namespace": "aws_ecs",
+        "overrides": Array [],
+        "props": Object {
+          "fields": Object {
+            "vpc": Object {
+              "fn": "ref",
+              "logicalId": "VPC",
+              "type": "intrinsic",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "construct",
+      },
+      "ContainerDef": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_ecs.ContainerDefinition",
+        "logicalId": "ContainerDef",
+        "namespace": "aws_ecs",
+        "overrides": Array [],
+        "props": Object {
+          "fields": Object {
+            "essential": Object {
+              "type": "boolean",
+              "value": true,
+            },
+            "image": Object {
+              "args": Object {
+                "array": Array [
+                  Object {
+                    "type": "string",
+                    "value": "redis",
+                  },
+                  Object {
+                    "fields": Object {},
+                    "type": "struct",
+                  },
+                ],
+                "type": "array",
+              },
+              "fqn": "aws-cdk-lib.aws_ecs.ContainerImage",
+              "method": "fromRegistry",
+              "namespace": "aws_ecs",
+              "type": "staticMethodCall",
+            },
+            "memoryLimitMiB": Object {
+              "type": "number",
+              "value": 1024,
+            },
+            "taskDefinition": Object {
+              "fn": "ref",
+              "logicalId": "MyTaskDef",
+              "type": "intrinsic",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "construct",
+      },
+      "MyTaskDef": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_ecs.TaskDefinition",
+        "logicalId": "MyTaskDef",
+        "namespace": "aws_ecs",
+        "overrides": Array [],
+        "props": Object {
+          "fields": Object {
+            "compatibility": Object {
+              "choice": "FARGATE",
+              "fqn": "aws-cdk-lib.aws_ecs.Compatibility",
+              "namespace": "aws_ecs",
+              "type": "enum",
+            },
+            "cpu": Object {
+              "type": "string",
+              "value": "1024",
+            },
+            "family": Object {
+              "type": "string",
+              "value": "redis",
+            },
+            "memoryMiB": Object {
+              "type": "string",
+              "value": "1GB",
+            },
+            "networkMode": Object {
+              "choice": "AWS_VPC",
+              "fqn": "aws-cdk-lib.aws_ecs.NetworkMode",
+              "namespace": "aws_ecs",
+              "type": "enum",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "construct",
+      },
+      "Service": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_ecs.FargateService",
+        "logicalId": "Service",
+        "namespace": "aws_ecs",
+        "overrides": Array [],
+        "props": Object {
+          "fields": Object {
+            "cluster": Object {
+              "fn": "ref",
+              "logicalId": "Cluster",
+              "type": "intrinsic",
+            },
+            "taskDefinition": Object {
+              "fn": "ref",
+              "logicalId": "MyTaskDef",
+              "type": "intrinsic",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "construct",
+      },
+      "VPC": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_ec2.Vpc",
+        "logicalId": "VPC",
+        "namespace": "aws_ec2",
+        "overrides": Array [],
+        "props": Object {
+          "fields": Object {
+            "maxAzs": Object {
+              "type": "number",
+              "value": 1,
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "construct",
+      },
     },
   },
-  "keys": Set {
-    "VPC",
-    "MyTaskDef",
-    "Cluster",
-    "ContainerDef",
-    "Service",
-  },
-  "nodes": Object {
-    "Cluster": Object {
-      "dependsOn": Array [],
-      "fqn": "aws-cdk-lib.aws_ecs.Cluster",
-      "logicalId": "Cluster",
-      "namespace": "aws_ecs",
-      "overrides": Array [],
-      "props": Object {
-        "fields": Object {
+  "template": Template {
+    "conditions": Map {},
+    "mappings": Map {},
+    "outputs": Map {},
+    "parameters": TemplateParameters {
+      "parameters": Object {},
+    },
+    "resources": Map {
+      "VPC" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {},
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "overrides": Array [],
+        "properties": Object {
+          "maxAzs": Object {
+            "type": "number",
+            "value": 1,
+          },
+        },
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_ec2.Vpc",
+        "updateReplacePolicy": "Delete",
+      },
+      "Cluster" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "VPC",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "overrides": Array [],
+        "properties": Object {
           "vpc": Object {
             "fn": "ref",
             "logicalId": "VPC",
             "type": "intrinsic",
           },
         },
-        "type": "struct",
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_ecs.Cluster",
+        "updateReplacePolicy": "Delete",
       },
-      "tags": Array [],
-      "type": "construct",
-    },
-    "ContainerDef": Object {
-      "dependsOn": Array [],
-      "fqn": "aws-cdk-lib.aws_ecs.ContainerDefinition",
-      "logicalId": "ContainerDef",
-      "namespace": "aws_ecs",
-      "overrides": Array [],
-      "props": Object {
-        "fields": Object {
-          "essential": Object {
-            "type": "boolean",
-            "value": true,
-          },
-          "image": Object {
-            "args": Object {
-              "array": Array [
-                Object {
-                  "type": "string",
-                  "value": "redis",
-                },
-                Object {
-                  "fields": Object {},
-                  "type": "struct",
-                },
-              ],
-              "type": "array",
-            },
-            "fqn": "aws-cdk-lib.aws_ecs.ContainerImage",
-            "method": "fromRegistry",
-            "namespace": "aws_ecs",
-            "type": "staticMethodCall",
-          },
-          "memoryLimitMiB": Object {
-            "type": "number",
-            "value": 1024,
-          },
-          "taskDefinition": Object {
-            "fn": "ref",
-            "logicalId": "MyTaskDef",
-            "type": "intrinsic",
-          },
+      "MyTaskDef" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
         },
-        "type": "struct",
-      },
-      "tags": Array [],
-      "type": "construct",
-    },
-    "MyTaskDef": Object {
-      "dependsOn": Array [],
-      "fqn": "aws-cdk-lib.aws_ecs.TaskDefinition",
-      "logicalId": "MyTaskDef",
-      "namespace": "aws_ecs",
-      "overrides": Array [],
-      "props": Object {
-        "fields": Object {
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {},
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "overrides": Array [],
+        "properties": Object {
           "compatibility": Object {
-            "choice": "FARGATE",
-            "fqn": "aws-cdk-lib.aws_ecs.Compatibility",
-            "namespace": "aws_ecs",
-            "type": "enum",
+            "type": "string",
+            "value": "FARGATE",
           },
           "cpu": Object {
             "type": "string",
@@ -231,25 +533,75 @@ DependencyGraph {
             "value": "1GB",
           },
           "networkMode": Object {
-            "choice": "AWS_VPC",
-            "fqn": "aws-cdk-lib.aws_ecs.NetworkMode",
-            "namespace": "aws_ecs",
-            "type": "enum",
+            "type": "string",
+            "value": "AWS_VPC",
           },
         },
-        "type": "struct",
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_ecs.TaskDefinition",
+        "updateReplacePolicy": "Delete",
       },
-      "tags": Array [],
-      "type": "construct",
-    },
-    "Service": Object {
-      "dependsOn": Array [],
-      "fqn": "aws-cdk-lib.aws_ecs.FargateService",
-      "logicalId": "Service",
-      "namespace": "aws_ecs",
-      "overrides": Array [],
-      "props": Object {
-        "fields": Object {
+      "ContainerDef" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "MyTaskDef",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "overrides": Array [],
+        "properties": Object {
+          "essential": Object {
+            "type": "boolean",
+            "value": true,
+          },
+          "image": Object {
+            "fields": Object {
+              "aws-cdk-lib.aws_ecs.ContainerImage.fromRegistry": Object {
+                "fields": Object {
+                  "name": Object {
+                    "type": "string",
+                    "value": "redis",
+                  },
+                },
+                "type": "object",
+              },
+            },
+            "type": "object",
+          },
+          "memoryLimitMiB": Object {
+            "type": "number",
+            "value": 1024,
+          },
+          "taskDefinition": Object {
+            "fn": "ref",
+            "logicalId": "MyTaskDef",
+            "type": "intrinsic",
+          },
+        },
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_ecs.ContainerDefinition",
+        "updateReplacePolicy": "Delete",
+      },
+      "Service" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "Cluster",
+          "MyTaskDef",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "overrides": Array [],
+        "properties": Object {
           "cluster": Object {
             "fn": "ref",
             "logicalId": "Cluster",
@@ -261,98 +613,247 @@ DependencyGraph {
             "type": "intrinsic",
           },
         },
-        "type": "struct",
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_ecs.FargateService",
+        "updateReplacePolicy": "Delete",
       },
-      "tags": Array [],
-      "type": "construct",
     },
-    "VPC": Object {
-      "dependsOn": Array [],
-      "fqn": "aws-cdk-lib.aws_ec2.Vpc",
-      "logicalId": "VPC",
-      "namespace": "aws_ec2",
-      "overrides": Array [],
-      "props": Object {
-        "fields": Object {
-          "maxAzs": Object {
-            "type": "number",
-            "value": 1,
+    "template": Object {
+      "$schema": "../cdk.schema.json",
+      "Resources": Object {
+        "Cluster": Object {
+          "Properties": Object {
+            "vpc": Object {
+              "Ref": "VPC",
+            },
           },
+          "Type": "aws-cdk-lib.aws_ecs.Cluster",
         },
-        "type": "struct",
+        "ContainerDef": Object {
+          "Properties": Object {
+            "essential": true,
+            "image": Object {
+              "aws-cdk-lib.aws_ecs.ContainerImage.fromRegistry": Object {
+                "name": "redis",
+              },
+            },
+            "memoryLimitMiB": 1024,
+            "taskDefinition": Object {
+              "Ref": "MyTaskDef",
+            },
+          },
+          "Type": "aws-cdk-lib.aws_ecs.ContainerDefinition",
+        },
+        "MyTaskDef": Object {
+          "Properties": Object {
+            "compatibility": "FARGATE",
+            "cpu": "1024",
+            "family": "redis",
+            "memoryMiB": "1GB",
+            "networkMode": "AWS_VPC",
+          },
+          "Type": "aws-cdk-lib.aws_ecs.TaskDefinition",
+        },
+        "Service": Object {
+          "Properties": Object {
+            "cluster": Object {
+              "Ref": "Cluster",
+            },
+            "taskDefinition": Object {
+              "Ref": "MyTaskDef",
+            },
+          },
+          "Type": "aws-cdk-lib.aws_ecs.FargateService",
+        },
+        "VPC": Object {
+          "Properties": Object {
+            "maxAzs": 1,
+          },
+          "Type": "aws-cdk-lib.aws_ec2.Vpc",
+        },
       },
-      "tags": Array [],
-      "type": "construct",
     },
   },
 }
 `;
 
 exports[`fleet.json 1`] = `
-DependencyGraph {
-  "_dependencies": Map {
-    "MyVpc" => Set {},
-    "MyFleet" => Set {
+TypedTemplate {
+  "conditions": Map {},
+  "mappings": Map {},
+  "outputs": Map {},
+  "parameters": TemplateParameters {
+    "parameters": Object {},
+  },
+  "resources": DependencyGraph {
+    "_dependencies": Map {
+      "MyVpc" => Set {},
+      "MyFleet" => Set {
+        "MyVpc",
+      },
+    },
+    "keys": Set {
       "MyVpc",
+      "MyFleet",
+    },
+    "nodes": Object {
+      "MyFleet": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_autoscaling.AutoScalingGroup",
+        "logicalId": "MyFleet",
+        "namespace": "aws_autoscaling",
+        "overrides": Array [],
+        "props": Object {
+          "fields": Object {
+            "desiredCapacity": Object {
+              "type": "number",
+              "value": 3,
+            },
+            "instanceType": Object {
+              "args": Object {
+                "array": Array [
+                  Object {
+                    "choice": "T2",
+                    "fqn": "aws-cdk-lib.aws_ec2.InstanceClass",
+                    "namespace": "aws_ec2",
+                    "type": "enum",
+                  },
+                  Object {
+                    "choice": "XLARGE",
+                    "fqn": "aws-cdk-lib.aws_ec2.InstanceSize",
+                    "namespace": "aws_ec2",
+                    "type": "enum",
+                  },
+                ],
+                "type": "array",
+              },
+              "fqn": "aws-cdk-lib.aws_ec2.InstanceType",
+              "method": "of",
+              "namespace": "aws_ec2",
+              "type": "staticMethodCall",
+            },
+            "machineImage": Object {
+              "args": Object {
+                "array": Array [
+                  Object {
+                    "type": "void",
+                  },
+                  Object {
+                    "fields": Object {},
+                    "type": "struct",
+                  },
+                ],
+                "type": "array",
+              },
+              "fqn": "aws-cdk-lib.aws_ecs.EcsOptimizedImage",
+              "method": "amazonLinux2",
+              "namespace": "aws_ecs",
+              "type": "staticMethodCall",
+            },
+            "vpc": Object {
+              "fn": "ref",
+              "logicalId": "MyVpc",
+              "type": "intrinsic",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "construct",
+      },
+      "MyVpc": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_ec2.Vpc",
+        "logicalId": "MyVpc",
+        "namespace": "aws_ec2",
+        "overrides": Array [],
+        "props": Object {
+          "fields": Object {
+            "maxAzs": Object {
+              "type": "number",
+              "value": 2,
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "construct",
+      },
     },
   },
-  "keys": Set {
-    "MyVpc",
-    "MyFleet",
-  },
-  "nodes": Object {
-    "MyFleet": Object {
-      "dependsOn": Array [],
-      "fqn": "aws-cdk-lib.aws_autoscaling.AutoScalingGroup",
-      "logicalId": "MyFleet",
-      "namespace": "aws_autoscaling",
-      "overrides": Array [],
-      "props": Object {
-        "fields": Object {
+  "template": Template {
+    "conditions": Map {},
+    "mappings": Map {},
+    "outputs": Map {},
+    "parameters": TemplateParameters {
+      "parameters": Object {},
+    },
+    "resources": Map {
+      "MyVpc" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {},
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "overrides": Array [],
+        "properties": Object {
+          "maxAzs": Object {
+            "type": "number",
+            "value": 2,
+          },
+        },
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_ec2.Vpc",
+        "updateReplacePolicy": "Delete",
+      },
+      "MyFleet" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "MyVpc",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "overrides": Array [],
+        "properties": Object {
           "desiredCapacity": Object {
             "type": "number",
             "value": 3,
           },
           "instanceType": Object {
-            "args": Object {
-              "array": Array [
-                Object {
-                  "choice": "T2",
-                  "fqn": "aws-cdk-lib.aws_ec2.InstanceClass",
-                  "namespace": "aws_ec2",
-                  "type": "enum",
+            "fields": Object {
+              "aws-cdk-lib.aws_ec2.InstanceType.of": Object {
+                "fields": Object {
+                  "instanceClass": Object {
+                    "type": "string",
+                    "value": "T2",
+                  },
+                  "instanceSize": Object {
+                    "type": "string",
+                    "value": "XLARGE",
+                  },
                 },
-                Object {
-                  "choice": "XLARGE",
-                  "fqn": "aws-cdk-lib.aws_ec2.InstanceSize",
-                  "namespace": "aws_ec2",
-                  "type": "enum",
-                },
-              ],
-              "type": "array",
+                "type": "object",
+              },
             },
-            "fqn": "aws-cdk-lib.aws_ec2.InstanceType",
-            "method": "of",
-            "namespace": "aws_ec2",
-            "type": "staticMethodCall",
+            "type": "object",
           },
           "machineImage": Object {
-            "args": Object {
-              "array": Array [
-                Object {
-                  "type": "void",
-                },
-                Object {
-                  "fields": Object {},
-                  "type": "struct",
-                },
-              ],
-              "type": "array",
+            "fields": Object {
+              "aws-cdk-lib.aws_ecs.EcsOptimizedImage.amazonLinux2": Object {
+                "fields": Object {},
+                "type": "object",
+              },
             },
-            "fqn": "aws-cdk-lib.aws_ecs.EcsOptimizedImage",
-            "method": "amazonLinux2",
-            "namespace": "aws_ecs",
-            "type": "staticMethodCall",
+            "type": "object",
           },
           "vpc": Object {
             "fn": "ref",
@@ -360,86 +861,371 @@ DependencyGraph {
             "type": "intrinsic",
           },
         },
-        "type": "struct",
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_autoscaling.AutoScalingGroup",
+        "updateReplacePolicy": "Delete",
       },
-      "tags": Array [],
-      "type": "construct",
     },
-    "MyVpc": Object {
-      "dependsOn": Array [],
-      "fqn": "aws-cdk-lib.aws_ec2.Vpc",
-      "logicalId": "MyVpc",
-      "namespace": "aws_ec2",
-      "overrides": Array [],
-      "props": Object {
-        "fields": Object {
-          "maxAzs": Object {
-            "type": "number",
-            "value": 2,
+    "template": Object {
+      "$schema": "../cdk.schema.json",
+      "Resources": Object {
+        "MyFleet": Object {
+          "Properties": Object {
+            "desiredCapacity": 3,
+            "instanceType": Object {
+              "aws-cdk-lib.aws_ec2.InstanceType.of": Object {
+                "instanceClass": "T2",
+                "instanceSize": "XLARGE",
+              },
+            },
+            "machineImage": Object {
+              "aws-cdk-lib.aws_ecs.EcsOptimizedImage.amazonLinux2": Object {},
+            },
+            "vpc": Object {
+              "Ref": "MyVpc",
+            },
           },
+          "Type": "aws-cdk-lib.aws_autoscaling.AutoScalingGroup",
         },
-        "type": "struct",
+        "MyVpc": Object {
+          "Properties": Object {
+            "maxAzs": 2,
+          },
+          "Type": "aws-cdk-lib.aws_ec2.Vpc",
+        },
       },
-      "tags": Array [],
-      "type": "construct",
     },
   },
 }
 `;
 
 exports[`lambda-events.json 1`] = `
-DependencyGraph {
-  "_dependencies": Map {
-    "MyTopic" => Set {},
-    "Table" => Set {},
-    "HelloWorldFunction" => Set {
-      "Table",
-      "MyTopic",
+TypedTemplate {
+  "conditions": Map {},
+  "mappings": Map {},
+  "outputs": Map {},
+  "parameters": TemplateParameters {
+    "parameters": Object {},
+  },
+  "resources": DependencyGraph {
+    "_dependencies": Map {
+      "MyTopic" => Set {},
+      "Table" => Set {},
+      "HelloWorldFunction" => Set {
+        "Table",
+        "MyTopic",
+      },
     },
-  },
-  "keys": Set {
-    "MyTopic",
-    "Table",
-    "HelloWorldFunction",
-  },
-  "nodes": Object {
-    "HelloWorldFunction": Object {
-      "dependsOn": Array [],
-      "fqn": "aws-cdk-lib.aws_lambda.Function",
-      "logicalId": "HelloWorldFunction",
-      "namespace": "aws_lambda",
-      "overrides": Array [
-        Object {
-          "childConstructPath": "ServiceRole",
-          "update": Object {
-            "path": "Properties.Description",
-            "value": Object {
-              "type": "string",
-              "value": "This value has been overridden",
+    "keys": Set {
+      "MyTopic",
+      "Table",
+      "HelloWorldFunction",
+    },
+    "nodes": Object {
+      "HelloWorldFunction": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_lambda.Function",
+        "logicalId": "HelloWorldFunction",
+        "namespace": "aws_lambda",
+        "overrides": Array [
+          Object {
+            "childConstructPath": "ServiceRole",
+            "update": Object {
+              "path": "Properties.Description",
+              "value": Object {
+                "type": "string",
+                "value": "This value has been overridden",
+              },
             },
           },
-        },
-      ],
-      "props": Object {
-        "fields": Object {
-          "code": Object {
-            "args": Object {
+        ],
+        "props": Object {
+          "fields": Object {
+            "code": Object {
+              "args": Object {
+                "array": Array [
+                  Object {
+                    "type": "string",
+                    "value": "examples/lambda-handler",
+                  },
+                  Object {
+                    "fields": Object {},
+                    "type": "struct",
+                  },
+                ],
+                "type": "array",
+              },
+              "fqn": "aws-cdk-lib.aws_lambda.Code",
+              "method": "fromAsset",
+              "namespace": "aws_lambda",
+              "type": "staticMethodCall",
+            },
+            "environment": Object {
+              "fields": Object {
+                "Param": Object {
+                  "type": "string",
+                  "value": "f",
+                },
+              },
+              "type": "object",
+            },
+            "events": Object {
               "array": Array [
                 Object {
-                  "type": "string",
-                  "value": "examples/lambda-handler",
+                  "args": Object {
+                    "array": Array [
+                      Object {
+                        "fn": "ref",
+                        "logicalId": "Table",
+                        "type": "intrinsic",
+                      },
+                      Object {
+                        "fields": Object {
+                          "startingPosition": Object {
+                            "choice": "TRIM_HORIZON",
+                            "fqn": "aws-cdk-lib.aws_lambda.StartingPosition",
+                            "namespace": "aws_lambda",
+                            "type": "enum",
+                          },
+                        },
+                        "type": "struct",
+                      },
+                    ],
+                    "type": "array",
+                  },
+                  "fqn": "aws-cdk-lib.aws_lambda_event_sources.DynamoEventSource",
+                  "namespace": "aws_lambda_event_sources",
+                  "type": "initializer",
                 },
                 Object {
-                  "fields": Object {},
-                  "type": "struct",
+                  "args": Object {
+                    "array": Array [
+                      Object {
+                        "type": "string",
+                        "value": "GET",
+                      },
+                      Object {
+                        "type": "string",
+                        "value": "/hello",
+                      },
+                      Object {
+                        "fields": Object {},
+                        "type": "struct",
+                      },
+                    ],
+                    "type": "array",
+                  },
+                  "fqn": "aws-cdk-lib.aws_lambda_event_sources.ApiEventSource",
+                  "namespace": "aws_lambda_event_sources",
+                  "type": "initializer",
+                },
+                Object {
+                  "args": Object {
+                    "array": Array [
+                      Object {
+                        "type": "string",
+                        "value": "POST",
+                      },
+                      Object {
+                        "type": "string",
+                        "value": "/hello",
+                      },
+                      Object {
+                        "fields": Object {},
+                        "type": "struct",
+                      },
+                    ],
+                    "type": "array",
+                  },
+                  "fqn": "aws-cdk-lib.aws_lambda_event_sources.ApiEventSource",
+                  "namespace": "aws_lambda_event_sources",
+                  "type": "initializer",
+                },
+                Object {
+                  "args": Object {
+                    "array": Array [
+                      Object {
+                        "fn": "ref",
+                        "logicalId": "MyTopic",
+                        "type": "intrinsic",
+                      },
+                      Object {
+                        "fields": Object {},
+                        "type": "struct",
+                      },
+                    ],
+                    "type": "array",
+                  },
+                  "fqn": "aws-cdk-lib.aws_lambda_event_sources.SnsEventSource",
+                  "namespace": "aws_lambda_event_sources",
+                  "type": "initializer",
                 },
               ],
               "type": "array",
             },
-            "fqn": "aws-cdk-lib.aws_lambda.Code",
-            "method": "fromAsset",
-            "namespace": "aws_lambda",
-            "type": "staticMethodCall",
+            "handler": Object {
+              "type": "string",
+              "value": "app.hello_handler",
+            },
+            "runtime": Object {
+              "fqn": "aws-cdk-lib.aws_lambda.Runtime",
+              "namespace": "aws_lambda",
+              "property": "PYTHON_3_6",
+              "type": "staticProperty",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "construct",
+      },
+      "MyTopic": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_sns.Topic",
+        "logicalId": "MyTopic",
+        "namespace": "aws_sns",
+        "overrides": Array [],
+        "props": Object {
+          "fields": Object {},
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "construct",
+      },
+      "Table": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_dynamodb.Table",
+        "logicalId": "Table",
+        "namespace": "aws_dynamodb",
+        "overrides": Array [],
+        "props": Object {
+          "fields": Object {
+            "partitionKey": Object {
+              "fields": Object {
+                "name": Object {
+                  "type": "string",
+                  "value": "ID",
+                },
+                "type": Object {
+                  "choice": "STRING",
+                  "fqn": "aws-cdk-lib.aws_dynamodb.AttributeType",
+                  "namespace": "aws_dynamodb",
+                  "type": "enum",
+                },
+              },
+              "type": "struct",
+            },
+            "stream": Object {
+              "choice": "NEW_AND_OLD_IMAGES",
+              "fqn": "aws-cdk-lib.aws_dynamodb.StreamViewType",
+              "namespace": "aws_dynamodb",
+              "type": "enum",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "construct",
+      },
+    },
+  },
+  "template": Template {
+    "conditions": Map {},
+    "mappings": Map {},
+    "outputs": Map {},
+    "parameters": TemplateParameters {
+      "parameters": Object {},
+    },
+    "resources": Map {
+      "MyTopic" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {},
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "overrides": Array [],
+        "properties": Object {},
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_sns.Topic",
+        "updateReplacePolicy": "Delete",
+      },
+      "Table" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {},
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "overrides": Array [],
+        "properties": Object {
+          "partitionKey": Object {
+            "fields": Object {
+              "name": Object {
+                "type": "string",
+                "value": "ID",
+              },
+              "type": Object {
+                "type": "string",
+                "value": "STRING",
+              },
+            },
+            "type": "object",
+          },
+          "stream": Object {
+            "type": "string",
+            "value": "NEW_AND_OLD_IMAGES",
+          },
+        },
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_dynamodb.Table",
+        "updateReplacePolicy": "Delete",
+      },
+      "HelloWorldFunction" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "Table",
+          "MyTopic",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "overrides": Array [
+          Object {
+            "childConstructPath": "ServiceRole",
+            "update": Object {
+              "path": "Properties.Description",
+              "value": Object {
+                "type": "string",
+                "value": "This value has been overridden",
+              },
+            },
+          },
+        ],
+        "properties": Object {
+          "code": Object {
+            "fields": Object {
+              "aws-cdk-lib.aws_lambda.Code.fromAsset": Object {
+                "fields": Object {
+                  "path": Object {
+                    "type": "string",
+                    "value": "examples/lambda-handler",
+                  },
+                },
+                "type": "object",
+              },
+            },
+            "type": "object",
           },
           "environment": Object {
             "fields": Object {
@@ -453,93 +1239,74 @@ DependencyGraph {
           "events": Object {
             "array": Array [
               Object {
-                "args": Object {
-                  "array": Array [
-                    Object {
-                      "fn": "ref",
-                      "logicalId": "Table",
-                      "type": "intrinsic",
-                    },
-                    Object {
-                      "fields": Object {
-                        "startingPosition": Object {
-                          "choice": "TRIM_HORIZON",
-                          "fqn": "aws-cdk-lib.aws_lambda.StartingPosition",
-                          "namespace": "aws_lambda",
-                          "type": "enum",
-                        },
+                "fields": Object {
+                  "aws-cdk-lib.aws_lambda_event_sources.DynamoEventSource": Object {
+                    "fields": Object {
+                      "startingPosition": Object {
+                        "type": "string",
+                        "value": "TRIM_HORIZON",
                       },
-                      "type": "struct",
+                      "table": Object {
+                        "fn": "ref",
+                        "logicalId": "Table",
+                        "type": "intrinsic",
+                      },
                     },
-                  ],
-                  "type": "array",
+                    "type": "object",
+                  },
                 },
-                "fqn": "aws-cdk-lib.aws_lambda_event_sources.DynamoEventSource",
-                "namespace": "aws_lambda_event_sources",
-                "type": "initializer",
+                "type": "object",
               },
               Object {
-                "args": Object {
-                  "array": Array [
-                    Object {
-                      "type": "string",
-                      "value": "GET",
+                "fields": Object {
+                  "aws-cdk-lib.aws_lambda_event_sources.ApiEventSource": Object {
+                    "fields": Object {
+                      "method": Object {
+                        "type": "string",
+                        "value": "GET",
+                      },
+                      "path": Object {
+                        "type": "string",
+                        "value": "/hello",
+                      },
                     },
-                    Object {
-                      "type": "string",
-                      "value": "/hello",
-                    },
-                    Object {
-                      "fields": Object {},
-                      "type": "struct",
-                    },
-                  ],
-                  "type": "array",
+                    "type": "object",
+                  },
                 },
-                "fqn": "aws-cdk-lib.aws_lambda_event_sources.ApiEventSource",
-                "namespace": "aws_lambda_event_sources",
-                "type": "initializer",
+                "type": "object",
               },
               Object {
-                "args": Object {
-                  "array": Array [
-                    Object {
-                      "type": "string",
-                      "value": "POST",
+                "fields": Object {
+                  "aws-cdk-lib.aws_lambda_event_sources.ApiEventSource": Object {
+                    "fields": Object {
+                      "method": Object {
+                        "type": "string",
+                        "value": "POST",
+                      },
+                      "path": Object {
+                        "type": "string",
+                        "value": "/hello",
+                      },
                     },
-                    Object {
-                      "type": "string",
-                      "value": "/hello",
-                    },
-                    Object {
-                      "fields": Object {},
-                      "type": "struct",
-                    },
-                  ],
-                  "type": "array",
+                    "type": "object",
+                  },
                 },
-                "fqn": "aws-cdk-lib.aws_lambda_event_sources.ApiEventSource",
-                "namespace": "aws_lambda_event_sources",
-                "type": "initializer",
+                "type": "object",
               },
               Object {
-                "args": Object {
-                  "array": Array [
-                    Object {
-                      "fn": "ref",
-                      "logicalId": "MyTopic",
-                      "type": "intrinsic",
+                "fields": Object {
+                  "aws-cdk-lib.aws_lambda_event_sources.SnsEventSource": Object {
+                    "fields": Object {
+                      "topic": Object {
+                        "fn": "ref",
+                        "logicalId": "MyTopic",
+                        "type": "intrinsic",
+                      },
                     },
-                    Object {
-                      "fields": Object {},
-                      "type": "struct",
-                    },
-                  ],
-                  "type": "array",
+                    "type": "object",
+                  },
                 },
-                "fqn": "aws-cdk-lib.aws_lambda_event_sources.SnsEventSource",
-                "namespace": "aws_lambda_event_sources",
-                "type": "initializer",
+                "type": "object",
               },
             ],
             "type": "array",
@@ -549,116 +1316,224 @@ DependencyGraph {
             "value": "app.hello_handler",
           },
           "runtime": Object {
-            "fqn": "aws-cdk-lib.aws_lambda.Runtime",
-            "namespace": "aws_lambda",
-            "property": "PYTHON_3_6",
-            "type": "staticProperty",
+            "type": "string",
+            "value": "PYTHON_3_6",
           },
         },
-        "type": "struct",
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_lambda.Function",
+        "updateReplacePolicy": "Delete",
       },
-      "tags": Array [],
-      "type": "construct",
     },
-    "MyTopic": Object {
-      "dependsOn": Array [],
-      "fqn": "aws-cdk-lib.aws_sns.Topic",
-      "logicalId": "MyTopic",
-      "namespace": "aws_sns",
-      "overrides": Array [],
-      "props": Object {
-        "fields": Object {},
-        "type": "struct",
-      },
-      "tags": Array [],
-      "type": "construct",
-    },
-    "Table": Object {
-      "dependsOn": Array [],
-      "fqn": "aws-cdk-lib.aws_dynamodb.Table",
-      "logicalId": "Table",
-      "namespace": "aws_dynamodb",
-      "overrides": Array [],
-      "props": Object {
-        "fields": Object {
-          "partitionKey": Object {
-            "fields": Object {
-              "name": Object {
-                "type": "string",
-                "value": "ID",
-              },
-              "type": Object {
-                "choice": "STRING",
-                "fqn": "aws-cdk-lib.aws_dynamodb.AttributeType",
-                "namespace": "aws_dynamodb",
-                "type": "enum",
+    "template": Object {
+      "$schema": "../cdk.schema.json",
+      "Resources": Object {
+        "HelloWorldFunction": Object {
+          "Overrides": Array [
+            Object {
+              "ChildConstructPath": "ServiceRole",
+              "Update": Object {
+                "Path": "Properties.Description",
+                "Value": "This value has been overridden",
               },
             },
-            "type": "struct",
+          ],
+          "Properties": Object {
+            "code": Object {
+              "aws-cdk-lib.aws_lambda.Code.fromAsset": Object {
+                "path": "examples/lambda-handler",
+              },
+            },
+            "environment": Object {
+              "Param": "f",
+            },
+            "events": Array [
+              Object {
+                "aws-cdk-lib.aws_lambda_event_sources.DynamoEventSource": Object {
+                  "startingPosition": "TRIM_HORIZON",
+                  "table": Object {
+                    "Ref": "Table",
+                  },
+                },
+              },
+              Object {
+                "aws-cdk-lib.aws_lambda_event_sources.ApiEventSource": Object {
+                  "method": "GET",
+                  "path": "/hello",
+                },
+              },
+              Object {
+                "aws-cdk-lib.aws_lambda_event_sources.ApiEventSource": Object {
+                  "method": "POST",
+                  "path": "/hello",
+                },
+              },
+              Object {
+                "aws-cdk-lib.aws_lambda_event_sources.SnsEventSource": Object {
+                  "topic": Object {
+                    "Ref": "MyTopic",
+                  },
+                },
+              },
+            ],
+            "handler": "app.hello_handler",
+            "runtime": "PYTHON_3_6",
           },
-          "stream": Object {
-            "choice": "NEW_AND_OLD_IMAGES",
-            "fqn": "aws-cdk-lib.aws_dynamodb.StreamViewType",
-            "namespace": "aws_dynamodb",
-            "type": "enum",
-          },
+          "Type": "aws-cdk-lib.aws_lambda.Function",
         },
-        "type": "struct",
+        "MyTopic": Object {
+          "Type": "aws-cdk-lib.aws_sns.Topic",
+        },
+        "Table": Object {
+          "Properties": Object {
+            "partitionKey": Object {
+              "name": "ID",
+              "type": "STRING",
+            },
+            "stream": "NEW_AND_OLD_IMAGES",
+          },
+          "Type": "aws-cdk-lib.aws_dynamodb.Table",
+        },
       },
-      "tags": Array [],
-      "type": "construct",
     },
   },
 }
 `;
 
 exports[`lambda-layer.json 1`] = `
-DependencyGraph {
-  "_dependencies": Map {
-    "AwsCliLayer" => Set {},
-    "Lambda" => Set {
-      "AwsCliLayer",
-    },
+TypedTemplate {
+  "conditions": Map {},
+  "mappings": Map {},
+  "outputs": Map {},
+  "parameters": TemplateParameters {
+    "parameters": Object {},
   },
-  "keys": Set {
-    "AwsCliLayer",
-    "Lambda",
-  },
-  "nodes": Object {
-    "AwsCliLayer": Object {
-      "dependsOn": Array [],
-      "fqn": "aws-cdk-lib.lambda_layer_awscli.AwsCliLayer",
-      "logicalId": "AwsCliLayer",
-      "namespace": "lambda_layer_awscli",
-      "overrides": Array [],
-      "props": Object {
-        "type": "void",
+  "resources": DependencyGraph {
+    "_dependencies": Map {
+      "AwsCliLayer" => Set {},
+      "Lambda" => Set {
+        "AwsCliLayer",
       },
-      "tags": Array [],
-      "type": "construct",
     },
-    "Lambda": Object {
-      "dependsOn": Array [],
-      "fqn": "aws-cdk-lib.aws_lambda.Function",
-      "logicalId": "Lambda",
-      "namespace": "aws_lambda",
-      "overrides": Array [],
-      "props": Object {
-        "fields": Object {
-          "code": Object {
-            "args": Object {
+    "keys": Set {
+      "AwsCliLayer",
+      "Lambda",
+    },
+    "nodes": Object {
+      "AwsCliLayer": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.lambda_layer_awscli.AwsCliLayer",
+        "logicalId": "AwsCliLayer",
+        "namespace": "lambda_layer_awscli",
+        "overrides": Array [],
+        "props": Object {
+          "type": "void",
+        },
+        "tags": Array [],
+        "type": "construct",
+      },
+      "Lambda": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_lambda.Function",
+        "logicalId": "Lambda",
+        "namespace": "aws_lambda",
+        "overrides": Array [],
+        "props": Object {
+          "fields": Object {
+            "code": Object {
+              "args": Object {
+                "array": Array [
+                  Object {
+                    "type": "string",
+                    "value": "exports.handler = async function() { return 'SUCCESS'; }",
+                  },
+                ],
+                "type": "array",
+              },
+              "fqn": "aws-cdk-lib.aws_lambda.Code",
+              "method": "fromInline",
+              "namespace": "aws_lambda",
+              "type": "staticMethodCall",
+            },
+            "handler": Object {
+              "type": "string",
+              "value": "index.handler",
+            },
+            "layers": Object {
               "array": Array [
                 Object {
-                  "type": "string",
-                  "value": "exports.handler = async function() { return 'SUCCESS'; }",
+                  "fn": "ref",
+                  "logicalId": "AwsCliLayer",
+                  "type": "intrinsic",
                 },
               ],
               "type": "array",
             },
-            "fqn": "aws-cdk-lib.aws_lambda.Code",
-            "method": "fromInline",
-            "namespace": "aws_lambda",
-            "type": "staticMethodCall",
+            "runtime": Object {
+              "fqn": "aws-cdk-lib.aws_lambda.Runtime",
+              "namespace": "aws_lambda",
+              "property": "NODEJS_16_X",
+              "type": "staticProperty",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "construct",
+      },
+    },
+  },
+  "template": Template {
+    "conditions": Map {},
+    "mappings": Map {},
+    "outputs": Map {},
+    "parameters": TemplateParameters {
+      "parameters": Object {},
+    },
+    "resources": Map {
+      "AwsCliLayer" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {},
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "overrides": Array [],
+        "properties": Object {},
+        "tags": Array [],
+        "type": "aws-cdk-lib.lambda_layer_awscli.AwsCliLayer",
+        "updateReplacePolicy": "Delete",
+      },
+      "Lambda" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "AwsCliLayer",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "overrides": Array [],
+        "properties": Object {
+          "code": Object {
+            "fields": Object {
+              "aws-cdk-lib.aws_lambda.Code.fromInline": Object {
+                "fields": Object {
+                  "code": Object {
+                    "type": "string",
+                    "value": "exports.handler = async function() { return 'SUCCESS'; }",
+                  },
+                },
+                "type": "object",
+              },
+            },
+            "type": "object",
           },
           "handler": Object {
             "type": "string",
@@ -675,61 +1550,152 @@ DependencyGraph {
             "type": "array",
           },
           "runtime": Object {
-            "fqn": "aws-cdk-lib.aws_lambda.Runtime",
-            "namespace": "aws_lambda",
-            "property": "NODEJS_16_X",
-            "type": "staticProperty",
+            "type": "string",
+            "value": "NODEJS_16_X",
           },
         },
-        "type": "struct",
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_lambda.Function",
+        "updateReplacePolicy": "Delete",
       },
-      "tags": Array [],
-      "type": "construct",
+    },
+    "template": Object {
+      "$schema": "../cdk.schema.json",
+      "Resources": Object {
+        "AwsCliLayer": Object {
+          "Type": "aws-cdk-lib.lambda_layer_awscli.AwsCliLayer",
+        },
+        "Lambda": Object {
+          "Properties": Object {
+            "code": Object {
+              "aws-cdk-lib.aws_lambda.Code.fromInline": Object {
+                "code": "exports.handler = async function() { return 'SUCCESS'; }",
+              },
+            },
+            "handler": "index.handler",
+            "layers": Array [
+              Object {
+                "Ref": "AwsCliLayer",
+              },
+            ],
+            "runtime": "NODEJS_16_X",
+          },
+          "Type": "aws-cdk-lib.aws_lambda.Function",
+        },
+      },
     },
   },
 }
 `;
 
 exports[`lambda-role-removed.json 1`] = `
-DependencyGraph {
-  "_dependencies": Map {
-    "Lambda" => Set {},
+TypedTemplate {
+  "conditions": Map {},
+  "mappings": Map {},
+  "outputs": Map {},
+  "parameters": TemplateParameters {
+    "parameters": Object {},
   },
-  "keys": Set {
-    "Lambda",
-  },
-  "nodes": Object {
-    "Lambda": Object {
-      "dependsOn": Array [],
-      "fqn": "aws-cdk-lib.aws_lambda.Function",
-      "logicalId": "Lambda",
-      "namespace": "aws_lambda",
-      "overrides": Array [
-        Object {
-          "childConstructPath": "ServiceRole",
-          "removeResource": true,
-        },
-      ],
-      "props": Object {
-        "fields": Object {
-          "code": Object {
-            "args": Object {
-              "array": Array [
-                Object {
-                  "type": "string",
-                  "value": "examples/lambda-handler",
-                },
-                Object {
-                  "fields": Object {},
-                  "type": "struct",
-                },
-              ],
-              "type": "array",
+  "resources": DependencyGraph {
+    "_dependencies": Map {
+      "Lambda" => Set {},
+    },
+    "keys": Set {
+      "Lambda",
+    },
+    "nodes": Object {
+      "Lambda": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_lambda.Function",
+        "logicalId": "Lambda",
+        "namespace": "aws_lambda",
+        "overrides": Array [
+          Object {
+            "childConstructPath": "ServiceRole",
+            "removeResource": true,
+          },
+        ],
+        "props": Object {
+          "fields": Object {
+            "code": Object {
+              "args": Object {
+                "array": Array [
+                  Object {
+                    "type": "string",
+                    "value": "examples/lambda-handler",
+                  },
+                  Object {
+                    "fields": Object {},
+                    "type": "struct",
+                  },
+                ],
+                "type": "array",
+              },
+              "fqn": "aws-cdk-lib.aws_lambda.Code",
+              "method": "fromAsset",
+              "namespace": "aws_lambda",
+              "type": "staticMethodCall",
             },
-            "fqn": "aws-cdk-lib.aws_lambda.Code",
-            "method": "fromAsset",
-            "namespace": "aws_lambda",
-            "type": "staticMethodCall",
+            "description": Object {
+              "type": "string",
+              "value": "This function has its service role removed, for demonstration purposes. You probably wouldn't do this to a real function",
+            },
+            "handler": Object {
+              "type": "string",
+              "value": "index.handler",
+            },
+            "runtime": Object {
+              "fqn": "aws-cdk-lib.aws_lambda.Runtime",
+              "namespace": "aws_lambda",
+              "property": "NODEJS",
+              "type": "staticProperty",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "construct",
+      },
+    },
+  },
+  "template": Template {
+    "conditions": Map {},
+    "mappings": Map {},
+    "outputs": Map {},
+    "parameters": TemplateParameters {
+      "parameters": Object {},
+    },
+    "resources": Map {
+      "Lambda" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {},
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "overrides": Array [
+          Object {
+            "childConstructPath": "ServiceRole",
+            "removeResource": true,
+          },
+        ],
+        "properties": Object {
+          "code": Object {
+            "fields": Object {
+              "aws-cdk-lib.aws_lambda.Code.fromAsset": Object {
+                "fields": Object {
+                  "path": Object {
+                    "type": "string",
+                    "value": "examples/lambda-handler",
+                  },
+                },
+                "type": "object",
+              },
+            },
+            "type": "object",
           },
           "description": Object {
             "type": "string",
@@ -740,81 +1706,213 @@ DependencyGraph {
             "value": "index.handler",
           },
           "runtime": Object {
-            "fqn": "aws-cdk-lib.aws_lambda.Runtime",
-            "namespace": "aws_lambda",
-            "property": "NODEJS",
-            "type": "staticProperty",
+            "type": "string",
+            "value": "NODEJS",
           },
         },
-        "type": "struct",
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_lambda.Function",
+        "updateReplacePolicy": "Delete",
       },
-      "tags": Array [],
-      "type": "construct",
+    },
+    "template": Object {
+      "$schema": "../cdk.schema.json",
+      "Resources": Object {
+        "Lambda": Object {
+          "Overrides": Array [
+            Object {
+              "ChildConstructPath": "ServiceRole",
+              "RemoveResource": true,
+            },
+          ],
+          "Properties": Object {
+            "code": Object {
+              "aws-cdk-lib.aws_lambda.Code.fromAsset": Object {
+                "path": "examples/lambda-handler",
+              },
+            },
+            "description": "This function has its service role removed, for demonstration purposes. You probably wouldn't do this to a real function",
+            "handler": "index.handler",
+            "runtime": "NODEJS",
+          },
+          "Type": "aws-cdk-lib.aws_lambda.Function",
+        },
+      },
     },
   },
 }
 `;
 
 exports[`lambda-topic.json 1`] = `
-DependencyGraph {
-  "_dependencies": Map {
-    "Topic" => Set {},
-    "Lambda" => Set {
-      "Topic",
+TypedTemplate {
+  "conditions": Map {},
+  "mappings": Map {},
+  "outputs": Map {},
+  "parameters": TemplateParameters {
+    "parameters": Object {},
+  },
+  "resources": DependencyGraph {
+    "_dependencies": Map {
+      "Topic" => Set {},
+      "Lambda" => Set {
+        "Topic",
+      },
     },
-  },
-  "keys": Set {
-    "Topic",
-    "Lambda",
-  },
-  "nodes": Object {
-    "Lambda": Object {
-      "dependsOn": Array [],
-      "fqn": "aws-cdk-lib.aws_lambda.Function",
-      "logicalId": "Lambda",
-      "namespace": "aws_lambda",
-      "overrides": Array [],
-      "props": Object {
-        "fields": Object {
-          "code": Object {
-            "args": Object {
+    "keys": Set {
+      "Topic",
+      "Lambda",
+    },
+    "nodes": Object {
+      "Lambda": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_lambda.Function",
+        "logicalId": "Lambda",
+        "namespace": "aws_lambda",
+        "overrides": Array [],
+        "props": Object {
+          "fields": Object {
+            "code": Object {
+              "args": Object {
+                "array": Array [
+                  Object {
+                    "type": "string",
+                    "value": "examples/lambda-handler",
+                  },
+                  Object {
+                    "fields": Object {},
+                    "type": "struct",
+                  },
+                ],
+                "type": "array",
+              },
+              "fqn": "aws-cdk-lib.aws_lambda.Code",
+              "method": "fromAsset",
+              "namespace": "aws_lambda",
+              "type": "staticMethodCall",
+            },
+            "events": Object {
               "array": Array [
                 Object {
-                  "type": "string",
-                  "value": "examples/lambda-handler",
-                },
-                Object {
-                  "fields": Object {},
-                  "type": "struct",
+                  "args": Object {
+                    "array": Array [
+                      Object {
+                        "fn": "ref",
+                        "logicalId": "Topic",
+                        "type": "intrinsic",
+                      },
+                      Object {
+                        "fields": Object {},
+                        "type": "struct",
+                      },
+                    ],
+                    "type": "array",
+                  },
+                  "fqn": "aws-cdk-lib.aws_lambda_event_sources.SnsEventSource",
+                  "namespace": "aws_lambda_event_sources",
+                  "type": "initializer",
                 },
               ],
               "type": "array",
             },
-            "fqn": "aws-cdk-lib.aws_lambda.Code",
-            "method": "fromAsset",
-            "namespace": "aws_lambda",
-            "type": "staticMethodCall",
+            "handler": Object {
+              "type": "string",
+              "value": "index.handler",
+            },
+            "runtime": Object {
+              "fqn": "aws-cdk-lib.aws_lambda.Runtime",
+              "namespace": "aws_lambda",
+              "property": "NODEJS",
+              "type": "staticProperty",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "construct",
+      },
+      "Topic": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_sns.Topic",
+        "logicalId": "Topic",
+        "namespace": "aws_sns",
+        "overrides": Array [],
+        "props": Object {
+          "fields": Object {},
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "construct",
+      },
+    },
+  },
+  "template": Template {
+    "conditions": Map {},
+    "mappings": Map {},
+    "outputs": Map {},
+    "parameters": TemplateParameters {
+      "parameters": Object {},
+    },
+    "resources": Map {
+      "Topic" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {},
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "overrides": Array [],
+        "properties": Object {},
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_sns.Topic",
+        "updateReplacePolicy": "Delete",
+      },
+      "Lambda" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "Topic",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "overrides": Array [],
+        "properties": Object {
+          "code": Object {
+            "fields": Object {
+              "aws-cdk-lib.aws_lambda.Code.fromAsset": Object {
+                "fields": Object {
+                  "path": Object {
+                    "type": "string",
+                    "value": "examples/lambda-handler",
+                  },
+                },
+                "type": "object",
+              },
+            },
+            "type": "object",
           },
           "events": Object {
             "array": Array [
               Object {
-                "args": Object {
-                  "array": Array [
-                    Object {
-                      "fn": "ref",
-                      "logicalId": "Topic",
-                      "type": "intrinsic",
+                "fields": Object {
+                  "aws-cdk-lib.aws_lambda_event_sources.SnsEventSource": Object {
+                    "fields": Object {
+                      "topic": Object {
+                        "fn": "ref",
+                        "logicalId": "Topic",
+                        "type": "intrinsic",
+                      },
                     },
-                    Object {
-                      "fields": Object {},
-                      "type": "struct",
-                    },
-                  ],
-                  "type": "array",
+                    "type": "object",
+                  },
                 },
-                "fqn": "aws-cdk-lib.aws_lambda_event_sources.SnsEventSource",
-                "namespace": "aws_lambda_event_sources",
-                "type": "initializer",
+                "type": "object",
               },
             ],
             "type": "array",
@@ -824,97 +1922,428 @@ DependencyGraph {
             "value": "index.handler",
           },
           "runtime": Object {
-            "fqn": "aws-cdk-lib.aws_lambda.Runtime",
-            "namespace": "aws_lambda",
-            "property": "NODEJS",
-            "type": "staticProperty",
+            "type": "string",
+            "value": "NODEJS",
           },
         },
-        "type": "struct",
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_lambda.Function",
+        "updateReplacePolicy": "Delete",
       },
-      "tags": Array [],
-      "type": "construct",
     },
-    "Topic": Object {
-      "dependsOn": Array [],
-      "fqn": "aws-cdk-lib.aws_sns.Topic",
-      "logicalId": "Topic",
-      "namespace": "aws_sns",
-      "overrides": Array [],
-      "props": Object {
-        "fields": Object {},
-        "type": "struct",
+    "template": Object {
+      "$schema": "../cdk.schema.json",
+      "Resources": Object {
+        "Lambda": Object {
+          "Properties": Object {
+            "code": Object {
+              "aws-cdk-lib.aws_lambda.Code.fromAsset": Object {
+                "path": "examples/lambda-handler",
+              },
+            },
+            "events": Array [
+              Object {
+                "aws-cdk-lib.aws_lambda_event_sources.SnsEventSource": Object {
+                  "topic": Object {
+                    "Ref": "Topic",
+                  },
+                },
+              },
+            ],
+            "handler": "index.handler",
+            "runtime": "NODEJS",
+          },
+          "Type": "aws-cdk-lib.aws_lambda.Function",
+        },
+        "Topic": Object {
+          "Type": "aws-cdk-lib.aws_sns.Topic",
+        },
       },
-      "tags": Array [],
-      "type": "construct",
     },
   },
 }
 `;
 
 exports[`pipeline.json 1`] = `
-DependencyGraph {
-  "_dependencies": Map {
-    "Repo" => Set {
+TypedTemplate {
+  "conditions": Map {},
+  "mappings": Map {},
+  "outputs": Map {},
+  "parameters": TemplateParameters {
+    "parameters": Object {},
+  },
+  "resources": DependencyGraph {
+    "_dependencies": Map {
+      "Repo" => Set {
+        "Key",
+        "BuildProject",
+      },
+      "BuildProject" => Set {
+        "Key",
+      },
+      "Key" => Set {},
+      "Pipeline" => Set {
+        "Repo",
+        "BuildProject",
+      },
+    },
+    "keys": Set {
       "Key",
       "BuildProject",
-    },
-    "BuildProject" => Set {
-      "Key",
-    },
-    "Key" => Set {},
-    "Pipeline" => Set {
       "Repo",
-      "BuildProject",
+      "Pipeline",
+    },
+    "nodes": Object {
+      "BuildProject": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_codebuild.PipelineProject",
+        "logicalId": "BuildProject",
+        "namespace": "aws_codebuild",
+        "overrides": Array [],
+        "props": Object {
+          "fields": Object {
+            "encryptionKey": Object {
+              "fn": "ref",
+              "logicalId": "Key",
+              "type": "intrinsic",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "construct",
+      },
+      "Key": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_kms.Key",
+        "logicalId": "Key",
+        "namespace": "aws_kms",
+        "overrides": Array [],
+        "props": Object {
+          "fields": Object {},
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "construct",
+      },
+      "Pipeline": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_codepipeline.Pipeline",
+        "logicalId": "Pipeline",
+        "namespace": "aws_codepipeline",
+        "overrides": Array [],
+        "props": Object {
+          "fields": Object {
+            "stages": Object {
+              "array": Array [
+                Object {
+                  "fields": Object {
+                    "actions": Object {
+                      "array": Array [
+                        Object {
+                          "args": Object {
+                            "array": Array [
+                              Object {
+                                "fields": Object {
+                                  "actionName": Object {
+                                    "type": "string",
+                                    "value": "Source",
+                                  },
+                                  "output": Object {
+                                    "args": Object {
+                                      "array": Array [
+                                        Object {
+                                          "type": "string",
+                                          "value": "Source",
+                                        },
+                                      ],
+                                      "type": "array",
+                                    },
+                                    "fqn": "aws-cdk-lib.aws_codepipeline.Artifact",
+                                    "method": "artifact",
+                                    "namespace": "aws_codepipeline",
+                                    "type": "staticMethodCall",
+                                  },
+                                  "repository": Object {
+                                    "fn": "ref",
+                                    "logicalId": "Repo",
+                                    "type": "intrinsic",
+                                  },
+                                },
+                                "type": "struct",
+                              },
+                            ],
+                            "type": "array",
+                          },
+                          "fqn": "aws-cdk-lib.aws_codepipeline_actions.CodeCommitSourceAction",
+                          "namespace": "aws_codepipeline_actions",
+                          "type": "initializer",
+                        },
+                      ],
+                      "type": "array",
+                    },
+                    "stageName": Object {
+                      "type": "string",
+                      "value": "Source",
+                    },
+                  },
+                  "type": "struct",
+                },
+                Object {
+                  "fields": Object {
+                    "actions": Object {
+                      "array": Array [
+                        Object {
+                          "args": Object {
+                            "array": Array [
+                              Object {
+                                "fields": Object {
+                                  "actionName": Object {
+                                    "type": "string",
+                                    "value": "Build",
+                                  },
+                                  "input": Object {
+                                    "args": Object {
+                                      "array": Array [
+                                        Object {
+                                          "type": "string",
+                                          "value": "Source",
+                                        },
+                                      ],
+                                      "type": "array",
+                                    },
+                                    "fqn": "aws-cdk-lib.aws_codepipeline.Artifact",
+                                    "method": "artifact",
+                                    "namespace": "aws_codepipeline",
+                                    "type": "staticMethodCall",
+                                  },
+                                  "outputs": Object {
+                                    "array": Array [
+                                      Object {
+                                        "args": Object {
+                                          "array": Array [
+                                            Object {
+                                              "type": "string",
+                                              "value": "Build",
+                                            },
+                                          ],
+                                          "type": "array",
+                                        },
+                                        "fqn": "aws-cdk-lib.aws_codepipeline.Artifact",
+                                        "method": "artifact",
+                                        "namespace": "aws_codepipeline",
+                                        "type": "staticMethodCall",
+                                      },
+                                    ],
+                                    "type": "array",
+                                  },
+                                  "project": Object {
+                                    "fn": "ref",
+                                    "logicalId": "BuildProject",
+                                    "type": "intrinsic",
+                                  },
+                                },
+                                "type": "struct",
+                              },
+                            ],
+                            "type": "array",
+                          },
+                          "fqn": "aws-cdk-lib.aws_codepipeline_actions.CodeBuildAction",
+                          "namespace": "aws_codepipeline_actions",
+                          "type": "initializer",
+                        },
+                      ],
+                      "type": "array",
+                    },
+                    "stageName": Object {
+                      "type": "string",
+                      "value": "Build",
+                    },
+                  },
+                  "type": "struct",
+                },
+                Object {
+                  "fields": Object {
+                    "actions": Object {
+                      "array": Array [
+                        Object {
+                          "args": Object {
+                            "array": Array [
+                              Object {
+                                "fields": Object {
+                                  "actionName": Object {
+                                    "type": "string",
+                                    "value": "Deploy",
+                                  },
+                                  "adminPermissions": Object {
+                                    "type": "boolean",
+                                    "value": true,
+                                  },
+                                  "stackName": Object {
+                                    "type": "string",
+                                    "value": "MyStack",
+                                  },
+                                  "templatePath": Object {
+                                    "args": Object {
+                                      "array": Array [
+                                        Object {
+                                          "type": "string",
+                                          "value": "Build",
+                                        },
+                                        Object {
+                                          "type": "string",
+                                          "value": "template.yaml",
+                                        },
+                                      ],
+                                      "type": "array",
+                                    },
+                                    "fqn": "aws-cdk-lib.aws_codepipeline.ArtifactPath",
+                                    "method": "artifactPath",
+                                    "namespace": "aws_codepipeline",
+                                    "type": "staticMethodCall",
+                                  },
+                                },
+                                "type": "struct",
+                              },
+                            ],
+                            "type": "array",
+                          },
+                          "fqn": "aws-cdk-lib.aws_codepipeline_actions.CloudFormationCreateUpdateStackAction",
+                          "namespace": "aws_codepipeline_actions",
+                          "type": "initializer",
+                        },
+                      ],
+                      "type": "array",
+                    },
+                    "stageName": Object {
+                      "type": "string",
+                      "value": "Deploy",
+                    },
+                  },
+                  "type": "struct",
+                },
+              ],
+              "type": "array",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "construct",
+      },
+      "Repo": Object {
+        "dependsOn": Array [
+          "Key",
+          "BuildProject",
+        ],
+        "fqn": "aws-cdk-lib.aws_codecommit.Repository",
+        "logicalId": "Repo",
+        "namespace": "aws_codecommit",
+        "overrides": Array [],
+        "props": Object {
+          "fields": Object {
+            "repositoryName": Object {
+              "type": "string",
+              "value": "my-first-decdk-repo",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "construct",
+      },
     },
   },
-  "keys": Set {
-    "Key",
-    "BuildProject",
-    "Repo",
-    "Pipeline",
-  },
-  "nodes": Object {
-    "BuildProject": Object {
-      "dependsOn": Array [],
-      "fqn": "aws-cdk-lib.aws_codebuild.PipelineProject",
-      "logicalId": "BuildProject",
-      "namespace": "aws_codebuild",
-      "overrides": Array [],
-      "props": Object {
-        "fields": Object {
+  "template": Template {
+    "conditions": Map {},
+    "mappings": Map {},
+    "outputs": Map {},
+    "parameters": TemplateParameters {
+      "parameters": Object {},
+    },
+    "resources": Map {
+      "Repo" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "Key",
+          "BuildProject",
+        },
+        "dependsOn": Set {
+          "Key",
+          "BuildProject",
+        },
+        "metadata": Object {},
+        "overrides": Array [],
+        "properties": Object {
+          "repositoryName": Object {
+            "type": "string",
+            "value": "my-first-decdk-repo",
+          },
+        },
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_codecommit.Repository",
+        "updateReplacePolicy": "Delete",
+      },
+      "BuildProject" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "Key",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "overrides": Array [],
+        "properties": Object {
           "encryptionKey": Object {
             "fn": "ref",
             "logicalId": "Key",
             "type": "intrinsic",
           },
         },
-        "type": "struct",
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_codebuild.PipelineProject",
+        "updateReplacePolicy": "Delete",
       },
-      "tags": Array [],
-      "type": "construct",
-    },
-    "Key": Object {
-      "dependsOn": Array [],
-      "fqn": "aws-cdk-lib.aws_kms.Key",
-      "logicalId": "Key",
-      "namespace": "aws_kms",
-      "overrides": Array [],
-      "props": Object {
-        "fields": Object {},
-        "type": "struct",
+      "Key" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {},
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "overrides": Array [],
+        "properties": Object {},
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_kms.Key",
+        "updateReplacePolicy": "Delete",
       },
-      "tags": Array [],
-      "type": "construct",
-    },
-    "Pipeline": Object {
-      "dependsOn": Array [],
-      "fqn": "aws-cdk-lib.aws_codepipeline.Pipeline",
-      "logicalId": "Pipeline",
-      "namespace": "aws_codepipeline",
-      "overrides": Array [],
-      "props": Object {
-        "fields": Object {
+      "Pipeline" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "Repo",
+          "BuildProject",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "overrides": Array [],
+        "properties": Object {
           "stages": Object {
             "array": Array [
               Object {
@@ -922,43 +2351,37 @@ DependencyGraph {
                   "actions": Object {
                     "array": Array [
                       Object {
-                        "args": Object {
-                          "array": Array [
-                            Object {
-                              "fields": Object {
-                                "actionName": Object {
-                                  "type": "string",
-                                  "value": "Source",
-                                },
-                                "output": Object {
-                                  "args": Object {
-                                    "array": Array [
-                                      Object {
+                        "fields": Object {
+                          "aws-cdk-lib.aws_codepipeline_actions.CodeCommitSourceAction": Object {
+                            "fields": Object {
+                              "actionName": Object {
+                                "type": "string",
+                                "value": "Source",
+                              },
+                              "output": Object {
+                                "fields": Object {
+                                  "aws-cdk-lib.aws_codepipeline.Artifact.artifact": Object {
+                                    "fields": Object {
+                                      "name": Object {
                                         "type": "string",
                                         "value": "Source",
                                       },
-                                    ],
-                                    "type": "array",
+                                    },
+                                    "type": "object",
                                   },
-                                  "fqn": "aws-cdk-lib.aws_codepipeline.Artifact",
-                                  "method": "artifact",
-                                  "namespace": "aws_codepipeline",
-                                  "type": "staticMethodCall",
                                 },
-                                "repository": Object {
-                                  "fn": "ref",
-                                  "logicalId": "Repo",
-                                  "type": "intrinsic",
-                                },
+                                "type": "object",
                               },
-                              "type": "struct",
+                              "repository": Object {
+                                "fn": "ref",
+                                "logicalId": "Repo",
+                                "type": "intrinsic",
+                              },
                             },
-                          ],
-                          "type": "array",
+                            "type": "object",
+                          },
                         },
-                        "fqn": "aws-cdk-lib.aws_codepipeline_actions.CodeCommitSourceAction",
-                        "namespace": "aws_codepipeline_actions",
-                        "type": "initializer",
+                        "type": "object",
                       },
                     ],
                     "type": "array",
@@ -968,70 +2391,63 @@ DependencyGraph {
                     "value": "Source",
                   },
                 },
-                "type": "struct",
+                "type": "object",
               },
               Object {
                 "fields": Object {
                   "actions": Object {
                     "array": Array [
                       Object {
-                        "args": Object {
-                          "array": Array [
-                            Object {
-                              "fields": Object {
-                                "actionName": Object {
-                                  "type": "string",
-                                  "value": "Build",
-                                },
-                                "input": Object {
-                                  "args": Object {
-                                    "array": Array [
-                                      Object {
+                        "fields": Object {
+                          "aws-cdk-lib.aws_codepipeline_actions.CodeBuildAction": Object {
+                            "fields": Object {
+                              "actionName": Object {
+                                "type": "string",
+                                "value": "Build",
+                              },
+                              "input": Object {
+                                "fields": Object {
+                                  "aws-cdk-lib.aws_codepipeline.Artifact.artifact": Object {
+                                    "fields": Object {
+                                      "name": Object {
                                         "type": "string",
                                         "value": "Source",
                                       },
-                                    ],
-                                    "type": "array",
+                                    },
+                                    "type": "object",
                                   },
-                                  "fqn": "aws-cdk-lib.aws_codepipeline.Artifact",
-                                  "method": "artifact",
-                                  "namespace": "aws_codepipeline",
-                                  "type": "staticMethodCall",
                                 },
-                                "outputs": Object {
-                                  "array": Array [
-                                    Object {
-                                      "args": Object {
-                                        "array": Array [
-                                          Object {
+                                "type": "object",
+                              },
+                              "outputs": Object {
+                                "array": Array [
+                                  Object {
+                                    "fields": Object {
+                                      "aws-cdk-lib.aws_codepipeline.Artifact.artifact": Object {
+                                        "fields": Object {
+                                          "name": Object {
                                             "type": "string",
                                             "value": "Build",
                                           },
-                                        ],
-                                        "type": "array",
+                                        },
+                                        "type": "object",
                                       },
-                                      "fqn": "aws-cdk-lib.aws_codepipeline.Artifact",
-                                      "method": "artifact",
-                                      "namespace": "aws_codepipeline",
-                                      "type": "staticMethodCall",
                                     },
-                                  ],
-                                  "type": "array",
-                                },
-                                "project": Object {
-                                  "fn": "ref",
-                                  "logicalId": "BuildProject",
-                                  "type": "intrinsic",
-                                },
+                                    "type": "object",
+                                  },
+                                ],
+                                "type": "array",
                               },
-                              "type": "struct",
+                              "project": Object {
+                                "fn": "ref",
+                                "logicalId": "BuildProject",
+                                "type": "intrinsic",
+                              },
                             },
-                          ],
-                          "type": "array",
+                            "type": "object",
+                          },
                         },
-                        "fqn": "aws-cdk-lib.aws_codepipeline_actions.CodeBuildAction",
-                        "namespace": "aws_codepipeline_actions",
-                        "type": "initializer",
+                        "type": "object",
                       },
                     ],
                     "type": "array",
@@ -1041,57 +2457,51 @@ DependencyGraph {
                     "value": "Build",
                   },
                 },
-                "type": "struct",
+                "type": "object",
               },
               Object {
                 "fields": Object {
                   "actions": Object {
                     "array": Array [
                       Object {
-                        "args": Object {
-                          "array": Array [
-                            Object {
-                              "fields": Object {
-                                "actionName": Object {
-                                  "type": "string",
-                                  "value": "Deploy",
-                                },
-                                "adminPermissions": Object {
-                                  "type": "boolean",
-                                  "value": true,
-                                },
-                                "stackName": Object {
-                                  "type": "string",
-                                  "value": "MyStack",
-                                },
-                                "templatePath": Object {
-                                  "args": Object {
-                                    "array": Array [
-                                      Object {
+                        "fields": Object {
+                          "aws-cdk-lib.aws_codepipeline_actions.CloudFormationCreateUpdateStackAction": Object {
+                            "fields": Object {
+                              "actionName": Object {
+                                "type": "string",
+                                "value": "Deploy",
+                              },
+                              "adminPermissions": Object {
+                                "type": "boolean",
+                                "value": true,
+                              },
+                              "stackName": Object {
+                                "type": "string",
+                                "value": "MyStack",
+                              },
+                              "templatePath": Object {
+                                "fields": Object {
+                                  "aws-cdk-lib.aws_codepipeline.ArtifactPath.artifactPath": Object {
+                                    "fields": Object {
+                                      "artifactName": Object {
                                         "type": "string",
                                         "value": "Build",
                                       },
-                                      Object {
+                                      "fileName": Object {
                                         "type": "string",
                                         "value": "template.yaml",
                                       },
-                                    ],
-                                    "type": "array",
+                                    },
+                                    "type": "object",
                                   },
-                                  "fqn": "aws-cdk-lib.aws_codepipeline.ArtifactPath",
-                                  "method": "artifactPath",
-                                  "namespace": "aws_codepipeline",
-                                  "type": "staticMethodCall",
                                 },
+                                "type": "object",
                               },
-                              "type": "struct",
                             },
-                          ],
-                          "type": "array",
+                            "type": "object",
+                          },
                         },
-                        "fqn": "aws-cdk-lib.aws_codepipeline_actions.CloudFormationCreateUpdateStackAction",
-                        "namespace": "aws_codepipeline_actions",
-                        "type": "initializer",
+                        "type": "object",
                       },
                     ],
                     "type": "array",
@@ -1101,202 +2511,534 @@ DependencyGraph {
                     "value": "Deploy",
                   },
                 },
-                "type": "struct",
+                "type": "object",
               },
             ],
             "type": "array",
           },
         },
-        "type": "struct",
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_codepipeline.Pipeline",
+        "updateReplacePolicy": "Delete",
       },
-      "tags": Array [],
-      "type": "construct",
     },
-    "Repo": Object {
-      "dependsOn": Array [
-        "Key",
-        "BuildProject",
-      ],
-      "fqn": "aws-cdk-lib.aws_codecommit.Repository",
-      "logicalId": "Repo",
-      "namespace": "aws_codecommit",
-      "overrides": Array [],
-      "props": Object {
-        "fields": Object {
-          "repositoryName": Object {
-            "type": "string",
-            "value": "my-first-decdk-repo",
+    "template": Object {
+      "$schema": "../cdk.schema.json",
+      "Resources": Object {
+        "BuildProject": Object {
+          "Properties": Object {
+            "encryptionKey": Object {
+              "Ref": "Key",
+            },
           },
+          "Type": "aws-cdk-lib.aws_codebuild.PipelineProject",
         },
-        "type": "struct",
+        "Key": Object {
+          "Type": "aws-cdk-lib.aws_kms.Key",
+        },
+        "Pipeline": Object {
+          "Properties": Object {
+            "stages": Array [
+              Object {
+                "actions": Array [
+                  Object {
+                    "aws-cdk-lib.aws_codepipeline_actions.CodeCommitSourceAction": Object {
+                      "actionName": "Source",
+                      "output": Object {
+                        "aws-cdk-lib.aws_codepipeline.Artifact.artifact": Object {
+                          "name": "Source",
+                        },
+                      },
+                      "repository": Object {
+                        "Ref": "Repo",
+                      },
+                    },
+                  },
+                ],
+                "stageName": "Source",
+              },
+              Object {
+                "actions": Array [
+                  Object {
+                    "aws-cdk-lib.aws_codepipeline_actions.CodeBuildAction": Object {
+                      "actionName": "Build",
+                      "input": Object {
+                        "aws-cdk-lib.aws_codepipeline.Artifact.artifact": Object {
+                          "name": "Source",
+                        },
+                      },
+                      "outputs": Array [
+                        Object {
+                          "aws-cdk-lib.aws_codepipeline.Artifact.artifact": Object {
+                            "name": "Build",
+                          },
+                        },
+                      ],
+                      "project": Object {
+                        "Ref": "BuildProject",
+                      },
+                    },
+                  },
+                ],
+                "stageName": "Build",
+              },
+              Object {
+                "actions": Array [
+                  Object {
+                    "aws-cdk-lib.aws_codepipeline_actions.CloudFormationCreateUpdateStackAction": Object {
+                      "actionName": "Deploy",
+                      "adminPermissions": true,
+                      "stackName": "MyStack",
+                      "templatePath": Object {
+                        "aws-cdk-lib.aws_codepipeline.ArtifactPath.artifactPath": Object {
+                          "artifactName": "Build",
+                          "fileName": "template.yaml",
+                        },
+                      },
+                    },
+                  },
+                ],
+                "stageName": "Deploy",
+              },
+            ],
+          },
+          "Type": "aws-cdk-lib.aws_codepipeline.Pipeline",
+        },
+        "Repo": Object {
+          "DependsOn": Array [
+            "Key",
+            "BuildProject",
+          ],
+          "Properties": Object {
+            "repositoryName": "my-first-decdk-repo",
+          },
+          "Type": "aws-cdk-lib.aws_codecommit.Repository",
+        },
       },
-      "tags": Array [],
-      "type": "construct",
     },
   },
 }
 `;
 
 exports[`pure-cfn.json 1`] = `
-DependencyGraph {
-  "_dependencies": Map {
-    "Hello" => Set {},
-    "MyLogGroup" => Set {},
+TypedTemplate {
+  "conditions": Map {},
+  "mappings": Map {},
+  "outputs": Map {},
+  "parameters": TemplateParameters {
+    "parameters": Object {},
   },
-  "keys": Set {
-    "Hello",
-    "MyLogGroup",
-  },
-  "nodes": Object {
-    "Hello": Object {
-      "dependsOn": Array [],
-      "fqn": "aws-cdk-lib.aws_sqs.Queue",
-      "logicalId": "Hello",
-      "namespace": "aws_sqs",
-      "overrides": Array [],
-      "props": Object {
-        "fields": Object {
-          "encryption": Object {
-            "choice": "UNENCRYPTED",
-            "fqn": "aws-cdk-lib.aws_sqs.QueueEncryption",
-            "namespace": "aws_sqs",
-            "type": "enum",
-          },
-        },
-        "type": "struct",
-      },
-      "tags": Array [],
-      "type": "construct",
+  "resources": DependencyGraph {
+    "_dependencies": Map {
+      "Hello" => Set {},
+      "MyLogGroup" => Set {},
     },
-    "MyLogGroup": Object {
-      "dependsOn": Array [],
-      "fqn": "aws-cdk-lib.CfnResource",
-      "logicalId": "MyLogGroup",
-      "namespace": undefined,
-      "props": Object {
-        "fields": Object {
-          "properties": Object {
-            "fields": Object {
-              "LogGroupName": Object {
-                "type": "any",
-                "value": Object {
-                  "fn": "ref",
-                  "logicalId": "AWS::AccountId",
-                  "type": "intrinsic",
+    "keys": Set {
+      "Hello",
+      "MyLogGroup",
+    },
+    "nodes": Object {
+      "Hello": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_sqs.Queue",
+        "logicalId": "Hello",
+        "namespace": "aws_sqs",
+        "overrides": Array [],
+        "props": Object {
+          "fields": Object {
+            "encryption": Object {
+              "choice": "UNENCRYPTED",
+              "fqn": "aws-cdk-lib.aws_sqs.QueueEncryption",
+              "namespace": "aws_sqs",
+              "type": "enum",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "construct",
+      },
+      "MyLogGroup": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.CfnResource",
+        "logicalId": "MyLogGroup",
+        "namespace": undefined,
+        "props": Object {
+          "fields": Object {
+            "properties": Object {
+              "fields": Object {
+                "LogGroupName": Object {
+                  "type": "any",
+                  "value": Object {
+                    "fn": "ref",
+                    "logicalId": "AWS::AccountId",
+                    "type": "intrinsic",
+                  },
                 },
               },
+              "type": "object",
             },
-            "type": "object",
+            "type": Object {
+              "type": "string",
+              "value": "AWS::Logs::LogGroup",
+            },
           },
-          "type": Object {
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "resource",
+      },
+    },
+  },
+  "template": Template {
+    "conditions": Map {},
+    "mappings": Map {},
+    "outputs": Map {},
+    "parameters": TemplateParameters {
+      "parameters": Object {},
+    },
+    "resources": Map {
+      "Hello" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {},
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "overrides": Array [],
+        "properties": Object {
+          "encryption": Object {
             "type": "string",
-            "value": "AWS::Logs::LogGroup",
+            "value": "UNENCRYPTED",
           },
         },
-        "type": "struct",
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_sqs.Queue",
+        "updateReplacePolicy": "Delete",
       },
-      "tags": Array [],
-      "type": "resource",
+      "MyLogGroup" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "AWS::AccountId",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "overrides": Array [],
+        "properties": Object {
+          "LogGroupName": Object {
+            "fn": "ref",
+            "logicalId": "AWS::AccountId",
+            "type": "intrinsic",
+          },
+        },
+        "tags": Array [],
+        "type": "AWS::Logs::LogGroup",
+        "updateReplacePolicy": "Delete",
+      },
+    },
+    "template": Object {
+      "$schema": "../cdk.schema.json",
+      "Resources": Object {
+        "Hello": Object {
+          "Properties": Object {
+            "encryption": "UNENCRYPTED",
+          },
+          "Type": "aws-cdk-lib.aws_sqs.Queue",
+        },
+        "MyLogGroup": Object {
+          "Properties": Object {
+            "LogGroupName": Object {
+              "Ref": "AWS::AccountId",
+            },
+          },
+          "Type": "AWS::Logs::LogGroup",
+        },
+      },
     },
   },
 }
 `;
 
 exports[`queue-kms.json 1`] = `
-DependencyGraph {
-  "_dependencies": Map {
-    "MyQueue" => Set {},
+TypedTemplate {
+  "conditions": Map {},
+  "mappings": Map {},
+  "outputs": Map {},
+  "parameters": TemplateParameters {
+    "parameters": Object {},
   },
-  "keys": Set {
-    "MyQueue",
-  },
-  "nodes": Object {
-    "MyQueue": Object {
-      "dependsOn": Array [],
-      "fqn": "aws-cdk-lib.aws_sqs.Queue",
-      "logicalId": "MyQueue",
-      "namespace": "aws_sqs",
-      "overrides": Array [
-        Object {
-          "childConstructPath": "Key",
-          "delete": Object {
-            "path": "Properties.Description",
+  "resources": DependencyGraph {
+    "_dependencies": Map {
+      "MyQueue" => Set {},
+    },
+    "keys": Set {
+      "MyQueue",
+    },
+    "nodes": Object {
+      "MyQueue": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_sqs.Queue",
+        "logicalId": "MyQueue",
+        "namespace": "aws_sqs",
+        "overrides": Array [
+          Object {
+            "childConstructPath": "Key",
+            "delete": Object {
+              "path": "Properties.Description",
+            },
           },
-        },
-      ],
-      "props": Object {
-        "fields": Object {
-          "encryption": Object {
-            "choice": "KMS",
-            "fqn": "aws-cdk-lib.aws_sqs.QueueEncryption",
-            "namespace": "aws_sqs",
-            "type": "enum",
+        ],
+        "props": Object {
+          "fields": Object {
+            "encryption": Object {
+              "choice": "KMS",
+              "fqn": "aws-cdk-lib.aws_sqs.QueueEncryption",
+              "namespace": "aws_sqs",
+              "type": "enum",
+            },
           },
+          "type": "struct",
         },
-        "type": "struct",
+        "tags": Array [],
+        "type": "construct",
       },
-      "tags": Array [],
-      "type": "construct",
+    },
+  },
+  "template": Template {
+    "conditions": Map {},
+    "mappings": Map {},
+    "outputs": Map {},
+    "parameters": TemplateParameters {
+      "parameters": Object {},
+    },
+    "resources": Map {
+      "MyQueue" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {},
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "overrides": Array [
+          Object {
+            "childConstructPath": "Key",
+            "delete": Object {
+              "path": "Properties.Description",
+            },
+          },
+        ],
+        "properties": Object {
+          "encryption": Object {
+            "type": "string",
+            "value": "KMS",
+          },
+        },
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_sqs.Queue",
+        "updateReplacePolicy": "Delete",
+      },
+    },
+    "template": Object {
+      "$schema": "../cdk.schema.json",
+      "Resources": Object {
+        "MyQueue": Object {
+          "Overrides": Array [
+            Object {
+              "ChildConstructPath": "Key",
+              "Delete": Object {
+                "Path": "Properties.Description",
+              },
+            },
+          ],
+          "Properties": Object {
+            "encryption": "KMS",
+          },
+          "Type": "aws-cdk-lib.aws_sqs.Queue",
+        },
+      },
     },
   },
 }
 `;
 
 exports[`reusable-lambda-code.json 1`] = `
-DependencyGraph {
-  "_dependencies": Map {
-    "SourceBucket" => Set {},
-    "BusinessLogic" => Set {},
-    "MyFunction" => Set {
-      "BusinessLogic",
+TypedTemplate {
+  "conditions": Map {},
+  "mappings": Map {},
+  "outputs": Map {},
+  "parameters": TemplateParameters {
+    "parameters": Object {},
+  },
+  "resources": DependencyGraph {
+    "_dependencies": Map {
+      "SourceBucket" => Set {},
+      "BusinessLogic" => Set {},
+      "MyFunction" => Set {
+        "BusinessLogic",
+      },
     },
-  },
-  "keys": Set {
-    "SourceBucket",
-    "BusinessLogic",
-    "MyFunction",
-  },
-  "nodes": Object {
-    "BusinessLogic": Object {
-      "call": Object {
-        "args": Object {
-          "array": Array [
-            Object {
+    "keys": Set {
+      "SourceBucket",
+      "BusinessLogic",
+      "MyFunction",
+    },
+    "nodes": Object {
+      "BusinessLogic": Object {
+        "call": Object {
+          "args": Object {
+            "array": Array [
+              Object {
+                "fn": "ref",
+                "logicalId": "SourceBucket",
+                "type": "intrinsic",
+              },
+              Object {
+                "type": "string",
+                "value": "foo-bar",
+              },
+              Object {
+                "type": "void",
+              },
+            ],
+            "type": "array",
+          },
+          "fqn": "aws-cdk-lib.aws_lambda.Code",
+          "method": "fromBucket",
+          "namespace": "aws_lambda",
+          "type": "staticMethodCall",
+        },
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_lambda.Code",
+        "logicalId": "BusinessLogic",
+        "namespace": "aws_lambda",
+        "overrides": Array [],
+        "tags": Array [],
+        "type": "lazyResource",
+      },
+      "MyFunction": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_lambda.Function",
+        "logicalId": "MyFunction",
+        "namespace": "aws_lambda",
+        "overrides": Array [],
+        "props": Object {
+          "fields": Object {
+            "code": Object {
               "fn": "ref",
-              "logicalId": "SourceBucket",
+              "logicalId": "BusinessLogic",
               "type": "intrinsic",
             },
-            Object {
+            "handler": Object {
               "type": "string",
-              "value": "foo-bar",
+              "value": "index.handler",
             },
-            Object {
-              "type": "void",
+            "runtime": Object {
+              "fqn": "aws-cdk-lib.aws_lambda.Runtime",
+              "namespace": "aws_lambda",
+              "property": "NODEJS_14_X",
+              "type": "staticProperty",
             },
-          ],
-          "type": "array",
+          },
+          "type": "struct",
         },
-        "fqn": "aws-cdk-lib.aws_lambda.Code",
-        "method": "fromBucket",
-        "namespace": "aws_lambda",
-        "type": "staticMethodCall",
+        "tags": Array [],
+        "type": "construct",
       },
-      "dependsOn": Array [],
-      "fqn": "aws-cdk-lib.aws_lambda.Code",
-      "logicalId": "BusinessLogic",
-      "namespace": "aws_lambda",
-      "overrides": Array [],
-      "tags": Array [],
-      "type": "lazy-construct",
+      "SourceBucket": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_s3.Bucket",
+        "logicalId": "SourceBucket",
+        "namespace": "aws_s3",
+        "overrides": Array [],
+        "props": Object {
+          "fields": Object {},
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "construct",
+      },
     },
-    "MyFunction": Object {
-      "dependsOn": Array [],
-      "fqn": "aws-cdk-lib.aws_lambda.Function",
-      "logicalId": "MyFunction",
-      "namespace": "aws_lambda",
-      "overrides": Array [],
-      "props": Object {
-        "fields": Object {
+  },
+  "template": Template {
+    "conditions": Map {},
+    "mappings": Map {},
+    "outputs": Map {},
+    "parameters": TemplateParameters {
+      "parameters": Object {},
+    },
+    "resources": Map {
+      "SourceBucket" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {},
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "overrides": Array [],
+        "properties": Object {},
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_s3.Bucket",
+        "updateReplacePolicy": "Delete",
+      },
+      "BusinessLogic" => Object {
+        "call": Object {
+          "fields": Object {
+            "aws-cdk-lib.aws_lambda.Code.fromBucket": Object {
+              "fields": Object {
+                "bucket": Object {
+                  "fn": "ref",
+                  "logicalId": "SourceBucket",
+                  "type": "intrinsic",
+                },
+                "key": Object {
+                  "type": "string",
+                  "value": "foo-bar",
+                },
+              },
+              "type": "object",
+            },
+          },
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {},
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "overrides": Array [],
+        "properties": Object {},
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_lambda.Code",
+        "updateReplacePolicy": "Delete",
+      },
+      "MyFunction" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "BusinessLogic",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "overrides": Array [],
+        "properties": Object {
           "code": Object {
             "fn": "ref",
             "logicalId": "BusinessLogic",
@@ -1307,55 +3049,111 @@ DependencyGraph {
             "value": "index.handler",
           },
           "runtime": Object {
-            "fqn": "aws-cdk-lib.aws_lambda.Runtime",
-            "namespace": "aws_lambda",
-            "property": "NODEJS_14_X",
-            "type": "staticProperty",
+            "type": "string",
+            "value": "NODEJS_14_X",
           },
         },
-        "type": "struct",
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_lambda.Function",
+        "updateReplacePolicy": "Delete",
       },
-      "tags": Array [],
-      "type": "construct",
     },
-    "SourceBucket": Object {
-      "dependsOn": Array [],
-      "fqn": "aws-cdk-lib.aws_s3.Bucket",
-      "logicalId": "SourceBucket",
-      "namespace": "aws_s3",
-      "overrides": Array [],
-      "props": Object {
-        "fields": Object {},
-        "type": "struct",
+    "template": Object {
+      "$schema": "../cdk.schema.json",
+      "Resources": Object {
+        "BusinessLogic": Object {
+          "Call": Object {
+            "aws-cdk-lib.aws_lambda.Code.fromBucket": Object {
+              "bucket": Object {
+                "Ref": "SourceBucket",
+              },
+              "key": "foo-bar",
+            },
+          },
+          "Type": "aws-cdk-lib.aws_lambda.Code",
+        },
+        "MyFunction": Object {
+          "Properties": Object {
+            "code": Object {
+              "Ref": "BusinessLogic",
+            },
+            "handler": "index.handler",
+            "runtime": "NODEJS_14_X",
+          },
+          "Type": "aws-cdk-lib.aws_lambda.Function",
+        },
+        "SourceBucket": Object {
+          "Type": "aws-cdk-lib.aws_s3.Bucket",
+        },
       },
-      "tags": Array [],
-      "type": "construct",
     },
   },
 }
 `;
 
 exports[`vpc.json 1`] = `
-DependencyGraph {
-  "_dependencies": Map {
-    "VPC" => Set {},
+TypedTemplate {
+  "conditions": Map {},
+  "mappings": Map {},
+  "outputs": Map {},
+  "parameters": TemplateParameters {
+    "parameters": Object {},
   },
-  "keys": Set {
-    "VPC",
-  },
-  "nodes": Object {
-    "VPC": Object {
-      "dependsOn": Array [],
-      "fqn": "aws-cdk-lib.aws_ec2.Vpc",
-      "logicalId": "VPC",
-      "namespace": "aws_ec2",
-      "overrides": Array [],
-      "props": Object {
-        "fields": Object {},
-        "type": "struct",
+  "resources": DependencyGraph {
+    "_dependencies": Map {
+      "VPC" => Set {},
+    },
+    "keys": Set {
+      "VPC",
+    },
+    "nodes": Object {
+      "VPC": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_ec2.Vpc",
+        "logicalId": "VPC",
+        "namespace": "aws_ec2",
+        "overrides": Array [],
+        "props": Object {
+          "fields": Object {},
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "construct",
       },
-      "tags": Array [],
-      "type": "construct",
+    },
+  },
+  "template": Template {
+    "conditions": Map {},
+    "mappings": Map {},
+    "outputs": Map {},
+    "parameters": TemplateParameters {
+      "parameters": Object {},
+    },
+    "resources": Map {
+      "VPC" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {},
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "overrides": Array [],
+        "properties": Object {},
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_ec2.Vpc",
+        "updateReplacePolicy": "Delete",
+      },
+    },
+    "template": Object {
+      "$schema": "../cdk.schema.json",
+      "Resources": Object {
+        "VPC": Object {
+          "Type": "aws-cdk-lib.aws_ec2.Vpc",
+        },
+      },
     },
   },
 }

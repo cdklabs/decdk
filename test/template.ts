@@ -1,29 +1,11 @@
-import * as reflect from 'jsii-reflect';
-import { DependencyGraph } from '../src/parser/private/toposort';
-import { Template } from '../src/parser/template';
-import {
-  CdkConstruct,
-  isCdkConstructExpression,
-  resolveResourceLike,
-  ResourceLike,
-} from '../src/type-resolution';
-
-export function typed(
-  typeSystem: reflect.TypeSystem,
-  template: Template
-): DependencyGraph<ResourceLike> {
-  return template
-    .resourceGraph()
-    .map((logicalId, resource) =>
-      resolveResourceLike(resource, logicalId, typeSystem)
-    );
-}
+import { CdkConstruct, isCdkConstructExpression } from '../src/type-resolution';
+import { TypedTemplate } from '../src/type-resolution/template';
 
 export function getCdkConstruct(
-  template: DependencyGraph<ResourceLike>,
+  template: TypedTemplate,
   name: string
 ): CdkConstruct {
-  const result = template.get(name);
+  const result = template.resources.get(name);
   if (!isCdkConstructExpression(result)) {
     fail(`${result.fqn} must be a CDK construct`);
   }

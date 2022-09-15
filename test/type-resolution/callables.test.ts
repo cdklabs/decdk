@@ -1,8 +1,8 @@
 import * as reflect from 'jsii-reflect';
 import { Template } from '../../src/parser/template';
-import { resolveResourceLike } from '../../src/type-resolution';
 import { StructExpression } from '../../src/type-resolution/struct';
-import { getCdkConstruct, typed } from '../template';
+import { TypedTemplate } from '../../src/type-resolution/template';
+import { getCdkConstruct } from '../template';
 import { Testing } from '../util';
 
 let typeSystem: reflect.TypeSystem;
@@ -30,7 +30,7 @@ test('Static Methods are resolved correctly', async () => {
     },
   });
 
-  const typedTemplate = typed(typeSystem, template);
+  const typedTemplate = new TypedTemplate(template, { typeSystem });
 
   // THEN
   const myLambda = getCdkConstruct(typedTemplate, 'MyLambda');
@@ -77,11 +77,7 @@ test('Can provide implementation via static method', async () => {
     },
   });
 
-  const typedTemplate = template
-    .resourceGraph()
-    .map((logicalId, resource) =>
-      resolveResourceLike(resource, logicalId, typeSystem)
-    );
+  const typedTemplate = new TypedTemplate(template, { typeSystem });
 
   // THEN
   const myLambda = getCdkConstruct(typedTemplate, 'MyFleet');

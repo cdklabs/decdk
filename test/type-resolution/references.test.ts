@@ -1,7 +1,8 @@
 import * as reflect from 'jsii-reflect';
 import { Template } from '../../src/parser/template';
 import { StructExpression } from '../../src/type-resolution/struct';
-import { getCdkConstruct, typed } from '../template';
+import { TypedTemplate } from '../../src/type-resolution/template';
+import { getCdkConstruct } from '../template';
 import { Testing } from '../util';
 
 let typeSystem: reflect.TypeSystem;
@@ -42,7 +43,7 @@ test('Constructs can be referenced', async () => {
     },
   });
 
-  const typedTemplate = typed(typeSystem, template);
+  const typedTemplate = new TypedTemplate(template, { typeSystem });
 
   // THEN
   const myApi = getCdkConstruct(typedTemplate, 'MyApi');

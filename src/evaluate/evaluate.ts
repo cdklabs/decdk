@@ -124,7 +124,7 @@ export class Evaluator {
         return ev(x.value);
       case 'void':
         return;
-      case 'lazy-construct':
+      case 'lazyResource':
         return this.invoke(
           x.call.fqn,
           x.call.method,

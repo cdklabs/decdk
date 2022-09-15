@@ -1,6 +1,6 @@
 import * as reflect from 'jsii-reflect';
 import { Template } from '../../src/parser/template';
-import { resolveResourceLike } from '../../src/type-resolution';
+import { TypedTemplate } from '../../src/type-resolution/template';
 import { Testing } from '../util';
 
 let typeSystem: reflect.TypeSystem;
@@ -28,14 +28,10 @@ test('ResourceLikes are resolved correctly', async () => {
     },
   });
 
-  const typedTemplate = template
-    .resourceGraph()
-    .map((logicalId, resource) =>
-      resolveResourceLike(resource, logicalId, typeSystem)
-    );
+  const typedTemplate = new TypedTemplate(template, { typeSystem });
 
   // THEN
   expect(template.template).toBeValidTemplate();
-  expect(typedTemplate.get('CdkTopic').type).toBe('construct');
-  expect(typedTemplate.get('CfnTopic').type).toBe('resource');
+  expect(typedTemplate.resources.get('CdkTopic').type).toBe('construct');
+  expect(typedTemplate.resources.get('CfnTopic').type).toBe('resource');
 });
