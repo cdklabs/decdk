@@ -41,6 +41,8 @@ export class Evaluator {
 
   public evaluate(x: TypedTemplateExpression): any {
     const ev = this.evaluate.bind(this);
+    const maybeEv = (y?: TypedTemplateExpression): any =>
+      y ? ev(y) : undefined;
 
     switch (x.type) {
       case 'string':
@@ -61,7 +63,7 @@ export class Evaluator {
           case 'base64':
             return this.fnBase64(assertString(ev(x.expression)));
           case 'cidr':
-            return this.fnCidr();
+            return this.fnCidr(ev(x.ipBlock), ev(x.count), maybeEv(x.netMask));
           case 'findInMap':
             return this.fnFindInMap(
               x.mappingName,
@@ -175,8 +177,8 @@ export class Evaluator {
     return Buffer.from(x).toString('base64');
   }
 
-  protected fnCidr() {
-    throw new Error('Fn::Cidr not implemented');
+  protected fnCidr(ipBlock: string, count: number, sizeMask?: string) {
+    return cdk.Fn.cidr(ipBlock, count, sizeMask);
   }
 
   protected fnFindInMap(mappingName: string, key1: string, key2: string) {
@@ -204,7 +206,7 @@ export class Evaluator {
     const c = this.context.referenceable(logicalId);
     const ret = c.attributes?.[attr];
     if (ret === undefined) {
-      throw new Error(`Fn::GetAtt: ${logicalId} has no attribute ${attr}`);
+      return cdk.Fn.getAtt(logicalId, attr);
     }
     return ret;
   }

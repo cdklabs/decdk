@@ -16,7 +16,7 @@ const FnBase64 = () =>
   });
 
 const FnCidr = () => {
-  const supported = [$ref('FnSelect'), $ref('FnRef')];
+  const supported = [$ref('FnSelect'), $ref('FnRef'), $ref('FnGetAtt')];
 
   return schemaForIntrinsic('Fn::Cidr', {
     description:

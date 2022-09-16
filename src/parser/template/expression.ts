@@ -86,7 +86,7 @@ export interface CidrIntrinsic {
   readonly fn: 'cidr';
   readonly ipBlock: TemplateExpression;
   readonly count: TemplateExpression;
-  readonly netMask: TemplateExpression;
+  readonly netMask?: TemplateExpression;
 }
 
 export interface FindInMapIntrinsic {
@@ -254,13 +254,13 @@ export function parseExpression(x: unknown): TemplateExpression {
       expression: parseExpression(value),
     }),
     'Fn::Cidr': (value) => {
-      const xs = assertList(value, [3]);
+      const xs = assertList(value, [2, 3]);
       return {
         type: 'intrinsic',
         fn: 'cidr',
         ipBlock: parseExpression(xs[0]),
         count: parseExpression(xs[1]),
-        netMask: parseExpression(xs[2]),
+        netMask: xs[2] ? parseExpression(xs[2]) : undefined,
       };
     },
     'Fn::FindInMap': (value) => {
