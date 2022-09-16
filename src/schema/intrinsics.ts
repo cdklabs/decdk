@@ -281,49 +281,50 @@ const FnSplit = () =>
     ],
   });
 
-const FnSub = () =>
-  schemaForIntrinsic('Fn::Sub', {
+const FnSub = () => {
+  const description =
+    'https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-sub.html';
+
+  const substituteStringParam = {
+    name: 'substituteString',
     description:
-      'https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-sub.html',
-    params: [
-      {
-        name: 'substituteString',
-        description:
-          "A string with variables that AWS CloudFormation substitutes with their associated values at runtime. Write variables as ${MyVarName}. Variables can be template parameter names, resource logical IDs, resource attributes, or a variable in a key-value map. If you specify only template parameter names, resource logical IDs, and resource attributes, don't specify a key-value map.\nIf you specify template parameter names or resource logical IDs, such as ${InstanceTypeParameter}, AWS CloudFormation returns the same values as if you used the Ref intrinsic function. If you specify resource attributes, such as ${MyInstance.PublicIp}, AWS CloudFormation returns the same values as if you used the Fn::GetAtt intrinsic function.\nTo write a dollar sign and curly braces (${}) literally, add an exclamation point (!) after the open curly brace, such as ${!Literal}. AWS CloudFormation resolves this text as ${Literal}.",
-        types: [$ref('StringLiteral')],
-      },
-      {
-        name: 'substituteMap',
-        optional: true,
-        description:
-          'The name of a variable that you included in the String parameter.',
-        types: [
+      "A string with variables that AWS CloudFormation substitutes with their associated values at runtime. Write variables as ${MyVarName}. Variables can be template parameter names, resource logical IDs, resource attributes, or a variable in a key-value map. If you specify only template parameter names, resource logical IDs, and resource attributes, don't specify a key-value map.\nIf you specify template parameter names or resource logical IDs, such as ${InstanceTypeParameter}, AWS CloudFormation returns the same values as if you used the Ref intrinsic function. If you specify resource attributes, such as ${MyInstance.PublicIp}, AWS CloudFormation returns the same values as if you used the Fn::GetAtt intrinsic function.\nTo write a dollar sign and curly braces (${}) literally, add an exclamation point (!) after the open curly brace, such as ${!Literal}. AWS CloudFormation resolves this text as ${Literal}.",
+    types: [$ref('StringLiteral')],
+  };
+
+  return {
+    anyOf: [
+      schemaForIntrinsic('Fn::Sub', {
+        description,
+        params: [substituteStringParam],
+      }),
+      schemaForIntrinsic('Fn::Sub', {
+        description,
+        params: [
+          substituteStringParam,
           {
-            type: 'object',
-            patternProperties: {
-              '^[a-zA-Z0-9._-]{1,255}$': {
-                $comment:
-                  'The value that AWS CloudFormation substitutes for the associated variable name at runtime.',
-                anyOf: [
-                  $ref('StringLiteral'),
-                  $ref('FnBase64'),
-                  $ref('FnFindInMap'),
-                  $ref('FnGetAtt'),
-                  $ref('FnGetAZs'),
-                  $ref('FnIf'),
-                  $ref('FnImportValue'),
-                  $ref('FnJoin'),
-                  $ref('FnSelect'),
-                  $ref('FnRef'),
-                ],
+            name: 'substituteMap',
+            description:
+              'The name of a variable that you included in the String parameter.',
+            types: [
+              {
+                type: 'object',
+                patternProperties: {
+                  '^[a-zA-Z0-9._-]{1,255}$': {
+                    $comment:
+                      'The value that AWS CloudFormation substitutes for the associated variable name at runtime.',
+                    anyOf: [$ref('StringExpression')],
+                  },
+                },
+                minProperties: 1,
               },
-            },
-            minProperties: 1,
+            ],
           },
         ],
-      },
+      }),
     ],
-  });
+  };
+};
 
 const FnTransform = () =>
   schemaForIntrinsic('Fn::Transform', {

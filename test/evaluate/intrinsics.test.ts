@@ -277,3 +277,61 @@ test('FnSplit', async () => {
     },
   });
 });
+
+test('FnSub', async () => {
+  // GIVEN
+  const template = await Testing.template(
+    await Template.fromObject({
+      Resources: {
+        Bucket: {
+          Type: 'aws-cdk-lib.aws_s3.Bucket',
+        },
+        AppSyncEventBridgeRole: {
+          Type: 'aws-cdk-lib.aws_iam.Role',
+          Properties: {
+            description: { 'Fn::Sub': '${AWS::Region}' },
+            assumedBy: {
+              'aws-cdk-lib.aws_iam.ServicePrincipal': {
+                service: {
+                  'Fn::Sub': [
+                    'appsync.${Domain}.com',
+                    {
+                      Domain: { Ref: 'Bucket' },
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        },
+      },
+    })
+  );
+
+  // THEN
+  template.hasResourceProperties('AWS::IAM::Role', {
+    Description: {
+      'Fn::Sub': '${AWS::Region}',
+    },
+    AssumeRolePolicyDocument: {
+      Statement: [
+        {
+          Action: 'sts:AssumeRole',
+          Effect: 'Allow',
+          Principal: {
+            Service: {
+              'Fn::Sub': [
+                'appsync.${Domain}.com',
+                {
+                  Domain: {
+                    Ref: Match.stringLikeRegexp('^Bucket.{8}$'),
+                  },
+                },
+              ],
+            },
+          },
+        },
+      ],
+    },
+  });
+});
