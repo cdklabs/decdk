@@ -2,12 +2,7 @@ import * as cdk from 'aws-cdk-lib';
 import { CfnElement } from 'aws-cdk-lib';
 import { Construct, IConstruct } from 'constructs';
 import { SubFragment } from '../parser/private/sub';
-import {
-  assertBoolean,
-  assertList,
-  assertNumber,
-  assertString,
-} from '../parser/private/types';
+import { assertBoolean, assertString } from '../parser/private/types';
 import { GetAttIntrinsic, RefIntrinsic } from '../parser/template';
 import { ResourceOverride } from '../parser/template/overrides';
 import { ResourceTag } from '../parser/template/tags';
@@ -46,6 +41,8 @@ export class Evaluator {
 
   public evaluate(x: TypedTemplateExpression): any {
     const ev = this.evaluate.bind(this);
+    const maybeEv = (y?: TypedTemplateExpression): any =>
+      y ? ev(y) : undefined;
 
     switch (x.type) {
       case 'string':
@@ -66,7 +63,7 @@ export class Evaluator {
           case 'base64':
             return this.fnBase64(assertString(ev(x.expression)));
           case 'cidr':
-            return this.fnCidr();
+            return this.fnCidr(ev(x.ipBlock), ev(x.count), maybeEv(x.netMask));
           case 'findInMap':
             return this.fnFindInMap(
               x.mappingName,
@@ -89,10 +86,7 @@ export class Evaluator {
           case 'ref':
             return this.ref(x.logicalId);
           case 'select':
-            return this.fnSelect(
-              assertNumber(ev(x.index)),
-              assertList(this.evaluateArray(x.array))
-            );
+            return this.fnSelect(ev(x.index), ev(x.objects));
           case 'split':
             return this.fnSplit(x.separator, assertString(ev(x.value)));
           case 'sub':
@@ -180,11 +174,11 @@ export class Evaluator {
   }
 
   protected fnBase64(x: string) {
-    return Buffer.from(x).toString('base64');
+    return cdk.Fn.base64(x);
   }
 
-  protected fnCidr() {
-    throw new Error('Fn::Cidr not implemented');
+  protected fnCidr(ipBlock: string, count: number, sizeMask?: string) {
+    return cdk.Fn.cidr(ipBlock, count, sizeMask);
   }
 
   protected fnFindInMap(mappingName: string, key1: string, key2: string) {
@@ -212,7 +206,7 @@ export class Evaluator {
     const c = this.context.referenceable(logicalId);
     const ret = c.attributes?.[attr];
     if (ret === undefined) {
-      throw new Error(`Fn::GetAtt: ${logicalId} has no attribute ${attr}`);
+      return cdk.Fn.getAtt(logicalId, attr);
     }
     return ret;
   }
@@ -282,17 +276,8 @@ export class Evaluator {
     return cdk.Fn.ref(logicalId);
   }
 
-  protected fnSelect(index: number, elements: unknown[]) {
-    if (index < 0 || elements.length <= index) {
-      throw new Error(
-        `Fn::Select: index ${index} of out range: [0..${elements.length - 1}]`
-      );
-    }
-
-    // @todo
-    // Need to resolve to intrinsic function, since index can be not a number
-    // @see https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-select.html#w2ab1c31c28c56c15
-    return elements[index]!;
+  protected fnSelect(index: number, elements: any[]) {
+    return cdk.Fn.select(index, elements);
   }
 
   protected fnSplit(separator: string, value: string) {

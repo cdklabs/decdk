@@ -92,7 +92,9 @@ function findReferencedLogicalIds(
           case 'cidr':
             recurse(x.count);
             recurse(x.ipBlock);
-            recurse(x.netMask);
+            if (x.netMask) {
+              recurse(x.netMask);
+            }
             break;
           case 'findInMap':
             recurse(x.key1);
@@ -113,7 +115,7 @@ function findReferencedLogicalIds(
             break;
           case 'select':
             recurse(x.index);
-            x.array.forEach(recurse);
+            recurse(x.objects);
             break;
           case 'split':
             recurse(x.value);

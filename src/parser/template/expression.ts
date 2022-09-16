@@ -86,7 +86,7 @@ export interface CidrIntrinsic {
   readonly fn: 'cidr';
   readonly ipBlock: TemplateExpression;
   readonly count: TemplateExpression;
-  readonly netMask: TemplateExpression;
+  readonly netMask?: TemplateExpression;
 }
 
 export interface FindInMapIntrinsic {
@@ -128,7 +128,15 @@ export interface SelectIntrinsic {
   readonly type: 'intrinsic';
   readonly fn: 'select';
   readonly index: TemplateExpression;
-  readonly array: TemplateExpression[];
+  readonly objects:
+    | ArrayLiteral
+    | RefIntrinsic
+    | CidrIntrinsic
+    | FindInMapIntrinsic
+    | GetAttIntrinsic
+    | GetAZsIntrinsic
+    | IfIntrinsic
+    | SplitIntrinsic;
 }
 
 export interface SplitIntrinsic {
@@ -246,13 +254,13 @@ export function parseExpression(x: unknown): TemplateExpression {
       expression: parseExpression(value),
     }),
     'Fn::Cidr': (value) => {
-      const xs = assertList(value, [3]);
+      const xs = assertList(value, [2, 3]);
       return {
         type: 'intrinsic',
         fn: 'cidr',
         ipBlock: parseExpression(xs[0]),
         count: parseExpression(xs[1]),
-        netMask: parseExpression(xs[2]),
+        netMask: xs[2] ? parseExpression(xs[2]) : undefined,
       };
     },
     'Fn::FindInMap': (value) => {
@@ -297,12 +305,27 @@ export function parseExpression(x: unknown): TemplateExpression {
     },
     'Fn::Select': (value) => {
       const xs = assertList(value, [2]);
-      const args = assertList(xs[1]);
+
+      let objects;
+      if (Array.isArray(xs[1])) {
+        objects = parseExpression(xs[1]) as ArrayLiteral;
+      } else {
+        objects = assertIntrinsic(parseExpression(xs[1]), [
+          'ref',
+          'cidr',
+          'findInMap',
+          'getAtt',
+          'getAzs',
+          'if',
+          'split',
+        ]);
+      }
+
       return {
         type: 'intrinsic',
         fn: 'select',
         index: parseExpression(xs[0]),
-        array: args.map(parseExpression),
+        objects,
       };
     },
     'Fn::Split': (value) => {
@@ -412,4 +435,21 @@ export function ifField<A extends object, K extends keyof A, B>(
     return fn(xs[k] as any);
   }
   return undefined;
+}
+
+export function assertIntrinsic<T extends IntrinsicExpression['fn']>(
+  x: TemplateExpression,
+  fns: T[]
+): IntrinsicExpression & { fn: T } {
+  for (const fn of fns) {
+    if (x.type === 'intrinsic' && fn === x.fn) {
+      return x as IntrinsicExpression & { fn: typeof fn };
+    }
+  }
+
+  throw new ParserError(
+    `Expected one of Intrinsic Functions [${fns.join(
+      '|'
+    )}], got: ${JSON.stringify(x)}`
+  );
 }

@@ -1,22 +1,23 @@
 import { $ref } from './expression';
 import { schemaForIntrinsic } from './intrinsics';
+import { SchemaContext } from './jsii2schema';
 
-export const ConditionExpression = () => ({
+export const ConditionExpression = (ctx: SchemaContext) => ({
   $comment:
     'Intrinsic function token expressions that can be used in Condition functions',
   type: ['object'],
   anyOf: [
-    $ref('FnCondition'),
-    $ref('FnAnd'),
-    $ref('FnEquals'),
-    $ref('FnNot'),
-    $ref('FnOr'),
+    ctx.define('FnCondition', FnCondition),
+    ctx.define('FnAnd', FnAnd),
+    ctx.define('FnEquals', FnEquals),
+    ctx.define('FnNot', FnNot),
+    ctx.define('FnOr', FnOr),
     $ref('FnRef'),
     $ref('FnFindInMap'),
   ],
 });
 
-export const FnCondition = () =>
+const FnCondition = () =>
   schemaForIntrinsic('Condition', {
     description:
       'https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-condition.html',
@@ -29,7 +30,7 @@ export const FnCondition = () =>
     ],
   });
 
-export const FnAnd = () =>
+const FnAnd = () =>
   schemaForIntrinsic('Fn::And', {
     description:
       'https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-conditions.html#intrinsic-function-reference-conditions-and',
@@ -43,7 +44,7 @@ export const FnAnd = () =>
     ],
   });
 
-export const FnEquals = () =>
+const FnEquals = () =>
   schemaForIntrinsic('Fn::Equals', {
     description:
       'https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-conditions.html#intrinsic-function-reference-conditions-equals',
@@ -61,46 +62,7 @@ export const FnEquals = () =>
     ],
   });
 
-export const FnIf = () => {
-  const types = [
-    $ref('PrimitiveLiteral'),
-    $ref('FnBase64'),
-    $ref('FnFindInMap'),
-    $ref('FnGetAtt'),
-    $ref('FnGetAZs'),
-    $ref('FnIf'),
-    $ref('FnJoin'),
-    $ref('FnSelect'),
-    $ref('FnSub'),
-    $ref('FnRef'),
-  ];
-  return schemaForIntrinsic('Fn::If', {
-    description:
-      'https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-conditions.html#intrinsic-function-reference-conditions-if',
-    params: [
-      {
-        name: 'condition_name',
-        description:
-          "A reference to a condition in the Conditions section. Use the condition's name to reference it.",
-        types: [$ref('StringLiteral')],
-      },
-      {
-        name: 'value_if_true',
-        description:
-          'A value to be returned if the specified condition evaluates to true.',
-        types,
-      },
-      {
-        name: 'value_if_false',
-        description:
-          'A value to be returned if the specified condition evaluates to false.',
-        types,
-      },
-    ],
-  });
-};
-
-export const FnNot = () =>
+const FnNot = () =>
   schemaForIntrinsic('Fn::Not', {
     description:
       'https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-conditions.html#intrinsic-function-reference-conditions-not',
@@ -114,7 +76,7 @@ export const FnNot = () =>
     ],
   });
 
-export const FnOr = () =>
+const FnOr = () =>
   schemaForIntrinsic('Fn::Or', {
     description:
       'https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-conditions.html#intrinsic-function-reference-conditions-or',
