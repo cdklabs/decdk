@@ -174,7 +174,7 @@ export class Evaluator {
   }
 
   protected fnBase64(x: string) {
-    return Buffer.from(x).toString('base64');
+    return cdk.Fn.base64(x);
   }
 
   protected fnCidr(ipBlock: string, count: number, sizeMask?: string) {
