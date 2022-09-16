@@ -2,6 +2,73 @@ import { Match } from 'aws-cdk-lib/assertions';
 import { Template } from '../../src/parser/template';
 import { Testing } from '../util';
 
+test('can use intrinsic where primitive number is expected', async () => {
+  // GIVEN
+  const template = await Testing.template(
+    await Template.fromObject({
+      Resources: {
+        Lambda: {
+          Type: 'aws-cdk-lib.aws_lambda.Function',
+          Properties: {
+            code: {
+              'aws-cdk-lib.aws_lambda.Code.fromInline': {
+                code: 'whatever',
+              },
+            },
+            runtime: 'NODEJS_16_X',
+            handler: 'index.handler',
+            timeout: {
+              'aws-cdk-lib.Duration.seconds': {
+                amount: { 'Fn::Select': [0, [5, 15, 20]] },
+              },
+            },
+          },
+        },
+      },
+    })
+  );
+
+  // THEN
+  template.hasResourceProperties('AWS::Lambda::Function', {
+    Timeout: 5,
+  });
+});
+
+test('can use intrinsic where primitive boolean is expected', async () => {
+  // GIVEN
+  const template = await Testing.template(
+    await Template.fromObject({
+      Mappings: {
+        RegionMap: {
+          'us-east-1': {
+            TRUE: '0',
+            FALSE: '1',
+          },
+        },
+      },
+
+      Resources: {
+        Bucket: {
+          Type: 'AWS::S3::Bucket',
+        },
+        Topic: {
+          Type: 'aws-cdk-lib.aws_sns.Topic',
+          Properties: {
+            fifo: {
+              'Fn::Select': [1, [true, false]],
+            },
+          },
+        },
+      },
+    })
+  );
+
+  // THEN
+  template.hasResourceProperties('AWS::SNS::Topic', {
+    FifoTopic: false,
+  });
+});
+
 test('FnBase64', async () => {
   // GIVEN
   const template = await Testing.template(
