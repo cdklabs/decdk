@@ -165,3 +165,24 @@ test('FnFindInMap', () => {
   // THEN
   expect(template).toBeValidTemplate();
 });
+
+describe('FnSplit', () => {
+  test('cannot use FnGetAZs as second parameter', () => {
+    // GIVEN
+    const template = {
+      Resources: {
+        Topic: {
+          Type: 'aws-cdk-lib.aws_sns.Topic',
+          Properties: {
+            displayName: {
+              'Fn::Select': [0, { 'Fn::Split': [',', { 'Fn::GetAZs': '' }] }],
+            },
+          },
+        },
+      },
+    };
+
+    // THEN
+    expect(template).not.toBeValidTemplate();
+  });
+});

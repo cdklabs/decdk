@@ -276,19 +276,7 @@ const FnSplit = () =>
       {
         name: 'sourceString',
         description: 'The string value that you want to split.',
-        types: [
-          $ref('StringLiteral'),
-          $ref('FnBase64'),
-          $ref('FnFindInMap'),
-          $ref('FnGetAtt'),
-          $ref('FnGetAZs'),
-          $ref('FnIf'),
-          $ref('FnImportValue'),
-          $ref('FnJoin'),
-          $ref('FnSelect'),
-          $ref('FnSub'),
-          $ref('FnRef'),
-        ],
+        types: [$ref('StringExpression')],
       },
     ],
   });

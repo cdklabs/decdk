@@ -229,7 +229,7 @@ test('FnJoin', async () => {
 
   // THEN
   template.hasResourceProperties('AWS::SNS::Topic', {
-    TopicName: 'a|b|c',
+    TopicName: 'a|b|c', // can be computed locally
     DisplayName: {
       'Fn::Join': [
         '-',
@@ -239,6 +239,41 @@ test('FnJoin', async () => {
           { 'Fn::Base64': { Ref: Match.stringLikeRegexp('^Bucket.{8}$') } },
         ],
       ],
+    },
+  });
+});
+
+test('FnSplit', async () => {
+  // GIVEN
+  const template = await Testing.template(
+    await Template.fromObject({
+      Resources: {
+        Bucket: {
+          Type: 'aws-cdk-lib.aws_s3.Bucket',
+        },
+        Topic: {
+          Type: 'aws-cdk-lib.aws_sns.Topic',
+          Properties: {
+            displayName: {
+              'Fn::Select': ['0', { 'Fn::Split': ['|', 'a|b|c'] }],
+            },
+            topicName: {
+              'Fn::Select': [
+                2,
+                { 'Fn::Split': ['|', { 'Fn::Base64': 'Test' }] },
+              ],
+            },
+          },
+        },
+      },
+    })
+  );
+
+  // THEN
+  template.hasResourceProperties('AWS::SNS::Topic', {
+    DisplayName: 'a', // can be computed locally
+    TopicName: {
+      'Fn::Select': [2, { 'Fn::Split': ['|', { 'Fn::Base64': 'Test' }] }],
     },
   });
 });
