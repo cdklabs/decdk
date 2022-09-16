@@ -102,3 +102,32 @@ test.each(['', 'us-east-1', { Ref: 'AWS::Region' }])(
     });
   }
 );
+
+test('FnImportValue', async () => {
+  // GIVEN
+  const template = await Testing.template(
+    await Template.fromObject({
+      Resources: {
+        Topic: {
+          Type: 'aws-cdk-lib.aws_sns.Topic',
+          Properties: {
+            displayName: {
+              'Fn::ImportValue': {
+                'Fn::Base64': { Ref: 'AWS::StackName' },
+              },
+            },
+          },
+        },
+      },
+    })
+  );
+
+  // THEN
+  template.hasResourceProperties('AWS::SNS::Topic', {
+    DisplayName: {
+      'Fn::ImportValue': {
+        'Fn::Base64': { Ref: 'AWS::StackName' },
+      },
+    },
+  });
+});
