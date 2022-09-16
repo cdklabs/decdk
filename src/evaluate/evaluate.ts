@@ -2,12 +2,7 @@ import * as cdk from 'aws-cdk-lib';
 import { CfnElement } from 'aws-cdk-lib';
 import { Construct, IConstruct } from 'constructs';
 import { SubFragment } from '../parser/private/sub';
-import {
-  assertBoolean,
-  assertList,
-  assertNumber,
-  assertString,
-} from '../parser/private/types';
+import { assertBoolean, assertString } from '../parser/private/types';
 import { GetAttIntrinsic, RefIntrinsic } from '../parser/template';
 import { ResourceOverride } from '../parser/template/overrides';
 import { ResourceTag } from '../parser/template/tags';
@@ -89,10 +84,7 @@ export class Evaluator {
           case 'ref':
             return this.ref(x.logicalId);
           case 'select':
-            return this.fnSelect(
-              assertNumber(ev(x.index)),
-              assertList(this.evaluateArray(x.array))
-            );
+            return this.fnSelect(ev(x.index), ev(x.objects));
           case 'split':
             return this.fnSplit(x.separator, assertString(ev(x.value)));
           case 'sub':
@@ -282,17 +274,8 @@ export class Evaluator {
     return cdk.Fn.ref(logicalId);
   }
 
-  protected fnSelect(index: number, elements: unknown[]) {
-    if (index < 0 || elements.length <= index) {
-      throw new Error(
-        `Fn::Select: index ${index} of out range: [0..${elements.length - 1}]`
-      );
-    }
-
-    // @todo
-    // Need to resolve to intrinsic function, since index can be not a number
-    // @see https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-select.html#w2ab1c31c28c56c15
-    return elements[index]!;
+  protected fnSelect(index: number, elements: any[]) {
+    return cdk.Fn.select(index, elements);
   }
 
   protected fnSplit(separator: string, value: string) {

@@ -1,12 +1,4 @@
-import {
-  ConditionExpression,
-  FnAnd,
-  FnCondition,
-  FnEquals,
-  FnIf,
-  FnNot,
-  FnOr,
-} from './conditions';
+import { ConditionExpression } from './conditions';
 import { $ref, schemaForExpressions } from './expression';
 import { SchemaContext } from './jsii2schema';
 
@@ -140,10 +132,49 @@ const FnGetAZs = () =>
         name: 'region',
         description:
           'The name of the region for which you want to get the Availability Zones.',
-        types: [$ref('FnRef')],
+        types: [$ref('StringLiteral'), $ref('FnRef')],
       },
     ],
   });
+
+const FnIf = () => {
+  const types = [
+    $ref('PrimitiveLiteral'),
+    $ref('FnBase64'),
+    $ref('FnFindInMap'),
+    $ref('FnGetAtt'),
+    $ref('FnGetAZs'),
+    $ref('FnIf'),
+    $ref('FnJoin'),
+    $ref('FnSelect'),
+    $ref('FnSub'),
+    $ref('FnRef'),
+  ];
+  return schemaForIntrinsic('Fn::If', {
+    description:
+      'https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-conditions.html#intrinsic-function-reference-conditions-if',
+    params: [
+      {
+        name: 'condition_name',
+        description:
+          "A reference to a condition in the Conditions section. Use the condition's name to reference it.",
+        types: [$ref('StringLiteral')],
+      },
+      {
+        name: 'value_if_true',
+        description:
+          'A value to be returned if the specified condition evaluates to true.',
+        types,
+      },
+      {
+        name: 'value_if_false',
+        description:
+          'A value to be returned if the specified condition evaluates to false.',
+        types,
+      },
+    ],
+  });
+};
 
 const FnImportValue = () =>
   schemaForIntrinsic('Fn::ImportValue', {
@@ -228,18 +259,16 @@ const FnSelect = () => {
           'The list of objects to select from. This list must not be null, nor can it have null entries.',
         types: [
           $ref('FnRef'),
+          $ref('FnCidr'),
+          $ref('FnFindInMap'),
+          $ref('FnGetAtt'),
+          $ref('FnGetAZs'),
+          $ref('FnIf'),
+          $ref('FnSplit'),
           {
             type: 'array',
             items: {
-              anyOf: [
-                $ref('PrimitiveLiteral'),
-                $ref('FnRef'),
-                $ref('FnFindInMap'),
-                $ref('FnGetAtt'),
-                $ref('FnGetAZs'),
-                $ref('FnIf'),
-                $ref('FnSplit'),
-              ],
+              anyOf: [$ref('PrimitiveLiteral'), $ref('IntrinsicExpression')],
             },
             minItems: 1,
           },
@@ -379,15 +408,10 @@ export function schemaForIntrinsicFunctions(ctx: SchemaContext) {
       ctx.define('FnSub', FnSub),
       ctx.define('FnTransform', FnTransform),
       ctx.define('FnRef', FnRef),
-      ctx.define('ConditionExpression', ConditionExpression),
-      ctx.define('FnCondition', FnCondition),
-      ctx.define('FnAnd', FnAnd),
-      ctx.define('FnEquals', FnEquals),
       ctx.define('FnIf', FnIf),
-      ctx.define('FnNot', FnNot),
-      ctx.define('FnOr', FnOr),
     ],
   }));
+  ctx.define('ConditionExpression', ConditionExpression);
 }
 
 interface IntrinsicDefinition {

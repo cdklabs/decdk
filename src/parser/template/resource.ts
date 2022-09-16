@@ -113,7 +113,7 @@ function findReferencedLogicalIds(
             break;
           case 'select':
             recurse(x.index);
-            x.array.forEach(recurse);
+            recurse(x.objects);
             break;
           case 'split':
             recurse(x.value);
