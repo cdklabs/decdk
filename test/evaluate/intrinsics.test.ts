@@ -289,7 +289,7 @@ test('FnSub', async () => {
         AppSyncEventBridgeRole: {
           Type: 'aws-cdk-lib.aws_iam.Role',
           Properties: {
-            description: { 'Fn::Sub': '${AWS::Region}' },
+            description: { 'Fn::Sub': '${AWS::Region} ${!AWS::Region}' },
             assumedBy: {
               'aws-cdk-lib.aws_iam.ServicePrincipal': {
                 service: {
@@ -311,7 +311,7 @@ test('FnSub', async () => {
   // THEN
   template.hasResourceProperties('AWS::IAM::Role', {
     Description: {
-      'Fn::Sub': '${AWS::Region}',
+      'Fn::Sub': '${AWS::Region} ${!AWS::Region}',
     },
     AssumeRolePolicyDocument: {
       Statement: [
