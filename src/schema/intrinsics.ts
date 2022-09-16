@@ -215,23 +215,13 @@ const FnJoin = () =>
         description: 'The list of values you want combined.',
         types: [
           {
-            type: 'array',
-            items: {
-              anyOf: [
-                $ref('StringLiteral'),
-                $ref('FnBase64'),
-                $ref('FnFindInMap'),
-                $ref('FnGetAtt'),
-                $ref('FnGetAZs'),
-                $ref('FnIf'),
-                $ref('FnImportValue'),
-                $ref('FnJoin'),
-                $ref('FnSplit'),
-                $ref('FnSelect'),
-                $ref('FnSub'),
-                $ref('FnRef'),
-              ],
-            },
+            anyOf: [
+              $ref('ListExpression'),
+              {
+                type: 'array',
+                items: $ref('StringExpression'),
+              },
+            ],
           },
         ],
       },
@@ -258,13 +248,7 @@ const FnSelect = () => {
         description:
           'The list of objects to select from. This list must not be null, nor can it have null entries.',
         types: [
-          $ref('FnRef'),
-          $ref('FnCidr'),
-          $ref('FnFindInMap'),
-          $ref('FnGetAtt'),
-          $ref('FnGetAZs'),
-          $ref('FnIf'),
-          $ref('FnSplit'),
+          $ref('ListExpression'),
           {
             type: 'array',
             items: {

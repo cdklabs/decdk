@@ -79,10 +79,7 @@ export class Evaluator {
           case 'importValue':
             return this.fnImportValue(assertString(ev(x.export)));
           case 'join':
-            return this.fnJoin(
-              assertString(x.separator),
-              this.evaluateArray(x.array)
-            );
+            return this.fnJoin(assertString(x.separator), ev(x.list));
           case 'ref':
             return this.ref(x.logicalId);
           case 'select':

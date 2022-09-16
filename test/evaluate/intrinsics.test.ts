@@ -198,3 +198,47 @@ test('FnImportValue', async () => {
     },
   });
 });
+
+test('FnJoin', async () => {
+  // GIVEN
+  const template = await Testing.template(
+    await Template.fromObject({
+      Resources: {
+        Bucket: {
+          Type: 'aws-cdk-lib.aws_s3.Bucket',
+        },
+        Topic: {
+          Type: 'aws-cdk-lib.aws_sns.Topic',
+          Properties: {
+            topicName: { 'Fn::Join': ['|', { 'Fn::Split': ['|', 'a|b|c'] }] },
+            displayName: {
+              'Fn::Join': [
+                '-',
+                [
+                  'queue',
+                  { Ref: 'AWS::Region' },
+                  { 'Fn::Base64': { Ref: 'Bucket' } },
+                ],
+              ],
+            },
+          },
+        },
+      },
+    })
+  );
+
+  // THEN
+  template.hasResourceProperties('AWS::SNS::Topic', {
+    TopicName: 'a|b|c',
+    DisplayName: {
+      'Fn::Join': [
+        '-',
+        [
+          'queue',
+          { Ref: 'AWS::Region' },
+          { 'Fn::Base64': { Ref: Match.stringLikeRegexp('^Bucket.{8}$') } },
+        ],
+      ],
+    },
+  });
+});
