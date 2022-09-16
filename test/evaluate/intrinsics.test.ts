@@ -69,3 +69,36 @@ test('FnCidr', async () => {
     },
   });
 });
+
+test.each(['', 'us-east-1', { Ref: 'AWS::Region' }])(
+  'FnGetAZs with: %j',
+  async (azsValue) => {
+    // GIVEN
+    const template = await Testing.template(
+      await Template.fromObject({
+        Resources: {
+          VPC: {
+            Type: 'aws-cdk-lib.aws_ec2.Vpc',
+          },
+          Subnet: {
+            Type: 'aws-cdk-lib.aws_ec2.Subnet',
+            Properties: {
+              vpcId: { Ref: 'VPC' },
+              cidrBlock: '10.0.0.0/24',
+              availabilityZone: {
+                'Fn::Select': ['0', { 'Fn::GetAZs': azsValue }],
+              },
+            },
+          },
+        },
+      })
+    );
+
+    // THEN
+    template.hasResourceProperties('AWS::EC2::Subnet', {
+      AvailabilityZone: {
+        'Fn::Select': ['0', { 'Fn::GetAZs': azsValue }],
+      },
+    });
+  }
+);
