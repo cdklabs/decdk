@@ -121,22 +121,14 @@ export interface JoinIntrinsic {
   readonly type: 'intrinsic';
   readonly fn: 'join';
   readonly separator: string;
-  readonly array: TemplateExpression[];
+  readonly list: ListIntrinsic;
 }
 
 export interface SelectIntrinsic {
   readonly type: 'intrinsic';
   readonly fn: 'select';
   readonly index: TemplateExpression;
-  readonly objects:
-    | ArrayLiteral
-    | RefIntrinsic
-    | CidrIntrinsic
-    | FindInMapIntrinsic
-    | GetAttIntrinsic
-    | GetAZsIntrinsic
-    | IfIntrinsic
-    | SplitIntrinsic;
+  readonly objects: ListIntrinsic;
 }
 
 export interface SplitIntrinsic {
@@ -295,37 +287,20 @@ export function parseExpression(x: unknown): TemplateExpression {
     }),
     'Fn::Join': (value) => {
       const xs = assertList(value, [2]);
-      const args = assertList(xs[1]);
       return {
         type: 'intrinsic',
         fn: 'join',
         separator: assertString(xs[0]),
-        array: args.map(parseExpression),
+        list: parseListIntrinsic(xs[1]),
       };
     },
     'Fn::Select': (value) => {
       const xs = assertList(value, [2]);
-
-      let objects;
-      if (Array.isArray(xs[1])) {
-        objects = parseExpression(xs[1]) as ArrayLiteral;
-      } else {
-        objects = assertIntrinsic(parseExpression(xs[1]), [
-          'ref',
-          'cidr',
-          'findInMap',
-          'getAtt',
-          'getAzs',
-          'if',
-          'split',
-        ]);
-      }
-
       return {
         type: 'intrinsic',
         fn: 'select',
         index: parseExpression(xs[0]),
-        objects,
+        objects: parseListIntrinsic(xs[1]),
       };
     },
     'Fn::Split': (value) => {
@@ -424,6 +399,32 @@ export function parseObject(x: unknown) {
   return Object.fromEntries(
     Object.entries(assertObject(x)).map(([k, v]) => [k, parseExpression(v)])
   );
+}
+
+type ListIntrinsic =
+  | ArrayLiteral
+  | RefIntrinsic
+  | CidrIntrinsic
+  | FindInMapIntrinsic
+  | GetAttIntrinsic
+  | GetAZsIntrinsic
+  | IfIntrinsic
+  | SplitIntrinsic;
+
+function parseListIntrinsic(xs: unknown): ListIntrinsic {
+  if (Array.isArray(xs)) {
+    return parseExpression(xs) as ArrayLiteral;
+  } else {
+    return assertIntrinsic(parseExpression(xs), [
+      'ref',
+      'cidr',
+      'findInMap',
+      'getAtt',
+      'getAzs',
+      'if',
+      'split',
+    ]);
+  }
 }
 
 export function ifField<A extends object, K extends keyof A, B>(

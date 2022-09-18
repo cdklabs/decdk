@@ -1,5 +1,5 @@
 import * as cdk from 'aws-cdk-lib';
-import { CfnElement } from 'aws-cdk-lib';
+import { CfnElement, Token } from 'aws-cdk-lib';
 import { Construct, IConstruct } from 'constructs';
 import { SubFragment } from '../parser/private/sub';
 import { assertBoolean, assertString } from '../parser/private/types';
@@ -79,10 +79,7 @@ export class Evaluator {
           case 'importValue':
             return this.fnImportValue(assertString(ev(x.export)));
           case 'join':
-            return this.fnJoin(
-              assertString(x.separator),
-              this.evaluateArray(x.array)
-            );
+            return this.fnJoin(assertString(x.separator), ev(x.list));
           case 'ref':
             return this.ref(x.logicalId);
           case 'select':
@@ -255,7 +252,7 @@ export class Evaluator {
     return c.primaryValue;
   }
 
-  protected ref(logicalId: string) {
+  private logicalIdForReference(logicalId: string) {
     const c = this.context.referenceable(logicalId);
     if (!c) {
       throw new Error(`Ref: unknown identifier: ${logicalId}`);
@@ -265,15 +262,17 @@ export class Evaluator {
       c.primaryValue instanceof Construct &&
       !CfnElement.isCfnElement(c.primaryValue)
     ) {
-      return cdk.Fn.ref(
-        this.context.stack.getLogicalId(
-          c.primaryValue.node.defaultChild as cdk.CfnElement
-        )
+      return this.context.stack.getLogicalId(
+        c.primaryValue.node.defaultChild as cdk.CfnElement
       );
     }
 
     // This covers CloudFormation Resources, Parameters and Pseudo Parameters
-    return cdk.Fn.ref(logicalId);
+    return logicalId;
+  }
+
+  protected ref(logicalId: string) {
+    return cdk.Fn.ref(this.logicalIdForReference(logicalId));
   }
 
   protected fnSelect(index: number, elements: any[]) {
@@ -286,23 +285,39 @@ export class Evaluator {
 
   protected fnSub(
     fragments: SubFragment[],
-    additionalContext: Record<string, unknown>
+    additionalContext: Record<string, any>
   ) {
-    return fragments
+    const asVariable = (x: string) => '${' + x + '}';
+    const assertUndefinedIfEmpty = (
+      x: Record<string, any>
+    ): Record<string, any> | undefined => {
+      if (!x || Object.keys(x).length === 0) {
+        return;
+      }
+      return x;
+    };
+
+    const body = fragments
       .map((part) => {
         switch (part.type) {
           case 'literal':
             return part.content;
           case 'ref':
             if (part.logicalId in additionalContext) {
-              return additionalContext[part.logicalId];
+              return asVariable(part.logicalId);
             }
-            return this.ref(part.logicalId);
+            return asVariable(this.logicalIdForReference(part.logicalId));
           case 'getatt':
-            return this.fnGetAtt(part.logicalId, part.attr);
+            const attVal = this.fnGetAtt(part.logicalId, part.attr);
+            if (Token.isUnresolved(attVal)) {
+              return asVariable(part.logicalId + '.' + part.attr);
+            }
+            return attVal;
         }
       })
       .join('');
+
+    return cdk.Fn.sub(body, assertUndefinedIfEmpty(additionalContext));
   }
 
   protected fnTransform(
@@ -311,6 +326,7 @@ export class Evaluator {
   ) {
     return cdk.Fn.transform(transformName, parameters);
   }
+
   protected fnAnd(_operands: boolean[]): boolean {
     // @todo
     throw Error('not implemented');

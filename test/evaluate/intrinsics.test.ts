@@ -2,6 +2,73 @@ import { Match } from 'aws-cdk-lib/assertions';
 import { Template } from '../../src/parser/template';
 import { Testing } from '../util';
 
+test('can use intrinsic where primitive number is expected', async () => {
+  // GIVEN
+  const template = await Testing.template(
+    await Template.fromObject({
+      Resources: {
+        Lambda: {
+          Type: 'aws-cdk-lib.aws_lambda.Function',
+          Properties: {
+            code: {
+              'aws-cdk-lib.aws_lambda.Code.fromInline': {
+                code: 'whatever',
+              },
+            },
+            runtime: 'NODEJS_16_X',
+            handler: 'index.handler',
+            timeout: {
+              'aws-cdk-lib.Duration.seconds': {
+                amount: { 'Fn::Select': [0, [5, 15, 20]] },
+              },
+            },
+          },
+        },
+      },
+    })
+  );
+
+  // THEN
+  template.hasResourceProperties('AWS::Lambda::Function', {
+    Timeout: 5,
+  });
+});
+
+test('can use intrinsic where primitive boolean is expected', async () => {
+  // GIVEN
+  const template = await Testing.template(
+    await Template.fromObject({
+      Mappings: {
+        RegionMap: {
+          'us-east-1': {
+            TRUE: '0',
+            FALSE: '1',
+          },
+        },
+      },
+
+      Resources: {
+        Bucket: {
+          Type: 'AWS::S3::Bucket',
+        },
+        Topic: {
+          Type: 'aws-cdk-lib.aws_sns.Topic',
+          Properties: {
+            fifo: {
+              'Fn::Select': [1, [true, false]],
+            },
+          },
+        },
+      },
+    })
+  );
+
+  // THEN
+  template.hasResourceProperties('AWS::SNS::Topic', {
+    FifoTopic: false,
+  });
+});
+
 test('FnBase64', async () => {
   // GIVEN
   const template = await Testing.template(
@@ -128,6 +195,143 @@ test('FnImportValue', async () => {
       'Fn::ImportValue': {
         'Fn::Base64': { Ref: 'AWS::StackName' },
       },
+    },
+  });
+});
+
+test('FnJoin', async () => {
+  // GIVEN
+  const template = await Testing.template(
+    await Template.fromObject({
+      Resources: {
+        Bucket: {
+          Type: 'aws-cdk-lib.aws_s3.Bucket',
+        },
+        Topic: {
+          Type: 'aws-cdk-lib.aws_sns.Topic',
+          Properties: {
+            topicName: { 'Fn::Join': ['|', { 'Fn::Split': ['|', 'a|b|c'] }] },
+            displayName: {
+              'Fn::Join': [
+                '-',
+                [
+                  'queue',
+                  { Ref: 'AWS::Region' },
+                  { 'Fn::Base64': { Ref: 'Bucket' } },
+                ],
+              ],
+            },
+          },
+        },
+      },
+    })
+  );
+
+  // THEN
+  template.hasResourceProperties('AWS::SNS::Topic', {
+    TopicName: 'a|b|c', // can be computed locally
+    DisplayName: {
+      'Fn::Join': [
+        '-',
+        [
+          'queue',
+          { Ref: 'AWS::Region' },
+          { 'Fn::Base64': { Ref: Match.stringLikeRegexp('^Bucket.{8}$') } },
+        ],
+      ],
+    },
+  });
+});
+
+test('FnSplit', async () => {
+  // GIVEN
+  const template = await Testing.template(
+    await Template.fromObject({
+      Resources: {
+        Bucket: {
+          Type: 'aws-cdk-lib.aws_s3.Bucket',
+        },
+        Topic: {
+          Type: 'aws-cdk-lib.aws_sns.Topic',
+          Properties: {
+            displayName: {
+              'Fn::Select': ['0', { 'Fn::Split': ['|', 'a|b|c'] }],
+            },
+            topicName: {
+              'Fn::Select': [
+                2,
+                { 'Fn::Split': ['|', { 'Fn::Base64': 'Test' }] },
+              ],
+            },
+          },
+        },
+      },
+    })
+  );
+
+  // THEN
+  template.hasResourceProperties('AWS::SNS::Topic', {
+    DisplayName: 'a', // can be computed locally
+    TopicName: {
+      'Fn::Select': [2, { 'Fn::Split': ['|', { 'Fn::Base64': 'Test' }] }],
+    },
+  });
+});
+
+test('FnSub', async () => {
+  // GIVEN
+  const template = await Testing.template(
+    await Template.fromObject({
+      Resources: {
+        Bucket: {
+          Type: 'aws-cdk-lib.aws_s3.Bucket',
+        },
+        AppSyncEventBridgeRole: {
+          Type: 'aws-cdk-lib.aws_iam.Role',
+          Properties: {
+            description: { 'Fn::Sub': '${AWS::Region} ${!AWS::Region}' },
+            assumedBy: {
+              'aws-cdk-lib.aws_iam.ServicePrincipal': {
+                service: {
+                  'Fn::Sub': [
+                    'appsync.${Domain}.com',
+                    {
+                      Domain: { Ref: 'Bucket' },
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        },
+      },
+    })
+  );
+
+  // THEN
+  template.hasResourceProperties('AWS::IAM::Role', {
+    Description: {
+      'Fn::Sub': '${AWS::Region} ${!AWS::Region}',
+    },
+    AssumeRolePolicyDocument: {
+      Statement: [
+        {
+          Action: 'sts:AssumeRole',
+          Effect: 'Allow',
+          Principal: {
+            Service: {
+              'Fn::Sub': [
+                'appsync.${Domain}.com',
+                {
+                  Domain: {
+                    Ref: Match.stringLikeRegexp('^Bucket.{8}$'),
+                  },
+                },
+              ],
+            },
+          },
+        },
+      ],
     },
   });
 });

@@ -78,9 +78,24 @@ const BooleanExpression = () => ({
   ],
 });
 
+const ListExpression = () => ({
+  $comment: 'Intrinsic function returning a list',
+  type: ['object'],
+  anyOf: [
+    $ref('FnRef'),
+    $ref('FnCidr'),
+    $ref('FnFindInMap'),
+    $ref('FnGetAtt'),
+    $ref('FnGetAZs'),
+    $ref('FnIf'),
+    $ref('FnSplit'),
+  ],
+});
+
 export function schemaForExpressions(ctx: SchemaContext) {
   ctx.define('PrimitiveLiteral', PrimitiveLiteral);
   ctx.define('StringExpression', StringExpression);
   ctx.define('NumberExpression', NumberExpression);
   ctx.define('BooleanExpression', BooleanExpression);
+  ctx.define('ListExpression', ListExpression);
 }
