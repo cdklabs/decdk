@@ -188,6 +188,9 @@ export function schemaForResource(
         Call: {
           type: 'object',
         },
+        On: {
+          type: 'string',
+        },
         Type: {
           enum: [construct.constructClass.fqn],
           type: 'string',

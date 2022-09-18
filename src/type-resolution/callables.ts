@@ -3,20 +3,28 @@ import {
   assertExactlyOneOfFields,
   assertOneField,
 } from '../parser/private/types';
-import { ObjectLiteral } from '../parser/template';
-import { enumLikeClassMethods, isDataType } from '../schema/jsii2schema';
+import { ObjectLiteral, Template, TemplateResource } from '../parser/template';
+import { enumLikeClassMethods, isDataType } from '../schema';
 import {
   assertExpressionType,
   TypedArrayExpression,
   TypedTemplateExpression,
 } from './expression';
 import { resolveExpressionType } from './resolve';
+import { isCfnResource } from './resource-like';
 import { assertImplements } from './types';
 
 export interface StaticMethodCallExpression {
   readonly type: 'staticMethodCall';
   readonly fqn: string;
   readonly namespace?: string;
+  readonly method: string;
+  readonly args: TypedArrayExpression;
+}
+
+export interface InstanceMethodCallExpression {
+  readonly type: 'instanceMethodCall';
+  readonly logicalId: string;
   readonly method: string;
   readonly args: TypedArrayExpression;
 }
@@ -48,6 +56,47 @@ export function resolveStaticMethodCallExpression(
     fqn: method.parentType.fqn,
     namespace: method.parentType.namespace,
     method: method.name,
+    args,
+  };
+}
+
+export function resolveInstanceMethodCallExpression(
+  template: Template,
+  resource: TemplateResource,
+  resultType: reflect.Type
+): InstanceMethodCallExpression {
+  const call = resource.call;
+  const logicalId = resource.on!;
+  const factory = template.resource(logicalId);
+
+  if (isCfnResource(factory)) {
+    throw new Error(
+      `${factory.type} is a CloudFormation resource. Method calls are not allowed.`
+    );
+  }
+
+  const candidateClass = resultType.system.findClass(factory.type);
+  const methods = candidateClass.allMethods.filter((m) => !m.static);
+  const methodNames = methods.map((method) => method.name);
+  const methodName = assertOneField(call.fields);
+
+  if (!methodNames.includes(methodName)) {
+    throw new Error(
+      `'${candidateClass.fqn}' has no method called '${methodName}'`
+    );
+  }
+
+  const method = methods.find((m) => m.name === methodName)!;
+
+  assertImplements(method.returns.type, resultType);
+
+  const parameters = assertExpressionType(call.fields[methodName], 'object');
+  const args = resolveCallableParameters(parameters, method);
+
+  return {
+    type: 'instanceMethodCall',
+    logicalId,
+    method: methodName,
     args,
   };
 }

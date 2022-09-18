@@ -44,7 +44,7 @@ export class Template {
     this.resources = new Map(
       Object.entries(template.Resources ?? {}).map(([k, v]) => [
         k,
-        parseTemplateResource(v),
+        parseTemplateResource(k, v),
       ])
     );
 

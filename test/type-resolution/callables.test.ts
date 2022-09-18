@@ -90,3 +90,188 @@ test('Can provide implementation via static method', async () => {
   );
   expect(template.template).toBeValidTemplate();
 });
+
+test('Resources can be created by calling instance methods on constructs', async () => {
+  // GIVEN
+  const template = await Template.fromObject({
+    Resources: {
+      Alias: {
+        Type: 'aws-cdk-lib.aws_lambda.Alias',
+        On: 'MyFunction',
+        Call: {
+          addAlias: {
+            aliasName: 'live',
+          },
+        },
+      },
+      MyFunction: {
+        Type: 'aws-cdk-lib.aws_lambda.Function',
+        Properties: {
+          handler: 'index.handler',
+          runtime: 'NODEJS_14_X',
+          code: {
+            Ref: 'BusinessLogic',
+          },
+        },
+      },
+    },
+  });
+
+  const typedTemplate = new TypedTemplate(template, { typeSystem });
+
+  const alias = typedTemplate.resource('Alias');
+  expect(alias).toEqual({
+    type: 'lazyResource',
+    logicalId: 'Alias',
+    namespace: 'aws_lambda',
+    fqn: 'aws-cdk-lib.aws_lambda.Alias',
+    tags: [],
+    dependsOn: [],
+    overrides: [],
+    call: {
+      type: 'instanceMethodCall',
+      logicalId: 'MyFunction',
+      method: 'addAlias',
+      args: {
+        type: 'array',
+        array: [
+          {
+            type: 'string',
+            value: 'live',
+          },
+          {
+            fields: {},
+            type: 'struct',
+          },
+        ],
+      },
+    },
+  });
+});
+
+test("Resources must not have a 'Properties' property if a 'Call' property exists", async () => {
+  // GIVEN
+  expect(() =>
+    Template.fromObject({
+      Resources: {
+        BusinessLogic: {
+          Type: 'aws-cdk-lib.aws_lambda.Code',
+          Call: {
+            'aws-cdk-lib.aws_lambda.Code.fromBucket': {
+              bucket: {
+                Ref: 'SourceBucket',
+              },
+              key: 'foo-bar',
+            },
+          },
+          Properties: {
+            // should not be here
+            foo: 'bar',
+          },
+        },
+      },
+    })
+  ).toThrow("Expected at most one of the fields 'Properties', 'Call'");
+});
+
+test("Resources must have a 'Call' property if a 'On' property exists", async () => {
+  // GIVEN
+  expect(() =>
+    Template.fromObject({
+      Resources: {
+        Alias: {
+          Type: 'aws-cdk-lib.aws_lambda.Alias',
+          On: 'MyFunction',
+          // no 'Call'
+        },
+      },
+    })
+  ).toThrow(
+    "In resource 'Alias': expected to find a 'Call' property, to a method of 'MyFunction'."
+  );
+});
+
+test('Calls to raw CloudFormation resources are not allowed', async () => {
+  // GIVEN
+  const template = Template.fromObject({
+    Resources: {
+      MyLogGroup: {
+        Type: 'AWS::Logs::LogGroup', // raw CFN resource
+        Properties: {
+          LogGroupName: { Ref: 'AWS::AccountId' },
+        },
+      },
+      Alias: {
+        Type: 'aws-cdk-lib.aws_lambda.Alias',
+        On: 'MyLogGroup',
+        Call: { foo: 'bar' },
+      },
+    },
+  });
+
+  expect(() => new TypedTemplate(template, { typeSystem })).toThrow(
+    'AWS::Logs::LogGroup is a CloudFormation resource. Method calls are not allowed.'
+  );
+});
+
+test('Calls to methods that do not exist are not allowed', async () => {
+  // GIVEN
+  const template = Template.fromObject({
+    Resources: {
+      MyLambda: {
+        Type: 'aws-cdk-lib.aws_lambda.Function',
+        Properties: {
+          code: {
+            'aws-cdk-lib.aws_lambda.Code.fromAsset': {
+              path: 'examples/lambda-handler',
+            },
+          },
+          runtime: 'PYTHON_3_6',
+          handler: 'index.handler',
+        },
+      },
+      Alias: {
+        Type: 'aws-cdk-lib.aws_lambda.Alias',
+        On: 'MyLambda',
+        Call: { foo: 'bar' }, // wrong method
+      },
+    },
+  });
+
+  expect(() => new TypedTemplate(template, { typeSystem })).toThrow(
+    "'aws-cdk-lib.aws_lambda.Function' has no method called 'foo'"
+  );
+});
+
+test('Declared type must match returned type', async () => {
+  // GIVEN
+  const template = Template.fromObject({
+    Resources: {
+      MyLambda: {
+        Type: 'aws-cdk-lib.aws_lambda.Function',
+        Properties: {
+          code: {
+            'aws-cdk-lib.aws_lambda.Code.fromAsset': {
+              path: 'examples/lambda-handler',
+            },
+          },
+          runtime: 'PYTHON_3_6',
+          handler: 'index.handler',
+        },
+      },
+      Alias: {
+        Type: 'aws-cdk-lib.aws_apigateway.RestApi', // wrong type
+        On: 'MyLambda',
+        Call: {
+          addAlias: {
+            aliasName: 'live',
+          },
+        },
+      },
+    },
+  });
+
+  expect(() => new TypedTemplate(template, { typeSystem })).toThrow(
+    'Expected class aws-cdk-lib.aws_lambda.Alias to implement class aws-cdk-lib.aws_apigateway.RestApi'
+  );
+});

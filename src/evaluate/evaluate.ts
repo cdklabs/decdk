@@ -7,6 +7,10 @@ import { GetAttIntrinsic, RefIntrinsic } from '../parser/template';
 import { ResourceOverride } from '../parser/template/overrides';
 import { ResourceTag } from '../parser/template/tags';
 import { isCdkConstructExpression, ResourceLike } from '../type-resolution';
+import {
+  InstanceMethodCallExpression,
+  StaticMethodCallExpression,
+} from '../type-resolution/callables';
 import { TypedTemplateExpression } from '../type-resolution/expression';
 import { EvaluationContext } from './context';
 import { applyOverride } from './overrides';
@@ -117,11 +121,7 @@ export class Evaluator {
       case 'void':
         return;
       case 'lazyResource':
-        return this.invoke(
-          x.call.fqn,
-          x.call.method,
-          this.evaluateArray(x.call.args.array)
-        );
+        return this.invoke(x.call);
       case 'construct':
       case 'resource':
         return this.initializer(x.fqn, [
@@ -132,9 +132,14 @@ export class Evaluator {
       case 'initializer':
         return this.initializer(x.fqn, this.evaluateArray(x.args.array));
       case 'staticMethodCall':
-        return this.invoke(x.fqn, x.method, this.evaluateArray(x.args.array));
+        return this.invokeStaticMethod(
+          x.fqn,
+          x.method,
+          this.evaluateArray(x.args.array)
+        );
     }
   }
+
   public evaluateObject(
     xs: Record<string, TypedTemplateExpression>
   ): Record<string, unknown> {
@@ -158,7 +163,31 @@ export class Evaluator {
     return result;
   }
 
-  protected invoke(fqn: string, method: string, parameters: unknown[]): any {
+  protected invoke(
+    call: StaticMethodCallExpression | InstanceMethodCallExpression
+  ) {
+    const parameters = this.evaluateArray(call.args.array);
+
+    return call.type === 'staticMethodCall'
+      ? this.invokeStaticMethod(call.fqn, call.method, parameters)
+      : this.invokeInstanceMethod(call.logicalId, call.method, parameters);
+  }
+
+  private invokeInstanceMethod(
+    logicalId: string,
+    method: string,
+    parameters: any[]
+  ) {
+    const record = this.context.referenceable(logicalId);
+    const construct = record.primaryValue as any;
+    return construct[method](...parameters);
+  }
+
+  protected invokeStaticMethod(
+    fqn: string,
+    method: string,
+    parameters: unknown[]
+  ): any {
     const typeClass = this.context.resolveClass(fqn);
     return typeClass[method](...parameters);
   }
