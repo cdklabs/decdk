@@ -1738,22 +1738,25 @@ TypedTemplate {
                                   "type": "intrinsic",
                                 },
                                 Object {
-                                  "array": Array [
-                                    Object {
-                                      "attribute": Object {
-                                        "type": "string",
-                                        "value": "bucketArn",
-                                      },
-                                      "fn": "getAtt",
-                                      "logicalId": "MyBucket",
-                                      "type": "intrinsic",
-                                    },
-                                    Object {
-                                      "type": "string",
-                                      "value": "/*",
-                                    },
-                                  ],
                                   "fn": "join",
+                                  "list": Object {
+                                    "array": Array [
+                                      Object {
+                                        "attribute": Object {
+                                          "type": "string",
+                                          "value": "bucketArn",
+                                        },
+                                        "fn": "getAtt",
+                                        "logicalId": "MyBucket",
+                                        "type": "intrinsic",
+                                      },
+                                      Object {
+                                        "type": "string",
+                                        "value": "/*",
+                                      },
+                                    ],
+                                    "type": "array",
+                                  },
                                   "separator": "",
                                   "type": "intrinsic",
                                 },
@@ -1872,22 +1875,25 @@ TypedTemplate {
                                 "type": "intrinsic",
                               },
                               Object {
-                                "array": Array [
-                                  Object {
-                                    "attribute": Object {
-                                      "type": "string",
-                                      "value": "bucketArn",
-                                    },
-                                    "fn": "getAtt",
-                                    "logicalId": "MyBucket",
-                                    "type": "intrinsic",
-                                  },
-                                  Object {
-                                    "type": "string",
-                                    "value": "/*",
-                                  },
-                                ],
                                 "fn": "join",
+                                "list": Object {
+                                  "array": Array [
+                                    Object {
+                                      "attribute": Object {
+                                        "type": "string",
+                                        "value": "bucketArn",
+                                      },
+                                      "fn": "getAtt",
+                                      "logicalId": "MyBucket",
+                                      "type": "intrinsic",
+                                    },
+                                    Object {
+                                      "type": "string",
+                                      "value": "/*",
+                                    },
+                                  ],
+                                  "type": "array",
+                                },
                                 "separator": "",
                                 "type": "intrinsic",
                               },
