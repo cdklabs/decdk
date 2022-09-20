@@ -66,9 +66,11 @@ export function resolveExpressionType(
     case ResolvableExpressionType.UNION_OF_TYPES:
       return resolveUnionOfTypesExpression(x, assertUnionOfTypes(typeRef));
     case ResolvableExpressionType.STRUCT:
-      return resolveStructExpression(
-        assertExpressionType(x, 'object'),
-        assertInterface(typeRef)
+      return refOrResolve(x, (y) =>
+        resolveStructExpression(
+          assertExpressionType(y, 'object'),
+          assertInterface(typeRef)
+        )
       );
     case ResolvableExpressionType.ENUM:
       return resolveEnumExpression(

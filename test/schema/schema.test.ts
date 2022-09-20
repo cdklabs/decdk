@@ -117,14 +117,13 @@ test('schemaForInterface: Behavioral Interface Implementation Factories', async 
           additionalProperties: false,
           properties: {
             Call: {
-              properties: {
-                'fixture.FeatureFactory.baseFeature': {
-                  $ref: '#/definitions/fixture.FeatureFactory.baseFeature',
-                },
-              },
               type: 'object',
             },
             Type: {
+              type: 'string',
+              enum: ['fixture.FeatureFactory'],
+            },
+            On: {
               type: 'string',
             },
           },

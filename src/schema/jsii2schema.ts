@@ -431,25 +431,24 @@ export function schemaForEnumLikeClass(
         [`${method.parentType.fqn}.${method.name}`]: methodSchema(method, ctx),
       },
     });
-    anyOf.push({
-      additionalProperties: false,
-      type: 'object',
-      properties: {
-        Type: {
-          type: 'string',
-        },
-        Call: {
-          type: 'object',
-          properties: {
-            [`${method.parentType.fqn}.${method.name}`]: methodSchema(
-              method,
-              ctx
-            ),
-          },
-        },
-      },
-    });
   }
+
+  anyOf.push({
+    additionalProperties: false,
+    type: 'object',
+    properties: {
+      Type: {
+        type: 'string',
+        enum: [type.fqn],
+      },
+      Call: {
+        type: 'object',
+      },
+      On: {
+        type: 'string',
+      },
+    },
+  });
 
   if (anyOf.length === 0) {
     return undefined;

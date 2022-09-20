@@ -50,6 +50,7 @@ export function parseTemplateResource(
   assertAtMostOneOfFields(resource, ['Properties', 'Call']);
 
   const properties = parseObject(resource.Properties);
+  const call = parseCall(resource.Call);
 
   return {
     type: assertString(assertField(resource, 'Type')),
@@ -60,6 +61,7 @@ export function parseTemplateResource(
       ...(ifField(resource, 'DependsOn', assertStringOrList) ?? []),
       ...singletonList(ifField(resource, 'On', assertString)),
       ...findReferencedLogicalIds(properties),
+      ...findReferencedLogicalIds({ _: call }),
     ]),
     dependsOn: new Set([
       ...(ifField(resource, 'DependsOn', assertStringOrList) ?? []),
@@ -72,7 +74,7 @@ export function parseTemplateResource(
     tags: parseTags(resource.Tags),
     overrides: parseOverrides(resource.Overrides),
     on: ifField(resource, 'On', assertString),
-    call: parseCall(resource.Call),
+    call,
   };
 }
 
