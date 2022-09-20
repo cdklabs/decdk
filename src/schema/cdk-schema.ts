@@ -126,9 +126,7 @@ export function renderFullSchema(
   );
 
   for (const type of enumLikeClasses) {
-    addResource(
-      ctx.define(type.spec.fqn, () => schemaForEnumLikeClass(type, ctx))
-    );
+    addResource(schemaForEnumLikeClass(type, ctx));
   }
 
   output.properties.$schema = {
