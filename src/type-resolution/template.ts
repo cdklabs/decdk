@@ -27,7 +27,7 @@ export class TypedTemplate {
     this.resources = template
       .resourceGraph()
       .map((logicalId, resource) =>
-        resolveResourceLike(resource, logicalId, props.typeSystem)
+        resolveResourceLike(template, resource, logicalId, props.typeSystem)
       );
 
     this.parameters = template.parameters;

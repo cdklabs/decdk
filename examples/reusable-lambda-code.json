@@ -24,6 +24,15 @@
           "Ref": "BusinessLogic"
         }
       }
+    },
+    "Alias": {
+      "Type": "aws-cdk-lib.aws_lambda.Alias",
+      "On": "MyFunction",
+      "Call": {
+        "addAlias": {
+          "aliasName": "live"
+        }
+      }
     }
   }
 }

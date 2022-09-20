@@ -168,6 +168,10 @@ export function assertStringOrList(x: unknown): string[] {
   );
 }
 
+export function singletonList(x: string | undefined) {
+  return x ? [x] : [];
+}
+
 export function parseRetentionPolicy(x: unknown): RetentionPolicy {
   switch (x) {
     case 'Delete':

@@ -5,6 +5,7 @@ import {
   assertString,
   assertStringOrList,
   parseRetentionPolicy,
+  singletonList,
 } from '../private/types';
 import { schema } from '../schema';
 import { parseCall } from './calls';
@@ -29,6 +30,7 @@ export interface TemplateResource {
   readonly metadata: Record<string, unknown>;
   readonly tags: ResourceTag[];
   readonly overrides: ResourceOverride[];
+  readonly on?: string;
   readonly call: ObjectLiteral;
 
   // readonly creationPolicy?: CreationPolicy;
@@ -36,8 +38,15 @@ export interface TemplateResource {
 }
 
 export function parseTemplateResource(
+  logicalId: string,
   resource: schema.Resource
 ): TemplateResource {
+  if (resource.On != null && resource.Call == null) {
+    throw new Error(
+      `In resource '${logicalId}': expected to find a 'Call' property, to a method of '${resource.On}'.`
+    );
+  }
+
   assertAtMostOneOfFields(resource, ['Properties', 'Call']);
 
   const properties = parseObject(resource.Properties);
@@ -49,6 +58,7 @@ export function parseTemplateResource(
     metadata: assertObject(resource.Metadata ?? {}),
     dependencies: new Set([
       ...(ifField(resource, 'DependsOn', assertStringOrList) ?? []),
+      ...singletonList(ifField(resource, 'On', assertString)),
       ...findReferencedLogicalIds(properties),
     ]),
     dependsOn: new Set([
@@ -61,6 +71,7 @@ export function parseTemplateResource(
       'Delete',
     tags: parseTags(resource.Tags),
     overrides: parseOverrides(resource.Overrides),
+    on: ifField(resource, 'On', assertString),
     call: parseCall(resource.Call),
   };
 }

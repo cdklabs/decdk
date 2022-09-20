@@ -1,7 +1,9 @@
 import * as reflect from 'jsii-reflect';
-import { ObjectLiteral, TemplateResource } from '../parser/template';
+import { ObjectLiteral, Template, TemplateResource } from '../parser/template';
 import { ResourceTag } from '../parser/template/tags';
 import {
+  InstanceMethodCallExpression,
+  resolveInstanceMethodCallExpression,
   resolveStaticMethodCallExpression,
   StaticMethodCallExpression,
 } from './callables';
@@ -30,7 +32,7 @@ export interface CdkConstruct extends BaseConstruct {
 
 export interface LazyResource extends BaseConstruct {
   readonly type: 'lazyResource';
-  readonly call: StaticMethodCallExpression;
+  readonly call: StaticMethodCallExpression | InstanceMethodCallExpression;
   readonly overrides: any;
 }
 
@@ -39,6 +41,7 @@ export function isCdkConstructExpression(x: unknown): x is CdkConstruct {
 }
 
 export function resolveResourceLike(
+  template: Template,
   resource: TemplateResource,
   logicalId: string,
   typeSystem: reflect.TypeSystem
@@ -52,27 +55,42 @@ export function resolveResourceLike(
   }
 
   const type = typeSystem.findFqn(resource.type);
-  if (isConstruct(type)) {
-    return resolveCdkConstruct(resource, logicalId, type);
-  }
 
   if (Object.keys(resource.call.fields).length > 0) {
-    // @todo type inference
-    return {
-      type: 'lazyResource',
-      logicalId,
-      namespace: type.namespace,
-      fqn: type.fqn,
-      tags: resource.tags,
-      dependsOn: Array.from(resource.dependsOn),
-      overrides: resource.overrides,
-      call: resolveStaticMethodCallExpression(resource.call, type),
-    };
+    return resolveLazyResource(template, resource, logicalId, type);
+  }
+
+  if (isConstruct(type)) {
+    return resolveCdkConstruct(resource, logicalId, type);
   }
 
   throw new TypeError(
     `Expected Cloudformation resource or CDK type, got ${resource.type}`
   );
+}
+
+function resolveLazyResource(
+  template: Template,
+  resource: TemplateResource,
+  logicalId: string,
+  type: reflect.Type
+): LazyResource {
+  // @todo type inference
+
+  const call = resource.on
+    ? resolveInstanceMethodCallExpression(template, resource, type)
+    : resolveStaticMethodCallExpression(resource.call, type);
+
+  return {
+    type: 'lazyResource',
+    logicalId,
+    namespace: type.namespace,
+    fqn: type.fqn,
+    tags: resource.tags,
+    dependsOn: Array.from(resource.dependsOn),
+    overrides: resource.overrides,
+    call,
+  };
 }
 
 function resolveCfnResource(

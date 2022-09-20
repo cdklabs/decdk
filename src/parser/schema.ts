@@ -24,6 +24,7 @@ export namespace schema {
     readonly UpdatePolicy?: UpdatePolicy;
     readonly Tags?: Tag[];
     readonly Overrides?: Override[];
+    readonly On?: string;
     readonly Call?: CfnValue<any>;
   }
 

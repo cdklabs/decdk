@@ -144,6 +144,7 @@ TypedTemplate {
         "dependencies": Set {},
         "dependsOn": Set {},
         "metadata": Object {},
+        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "code": Object {
@@ -190,6 +191,7 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
+        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "handler": Object {
@@ -214,6 +216,7 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
+        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "httpMethod": Object {
@@ -487,6 +490,7 @@ TypedTemplate {
         "dependencies": Set {},
         "dependsOn": Set {},
         "metadata": Object {},
+        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "maxAzs": Object {
@@ -510,6 +514,7 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
+        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "vpc": Object {
@@ -532,6 +537,7 @@ TypedTemplate {
         "dependencies": Set {},
         "dependsOn": Set {},
         "metadata": Object {},
+        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "compatibility": Object {
@@ -571,6 +577,7 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
+        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "essential": Object {
@@ -618,6 +625,7 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
+        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "cluster": Object {
@@ -820,6 +828,7 @@ TypedTemplate {
         "dependencies": Set {},
         "dependsOn": Set {},
         "metadata": Object {},
+        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "maxAzs": Object {
@@ -843,6 +852,7 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
+        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "desiredCapacity": Object {
@@ -1174,6 +1184,7 @@ TypedTemplate {
         "dependencies": Set {},
         "dependsOn": Set {},
         "metadata": Object {},
+        "on": undefined,
         "overrides": Array [],
         "properties": Object {},
         "tags": Array [],
@@ -1190,6 +1201,7 @@ TypedTemplate {
         "dependencies": Set {},
         "dependsOn": Set {},
         "metadata": Object {},
+        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "partitionKey": Object {
@@ -1227,6 +1239,7 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
+        "on": undefined,
         "overrides": Array [
           Object {
             "childConstructPath": "ServiceRole",
@@ -1531,6 +1544,7 @@ TypedTemplate {
         "dependencies": Set {},
         "dependsOn": Set {},
         "metadata": Object {},
+        "on": undefined,
         "overrides": Array [],
         "properties": Object {},
         "tags": Array [],
@@ -1549,6 +1563,7 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
+        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "code": Object {
@@ -1801,6 +1816,7 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
+        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "code": Object {
@@ -1919,6 +1935,7 @@ TypedTemplate {
         "dependencies": Set {},
         "dependsOn": Set {},
         "metadata": Object {},
+        "on": undefined,
         "overrides": Array [],
         "properties": Object {},
         "tags": Array [],
@@ -2070,6 +2087,7 @@ TypedTemplate {
         "dependencies": Set {},
         "dependsOn": Set {},
         "metadata": Object {},
+        "on": undefined,
         "overrides": Array [
           Object {
             "childConstructPath": "ServiceRole",
@@ -2260,6 +2278,7 @@ TypedTemplate {
         "dependencies": Set {},
         "dependsOn": Set {},
         "metadata": Object {},
+        "on": undefined,
         "overrides": Array [],
         "properties": Object {},
         "tags": Array [],
@@ -2278,6 +2297,7 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
+        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "code": Object {
@@ -2684,6 +2704,7 @@ TypedTemplate {
           "BuildProject",
         },
         "metadata": Object {},
+        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "repositoryName": Object {
@@ -2707,6 +2728,7 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
+        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "encryptionKey": Object {
@@ -2729,6 +2751,7 @@ TypedTemplate {
         "dependencies": Set {},
         "dependsOn": Set {},
         "metadata": Object {},
+        "on": undefined,
         "overrides": Array [],
         "properties": Object {},
         "tags": Array [],
@@ -2748,6 +2771,7 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
+        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "stages": Object {
@@ -3114,6 +3138,7 @@ TypedTemplate {
         "dependencies": Set {},
         "dependsOn": Set {},
         "metadata": Object {},
+        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "encryption": Object {
@@ -3137,6 +3162,7 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
+        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "LogGroupName": Object {
@@ -3236,6 +3262,7 @@ TypedTemplate {
         "dependencies": Set {},
         "dependsOn": Set {},
         "metadata": Object {},
+        "on": undefined,
         "overrides": Array [
           Object {
             "childConstructPath": "Key",
@@ -3293,13 +3320,44 @@ TypedTemplate {
       "MyFunction" => Set {
         "BusinessLogic",
       },
+      "Alias" => Set {
+        "MyFunction",
+      },
     },
     "keys": Set {
       "SourceBucket",
       "BusinessLogic",
       "MyFunction",
+      "Alias",
     },
     "nodes": Object {
+      "Alias": Object {
+        "call": Object {
+          "args": Object {
+            "array": Array [
+              Object {
+                "type": "string",
+                "value": "live",
+              },
+              Object {
+                "fields": Object {},
+                "type": "struct",
+              },
+            ],
+            "type": "array",
+          },
+          "logicalId": "MyFunction",
+          "method": "addAlias",
+          "type": "instanceMethodCall",
+        },
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_lambda.Alias",
+        "logicalId": "Alias",
+        "namespace": "aws_lambda",
+        "overrides": Array [],
+        "tags": Array [],
+        "type": "lazyResource",
+      },
       "BusinessLogic": Object {
         "call": Object {
           "args": Object {
@@ -3400,6 +3458,7 @@ TypedTemplate {
         "dependencies": Set {},
         "dependsOn": Set {},
         "metadata": Object {},
+        "on": undefined,
         "overrides": Array [],
         "properties": Object {},
         "tags": Array [],
@@ -3431,6 +3490,7 @@ TypedTemplate {
         "dependencies": Set {},
         "dependsOn": Set {},
         "metadata": Object {},
+        "on": undefined,
         "overrides": Array [],
         "properties": Object {},
         "tags": Array [],
@@ -3449,6 +3509,7 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
+        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "code": Object {
@@ -3469,10 +3530,48 @@ TypedTemplate {
         "type": "aws-cdk-lib.aws_lambda.Function",
         "updateReplacePolicy": "Delete",
       },
+      "Alias" => Object {
+        "call": Object {
+          "fields": Object {
+            "addAlias": Object {
+              "fields": Object {
+                "aliasName": Object {
+                  "type": "string",
+                  "value": "live",
+                },
+              },
+              "type": "object",
+            },
+          },
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "MyFunction",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "on": "MyFunction",
+        "overrides": Array [],
+        "properties": Object {},
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_lambda.Alias",
+        "updateReplacePolicy": "Delete",
+      },
     },
     "template": Object {
       "$schema": "../cdk.schema.json",
       "Resources": Object {
+        "Alias": Object {
+          "Call": Object {
+            "addAlias": Object {
+              "aliasName": "live",
+            },
+          },
+          "On": "MyFunction",
+          "Type": "aws-cdk-lib.aws_lambda.Alias",
+        },
         "BusinessLogic": Object {
           "Call": Object {
             "aws-cdk-lib.aws_lambda.Code.fromBucket": Object {
@@ -3552,6 +3651,7 @@ TypedTemplate {
         "dependencies": Set {},
         "dependsOn": Set {},
         "metadata": Object {},
+        "on": undefined,
         "overrides": Array [],
         "properties": Object {},
         "tags": Array [],
