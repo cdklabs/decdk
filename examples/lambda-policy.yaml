@@ -20,7 +20,7 @@ Resources:
                 - s3:PutObject*
               Resource:
                 - { Ref: MyBucket }
-                - { Fn::Join: ['', [{ Fn::GetAtt: MyBucket.bucketArn }, '/*']] }
+                - { Fn::Join: ['', [{ Fn::GetAtt: MyBucket.Arn }, '/*']] }
 
   MyBucket:
     Type: aws-cdk-lib.aws_s3.Bucket

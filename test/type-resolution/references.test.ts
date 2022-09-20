@@ -34,7 +34,7 @@ test('Constructs can be referenced', async () => {
       GetRoot: {
         Type: 'aws-cdk-lib.aws_apigateway.Method',
         Properties: {
-          resource: { 'Fn::GetAtt': ['MyApi', 'root'] },
+          resource: { 'CDK::GetProp': ['MyApi', 'root'] },
           httpMethod: 'GET',
         },
       },

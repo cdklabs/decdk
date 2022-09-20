@@ -54,12 +54,12 @@ test('can use FnRef where it is expected to be evaluated to FnRef (not an object
                   Effect: 'Allow',
                   Action: ['s3:GetObject*', 's3:PutObject*'],
                   Resource: [
-                    { 'Fn::GetAtt': 'MyBucket.bucketArn' },
+                    { 'CDK::GetProp': 'MyBucket.bucketArn' },
                     { Ref: 'MyBucket' },
                     {
                       'Fn::Join': [
                         '',
-                        [{ 'Fn::GetAtt': 'MyBucket.bucketArn' }, '/*'],
+                        [{ 'Fn::GetAtt': 'MyBucket.Arn' }, '/*'],
                       ],
                     },
                     {
