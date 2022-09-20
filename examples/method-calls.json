@@ -25,6 +25,15 @@
         }
       }
     },
+    "Grant": {
+      "Type": "aws-cdk-lib.aws_iam.Grant",
+      "On": "SourceBucket",
+      "Call": {
+        "grantRead": {
+          "identity": {"Ref": "MyFunction"}
+        }
+      }
+    },
     "Alias": {
       "Type": "aws-cdk-lib.aws_lambda.Alias",
       "On": "MyFunction",
