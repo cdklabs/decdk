@@ -1,9 +1,9 @@
 import * as cdk from 'aws-cdk-lib';
-import { CfnElement, Token } from 'aws-cdk-lib';
+import { CfnResource, Token } from 'aws-cdk-lib';
 import { Construct, IConstruct } from 'constructs';
 import { SubFragment } from '../parser/private/sub';
 import { assertBoolean, assertString } from '../parser/private/types';
-import { GetAttIntrinsic, RefIntrinsic } from '../parser/template';
+import { GetPropIntrinsic, RefIntrinsic } from '../parser/template';
 import { ResourceOverride } from '../parser/template/overrides';
 import { ResourceTag } from '../parser/template/tags';
 import { isCdkConstructExpression, ResourceLike } from '../type-resolution';
@@ -14,33 +14,47 @@ import {
 import { TypedTemplateExpression } from '../type-resolution/expression';
 import { EvaluationContext } from './context';
 import { applyOverride } from './overrides';
+import {
+  CfnResourceReference,
+  ConstructReference,
+  ValueOnlyReference,
+} from './references';
 
 export class Evaluator {
   constructor(public readonly context: EvaluationContext) {}
 
   public evaluateTemplate() {
-    return this.context.template.resources.forEach((logicalId, resource) =>
-      this.evaluateResource(logicalId, resource)
+    return this.context.template.resources.forEach((_logicalId, resource) =>
+      this.evaluateResource(resource)
     );
   }
 
-  public evaluateResource(
-    logicalId: string,
-    resource: ResourceLike
-  ): IConstruct {
+  public evaluateResource(resource: ResourceLike): IConstruct {
     const construct = this.evaluate(resource);
+
     this.applyTags(construct, resource.tags);
     this.applyDependsOn(construct, resource.dependsOn);
     if (isCdkConstructExpression(resource)) {
       this.applyOverrides(construct, resource.overrides);
     }
 
-    this.context.addReferenceable(logicalId, {
-      primaryValue: construct,
-      attributes: construct,
-    });
+    this.context.addReference(
+      this.referenceForResourceLike(resource.logicalId, construct)
+    );
 
     return construct;
+  }
+
+  private referenceForResourceLike(logicalId: string, value: unknown) {
+    if (!Construct.isConstruct(value)) {
+      return new ValueOnlyReference(logicalId, value);
+    }
+
+    if (CfnResource.isCfnResource(value)) {
+      return new CfnResourceReference(logicalId, value);
+    }
+
+    return new ConstructReference(logicalId, value as Construct);
   }
 
   public evaluate(x: TypedTemplateExpression): any {
@@ -76,6 +90,8 @@ export class Evaluator {
             );
           case 'getAtt':
             return this.fnGetAtt(x.logicalId, assertString(ev(x.attribute)));
+          case 'getProp':
+            return this.fnGetProp(x.logicalId, assertString(x.property));
           case 'getAzs':
             return this.fnGetAzs(assertString(ev(x.region)));
           case 'if':
@@ -85,7 +101,7 @@ export class Evaluator {
           case 'join':
             return this.fnJoin(assertString(x.separator), ev(x.list));
           case 'ref':
-            return this.ref(x.logicalId);
+            return this.cfnRef(x.logicalId);
           case 'select':
             return this.fnSelect(ev(x.index), ev(x.objects));
           case 'split':
@@ -175,8 +191,8 @@ export class Evaluator {
     method: string,
     parameters: any[]
   ) {
-    const record = this.context.referenceable(logicalId);
-    const construct = record.primaryValue as any;
+    const record = this.context.reference(logicalId);
+    const construct = record.instance as any;
     return construct[method](...parameters);
   }
 
@@ -228,13 +244,24 @@ export class Evaluator {
     return ret;
   }
 
-  protected fnGetAtt(logicalId: string, attr: string) {
-    const c = this.context.referenceable(logicalId);
-    const ret = c.attributes?.[attr];
-    if (ret === undefined) {
-      return cdk.Fn.getAtt(logicalId, attr);
+  protected fnGetProp(logicalId: string, prop: string) {
+    const c = this.context.reference(logicalId);
+    if (!c.instance || !c.hasProp(prop)) {
+      throw Error(
+        `CDK::GetProp: Expected Construct Property, got: ${logicalId}.${prop}`
+      );
     }
-    return ret;
+    return c.instance?.[prop];
+  }
+
+  protected fnGetAtt(logicalId: string, attribute: string) {
+    const c = this.context.reference(logicalId);
+    if (!c.hasAtt?.(attribute)) {
+      throw Error(
+        `Fn::GetAtt: Expected Cloudformation Attribute, got: ${logicalId}.${attribute}`
+      );
+    }
+    return cdk.Fn.getAtt(c.ref, attribute);
   }
 
   protected fnGetAzs(region: string) {
@@ -258,50 +285,24 @@ export class Evaluator {
     return cdk.Fn.join(separator, array);
   }
 
-  protected resolveReferences(intrinsic: RefIntrinsic | GetAttIntrinsic) {
-    const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
-
+  protected resolveReferences(intrinsic: RefIntrinsic | GetPropIntrinsic) {
     const { logicalId, fn } = intrinsic;
-    const c = this.context.referenceable(logicalId);
+    const c = this.context.reference(logicalId);
 
-    if (!c) {
-      throw new Error(
-        `Fn::${capitalize(fn)}: unknown identifier: ${logicalId}`
-      );
-    }
-
-    if (fn === 'getAtt') {
+    if (fn !== 'ref') {
       return this.evaluate(intrinsic);
     }
 
-    if (!c.primaryValue) {
-      return this.ref(logicalId);
+    if (!c.instance) {
+      return this.cfnRef(logicalId);
     }
 
-    return c.primaryValue;
+    return c.instance;
   }
 
-  private logicalIdForReference(logicalId: string) {
-    const c = this.context.referenceable(logicalId);
-    if (!c) {
-      throw new Error(`Ref: unknown identifier: ${logicalId}`);
-    }
-
-    if (
-      c.primaryValue instanceof Construct &&
-      !CfnElement.isCfnElement(c.primaryValue)
-    ) {
-      return this.context.stack.getLogicalId(
-        c.primaryValue.node.defaultChild as cdk.CfnElement
-      );
-    }
-
-    // This covers CloudFormation Resources, Parameters and Pseudo Parameters
-    return logicalId;
-  }
-
-  protected ref(logicalId: string) {
-    return cdk.Fn.ref(this.logicalIdForReference(logicalId));
+  protected cfnRef(logicalId: string) {
+    const c = this.context.reference(logicalId);
+    return cdk.Fn.ref(c.ref);
   }
 
   protected fnSelect(index: number, elements: any[]) {
@@ -335,7 +336,7 @@ export class Evaluator {
             if (part.logicalId in additionalContext) {
               return asVariable(part.logicalId);
             }
-            return asVariable(this.logicalIdForReference(part.logicalId));
+            return asVariable(this.context.reference(part.logicalId).ref);
           case 'getatt':
             const attVal = this.fnGetAtt(part.logicalId, part.attr);
             if (Token.isUnresolved(attVal)) {
