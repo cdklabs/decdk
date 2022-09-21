@@ -29,7 +29,7 @@ export class Evaluator {
     );
   }
 
-  public evaluateResource( resource: ResourceLike) {
+  public evaluateResource(resource: ResourceLike) {
     const construct = this.evaluate(resource);
 
     // In case of method calls with void return type, the resource is
