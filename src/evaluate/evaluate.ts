@@ -32,8 +32,8 @@ export class Evaluator {
   public evaluateResource(resource: ResourceLike) {
     const construct = this.evaluate(resource);
 
-    // In case of method calls with void return type, the resource is
-    // just a syntactic feature, with nothing to evaluate to.
+    // If this is the result of a call to a method with no
+    // return type (void), then there is nothing else to do here.
     if (construct == null) return;
 
     this.applyTags(construct, resource.tags);
