@@ -340,3 +340,63 @@ test('Resources created by method calls can have the type omitted', () => {
     },
   });
 });
+
+test('Types can be inferred transitively', () => {
+  const template = Template.fromObject({
+    Resources: {
+      MyFunction: {
+        Type: 'aws-cdk-lib.aws_lambda.Function',
+        Properties: {
+          handler: 'index.handler',
+          runtime: 'NODEJS_14_X',
+          code: {
+            'aws-cdk-lib.aws_lambda.Code.fromInline': {
+              code: "exports.handler = async function() { return 'SUCCESS'; }",
+            },
+          },
+        },
+      },
+      Alias: {
+        On: 'MyFunction',
+        Call: {
+          addAlias: {
+            aliasName: 'live',
+          },
+        },
+      },
+      ConfigureAsyncInvokeStatement: {
+        On: 'Alias',
+        Call: {
+          configureAsyncInvoke: {
+            retryAttempts: 2,
+          },
+        },
+      },
+    },
+  });
+
+  const typedTemplate = new TypedTemplate(template, { typeSystem });
+
+  expect(typedTemplate.resource('ConfigureAsyncInvokeStatement')).toEqual({
+    type: 'lazyResource',
+    logicalId: 'ConfigureAsyncInvokeStatement',
+    namespace: undefined,
+    tags: [],
+    dependsOn: [],
+    overrides: [],
+    call: {
+      type: 'instanceMethodCall',
+      logicalId: 'Alias',
+      method: 'configureAsyncInvoke',
+      args: {
+        type: 'array',
+        array: [
+          {
+            fields: { retryAttempts: { type: 'number', value: 2 } },
+            type: 'struct',
+          },
+        ],
+      },
+    },
+  });
+});

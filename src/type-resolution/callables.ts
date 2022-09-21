@@ -1,4 +1,5 @@
 import * as reflect from 'jsii-reflect';
+import { TypeReference, TypeSystem } from 'jsii-reflect';
 import {
   assertExactlyOneOfFields,
   assertOneField,
@@ -29,30 +30,29 @@ export interface InstanceMethodCallExpression {
   readonly args: TypedArrayExpression;
 }
 
+interface MethodCall {
+  readonly method: reflect.Method;
+  readonly args: TypedArrayExpression;
+}
+
+interface InstanceMethodCall extends MethodCall {
+  readonly logicalId: string;
+}
+
 function methodFQN(method: reflect.Method): string {
   return `${method.parentType.fqn}.${method.name}`;
 }
 
 export function resolveStaticMethodCallExpression(
-  x: ObjectLiteral,
+  call: ObjectLiteral,
   typeSystem: reflect.TypeSystem,
   resultType?: reflect.Type
 ): StaticMethodCallExpression {
-  const candidateFQN = assertFullyQualifiedStaticMethodCall(x);
-  const candidateClass = typeSystem.findClass(candidateFQN);
-
-  const methods = enumLikeClassMethods(candidateClass);
-  const methodNames = methods.map(methodFQN);
-
-  const methodName = assertExactlyOneOfFields(x.fields, methodNames);
-  const method = methods.find((m) => methodFQN(m) === methodName)!;
+  const { method, args } = inferMethodCall(typeSystem, call);
 
   if (resultType) {
     assertImplements(method.returns.type, resultType);
   }
-
-  const parameters = assertExpressionType(x.fields[methodName], 'object');
-  const args = resolveCallableParameters(parameters, method);
 
   return {
     type: 'staticMethodCall',
@@ -69,46 +69,116 @@ export function resolveInstanceMethodCallExpression(
   typeSystem: reflect.TypeSystem,
   resultType?: reflect.Type
 ): InstanceMethodCallExpression {
-  const call = resource.call;
+  const { logicalId, method, args } = inferInstanceMethodCall(
+    typeSystem,
+    template,
+    resource
+  );
+
+  if (resultType) {
+    assertImplements(method.returns.type, resultType);
+  }
+
+  return {
+    type: 'instanceMethodCall',
+    logicalId,
+    method: method.name,
+    args,
+  };
+}
+
+function inferMethodCall(
+  typeSystem: reflect.TypeSystem,
+  call: ObjectLiteral
+): MethodCall {
+  const candidateFQN = assertFullyQualifiedStaticMethodCall(call);
+  const candidateClass = typeSystem.findClass(candidateFQN);
+  const methods = enumLikeClassMethods(candidateClass);
+  const methodNames = methods.map(methodFQN);
+  const methodName = assertExactlyOneOfFields(call.fields, methodNames);
+  const method = methods.find((m) => methodFQN(m) === methodName)!;
+  const parameters = assertExpressionType(call.fields[methodName], 'object');
+  const args = resolveCallableParameters(parameters, method);
+
+  return {
+    method,
+    args,
+  };
+}
+
+function inferInstanceMethodCall(
+  typeSystem: TypeSystem,
+  template: Template,
+  resource: TemplateResource
+): InstanceMethodCall {
   const logicalId = resource.on!;
   const factory = template.resource(logicalId);
-
   if (isCfnResource(factory)) {
     throw new Error(
       `${factory.type} is a CloudFormation resource. Method calls are not allowed.`
     );
   }
 
-  if (!factory.type) {
-    throw new Error('TODO'); //TODO
-  }
-
-  const candidateClass = typeSystem.findClass(factory.type);
-  const methods = candidateClass.allMethods.filter((m) => !m.static);
-  const methodNames = methods.map((method) => method.name);
-  const methodName = assertOneField(call.fields);
-
-  if (!methodNames.includes(methodName)) {
-    throw new Error(
-      `'${candidateClass.fqn}' has no method called '${methodName}'`
-    );
-  }
-
-  const method = methods.find((m) => m.name === methodName)!;
-
-  if (resultType) {
-    assertImplements(method.returns.type, resultType);
-  }
-
-  const parameters = assertExpressionType(call.fields[methodName], 'object');
+  const method = inferMethod(inferType(factory), resource.call);
+  const parameters = assertExpressionType(
+    resource.call.fields[method.name],
+    'object'
+  );
   const args = resolveCallableParameters(parameters, method);
 
   return {
-    type: 'instanceMethodCall',
     logicalId,
-    method: methodName,
+    method,
     args,
   };
+
+  function inferType(res: TemplateResource): TypeReference {
+    if (res.type) {
+      return typeSystem.findFqn(res.type).reference;
+    }
+
+    if (res.on) {
+      const typeReference = inferType(template.resource(res.on));
+      const m = inferMethod(typeReference, res.call);
+      return m.returns.type;
+    }
+
+    if (Object.keys(res.call.fields).length > 0) {
+      const methodCall = inferMethodCall(typeSystem, res.call);
+      return methodCall.method.returns.type;
+    }
+
+    throw new Error(
+      `The type of ${logicalId} could not be inferred. Please provide the type explicitly.`
+    );
+  }
+
+  function inferMethod(
+    typeRef: reflect.TypeReference,
+    call: ObjectLiteral
+  ): reflect.Method {
+    const candidateType = typeRef.type;
+    if (
+      !candidateType ||
+      !(candidateType.isClassType() || candidateType.isInterfaceType())
+    ) {
+      throw new Error(
+        `${logicalId} is neither a class nor an interface. Method calls are not allowed.`
+      );
+    }
+
+    const methods = candidateType.allMethods.filter((m) => !m.static);
+    const methodNames = methods.map((m) => m.name);
+    const methodName = assertOneField(call.fields);
+
+    if (!methodNames.includes(methodName)) {
+      throw new Error(
+        `'${candidateType.fqn}' has no method called '${methodName}'`
+      );
+    }
+
+    return methods.find((m) => m.name === methodName)!;
+  }
 }
 
 function assertFullyQualifiedStaticMethodCall(x: ObjectLiteral): string {
