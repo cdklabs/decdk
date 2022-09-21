@@ -124,7 +124,6 @@ test('Resources can be created by calling instance methods on constructs', async
     type: 'lazyResource',
     logicalId: 'Alias',
     namespace: 'aws_lambda',
-    fqn: 'aws-cdk-lib.aws_lambda.Alias',
     tags: [],
     dependsOn: [],
     overrides: [],
@@ -274,4 +273,70 @@ test('Declared type must match returned type', async () => {
   expect(() => new TypedTemplate(template, { typeSystem })).toThrow(
     'Expected class aws-cdk-lib.aws_lambda.Alias to implement class aws-cdk-lib.aws_apigateway.RestApi'
   );
+});
+
+test('Resources created by properties should have a declared type', () => {
+  expect(() =>
+    Template.fromObject({
+      Resources: {
+        Bucket: {
+          Properties: {
+            bucketName: 'website',
+          },
+        },
+      },
+    })
+  ).toThrow("In resource 'Bucket': missing 'Type' property.");
+});
+
+test('Resources created by method calls can have the type omitted', () => {
+  const template = Template.fromObject({
+    Resources: {
+      MyLambda: {
+        Type: 'aws-cdk-lib.aws_lambda.Function',
+        Properties: {
+          code: {
+            'aws-cdk-lib.aws_lambda.Code.fromAsset': {
+              path: 'examples/lambda-handler',
+            },
+          },
+          runtime: 'PYTHON_3_6',
+          handler: 'index.handler',
+        },
+      },
+      ConfigureAsyncInvokeStatement: {
+        On: 'MyLambda',
+        Call: {
+          configureAsyncInvoke: {
+            retryAttempts: 2,
+          },
+        },
+      },
+    },
+  });
+
+  const typedTemplate = new TypedTemplate(template, { typeSystem });
+
+  expect(typedTemplate.resource('ConfigureAsyncInvokeStatement')).toEqual({
+    type: 'lazyResource',
+    logicalId: 'ConfigureAsyncInvokeStatement',
+    namespace: undefined,
+    tags: [],
+    dependsOn: [],
+    overrides: [],
+    call: {
+      type: 'instanceMethodCall',
+      logicalId: 'MyLambda',
+      method: 'configureAsyncInvoke',
+      args: {
+        type: 'array',
+        array: [
+          {
+            fields: { retryAttempts: { type: 'number', value: 2 } },
+            type: 'struct',
+          },
+        ],
+      },
+    },
+  });
 });

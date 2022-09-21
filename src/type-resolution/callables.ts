@@ -35,10 +35,11 @@ function methodFQN(method: reflect.Method): string {
 
 export function resolveStaticMethodCallExpression(
   x: ObjectLiteral,
-  resultType: reflect.Type
+  typeSystem: reflect.TypeSystem,
+  resultType?: reflect.Type
 ): StaticMethodCallExpression {
   const candidateFQN = assertFullyQualifiedStaticMethodCall(x);
-  const candidateClass = resultType.system.findClass(candidateFQN);
+  const candidateClass = typeSystem.findClass(candidateFQN);
 
   const methods = enumLikeClassMethods(candidateClass);
   const methodNames = methods.map(methodFQN);
@@ -46,7 +47,9 @@ export function resolveStaticMethodCallExpression(
   const methodName = assertExactlyOneOfFields(x.fields, methodNames);
   const method = methods.find((m) => methodFQN(m) === methodName)!;
 
-  assertImplements(method.returns.type, resultType);
+  if (resultType) {
+    assertImplements(method.returns.type, resultType);
+  }
 
   const parameters = assertExpressionType(x.fields[methodName], 'object');
   const args = resolveCallableParameters(parameters, method);
@@ -63,7 +66,8 @@ export function resolveStaticMethodCallExpression(
 export function resolveInstanceMethodCallExpression(
   template: Template,
   resource: TemplateResource,
-  resultType: reflect.Type
+  typeSystem: reflect.TypeSystem,
+  resultType?: reflect.Type
 ): InstanceMethodCallExpression {
   const call = resource.call;
   const logicalId = resource.on!;
@@ -75,7 +79,11 @@ export function resolveInstanceMethodCallExpression(
     );
   }
 
-  const candidateClass = resultType.system.findClass(factory.type);
+  if (!factory.type) {
+    throw new Error('TODO'); //TODO
+  }
+
+  const candidateClass = typeSystem.findClass(factory.type);
   const methods = candidateClass.allMethods.filter((m) => !m.static);
   const methodNames = methods.map((method) => method.name);
   const methodName = assertOneField(call.fields);
@@ -88,7 +96,9 @@ export function resolveInstanceMethodCallExpression(
 
   const method = methods.find((m) => m.name === methodName)!;
 
-  assertImplements(method.returns.type, resultType);
+  if (resultType) {
+    assertImplements(method.returns.type, resultType);
+  }
 
   const parameters = assertExpressionType(call.fields[methodName], 'object');
   const args = resolveCallableParameters(parameters, method);
@@ -129,7 +139,7 @@ export function resolveInstanceExpression(
 
   // Cannot find a class for the fqn, try a static method call instead
   if (!candidateClass) {
-    return resolveStaticMethodCallExpression(x, type);
+    return resolveStaticMethodCallExpression(x, type.system, type);
   }
 
   const selectedSubClassFQN = assertExactlyOneOfFields(

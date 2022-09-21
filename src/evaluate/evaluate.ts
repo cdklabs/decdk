@@ -24,11 +24,13 @@ export class Evaluator {
     );
   }
 
-  public evaluateResource(
-    logicalId: string,
-    resource: ResourceLike
-  ): IConstruct {
+  public evaluateResource(logicalId: string, resource: ResourceLike) {
     const construct = this.evaluate(resource);
+
+    // In case of method calls with void return type, the resource is
+    // just a syntactic feature, with nothing to evaluate to.
+    if (construct == null) return;
+
     this.applyTags(construct, resource.tags);
     this.applyDependsOn(construct, resource.dependsOn);
     if (isCdkConstructExpression(resource)) {
@@ -39,8 +41,6 @@ export class Evaluator {
       primaryValue: construct,
       attributes: construct,
     });
-
-    return construct;
   }
 
   public evaluate(x: TypedTemplateExpression): any {

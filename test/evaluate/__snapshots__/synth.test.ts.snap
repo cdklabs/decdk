@@ -1954,7 +1954,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "c409e6c5845f1f349df8cd84e160bf6f1c35d2b060b63e1f032f9bd39d4542cc.zip",
+          "S3Key": "731f24951dbe4e08bfc519dd7c23a4f7158528bd5557e38437b08292ab2a873c.zip",
         },
         "Description": "/opt/awscli/aws",
       },
@@ -2292,6 +2292,28 @@ Object {
         "Name": "live",
       },
       "Type": "AWS::Lambda::Alias",
+    },
+    "MyFunctionAliasliveEventInvokeConfig4F48E2E2": Object {
+      "Properties": Object {
+        "FunctionName": Object {
+          "Ref": "MyFunction3BAA72D1",
+        },
+        "MaximumRetryAttempts": 2,
+        "Qualifier": Object {
+          "Fn::Select": Array [
+            7,
+            Object {
+              "Fn::Split": Array [
+                ":",
+                Object {
+                  "Ref": "MyFunctionAliaslive8B92D042",
+                },
+              ],
+            },
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::EventInvokeConfig",
     },
     "MyFunctionCurrentVersion197490AF4063a7e304a1f5a926b2da07afacb434": Object {
       "Properties": Object {

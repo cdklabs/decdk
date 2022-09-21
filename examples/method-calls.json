@@ -42,6 +42,14 @@
           "aliasName": "live"
         }
       }
+    },
+    "ConfigureAsyncInvokeStatement": {
+      "On": "Alias",
+      "Call": {
+        "configureAsyncInvoke": {
+          "retryAttempts": 2
+        }
+      }
     }
   }
 }
