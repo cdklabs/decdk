@@ -1,6 +1,6 @@
 import { ParserError } from '../parser/private/types';
 import {
-  GetAttIntrinsic,
+  GetPropIntrinsic,
   RefIntrinsic,
   TemplateExpression,
 } from '../parser/template';
@@ -8,10 +8,10 @@ import { TypedTemplateExpression } from './expression';
 
 export interface ResolveReferenceExpression {
   type: 'resolve-reference';
-  reference: RefIntrinsic | GetAttIntrinsic;
+  reference: RefIntrinsic | GetPropIntrinsic;
 }
 
-export function resolveRef(x: RefIntrinsic): ResolveReferenceExpression {
+export function resolveRefToValue(x: RefIntrinsic): ResolveReferenceExpression {
   return {
     type: 'resolve-reference',
     reference: x,
@@ -30,7 +30,7 @@ export function refOrResolve(
   x: TemplateExpression,
   fn: (x: TemplateExpression) => TypedTemplateExpression
 ): TypedTemplateExpression {
-  if (x.type === 'intrinsic' && (x.fn === 'ref' || x.fn === 'getAtt')) {
+  if (x.type === 'intrinsic' && (x.fn === 'ref' || x.fn === 'getProp')) {
     return {
       type: 'resolve-reference',
       reference: x,

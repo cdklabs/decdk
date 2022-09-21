@@ -46,6 +46,7 @@ export interface ObjectLiteral extends ObjectExpression<TemplateExpression> {}
 export type IntrinsicExpression =
   | RefIntrinsic
   | GetAttIntrinsic
+  | GetPropIntrinsic
   | Base64Intrinsic
   | CidrIntrinsic
   | FindInMapIntrinsic
@@ -73,6 +74,13 @@ export interface GetAttIntrinsic {
   readonly fn: 'getAtt';
   readonly logicalId: string;
   readonly attribute: TemplateExpression;
+}
+
+export interface GetPropIntrinsic {
+  readonly type: 'intrinsic';
+  readonly fn: 'getProp';
+  readonly logicalId: string;
+  readonly property: string;
 }
 
 export interface Base64Intrinsic {
@@ -238,6 +246,18 @@ export function parseExpression(x: unknown): TemplateExpression {
         fn: 'getAtt',
         logicalId: assertString(xs[0]),
         attribute: parseExpression(xs[1]),
+      };
+    },
+    'CDK::GetProp': (value) => {
+      if (typeof value == 'string') {
+        value = value.split('.');
+      }
+      const xs = assertList(value, [2]);
+      return {
+        type: 'intrinsic',
+        fn: 'getProp',
+        logicalId: assertString(xs[0]),
+        property: assertString(xs[1]),
       };
     },
     'Fn::Base64': (value) => ({

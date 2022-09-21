@@ -137,6 +137,123 @@ test('FnCidr', async () => {
   });
 });
 
+describe('FnGetAtt', () => {
+  test('can get attributes from the underlying resource', async () => {
+    // GIVEN
+    const template = await Testing.template(
+      await Template.fromObject({
+        Resources: {
+          VPC: {
+            Type: 'aws-cdk-lib.aws_ec2.Vpc',
+          },
+          Subnet: {
+            Type: 'aws-cdk-lib.aws_ec2.Subnet',
+            Properties: {
+              vpcId: { Ref: 'VPC' },
+              availabilityZone: 'us-east-1a',
+              cidrBlock: { 'Fn::GetAtt': ['VPC', 'CidrBlock'] },
+            },
+          },
+        },
+      })
+    );
+
+    // THEN
+    template.hasResourceProperties('AWS::EC2::Subnet', {
+      AvailabilityZone: 'us-east-1a',
+      CidrBlock: {
+        'Fn::GetAtt': [Match.stringLikeRegexp('^VPC.{8}$'), 'CidrBlock'],
+      },
+    });
+  });
+
+  test('cannot get non existing attributes', async () => {
+    // GIVEN
+    const template = await Template.fromObject({
+      Resources: {
+        VPC: {
+          Type: 'aws-cdk-lib.aws_ec2.Vpc',
+        },
+        Subnet: {
+          Type: 'aws-cdk-lib.aws_ec2.Subnet',
+          Properties: {
+            vpcId: { Ref: 'VPC' },
+            availabilityZone: 'us-east-1a',
+            cidrBlock: { 'Fn::GetAtt': ['VPC', 'DOES_NOT_EXIST'] },
+          },
+        },
+      },
+    });
+
+    // THEN
+    await expect(Testing.synth(template, false)).rejects.toThrow(
+      'Fn::GetAtt: Expected Cloudformation Attribute, got: VPC.DOES_NOT_EXIST'
+    );
+  });
+});
+
+describe('FnGetProp', () => {
+  test('can get properties from a construct', async () => {
+    // GIVEN
+    const template = await Testing.template(
+      await Template.fromObject({
+        Resources: {
+          TopicOne: {
+            Type: 'aws-cdk-lib.aws_sns.Topic',
+            Properties: {
+              topicName: 'one',
+              fifo: true,
+            },
+          },
+          TopicTwo: {
+            Type: 'aws-cdk-lib.aws_sns.Topic',
+            Properties: {
+              topicName: 'two',
+              fifo: { 'CDK::GetProp': 'TopicOne.fifo' },
+            },
+          },
+        },
+      })
+    );
+
+    // THEN
+    template.hasResourceProperties('AWS::SNS::Topic', {
+      TopicName: 'two.fifo', // .fifo is added automatically for fifo topics
+      FifoTopic: true,
+    });
+  });
+
+  test('cannot get constructor only properties', async () => {
+    // GIVEN
+    const template = await Template.fromObject({
+      Resources: {
+        Key: {
+          Type: 'aws-cdk-lib.aws_kms.Key',
+        },
+        TopicOne: {
+          Type: 'aws-cdk-lib.aws_sns.Topic',
+          Properties: {
+            masterKey: { Ref: 'Key' },
+          },
+        },
+        TopicTwo: {
+          Type: 'aws-cdk-lib.aws_sns.Topic',
+          Properties: {
+            topicName: 'two',
+            // masterKey is a constructor property and not available on the resulting object
+            masterKey: { 'CDK::GetProp': 'TopicOne.masterKey' },
+          },
+        },
+      },
+    });
+
+    // THEN
+    await expect(Testing.synth(template, false)).rejects.toThrow(
+      'CDK::GetProp: Expected Construct Property, got: TopicOne.masterKey'
+    );
+  });
+});
+
 test.each(['', 'us-east-1', { Ref: 'AWS::Region' }])(
   'FnGetAZs with: %j',
   async (azsValue) => {

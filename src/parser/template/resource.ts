@@ -100,6 +100,7 @@ function findReferencedLogicalIds(
         switch (x.fn) {
           case 'ref':
           case 'getAtt':
+          case 'getProp':
             into.push(x.logicalId);
             break;
           case 'base64':

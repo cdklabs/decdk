@@ -1,69 +1,49 @@
 import * as cdk from 'aws-cdk-lib';
-import { IConstruct } from 'constructs';
 import * as reflect from 'jsii-reflect';
 import { TypedTemplate } from '../type-resolution/template';
-export type ContextValue = IConstruct | string | string[];
-
-/**
- * A referenceable record.
- *
- * If `attributes` is set, the references is a map of sort and can return an attribute value for a given key.
- */
-interface ReferenceRecord {
-  readonly primaryValue: ContextValue;
-  readonly attributes?: Record<string, any>;
-}
-
-type References = Map<string, ReferenceRecord>;
+import { InstanceReference, Reference, References } from './references';
 
 export interface EvaluationContextOptions {
   readonly stack: cdk.Stack;
   readonly template: TypedTemplate;
   readonly typeSystem: reflect.TypeSystem;
 }
+class PseudoParamRef extends InstanceReference {}
 
 export class EvaluationContext {
   public readonly stack: cdk.Stack;
   public readonly typeSystem: reflect.TypeSystem;
   public readonly template: TypedTemplate;
-  protected readonly availableRefs: References = new Map();
+  protected readonly availableRefs: References = new References();
 
   constructor(opts: EvaluationContextOptions) {
     this.stack = opts.stack;
     this.template = opts.template;
     this.typeSystem = opts.typeSystem;
 
-    this.availableRefs.set('AWS::AccountId', {
-      primaryValue: cdk.Aws.ACCOUNT_ID,
-    });
-    this.availableRefs.set('AWS::NotificationARNs', {
-      primaryValue: cdk.Aws.NOTIFICATION_ARNS,
-    });
-    this.availableRefs.set('AWS::NoValue', { primaryValue: cdk.Aws.NO_VALUE });
-    this.availableRefs.set('AWS::Partition', {
-      primaryValue: cdk.Aws.PARTITION,
-    });
-    this.availableRefs.set('AWS::Region', { primaryValue: cdk.Aws.REGION });
-    this.availableRefs.set('AWS::StackId', { primaryValue: cdk.Aws.STACK_ID });
-    this.availableRefs.set('AWS::StackName', {
-      primaryValue: cdk.Aws.STACK_NAME,
-    });
-    this.availableRefs.set('AWS::URLSuffix', {
-      primaryValue: cdk.Aws.URL_SUFFIX,
-    });
+    this.addReferences(
+      new PseudoParamRef('AWS::AccountId', cdk.Aws.ACCOUNT_ID),
+      new PseudoParamRef('AWS::NotificationARNs', cdk.Aws.NOTIFICATION_ARNS),
+      new PseudoParamRef('AWS::NoValue', cdk.Aws.NO_VALUE),
+      new PseudoParamRef('AWS::Partition', cdk.Aws.PARTITION),
+      new PseudoParamRef('AWS::Region', cdk.Aws.REGION),
+      new PseudoParamRef('AWS::StackId', cdk.Aws.STACK_ID),
+      new PseudoParamRef('AWS::StackName', cdk.Aws.STACK_NAME),
+      new PseudoParamRef('AWS::URLSuffix', cdk.Aws.URL_SUFFIX)
+    );
   }
 
-  public addReferenceable(logicalId: string, record: ReferenceRecord) {
-    this.availableRefs.set(logicalId, record);
+  public addReference(reference: Reference) {
+    this.availableRefs.add(reference);
   }
 
-  public setPrimaryContextValues(contextValues: Record<string, ContextValue>) {
-    for (const [name, primaryValue] of Object.entries(contextValues ?? {})) {
-      this.availableRefs.set(name, { primaryValue });
+  public addReferences(...references: Reference[]) {
+    for (const reference of references) {
+      this.addReference(reference);
     }
   }
 
-  public referenceable(logicalId: string) {
+  public reference(logicalId: string): Reference {
     const r = this.availableRefs.get(logicalId);
     if (!r) {
       throw new Error(`No resource or parameter with name: ${logicalId}`);
