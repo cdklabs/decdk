@@ -1,5 +1,5 @@
 import * as cdk from 'aws-cdk-lib';
-import { Token } from 'aws-cdk-lib';
+import { CfnResource, Token } from 'aws-cdk-lib';
 import { Construct, IConstruct } from 'constructs';
 import { SubFragment } from '../parser/private/sub';
 import { assertBoolean, assertString } from '../parser/private/types';
@@ -39,22 +39,22 @@ export class Evaluator {
     }
 
     this.context.addReference(
-      this.referenceForResourceLike(resource, construct)
+      this.referenceForResourceLike(resource.logicalId, construct)
     );
 
     return construct;
   }
 
-  private referenceForResourceLike(resource: ResourceLike, value: unknown) {
-    switch (resource.type) {
-      case 'construct':
-        return new ConstructReference(resource.logicalId, value as Construct);
-      case 'resource':
-        return new CfnResourceReference(resource.logicalId, value);
-      case 'lazyResource':
-      default:
-        return new ValueOnlyReference(resource.logicalId, value);
+  private referenceForResourceLike(logicalId: string, value: unknown) {
+    if (!Construct.isConstruct(value)) {
+      return new ValueOnlyReference(logicalId, value);
     }
+
+    if (CfnResource.isCfnResource(value)) {
+      return new CfnResourceReference(logicalId, value);
+    }
+
+    return new ConstructReference(logicalId, value as Construct);
   }
 
   public evaluate(x: TypedTemplateExpression): any {
@@ -193,11 +193,6 @@ export class Evaluator {
   ) {
     const record = this.context.reference(logicalId);
     const construct = record.instance as any;
-    if (!construct || !construct?.[method]) {
-      throw Error(
-        `Expected ${logicalId} to have method ${method}, but cannot find it.`
-      );
-    }
     return construct[method](...parameters);
   }
 

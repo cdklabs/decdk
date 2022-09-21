@@ -107,3 +107,48 @@ test('can use FnRef as string property', async () => {
     TopicName: { Ref: Match.stringLikeRegexp('^CdkBucket.{8}$') },
   });
 });
+
+test('can use FnRef on result of Member Method Call', async () => {
+  // GIVEN
+  const source = {
+    Resources: {
+      MyLambda: {
+        Type: 'aws-cdk-lib.aws_lambda.Function',
+        Properties: {
+          handler: 'app.hello_handler',
+          runtime: 'PYTHON_3_9',
+          code: {
+            'aws-cdk-lib.aws_lambda.Code.fromAsset': {
+              path: 'examples/lambda-handler',
+            },
+          },
+        },
+      },
+      Alias: {
+        Type: 'aws-cdk-lib.aws_lambda.Alias',
+        On: 'MyLambda',
+        Call: {
+          addAlias: {
+            aliasName: 'live',
+          },
+        },
+      },
+      Topic: {
+        Type: 'aws-cdk-lib.aws_sns.Topic',
+        Properties: {
+          displayName: { Ref: 'Alias' },
+          topicName: { 'CDK::GetProp': 'Alias.aliasName' },
+        },
+      },
+    },
+  };
+  const template = await Testing.template(Template.fromObject(source));
+
+  // THEN
+  template.hasResourceProperties('AWS::SNS::Topic', {
+    DisplayName: {
+      Ref: Match.stringLikeRegexp('^MyLambdaAliaslive.{8}$'),
+    },
+    TopicName: 'live',
+  });
+});
