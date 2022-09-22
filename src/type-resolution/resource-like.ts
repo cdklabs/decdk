@@ -15,16 +15,17 @@ export type ResourceLike = CfnResource | CdkConstruct | LazyResource;
 interface BaseConstruct {
   readonly logicalId: string;
   readonly namespace?: string;
-  readonly fqn: string;
   readonly tags: ResourceTag[];
   readonly dependsOn: string[];
 }
 export interface CfnResource extends BaseConstruct {
+  readonly fqn: string;
   readonly type: 'resource';
   readonly props: TypedTemplateExpression;
 }
 
 export interface CdkConstruct extends BaseConstruct {
+  readonly fqn: string;
   readonly type: 'construct';
   readonly props: TypedTemplateExpression;
   readonly overrides: any;
@@ -54,10 +55,9 @@ export function resolveResourceLike(
     );
   }
 
-  const type = typeSystem.findFqn(resource.type);
-
+  const type = resource.type ? typeSystem.findFqn(resource.type) : undefined;
   if (Object.keys(resource.call.fields).length > 0) {
-    return resolveLazyResource(template, resource, logicalId, type);
+    return resolveLazyResource(template, resource, logicalId, typeSystem, type);
   }
 
   if (isConstruct(type)) {
@@ -73,19 +73,17 @@ function resolveLazyResource(
   template: Template,
   resource: TemplateResource,
   logicalId: string,
-  type: reflect.Type
+  typeSystem: reflect.TypeSystem,
+  type?: reflect.Type
 ): LazyResource {
-  // @todo type inference
-
   const call = resource.on
-    ? resolveInstanceMethodCallExpression(template, resource, type)
-    : resolveStaticMethodCallExpression(resource.call, type);
+    ? resolveInstanceMethodCallExpression(template, resource, typeSystem, type)
+    : resolveStaticMethodCallExpression(resource.call, typeSystem, type);
 
   return {
     type: 'lazyResource',
     logicalId,
-    namespace: type.namespace,
-    fqn: type.fqn,
+    namespace: type?.namespace,
     tags: resource.tags,
     dependsOn: Array.from(resource.dependsOn),
     overrides: resource.overrides,
@@ -103,7 +101,7 @@ function resolveCfnResource(
     fields: {
       type: {
         type: 'string',
-        value: resource.type,
+        value: resource.type!,
       },
       properties: {
         type: 'object',
@@ -154,7 +152,7 @@ function resolveCdkConstruct(
 }
 
 export function isCfnResource(resource: TemplateResource) {
-  return resource.type.includes('::');
+  return resource.type?.includes('::') ?? false;
 }
 
 export function isConstruct(type?: reflect.Type): type is reflect.ClassType {

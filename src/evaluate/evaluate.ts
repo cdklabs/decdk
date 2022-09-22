@@ -29,8 +29,12 @@ export class Evaluator {
     );
   }
 
-  public evaluateResource(resource: ResourceLike): IConstruct {
+  public evaluateResource(resource: ResourceLike) {
     const construct = this.evaluate(resource);
+
+    // If this is the result of a call to a method with no
+    // return type (void), then there is nothing else to do here.
+    if (construct == null) return;
 
     this.applyTags(construct, resource.tags);
     this.applyDependsOn(construct, resource.dependsOn);
@@ -41,8 +45,6 @@ export class Evaluator {
     this.context.addReference(
       this.referenceForResourceLike(resource.logicalId, construct)
     );
-
-    return construct;
   }
 
   private referenceForResourceLike(logicalId: string, value: unknown) {

@@ -1,6 +1,5 @@
 import {
   assertAtMostOneOfFields,
-  assertField,
   assertObject,
   assertString,
   assertStringOrList,
@@ -20,7 +19,7 @@ import { parseOverrides, ResourceOverride } from './overrides';
 import { parseTags, ResourceTag } from './tags';
 
 export interface TemplateResource {
-  readonly type: string;
+  readonly type?: string;
   readonly properties: Record<string, TemplateExpression>;
   readonly conditionName?: string;
   readonly dependencies: Set<string>;
@@ -49,11 +48,15 @@ export function parseTemplateResource(
 
   assertAtMostOneOfFields(resource, ['Properties', 'Call']);
 
+  if (resource.Properties != null && resource.Type == null) {
+    throw new Error(`In resource '${logicalId}': missing 'Type' property.`);
+  }
+
   const properties = parseObject(resource.Properties);
   const call = parseCall(resource.Call);
 
   return {
-    type: assertString(assertField(resource, 'Type')),
+    type: ifField(resource, 'Type', assertString),
     properties,
     conditionName: ifField(resource, 'Condition', assertString),
     metadata: assertObject(resource.Metadata ?? {}),

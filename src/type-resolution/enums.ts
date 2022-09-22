@@ -29,6 +29,7 @@ export function resolveEnumLikeExpression(
 
   return resolveStaticMethodCallExpression(
     assertExpressionType(x, 'object'),
+    type.system,
     type
   );
 }

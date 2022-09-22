@@ -2399,6 +2399,9 @@ TypedTemplate {
       "Alias" => Set {
         "MyFunction",
       },
+      "ConfigureAsyncInvokeStatement" => Set {
+        "Alias",
+      },
     },
     "keys": Set {
       "SourceBucket",
@@ -2406,6 +2409,7 @@ TypedTemplate {
       "MyFunction",
       "Grant",
       "Alias",
+      "ConfigureAsyncInvokeStatement",
     },
     "nodes": Object {
       "Alias": Object {
@@ -2428,7 +2432,6 @@ TypedTemplate {
           "type": "instanceMethodCall",
         },
         "dependsOn": Array [],
-        "fqn": "aws-cdk-lib.aws_lambda.Alias",
         "logicalId": "Alias",
         "namespace": "aws_lambda",
         "overrides": Array [],
@@ -2463,9 +2466,35 @@ TypedTemplate {
           "type": "staticMethodCall",
         },
         "dependsOn": Array [],
-        "fqn": "aws-cdk-lib.aws_lambda.Code",
         "logicalId": "BusinessLogic",
         "namespace": "aws_lambda",
+        "overrides": Array [],
+        "tags": Array [],
+        "type": "lazyResource",
+      },
+      "ConfigureAsyncInvokeStatement": Object {
+        "call": Object {
+          "args": Object {
+            "array": Array [
+              Object {
+                "fields": Object {
+                  "retryAttempts": Object {
+                    "type": "number",
+                    "value": 2,
+                  },
+                },
+                "type": "struct",
+              },
+            ],
+            "type": "array",
+          },
+          "logicalId": "Alias",
+          "method": "configureAsyncInvoke",
+          "type": "instanceMethodCall",
+        },
+        "dependsOn": Array [],
+        "logicalId": "ConfigureAsyncInvokeStatement",
+        "namespace": undefined,
         "overrides": Array [],
         "tags": Array [],
         "type": "lazyResource",
@@ -2493,7 +2522,6 @@ TypedTemplate {
           "type": "instanceMethodCall",
         },
         "dependsOn": Array [],
-        "fqn": "aws-cdk-lib.aws_iam.Grant",
         "logicalId": "Grant",
         "namespace": "aws_iam",
         "overrides": Array [],
@@ -2699,6 +2727,35 @@ TypedTemplate {
         "type": "aws-cdk-lib.aws_lambda.Alias",
         "updateReplacePolicy": "Delete",
       },
+      "ConfigureAsyncInvokeStatement" => Object {
+        "call": Object {
+          "fields": Object {
+            "configureAsyncInvoke": Object {
+              "fields": Object {
+                "retryAttempts": Object {
+                  "type": "number",
+                  "value": 2,
+                },
+              },
+              "type": "object",
+            },
+          },
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "Alias",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "on": "Alias",
+        "overrides": Array [],
+        "properties": Object {},
+        "tags": Array [],
+        "type": undefined,
+        "updateReplacePolicy": "Delete",
+      },
     },
     "template": Object {
       "$schema": "../cdk.schema.json",
@@ -2722,6 +2779,14 @@ TypedTemplate {
             },
           },
           "Type": "aws-cdk-lib.aws_lambda.Code",
+        },
+        "ConfigureAsyncInvokeStatement": Object {
+          "Call": Object {
+            "configureAsyncInvoke": Object {
+              "retryAttempts": 2,
+            },
+          },
+          "On": "Alias",
         },
         "Grant": Object {
           "Call": Object {
