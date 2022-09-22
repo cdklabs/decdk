@@ -54,7 +54,7 @@ export class DependencyGraph<A> {
    * All nodes that are dependencies of this node, and this node itself
    */
   public upstream(key: string) {
-    this.closure(key, (k) => this.directDependencies(k));
+    return this.closure(key, (k) => this.directDependencies(k));
   }
 
   /**
