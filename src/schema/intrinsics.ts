@@ -423,7 +423,7 @@ export function schemaForIntrinsicFunctions(ctx: SchemaContext) {
   };
   ctx.define('IntrinsicExpression', () => ({
     $comment: 'Intrinsic function token expression',
-    type: ['string'],
+    type: ['string', 'object'],
     anyOf: Object.entries(intrinsicFunctions).map(([name, fn]) =>
       ctx.define(name, fn)
     ),
