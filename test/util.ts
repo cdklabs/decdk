@@ -3,7 +3,10 @@ import * as path from 'path';
 import { join } from 'path';
 import * as cdk from 'aws-cdk-lib';
 import { DefaultStackSynthesizer } from 'aws-cdk-lib';
-import { Template as AssertionTemplate } from 'aws-cdk-lib/assertions';
+import {
+  Match as BaseMatch,
+  Template as AssertionTemplate,
+} from 'aws-cdk-lib/assertions';
 import * as reflect from 'jsii-reflect';
 import * as jsonschema from 'jsonschema';
 import { DeclarativeStack, loadTypeSystem } from '../src';
@@ -108,6 +111,12 @@ export function testExamples(
       }),
     timeout
   );
+}
+
+export class Match extends BaseMatch {
+  public static logicalIdFor(id: string) {
+    return Match.stringLikeRegexp(`^${id}.{8}$`);
+  }
 }
 
 declare global {

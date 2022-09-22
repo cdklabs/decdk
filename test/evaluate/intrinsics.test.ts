@@ -1,6 +1,5 @@
-import { Match } from 'aws-cdk-lib/assertions';
 import { Template } from '../../src/parser/template';
-import { Testing } from '../util';
+import { Match, Testing } from '../util';
 
 test('can use intrinsic where primitive number is expected', async () => {
   // GIVEN
@@ -320,7 +319,7 @@ describe('FnGetProp', () => {
         AppSyncEventBridgeRule: {
           Type: 'aws-cdk-lib.aws_events.Rule',
           Properties: {
-            description: { 'CDK::GetProp': 'MyLambda.stack.stackId' },
+            description: { 'CDK::GetProp': 'MyLambda.role.roleName' },
             eventPattern: {
               source: ['aws.ec2'],
             },
@@ -333,9 +332,44 @@ describe('FnGetProp', () => {
     // THEN
     template.hasResourceProperties('AWS::Events::Rule', {
       Description: {
-        Ref: 'AWS::StackId',
+        Ref: Match.logicalIdFor('MyLambdaServiceRole'),
       },
     });
+  });
+
+  test('cannot use FnGetProp to access Stack details', async () => {
+    // GIVEN
+    const source = {
+      Resources: {
+        MyLambda: {
+          Type: 'aws-cdk-lib.aws_lambda.Function',
+          Properties: {
+            handler: 'app.hello_handler',
+            runtime: 'PYTHON_3_9',
+            code: {
+              'aws-cdk-lib.aws_lambda.Code.fromAsset': {
+                path: 'examples/lambda-handler',
+              },
+            },
+          },
+        },
+        AppSyncEventBridgeRule: {
+          Type: 'aws-cdk-lib.aws_events.Rule',
+          Properties: {
+            description: { 'CDK::GetProp': 'MyLambda.stack.stackId' },
+            eventPattern: {
+              source: ['aws.ec2'],
+            },
+          },
+        },
+      },
+    };
+    const template = await Template.fromObject(source);
+
+    // THEN
+    await expect(Testing.synth(template, false)).rejects.toThrow(
+      'CDK::GetProp: Expected Construct Property, got: MyLambda.stack.stackId'
+    );
   });
 });
 
@@ -438,7 +472,7 @@ test('FnJoin', async () => {
         [
           'queue',
           { Ref: 'AWS::Region' },
-          { 'Fn::Base64': { Ref: Match.stringLikeRegexp('^Bucket.{8}$') } },
+          { 'Fn::Base64': { Ref: Match.logicalIdFor('Bucket') } },
         ],
       ],
     },

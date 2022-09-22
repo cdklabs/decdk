@@ -1,4 +1,5 @@
 import * as cdk from 'aws-cdk-lib';
+import { Stack, Stage } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { assertObject, ParserError } from '../parser/private/types';
 
@@ -8,6 +9,8 @@ function isPropertyOf(
 ): boolean {
   return (
     !path.startsWith('_') &&
+    !Stack.isStack(instance) &&
+    !Stage.isStage(instance) &&
     instance[path] !== undefined &&
     typeof instance[path] !== 'function'
   );
