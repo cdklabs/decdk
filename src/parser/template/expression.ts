@@ -238,7 +238,8 @@ export function parseExpression(x: unknown): TemplateExpression {
     }),
     'Fn::GetAtt': (value) => {
       if (typeof value == 'string') {
-        value = value.split('.');
+        const [id, ...attrs] = value.split('.');
+        value = [id, attrs.join('.')];
       }
       const xs = assertList(value, [2]);
       return {
@@ -250,7 +251,8 @@ export function parseExpression(x: unknown): TemplateExpression {
     },
     'CDK::GetProp': (value) => {
       if (typeof value == 'string') {
-        value = value.split('.');
+        const [id, ...attrs] = value.split('.');
+        value = [id, attrs.join('.')];
       }
       const xs = assertList(value, [2]);
       return {

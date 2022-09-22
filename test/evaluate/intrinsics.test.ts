@@ -190,6 +190,54 @@ describe('FnGetAtt', () => {
       'Fn::GetAtt: Expected Cloudformation Attribute, got: VPC.DOES_NOT_EXIST'
     );
   });
+
+  test('can use FnGetAtt to get nested properties', async () => {
+    // GIVEN
+    const source = {
+      Resources: {
+        MyVPC: {
+          Type: 'aws-cdk-lib.aws_ec2.Vpc',
+        },
+        MyLB: {
+          Type: 'aws-cdk-lib.aws_elasticloadbalancing.LoadBalancer',
+          Properties: {
+            vpc: { Ref: 'MyVPC' },
+          },
+        },
+        MyTopic: {
+          Type: 'aws-cdk-lib.aws_sns.Topic',
+          Properties: {
+            topicName: {
+              'Fn::GetAtt': 'MyLB.SourceSecurityGroup.GroupName',
+            },
+            displayName: {
+              'Fn::GetAtt': ['MyLB', 'SourceSecurityGroup.GroupName'],
+            },
+          },
+        },
+      },
+    };
+    const template = await Testing.template(Template.fromObject(source));
+
+    // THEN
+    template.hasResourceProperties('AWS::SNS::Topic', {
+      DisplayName: {
+        'Fn::GetAtt': [
+          Match.stringLikeRegexp('^MyLB.{8}$'),
+          'SourceSecurityGroup.GroupName',
+        ],
+      },
+      TopicName: {
+        'Fn::GetAtt': [
+          Match.stringLikeRegexp('^MyLB.{8}$'),
+          'SourceSecurityGroup.GroupName',
+        ],
+      },
+    });
+  });
+
+  // @todo test for FnGetAtt for nested attributes
+  // @see https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_elasticloadbalancing.CfnLoadBalancer.html
 });
 
 describe('FnGetProp', () => {
@@ -251,6 +299,43 @@ describe('FnGetProp', () => {
     await expect(Testing.synth(template, false)).rejects.toThrow(
       'CDK::GetProp: Expected Construct Property, got: TopicOne.masterKey'
     );
+  });
+
+  test('can use FnGetProp to get nested properties', async () => {
+    // GIVEN
+    const source = {
+      Resources: {
+        MyLambda: {
+          Type: 'aws-cdk-lib.aws_lambda.Function',
+          Properties: {
+            handler: 'app.hello_handler',
+            runtime: 'PYTHON_3_9',
+            code: {
+              'aws-cdk-lib.aws_lambda.Code.fromAsset': {
+                path: 'examples/lambda-handler',
+              },
+            },
+          },
+        },
+        AppSyncEventBridgeRule: {
+          Type: 'aws-cdk-lib.aws_events.Rule',
+          Properties: {
+            description: { 'CDK::GetProp': 'MyLambda.stack.stackId' },
+            eventPattern: {
+              source: ['aws.ec2'],
+            },
+          },
+        },
+      },
+    };
+    const template = await Testing.template(Template.fromObject(source));
+
+    // THEN
+    template.hasResourceProperties('AWS::Events::Rule', {
+      Description: {
+        Ref: 'AWS::StackId',
+      },
+    });
   });
 });
 

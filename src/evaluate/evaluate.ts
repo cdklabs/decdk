@@ -17,6 +17,7 @@ import { applyOverride } from './overrides';
 import {
   CfnResourceReference,
   ConstructReference,
+  getPropDot,
   ValueOnlyReference,
 } from './references';
 
@@ -253,7 +254,7 @@ export class Evaluator {
         `CDK::GetProp: Expected Construct Property, got: ${logicalId}.${prop}`
       );
     }
-    return c.instance?.[prop];
+    return getPropDot(c.instance, prop);
   }
 
   protected fnGetAtt(logicalId: string, attribute: string) {

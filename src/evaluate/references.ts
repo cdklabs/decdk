@@ -1,5 +1,36 @@
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
+import { assertObject, ParserError } from '../parser/private/types';
+
+function isPropertyOf(
+  instance: Record<string, unknown>,
+  path: string
+): boolean {
+  return (
+    !path.startsWith('_') &&
+    instance[path] !== undefined &&
+    typeof instance[path] !== 'function'
+  );
+}
+
+export function getPropDot(instance: unknown, path: string): unknown {
+  return path.split('.').reduce((o, p) => {
+    const obj = assertObject(o);
+    if (!isPropertyOf(obj, p)) {
+      throw new ParserError(`Expected Construct property path, got: ${path}`);
+    }
+    return obj[p];
+  }, instance);
+}
+
+export function hasPropDot(instance: unknown, path: string): boolean {
+  try {
+    getPropDot(instance, path);
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 /**
  * A referenceable record.
@@ -94,15 +125,12 @@ export class ConstructReference extends InstanceReference {
       typeof this.defaultChild === 'object' &&
       Object.prototype.hasOwnProperty.call(
         this.defaultChild,
-        'attr' + attribute
+        'attr' + attribute.replace('.', '')
       )
     );
   }
 
-  public hasProp(property: string): any {
-    return (
-      typeof this.instance === 'object' &&
-      this.instance[property as keyof Construct]
-    );
+  public hasProp(property: string): boolean {
+    return hasPropDot(this.instance, property);
   }
 }
