@@ -190,6 +190,54 @@ describe('FnGetAtt', () => {
       'Fn::GetAtt: Expected Cloudformation Attribute, got: VPC.DOES_NOT_EXIST'
     );
   });
+
+  test('can use FnGetAtt to get nested properties', async () => {
+    // GIVEN
+    const source = {
+      Resources: {
+        MyVPC: {
+          Type: 'aws-cdk-lib.aws_ec2.Vpc',
+        },
+        MyLB: {
+          Type: 'aws-cdk-lib.aws_elasticloadbalancing.LoadBalancer',
+          Properties: {
+            vpc: { Ref: 'MyVPC' },
+          },
+        },
+        MyTopic: {
+          Type: 'aws-cdk-lib.aws_sns.Topic',
+          Properties: {
+            topicName: {
+              'Fn::GetAtt': 'MyLB.SourceSecurityGroup.GroupName',
+            },
+            displayName: {
+              'Fn::GetAtt': ['MyLB', 'SourceSecurityGroup.GroupName'],
+            },
+          },
+        },
+      },
+    };
+    const template = await Testing.template(Template.fromObject(source));
+
+    // THEN
+    template.hasResourceProperties('AWS::SNS::Topic', {
+      DisplayName: {
+        'Fn::GetAtt': [
+          Match.stringLikeRegexp('^MyLB.{8}$'),
+          'SourceSecurityGroup.GroupName',
+        ],
+      },
+      TopicName: {
+        'Fn::GetAtt': [
+          Match.stringLikeRegexp('^MyLB.{8}$'),
+          'SourceSecurityGroup.GroupName',
+        ],
+      },
+    });
+  });
+
+  // @todo test for FnGetAtt for nested attributes
+  // @see https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_elasticloadbalancing.CfnLoadBalancer.html
 });
 
 describe('FnGetProp', () => {

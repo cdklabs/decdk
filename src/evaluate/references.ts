@@ -125,7 +125,7 @@ export class ConstructReference extends InstanceReference {
       typeof this.defaultChild === 'object' &&
       Object.prototype.hasOwnProperty.call(
         this.defaultChild,
-        'attr' + attribute
+        'attr' + attribute.replace('.', '')
       )
     );
   }
