@@ -396,7 +396,9 @@ export class Evaluator {
 
   protected applyDependsOn(from: IConstruct, dependencies: string[] = []) {
     from.node?.addDependency(
-      ...dependencies.map((to) => this.context.stack.node.findChild(to))
+      ...dependencies
+        .map((to) => this.context.stack.node.tryFindChild(to))
+        .filter(Construct.isConstruct)
     );
   }
 

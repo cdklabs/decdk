@@ -73,8 +73,6 @@ export class Template {
   public resource(logicalId: string) {
     const r = this.resources.get(logicalId);
     if (!r) {
-      console.log(this.resources);
-      console.log(new Error('').stack);
       throw new Error(`No such resource: ${logicalId}`);
     }
     return r;
