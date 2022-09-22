@@ -252,6 +252,43 @@ describe('FnGetProp', () => {
       'CDK::GetProp: Expected Construct Property, got: TopicOne.masterKey'
     );
   });
+
+  test('can use FnGetProp to get nested properties', async () => {
+    // GIVEN
+    const source = {
+      Resources: {
+        MyLambda: {
+          Type: 'aws-cdk-lib.aws_lambda.Function',
+          Properties: {
+            handler: 'app.hello_handler',
+            runtime: 'PYTHON_3_9',
+            code: {
+              'aws-cdk-lib.aws_lambda.Code.fromAsset': {
+                path: 'examples/lambda-handler',
+              },
+            },
+          },
+        },
+        AppSyncEventBridgeRule: {
+          Type: 'aws-cdk-lib.aws_events.Rule',
+          Properties: {
+            description: { 'CDK::GetProp': 'MyLambda.stack.stackId' },
+            eventPattern: {
+              source: ['aws.ec2'],
+            },
+          },
+        },
+      },
+    };
+    const template = await Testing.template(Template.fromObject(source));
+
+    // THEN
+    template.hasResourceProperties('AWS::Events::Rule', {
+      Description: {
+        Ref: 'AWS::StackId',
+      },
+    });
+  });
 });
 
 test.each(['', 'us-east-1', { Ref: 'AWS::Region' }])(
