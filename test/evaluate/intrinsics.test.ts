@@ -445,6 +445,115 @@ test('FnJoin', async () => {
   });
 });
 
+describe('FnSelect', () => {
+  test('can select from different types of values', async () => {
+    // GIVEN
+    const template = await Testing.template(
+      await Template.fromObject({
+        Resources: {
+          VPC: {
+            Type: 'aws-cdk-lib.aws_ec2.Vpc',
+          },
+          Subnet: {
+            Type: 'aws-cdk-lib.aws_ec2.Subnet',
+            Properties: {
+              vpcId: { Ref: 'VPC' },
+              cidrBlock: '11.11.11.11/24',
+              availabilityZone: {
+                'Fn::Select': [
+                  '0',
+                  [
+                    'test',
+                    { Ref: 'VPC' },
+                    { 'CDK::GetProp': 'VPC.dnsSupportEnabled' },
+                  ],
+                ],
+              },
+            },
+          },
+        },
+      })
+    );
+
+    // THEN
+    template.hasResourceProperties('AWS::EC2::Subnet', {
+      CidrBlock: '11.11.11.11/24',
+      AvailabilityZone: {
+        'Fn::Select': [
+          '0',
+          ['test', { Ref: Match.stringLikeRegexp('^VPC.{8}$') }, true],
+        ],
+      },
+    });
+  });
+
+  test('can select from FnGetAZs', async () => {
+    // GIVEN
+    const template = await Testing.template(
+      await Template.fromObject({
+        Resources: {
+          VPC: {
+            Type: 'aws-cdk-lib.aws_ec2.Vpc',
+          },
+          Subnet: {
+            Type: 'aws-cdk-lib.aws_ec2.Subnet',
+            Properties: {
+              vpcId: { Ref: 'VPC' },
+              cidrBlock: '10.0.0.0/24',
+              availabilityZone: {
+                'Fn::Select': ['0', { 'Fn::GetAZs': { Ref: 'AWS::Region' } }],
+              },
+            },
+          },
+        },
+      })
+    );
+
+    // THEN
+    template.hasResourceProperties('AWS::EC2::Subnet', {
+      AvailabilityZone: {
+        'Fn::Select': ['0', { 'Fn::GetAZs': { Ref: 'AWS::Region' } }],
+      },
+    });
+  });
+
+  test('index can be ref ', async () => {
+    // GIVEN
+    const template = await Testing.template(
+      await Template.fromObject({
+        Resources: {
+          VPC: {
+            Type: 'aws-cdk-lib.aws_ec2.Vpc',
+          },
+          Subnet: {
+            Type: 'aws-cdk-lib.aws_ec2.Subnet',
+            Properties: {
+              vpcId: { Ref: 'VPC' },
+              cidrBlock: '10.0.0.0/24',
+              availabilityZone: {
+                'Fn::Select': [
+                  { Ref: 'VPC' }, // nonsensical put should compile
+                  { 'Fn::GetAZs': { Ref: 'AWS::Region' } },
+                ],
+              },
+            },
+          },
+        },
+      })
+    );
+
+    // THEN
+    template.hasResourceProperties('AWS::EC2::Subnet', {
+      AvailabilityZone: {
+        'Fn::Select': [
+          { Ref: Match.stringLikeRegexp('^VPC.{8}$') },
+          { 'Fn::GetAZs': { Ref: 'AWS::Region' } },
+        ],
+      },
+    });
+  });
+});
+
 test('FnSplit', async () => {
   // GIVEN
   const template = await Testing.template(
