@@ -136,6 +136,114 @@ test('FnCidr', async () => {
   });
 });
 
+describe('FnFindInMap', () => {
+  test('can use FnRef in FnFindInMap', async () => {
+    // GIVEN
+    const template = await Testing.template(
+      await Template.fromObject({
+        Mappings: {
+          RegionMap: {
+            'us-west-1': {
+              HVM64: 'ami-0bdb828fd58c52235',
+              HVMG2: 'ami-066ee5fd4a9ef77f1',
+            },
+            'eu-west-1': {
+              HVM64: 'ami-047bb4163c506cd98',
+              HVMG2: 'ami-0a7c483d527806435',
+            },
+          },
+        },
+        Resources: {
+          myEC2Instance: {
+            Type: 'AWS::EC2::Instance',
+            Properties: {
+              ImageId: {
+                'Fn::FindInMap': ['RegionMap', { Ref: 'AWS::Region' }, 'HVM64'],
+              },
+              InstanceType: 'm1.small',
+            },
+          },
+        },
+      })
+    );
+
+    // THEN
+    template.hasResourceProperties('AWS::EC2::Instance', {
+      ImageId: {
+        'Fn::FindInMap': ['RegionMap', { Ref: 'AWS::Region' }, 'HVM64'],
+      },
+    });
+  });
+
+  test('can use FnFindInMap in FnFindInMap', async () => {
+    // GIVEN
+    const template = await Testing.template(
+      await Template.fromObject({
+        Mappings: {
+          RegionMap: {
+            'us-west-1': {
+              HVM64: 'ami-0bdb828fd58c52235',
+              HVMG2: 'ami-066ee5fd4a9ef77f1',
+            },
+            'eu-west-1': {
+              HVM64: 'ami-047bb4163c506cd98',
+              HVMG2: 'ami-0a7c483d527806435',
+            },
+          },
+          ArchitectureMap: {
+            'us-west-1': {
+              Architecture: 'HVM64',
+            },
+            'eu-west-1': {
+              Architecture: 'HVMG2',
+            },
+          },
+        },
+        Resources: {
+          myEC2Instance: {
+            Type: 'AWS::EC2::Instance',
+            Properties: {
+              ImageId: {
+                'Fn::FindInMap': [
+                  'RegionMap',
+                  { Ref: 'AWS::Region' },
+                  {
+                    'Fn::FindInMap': [
+                      'ArchitectureMap',
+                      { Ref: 'AWS::Region' },
+                      'Architecture',
+                    ],
+                  },
+                ],
+              },
+              InstanceType: 'm1.small',
+            },
+          },
+        },
+      })
+    );
+
+    // THEN
+    template.hasResourceProperties('AWS::EC2::Instance', {
+      ImageId: {
+        'Fn::FindInMap': [
+          'RegionMap',
+          { Ref: 'AWS::Region' },
+          {
+            'Fn::FindInMap': [
+              'ArchitectureMap',
+              {
+                Ref: 'AWS::Region',
+              },
+              'Architecture',
+            ],
+          },
+        ],
+      },
+    });
+  });
+});
+
 describe('FnGetAtt', () => {
   test('can get attributes from the underlying resource', async () => {
     // GIVEN
