@@ -1,5 +1,6 @@
 {
   "$schema": "../cdk.schema.json",
+  "AWSTemplateFormatVersion": "2010-09-09",
   "Resources": {
     "SourceBucket": {
       "Type": "aws-cdk-lib.aws_s3.Bucket"

@@ -20,7 +20,7 @@ Resources:
       scaleOnRequestCount:
         id: AModestLoad
         targetRequestsPerMinute: 60
-    DependsOn: # Needed because of: Error: Attach the AutoScalingGroup to a non-imported Application Load Balancer before calling scaleOnRequestCount()
+    DependsOn:
       - 'Target'
   LB:
     Type: aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationLoadBalancer
@@ -44,9 +44,8 @@ Resources:
         port: 80
         targets:
           - Ref: ASG
-  # AllowFromEverywhere:
-  #   Type: Void # No support for optional return type yet
-  #   'On': Listener
-  #   Call:
-  #     connections.allowDefaultPortFromAnyIpv4:
-  #       description: Open to the world
+  AllowFromEverywhere:
+     'On': Listener
+     Call:
+       connections.allowDefaultPortFromAnyIpv4:
+         description: Open to the world

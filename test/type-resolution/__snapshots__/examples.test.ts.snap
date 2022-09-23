@@ -125,6 +125,7 @@ TypedTemplate {
   },
   "template": Template {
     "conditions": Map {},
+    "description": "A template creates a lambda function with an api gateway",
     "mappings": Map {},
     "outputs": Map {},
     "parameters": TemplateParameters {
@@ -234,6 +235,8 @@ TypedTemplate {
     },
     "template": Object {
       "$schema": "../cdk.schema.json",
+      "AWSTemplateFormatVersion": "2010-09-09",
+      "Description": "A template creates a lambda function with an api gateway",
       "Resources": Object {
         "GetRoot": Object {
           "Properties": Object {
@@ -272,6 +275,613 @@ TypedTemplate {
         },
       },
     },
+    "templateFormatVersion": "2010-09-09",
+  },
+}
+`;
+
+exports[`application-load-balancer.yaml 1`] = `
+TypedTemplate {
+  "conditions": Map {},
+  "mappings": Map {},
+  "outputs": Map {},
+  "parameters": TemplateParameters {
+    "parameters": Object {},
+  },
+  "resources": DependencyGraph {
+    "_dependencies": Map {
+      "VPC" => Set {},
+      "ASG" => Set {
+        "VPC",
+      },
+      "AModestLoad" => Set {
+        "Target",
+        "ASG",
+      },
+      "LB" => Set {
+        "VPC",
+      },
+      "Listener" => Set {
+        "LB",
+      },
+      "Target" => Set {
+        "Listener",
+        "ASG",
+      },
+      "AllowFromEverywhere" => Set {
+        "Listener",
+      },
+    },
+    "keys": Set {
+      "VPC",
+      "ASG",
+      "LB",
+      "Listener",
+      "Target",
+      "AllowFromEverywhere",
+      "AModestLoad",
+    },
+    "nodes": Object {
+      "AModestLoad": Object {
+        "call": Object {
+          "args": Object {
+            "array": Array [
+              Object {
+                "type": "string",
+                "value": "AModestLoad",
+              },
+              Object {
+                "fields": Object {
+                  "targetRequestsPerMinute": Object {
+                    "type": "number",
+                    "value": 60,
+                  },
+                },
+                "type": "struct",
+              },
+            ],
+            "type": "array",
+          },
+          "logicalId": "ASG",
+          "method": "scaleOnRequestCount",
+          "type": "instanceMethodCall",
+        },
+        "dependsOn": Array [
+          "Target",
+        ],
+        "logicalId": "AModestLoad",
+        "namespace": "aws_autoscaling",
+        "overrides": Array [],
+        "tags": Array [],
+        "type": "lazyResource",
+      },
+      "ASG": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_autoscaling.AutoScalingGroup",
+        "logicalId": "ASG",
+        "namespace": "aws_autoscaling",
+        "overrides": Array [],
+        "props": Object {
+          "fields": Object {
+            "instanceType": Object {
+              "args": Object {
+                "array": Array [
+                  Object {
+                    "choice": "T2",
+                    "fqn": "aws-cdk-lib.aws_ec2.InstanceClass",
+                    "namespace": "aws_ec2",
+                    "type": "enum",
+                  },
+                  Object {
+                    "choice": "MICRO",
+                    "fqn": "aws-cdk-lib.aws_ec2.InstanceSize",
+                    "namespace": "aws_ec2",
+                    "type": "enum",
+                  },
+                ],
+                "type": "array",
+              },
+              "fqn": "aws-cdk-lib.aws_ec2.InstanceType",
+              "method": "of",
+              "namespace": "aws_ec2",
+              "type": "staticMethodCall",
+            },
+            "machineImage": Object {
+              "args": Object {
+                "array": Array [
+                  Object {
+                    "fields": Object {},
+                    "type": "struct",
+                  },
+                ],
+                "type": "array",
+              },
+              "fqn": "aws-cdk-lib.aws_ec2.AmazonLinuxImage",
+              "namespace": "aws_ec2",
+              "type": "initializer",
+            },
+            "vpc": Object {
+              "reference": Object {
+                "fn": "ref",
+                "logicalId": "VPC",
+                "type": "intrinsic",
+              },
+              "type": "resolve-reference",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "construct",
+      },
+      "AllowFromEverywhere": Object {
+        "call": Object {
+          "args": Object {
+            "array": Array [
+              Object {
+                "type": "string",
+                "value": "Open to the world",
+              },
+            ],
+            "type": "array",
+          },
+          "logicalId": "Listener",
+          "method": "connections.allowDefaultPortFromAnyIpv4",
+          "type": "instanceMethodCall",
+        },
+        "dependsOn": Array [],
+        "logicalId": "AllowFromEverywhere",
+        "namespace": undefined,
+        "overrides": Array [],
+        "tags": Array [],
+        "type": "lazyResource",
+      },
+      "LB": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationLoadBalancer",
+        "logicalId": "LB",
+        "namespace": "aws_elasticloadbalancingv2",
+        "overrides": Array [],
+        "props": Object {
+          "fields": Object {
+            "internetFacing": Object {
+              "type": "boolean",
+              "value": true,
+            },
+            "vpc": Object {
+              "reference": Object {
+                "fn": "ref",
+                "logicalId": "VPC",
+                "type": "intrinsic",
+              },
+              "type": "resolve-reference",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "construct",
+      },
+      "Listener": Object {
+        "call": Object {
+          "args": Object {
+            "array": Array [
+              Object {
+                "type": "string",
+                "value": "Listener",
+              },
+              Object {
+                "fields": Object {
+                  "port": Object {
+                    "type": "number",
+                    "value": 80,
+                  },
+                },
+                "type": "struct",
+              },
+            ],
+            "type": "array",
+          },
+          "logicalId": "LB",
+          "method": "addListener",
+          "type": "instanceMethodCall",
+        },
+        "dependsOn": Array [],
+        "logicalId": "Listener",
+        "namespace": "aws_elasticloadbalancingv2",
+        "overrides": Array [],
+        "tags": Array [],
+        "type": "lazyResource",
+      },
+      "Target": Object {
+        "call": Object {
+          "args": Object {
+            "array": Array [
+              Object {
+                "type": "string",
+                "value": "Target",
+              },
+              Object {
+                "fields": Object {
+                  "port": Object {
+                    "type": "number",
+                    "value": 80,
+                  },
+                  "targets": Object {
+                    "array": Array [
+                      Object {
+                        "reference": Object {
+                          "fn": "ref",
+                          "logicalId": "ASG",
+                          "type": "intrinsic",
+                        },
+                        "type": "resolve-reference",
+                      },
+                    ],
+                    "type": "array",
+                  },
+                },
+                "type": "struct",
+              },
+            ],
+            "type": "array",
+          },
+          "logicalId": "Listener",
+          "method": "addTargets",
+          "type": "instanceMethodCall",
+        },
+        "dependsOn": Array [],
+        "logicalId": "Target",
+        "namespace": "aws_elasticloadbalancingv2",
+        "overrides": Array [],
+        "tags": Array [],
+        "type": "lazyResource",
+      },
+      "VPC": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_ec2.Vpc",
+        "logicalId": "VPC",
+        "namespace": "aws_ec2",
+        "overrides": Array [],
+        "props": Object {
+          "fields": Object {},
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "construct",
+      },
+    },
+  },
+  "template": Template {
+    "conditions": Map {},
+    "description": undefined,
+    "mappings": Map {},
+    "outputs": Map {},
+    "parameters": TemplateParameters {
+      "parameters": Object {},
+    },
+    "resources": Map {
+      "VPC" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {},
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "on": undefined,
+        "overrides": Array [],
+        "properties": Object {},
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_ec2.Vpc",
+        "updateReplacePolicy": "Delete",
+      },
+      "ASG" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "VPC",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "on": undefined,
+        "overrides": Array [],
+        "properties": Object {
+          "instanceType": Object {
+            "fields": Object {
+              "aws-cdk-lib.aws_ec2.InstanceType.of": Object {
+                "fields": Object {
+                  "instanceClass": Object {
+                    "type": "string",
+                    "value": "T2",
+                  },
+                  "instanceSize": Object {
+                    "type": "string",
+                    "value": "MICRO",
+                  },
+                },
+                "type": "object",
+              },
+            },
+            "type": "object",
+          },
+          "machineImage": Object {
+            "fields": Object {
+              "aws-cdk-lib.aws_ec2.AmazonLinuxImage": Object {
+                "fields": Object {},
+                "type": "object",
+              },
+            },
+            "type": "object",
+          },
+          "vpc": Object {
+            "fn": "ref",
+            "logicalId": "VPC",
+            "type": "intrinsic",
+          },
+        },
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_autoscaling.AutoScalingGroup",
+        "updateReplacePolicy": "Delete",
+      },
+      "AModestLoad" => Object {
+        "call": Object {
+          "fields": Object {
+            "scaleOnRequestCount": Object {
+              "fields": Object {
+                "id": Object {
+                  "type": "string",
+                  "value": "AModestLoad",
+                },
+                "targetRequestsPerMinute": Object {
+                  "type": "number",
+                  "value": 60,
+                },
+              },
+              "type": "object",
+            },
+          },
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "Target",
+          "ASG",
+        },
+        "dependsOn": Set {
+          "Target",
+        },
+        "metadata": Object {},
+        "on": "ASG",
+        "overrides": Array [],
+        "properties": Object {},
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_autoscaling.TargetTrackingScalingPolicy",
+        "updateReplacePolicy": "Delete",
+      },
+      "LB" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "VPC",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "on": undefined,
+        "overrides": Array [],
+        "properties": Object {
+          "internetFacing": Object {
+            "type": "boolean",
+            "value": true,
+          },
+          "vpc": Object {
+            "fn": "ref",
+            "logicalId": "VPC",
+            "type": "intrinsic",
+          },
+        },
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationLoadBalancer",
+        "updateReplacePolicy": "Delete",
+      },
+      "Listener" => Object {
+        "call": Object {
+          "fields": Object {
+            "addListener": Object {
+              "fields": Object {
+                "id": Object {
+                  "type": "string",
+                  "value": "Listener",
+                },
+                "port": Object {
+                  "type": "number",
+                  "value": 80,
+                },
+              },
+              "type": "object",
+            },
+          },
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "LB",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "on": "LB",
+        "overrides": Array [],
+        "properties": Object {},
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationListener",
+        "updateReplacePolicy": "Delete",
+      },
+      "Target" => Object {
+        "call": Object {
+          "fields": Object {
+            "addTargets": Object {
+              "fields": Object {
+                "id": Object {
+                  "type": "string",
+                  "value": "Target",
+                },
+                "port": Object {
+                  "type": "number",
+                  "value": 80,
+                },
+                "targets": Object {
+                  "array": Array [
+                    Object {
+                      "fn": "ref",
+                      "logicalId": "ASG",
+                      "type": "intrinsic",
+                    },
+                  ],
+                  "type": "array",
+                },
+              },
+              "type": "object",
+            },
+          },
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "Listener",
+          "ASG",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "on": "Listener",
+        "overrides": Array [],
+        "properties": Object {},
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationTargetGroup",
+        "updateReplacePolicy": "Delete",
+      },
+      "AllowFromEverywhere" => Object {
+        "call": Object {
+          "fields": Object {
+            "connections.allowDefaultPortFromAnyIpv4": Object {
+              "fields": Object {
+                "description": Object {
+                  "type": "string",
+                  "value": "Open to the world",
+                },
+              },
+              "type": "object",
+            },
+          },
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "Listener",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "on": "Listener",
+        "overrides": Array [],
+        "properties": Object {},
+        "tags": Array [],
+        "type": undefined,
+        "updateReplacePolicy": "Delete",
+      },
+    },
+    "template": Object {
+      "Resources": Object {
+        "AModestLoad": Object {
+          "Call": Object {
+            "scaleOnRequestCount": Object {
+              "id": "AModestLoad",
+              "targetRequestsPerMinute": 60,
+            },
+          },
+          "DependsOn": Array [
+            "Target",
+          ],
+          "On": "ASG",
+          "Type": "aws-cdk-lib.aws_autoscaling.TargetTrackingScalingPolicy",
+        },
+        "ASG": Object {
+          "Properties": Object {
+            "instanceType": Object {
+              "aws-cdk-lib.aws_ec2.InstanceType.of": Object {
+                "instanceClass": "T2",
+                "instanceSize": "MICRO",
+              },
+            },
+            "machineImage": Object {
+              "aws-cdk-lib.aws_ec2.AmazonLinuxImage": Object {},
+            },
+            "vpc": Object {
+              "Ref": "VPC",
+            },
+          },
+          "Type": "aws-cdk-lib.aws_autoscaling.AutoScalingGroup",
+        },
+        "AllowFromEverywhere": Object {
+          "Call": Object {
+            "connections.allowDefaultPortFromAnyIpv4": Object {
+              "description": "Open to the world",
+            },
+          },
+          "On": "Listener",
+        },
+        "LB": Object {
+          "Properties": Object {
+            "internetFacing": true,
+            "vpc": Object {
+              "Ref": "VPC",
+            },
+          },
+          "Type": "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationLoadBalancer",
+        },
+        "Listener": Object {
+          "Call": Object {
+            "addListener": Object {
+              "id": "Listener",
+              "port": 80,
+            },
+          },
+          "On": "LB",
+          "Type": "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationListener",
+        },
+        "Target": Object {
+          "Call": Object {
+            "addTargets": Object {
+              "id": "Target",
+              "port": 80,
+              "targets": Array [
+                Object {
+                  "Ref": "ASG",
+                },
+              ],
+            },
+          },
+          "On": "Listener",
+          "Type": "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationTargetGroup",
+        },
+        "VPC": Object {
+          "Type": "aws-cdk-lib.aws_ec2.Vpc",
+        },
+      },
+    },
+    "templateFormatVersion": undefined,
   },
 }
 `;
@@ -1009,6 +1619,7 @@ TypedTemplate {
   },
   "template": Template {
     "conditions": Map {},
+    "description": "A template creates a Fargate service with necessary resources",
     "mappings": Map {},
     "outputs": Map {},
     "parameters": TemplateParameters {
@@ -1181,6 +1792,8 @@ TypedTemplate {
     },
     "template": Object {
       "$schema": "../cdk.schema.json",
+      "AWSTemplateFormatVersion": "2010-09-09",
+      "Description": "A template creates a Fargate service with necessary resources",
       "Resources": Object {
         "Cluster": Object {
           "Properties": Object {
@@ -1234,6 +1847,7 @@ TypedTemplate {
         },
       },
     },
+    "templateFormatVersion": "2010-09-09",
   },
 }
 `;
@@ -1347,6 +1961,7 @@ TypedTemplate {
   },
   "template": Template {
     "conditions": Map {},
+    "description": "A template creates an ASG and Vpc",
     "mappings": Map {},
     "outputs": Map {},
     "parameters": TemplateParameters {
@@ -1434,6 +2049,7 @@ TypedTemplate {
     },
     "template": Object {
       "$schema": "../cdk.schema.json",
+      "Description": "A template creates an ASG and Vpc",
       "Resources": Object {
         "MyFleet": Object {
           "Properties": Object {
@@ -1461,6 +2077,7 @@ TypedTemplate {
         },
       },
     },
+    "templateFormatVersion": undefined,
   },
 }
 `;
@@ -1703,6 +2320,7 @@ TypedTemplate {
   },
   "template": Template {
     "conditions": Map {},
+    "description": "A template creates a lambda function which can be invoked by an sns topic",
     "mappings": Map {},
     "outputs": Map {},
     "parameters": TemplateParameters {
@@ -1902,6 +2520,7 @@ TypedTemplate {
     },
     "template": Object {
       "$schema": "../cdk.schema.json",
+      "Description": "A template creates a lambda function which can be invoked by an sns topic",
       "Resources": Object {
         "HelloWorldFunction": Object {
           "Overrides": Array [
@@ -1971,6 +2590,7 @@ TypedTemplate {
         },
       },
     },
+    "templateFormatVersion": undefined,
   },
 }
 `;
@@ -2063,6 +2683,7 @@ TypedTemplate {
   },
   "template": Template {
     "conditions": Map {},
+    "description": "A template creates a aws cli lambda layer",
     "mappings": Map {},
     "outputs": Map {},
     "parameters": TemplateParameters {
@@ -2141,6 +2762,8 @@ TypedTemplate {
     },
     "template": Object {
       "$schema": "../cdk.schema.json",
+      "AWSTemplateFormatVersion": "2010-09-09",
+      "Description": "A template creates a aws cli lambda layer",
       "Resources": Object {
         "AwsCliLayer": Object {
           "Type": "aws-cdk-lib.lambda_layer_awscli.AwsCliLayer",
@@ -2164,6 +2787,7 @@ TypedTemplate {
         },
       },
     },
+    "templateFormatVersion": "2010-09-09",
   },
 }
 `;
@@ -2333,6 +2957,7 @@ TypedTemplate {
   },
   "template": Template {
     "conditions": Map {},
+    "description": undefined,
     "mappings": Map {},
     "outputs": Map {},
     "parameters": TemplateParameters {
@@ -2530,6 +3155,7 @@ TypedTemplate {
         },
       },
     },
+    "templateFormatVersion": undefined,
   },
 }
 `;
@@ -2606,6 +3232,7 @@ TypedTemplate {
   },
   "template": Template {
     "conditions": Map {},
+    "description": undefined,
     "mappings": Map {},
     "outputs": Map {},
     "parameters": TemplateParameters {
@@ -2686,6 +3313,7 @@ TypedTemplate {
         },
       },
     },
+    "templateFormatVersion": undefined,
   },
 }
 `;
@@ -2797,6 +3425,7 @@ TypedTemplate {
   },
   "template": Template {
     "conditions": Map {},
+    "description": undefined,
     "mappings": Map {},
     "outputs": Map {},
     "parameters": TemplateParameters {
@@ -2912,6 +3541,7 @@ TypedTemplate {
         },
       },
     },
+    "templateFormatVersion": undefined,
   },
 }
 `;
@@ -3118,6 +3748,7 @@ TypedTemplate {
   },
   "template": Template {
     "conditions": Map {},
+    "description": undefined,
     "mappings": Map {},
     "outputs": Map {},
     "parameters": TemplateParameters {
@@ -3300,6 +3931,7 @@ TypedTemplate {
     },
     "template": Object {
       "$schema": "../cdk.schema.json",
+      "AWSTemplateFormatVersion": "2010-09-09",
       "Resources": Object {
         "Alias": Object {
           "Call": Object {
@@ -3355,6 +3987,7 @@ TypedTemplate {
         },
       },
     },
+    "templateFormatVersion": "2010-09-09",
   },
 }
 `;
@@ -3660,6 +4293,7 @@ TypedTemplate {
   },
   "template": Template {
     "conditions": Map {},
+    "description": "A template creates a CodePipeline along with its CodeCommit repository source",
     "mappings": Map {},
     "outputs": Map {},
     "parameters": TemplateParameters {
@@ -3932,6 +4566,8 @@ TypedTemplate {
     },
     "template": Object {
       "$schema": "../cdk.schema.json",
+      "AWSTemplateFormatVersion": "2010-09-09",
+      "Description": "A template creates a CodePipeline along with its CodeCommit repository source",
       "Resources": Object {
         "BuildProject": Object {
           "Properties": Object {
@@ -4024,6 +4660,7 @@ TypedTemplate {
         },
       },
     },
+    "templateFormatVersion": "2010-09-09",
   },
 }
 `;
@@ -4100,6 +4737,7 @@ TypedTemplate {
   },
   "template": Template {
     "conditions": Map {},
+    "description": undefined,
     "mappings": Map {},
     "outputs": Map {},
     "parameters": TemplateParameters {
@@ -4156,6 +4794,7 @@ TypedTemplate {
     },
     "template": Object {
       "$schema": "../cdk.schema.json",
+      "AWSTemplateFormatVersion": "2010-09-09",
       "Resources": Object {
         "Hello": Object {
           "Properties": Object {
@@ -4173,6 +4812,7 @@ TypedTemplate {
         },
       },
     },
+    "templateFormatVersion": "2010-09-09",
   },
 }
 `;
@@ -4224,6 +4864,7 @@ TypedTemplate {
   },
   "template": Template {
     "conditions": Map {},
+    "description": undefined,
     "mappings": Map {},
     "outputs": Map {},
     "parameters": TemplateParameters {
@@ -4279,6 +4920,7 @@ TypedTemplate {
         },
       },
     },
+    "templateFormatVersion": undefined,
   },
 }
 `;
@@ -4316,6 +4958,7 @@ TypedTemplate {
   },
   "template": Template {
     "conditions": Map {},
+    "description": undefined,
     "mappings": Map {},
     "outputs": Map {},
     "parameters": TemplateParameters {
@@ -4348,6 +4991,7 @@ TypedTemplate {
         },
       },
     },
+    "templateFormatVersion": undefined,
   },
 }
 `;

@@ -32,6 +32,8 @@ export class Template {
     });
   }
 
+  public readonly description?: string;
+  public readonly templateFormatVersion?: string;
   public readonly parameters: TemplateParameters;
   public readonly resources: Map<string, TemplateResource>;
   public readonly conditions: Map<string, TemplateExpression>;
@@ -40,6 +42,9 @@ export class Template {
 
   constructor(public template: schema.Template) {
     this.parameters = new TemplateParameters(this.template.Parameters ?? {});
+
+    this.templateFormatVersion = template.AWSTemplateFormatVersion;
+    this.description = template.Description;
 
     this.resources = new Map(
       Object.entries(template.Resources ?? {}).map(([k, v]) => [

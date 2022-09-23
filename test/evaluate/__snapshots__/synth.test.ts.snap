@@ -2,6 +2,8 @@
 
 exports[`apigw.json 1`] = `
 Object {
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "A template creates a lambda function with an api gateway",
   "Outputs": Object {
     "MyApiEndpoint869ABE96": Object {
       "Value": Object {
@@ -1296,6 +1298,8 @@ Object {
 
 exports[`ecs.json 1`] = `
 Object {
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "A template creates a Fargate service with necessary resources",
   "Resources": Object {
     "ClusterEB0386A7": Object {
       "Type": "AWS::ECS::Cluster",
@@ -1614,6 +1618,7 @@ Object {
 
 exports[`fleet.json 1`] = `
 Object {
+  "Description": "A template creates an ASG and Vpc",
   "Parameters": Object {
     "SsmParameterValueawsserviceecsoptimizedamiamazonlinux2recommendedimageidC96584B6F00A464EAD1953AFF4B05118Parameter": Object {
       "Default": "/aws/service/ecs/optimized-ami/amazon-linux-2/recommended/image_id",
@@ -2140,6 +2145,7 @@ Object {
 
 exports[`lambda-events.json 1`] = `
 Object {
+  "Description": "A template creates a lambda function which can be invoked by an sns topic",
   "Outputs": Object {
     "TestHelloWorldFunctionE7E220B2ApiEventSourceA7A86A4FEndpointA8F0470B": Object {
       "Value": Object {
@@ -2681,6 +2687,8 @@ Object {
 
 exports[`lambda-layer.json 1`] = `
 Object {
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "A template creates a aws cli lambda layer",
   "Resources": Object {
     "AwsCliLayerF44AAF94": Object {
       "Properties": Object {
@@ -2988,6 +2996,7 @@ Object {
 
 exports[`method-calls.json 1`] = `
 Object {
+  "AWSTemplateFormatVersion": "2010-09-09",
   "Resources": Object {
     "MyFunction3BAA72D1": Object {
       "DependsOn": Array [
@@ -3145,6 +3154,8 @@ Object {
 
 exports[`pipeline.json 1`] = `
 Object {
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "A template creates a CodePipeline along with its CodeCommit repository source",
   "Resources": Object {
     "BuildProject097C5DB7": Object {
       "Properties": Object {
@@ -4330,6 +4341,7 @@ Object {
 
 exports[`pure-cfn.json 1`] = `
 Object {
+  "AWSTemplateFormatVersion": "2010-09-09",
   "Resources": Object {
     "Hello4A628BD4": Object {
       "DeletionPolicy": "Delete",

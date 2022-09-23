@@ -6,6 +6,7 @@ import { assertBoolean, assertString } from '../parser/private/types';
 import { GetPropIntrinsic, RefIntrinsic } from '../parser/template';
 import { ResourceOverride } from '../parser/template/overrides';
 import { ResourceTag } from '../parser/template/tags';
+import { splitPath } from '../strings';
 import { isCdkConstructExpression, ResourceLike } from '../type-resolution';
 import {
   InstanceMethodCallExpression,
@@ -194,9 +195,14 @@ export class Evaluator {
     method: string,
     parameters: any[]
   ) {
-    const record = this.context.reference(logicalId);
-    const construct = record.instance as any;
-    return construct[method](...parameters);
+    const instance = this.context.reference(logicalId).instance;
+    const [constructPath, methodName] = splitPath(method);
+    const construct = resolveTargetFromPath(instance, constructPath);
+    return construct[methodName](...parameters);
+
+    function resolveTargetFromPath(root: unknown, path: string[]): any {
+      return path.length > 0 ? getPropDot(root, path.join('.')) : root;
+    }
   }
 
   protected invokeStaticMethod(
