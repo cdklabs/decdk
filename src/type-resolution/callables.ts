@@ -6,6 +6,7 @@ import {
 } from '../parser/private/types';
 import { ObjectLiteral, Template, TemplateResource } from '../parser/template';
 import { enumLikeClassMethods, isDataType } from '../schema';
+import { splitPath } from '../strings';
 import {
   assertExpressionType,
   TypedArrayExpression,
@@ -37,6 +38,7 @@ interface MethodCall {
 
 interface InstanceMethodCall extends MethodCall {
   readonly logicalId: string;
+  readonly methodPath: string;
 }
 
 function methodFQN(method: reflect.Method): string {
@@ -69,7 +71,7 @@ export function resolveInstanceMethodCallExpression(
   typeSystem: reflect.TypeSystem,
   resultType?: reflect.Type
 ): InstanceMethodCallExpression {
-  const { logicalId, method, args } = inferInstanceMethodCall(
+  const { logicalId, method, methodPath, args } = inferInstanceMethodCall(
     typeSystem,
     template,
     resource
@@ -82,7 +84,7 @@ export function resolveInstanceMethodCallExpression(
   return {
     type: 'instanceMethodCall',
     logicalId,
-    method: method.name,
+    method: methodPath,
     args,
   };
 }
@@ -119,15 +121,13 @@ function inferInstanceMethodCall(
     );
   }
 
-  const method = inferMethod(inferType(factory), resource.call);
-  const parameters = assertExpressionType(
-    resource.call.fields[method.name],
-    'object'
-  );
+  const { method, path } = inferMethod(inferType(factory), resource.call);
+  const parameters = assertExpressionType(resource.call.fields[path], 'object');
   const args = resolveCallableParameters(parameters, method);
 
   return {
     logicalId,
+    methodPath: path,
     method,
     args,
   };
@@ -140,7 +140,7 @@ function inferInstanceMethodCall(
     if (res.on) {
       const typeReference = inferType(template.resource(res.on));
       const m = inferMethod(typeReference, res.call);
-      return m.returns.type;
+      return m.method.returns.type;
     }
 
     if (Object.keys(res.call.fields).length > 0) {
@@ -156,29 +156,41 @@ function inferInstanceMethodCall(
   function inferMethod(
     typeRef: reflect.TypeReference,
     call: ObjectLiteral
-  ): reflect.Method {
-    const candidateType = typeRef.type;
-    if (
-      !candidateType ||
-      !(candidateType.isClassType() || candidateType.isInterfaceType())
-    ) {
-      throw new Error(
-        `${logicalId} is neither a class nor an interface. Method calls are not allowed.`
-      );
-    }
-
+  ): { method: reflect.Method; path: string } {
+    const methodPath = assertOneField(call.fields);
+    const [constructPath, methodName] = splitPath(methodPath);
+    const candidateType = resolveTypeFromPath(typeRef.type, constructPath);
     const methods = candidateType.allMethods.filter((m) => !m.static);
     const methodNames = methods.map((m) => m.name);
-    const methodName = assertOneField(call.fields);
 
     if (!methodNames.includes(methodName)) {
       throw new Error(
-        `'${candidateType.fqn}' has no method called '${methodName}'`
+        `'${candidateType.fqn}' has no method called '${methodPath}'`
       );
     }
 
-    return methods.find((m) => m.name === methodName)!;
+    return {
+      method: methods.find((m) => m.name === methodName)!,
+      path: methodPath,
+    };
   }
+}
+
+function resolveTypeFromPath(
+  type: reflect.Type | undefined,
+  path: string[]
+): reflect.ReferenceType {
+  const result = path.reduce((t, name) => {
+    const property = assertReferenceType(t).allProperties.find(
+      (p) => p.name === name
+    );
+    if (!property) {
+      throw new Error(`Invalid construct path '${path}'.`);
+    }
+    return property.type.type;
+  }, type);
+
+  return assertReferenceType(result);
 }
 
 function assertFullyQualifiedStaticMethodCall(x: ObjectLiteral): string {
@@ -276,4 +288,13 @@ export function resolveCallableParameters(
     type: 'array',
     array: args,
   };
+}
+
+function assertReferenceType(
+  t: reflect.Type | undefined
+): reflect.ReferenceType {
+  if (!t || !(t.isClassType() || t.isInterfaceType())) {
+    throw new Error(`Construct paths must only contain classes or interfaces.`);
+  }
+  return t;
 }
