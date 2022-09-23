@@ -400,3 +400,96 @@ test('Types can be inferred transitively', () => {
     },
   });
 });
+
+test('Resources can be created by calling instance methods on nested construct', () => {
+  const template = Template.fromObject({
+    Resources: {
+      Function: {
+        Type: 'aws-cdk-lib.aws_lambda.Function',
+        Properties: {
+          handler: 'index.handler',
+          runtime: 'NODEJS_14_X',
+          code: {
+            'aws-cdk-lib.aws_lambda.Code.fromInline': {
+              code: "exports.handler = async function() { return 'SUCCESS'; }",
+            },
+          },
+        },
+      },
+      User: {
+        Type: 'aws-cdk-lib.aws_iam.User',
+      },
+      Grant: {
+        On: 'Function',
+        Call: {
+          'logGroup.grantWrite': {
+            grantee: { Ref: 'User' },
+          },
+        },
+      },
+    },
+  });
+
+  const typedTemplate = new TypedTemplate(template, { typeSystem });
+
+  expect(typedTemplate.resource('Grant')).toEqual({
+    type: 'lazyResource',
+    logicalId: 'Grant',
+    namespace: undefined,
+    tags: [],
+    dependsOn: [],
+    overrides: [],
+    call: {
+      type: 'instanceMethodCall',
+      logicalId: 'Function',
+      method: 'logGroup.grantWrite',
+      args: {
+        type: 'array',
+        array: [
+          {
+            reference: {
+              fn: 'ref',
+              logicalId: 'User',
+              type: 'intrinsic',
+            },
+            type: 'resolve-reference',
+          },
+        ],
+      },
+    },
+  });
+});
+
+test('Nested construct paths must be valid', () => {
+  const template = Template.fromObject({
+    Resources: {
+      Function: {
+        Type: 'aws-cdk-lib.aws_lambda.Function',
+        Properties: {
+          handler: 'index.handler',
+          runtime: 'NODEJS_14_X',
+          code: {
+            'aws-cdk-lib.aws_lambda.Code.fromInline': {
+              code: "exports.handler = async function() { return 'SUCCESS'; }",
+            },
+          },
+        },
+      },
+      User: {
+        Type: 'aws-cdk-lib.aws_iam.User',
+      },
+      Grant: {
+        On: 'Function',
+        Call: {
+          'foo.grantWrite': {
+            grantee: { Ref: 'User' },
+          },
+        },
+      },
+    },
+  });
+
+  expect(() => new TypedTemplate(template, { typeSystem })).toThrow(
+    `Invalid construct path 'foo'`
+  );
+});
