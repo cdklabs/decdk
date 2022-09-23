@@ -1,5 +1,7 @@
 {
   "$schema": "../cdk.schema.json",
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "A template creates a CodePipeline along with its CodeCommit repository source",
   "Resources": {
     "Repo": {
       "Type": "aws-cdk-lib.aws_codecommit.Repository",

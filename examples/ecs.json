@@ -1,5 +1,7 @@
 {
   "$schema": "../cdk.schema.json",
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "A template creates a Fargate service with necessary resources",
   "Resources": {
     "VPC": {
       "Type": "aws-cdk-lib.aws_ec2.Vpc",
