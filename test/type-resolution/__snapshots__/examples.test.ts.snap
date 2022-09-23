@@ -3051,8 +3051,7 @@ TypedTemplate {
                 "value": "live",
               },
               Object {
-                "fields": Object {},
-                "type": "struct",
+                "type": "void",
               },
             ],
             "type": "array",
@@ -3235,18 +3234,18 @@ TypedTemplate {
         "call": Object {
           "fields": Object {
             "aws-cdk-lib.aws_lambda.Code.fromBucket": Object {
-              "fields": Object {
-                "bucket": Object {
+              "array": Array [
+                Object {
                   "fn": "ref",
                   "logicalId": "SourceBucket",
                   "type": "intrinsic",
                 },
-                "key": Object {
+                Object {
                   "type": "string",
                   "value": "foo-bar",
                 },
-              },
-              "type": "object",
+              ],
+              "type": "array",
             },
           },
           "type": "object",
@@ -3302,14 +3301,9 @@ TypedTemplate {
         "call": Object {
           "fields": Object {
             "grantRead": Object {
-              "fields": Object {
-                "identity": Object {
-                  "fn": "ref",
-                  "logicalId": "MyFunction",
-                  "type": "intrinsic",
-                },
-              },
-              "type": "object",
+              "fn": "ref",
+              "logicalId": "MyFunction",
+              "type": "intrinsic",
             },
           },
           "type": "object",
@@ -3333,13 +3327,13 @@ TypedTemplate {
         "call": Object {
           "fields": Object {
             "addAlias": Object {
-              "fields": Object {
-                "aliasName": Object {
+              "array": Array [
+                Object {
                   "type": "string",
                   "value": "live",
                 },
-              },
-              "type": "object",
+              ],
+              "type": "array",
             },
           },
           "type": "object",
@@ -3394,21 +3388,21 @@ TypedTemplate {
       "Resources": Object {
         "Alias": Object {
           "Call": Object {
-            "addAlias": Object {
-              "aliasName": "live",
-            },
+            "addAlias": Array [
+              "live",
+            ],
           },
           "On": "MyFunction",
           "Type": "aws-cdk-lib.aws_lambda.Alias",
         },
         "BusinessLogic": Object {
           "Call": Object {
-            "aws-cdk-lib.aws_lambda.Code.fromBucket": Object {
-              "bucket": Object {
+            "aws-cdk-lib.aws_lambda.Code.fromBucket": Array [
+              Object {
                 "Ref": "SourceBucket",
               },
-              "key": "foo-bar",
-            },
+              "foo-bar",
+            ],
           },
           "Type": "aws-cdk-lib.aws_lambda.Code",
         },
@@ -3423,9 +3417,7 @@ TypedTemplate {
         "Grant": Object {
           "Call": Object {
             "grantRead": Object {
-              "identity": Object {
-                "Ref": "MyFunction",
-              },
+              "Ref": "MyFunction",
             },
           },
           "On": "SourceBucket",

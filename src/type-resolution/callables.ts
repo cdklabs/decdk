@@ -4,7 +4,13 @@ import {
   assertExactlyOneOfFields,
   assertOneField,
 } from '../parser/private/types';
-import { ObjectLiteral, Template, TemplateResource } from '../parser/template';
+import {
+  ArrayLiteral,
+  ObjectLiteral,
+  Template,
+  TemplateExpression,
+  TemplateResource,
+} from '../parser/template';
 import { enumLikeClassMethods, isDataType } from '../schema';
 import { splitPath } from '../strings';
 import {
@@ -99,12 +105,10 @@ function inferMethodCall(
   const methodNames = methods.map(methodFQN);
   const methodName = assertExactlyOneOfFields(call.fields, methodNames);
   const method = methods.find((m) => methodFQN(m) === methodName)!;
-  const parameters = assertExpressionType(call.fields[methodName], 'object');
-  const args = resolveCallableParameters(parameters, method);
 
   return {
     method,
-    args,
+    args: argsFromCall(method, methodName, call.fields),
   };
 }
 
@@ -121,13 +125,12 @@ function inferInstanceMethodCall(
     );
   }
 
-  const { method, path } = inferMethod(inferType(factory), resource.call);
-  const parameters = assertExpressionType(resource.call.fields[path], 'object');
-  const args = resolveCallableParameters(parameters, method);
+  const { method, methodPath } = inferMethod(inferType(factory), resource.call);
+  const args = argsFromCall(method, methodPath, resource.call.fields);
 
   return {
     logicalId,
-    methodPath: path,
+    methodPath,
     method,
     args,
   };
@@ -152,27 +155,48 @@ function inferInstanceMethodCall(
       `The type of ${logicalId} could not be inferred. Please provide the type explicitly.`
     );
   }
+}
 
-  function inferMethod(
-    typeRef: reflect.TypeReference,
-    call: ObjectLiteral
-  ): { method: reflect.Method; path: string } {
-    const methodPath = assertOneField(call.fields);
-    const [constructPath, methodName] = splitPath(methodPath);
-    const candidateType = resolveTypeFromPath(typeRef.type, constructPath);
-    const methods = candidateType.allMethods.filter((m) => !m.static);
-    const methodNames = methods.map((m) => m.name);
+function inferMethod(
+  typeRef: reflect.TypeReference,
+  call: ObjectLiteral
+): { method: reflect.Method; methodPath: string } {
+  const methodPath = assertOneField(call.fields);
+  const [constructPath, methodName] = splitPath(methodPath);
+  const candidateType = resolveTypeFromPath(typeRef.type, constructPath);
+  const methods = candidateType.allMethods.filter((m) => !m.static);
+  const methodNames = methods.map((m) => m.name);
 
-    if (!methodNames.includes(methodName)) {
-      throw new Error(
-        `'${candidateType.fqn}' has no method called '${methodPath}'`
-      );
-    }
+  if (!methodNames.includes(methodName)) {
+    throw new Error(
+      `'${candidateType.fqn}' has no method called '${methodPath}'`
+    );
+  }
 
-    return {
-      method: methods.find((m) => m.name === methodName)!,
-      path: methodPath,
+  return {
+    method: methods.find((m) => m.name === methodName)!,
+    methodPath,
+  };
+}
+
+function argsFromCall(
+  method: reflect.Method,
+  methodName: string,
+  fields: Record<string, TemplateExpression>
+): TypedArrayExpression {
+  const value = fields[methodName];
+  if (value.type === 'object') {
+    const parameters = assertExpressionType(fields[methodName], 'object');
+    return resolveCallableParameters(parameters, method);
+  } else if (value.type === 'array') {
+    const parameters = assertExpressionType(fields[methodName], 'array');
+    return resolvePositionalCallableParameters(parameters, method);
+  } else {
+    const parameters: ArrayLiteral = {
+      type: 'array',
+      array: [value],
     };
+    return resolvePositionalCallableParameters(parameters, method);
   }
 }
 
@@ -271,23 +295,46 @@ export function resolveCallableParameters(
       continue;
     }
 
-    if (x.fields[p.name] === undefined) {
-      if (!p.optional) {
-        throw new TypeError(
-          `Expected required parameter '${p.name}' for ${callable.parentType.fqn}.${callable.name}`
-        );
-      }
-      args.push({ type: 'void' });
-      continue;
-    }
-
-    args.push(resolveExpressionType(x.fields[p.name], p.type));
+    args.push(parameterToArg(x.fields[p.name], p, callable));
   }
 
   return {
     type: 'array',
     array: args,
   };
+}
+
+export function resolvePositionalCallableParameters(
+  x: ArrayLiteral,
+  callable: reflect.Callable
+): TypedArrayExpression {
+  const args: TypedTemplateExpression[] = [];
+
+  for (let i = 0; i < callable.parameters.length; i++) {
+    const p = callable.parameters[i];
+    args.push(parameterToArg(x.array[i], p, callable));
+  }
+
+  return {
+    type: 'array',
+    array: args,
+  };
+}
+
+function parameterToArg(
+  x: TemplateExpression,
+  parameter: reflect.Parameter,
+  callable: reflect.Callable
+): TypedTemplateExpression {
+  if (x === undefined) {
+    if (!parameter.optional) {
+      throw new TypeError(
+        `Expected required parameter '${parameter.name}' for ${callable.parentType.fqn}.${callable.name}`
+      );
+    }
+    return { type: 'void' };
+  }
+  return resolveExpressionType(x, parameter.type);
 }
 
 function assertReferenceType(
