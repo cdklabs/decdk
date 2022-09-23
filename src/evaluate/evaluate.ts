@@ -1,5 +1,4 @@
 import * as cdk from 'aws-cdk-lib';
-import { CfnResource, Token } from 'aws-cdk-lib';
 import { Construct, IConstruct } from 'constructs';
 import { SubFragment } from '../parser/private/sub';
 import { assertBoolean, assertString } from '../parser/private/types';
@@ -21,11 +20,17 @@ import {
   getPropDot,
   ValueOnlyReference,
 } from './references';
-
 export class Evaluator {
   constructor(public readonly context: EvaluationContext) {}
 
   public evaluateTemplate() {
+    this.context.template.mappings.forEach(
+      (mapping, mapName) =>
+        new cdk.CfnMapping(this.context.stack, mapName, {
+          mapping: mapping.toObject(),
+        })
+    );
+
     return this.context.template.resources.forEach((_logicalId, resource) =>
       this.evaluateResource(resource)
     );
@@ -54,7 +59,7 @@ export class Evaluator {
       return new ValueOnlyReference(logicalId, value);
     }
 
-    if (CfnResource.isCfnResource(value)) {
+    if (cdk.CfnResource.isCfnResource(value)) {
       return new CfnResourceReference(logicalId, value);
     }
 
@@ -232,25 +237,12 @@ export class Evaluator {
     return cdk.Fn.cidr(ipBlock, count, sizeMask);
   }
 
-  protected fnFindInMap(mappingName: string, key1: string, key2: string) {
-    const map = this.context.mapping(mappingName);
-    const inner = map.get(key1);
-    if (!inner) {
-      throw new Error(
-        `Mapping ${mappingName} has no key '${key1}' (available: ${Object.keys(
-          map
-        )})`
-      );
-    }
-    const ret = inner.get(key2);
-    if (ret === undefined) {
-      throw new Error(
-        `Mapping ${mappingName}[${key1}] has no key '${key2}' (available: ${Object.keys(
-          inner
-        )})`
-      );
-    }
-    return ret;
+  protected fnFindInMap(
+    mapName: string,
+    topLevelKey: string,
+    secondLevelKey: string
+  ) {
+    return cdk.Fn.findInMap(mapName, topLevelKey, secondLevelKey);
   }
 
   protected fnGetProp(logicalId: string, prop: string) {
@@ -348,7 +340,7 @@ export class Evaluator {
             return asVariable(this.context.reference(part.logicalId).ref);
           case 'getatt':
             const attVal = this.fnGetAtt(part.logicalId, part.attr);
-            if (Token.isUnresolved(attVal)) {
+            if (cdk.Token.isUnresolved(attVal)) {
               return asVariable(part.logicalId + '.' + part.attr);
             }
             return attVal;

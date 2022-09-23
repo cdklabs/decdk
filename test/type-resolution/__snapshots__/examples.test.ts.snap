@@ -886,6 +886,196 @@ TypedTemplate {
 }
 `;
 
+exports[`ec2-instance.yaml 1`] = `
+TypedTemplate {
+  "conditions": Map {},
+  "mappings": Map {
+    "RegionMap" => TemplateMapping {
+      "mapping": Map {
+        "us-west-1" => Map {
+          "HVM64" => Array [
+            "ami-0bdb828fd58c52235",
+          ],
+          "HVMG2" => Array [
+            "ami-066ee5fd4a9ef77f1",
+          ],
+        },
+        "eu-west-1" => Map {
+          "HVM64" => Array [
+            "ami-047bb4163c506cd98",
+          ],
+          "HVMG2" => Array [
+            "ami-0a7c483d527806435",
+          ],
+        },
+      },
+    },
+  },
+  "outputs": Map {},
+  "parameters": TemplateParameters {
+    "parameters": Object {},
+  },
+  "resources": DependencyGraph {
+    "_dependencies": Map {
+      "myEC2Instance" => Set {},
+    },
+    "keys": Set {
+      "myEC2Instance",
+    },
+    "nodes": Object {
+      "myEC2Instance": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.CfnResource",
+        "logicalId": "myEC2Instance",
+        "namespace": undefined,
+        "props": Object {
+          "fields": Object {
+            "properties": Object {
+              "fields": Object {
+                "ImageId": Object {
+                  "type": "any",
+                  "value": Object {
+                    "fn": "findInMap",
+                    "key1": Object {
+                      "fn": "ref",
+                      "logicalId": "AWS::Region",
+                      "type": "intrinsic",
+                    },
+                    "key2": Object {
+                      "type": "string",
+                      "value": "HVM64",
+                    },
+                    "mappingName": "RegionMap",
+                    "type": "intrinsic",
+                  },
+                },
+                "InstanceType": Object {
+                  "type": "any",
+                  "value": Object {
+                    "type": "string",
+                    "value": "m1.small",
+                  },
+                },
+              },
+              "type": "object",
+            },
+            "type": Object {
+              "type": "string",
+              "value": "AWS::EC2::Instance",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "resource",
+      },
+    },
+  },
+  "template": Template {
+    "conditions": Map {},
+    "description": undefined,
+    "mappings": Map {
+      "RegionMap" => TemplateMapping {
+        "mapping": Map {
+          "us-west-1" => Map {
+            "HVM64" => Array [
+              "ami-0bdb828fd58c52235",
+            ],
+            "HVMG2" => Array [
+              "ami-066ee5fd4a9ef77f1",
+            ],
+          },
+          "eu-west-1" => Map {
+            "HVM64" => Array [
+              "ami-047bb4163c506cd98",
+            ],
+            "HVMG2" => Array [
+              "ami-0a7c483d527806435",
+            ],
+          },
+        },
+      },
+    },
+    "outputs": Map {},
+    "parameters": TemplateParameters {
+      "parameters": Object {},
+    },
+    "resources": Map {
+      "myEC2Instance" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "AWS::Region",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "on": undefined,
+        "overrides": Array [],
+        "properties": Object {
+          "ImageId": Object {
+            "fn": "findInMap",
+            "key1": Object {
+              "fn": "ref",
+              "logicalId": "AWS::Region",
+              "type": "intrinsic",
+            },
+            "key2": Object {
+              "type": "string",
+              "value": "HVM64",
+            },
+            "mappingName": "RegionMap",
+            "type": "intrinsic",
+          },
+          "InstanceType": Object {
+            "type": "string",
+            "value": "m1.small",
+          },
+        },
+        "tags": Array [],
+        "type": "AWS::EC2::Instance",
+        "updateReplacePolicy": "Delete",
+      },
+    },
+    "template": Object {
+      "Mappings": Object {
+        "RegionMap": Object {
+          "eu-west-1": Object {
+            "HVM64": "ami-047bb4163c506cd98",
+            "HVMG2": "ami-0a7c483d527806435",
+          },
+          "us-west-1": Object {
+            "HVM64": "ami-0bdb828fd58c52235",
+            "HVMG2": "ami-066ee5fd4a9ef77f1",
+          },
+        },
+      },
+      "Resources": Object {
+        "myEC2Instance": Object {
+          "Properties": Object {
+            "ImageId": Object {
+              "Fn::FindInMap": Array [
+                "RegionMap",
+                Object {
+                  "Ref": "AWS::Region",
+                },
+                "HVM64",
+              ],
+            },
+            "InstanceType": "m1.small",
+          },
+          "Type": "AWS::EC2::Instance",
+        },
+      },
+    },
+    "templateFormatVersion": undefined,
+  },
+}
+`;
+
 exports[`ecs.json 1`] = `
 TypedTemplate {
   "conditions": Map {},

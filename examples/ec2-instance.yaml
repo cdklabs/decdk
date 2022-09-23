@@ -1,0 +1,15 @@
+# yaml-language-server: $schema=../cdk.schema.json
+Mappings:
+  RegionMap:
+    us-west-1:
+      HVM64: ami-0bdb828fd58c52235
+      HVMG2: ami-066ee5fd4a9ef77f1
+    eu-west-1:
+      HVM64: ami-047bb4163c506cd98
+      HVMG2: ami-0a7c483d527806435
+Resources:
+  myEC2Instance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      ImageId: !FindInMap [RegionMap, !Ref 'AWS::Region', HVM64]
+      InstanceType: m1.small
