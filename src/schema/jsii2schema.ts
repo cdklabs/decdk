@@ -507,12 +507,19 @@ function methodSchema(method: jsiiReflect.Callable, ctx: SchemaContext) {
       }
     }
 
-    return {
+    const objectSchema = {
       type: 'object',
       properties,
       additionalProperties: false,
       required: required.length > 0 ? required : undefined,
     };
+
+    const arraySchema = {
+      type: 'array',
+      items: Object.values(properties),
+    };
+
+    return { anyOf: [objectSchema, arraySchema] };
   });
 }
 

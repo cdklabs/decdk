@@ -8,12 +8,12 @@
     "BusinessLogic": {
       "Type": "aws-cdk-lib.aws_lambda.Code",
       "Call": {
-        "aws-cdk-lib.aws_lambda.Code.fromBucket": {
-          "bucket": {
+        "aws-cdk-lib.aws_lambda.Code.fromBucket": [
+          {
             "Ref": "SourceBucket"
           },
-          "key": "foo-bar"
-        }
+          "foo-bar"
+        ]
       }
     },
     "MyFunction": {
@@ -30,18 +30,14 @@
       "Type": "aws-cdk-lib.aws_iam.Grant",
       "On": "SourceBucket",
       "Call": {
-        "grantRead": {
-          "identity": {"Ref": "MyFunction"}
-        }
+        "grantRead": {"Ref": "MyFunction"}
       }
     },
     "Alias": {
       "Type": "aws-cdk-lib.aws_lambda.Alias",
       "On": "MyFunction",
       "Call": {
-        "addAlias": {
-          "aliasName": "live"
-        }
+        "addAlias": ["live"]
       }
     },
     "ConfigureAsyncInvokeStatement": {

@@ -493,3 +493,87 @@ test('Nested construct paths must be valid', () => {
     `Invalid construct path 'foo'`
   );
 });
+
+test('Calls can be made using positional arguments', async () => {
+  const template = await Template.fromObject({
+    Resources: {
+      MyLambda: {
+        Type: 'aws-cdk-lib.aws_lambda.Function',
+        Properties: {
+          code: {
+            'aws-cdk-lib.aws_lambda.Code.fromAsset': [
+              'examples/lambda-handler',
+            ],
+          },
+          runtime: 'PYTHON_3_6',
+          handler: 'index.handler',
+        },
+      },
+    },
+  });
+
+  const typedTemplate = new TypedTemplate(template, { typeSystem });
+
+  // THEN
+  const myLambda = typedTemplate.resource('MyLambda');
+  expect(myLambda).toEqual(
+    matchConstruct({
+      code: expect.objectContaining({
+        type: 'staticMethodCall',
+        fqn: 'aws-cdk-lib.aws_lambda.Code',
+        namespace: 'aws_lambda',
+        method: 'fromAsset',
+      }),
+    })
+  );
+  expect(template.template).toBeValidTemplate();
+});
+
+test('Single arguments are interpreted as the first argument of a call', async () => {
+  const template = await Template.fromObject({
+    Resources: {
+      Alias: {
+        Type: 'aws-cdk-lib.aws_lambda.Alias',
+        On: 'MyFunction',
+        Call: {
+          addAlias: 'live',
+        },
+      },
+      MyFunction: {
+        Type: 'aws-cdk-lib.aws_lambda.Function',
+        Properties: {
+          handler: 'index.handler',
+          runtime: 'NODEJS_14_X',
+          code: {
+            Ref: 'BusinessLogic',
+          },
+        },
+      },
+    },
+  });
+
+  const typedTemplate = new TypedTemplate(template, { typeSystem });
+
+  const alias = typedTemplate.resource('Alias');
+  expect(alias).toEqual(
+    expect.objectContaining({
+      call: {
+        type: 'instanceMethodCall',
+        logicalId: 'MyFunction',
+        method: 'addAlias',
+        args: {
+          type: 'array',
+          array: [
+            {
+              type: 'string',
+              value: 'live',
+            },
+            {
+              type: 'void',
+            },
+          ],
+        },
+      },
+    })
+  );
+});
