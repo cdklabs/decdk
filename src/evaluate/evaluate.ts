@@ -196,12 +196,13 @@ export class Evaluator {
     parameters: any[]
   ) {
     const instance = this.context.reference(logicalId).instance;
-    const [constructPath, methodName] = splitPath(method);
-    const construct =
-      constructPath.length > 0
-        ? getPropDot(instance, constructPath.join('.'))
-        : instance;
+    const [path, methodName] = splitPath(method);
+    const construct = resolveTargetFromPath(instance, path);
     return construct[methodName](...parameters);
+
+    function resolveTargetFromPath(root: unknown, path: string[]): any {
+      return path.length > 0 ? getPropDot(root, path.join('.')) : root;
+    }
   }
 
   protected invokeStaticMethod(
