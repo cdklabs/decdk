@@ -196,8 +196,8 @@ export class Evaluator {
     parameters: any[]
   ) {
     const instance = this.context.reference(logicalId).instance;
-    const [path, methodName] = splitPath(method);
-    const construct = resolveTargetFromPath(instance, path);
+    const [constructPath, methodName] = splitPath(method);
+    const construct = resolveTargetFromPath(instance, constructPath);
     return construct[methodName](...parameters);
 
     function resolveTargetFromPath(root: unknown, path: string[]): any {
