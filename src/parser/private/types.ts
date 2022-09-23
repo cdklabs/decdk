@@ -35,10 +35,7 @@ export function assertNumber(x: unknown): number {
   throw new ParserError(`Expected number, got: ${JSON.stringify(x)}`);
 }
 
-export function assertList<T = unknown>(
-  x: T[] | unknown,
-  lengths?: number[]
-): T[] | unknown[] {
+export function assertList<T = unknown>(x: unknown, lengths?: number[]): T[] {
   if (!Array.isArray(x)) {
     throw new ParserError(`Expected list, got: ${JSON.stringify(x)}`);
   }
@@ -150,7 +147,7 @@ export function assertOneField(xs: unknown): string {
   return fields[0];
 }
 
-export function assertStringOrList(x: unknown): string[] {
+export function assertStringOrListIntoList(x: unknown): string[] {
   if (typeof x === 'string') {
     return [x];
   }
@@ -193,5 +190,28 @@ export function mapFromObject<A>(
 ): Map<string, A> {
   return new Map(
     Object.entries(assertObject(xs)).map(([k, v]) => [k, fn(v as any)])
+  );
+}
+
+export function assertOr<T>(
+  x: unknown,
+  error: (v: string) => string,
+  ...assertions: Array<(e: unknown) => T>
+) {
+  for (const assertion of assertions) {
+    try {
+      return assertion(x);
+    } catch {}
+  }
+
+  throw new ParserError(error(JSON.stringify(x)));
+}
+
+export function assertStringOrStringList(xs: unknown): string | string[] {
+  return assertOr<string | string[]>(
+    xs,
+    (v) => `Expected string or list of strings, got: ${v}`,
+    assertString,
+    assertList
   );
 }

@@ -2,7 +2,7 @@ import {
   assertAtMostOneOfFields,
   assertObject,
   assertString,
-  assertStringOrList,
+  assertStringOrListIntoList,
   parseRetentionPolicy,
   singletonList,
 } from '../private/types';
@@ -61,13 +61,13 @@ export function parseTemplateResource(
     conditionName: ifField(resource, 'Condition', assertString),
     metadata: assertObject(resource.Metadata ?? {}),
     dependencies: new Set([
-      ...(ifField(resource, 'DependsOn', assertStringOrList) ?? []),
+      ...(ifField(resource, 'DependsOn', assertStringOrListIntoList) ?? []),
       ...singletonList(ifField(resource, 'On', assertString)),
       ...findReferencedLogicalIds(properties),
       ...findReferencedLogicalIds({ _: call }),
     ]),
     dependsOn: new Set([
-      ...(ifField(resource, 'DependsOn', assertStringOrList) ?? []),
+      ...(ifField(resource, 'DependsOn', assertStringOrListIntoList) ?? []),
     ]),
     deletionPolicy:
       ifField(resource, 'DeletionPolicy', parseRetentionPolicy) ?? 'Delete',

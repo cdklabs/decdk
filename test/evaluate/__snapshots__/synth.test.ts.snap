@@ -1301,20 +1301,12 @@ Object {
   "Mappings": Object {
     "RegionMap": Object {
       "eu-west-1": Object {
-        "HVM64": Array [
-          "ami-047bb4163c506cd98",
-        ],
-        "HVMG2": Array [
-          "ami-0a7c483d527806435",
-        ],
+        "HVM64": "ami-047bb4163c506cd98",
+        "HVMG2": "ami-0a7c483d527806435",
       },
       "us-west-1": Object {
-        "HVM64": Array [
-          "ami-0bdb828fd58c52235",
-        ],
-        "HVMG2": Array [
-          "ami-066ee5fd4a9ef77f1",
-        ],
+        "HVM64": "ami-0bdb828fd58c52235",
+        "HVMG2": "ami-066ee5fd4a9ef77f1",
       },
     },
   },

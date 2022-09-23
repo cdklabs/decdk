@@ -1,4 +1,4 @@
-import { assertStringOrList, mapFromObject } from '../private/types';
+import { assertStringOrStringList, mapFromObject } from '../private/types';
 
 export class TemplateMapping {
   public constructor(
@@ -18,9 +18,8 @@ export class TemplateMapping {
     );
   }
 }
-
 export function parseMapping(xs: unknown): TemplateMapping {
   return new TemplateMapping(
-    mapFromObject(xs, (m) => mapFromObject(m, assertStringOrList))
+    mapFromObject(xs, (m) => mapFromObject(m, assertStringOrStringList))
   );
 }
