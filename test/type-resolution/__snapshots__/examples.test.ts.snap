@@ -125,6 +125,7 @@ TypedTemplate {
   },
   "template": Template {
     "conditions": Map {},
+    "description": "A template creates a lambda function with an api gateway",
     "mappings": Map {},
     "outputs": Map {},
     "parameters": TemplateParameters {
@@ -234,6 +235,8 @@ TypedTemplate {
     },
     "template": Object {
       "$schema": "../cdk.schema.json",
+      "AWSTemplateFormatVersion": "2010-09-09",
+      "Description": "A template creates a lambda function with an api gateway",
       "Resources": Object {
         "GetRoot": Object {
           "Properties": Object {
@@ -272,6 +275,7 @@ TypedTemplate {
         },
       },
     },
+    "templateFormatVersion": "2010-09-09",
   },
 }
 `;
@@ -468,6 +472,7 @@ TypedTemplate {
   },
   "template": Template {
     "conditions": Map {},
+    "description": "A template creates a Fargate service with necessary resources",
     "mappings": Map {},
     "outputs": Map {},
     "parameters": TemplateParameters {
@@ -640,6 +645,8 @@ TypedTemplate {
     },
     "template": Object {
       "$schema": "../cdk.schema.json",
+      "AWSTemplateFormatVersion": "2010-09-09",
+      "Description": "A template creates a Fargate service with necessary resources",
       "Resources": Object {
         "Cluster": Object {
           "Properties": Object {
@@ -693,6 +700,7 @@ TypedTemplate {
         },
       },
     },
+    "templateFormatVersion": "2010-09-09",
   },
 }
 `;
@@ -806,6 +814,7 @@ TypedTemplate {
   },
   "template": Template {
     "conditions": Map {},
+    "description": "A template creates an ASG and Vpc",
     "mappings": Map {},
     "outputs": Map {},
     "parameters": TemplateParameters {
@@ -893,6 +902,7 @@ TypedTemplate {
     },
     "template": Object {
       "$schema": "../cdk.schema.json",
+      "Description": "A template creates an ASG and Vpc",
       "Resources": Object {
         "MyFleet": Object {
           "Properties": Object {
@@ -920,6 +930,7 @@ TypedTemplate {
         },
       },
     },
+    "templateFormatVersion": undefined,
   },
 }
 `;
@@ -1162,6 +1173,7 @@ TypedTemplate {
   },
   "template": Template {
     "conditions": Map {},
+    "description": "A template creates a lambda function which can be invoked by an sns topic",
     "mappings": Map {},
     "outputs": Map {},
     "parameters": TemplateParameters {
@@ -1361,6 +1373,7 @@ TypedTemplate {
     },
     "template": Object {
       "$schema": "../cdk.schema.json",
+      "Description": "A template creates a lambda function which can be invoked by an sns topic",
       "Resources": Object {
         "HelloWorldFunction": Object {
           "Overrides": Array [
@@ -1430,6 +1443,7 @@ TypedTemplate {
         },
       },
     },
+    "templateFormatVersion": undefined,
   },
 }
 `;
@@ -1522,6 +1536,7 @@ TypedTemplate {
   },
   "template": Template {
     "conditions": Map {},
+    "description": "A template creates a aws cli lambda layer",
     "mappings": Map {},
     "outputs": Map {},
     "parameters": TemplateParameters {
@@ -1600,6 +1615,8 @@ TypedTemplate {
     },
     "template": Object {
       "$schema": "../cdk.schema.json",
+      "AWSTemplateFormatVersion": "2010-09-09",
+      "Description": "A template creates a aws cli lambda layer",
       "Resources": Object {
         "AwsCliLayer": Object {
           "Type": "aws-cdk-lib.lambda_layer_awscli.AwsCliLayer",
@@ -1623,6 +1640,7 @@ TypedTemplate {
         },
       },
     },
+    "templateFormatVersion": "2010-09-09",
   },
 }
 `;
@@ -1792,6 +1810,7 @@ TypedTemplate {
   },
   "template": Template {
     "conditions": Map {},
+    "description": undefined,
     "mappings": Map {},
     "outputs": Map {},
     "parameters": TemplateParameters {
@@ -1989,6 +2008,7 @@ TypedTemplate {
         },
       },
     },
+    "templateFormatVersion": undefined,
   },
 }
 `;
@@ -2065,6 +2085,7 @@ TypedTemplate {
   },
   "template": Template {
     "conditions": Map {},
+    "description": undefined,
     "mappings": Map {},
     "outputs": Map {},
     "parameters": TemplateParameters {
@@ -2145,6 +2166,7 @@ TypedTemplate {
         },
       },
     },
+    "templateFormatVersion": undefined,
   },
 }
 `;
@@ -2256,6 +2278,7 @@ TypedTemplate {
   },
   "template": Template {
     "conditions": Map {},
+    "description": undefined,
     "mappings": Map {},
     "outputs": Map {},
     "parameters": TemplateParameters {
@@ -2371,6 +2394,7 @@ TypedTemplate {
         },
       },
     },
+    "templateFormatVersion": undefined,
   },
 }
 `;
@@ -2577,6 +2601,7 @@ TypedTemplate {
   },
   "template": Template {
     "conditions": Map {},
+    "description": undefined,
     "mappings": Map {},
     "outputs": Map {},
     "parameters": TemplateParameters {
@@ -2759,6 +2784,7 @@ TypedTemplate {
     },
     "template": Object {
       "$schema": "../cdk.schema.json",
+      "AWSTemplateFormatVersion": "2010-09-09",
       "Resources": Object {
         "Alias": Object {
           "Call": Object {
@@ -2814,6 +2840,7 @@ TypedTemplate {
         },
       },
     },
+    "templateFormatVersion": "2010-09-09",
   },
 }
 `;
@@ -3119,6 +3146,7 @@ TypedTemplate {
   },
   "template": Template {
     "conditions": Map {},
+    "description": "A template creates a CodePipeline along with its CodeCommit repository source",
     "mappings": Map {},
     "outputs": Map {},
     "parameters": TemplateParameters {
@@ -3391,6 +3419,8 @@ TypedTemplate {
     },
     "template": Object {
       "$schema": "../cdk.schema.json",
+      "AWSTemplateFormatVersion": "2010-09-09",
+      "Description": "A template creates a CodePipeline along with its CodeCommit repository source",
       "Resources": Object {
         "BuildProject": Object {
           "Properties": Object {
@@ -3483,6 +3513,7 @@ TypedTemplate {
         },
       },
     },
+    "templateFormatVersion": "2010-09-09",
   },
 }
 `;
@@ -3559,6 +3590,7 @@ TypedTemplate {
   },
   "template": Template {
     "conditions": Map {},
+    "description": undefined,
     "mappings": Map {},
     "outputs": Map {},
     "parameters": TemplateParameters {
@@ -3615,6 +3647,7 @@ TypedTemplate {
     },
     "template": Object {
       "$schema": "../cdk.schema.json",
+      "AWSTemplateFormatVersion": "2010-09-09",
       "Resources": Object {
         "Hello": Object {
           "Properties": Object {
@@ -3632,6 +3665,7 @@ TypedTemplate {
         },
       },
     },
+    "templateFormatVersion": "2010-09-09",
   },
 }
 `;
@@ -3683,6 +3717,7 @@ TypedTemplate {
   },
   "template": Template {
     "conditions": Map {},
+    "description": undefined,
     "mappings": Map {},
     "outputs": Map {},
     "parameters": TemplateParameters {
@@ -3738,6 +3773,7 @@ TypedTemplate {
         },
       },
     },
+    "templateFormatVersion": undefined,
   },
 }
 `;
@@ -3775,6 +3811,7 @@ TypedTemplate {
   },
   "template": Template {
     "conditions": Map {},
+    "description": undefined,
     "mappings": Map {},
     "outputs": Map {},
     "parameters": TemplateParameters {
@@ -3807,6 +3844,7 @@ TypedTemplate {
         },
       },
     },
+    "templateFormatVersion": undefined,
   },
 }
 `;

@@ -1,5 +1,7 @@
 {
   "$schema": "../cdk.schema.json",
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "A template creates a lambda function with an api gateway",
   "Resources": {
     "HelloLambda": {
       "Type": "aws-cdk-lib.aws_lambda.Function",

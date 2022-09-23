@@ -1,5 +1,6 @@
 {
   "$schema": "../cdk.schema.json",
+  "AWSTemplateFormatVersion": "2010-09-09",
   "Resources": {
     "Hello": {
       "Type": "aws-cdk-lib.aws_sqs.Queue",
