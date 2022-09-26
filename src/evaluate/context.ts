@@ -29,7 +29,8 @@ export class EvaluationContext {
       new PseudoParamRef('AWS::Region', cdk.Aws.REGION),
       new PseudoParamRef('AWS::StackId', cdk.Aws.STACK_ID),
       new PseudoParamRef('AWS::StackName', cdk.Aws.STACK_NAME),
-      new PseudoParamRef('AWS::URLSuffix', cdk.Aws.URL_SUFFIX)
+      new PseudoParamRef('AWS::URLSuffix', cdk.Aws.URL_SUFFIX),
+      new PseudoParamRef('CDK::Scope', this.stack)
     );
   }
 

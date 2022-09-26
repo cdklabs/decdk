@@ -78,10 +78,8 @@ function resolveLazyResource(
 ): LazyResource {
   const call = resource.on
     ? resolveInstanceMethodCallExpression(template, resource, typeSystem, type)
-    : resolveStaticMethodCallExpression(
-        resource.call,
-        typeSystem,
-        type,
+    : replaceLogicalId(
+        resolveStaticMethodCallExpression(resource.call, typeSystem, type),
         logicalId
       );
 
@@ -94,6 +92,18 @@ function resolveLazyResource(
     overrides: resource.overrides,
     call,
   };
+}
+
+function replaceLogicalId(
+  call: StaticMethodCallExpression,
+  id: string
+): StaticMethodCallExpression {
+  const array = call.args.array.map((expr) =>
+    expr.type === 'intrinsic' && expr.fn === 'lazyLogicalId'
+      ? { ...expr, produce: () => id }
+      : expr
+  );
+  return { ...call, args: { ...call.args, array } };
 }
 
 function resolveCfnResource(

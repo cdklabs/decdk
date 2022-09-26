@@ -136,6 +136,8 @@ export class Evaluator {
             return this.fnEquals(ev(x.value1), ev(x.value2));
           case 'args':
             return this.evaluateArray(x.array);
+          case 'lazyLogicalId':
+            return x.produce();
         }
       case 'enum':
         return this.enum(x.fqn, x.choice);
@@ -291,10 +293,6 @@ export class Evaluator {
 
   protected resolveReferences(intrinsic: RefIntrinsic | GetPropIntrinsic) {
     const { logicalId, fn } = intrinsic;
-
-    if (logicalId === 'CDK::Scope') {
-      return this.context.stack;
-    }
 
     const c = this.context.reference(logicalId);
 

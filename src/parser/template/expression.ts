@@ -62,7 +62,8 @@ export type IntrinsicExpression =
   | OrIntrinsic
   | NotIntrinsic
   | EqualsIntrinsic
-  | ArgsIntrinsic;
+  | ArgsIntrinsic
+  | LazyLogicalId;
 
 export interface RefIntrinsic {
   readonly type: 'intrinsic';
@@ -190,6 +191,12 @@ export interface ArgsIntrinsic {
   readonly type: 'intrinsic';
   readonly fn: 'args';
   readonly array: TemplateExpression[];
+}
+
+export interface LazyLogicalId {
+  readonly type: 'intrinsic';
+  readonly fn: 'lazyLogicalId';
+  readonly produce: () => string;
 }
 
 export function isExpression(x: unknown): x is TemplateExpression {

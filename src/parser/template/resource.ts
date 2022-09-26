@@ -40,11 +40,6 @@ export function parseTemplateResource(
   logicalId: string,
   resource: schema.Resource
 ): TemplateResource {
-  if (!/^[A-Za-z0-9]+$/.test(logicalId)) {
-    throw new Error(
-      `Resource logical IDs must be alphanumeric. Got: '${logicalId}'.`
-    );
-  }
   if (resource.On != null && resource.Call == null) {
     throw new Error(
       `In resource '${logicalId}': expected to find a 'Call' property, to a method of '${resource.On}'.`

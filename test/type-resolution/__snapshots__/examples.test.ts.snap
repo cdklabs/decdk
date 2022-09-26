@@ -3414,8 +3414,9 @@ TypedTemplate {
                 "type": "resolve-reference",
               },
               Object {
-                "type": "string",
-                "value": "ReadBucket",
+                "fn": "lazyLogicalId",
+                "produce": [Function],
+                "type": "intrinsic",
               },
               Object {
                 "type": "string",

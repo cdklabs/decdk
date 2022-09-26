@@ -54,10 +54,9 @@ function methodFQN(method: reflect.Method): string {
 export function resolveStaticMethodCallExpression(
   call: ObjectLiteral,
   typeSystem: reflect.TypeSystem,
-  resultType?: reflect.Type,
-  logicalId?: string
+  resultType?: reflect.Type
 ): StaticMethodCallExpression {
-  const { method, args } = inferMethodCall(typeSystem, call, logicalId);
+  const { method, args } = inferMethodCall(typeSystem, call);
 
   if (resultType) {
     assertImplements(method.returns.type, resultType);
@@ -98,8 +97,7 @@ export function resolveInstanceMethodCallExpression(
 
 function inferMethodCall(
   typeSystem: reflect.TypeSystem,
-  call: ObjectLiteral,
-  logicalId?: string
+  call: ObjectLiteral
 ): MethodCall {
   const candidateFQN = assertFullyQualifiedStaticMethodCall(call);
   const candidateClass = typeSystem.findClass(candidateFQN);
@@ -110,7 +108,7 @@ function inferMethodCall(
 
   return {
     method,
-    args: argsFromCall(method, methodName, call.fields, logicalId),
+    args: argsFromCall(method, methodName, call.fields),
   };
 }
 
@@ -149,7 +147,7 @@ function inferInstanceMethodCall(
     }
 
     if (Object.keys(res.call.fields).length > 0) {
-      const methodCall = inferMethodCall(typeSystem, res.call, logicalId);
+      const methodCall = inferMethodCall(typeSystem, res.call);
       return methodCall.method.returns.type;
     }
 
@@ -184,8 +182,7 @@ function inferMethod(
 function argsFromCall(
   method: reflect.Method,
   methodName: string,
-  fields: Record<string, TemplateExpression>,
-  logicalId?: string
+  fields: Record<string, TemplateExpression>
 ): TypedArrayExpression {
   const value = fields[methodName];
   if (value.type === 'object') {
@@ -193,13 +190,13 @@ function argsFromCall(
     return resolveCallableParameters(parameters, method);
   } else if (value.type === 'array') {
     const parameters = assertExpressionType(fields[methodName], 'array');
-    return resolvePositionalCallableParameters(parameters, method, logicalId);
+    return resolvePositionalCallableParameters(parameters, method);
   } else {
     const parameters: ArrayLiteral = {
       type: 'array',
       array: [value],
     };
-    return resolvePositionalCallableParameters(parameters, method, logicalId);
+    return resolvePositionalCallableParameters(parameters, method);
   }
 }
 
@@ -309,10 +306,9 @@ export function resolveCallableParameters(
 
 export function resolvePositionalCallableParameters(
   x: ArrayLiteral,
-  callable: reflect.Callable,
-  logicalId?: string
+  callable: reflect.Callable
 ): TypedArrayExpression {
-  const paramArray = prepareParameters(x, callable, logicalId);
+  const paramArray = prepareParameters(x, callable);
   const args: TypedTemplateExpression[] = [];
 
   for (let i = 0; i < callable.parameters.length; i++) {
@@ -332,8 +328,7 @@ export function resolvePositionalCallableParameters(
  */
 function prepareParameters(
   x: ArrayLiteral,
-  callable: reflect.Callable,
-  logicalId?: string
+  callable: reflect.Callable
 ): TemplateExpression[] {
   const typeSystem = callable.system;
   const constructType = typeSystem.findClass('constructs.Construct');
@@ -347,21 +342,26 @@ function prepareParameters(
     ) {
       return x.array[0].array;
     } else {
-      if (!logicalId) {
-        throw new Error(
-          `Call to ${callable.parentType.fqn}.${callable.name} with parameters:
-        
-${JSON.stringify(x.array)}
-        
-failed because the id could not be inferred. Use the intrinsic function CDK::Args to pass scope and id explicitly.`
-        );
-      }
-
       return [
         { type: 'intrinsic', fn: 'ref', logicalId: 'CDK::Scope' },
         {
-          type: 'string',
-          value: logicalId,
+          type: 'intrinsic',
+          fn: 'lazyLogicalId',
+          produce: () => {
+            // While we don't have a way a generic way to report errors with
+            // contextual information (see https://github.com/cdklabs/decdk/issues/246),
+            // we are including the information we do have in the default
+            // implementation of this method.
+            throw new Error(
+              `Call to ${callable.parentType.fqn}.${
+                callable.name
+              } with parameters:
+
+${JSON.stringify(x.array)}
+
+failed because the id could not be inferred. Use the intrinsic function CDK::Args to pass scope and id explicitly.`
+            );
+          },
         },
         ...x.array,
       ];

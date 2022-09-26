@@ -578,58 +578,41 @@ test('Single arguments are interpreted as the first argument of a call', async (
   );
 });
 
-test('Scope and id are automatically added when not provided', async () => {
-  const template = await Template.fromObject({
-    Resources: {
-      Key: {
-        Call: {
-          'aws-cdk-lib.aws_kms.Key.fromKeyArn': 'some-key',
+test('Scope and id are automatically added when not provided in static method call', async () => {
+  const template = await Testing.template(
+    Template.fromObject({
+      Resources: {
+        Key: {
+          Call: {
+            'aws-cdk-lib.aws_kms.Key.fromKeyArn':
+              'arn:aws:kms:us-east-1:111111111111:key/93726116-3886-4976-885d-035f6c630059',
+          },
         },
-      },
-      Bucket: {
-        Type: 'aws-cdk-lib.aws_s3.Bucket',
-        Properties: {
-          encryptionKey: {
-            Ref: 'Key',
+        Bucket: {
+          Type: 'aws-cdk-lib.aws_s3.Bucket',
+          Properties: {
+            encryptionKey: {
+              Ref: 'Key',
+            },
           },
         },
       },
-    },
-  });
-
-  const typedTemplate = new TypedTemplate(template, { typeSystem });
-
-  expect(typedTemplate.resource('Key')).toEqual(
-    expect.objectContaining({
-      call: {
-        args: {
-          array: [
-            {
-              reference: {
-                fn: 'ref',
-                logicalId: 'CDK::Scope',
-                type: 'intrinsic',
-              },
-              type: 'resolve-reference',
-            },
-            {
-              type: 'string',
-              value: 'Key',
-            },
-            {
-              type: 'string',
-              value: 'some-key',
-            },
-          ],
-          type: 'array',
-        },
-        fqn: 'aws-cdk-lib.aws_kms.Key',
-        method: 'fromKeyArn',
-        namespace: 'aws_kms',
-        type: 'staticMethodCall',
-      },
     })
   );
+
+  template.hasResourceProperties('AWS::S3::Bucket', {
+    BucketEncryption: {
+      ServerSideEncryptionConfiguration: [
+        {
+          ServerSideEncryptionByDefault: {
+            KMSMasterKeyID:
+              'arn:aws:kms:us-east-1:111111111111:key/93726116-3886-4976-885d-035f6c630059',
+            SSEAlgorithm: 'aws:kms',
+          },
+        },
+      ],
+    },
+  });
 });
 
 test('Scope and id are unwrapped when passed through CDK::Args', async () => {
@@ -689,21 +672,71 @@ test('Scope and id are unwrapped when passed through CDK::Args', async () => {
 });
 
 test('Calls to fromXxx methods cannot be inlined', async () => {
+  await expect(
+    Testing.template(
+      Template.fromObject({
+        Resources: {
+          Bucket: {
+            Type: 'aws-cdk-lib.aws_s3.Bucket',
+            Properties: {
+              encryptionKey: {
+                'aws-cdk-lib.aws_kms.Key.fromKeyArn': 'some-key',
+              },
+            },
+          },
+        },
+      })
+    )
+  ).rejects.toThrow(/failed because the id could not be inferred/);
+});
+
+test('Calls to fromXxx() wrapped in CDK::Args work for property values', async () => {
   const template = await Template.fromObject({
     Resources: {
       Bucket: {
         Type: 'aws-cdk-lib.aws_s3.Bucket',
         Properties: {
           encryptionKey: {
-            'aws-cdk-lib.aws_kms.Key.fromKeyArn':
-              'arn:aws:kms:us-east-1:111111111111:key/93726116-3886-4976-885d-035f6c630059',
+            'aws-cdk-lib.aws_kms.Key.fromKeyArn': {
+              'CDK::Args': [{ Ref: 'CDK::Scope' }, 'Key', 'some-key'],
+            },
           },
         },
       },
     },
   });
 
-  expect(() => new TypedTemplate(template, { typeSystem })).toThrow(
-    /failed because the id could not be inferred/
+  const typedTemplate = new TypedTemplate(template, { typeSystem });
+
+  expect(typedTemplate.resource('Bucket')).toEqual(
+    matchConstruct({
+      encryptionKey: {
+        args: {
+          array: [
+            {
+              reference: {
+                fn: 'ref',
+                logicalId: 'CDK::Scope',
+                type: 'intrinsic',
+              },
+              type: 'resolve-reference',
+            },
+            {
+              type: 'string',
+              value: 'Key',
+            },
+            {
+              type: 'string',
+              value: 'some-key',
+            },
+          ],
+          type: 'array',
+        },
+        fqn: 'aws-cdk-lib.aws_kms.Key',
+        method: 'fromKeyArn',
+        namespace: 'aws_kms',
+        type: 'staticMethodCall',
+      },
+    })
   );
 });
