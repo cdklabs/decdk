@@ -577,3 +577,133 @@ test('Single arguments are interpreted as the first argument of a call', async (
     })
   );
 });
+
+test('Scope and id are automatically added when not provided', async () => {
+  const template = await Template.fromObject({
+    Resources: {
+      Key: {
+        Call: {
+          'aws-cdk-lib.aws_kms.Key.fromKeyArn': 'some-key',
+        },
+      },
+      Bucket: {
+        Type: 'aws-cdk-lib.aws_s3.Bucket',
+        Properties: {
+          encryptionKey: {
+            Ref: 'Key',
+          },
+        },
+      },
+    },
+  });
+
+  const typedTemplate = new TypedTemplate(template, { typeSystem });
+
+  expect(typedTemplate.resource('Key')).toEqual(
+    expect.objectContaining({
+      call: {
+        args: {
+          array: [
+            {
+              reference: {
+                fn: 'ref',
+                logicalId: 'CDK::Scope',
+                type: 'intrinsic',
+              },
+              type: 'resolve-reference',
+            },
+            {
+              type: 'string',
+              value: 'Key',
+            },
+            {
+              type: 'string',
+              value: 'some-key',
+            },
+          ],
+          type: 'array',
+        },
+        fqn: 'aws-cdk-lib.aws_kms.Key',
+        method: 'fromKeyArn',
+        namespace: 'aws_kms',
+        type: 'staticMethodCall',
+      },
+    })
+  );
+});
+
+test('Scope and id are unwrapped when passed through CDK::Args', async () => {
+  const template = await Template.fromObject({
+    Resources: {
+      Key: {
+        Call: {
+          'aws-cdk-lib.aws_kms.Key.fromKeyArn': {
+            'CDK::Args': [{ Ref: 'CDK::Scope' }, 'Key', 'some-key'],
+          },
+        },
+      },
+      Bucket: {
+        Type: 'aws-cdk-lib.aws_s3.Bucket',
+        Properties: {
+          encryptionKey: {
+            Ref: 'Key',
+          },
+        },
+      },
+    },
+  });
+
+  const typedTemplate = new TypedTemplate(template, { typeSystem });
+
+  expect(typedTemplate.resource('Key')).toEqual(
+    expect.objectContaining({
+      call: {
+        args: {
+          array: [
+            {
+              reference: {
+                fn: 'ref',
+                logicalId: 'CDK::Scope',
+                type: 'intrinsic',
+              },
+              type: 'resolve-reference',
+            },
+            {
+              type: 'string',
+              value: 'Key',
+            },
+            {
+              type: 'string',
+              value: 'some-key',
+            },
+          ],
+          type: 'array',
+        },
+        fqn: 'aws-cdk-lib.aws_kms.Key',
+        method: 'fromKeyArn',
+        namespace: 'aws_kms',
+        type: 'staticMethodCall',
+      },
+    })
+  );
+});
+
+test('Calls to fromXxx methods cannot be inlined', async () => {
+  const template = await Template.fromObject({
+    Resources: {
+      Bucket: {
+        Type: 'aws-cdk-lib.aws_s3.Bucket',
+        Properties: {
+          encryptionKey: {
+            'aws-cdk-lib.aws_kms.Key.fromKeyArn':
+              'arn:aws:kms:us-east-1:111111111111:key/93726116-3886-4976-885d-035f6c630059',
+          },
+        },
+      },
+    },
+  });
+
+  expect(() => new TypedTemplate(template, { typeSystem })).toThrow(
+    /failed because the id could not be inferred/
+  );
+});

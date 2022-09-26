@@ -11,7 +11,7 @@ import {
   TemplateExpression,
   TemplateResource,
 } from '../parser/template';
-import { enumLikeClassMethods, isDataType } from '../schema';
+import { isDataType, staticNonVoidMethods } from '../schema';
 import { splitPath } from '../strings';
 import {
   assertExpressionType,
@@ -54,9 +54,10 @@ function methodFQN(method: reflect.Method): string {
 export function resolveStaticMethodCallExpression(
   call: ObjectLiteral,
   typeSystem: reflect.TypeSystem,
-  resultType?: reflect.Type
+  resultType?: reflect.Type,
+  logicalId?: string
 ): StaticMethodCallExpression {
-  const { method, args } = inferMethodCall(typeSystem, call);
+  const { method, args } = inferMethodCall(typeSystem, call, logicalId);
 
   if (resultType) {
     assertImplements(method.returns.type, resultType);
@@ -97,18 +98,19 @@ export function resolveInstanceMethodCallExpression(
 
 function inferMethodCall(
   typeSystem: reflect.TypeSystem,
-  call: ObjectLiteral
+  call: ObjectLiteral,
+  logicalId?: string
 ): MethodCall {
   const candidateFQN = assertFullyQualifiedStaticMethodCall(call);
   const candidateClass = typeSystem.findClass(candidateFQN);
-  const methods = enumLikeClassMethods(candidateClass);
+  const methods = staticNonVoidMethods(candidateClass);
   const methodNames = methods.map(methodFQN);
   const methodName = assertExactlyOneOfFields(call.fields, methodNames);
   const method = methods.find((m) => methodFQN(m) === methodName)!;
 
   return {
     method,
-    args: argsFromCall(method, methodName, call.fields),
+    args: argsFromCall(method, methodName, call.fields, logicalId),
   };
 }
 
@@ -147,7 +149,7 @@ function inferInstanceMethodCall(
     }
 
     if (Object.keys(res.call.fields).length > 0) {
-      const methodCall = inferMethodCall(typeSystem, res.call);
+      const methodCall = inferMethodCall(typeSystem, res.call, logicalId);
       return methodCall.method.returns.type;
     }
 
@@ -182,7 +184,8 @@ function inferMethod(
 function argsFromCall(
   method: reflect.Method,
   methodName: string,
-  fields: Record<string, TemplateExpression>
+  fields: Record<string, TemplateExpression>,
+  logicalId?: string
 ): TypedArrayExpression {
   const value = fields[methodName];
   if (value.type === 'object') {
@@ -190,13 +193,13 @@ function argsFromCall(
     return resolveCallableParameters(parameters, method);
   } else if (value.type === 'array') {
     const parameters = assertExpressionType(fields[methodName], 'array');
-    return resolvePositionalCallableParameters(parameters, method);
+    return resolvePositionalCallableParameters(parameters, method, logicalId);
   } else {
     const parameters: ArrayLiteral = {
       type: 'array',
       array: [value],
     };
-    return resolvePositionalCallableParameters(parameters, method);
+    return resolvePositionalCallableParameters(parameters, method, logicalId);
   }
 }
 
@@ -306,19 +309,76 @@ export function resolveCallableParameters(
 
 export function resolvePositionalCallableParameters(
   x: ArrayLiteral,
-  callable: reflect.Callable
+  callable: reflect.Callable,
+  logicalId?: string
 ): TypedArrayExpression {
+  const paramArray = prepareParameters(x, callable, logicalId);
   const args: TypedTemplateExpression[] = [];
 
   for (let i = 0; i < callable.parameters.length; i++) {
     const p = callable.parameters[i];
-    args.push(parameterToArg(x.array[i], p, callable));
+    args.push(parameterToArg(paramArray[i], p, callable));
   }
 
   return {
     type: 'array',
     array: args,
   };
+}
+
+/**
+ * Returns an array of parameters such that scope and id (if it applies) are in
+ * the right positions.
+ */
+function prepareParameters(
+  x: ArrayLiteral,
+  callable: reflect.Callable,
+  logicalId?: string
+): TemplateExpression[] {
+  const typeSystem = callable.system;
+  const constructType = typeSystem.findClass('constructs.Construct');
+  const parameters = callable.parameters;
+
+  if (parameters.length > 2 && isScope(parameters[0]) && isId(parameters[1])) {
+    if (
+      x.array.length === 1 &&
+      x.array[0].type === 'intrinsic' &&
+      x.array[0].fn === 'args'
+    ) {
+      return x.array[0].array;
+    } else {
+      if (!logicalId) {
+        throw new Error(
+          `Call to ${callable.parentType.fqn}.${callable.name} with parameters:
+        
+${JSON.stringify(x.array)}
+        
+failed because the id could not be inferred. Use the intrinsic function CDK::Args to pass scope and id explicitly.`
+        );
+      }
+
+      return [
+        { type: 'intrinsic', fn: 'ref', logicalId: 'CDK::Scope' },
+        {
+          type: 'string',
+          value: logicalId,
+        },
+        ...x.array,
+      ];
+    }
+  }
+  return x.array;
+
+  function isScope(p: reflect.Parameter): boolean {
+    const type = p.type.type;
+    return Boolean(
+      p.name === 'scope' && type?.isClassType() && type?.extends(constructType)
+    );
+  }
+
+  function isId(p: reflect.Parameter): boolean {
+    return p.name === 'id' && p.type.primitive === 'string';
+  }
 }
 
 function parameterToArg(

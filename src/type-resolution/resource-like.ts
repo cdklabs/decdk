@@ -78,7 +78,12 @@ function resolveLazyResource(
 ): LazyResource {
   const call = resource.on
     ? resolveInstanceMethodCallExpression(template, resource, typeSystem, type)
-    : resolveStaticMethodCallExpression(resource.call, typeSystem, type);
+    : resolveStaticMethodCallExpression(
+        resource.call,
+        typeSystem,
+        type,
+        logicalId
+      );
 
   return {
     type: 'lazyResource',

@@ -61,7 +61,8 @@ export type IntrinsicExpression =
   | AndIntrinsic
   | OrIntrinsic
   | NotIntrinsic
-  | EqualsIntrinsic;
+  | EqualsIntrinsic
+  | ArgsIntrinsic;
 
 export interface RefIntrinsic {
   readonly type: 'intrinsic';
@@ -183,6 +184,12 @@ export interface EqualsIntrinsic {
   readonly fn: 'equals';
   readonly value1: TemplateExpression;
   readonly value2: TemplateExpression;
+}
+
+export interface ArgsIntrinsic {
+  readonly type: 'intrinsic';
+  readonly fn: 'args';
+  readonly array: TemplateExpression[];
 }
 
 export function isExpression(x: unknown): x is TemplateExpression {
@@ -395,6 +402,13 @@ export function parseExpression(x: unknown): TemplateExpression {
         fn: 'equals',
         value1: parseExpression(x1),
         value2: parseExpression(x2),
+      };
+    },
+    'CDK::Args': (value) => {
+      return {
+        type: 'intrinsic',
+        fn: 'args',
+        array: assertList(value).map(parseExpression),
       };
     },
   };

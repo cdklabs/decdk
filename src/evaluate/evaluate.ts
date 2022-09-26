@@ -20,6 +20,7 @@ import {
   getPropDot,
   ValueOnlyReference,
 } from './references';
+
 export class Evaluator {
   constructor(public readonly context: EvaluationContext) {}
 
@@ -133,6 +134,8 @@ export class Evaluator {
             return this.fnNot(assertBoolean(ev(x.operand)));
           case 'equals':
             return this.fnEquals(ev(x.value1), ev(x.value2));
+          case 'args':
+            return this.evaluateArray(x.array);
         }
       case 'enum':
         return this.enum(x.fqn, x.choice);
@@ -288,6 +291,11 @@ export class Evaluator {
 
   protected resolveReferences(intrinsic: RefIntrinsic | GetPropIntrinsic) {
     const { logicalId, fn } = intrinsic;
+
+    if (logicalId === 'CDK::Scope') {
+      return this.context.stack;
+    }
+
     const c = this.context.reference(logicalId);
 
     if (fn !== 'ref') {
