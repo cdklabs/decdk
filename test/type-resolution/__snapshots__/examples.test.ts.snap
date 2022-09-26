@@ -3440,8 +3440,14 @@ TypedTemplate {
       "MyFunction" => Set {
         "BusinessLogic",
       },
-      "Grant" => Set {
-        "SourceBucket",
+      "ReadBucket" => Set {},
+      "GrantRead" => Set {
+        "ReadBucket",
+        "MyFunction",
+      },
+      "WriteBucket" => Set {},
+      "GrantWrite" => Set {
+        "WriteBucket",
         "MyFunction",
       },
       "Alias" => Set {
@@ -3453,9 +3459,12 @@ TypedTemplate {
     },
     "keys": Set {
       "SourceBucket",
+      "ReadBucket",
+      "WriteBucket",
       "BusinessLogic",
       "MyFunction",
-      "Grant",
+      "GrantRead",
+      "GrantWrite",
       "Alias",
       "ConfigureAsyncInvokeStatement",
     },
@@ -3546,7 +3555,7 @@ TypedTemplate {
         "tags": Array [],
         "type": "lazyResource",
       },
-      "Grant": Object {
+      "GrantRead": Object {
         "call": Object {
           "args": Object {
             "array": Array [
@@ -3564,12 +3573,41 @@ TypedTemplate {
             ],
             "type": "array",
           },
-          "logicalId": "SourceBucket",
+          "logicalId": "ReadBucket",
           "method": "grantRead",
           "type": "instanceMethodCall",
         },
         "dependsOn": Array [],
-        "logicalId": "Grant",
+        "logicalId": "GrantRead",
+        "namespace": "aws_iam",
+        "overrides": Array [],
+        "tags": Array [],
+        "type": "lazyResource",
+      },
+      "GrantWrite": Object {
+        "call": Object {
+          "args": Object {
+            "array": Array [
+              Object {
+                "reference": Object {
+                  "fn": "ref",
+                  "logicalId": "MyFunction",
+                  "type": "intrinsic",
+                },
+                "type": "resolve-reference",
+              },
+              Object {
+                "type": "void",
+              },
+            ],
+            "type": "array",
+          },
+          "logicalId": "WriteBucket",
+          "method": "grantWrite",
+          "type": "instanceMethodCall",
+        },
+        "dependsOn": Array [],
+        "logicalId": "GrantWrite",
         "namespace": "aws_iam",
         "overrides": Array [],
         "tags": Array [],
@@ -3607,6 +3645,47 @@ TypedTemplate {
         "tags": Array [],
         "type": "construct",
       },
+      "ReadBucket": Object {
+        "call": Object {
+          "args": Object {
+            "array": Array [
+              Object {
+                "reference": Object {
+                  "fn": "ref",
+                  "logicalId": "CDK::Scope",
+                  "type": "intrinsic",
+                },
+                "type": "resolve-reference",
+              },
+              Object {
+                "errorMessage": "Call to aws-cdk-lib.aws_s3.Bucket.fromBucketName with parameters:
+
+[{\\"type\\":\\"string\\",\\"value\\":\\"read-bucket\\"}]
+
+failed because the id could not be inferred. Use the intrinsic function CDK::Args to pass scope and id explicitly.",
+                "fn": "lazyLogicalId",
+                "type": "intrinsic",
+                "value": "ReadBucket",
+              },
+              Object {
+                "type": "string",
+                "value": "read-bucket",
+              },
+            ],
+            "type": "array",
+          },
+          "fqn": "aws-cdk-lib.aws_s3.Bucket",
+          "method": "fromBucketName",
+          "namespace": "aws_s3",
+          "type": "staticMethodCall",
+        },
+        "dependsOn": Array [],
+        "logicalId": "ReadBucket",
+        "namespace": undefined,
+        "overrides": Array [],
+        "tags": Array [],
+        "type": "lazyResource",
+      },
       "SourceBucket": Object {
         "dependsOn": Array [],
         "fqn": "aws-cdk-lib.aws_s3.Bucket",
@@ -3619,6 +3698,41 @@ TypedTemplate {
         },
         "tags": Array [],
         "type": "construct",
+      },
+      "WriteBucket": Object {
+        "call": Object {
+          "args": Object {
+            "array": Array [
+              Object {
+                "reference": Object {
+                  "fn": "ref",
+                  "logicalId": "CDK::Scope",
+                  "type": "intrinsic",
+                },
+                "type": "resolve-reference",
+              },
+              Object {
+                "type": "string",
+                "value": "WriteBucket",
+              },
+              Object {
+                "type": "string",
+                "value": "write-bucket",
+              },
+            ],
+            "type": "array",
+          },
+          "fqn": "aws-cdk-lib.aws_s3.Bucket",
+          "method": "fromBucketName",
+          "namespace": "aws_s3",
+          "type": "staticMethodCall",
+        },
+        "dependsOn": Array [],
+        "logicalId": "WriteBucket",
+        "namespace": undefined,
+        "overrides": Array [],
+        "tags": Array [],
+        "type": "lazyResource",
       },
     },
   },
@@ -3713,7 +3827,29 @@ TypedTemplate {
         "type": "aws-cdk-lib.aws_lambda.Function",
         "updateReplacePolicy": "Delete",
       },
-      "Grant" => Object {
+      "ReadBucket" => Object {
+        "call": Object {
+          "fields": Object {
+            "aws-cdk-lib.aws_s3.Bucket.fromBucketName": Object {
+              "type": "string",
+              "value": "read-bucket",
+            },
+          },
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {},
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "on": undefined,
+        "overrides": Array [],
+        "properties": Object {},
+        "tags": Array [],
+        "type": undefined,
+        "updateReplacePolicy": "Delete",
+      },
+      "GrantRead" => Object {
         "call": Object {
           "fields": Object {
             "grantRead": Object {
@@ -3727,12 +3863,77 @@ TypedTemplate {
         "conditionName": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {
-          "SourceBucket",
+          "ReadBucket",
           "MyFunction",
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": "SourceBucket",
+        "on": "ReadBucket",
+        "overrides": Array [],
+        "properties": Object {},
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_iam.Grant",
+        "updateReplacePolicy": "Delete",
+      },
+      "WriteBucket" => Object {
+        "call": Object {
+          "fields": Object {
+            "aws-cdk-lib.aws_s3.Bucket.fromBucketName": Object {
+              "array": Array [
+                Object {
+                  "fn": "ref",
+                  "logicalId": "CDK::Scope",
+                  "type": "intrinsic",
+                },
+                Object {
+                  "type": "string",
+                  "value": "WriteBucket",
+                },
+                Object {
+                  "type": "string",
+                  "value": "write-bucket",
+                },
+              ],
+              "fn": "args",
+              "type": "intrinsic",
+            },
+          },
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "CDK::Scope",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "on": undefined,
+        "overrides": Array [],
+        "properties": Object {},
+        "tags": Array [],
+        "type": undefined,
+        "updateReplacePolicy": "Delete",
+      },
+      "GrantWrite" => Object {
+        "call": Object {
+          "fields": Object {
+            "grantWrite": Object {
+              "fn": "ref",
+              "logicalId": "MyFunction",
+              "type": "intrinsic",
+            },
+          },
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "WriteBucket",
+          "MyFunction",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "on": "WriteBucket",
         "overrides": Array [],
         "properties": Object {},
         "tags": Array [],
@@ -3830,13 +4031,22 @@ TypedTemplate {
           },
           "On": "Alias",
         },
-        "Grant": Object {
+        "GrantRead": Object {
           "Call": Object {
             "grantRead": Object {
               "Ref": "MyFunction",
             },
           },
-          "On": "SourceBucket",
+          "On": "ReadBucket",
+          "Type": "aws-cdk-lib.aws_iam.Grant",
+        },
+        "GrantWrite": Object {
+          "Call": Object {
+            "grantWrite": Object {
+              "Ref": "MyFunction",
+            },
+          },
+          "On": "WriteBucket",
           "Type": "aws-cdk-lib.aws_iam.Grant",
         },
         "MyFunction": Object {
@@ -3849,8 +4059,26 @@ TypedTemplate {
           },
           "Type": "aws-cdk-lib.aws_lambda.Function",
         },
+        "ReadBucket": Object {
+          "Call": Object {
+            "aws-cdk-lib.aws_s3.Bucket.fromBucketName": "read-bucket",
+          },
+        },
         "SourceBucket": Object {
           "Type": "aws-cdk-lib.aws_s3.Bucket",
+        },
+        "WriteBucket": Object {
+          "Call": Object {
+            "aws-cdk-lib.aws_s3.Bucket.fromBucketName": Object {
+              "CDK::Args": Array [
+                Object {
+                  "Ref": "CDK::Scope",
+                },
+                "WriteBucket",
+                "write-bucket",
+              ],
+            },
+          },
         },
       },
     },

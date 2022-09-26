@@ -162,11 +162,11 @@ export function analyzeTypeReference(
   if (isEnumLikeClass(typeRef.type)) {
     return ResolvableExpressionType.ENUM_LIKE_CLASS;
   }
-  if (isSerializableInterface(typeRef.type)) {
-    return ResolvableExpressionType.STRUCT;
-  }
   if (isBehavioralInterface(typeRef.type)) {
     return ResolvableExpressionType.BEHAVIORAL_INTERFACE;
+  }
+  if (isSerializableInterface(typeRef.type)) {
+    return ResolvableExpressionType.STRUCT;
   }
   if (isConstruct(typeRef.type)) {
     return ResolvableExpressionType.CONSTRUCT;

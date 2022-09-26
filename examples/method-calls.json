@@ -26,11 +26,40 @@
         }
       }
     },
-    "Grant": {
-      "Type": "aws-cdk-lib.aws_iam.Grant",
-      "On": "SourceBucket",
+    "ReadBucket": {
       "Call": {
-        "grantRead": {"Ref": "MyFunction"}
+        "aws-cdk-lib.aws_s3.Bucket.fromBucketName": "read-bucket"
+      }
+    },
+    "GrantRead": {
+      "Type": "aws-cdk-lib.aws_iam.Grant",
+      "On": "ReadBucket",
+      "Call": {
+        "grantRead": {
+          "Ref": "MyFunction"
+        }
+      }
+    },
+    "WriteBucket": {
+      "Call": {
+        "aws-cdk-lib.aws_s3.Bucket.fromBucketName": {
+          "CDK::Args": [
+            {
+              "Ref": "CDK::Scope"
+            },
+            "WriteBucket",
+            "write-bucket"
+          ]
+        }
+      }
+    },
+    "GrantWrite": {
+      "Type": "aws-cdk-lib.aws_iam.Grant",
+      "On": "WriteBucket",
+      "Call": {
+        "grantWrite": {
+          "Ref": "MyFunction"
+        }
       }
     },
     "Alias": {

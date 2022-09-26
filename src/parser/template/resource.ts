@@ -143,6 +143,9 @@ function findReferencedLogicalIds(
           case 'transform':
             Object.values(x.parameters).forEach(recurse);
             break;
+          case 'args':
+            x.array.forEach(recurse);
+            break;
           default:
             throw new Error(`Unrecognized intrinsic for evaluation: ${x.fn}`);
         }

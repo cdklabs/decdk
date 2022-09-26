@@ -11,7 +11,7 @@ import {
   TemplateExpression,
   TemplateResource,
 } from '../parser/template';
-import { enumLikeClassMethods, isDataType } from '../schema';
+import { isDataType, staticNonVoidMethods } from '../schema';
 import { splitPath } from '../strings';
 import {
   assertExpressionType,
@@ -101,7 +101,7 @@ function inferMethodCall(
 ): MethodCall {
   const candidateFQN = assertFullyQualifiedStaticMethodCall(call);
   const candidateClass = typeSystem.findClass(candidateFQN);
-  const methods = enumLikeClassMethods(candidateClass);
+  const methods = staticNonVoidMethods(candidateClass);
   const methodNames = methods.map(methodFQN);
   const methodName = assertExactlyOneOfFields(call.fields, methodNames);
   const method = methods.find((m) => methodFQN(m) === methodName)!;
@@ -308,17 +308,69 @@ export function resolvePositionalCallableParameters(
   x: ArrayLiteral,
   callable: reflect.Callable
 ): TypedArrayExpression {
+  const paramArray = prepareParameters(x, callable);
   const args: TypedTemplateExpression[] = [];
 
   for (let i = 0; i < callable.parameters.length; i++) {
     const p = callable.parameters[i];
-    args.push(parameterToArg(x.array[i], p, callable));
+    args.push(parameterToArg(paramArray[i], p, callable));
   }
 
   return {
     type: 'array',
     array: args,
   };
+}
+
+/**
+ * Returns an array of parameters such that scope and id (if it applies) are in
+ * the right positions.
+ */
+function prepareParameters(
+  x: ArrayLiteral,
+  callable: reflect.Callable
+): TemplateExpression[] {
+  const typeSystem = callable.system;
+  const constructType = typeSystem.findClass('constructs.Construct');
+  const parameters = callable.parameters;
+
+  if (parameters.length > 2 && isScope(parameters[0]) && isId(parameters[1])) {
+    if (
+      x.array.length === 1 &&
+      x.array[0].type === 'intrinsic' &&
+      x.array[0].fn === 'args'
+    ) {
+      return x.array[0].array;
+    } else {
+      return [
+        { type: 'intrinsic', fn: 'ref', logicalId: 'CDK::Scope' },
+        {
+          type: 'intrinsic',
+          fn: 'lazyLogicalId',
+          errorMessage: `Call to ${callable.parentType.fqn}.${
+            callable.name
+          } with parameters:
+
+${JSON.stringify(x.array)}
+
+failed because the id could not be inferred. Use the intrinsic function CDK::Args to pass scope and id explicitly.`,
+        },
+        ...x.array,
+      ];
+    }
+  }
+  return x.array;
+
+  function isScope(p: reflect.Parameter): boolean {
+    const type = p.type.type;
+    return Boolean(
+      p.name === 'scope' && type?.isClassType() && type?.extends(constructType)
+    );
+  }
+
+  function isId(p: reflect.Parameter): boolean {
+    return p.name === 'id' && p.type.primitive === 'string';
+  }
 }
 
 function parameterToArg(

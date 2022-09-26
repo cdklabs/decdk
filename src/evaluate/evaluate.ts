@@ -2,7 +2,11 @@ import * as cdk from 'aws-cdk-lib';
 import { Construct, IConstruct } from 'constructs';
 import { SubFragment } from '../parser/private/sub';
 import { assertBoolean, assertString } from '../parser/private/types';
-import { GetPropIntrinsic, RefIntrinsic } from '../parser/template';
+import {
+  GetPropIntrinsic,
+  LazyLogicalId,
+  RefIntrinsic,
+} from '../parser/template';
 import { ResourceOverride } from '../parser/template/overrides';
 import { ResourceTag } from '../parser/template/tags';
 import { splitPath } from '../strings';
@@ -21,6 +25,7 @@ import {
   SimpleReference,
   ValueOnlyReference,
 } from './references';
+
 export class Evaluator {
   constructor(public readonly context: EvaluationContext) {}
 
@@ -139,6 +144,10 @@ export class Evaluator {
             return this.fnNot(assertBoolean(ev(x.operand)));
           case 'equals':
             return this.fnEquals(ev(x.value1), ev(x.value2));
+          case 'args':
+            return this.evaluateArray(x.array);
+          case 'lazyLogicalId':
+            return this.lazyLogicalId(x);
         }
       case 'enum':
         return this.enum(x.fqn, x.choice);
@@ -166,6 +175,13 @@ export class Evaluator {
           this.evaluateArray(x.args.array)
         );
     }
+  }
+
+  protected lazyLogicalId(x: LazyLogicalId) {
+    if (x.value) {
+      return x.value;
+    }
+    throw new Error(x.errorMessage);
   }
 
   public evaluateObject(
@@ -294,6 +310,7 @@ export class Evaluator {
 
   protected resolveReferences(intrinsic: RefIntrinsic | GetPropIntrinsic) {
     const { logicalId, fn } = intrinsic;
+
     const c = this.context.reference(logicalId);
 
     if (fn !== 'ref') {

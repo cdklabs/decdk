@@ -648,6 +648,12 @@ export function isEnumLikeClass(
   );
 }
 
+export function staticNonVoidMethods(cls: jsiiReflect.ClassType) {
+  return cls.allMethods.filter(
+    (m) => m.static && m.returns && m.returns.type.type
+  );
+}
+
 export function enumLikeClassMethods(cls: jsiiReflect.ClassType) {
   return cls.allMethods.filter(
     (m) =>
