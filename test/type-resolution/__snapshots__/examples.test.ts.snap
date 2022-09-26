@@ -5,9 +5,7 @@ TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
   "outputs": Map {},
-  "parameters": TemplateParameters {
-    "parameters": Object {},
-  },
+  "parameters": Map {},
   "resources": DependencyGraph {
     "_dependencies": Map {
       "HelloLambda" => Set {},
@@ -128,9 +126,7 @@ TypedTemplate {
     "description": "A template creates a lambda function with an api gateway",
     "mappings": Map {},
     "outputs": Map {},
-    "parameters": TemplateParameters {
-      "parameters": Object {},
-    },
+    "parameters": Map {},
     "resources": Map {
       "HelloLambda" => Object {
         "call": Object {
@@ -285,9 +281,7 @@ TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
   "outputs": Map {},
-  "parameters": TemplateParameters {
-    "parameters": Object {},
-  },
+  "parameters": Map {},
   "resources": DependencyGraph {
     "_dependencies": Map {
       "VPC" => Set {},
@@ -557,9 +551,7 @@ TypedTemplate {
     "description": undefined,
     "mappings": Map {},
     "outputs": Map {},
-    "parameters": TemplateParameters {
-      "parameters": Object {},
-    },
+    "parameters": Map {},
     "resources": Map {
       "VPC" => Object {
         "call": Object {
@@ -886,6 +878,292 @@ TypedTemplate {
 }
 `;
 
+exports[`bucket-with-parameters.json 1`] = `
+TypedTemplate {
+  "conditions": Map {},
+  "mappings": Map {},
+  "outputs": Map {},
+  "parameters": Map {
+    "BucketName" => Object {
+      "allowedPattern": "^[a-zA-Z0-9]*$",
+      "allowedValues": undefined,
+      "constraintDescription": "a string consisting only of alphanumeric characters",
+      "default": "MyS3Bucket",
+      "description": "The name of your bucket",
+      "maxLength": 10,
+      "maxValue": undefined,
+      "minLength": 1,
+      "minValue": undefined,
+      "noEcho": true,
+      "type": "String",
+    },
+    "CorsMaxAge" => Object {
+      "allowedPattern": undefined,
+      "allowedValues": Array [
+        1,
+        2,
+        3,
+        10,
+        100,
+        300,
+        "nonsense-string-value",
+      ],
+      "constraintDescription": undefined,
+      "default": "3",
+      "description": "the time in seconds that a browser will cache the preflight response",
+      "maxLength": undefined,
+      "maxValue": 300,
+      "minLength": undefined,
+      "minValue": 0,
+      "noEcho": true,
+      "type": "Number",
+    },
+  },
+  "resources": DependencyGraph {
+    "_dependencies": Map {
+      "Bucket" => Set {},
+    },
+    "keys": Set {
+      "Bucket",
+    },
+    "nodes": Object {
+      "Bucket": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_s3.Bucket",
+        "logicalId": "Bucket",
+        "namespace": "aws_s3",
+        "overrides": Array [],
+        "props": Object {
+          "fields": Object {
+            "bucketName": Object {
+              "fn": "ref",
+              "logicalId": "BucketName",
+              "type": "intrinsic",
+            },
+            "cors": Object {
+              "array": Array [
+                Object {
+                  "fields": Object {
+                    "allowedMethods": Object {
+                      "array": Array [
+                        Object {
+                          "choice": "GET",
+                          "fqn": "aws-cdk-lib.aws_s3.HttpMethods",
+                          "namespace": "aws_s3",
+                          "type": "enum",
+                        },
+                        Object {
+                          "choice": "POST",
+                          "fqn": "aws-cdk-lib.aws_s3.HttpMethods",
+                          "namespace": "aws_s3",
+                          "type": "enum",
+                        },
+                      ],
+                      "type": "array",
+                    },
+                    "allowedOrigins": Object {
+                      "array": Array [
+                        Object {
+                          "type": "string",
+                          "value": "origin1",
+                        },
+                        Object {
+                          "type": "string",
+                          "value": "origin2",
+                        },
+                      ],
+                      "type": "array",
+                    },
+                    "maxAge": Object {
+                      "fn": "ref",
+                      "logicalId": "CorsMaxAge",
+                      "type": "intrinsic",
+                    },
+                  },
+                  "type": "struct",
+                },
+              ],
+              "type": "array",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "construct",
+      },
+    },
+  },
+  "template": Template {
+    "conditions": Map {},
+    "description": undefined,
+    "mappings": Map {},
+    "outputs": Map {},
+    "parameters": Map {
+      "BucketName" => Object {
+        "allowedPattern": "^[a-zA-Z0-9]*$",
+        "allowedValues": undefined,
+        "constraintDescription": "a string consisting only of alphanumeric characters",
+        "default": "MyS3Bucket",
+        "description": "The name of your bucket",
+        "maxLength": 10,
+        "maxValue": undefined,
+        "minLength": 1,
+        "minValue": undefined,
+        "noEcho": true,
+        "type": "String",
+      },
+      "CorsMaxAge" => Object {
+        "allowedPattern": undefined,
+        "allowedValues": Array [
+          1,
+          2,
+          3,
+          10,
+          100,
+          300,
+          "nonsense-string-value",
+        ],
+        "constraintDescription": undefined,
+        "default": "3",
+        "description": "the time in seconds that a browser will cache the preflight response",
+        "maxLength": undefined,
+        "maxValue": 300,
+        "minLength": undefined,
+        "minValue": 0,
+        "noEcho": true,
+        "type": "Number",
+      },
+    },
+    "resources": Map {
+      "Bucket" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "BucketName",
+          "CorsMaxAge",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "on": undefined,
+        "overrides": Array [],
+        "properties": Object {
+          "bucketName": Object {
+            "fn": "ref",
+            "logicalId": "BucketName",
+            "type": "intrinsic",
+          },
+          "cors": Object {
+            "array": Array [
+              Object {
+                "fields": Object {
+                  "allowedMethods": Object {
+                    "array": Array [
+                      Object {
+                        "type": "string",
+                        "value": "GET",
+                      },
+                      Object {
+                        "type": "string",
+                        "value": "POST",
+                      },
+                    ],
+                    "type": "array",
+                  },
+                  "allowedOrigins": Object {
+                    "array": Array [
+                      Object {
+                        "type": "string",
+                        "value": "origin1",
+                      },
+                      Object {
+                        "type": "string",
+                        "value": "origin2",
+                      },
+                    ],
+                    "type": "array",
+                  },
+                  "maxAge": Object {
+                    "fn": "ref",
+                    "logicalId": "CorsMaxAge",
+                    "type": "intrinsic",
+                  },
+                },
+                "type": "object",
+              },
+            ],
+            "type": "array",
+          },
+        },
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_s3.Bucket",
+        "updateReplacePolicy": "Delete",
+      },
+    },
+    "template": Object {
+      "Parameters": Object {
+        "BucketName": Object {
+          "AllowedPattern": "^[a-zA-Z0-9]*$",
+          "ConstraintDescription": "a string consisting only of alphanumeric characters",
+          "Default": "MyS3Bucket",
+          "Description": "The name of your bucket",
+          "MaxLength": 10,
+          "MinLength": 1,
+          "NoEcho": true,
+          "Type": "String",
+        },
+        "CorsMaxAge": Object {
+          "AllowedValues": Array [
+            1,
+            2,
+            3,
+            10,
+            100,
+            300,
+            "nonsense-string-value",
+          ],
+          "Default": "3",
+          "Description": "the time in seconds that a browser will cache the preflight response",
+          "MaxValue": "300",
+          "MinValue": "0",
+          "NoEcho": true,
+          "Type": "Number",
+        },
+      },
+      "Resources": Object {
+        "Bucket": Object {
+          "Properties": Object {
+            "bucketName": Object {
+              "Ref": "BucketName",
+            },
+            "cors": Array [
+              Object {
+                "allowedMethods": Array [
+                  "GET",
+                  "POST",
+                ],
+                "allowedOrigins": Array [
+                  "origin1",
+                  "origin2",
+                ],
+                "maxAge": Object {
+                  "Ref": "CorsMaxAge",
+                },
+              },
+            ],
+          },
+          "Type": "aws-cdk-lib.aws_s3.Bucket",
+        },
+      },
+    },
+    "templateFormatVersion": undefined,
+  },
+}
+`;
+
 exports[`ec2-instance.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
@@ -904,9 +1182,7 @@ TypedTemplate {
     },
   },
   "outputs": Map {},
-  "parameters": TemplateParameters {
-    "parameters": Object {},
-  },
+  "parameters": Map {},
   "resources": DependencyGraph {
     "_dependencies": Map {
       "myEC2Instance" => Set {},
@@ -981,9 +1257,7 @@ TypedTemplate {
       },
     },
     "outputs": Map {},
-    "parameters": TemplateParameters {
-      "parameters": Object {},
-    },
+    "parameters": Map {},
     "resources": Map {
       "myEC2Instance" => Object {
         "call": Object {
@@ -1065,9 +1339,7 @@ TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
   "outputs": Map {},
-  "parameters": TemplateParameters {
-    "parameters": Object {},
-  },
+  "parameters": Map {},
   "resources": DependencyGraph {
     "_dependencies": Map {
       "VPC" => Set {},
@@ -1255,9 +1527,7 @@ TypedTemplate {
     "description": "A template creates a Fargate service with necessary resources",
     "mappings": Map {},
     "outputs": Map {},
-    "parameters": TemplateParameters {
-      "parameters": Object {},
-    },
+    "parameters": Map {},
     "resources": Map {
       "VPC" => Object {
         "call": Object {
@@ -1490,9 +1760,7 @@ TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
   "outputs": Map {},
-  "parameters": TemplateParameters {
-    "parameters": Object {},
-  },
+  "parameters": Map {},
   "resources": DependencyGraph {
     "_dependencies": Map {
       "MyVpc" => Set {},
@@ -1597,9 +1865,7 @@ TypedTemplate {
     "description": "A template creates an ASG and Vpc",
     "mappings": Map {},
     "outputs": Map {},
-    "parameters": TemplateParameters {
-      "parameters": Object {},
-    },
+    "parameters": Map {},
     "resources": Map {
       "MyVpc" => Object {
         "call": Object {
@@ -1720,9 +1986,7 @@ TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
   "outputs": Map {},
-  "parameters": TemplateParameters {
-    "parameters": Object {},
-  },
+  "parameters": Map {},
   "resources": DependencyGraph {
     "_dependencies": Map {
       "MyTopic" => Set {},
@@ -1956,9 +2220,7 @@ TypedTemplate {
     "description": "A template creates a lambda function which can be invoked by an sns topic",
     "mappings": Map {},
     "outputs": Map {},
-    "parameters": TemplateParameters {
-      "parameters": Object {},
-    },
+    "parameters": Map {},
     "resources": Map {
       "MyTopic" => Object {
         "call": Object {
@@ -2233,9 +2495,7 @@ TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
   "outputs": Map {},
-  "parameters": TemplateParameters {
-    "parameters": Object {},
-  },
+  "parameters": Map {},
   "resources": DependencyGraph {
     "_dependencies": Map {
       "AwsCliLayer" => Set {},
@@ -2319,9 +2579,7 @@ TypedTemplate {
     "description": "A template creates a aws cli lambda layer",
     "mappings": Map {},
     "outputs": Map {},
-    "parameters": TemplateParameters {
-      "parameters": Object {},
-    },
+    "parameters": Map {},
     "resources": Map {
       "AwsCliLayer" => Object {
         "call": Object {
@@ -2430,9 +2688,7 @@ TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
   "outputs": Map {},
-  "parameters": TemplateParameters {
-    "parameters": Object {},
-  },
+  "parameters": Map {},
   "resources": DependencyGraph {
     "_dependencies": Map {
       "MyLambda" => Set {
@@ -2593,9 +2849,7 @@ TypedTemplate {
     "description": undefined,
     "mappings": Map {},
     "outputs": Map {},
-    "parameters": TemplateParameters {
-      "parameters": Object {},
-    },
+    "parameters": Map {},
     "resources": Map {
       "MyLambda" => Object {
         "call": Object {
@@ -2798,9 +3052,7 @@ TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
   "outputs": Map {},
-  "parameters": TemplateParameters {
-    "parameters": Object {},
-  },
+  "parameters": Map {},
   "resources": DependencyGraph {
     "_dependencies": Map {
       "Lambda" => Set {},
@@ -2868,9 +3120,7 @@ TypedTemplate {
     "description": undefined,
     "mappings": Map {},
     "outputs": Map {},
-    "parameters": TemplateParameters {
-      "parameters": Object {},
-    },
+    "parameters": Map {},
     "resources": Map {
       "Lambda" => Object {
         "call": Object {
@@ -2956,9 +3206,7 @@ TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
   "outputs": Map {},
-  "parameters": TemplateParameters {
-    "parameters": Object {},
-  },
+  "parameters": Map {},
   "resources": DependencyGraph {
     "_dependencies": Map {
       "Topic" => Set {},
@@ -3061,9 +3309,7 @@ TypedTemplate {
     "description": undefined,
     "mappings": Map {},
     "outputs": Map {},
-    "parameters": TemplateParameters {
-      "parameters": Object {},
-    },
+    "parameters": Map {},
     "resources": Map {
       "Topic" => Object {
         "call": Object {
@@ -3184,9 +3430,7 @@ TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
   "outputs": Map {},
-  "parameters": TemplateParameters {
-    "parameters": Object {},
-  },
+  "parameters": Map {},
   "resources": DependencyGraph {
     "_dependencies": Map {
       "SourceBucket" => Set {},
@@ -3383,9 +3627,7 @@ TypedTemplate {
     "description": undefined,
     "mappings": Map {},
     "outputs": Map {},
-    "parameters": TemplateParameters {
-      "parameters": Object {},
-    },
+    "parameters": Map {},
     "resources": Map {
       "SourceBucket" => Object {
         "call": Object {
@@ -3622,9 +3864,7 @@ TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
   "outputs": Map {},
-  "parameters": TemplateParameters {
-    "parameters": Object {},
-  },
+  "parameters": Map {},
   "resources": DependencyGraph {
     "_dependencies": Map {
       "Repo" => Set {
@@ -3921,9 +4161,7 @@ TypedTemplate {
     "description": "A template creates a CodePipeline along with its CodeCommit repository source",
     "mappings": Map {},
     "outputs": Map {},
-    "parameters": TemplateParameters {
-      "parameters": Object {},
-    },
+    "parameters": Map {},
     "resources": Map {
       "Repo" => Object {
         "call": Object {
@@ -4295,9 +4533,7 @@ TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
   "outputs": Map {},
-  "parameters": TemplateParameters {
-    "parameters": Object {},
-  },
+  "parameters": Map {},
   "resources": DependencyGraph {
     "_dependencies": Map {
       "Hello" => Set {},
@@ -4365,9 +4601,7 @@ TypedTemplate {
     "description": undefined,
     "mappings": Map {},
     "outputs": Map {},
-    "parameters": TemplateParameters {
-      "parameters": Object {},
-    },
+    "parameters": Map {},
     "resources": Map {
       "Hello" => Object {
         "call": Object {
@@ -4447,9 +4681,7 @@ TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
   "outputs": Map {},
-  "parameters": TemplateParameters {
-    "parameters": Object {},
-  },
+  "parameters": Map {},
   "resources": DependencyGraph {
     "_dependencies": Map {
       "MyQueue" => Set {},
@@ -4492,9 +4724,7 @@ TypedTemplate {
     "description": undefined,
     "mappings": Map {},
     "outputs": Map {},
-    "parameters": TemplateParameters {
-      "parameters": Object {},
-    },
+    "parameters": Map {},
     "resources": Map {
       "MyQueue" => Object {
         "call": Object {
@@ -4555,9 +4785,7 @@ TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
   "outputs": Map {},
-  "parameters": TemplateParameters {
-    "parameters": Object {},
-  },
+  "parameters": Map {},
   "resources": DependencyGraph {
     "_dependencies": Map {
       "VPC" => Set {},
@@ -4586,9 +4814,7 @@ TypedTemplate {
     "description": undefined,
     "mappings": Map {},
     "outputs": Map {},
-    "parameters": TemplateParameters {
-      "parameters": Object {},
-    },
+    "parameters": Map {},
     "resources": Map {
       "VPC" => Object {
         "call": Object {

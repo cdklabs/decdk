@@ -28,22 +28,22 @@
                     "type": "string"
                 },
                 "Default": {
-                    "type": "string"
+                    "type": ["number", "string"]
                 },
                 "Description": {
                     "type": "string"
                 },
                 "MaxLength": {
-                    "type": "string"
+                    "type": ["number", "string"]
                 },
                 "MaxValue": {
-                    "type": "string"
+                    "type": ["number", "string"]
                 },
                 "MinLength": {
-                    "type": "string"
+                    "type": ["number", "string"]
                 },
                 "MinValue": {
-                    "type": "string"
+                    "type": ["number", "string"]
                 },
                 "NoEcho": {
                     "type": [
