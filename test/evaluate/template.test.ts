@@ -1,3 +1,4 @@
+import { Match } from 'aws-cdk-lib/assertions';
 import { Template } from '../../src/parser/template';
 import { Testing } from '../util';
 
@@ -100,6 +101,97 @@ describe('Mappings', () => {
             'Fn::FindInMap': ['RegionMap', { Ref: 'AWS::Region' }, 'HVM64'],
           },
         ],
+      },
+    });
+  });
+});
+
+describe('Parameters', () => {
+  test('String parameter', async () => {
+    // GIVEN
+    const stringParam = {
+      Default: 'MyS3Bucket',
+      AllowedPattern: '^[a-zA-Z0-9]*$',
+      ConstraintDescription:
+        'a string consisting only of alphanumeric characters',
+      Description: 'The name of your bucket',
+      MaxLength: 10,
+      MinLength: 1,
+      Type: 'String',
+      NoEcho: true,
+    };
+    const template = await Testing.template(
+      await Template.fromObject({
+        Parameters: {
+          BucketName: stringParam,
+        },
+        Resources: {
+          Bucket: {
+            Type: 'aws-cdk-lib.aws_s3.Bucket',
+            Properties: {
+              bucketName: {
+                Ref: 'BucketName',
+              },
+            },
+          },
+        },
+      })
+    );
+
+    // THEN
+    template.hasParameter('BucketName', stringParam);
+    template.hasResourceProperties('AWS::S3::Bucket', {
+      BucketName: { Ref: 'BucketName' },
+    });
+  });
+
+  test('Number parameter', async () => {
+    // GIVEN
+    const numberParam = {
+      Default: '3',
+      Description:
+        'the time in seconds that a browser will cache the preflight response',
+      MaxValue: 300,
+      MinValue: 0,
+      AllowedValues: [1, 2, 3, 10, 100, 300, 'nonsense-string-value'],
+      Type: 'Number',
+      NoEcho: true,
+    };
+    const template = await Testing.template(
+      await Template.fromObject({
+        Parameters: {
+          CorsMaxAge: numberParam,
+        },
+        Resources: {
+          Bucket: {
+            Type: 'aws-cdk-lib.aws_s3.Bucket',
+            Properties: {
+              bucketName: 'my-bucket',
+              cors: [
+                {
+                  allowedMethods: ['GET', 'POST'],
+                  allowedOrigins: ['origin1', 'origin2'],
+                  maxAge: {
+                    Ref: 'CorsMaxAge',
+                  },
+                },
+              ],
+            },
+          },
+        },
+      })
+    );
+
+    // THEN
+    template.hasParameter('CorsMaxAge', numberParam);
+    template.hasResourceProperties('AWS::S3::Bucket', {
+      BucketName: 'my-bucket',
+      CorsConfiguration: {
+        CorsRules: Match.arrayWith([
+          Match.objectLike({
+            MaxAge: { Ref: 'CorsMaxAge' },
+          }),
+        ]),
       },
     });
   });
