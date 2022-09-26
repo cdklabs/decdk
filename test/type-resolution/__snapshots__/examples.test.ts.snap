@@ -3414,9 +3414,14 @@ TypedTemplate {
                 "type": "resolve-reference",
               },
               Object {
+                "errorMessage": "Call to aws-cdk-lib.aws_s3.Bucket.fromBucketName with parameters:
+
+[{\\"type\\":\\"string\\",\\"value\\":\\"read-bucket\\"}]
+
+failed because the id could not be inferred. Use the intrinsic function CDK::Args to pass scope and id explicitly.",
                 "fn": "lazyLogicalId",
-                "produce": [Function],
                 "type": "intrinsic",
+                "value": "ReadBucket",
               },
               Object {
                 "type": "string",

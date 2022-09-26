@@ -2,7 +2,11 @@ import * as cdk from 'aws-cdk-lib';
 import { Construct, IConstruct } from 'constructs';
 import { SubFragment } from '../parser/private/sub';
 import { assertBoolean, assertString } from '../parser/private/types';
-import { GetPropIntrinsic, RefIntrinsic } from '../parser/template';
+import {
+  GetPropIntrinsic,
+  LazyLogicalId,
+  RefIntrinsic,
+} from '../parser/template';
 import { ResourceOverride } from '../parser/template/overrides';
 import { ResourceTag } from '../parser/template/tags';
 import { splitPath } from '../strings';
@@ -137,7 +141,7 @@ export class Evaluator {
           case 'args':
             return this.evaluateArray(x.array);
           case 'lazyLogicalId':
-            return x.produce();
+            return this.lazyLogicalId(x);
         }
       case 'enum':
         return this.enum(x.fqn, x.choice);
@@ -165,6 +169,13 @@ export class Evaluator {
           this.evaluateArray(x.args.array)
         );
     }
+  }
+
+  protected lazyLogicalId(x: LazyLogicalId) {
+    if (x.value) {
+      return x.value;
+    }
+    throw new Error(x.errorMessage);
   }
 
   public evaluateObject(

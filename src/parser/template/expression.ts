@@ -196,7 +196,8 @@ export interface ArgsIntrinsic {
 export interface LazyLogicalId {
   readonly type: 'intrinsic';
   readonly fn: 'lazyLogicalId';
-  readonly produce: () => string;
+  readonly value?: string;
+  readonly errorMessage?: string;
 }
 
 export function isExpression(x: unknown): x is TemplateExpression {

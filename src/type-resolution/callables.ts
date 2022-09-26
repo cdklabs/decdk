@@ -347,21 +347,13 @@ function prepareParameters(
         {
           type: 'intrinsic',
           fn: 'lazyLogicalId',
-          produce: () => {
-            // While we don't have a way a generic way to report errors with
-            // contextual information (see https://github.com/cdklabs/decdk/issues/246),
-            // we are including the information we do have in the default
-            // implementation of this method.
-            throw new Error(
-              `Call to ${callable.parentType.fqn}.${
-                callable.name
-              } with parameters:
+          errorMessage: `Call to ${callable.parentType.fqn}.${
+            callable.name
+          } with parameters:
 
 ${JSON.stringify(x.array)}
 
-failed because the id could not be inferred. Use the intrinsic function CDK::Args to pass scope and id explicitly.`
-            );
-          },
+failed because the id could not be inferred. Use the intrinsic function CDK::Args to pass scope and id explicitly.`,
         },
         ...x.array,
       ];

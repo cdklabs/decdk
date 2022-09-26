@@ -100,7 +100,7 @@ function replaceLogicalId(
 ): StaticMethodCallExpression {
   const array = call.args.array.map((expr) =>
     expr.type === 'intrinsic' && expr.fn === 'lazyLogicalId'
-      ? { ...expr, produce: () => id }
+      ? { ...expr, value: id }
       : expr
   );
   return { ...call, args: { ...call.args, array } };
