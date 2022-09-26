@@ -149,10 +149,8 @@ describe('Parameters', () => {
     // GIVEN
     const numberParam = {
       Default: '3',
-      Description:
-        'the time in seconds that a browser will cache the preflight response',
-      MaxValue: 300,
-      MinValue: 0,
+      MaxValue: '300', // Check can be a string
+      MinValue: 0, // or a number
       AllowedValues: [1, 2, 3, 10, 100, 300, 'nonsense-string-value'],
       Type: 'Number',
       NoEcho: true,
@@ -183,7 +181,14 @@ describe('Parameters', () => {
     );
 
     // THEN
-    template.hasParameter('CorsMaxAge', numberParam);
+    template.hasParameter('CorsMaxAge', {
+      Default: '3',
+      MaxValue: 300, // should be parsed to number
+      MinValue: 0,
+      AllowedValues: [1, 2, 3, 10, 100, 300, 'nonsense-string-value'],
+      Type: 'Number',
+      NoEcho: true,
+    });
     template.hasResourceProperties('AWS::S3::Bucket', {
       BucketName: 'my-bucket',
       CorsConfiguration: {
@@ -193,6 +198,40 @@ describe('Parameters', () => {
           }),
         ]),
       },
+    });
+  });
+
+  test('NoEcho can be string "true"', async () => {
+    // GIVEN
+    const noEchoParam = {
+      Default: 'MyS3Bucket',
+      NoEcho: 'true',
+      Type: 'String',
+    };
+    const template = await Testing.template(
+      await Template.fromObject({
+        Parameters: {
+          BucketName: noEchoParam,
+        },
+        Resources: {
+          Bucket: {
+            Type: 'aws-cdk-lib.aws_s3.Bucket',
+            Properties: {
+              bucketName: {
+                Ref: 'BucketName',
+              },
+            },
+          },
+        },
+      })
+    );
+
+    // THEN
+    template.hasParameter('BucketName', {
+      NoEcho: true,
+    });
+    template.hasResourceProperties('AWS::S3::Bucket', {
+      BucketName: { Ref: 'BucketName' },
     });
   });
 });

@@ -28,6 +28,8 @@ export function parseParameter(x: unknown): TemplateParameter {
     maxValue: ifField(param, 'MaxValue', assertNumber),
     minLength: ifField(param, 'MinLength', assertNumber),
     minValue: ifField(param, 'MinValue', assertNumber),
-    noEcho: ifField(param, 'NoEcho', assertBoolean),
+    noEcho: ifField(param, 'NoEcho', (v: unknown) => {
+      return v === 'true' ? true : assertBoolean(v);
+    }),
   };
 }
