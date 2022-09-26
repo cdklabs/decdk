@@ -22,6 +22,7 @@ import {
   CfnResourceReference,
   ConstructReference,
   getPropDot,
+  SimpleReference,
   ValueOnlyReference,
 } from './references';
 
@@ -35,6 +36,11 @@ export class Evaluator {
           mapping: mapping.toObject(),
         })
     );
+
+    this.context.template.parameters.forEach((param, paramName) => {
+      new cdk.CfnParameter(this.context.stack, paramName, param);
+      this.context.addReference(new SimpleReference(paramName));
+    });
 
     return this.context.template.resources.forEach((_logicalId, resource) =>
       this.evaluateResource(resource)

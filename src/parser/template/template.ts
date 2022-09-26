@@ -5,7 +5,7 @@ import { schema } from '../schema';
 import { parseExpression, TemplateExpression } from './expression';
 import { parseMapping, TemplateMapping } from './mappings';
 import { parseOutput, TemplateOutput } from './output';
-import { TemplateParameters } from './parameters';
+import { parseParameter, TemplateParameter } from './parameters';
 import { parseTemplateResource, TemplateResource } from './resource';
 
 /**
@@ -34,14 +34,19 @@ export class Template {
 
   public readonly description?: string;
   public readonly templateFormatVersion?: string;
-  public readonly parameters: TemplateParameters;
+  public readonly parameters: Map<string, TemplateParameter>;
   public readonly resources: Map<string, TemplateResource>;
   public readonly conditions: Map<string, TemplateExpression>;
   public readonly mappings: Map<string, TemplateMapping>;
   public readonly outputs: Map<string, TemplateOutput>;
 
   constructor(public template: schema.Template) {
-    this.parameters = new TemplateParameters(this.template.Parameters ?? {});
+    this.parameters = new Map(
+      Object.entries(template.Parameters ?? {}).map(([k, v]) => [
+        k,
+        parseParameter(v),
+      ])
+    );
 
     this.templateFormatVersion = template.AWSTemplateFormatVersion;
     this.description = template.Description;

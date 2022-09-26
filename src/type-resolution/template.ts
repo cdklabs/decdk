@@ -3,7 +3,7 @@ import { DependencyGraph } from '../parser/private/toposort';
 import {
   Template,
   TemplateExpression,
-  TemplateParameters,
+  TemplateParameter,
 } from '../parser/template';
 import { TemplateMapping } from '../parser/template/mappings';
 import { TemplateOutput } from '../parser/template/output';
@@ -18,7 +18,7 @@ export interface TypedTemplateProps {
  */
 export class TypedTemplate {
   public readonly resources: DependencyGraph<ResourceLike>;
-  public readonly parameters: TemplateParameters;
+  public readonly parameters: Map<string, TemplateParameter>;
   public readonly conditions: Map<string, TemplateExpression>;
   public readonly mappings: Map<string, TemplateMapping>;
   public readonly outputs: Map<string, TemplateOutput>;

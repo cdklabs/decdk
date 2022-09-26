@@ -136,9 +136,11 @@ expect.extend({
       return {
         pass: false,
         message: () =>
-          'Expected valid template, got:' +
+          'Expected valid template, got error(s):' +
           '\n' +
-          result.errors.map((e) => e.message).join('\n'),
+          result.errors
+            .map((e) => `- ${e.path.join('.')} ${e.message}`)
+            .join('\n'),
       };
     }
 
