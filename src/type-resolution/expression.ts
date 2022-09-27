@@ -3,6 +3,7 @@ import {
   ArrayExpression,
   BooleanLiteral,
   IntrinsicExpression,
+  NullLiteral,
   NumberLiteral,
   ObjectExpression,
   StringLiteral,
@@ -23,6 +24,7 @@ export type TypedTemplateExpression =
   | NumberLiteral
   | BooleanLiteral
   | DateLiteral
+  | NullLiteral
   | TypedArrayExpression
   | TypedObjectExpression
   | EnumExpression

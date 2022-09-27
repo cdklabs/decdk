@@ -13,6 +13,7 @@ export type TemplateExpression =
   | ArrayLiteral
   | NumberLiteral
   | BooleanLiteral
+  | NullLiteral
   | IntrinsicExpression;
 
 export interface StringLiteral {
@@ -28,6 +29,10 @@ export interface NumberLiteral {
 export interface BooleanLiteral {
   readonly type: 'boolean';
   readonly value: boolean;
+}
+
+export interface NullLiteral {
+  readonly type: 'null';
 }
 
 export interface ObjectExpression<T> {
@@ -231,6 +236,9 @@ export function assertExpression(x: unknown): TemplateExpression {
 }
 
 export function parseExpression(x: unknown): TemplateExpression {
+  if (x == null) {
+    return { type: 'null' };
+  }
   if (typeof x === 'string') {
     return { type: 'string', value: x };
   }

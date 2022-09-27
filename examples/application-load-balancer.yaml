@@ -12,7 +12,7 @@ Resources:
           - T2
           - MICRO
       machineImage:
-        aws-cdk-lib.aws_ec2.AmazonLinuxImage: []
+        aws-cdk-lib.aws_ec2.AmazonLinuxImage: # parameters may be omitted when there are no mandatory arguments
   AModestLoad:
     Type: aws-cdk-lib.aws_autoscaling.TargetTrackingScalingPolicy
     'On': ASG
