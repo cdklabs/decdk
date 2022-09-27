@@ -25,13 +25,10 @@ describe('depending on a ResourceLike that is not a Construct', () => {
               Ref: 'MyVPC',
             },
             instanceType: {
-              'aws-cdk-lib.aws_ec2.InstanceType.of': {
-                instanceClass: 'T2',
-                instanceSize: 'MICRO',
-              },
+              'aws-cdk-lib.aws_ec2.InstanceType.of': ['T2', 'MICRO'],
             },
             machineImage: {
-              'aws-cdk-lib.aws_ec2.AmazonLinuxImage': {},
+              'aws-cdk-lib.aws_ec2.AmazonLinuxImage': [],
             },
           },
         },
@@ -39,10 +36,10 @@ describe('depending on a ResourceLike that is not a Construct', () => {
           Type: 'aws-cdk-lib.aws_autoscaling.TargetTrackingScalingPolicy',
           On: 'MyASG',
           Call: {
-            scaleOnRequestCount: {
-              id: 'AModestLoad',
-              targetRequestsPerMinute: 60,
-            },
+            scaleOnRequestCount: [
+              'AModestLoad',
+              { targetRequestsPerMinute: 60 },
+            ],
           },
           DependsOn: ['MyTarget'],
         },
@@ -59,25 +56,24 @@ describe('depending on a ResourceLike that is not a Construct', () => {
           Type: 'aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationListener',
           On: 'MyLB',
           Call: {
-            addListener: {
-              id: 'MyListener',
-              port: 80,
-            },
+            addListener: ['MyListener', { port: 80 }],
           },
         },
         MyTarget: {
           Type: 'aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationTargetGroup',
           On: 'MyListener',
           Call: {
-            addTargets: {
-              id: 'MyTarget',
-              port: 80,
-              targets: [
-                {
-                  Ref: 'MyASG',
-                },
-              ],
-            },
+            addTargets: [
+              'MyTarget',
+              {
+                port: 80,
+                targets: [
+                  {
+                    Ref: 'MyASG',
+                  },
+                ],
+              },
+            ],
           },
         },
       },

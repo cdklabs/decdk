@@ -10,9 +10,7 @@
       "Type": "aws-cdk-lib.aws_lambda.Function",
       "Properties": {
         "code": {
-          "aws-cdk-lib.aws_lambda.Code.fromInline": {
-            "code": "exports.handler = async function() { return 'SUCCESS'; }"
-          }
+          "aws-cdk-lib.aws_lambda.Code.fromInline": "exports.handler = async function() { return 'SUCCESS'; }"
         },
         "runtime": "NODEJS_16_X",
         "handler": "index.handler",

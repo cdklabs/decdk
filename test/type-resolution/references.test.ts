@@ -17,9 +17,7 @@ test('Constructs can be referenced', async () => {
         Type: 'aws-cdk-lib.aws_lambda.Function',
         Properties: {
           code: {
-            'aws-cdk-lib.aws_lambda.Code.fromAsset': {
-              path: 'examples/lambda-handler',
-            },
+            'aws-cdk-lib.aws_lambda.Code.fromAsset': 'examples/lambda-handler',
           },
           runtime: 'PYTHON_3_6',
           handler: 'index.handler',

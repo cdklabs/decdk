@@ -65,8 +65,7 @@ TypedTemplate {
                     "value": "examples/lambda-handler",
                   },
                   Object {
-                    "fields": Object {},
-                    "type": "struct",
+                    "type": "void",
                   },
                 ],
                 "type": "array",
@@ -144,13 +143,8 @@ TypedTemplate {
           "code": Object {
             "fields": Object {
               "aws-cdk-lib.aws_lambda.Code.fromAsset": Object {
-                "fields": Object {
-                  "path": Object {
-                    "type": "string",
-                    "value": "examples/lambda-handler",
-                  },
-                },
-                "type": "object",
+                "type": "string",
+                "value": "examples/lambda-handler",
               },
             },
             "type": "object",
@@ -246,9 +240,7 @@ TypedTemplate {
         "HelloLambda": Object {
           "Properties": Object {
             "code": Object {
-              "aws-cdk-lib.aws_lambda.Code.fromAsset": Object {
-                "path": "examples/lambda-handler",
-              },
+              "aws-cdk-lib.aws_lambda.Code.fromAsset": "examples/lambda-handler",
             },
             "handler": "index.handler",
             "runtime": "PYTHON_3_6",
@@ -384,8 +376,7 @@ TypedTemplate {
               "args": Object {
                 "array": Array [
                   Object {
-                    "fields": Object {},
-                    "type": "struct",
+                    "type": "void",
                   },
                 ],
                 "type": "array",
@@ -588,17 +579,17 @@ TypedTemplate {
           "instanceType": Object {
             "fields": Object {
               "aws-cdk-lib.aws_ec2.InstanceType.of": Object {
-                "fields": Object {
-                  "instanceClass": Object {
+                "array": Array [
+                  Object {
                     "type": "string",
                     "value": "T2",
                   },
-                  "instanceSize": Object {
+                  Object {
                     "type": "string",
                     "value": "MICRO",
                   },
-                },
-                "type": "object",
+                ],
+                "type": "array",
               },
             },
             "type": "object",
@@ -606,8 +597,8 @@ TypedTemplate {
           "machineImage": Object {
             "fields": Object {
               "aws-cdk-lib.aws_ec2.AmazonLinuxImage": Object {
-                "fields": Object {},
-                "type": "object",
+                "array": Array [],
+                "type": "array",
               },
             },
             "type": "object",
@@ -626,17 +617,22 @@ TypedTemplate {
         "call": Object {
           "fields": Object {
             "scaleOnRequestCount": Object {
-              "fields": Object {
-                "id": Object {
+              "array": Array [
+                Object {
                   "type": "string",
                   "value": "AModestLoad",
                 },
-                "targetRequestsPerMinute": Object {
-                  "type": "number",
-                  "value": 60,
+                Object {
+                  "fields": Object {
+                    "targetRequestsPerMinute": Object {
+                      "type": "number",
+                      "value": 60,
+                    },
+                  },
+                  "type": "object",
                 },
-              },
-              "type": "object",
+              ],
+              "type": "array",
             },
           },
           "type": "object",
@@ -691,17 +687,22 @@ TypedTemplate {
         "call": Object {
           "fields": Object {
             "addListener": Object {
-              "fields": Object {
-                "id": Object {
+              "array": Array [
+                Object {
                   "type": "string",
                   "value": "Listener",
                 },
-                "port": Object {
-                  "type": "number",
-                  "value": 80,
+                Object {
+                  "fields": Object {
+                    "port": Object {
+                      "type": "number",
+                      "value": 80,
+                    },
+                  },
+                  "type": "object",
                 },
-              },
-              "type": "object",
+              ],
+              "type": "array",
             },
           },
           "type": "object",
@@ -724,27 +725,32 @@ TypedTemplate {
         "call": Object {
           "fields": Object {
             "addTargets": Object {
-              "fields": Object {
-                "id": Object {
+              "array": Array [
+                Object {
                   "type": "string",
                   "value": "Target",
                 },
-                "port": Object {
-                  "type": "number",
-                  "value": 80,
-                },
-                "targets": Object {
-                  "array": Array [
-                    Object {
-                      "fn": "ref",
-                      "logicalId": "ASG",
-                      "type": "intrinsic",
+                Object {
+                  "fields": Object {
+                    "port": Object {
+                      "type": "number",
+                      "value": 80,
                     },
-                  ],
-                  "type": "array",
+                    "targets": Object {
+                      "array": Array [
+                        Object {
+                          "fn": "ref",
+                          "logicalId": "ASG",
+                          "type": "intrinsic",
+                        },
+                      ],
+                      "type": "array",
+                    },
+                  },
+                  "type": "object",
                 },
-              },
-              "type": "object",
+              ],
+              "type": "array",
             },
           },
           "type": "object",
@@ -768,13 +774,13 @@ TypedTemplate {
         "call": Object {
           "fields": Object {
             "connections.allowDefaultPortFromAnyIpv4": Object {
-              "fields": Object {
-                "description": Object {
+              "array": Array [
+                Object {
                   "type": "string",
                   "value": "Open to the world",
                 },
-              },
-              "type": "object",
+              ],
+              "type": "array",
             },
           },
           "type": "object",
@@ -798,10 +804,12 @@ TypedTemplate {
       "Resources": Object {
         "AModestLoad": Object {
           "Call": Object {
-            "scaleOnRequestCount": Object {
-              "id": "AModestLoad",
-              "targetRequestsPerMinute": 60,
-            },
+            "scaleOnRequestCount": Array [
+              "AModestLoad",
+              Object {
+                "targetRequestsPerMinute": 60,
+              },
+            ],
           },
           "DependsOn": Array [
             "Target",
@@ -812,13 +820,13 @@ TypedTemplate {
         "ASG": Object {
           "Properties": Object {
             "instanceType": Object {
-              "aws-cdk-lib.aws_ec2.InstanceType.of": Object {
-                "instanceClass": "T2",
-                "instanceSize": "MICRO",
-              },
+              "aws-cdk-lib.aws_ec2.InstanceType.of": Array [
+                "T2",
+                "MICRO",
+              ],
             },
             "machineImage": Object {
-              "aws-cdk-lib.aws_ec2.AmazonLinuxImage": Object {},
+              "aws-cdk-lib.aws_ec2.AmazonLinuxImage": Array [],
             },
             "vpc": Object {
               "Ref": "VPC",
@@ -828,9 +836,9 @@ TypedTemplate {
         },
         "AllowFromEverywhere": Object {
           "Call": Object {
-            "connections.allowDefaultPortFromAnyIpv4": Object {
-              "description": "Open to the world",
-            },
+            "connections.allowDefaultPortFromAnyIpv4": Array [
+              "Open to the world",
+            ],
           },
           "On": "Listener",
         },
@@ -845,25 +853,29 @@ TypedTemplate {
         },
         "Listener": Object {
           "Call": Object {
-            "addListener": Object {
-              "id": "Listener",
-              "port": 80,
-            },
+            "addListener": Array [
+              "Listener",
+              Object {
+                "port": 80,
+              },
+            ],
           },
           "On": "LB",
           "Type": "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationListener",
         },
         "Target": Object {
           "Call": Object {
-            "addTargets": Object {
-              "id": "Target",
-              "port": 80,
-              "targets": Array [
-                Object {
-                  "Ref": "ASG",
-                },
-              ],
-            },
+            "addTargets": Array [
+              "Target",
+              Object {
+                "port": 80,
+                "targets": Array [
+                  Object {
+                    "Ref": "ASG",
+                  },
+                ],
+              },
+            ],
           },
           "On": "Listener",
           "Type": "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationTargetGroup",
@@ -1405,8 +1417,7 @@ TypedTemplate {
                     "value": "redis",
                   },
                   Object {
-                    "fields": Object {},
-                    "type": "struct",
+                    "type": "void",
                   },
                 ],
                 "type": "array",
@@ -1636,13 +1647,8 @@ TypedTemplate {
           "image": Object {
             "fields": Object {
               "aws-cdk-lib.aws_ecs.ContainerImage.fromRegistry": Object {
-                "fields": Object {
-                  "name": Object {
-                    "type": "string",
-                    "value": "redis",
-                  },
-                },
-                "type": "object",
+                "type": "string",
+                "value": "redis",
               },
             },
             "type": "object",
@@ -1710,9 +1716,7 @@ TypedTemplate {
           "Properties": Object {
             "essential": true,
             "image": Object {
-              "aws-cdk-lib.aws_ecs.ContainerImage.fromRegistry": Object {
-                "name": "redis",
-              },
+              "aws-cdk-lib.aws_ecs.ContainerImage.fromRegistry": "redis",
             },
             "memoryLimitMiB": 1024,
             "taskDefinition": Object {
@@ -1815,8 +1819,7 @@ TypedTemplate {
                     "type": "void",
                   },
                   Object {
-                    "fields": Object {},
-                    "type": "struct",
+                    "type": "void",
                   },
                 ],
                 "type": "array",
@@ -1911,17 +1914,17 @@ TypedTemplate {
           "instanceType": Object {
             "fields": Object {
               "aws-cdk-lib.aws_ec2.InstanceType.of": Object {
-                "fields": Object {
-                  "instanceClass": Object {
+                "array": Array [
+                  Object {
                     "type": "string",
                     "value": "T2",
                   },
-                  "instanceSize": Object {
+                  Object {
                     "type": "string",
                     "value": "XLARGE",
                   },
-                },
-                "type": "object",
+                ],
+                "type": "array",
               },
             },
             "type": "object",
@@ -1929,8 +1932,8 @@ TypedTemplate {
           "machineImage": Object {
             "fields": Object {
               "aws-cdk-lib.aws_ecs.EcsOptimizedImage.amazonLinux2": Object {
-                "fields": Object {},
-                "type": "object",
+                "array": Array [],
+                "type": "array",
               },
             },
             "type": "object",
@@ -1954,13 +1957,13 @@ TypedTemplate {
           "Properties": Object {
             "desiredCapacity": 3,
             "instanceType": Object {
-              "aws-cdk-lib.aws_ec2.InstanceType.of": Object {
-                "instanceClass": "T2",
-                "instanceSize": "XLARGE",
-              },
+              "aws-cdk-lib.aws_ec2.InstanceType.of": Array [
+                "T2",
+                "XLARGE",
+              ],
             },
             "machineImage": Object {
-              "aws-cdk-lib.aws_ecs.EcsOptimizedImage.amazonLinux2": Object {},
+              "aws-cdk-lib.aws_ecs.EcsOptimizedImage.amazonLinux2": Array [],
             },
             "vpc": Object {
               "Ref": "MyVpc",
@@ -2029,8 +2032,7 @@ TypedTemplate {
                     "value": "examples/lambda-handler",
                   },
                   Object {
-                    "fields": Object {},
-                    "type": "struct",
+                    "type": "void",
                   },
                 ],
                 "type": "array",
@@ -2092,8 +2094,7 @@ TypedTemplate {
                         "value": "/hello",
                       },
                       Object {
-                        "fields": Object {},
-                        "type": "struct",
+                        "type": "void",
                       },
                     ],
                     "type": "array",
@@ -2114,8 +2115,7 @@ TypedTemplate {
                         "value": "/hello",
                       },
                       Object {
-                        "fields": Object {},
-                        "type": "struct",
+                        "type": "void",
                       },
                     ],
                     "type": "array",
@@ -2136,8 +2136,7 @@ TypedTemplate {
                         "type": "resolve-reference",
                       },
                       Object {
-                        "fields": Object {},
-                        "type": "struct",
+                        "type": "void",
                       },
                     ],
                     "type": "array",
@@ -2304,13 +2303,8 @@ TypedTemplate {
           "code": Object {
             "fields": Object {
               "aws-cdk-lib.aws_lambda.Code.fromAsset": Object {
-                "fields": Object {
-                  "path": Object {
-                    "type": "string",
-                    "value": "examples/lambda-handler",
-                  },
-                },
-                "type": "object",
+                "type": "string",
+                "value": "examples/lambda-handler",
               },
             },
             "type": "object",
@@ -2329,18 +2323,23 @@ TypedTemplate {
               Object {
                 "fields": Object {
                   "aws-cdk-lib.aws_lambda_event_sources.DynamoEventSource": Object {
-                    "fields": Object {
-                      "startingPosition": Object {
-                        "type": "string",
-                        "value": "TRIM_HORIZON",
-                      },
-                      "table": Object {
+                    "array": Array [
+                      Object {
                         "fn": "ref",
                         "logicalId": "Table",
                         "type": "intrinsic",
                       },
-                    },
-                    "type": "object",
+                      Object {
+                        "fields": Object {
+                          "startingPosition": Object {
+                            "type": "string",
+                            "value": "TRIM_HORIZON",
+                          },
+                        },
+                        "type": "object",
+                      },
+                    ],
+                    "type": "array",
                   },
                 },
                 "type": "object",
@@ -2348,17 +2347,17 @@ TypedTemplate {
               Object {
                 "fields": Object {
                   "aws-cdk-lib.aws_lambda_event_sources.ApiEventSource": Object {
-                    "fields": Object {
-                      "method": Object {
+                    "array": Array [
+                      Object {
                         "type": "string",
                         "value": "GET",
                       },
-                      "path": Object {
+                      Object {
                         "type": "string",
                         "value": "/hello",
                       },
-                    },
-                    "type": "object",
+                    ],
+                    "type": "array",
                   },
                 },
                 "type": "object",
@@ -2366,17 +2365,17 @@ TypedTemplate {
               Object {
                 "fields": Object {
                   "aws-cdk-lib.aws_lambda_event_sources.ApiEventSource": Object {
-                    "fields": Object {
-                      "method": Object {
+                    "array": Array [
+                      Object {
                         "type": "string",
                         "value": "POST",
                       },
-                      "path": Object {
+                      Object {
                         "type": "string",
                         "value": "/hello",
                       },
-                    },
-                    "type": "object",
+                    ],
+                    "type": "array",
                   },
                 },
                 "type": "object",
@@ -2384,14 +2383,9 @@ TypedTemplate {
               Object {
                 "fields": Object {
                   "aws-cdk-lib.aws_lambda_event_sources.SnsEventSource": Object {
-                    "fields": Object {
-                      "topic": Object {
-                        "fn": "ref",
-                        "logicalId": "MyTopic",
-                        "type": "intrinsic",
-                      },
-                    },
-                    "type": "object",
+                    "fn": "ref",
+                    "logicalId": "MyTopic",
+                    "type": "intrinsic",
                   },
                 },
                 "type": "object",
@@ -2429,39 +2423,37 @@ TypedTemplate {
           ],
           "Properties": Object {
             "code": Object {
-              "aws-cdk-lib.aws_lambda.Code.fromAsset": Object {
-                "path": "examples/lambda-handler",
-              },
+              "aws-cdk-lib.aws_lambda.Code.fromAsset": "examples/lambda-handler",
             },
             "environment": Object {
               "Param": "f",
             },
             "events": Array [
               Object {
-                "aws-cdk-lib.aws_lambda_event_sources.DynamoEventSource": Object {
-                  "startingPosition": "TRIM_HORIZON",
-                  "table": Object {
+                "aws-cdk-lib.aws_lambda_event_sources.DynamoEventSource": Array [
+                  Object {
                     "Ref": "Table",
                   },
-                },
+                  Object {
+                    "startingPosition": "TRIM_HORIZON",
+                  },
+                ],
               },
               Object {
-                "aws-cdk-lib.aws_lambda_event_sources.ApiEventSource": Object {
-                  "method": "GET",
-                  "path": "/hello",
-                },
+                "aws-cdk-lib.aws_lambda_event_sources.ApiEventSource": Array [
+                  "GET",
+                  "/hello",
+                ],
               },
               Object {
-                "aws-cdk-lib.aws_lambda_event_sources.ApiEventSource": Object {
-                  "method": "POST",
-                  "path": "/hello",
-                },
+                "aws-cdk-lib.aws_lambda_event_sources.ApiEventSource": Array [
+                  "POST",
+                  "/hello",
+                ],
               },
               Object {
                 "aws-cdk-lib.aws_lambda_event_sources.SnsEventSource": Object {
-                  "topic": Object {
-                    "Ref": "MyTopic",
-                  },
+                  "Ref": "MyTopic",
                 },
               },
             ],
@@ -2616,13 +2608,8 @@ TypedTemplate {
           "code": Object {
             "fields": Object {
               "aws-cdk-lib.aws_lambda.Code.fromInline": Object {
-                "fields": Object {
-                  "code": Object {
-                    "type": "string",
-                    "value": "exports.handler = async function() { return 'SUCCESS'; }",
-                  },
-                },
-                "type": "object",
+                "type": "string",
+                "value": "exports.handler = async function() { return 'SUCCESS'; }",
               },
             },
             "type": "object",
@@ -2662,9 +2649,7 @@ TypedTemplate {
         "Lambda": Object {
           "Properties": Object {
             "code": Object {
-              "aws-cdk-lib.aws_lambda.Code.fromInline": Object {
-                "code": "exports.handler = async function() { return 'SUCCESS'; }",
-              },
+              "aws-cdk-lib.aws_lambda.Code.fromInline": "exports.handler = async function() { return 'SUCCESS'; }",
             },
             "handler": "index.handler",
             "layers": Array [
@@ -2869,18 +2854,18 @@ TypedTemplate {
           "code": Object {
             "fields": Object {
               "aws-cdk-lib.aws_lambda.Code.fromBucket": Object {
-                "fields": Object {
-                  "bucket": Object {
+                "array": Array [
+                  Object {
                     "fn": "ref",
                     "logicalId": "MyBucket",
                     "type": "intrinsic",
                   },
-                  "key": Object {
+                  Object {
                     "type": "string",
                     "value": "handler.zip",
                   },
-                },
-                "type": "object",
+                ],
+                "type": "array",
               },
             },
             "type": "object",
@@ -2894,8 +2879,8 @@ TypedTemplate {
               Object {
                 "fields": Object {
                   "aws-cdk-lib.aws_iam.PolicyStatement.fromJson": Object {
-                    "fields": Object {
-                      "obj": Object {
+                    "array": Array [
+                      Object {
                         "fields": Object {
                           "Action": Object {
                             "array": Array [
@@ -2950,8 +2935,8 @@ TypedTemplate {
                         },
                         "type": "object",
                       },
-                    },
-                    "type": "object",
+                    ],
+                    "type": "array",
                   },
                 },
                 "type": "object",
@@ -2998,18 +2983,18 @@ TypedTemplate {
         "MyLambda": Object {
           "Properties": Object {
             "code": Object {
-              "aws-cdk-lib.aws_lambda.Code.fromBucket": Object {
-                "bucket": Object {
+              "aws-cdk-lib.aws_lambda.Code.fromBucket": Array [
+                Object {
                   "Ref": "MyBucket",
                 },
-                "key": "handler.zip",
-              },
+                "handler.zip",
+              ],
             },
             "handler": "index.handler",
             "initialPolicy": Array [
               Object {
-                "aws-cdk-lib.aws_iam.PolicyStatement.fromJson": Object {
-                  "obj": Object {
+                "aws-cdk-lib.aws_iam.PolicyStatement.fromJson": Array [
+                  Object {
                     "Action": Array [
                       "s3:GetObject*",
                       "s3:PutObject*",
@@ -3032,7 +3017,7 @@ TypedTemplate {
                       },
                     ],
                   },
-                },
+                ],
               },
             ],
             "memorySize": 10240,
@@ -3082,8 +3067,7 @@ TypedTemplate {
                     "value": "examples/lambda-handler",
                   },
                   Object {
-                    "fields": Object {},
-                    "type": "struct",
+                    "type": "void",
                   },
                 ],
                 "type": "array",
@@ -3143,13 +3127,8 @@ TypedTemplate {
           "code": Object {
             "fields": Object {
               "aws-cdk-lib.aws_lambda.Code.fromAsset": Object {
-                "fields": Object {
-                  "path": Object {
-                    "type": "string",
-                    "value": "examples/lambda-handler",
-                  },
-                },
-                "type": "object",
+                "type": "string",
+                "value": "examples/lambda-handler",
               },
             },
             "type": "object",
@@ -3184,9 +3163,7 @@ TypedTemplate {
           ],
           "Properties": Object {
             "code": Object {
-              "aws-cdk-lib.aws_lambda.Code.fromAsset": Object {
-                "path": "examples/lambda-handler",
-              },
+              "aws-cdk-lib.aws_lambda.Code.fromAsset": "examples/lambda-handler",
             },
             "description": "This function has its service role removed, for demonstration purposes. You probably wouldn't do this to a real function",
             "handler": "index.handler",
@@ -3235,8 +3212,7 @@ TypedTemplate {
                     "value": "examples/lambda-handler",
                   },
                   Object {
-                    "fields": Object {},
-                    "type": "struct",
+                    "type": "void",
                   },
                 ],
                 "type": "array",
@@ -3260,8 +3236,7 @@ TypedTemplate {
                         "type": "resolve-reference",
                       },
                       Object {
-                        "fields": Object {},
-                        "type": "struct",
+                        "type": "void",
                       },
                     ],
                     "type": "array",
@@ -3346,13 +3321,8 @@ TypedTemplate {
           "code": Object {
             "fields": Object {
               "aws-cdk-lib.aws_lambda.Code.fromAsset": Object {
-                "fields": Object {
-                  "path": Object {
-                    "type": "string",
-                    "value": "examples/lambda-handler",
-                  },
-                },
-                "type": "object",
+                "type": "string",
+                "value": "examples/lambda-handler",
               },
             },
             "type": "object",
@@ -3362,14 +3332,9 @@ TypedTemplate {
               Object {
                 "fields": Object {
                   "aws-cdk-lib.aws_lambda_event_sources.SnsEventSource": Object {
-                    "fields": Object {
-                      "topic": Object {
-                        "fn": "ref",
-                        "logicalId": "Topic",
-                        "type": "intrinsic",
-                      },
-                    },
-                    "type": "object",
+                    "fn": "ref",
+                    "logicalId": "Topic",
+                    "type": "intrinsic",
                   },
                 },
                 "type": "object",
@@ -3397,16 +3362,12 @@ TypedTemplate {
         "Lambda": Object {
           "Properties": Object {
             "code": Object {
-              "aws-cdk-lib.aws_lambda.Code.fromAsset": Object {
-                "path": "examples/lambda-handler",
-              },
+              "aws-cdk-lib.aws_lambda.Code.fromAsset": "examples/lambda-handler",
             },
             "events": Array [
               Object {
                 "aws-cdk-lib.aws_lambda_event_sources.SnsEventSource": Object {
-                  "topic": Object {
-                    "Ref": "Topic",
-                  },
+                  "Ref": "Topic",
                 },
               },
             ],
@@ -4494,13 +4455,8 @@ TypedTemplate {
                               "output": Object {
                                 "fields": Object {
                                   "aws-cdk-lib.aws_codepipeline.Artifact.artifact": Object {
-                                    "fields": Object {
-                                      "name": Object {
-                                        "type": "string",
-                                        "value": "Source",
-                                      },
-                                    },
-                                    "type": "object",
+                                    "type": "string",
+                                    "value": "Source",
                                   },
                                 },
                                 "type": "object",
@@ -4541,13 +4497,8 @@ TypedTemplate {
                               "input": Object {
                                 "fields": Object {
                                   "aws-cdk-lib.aws_codepipeline.Artifact.artifact": Object {
-                                    "fields": Object {
-                                      "name": Object {
-                                        "type": "string",
-                                        "value": "Source",
-                                      },
-                                    },
-                                    "type": "object",
+                                    "type": "string",
+                                    "value": "Source",
                                   },
                                 },
                                 "type": "object",
@@ -4557,13 +4508,8 @@ TypedTemplate {
                                   Object {
                                     "fields": Object {
                                       "aws-cdk-lib.aws_codepipeline.Artifact.artifact": Object {
-                                        "fields": Object {
-                                          "name": Object {
-                                            "type": "string",
-                                            "value": "Build",
-                                          },
-                                        },
-                                        "type": "object",
+                                        "type": "string",
+                                        "value": "Build",
                                       },
                                     },
                                     "type": "object",
@@ -4615,17 +4561,17 @@ TypedTemplate {
                               "templatePath": Object {
                                 "fields": Object {
                                   "aws-cdk-lib.aws_codepipeline.ArtifactPath.artifactPath": Object {
-                                    "fields": Object {
-                                      "artifactName": Object {
+                                    "array": Array [
+                                      Object {
                                         "type": "string",
                                         "value": "Build",
                                       },
-                                      "fileName": Object {
+                                      Object {
                                         "type": "string",
                                         "value": "template.yaml",
                                       },
-                                    },
-                                    "type": "object",
+                                    ],
+                                    "type": "array",
                                   },
                                 },
                                 "type": "object",
@@ -4680,9 +4626,7 @@ TypedTemplate {
                     "aws-cdk-lib.aws_codepipeline_actions.CodeCommitSourceAction": Object {
                       "actionName": "Source",
                       "output": Object {
-                        "aws-cdk-lib.aws_codepipeline.Artifact.artifact": Object {
-                          "name": "Source",
-                        },
+                        "aws-cdk-lib.aws_codepipeline.Artifact.artifact": "Source",
                       },
                       "repository": Object {
                         "Ref": "Repo",
@@ -4698,15 +4642,11 @@ TypedTemplate {
                     "aws-cdk-lib.aws_codepipeline_actions.CodeBuildAction": Object {
                       "actionName": "Build",
                       "input": Object {
-                        "aws-cdk-lib.aws_codepipeline.Artifact.artifact": Object {
-                          "name": "Source",
-                        },
+                        "aws-cdk-lib.aws_codepipeline.Artifact.artifact": "Source",
                       },
                       "outputs": Array [
                         Object {
-                          "aws-cdk-lib.aws_codepipeline.Artifact.artifact": Object {
-                            "name": "Build",
-                          },
+                          "aws-cdk-lib.aws_codepipeline.Artifact.artifact": "Build",
                         },
                       ],
                       "project": Object {
@@ -4725,10 +4665,10 @@ TypedTemplate {
                       "adminPermissions": true,
                       "stackName": "MyStack",
                       "templatePath": Object {
-                        "aws-cdk-lib.aws_codepipeline.ArtifactPath.artifactPath": Object {
-                          "artifactName": "Build",
-                          "fileName": "template.yaml",
-                        },
+                        "aws-cdk-lib.aws_codepipeline.ArtifactPath.artifactPath": Array [
+                          "Build",
+                          "template.yaml",
+                        ],
                       },
                     },
                   },

@@ -32,9 +32,7 @@
         "essential": true,
         "memoryLimitMiB": 1024,
         "image": {
-          "aws-cdk-lib.aws_ecs.ContainerImage.fromRegistry": {
-            "name": "redis"
-          }
+          "aws-cdk-lib.aws_ecs.ContainerImage.fromRegistry": "redis"
         }
       }
     },

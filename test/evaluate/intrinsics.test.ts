@@ -10,15 +10,13 @@ test('can use intrinsic where primitive number is expected', async () => {
           Type: 'aws-cdk-lib.aws_lambda.Function',
           Properties: {
             code: {
-              'aws-cdk-lib.aws_lambda.Code.fromInline': {
-                code: 'whatever',
-              },
+              'aws-cdk-lib.aws_lambda.Code.fromInline': 'whatever',
             },
             runtime: 'NODEJS_16_X',
             handler: 'index.handler',
             timeout: {
               'aws-cdk-lib.Duration.seconds': {
-                amount: { 'Fn::Select': [0, [5, 15, 20]] },
+                'Fn::Select': [0, [5, 15, 20]],
               },
             },
           },
@@ -418,9 +416,8 @@ describe('FnGetProp', () => {
             handler: 'app.hello_handler',
             runtime: 'PYTHON_3_9',
             code: {
-              'aws-cdk-lib.aws_lambda.Code.fromAsset': {
-                path: 'examples/lambda-handler',
-              },
+              'aws-cdk-lib.aws_lambda.Code.fromAsset':
+                'examples/lambda-handler',
             },
           },
         },
@@ -455,9 +452,8 @@ describe('FnGetProp', () => {
             handler: 'app.hello_handler',
             runtime: 'PYTHON_3_9',
             code: {
-              'aws-cdk-lib.aws_lambda.Code.fromAsset': {
-                path: 'examples/lambda-handler',
-              },
+              'aws-cdk-lib.aws_lambda.Code.fromAsset':
+                'examples/lambda-handler',
             },
           },
         },
@@ -745,14 +741,12 @@ test('FnSub', async () => {
             description: { 'Fn::Sub': '${AWS::Region} ${!AWS::Region}' },
             assumedBy: {
               'aws-cdk-lib.aws_iam.ServicePrincipal': {
-                service: {
-                  'Fn::Sub': [
-                    'appsync.${Domain}.com',
-                    {
-                      Domain: { Ref: 'Bucket' },
-                    },
-                  ],
-                },
+                'Fn::Sub': [
+                  'appsync.${Domain}.com',
+                  {
+                    Domain: { Ref: 'Bucket' },
+                  },
+                ],
               },
             },
           },

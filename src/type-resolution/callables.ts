@@ -11,7 +11,7 @@ import {
   TemplateExpression,
   TemplateResource,
 } from '../parser/template';
-import { isDataType, staticNonVoidMethods } from '../schema';
+import { staticNonVoidMethods } from '../schema';
 import { splitPath } from '../strings';
 import {
   assertExpressionType,
@@ -185,10 +185,7 @@ function argsFromCall(
   fields: Record<string, TemplateExpression>
 ): TypedArrayExpression {
   const value = fields[methodName];
-  if (value.type === 'object') {
-    const parameters = assertExpressionType(fields[methodName], 'object');
-    return resolveCallableParameters(parameters, method);
-  } else if (value.type === 'array') {
+  if (value.type === 'array') {
     const parameters = assertExpressionType(fields[methodName], 'array');
     return resolvePositionalCallableParameters(parameters, method);
   } else {
@@ -254,13 +251,17 @@ export function resolveInstanceExpression(
   );
   const selectedSubClass = candidateClass;
 
-  const parameters = assertExpressionType(
-    x.fields[selectedSubClassFQN],
-    'object'
-  );
+  const maybeArray = x.fields[selectedSubClassFQN];
+  const parameters: ArrayLiteral =
+    maybeArray.type === 'array'
+      ? maybeArray
+      : {
+          type: 'array',
+          array: [maybeArray],
+        };
 
   const initializer = assertInitializer(selectedSubClass);
-  const args = resolveCallableParameters(parameters, initializer);
+  const args = resolvePositionalCallableParameters(parameters, initializer);
 
   return {
     type: 'initializer',
@@ -276,32 +277,6 @@ export function assertInitializer(type: reflect.Type): reflect.Initializer {
   }
 
   return type.initializer;
-}
-
-export function resolveCallableParameters(
-  x: ObjectLiteral,
-  callable: reflect.Callable
-): TypedArrayExpression {
-  const args: TypedTemplateExpression[] = [];
-
-  for (let i = 0; i < callable.parameters.length; ++i) {
-    const p = callable.parameters[i];
-
-    // kwargs: if this is the last argument and a data type, flatten (treat as keyword args)
-    // we pass in all parameters as the value, and the positional arguments will be ignored since
-    // we are promised there are no conflicts
-    if (i === callable.parameters.length - 1 && isDataType(p.type.type)) {
-      args.push(resolveExpressionType(x, p.type));
-      continue;
-    }
-
-    args.push(parameterToArg(x.fields[p.name], p, callable));
-  }
-
-  return {
-    type: 'array',
-    array: args,
-  };
 }
 
 export function resolvePositionalCallableParameters(
