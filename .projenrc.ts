@@ -57,7 +57,7 @@ const project = new typescript.TypeScriptProject({
     },
   },
 
-  gitignore: ['cdk.out'],
+  gitignore: ['cdk.out', '/.idea'],
 });
 
 // Build schema after compilation

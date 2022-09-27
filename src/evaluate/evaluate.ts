@@ -24,6 +24,7 @@ import {
 } from '../type-resolution/callables';
 import { TypedTemplateExpression } from '../type-resolution/expression';
 import { EvaluationContext } from './context';
+import { DeCDKCfnOutput } from './outputs';
 import { applyOverride } from './overrides';
 import {
   CfnResourceReference,
@@ -49,9 +50,21 @@ export class Evaluator {
       this.context.addReference(new SimpleReference(paramName));
     });
 
-    return this.context.template.resources.forEach((_logicalId, resource) =>
+    this.context.template.resources.forEach((_logicalId, resource) =>
       this.evaluateResource(resource)
     );
+
+    this.context.template.outputs.forEach((output, outputId) => {
+      new DeCDKCfnOutput(this.context.stack, outputId, {
+        value: this.evaluate(output.value),
+        description: output.description,
+        exportName: output.exportName
+          ? this.evaluate(output.exportName)
+          : output.exportName,
+        condition: output.conditionName,
+      });
+      this.context.addReference(new SimpleReference(outputId));
+    });
   }
 
   public evaluateResource(resource: ResourceLike) {

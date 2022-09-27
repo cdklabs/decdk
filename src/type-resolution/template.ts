@@ -6,7 +6,7 @@ import {
   TemplateParameter,
 } from '../parser/template';
 import { TemplateMapping } from '../parser/template/mappings';
-import { TemplateOutput } from '../parser/template/output';
+import { toTypedTemplateExpression, TypedTemplateOutput } from './expression';
 import { resolveResourceLike, ResourceLike } from './resource-like';
 
 export interface TypedTemplateProps {
@@ -21,7 +21,7 @@ export class TypedTemplate {
   public readonly parameters: Map<string, TemplateParameter>;
   public readonly conditions: Map<string, TemplateExpression>;
   public readonly mappings: Map<string, TemplateMapping>;
-  public readonly outputs: Map<string, TemplateOutput>;
+  public readonly outputs: Map<string, TypedTemplateOutput>;
 
   constructor(public template: Template, props: TypedTemplateProps) {
     this.resources = template
@@ -33,7 +33,18 @@ export class TypedTemplate {
     this.parameters = template.parameters;
     this.conditions = template.conditions;
     this.mappings = template.mappings;
-    this.outputs = template.outputs;
+    this.outputs = new Map();
+    for (let [logicalId, output] of template.outputs) {
+      const typedOutput = {
+        exportName: output.exportName
+          ? toTypedTemplateExpression(output.exportName)
+          : output.exportName,
+        conditionName: output.conditionName,
+        value: toTypedTemplateExpression(output.value),
+        description: output.description,
+      } as TypedTemplateOutput;
+      this.outputs.set(logicalId, typedOutput);
+    }
   }
 
   public resource(logicalId: string) {

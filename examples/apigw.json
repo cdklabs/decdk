@@ -32,5 +32,14 @@
         "httpMethod": "GET"
       }
     }
+  },
+  "Outputs": {
+    "SimpleValue": {
+      "Value": "SimpleValue",
+      "Description": "Sample primitive output value",
+      "Export": {
+        "Name": "SimpleValueExportName"
+      }
+    }
   }
 }
