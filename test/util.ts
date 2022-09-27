@@ -60,6 +60,10 @@ export class Testing {
     return loadExamples();
   }
 
+  public static get schema() {
+    return loadJsonSchemaFromFile();
+  }
+
   public static async synth(template: Template, validateTemplate = true) {
     const { app, stack } = await this.prepare(template, validateTemplate);
 
