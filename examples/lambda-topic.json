@@ -8,16 +8,14 @@
       "Type": "aws-cdk-lib.aws_lambda.Function",
       "Properties": {
         "code": {
-          "aws-cdk-lib.aws_lambda.Code.fromAsset": {
-            "path": "examples/lambda-handler"
-          }
+          "aws-cdk-lib.aws_lambda.Code.fromAsset": "examples/lambda-handler"
         },
         "runtime": "NODEJS",
         "handler": "index.handler",
         "events": [
           {
             "aws-cdk-lib.aws_lambda_event_sources.SnsEventSource": {
-              "topic": { "Ref": "Topic" }
+              "Ref": "Topic"
             }
           }
         ]

@@ -17,9 +17,7 @@ test('Static Methods are resolved correctly', async () => {
         Type: 'aws-cdk-lib.aws_lambda.Function',
         Properties: {
           code: {
-            'aws-cdk-lib.aws_lambda.Code.fromAsset': {
-              path: 'examples/lambda-handler',
-            },
+            'aws-cdk-lib.aws_lambda.Code.fromAsset': 'examples/lambda-handler',
           },
           runtime: 'PYTHON_3_6',
           handler: 'index.handler',
@@ -60,13 +58,10 @@ test('Can provide implementation via static method', async () => {
         Properties: {
           vpc: { Ref: 'MyVpc' },
           instanceType: {
-            'aws-cdk-lib.aws_ec2.InstanceType.of': {
-              instanceClass: 'T2',
-              instanceSize: 'XLARGE',
-            },
+            'aws-cdk-lib.aws_ec2.InstanceType.of': ['T2', 'XLARGE'],
           },
           machineImage: {
-            'aws-cdk-lib.aws_ecs.EcsOptimizedImage.amazonLinux2': {},
+            'aws-cdk-lib.aws_ecs.EcsOptimizedImage.amazonLinux2': [],
           },
           desiredCapacity: 3,
         },
@@ -99,9 +94,7 @@ test('Resources can be created by calling instance methods on constructs', async
         Type: 'aws-cdk-lib.aws_lambda.Alias',
         On: 'MyFunction',
         Call: {
-          addAlias: {
-            aliasName: 'live',
-          },
+          addAlias: 'live',
         },
       },
       MyFunction: {
@@ -139,8 +132,7 @@ test('Resources can be created by calling instance methods on constructs', async
             value: 'live',
           },
           {
-            fields: {},
-            type: 'struct',
+            type: 'void',
           },
         ],
       },
@@ -221,9 +213,7 @@ test('Calls to methods that do not exist are not allowed', async () => {
         Type: 'aws-cdk-lib.aws_lambda.Function',
         Properties: {
           code: {
-            'aws-cdk-lib.aws_lambda.Code.fromAsset': {
-              path: 'examples/lambda-handler',
-            },
+            'aws-cdk-lib.aws_lambda.Code.fromAsset': 'examples/lambda-handler',
           },
           runtime: 'PYTHON_3_6',
           handler: 'index.handler',
@@ -250,9 +240,7 @@ test('Declared type must match returned type', async () => {
         Type: 'aws-cdk-lib.aws_lambda.Function',
         Properties: {
           code: {
-            'aws-cdk-lib.aws_lambda.Code.fromAsset': {
-              path: 'examples/lambda-handler',
-            },
+            'aws-cdk-lib.aws_lambda.Code.fromAsset': 'examples/lambda-handler',
           },
           runtime: 'PYTHON_3_6',
           handler: 'index.handler',
@@ -262,9 +250,7 @@ test('Declared type must match returned type', async () => {
         Type: 'aws-cdk-lib.aws_apigateway.RestApi', // wrong type
         On: 'MyLambda',
         Call: {
-          addAlias: {
-            aliasName: 'live',
-          },
+          addAlias: 'live',
         },
       },
     },
@@ -296,9 +282,7 @@ test('Resources created by method calls can have the type omitted', () => {
         Type: 'aws-cdk-lib.aws_lambda.Function',
         Properties: {
           code: {
-            'aws-cdk-lib.aws_lambda.Code.fromAsset': {
-              path: 'examples/lambda-handler',
-            },
+            'aws-cdk-lib.aws_lambda.Code.fromAsset': 'examples/lambda-handler',
           },
           runtime: 'PYTHON_3_6',
           handler: 'index.handler',
@@ -350,18 +334,15 @@ test('Types can be inferred transitively', () => {
           handler: 'index.handler',
           runtime: 'NODEJS_14_X',
           code: {
-            'aws-cdk-lib.aws_lambda.Code.fromInline': {
-              code: "exports.handler = async function() { return 'SUCCESS'; }",
-            },
+            'aws-cdk-lib.aws_lambda.Code.fromInline':
+              "exports.handler = async function() { return 'SUCCESS'; }",
           },
         },
       },
       Alias: {
         On: 'MyFunction',
         Call: {
-          addAlias: {
-            aliasName: 'live',
-          },
+          addAlias: 'live',
         },
       },
       ConfigureAsyncInvokeStatement: {
@@ -410,9 +391,8 @@ test('Resources can be created by calling instance methods on nested construct',
           handler: 'index.handler',
           runtime: 'NODEJS_14_X',
           code: {
-            'aws-cdk-lib.aws_lambda.Code.fromInline': {
-              code: "exports.handler = async function() { return 'SUCCESS'; }",
-            },
+            'aws-cdk-lib.aws_lambda.Code.fromInline':
+              "exports.handler = async function() { return 'SUCCESS'; }",
           },
         },
       },
@@ -422,9 +402,7 @@ test('Resources can be created by calling instance methods on nested construct',
       Grant: {
         On: 'Function',
         Call: {
-          'logGroup.grantWrite': {
-            grantee: { Ref: 'User' },
-          },
+          'logGroup.grantWrite': { Ref: 'User' },
         },
       },
     },
@@ -469,9 +447,8 @@ test('Nested construct paths must be valid', () => {
           handler: 'index.handler',
           runtime: 'NODEJS_14_X',
           code: {
-            'aws-cdk-lib.aws_lambda.Code.fromInline': {
-              code: "exports.handler = async function() { return 'SUCCESS'; }",
-            },
+            'aws-cdk-lib.aws_lambda.Code.fromInline':
+              "exports.handler = async function() { return 'SUCCESS'; }",
           },
         },
       },
@@ -481,9 +458,7 @@ test('Nested construct paths must be valid', () => {
       Grant: {
         On: 'Function',
         Call: {
-          'foo.grantWrite': {
-            grantee: { Ref: 'User' },
-          },
+          'foo.grantWrite': { Ref: 'User' },
         },
       },
     },
@@ -492,41 +467,6 @@ test('Nested construct paths must be valid', () => {
   expect(() => new TypedTemplate(template, { typeSystem })).toThrow(
     `Invalid construct path 'foo'`
   );
-});
-
-test('Calls can be made using positional arguments', async () => {
-  const template = await Template.fromObject({
-    Resources: {
-      MyLambda: {
-        Type: 'aws-cdk-lib.aws_lambda.Function',
-        Properties: {
-          code: {
-            'aws-cdk-lib.aws_lambda.Code.fromAsset': [
-              'examples/lambda-handler',
-            ],
-          },
-          runtime: 'PYTHON_3_6',
-          handler: 'index.handler',
-        },
-      },
-    },
-  });
-
-  const typedTemplate = new TypedTemplate(template, { typeSystem });
-
-  // THEN
-  const myLambda = typedTemplate.resource('MyLambda');
-  expect(myLambda).toEqual(
-    matchConstruct({
-      code: expect.objectContaining({
-        type: 'staticMethodCall',
-        fqn: 'aws-cdk-lib.aws_lambda.Code',
-        namespace: 'aws_lambda',
-        method: 'fromAsset',
-      }),
-    })
-  );
-  expect(template.template).toBeValidTemplate();
 });
 
 test('Single arguments are interpreted as the first argument of a call', async () => {

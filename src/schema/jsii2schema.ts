@@ -1,5 +1,6 @@
 import * as util from 'util';
 import * as jsiiReflect from 'jsii-reflect';
+import { $ref } from './expression';
 
 /* eslint-disable no-console */
 
@@ -467,7 +468,7 @@ function methodSchema(method: jsiiReflect.Callable, ctx: SchemaContext) {
   const methodctx = ctx;
 
   return ctx.define(fqn, () => {
-    const properties: any = {};
+    const properties: any[] = [];
     const required = new Array<string>();
 
     const addProperty = (
@@ -483,7 +484,7 @@ function methodSchema(method: jsiiReflect.Callable, ctx: SchemaContext) {
         return undefined;
       }
 
-      properties[prop.name] = param;
+      properties.push(param);
 
       if (!prop.optional) {
         required.push(prop.name);
@@ -494,32 +495,23 @@ function methodSchema(method: jsiiReflect.Callable, ctx: SchemaContext) {
       const p = method.parameters[i];
       methodctx.child('param', p.name);
 
-      // if this is the last parameter and it's a data type, treat as keyword arguments
-      if (i === method.parameters.length - 1 && isDataType(p.type.type)) {
-        const kwargs = schemaForInterface(p.type.type, ctx);
-        if (kwargs) {
-          for (const prop of p.type.type.allProperties) {
-            addProperty(prop);
-          }
-        }
-      } else {
-        addProperty(p);
-      }
+      addProperty(p);
     }
 
-    const objectSchema = {
-      type: 'object',
-      properties,
-      additionalProperties: false,
-      required: required.length > 0 ? required : undefined,
-    };
-
-    const arraySchema = {
+    const basicSchema = {
       type: 'array',
-      items: Object.values(properties),
+      items: properties.map((p) => ({
+        anyOf: [p, $ref('IntrinsicExpression')],
+      })),
     };
 
-    return { anyOf: [objectSchema, arraySchema] };
+    if (properties.length > 0 && required.length < 2) {
+      return {
+        anyOf: [basicSchema, basicSchema.items[0]],
+      };
+    }
+
+    return basicSchema;
   });
 }
 

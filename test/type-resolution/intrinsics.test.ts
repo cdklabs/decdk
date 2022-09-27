@@ -60,15 +60,13 @@ test('can use intrinsic where primitive number is expected', async () => {
         Type: 'aws-cdk-lib.aws_lambda.Function',
         Properties: {
           code: {
-            'aws-cdk-lib.aws_lambda.Code.fromInline': {
-              code: 'whatever',
-            },
+            'aws-cdk-lib.aws_lambda.Code.fromInline': 'whatever',
           },
           runtime: 'NODEJS_16_X',
           handler: 'index.handler',
           timeout: {
             'aws-cdk-lib.Duration.seconds': {
-              amount: { 'Fn::GetAtt': ['SomeResource', 'SomeAtt'] },
+              'Fn::GetAtt': ['SomeResource', 'SomeAtt'],
             },
           },
         },
@@ -160,8 +158,8 @@ test('can use nested intrinsic', async () => {
         Type: 'aws-cdk-lib.aws_iam.Role',
         Properties: {
           assumedBy: {
-            'aws-cdk-lib.aws_iam.ServicePrincipal': {
-              service: {
+            'aws-cdk-lib.aws_iam.ServicePrincipal': [
+              {
                 'Fn::Sub': [
                   'appsync.${Domain}.com',
                   {
@@ -171,7 +169,7 @@ test('can use nested intrinsic', async () => {
                   },
                 ],
               },
-            },
+            ],
           },
         },
       },

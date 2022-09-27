@@ -118,9 +118,7 @@ test('can use FnRef on result of Member Method Call', async () => {
           handler: 'app.hello_handler',
           runtime: 'PYTHON_3_9',
           code: {
-            'aws-cdk-lib.aws_lambda.Code.fromAsset': {
-              path: 'examples/lambda-handler',
-            },
+            'aws-cdk-lib.aws_lambda.Code.fromAsset': 'examples/lambda-handler',
           },
         },
       },
@@ -128,9 +126,7 @@ test('can use FnRef on result of Member Method Call', async () => {
         Type: 'aws-cdk-lib.aws_lambda.Alias',
         On: 'MyLambda',
         Call: {
-          addAlias: {
-            aliasName: 'live',
-          },
+          addAlias: 'live',
         },
       },
       Topic: {

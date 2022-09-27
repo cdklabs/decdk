@@ -21,35 +21,35 @@
         "handler": "app.hello_handler",
         "runtime": "PYTHON_3_6",
         "code": {
-          "aws-cdk-lib.aws_lambda.Code.fromAsset": {
-            "path": "examples/lambda-handler"
-          }
+          "aws-cdk-lib.aws_lambda.Code.fromAsset": "examples/lambda-handler"
         },
         "environment": {
           "Param": "f"
         },
         "events": [
           {
-            "aws-cdk-lib.aws_lambda_event_sources.DynamoEventSource": {
-              "table": { "Ref": "Table" },
-              "startingPosition": "TRIM_HORIZON"
-            }
+            "aws-cdk-lib.aws_lambda_event_sources.DynamoEventSource": [
+              { "Ref": "Table" },
+              {
+                "startingPosition": "TRIM_HORIZON"
+              }
+            ]
           },
           {
-            "aws-cdk-lib.aws_lambda_event_sources.ApiEventSource": {
-              "method": "GET",
-              "path": "/hello"
-            }
+            "aws-cdk-lib.aws_lambda_event_sources.ApiEventSource": [
+              "GET",
+              "/hello"
+            ]
           },
           {
-            "aws-cdk-lib.aws_lambda_event_sources.ApiEventSource": {
-              "method": "POST",
-              "path": "/hello"
-            }
+            "aws-cdk-lib.aws_lambda_event_sources.ApiEventSource": [
+              "POST",
+              "/hello"
+            ]
           },
           {
             "aws-cdk-lib.aws_lambda_event_sources.SnsEventSource": {
-              "topic": { "Ref": "MyTopic" }
+              "Ref": "MyTopic"
             }
           }
         ]

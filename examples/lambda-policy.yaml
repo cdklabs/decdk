@@ -8,13 +8,11 @@ Resources:
       memorySize: 10240
       code:
         aws-cdk-lib.aws_lambda.Code.fromBucket:
-          bucket:
-            Ref: 'MyBucket'
-          key: 'handler.zip'
+          - Ref: 'MyBucket'
+          - 'handler.zip'
       initialPolicy:
         - aws-cdk-lib.aws_iam.PolicyStatement.fromJson:
-            obj:
-              Effect: Allow
+            - Effect: Allow
               Action:
                 - s3:GetObject*
                 - s3:PutObject*

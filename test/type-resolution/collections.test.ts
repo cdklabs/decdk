@@ -19,16 +19,14 @@ test('Array of Types are resolved correctly', async () => {
           handler: 'app.hello_handler',
           runtime: 'PYTHON_3_6',
           code: {
-            'aws-cdk-lib.aws_lambda.Code.fromAsset': {
-              path: 'examples/lambda-handler',
-            },
+            'aws-cdk-lib.aws_lambda.Code.fromAsset': 'examples/lambda-handler',
           },
           events: [
             {
-              'aws-cdk-lib.aws_lambda_event_sources.ApiEventSource': {
-                method: 'GET',
-                path: '/hello',
-              },
+              'aws-cdk-lib.aws_lambda_event_sources.ApiEventSource': [
+                'GET',
+                '/hello',
+              ],
             },
           ],
         },
