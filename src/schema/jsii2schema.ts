@@ -498,14 +498,25 @@ function methodSchema(method: jsiiReflect.Callable, ctx: SchemaContext) {
       addProperty(p);
     }
 
-    const basicSchema = {
-      type: 'array',
-      items: properties.map((p) => ({
-        anyOf: [p, $ref('IntrinsicExpression')],
-      })),
-    };
+    const basicSchema =
+      required.length > 0
+        ? {
+            type: 'array',
+            items: properties.map((p) => ({
+              anyOf: [p, $ref('IntrinsicExpression')],
+            })),
+            maxItems: properties.length,
+          }
+        : {
+            type: ['array', 'null'],
+            maxItems: 0,
+          };
 
-    if (properties.length > 0 && required.length < 2) {
+    if (
+      basicSchema.items &&
+      basicSchema.items.length > 0 &&
+      required.length < 2
+    ) {
       return {
         anyOf: [basicSchema, basicSchema.items[0]],
       };

@@ -283,7 +283,9 @@ export function resolvePositionalCallableParameters(
   x: ArrayLiteral,
   callable: reflect.Callable
 ): TypedArrayExpression {
-  const paramArray = prepareParameters(x, callable);
+  const paramArray = prepareParameters(x, callable).filter(
+    (expr) => expr.type !== 'null'
+  );
   const args: TypedTemplateExpression[] = [];
 
   for (let i = 0; i < callable.parameters.length; i++) {

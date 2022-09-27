@@ -597,8 +597,7 @@ TypedTemplate {
           "machineImage": Object {
             "fields": Object {
               "aws-cdk-lib.aws_ec2.AmazonLinuxImage": Object {
-                "array": Array [],
-                "type": "array",
+                "type": "null",
               },
             },
             "type": "object",
@@ -826,7 +825,7 @@ TypedTemplate {
               ],
             },
             "machineImage": Object {
-              "aws-cdk-lib.aws_ec2.AmazonLinuxImage": Array [],
+              "aws-cdk-lib.aws_ec2.AmazonLinuxImage": null,
             },
             "vpc": Object {
               "Ref": "VPC",

@@ -83,6 +83,8 @@ export class Evaluator {
       y ? ev(y) : undefined;
 
     switch (x.type) {
+      case 'null':
+        return undefined;
       case 'string':
       case 'number':
       case 'boolean':
