@@ -1,11 +1,13 @@
 import * as util from 'util';
 import * as reflect from 'jsii-reflect';
+import { Initializer } from 'jsii-reflect';
 import {
   enumLikeClassMethods,
   enumLikeClassProperties,
   isConstruct,
   allImplementationsOfType,
 } from '../type-system';
+import { allStaticMethods } from '../type-system/factories';
 import { $ref } from './expression';
 
 /* eslint-disable no-console */
@@ -189,14 +191,19 @@ function schemaForPolymorphic(
     if (x.initializer) {
       const methd = methodSchema(x.initializer, ctx);
       if (methd) {
-        anyOf.push({
-          type: 'object',
-          additionalProperties: false,
-          properties: {
-            [x.fqn]: methd,
-          },
-        });
+        anyOf.push(methd);
       }
+    }
+  }
+
+  const factories = allStaticMethods(type.system)
+    .filter((m) => m.returns.type.fqn === type.fqn)
+    .filter((m) => m.parentType !== type);
+
+  for (const method of factories) {
+    const methd = methodSchema(method, ctx);
+    if (methd) {
+      anyOf.push(methd);
     }
   }
 
@@ -423,18 +430,10 @@ export function schemaForEnumLikeClass(
   }
 
   for (const method of enumLikeMethods) {
-    const s = methodSchema(method, ctx);
-    if (!s) {
-      continue;
+    const methd = methodSchema(method, ctx);
+    if (methd) {
+      anyOf.push(methd);
     }
-
-    anyOf.push({
-      type: 'object',
-      additionalProperties: false,
-      properties: {
-        [`${method.parentType.fqn}.${method.name}`]: methodSchema(method, ctx),
-      },
-    });
   }
 
   anyOf.push({
@@ -513,16 +512,28 @@ function methodSchema(method: reflect.Callable, ctx: SchemaContext) {
             maxItems: 0,
           };
 
+    const methodCallName = Initializer.isInitializer(method)
+      ? method.parentType.fqn
+      : `${method.parentType.fqn}.${method.name}`;
+
+    const callSchema = (schema: any) => ({
+      type: 'object',
+      additionalProperties: false,
+      properties: {
+        [methodCallName]: schema,
+      },
+    });
+
     if (
       basicSchema.items &&
       basicSchema.items.length > 0 &&
       required.length < 2
     ) {
-      return {
+      return callSchema({
         anyOf: [basicSchema, basicSchema.items[0]],
-      };
+      });
     }
 
-    return basicSchema;
+    return callSchema(basicSchema);
   });
 }

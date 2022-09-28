@@ -98,21 +98,13 @@ describe('interface', () => {
         anyOf: [
           { $ref: '#/definitions/fixture.AnotherFactory' },
           { $ref: '#/definitions/fixture.FeatureFactory' },
+          { $ref: '#/definitions/fixture.NonImplementingFactory.baseFeature' },
         ],
         comment: 'fixture.IFeature',
       },
       'fixture.FeatureFactory': {
         anyOf: [
-          {
-            // inline static method call
-            additionalProperties: false,
-            properties: {
-              'fixture.FeatureFactory.baseFeature': {
-                $ref: '#/definitions/fixture.FeatureFactory.baseFeature',
-              },
-            },
-            type: 'object',
-          },
+          { $ref: '#/definitions/fixture.FeatureFactory.baseFeature' },
           {
             // top-level declaration using a static method call
             additionalProperties: false,
@@ -135,7 +127,35 @@ describe('interface', () => {
       },
     });
   });
+
+  test('static factory methods can provide implementations', async () => {
+    // GIVEN
+    const defs = {};
+    const ctx = SchemaContext.root(defs);
+
+    // WHEN
+    const ref = schemaForTypeReference(
+      typesys.findFqn('fixture.IFeature').reference,
+      ctx
+    );
+
+    // THEN
+    expect(ref).toStrictEqual({
+      $ref: '#/definitions/fixture.IFeature',
+    });
+    expect(ctx.definitions).toMatchObject({
+      'fixture.IFeature': {
+        anyOf: [
+          { $ref: '#/definitions/fixture.AnotherFactory' },
+          { $ref: '#/definitions/fixture.FeatureFactory' },
+          { $ref: '#/definitions/fixture.NonImplementingFactory.baseFeature' },
+        ],
+        comment: 'fixture.IFeature',
+      },
+    });
+  });
 });
+
 /**
  * Version of spawn() that returns a promise
  *
