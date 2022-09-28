@@ -1,7 +1,7 @@
 import { spawn as spawnAsync, SpawnOptions } from 'child_process';
 import * as path from 'path';
 import * as reflect from 'jsii-reflect';
-import { SchemaContext, schemaForInterface } from '../../src/schema';
+import { SchemaContext, schemaForTypeReference } from '../../src/schema';
 
 const fixturedir = path.join(__dirname, 'fixture');
 
@@ -23,118 +23,119 @@ beforeAll(async () => {
   await typesys.load(path.dirname(require.resolve('aws-cdk-lib/.jsii')));
 });
 
-test('schemaForInterface: interface with primitives', async () => {
-  // GIVEN
-  const defs = {};
-  const ctx = SchemaContext.root(defs);
+describe('interface', () => {
+  test('with primitives', async () => {
+    // GIVEN
+    const defs = {};
+    const ctx = SchemaContext.root(defs);
 
-  // WHEN
-  const ref = schemaForInterface(
-    typesys.findFqn('fixture.InterfaceWithPrimitives'),
-    ctx
-  );
+    // WHEN
+    const ref = schemaForTypeReference(
+      typesys.findFqn('fixture.InterfaceWithPrimitives').reference,
+      ctx
+    );
 
-  // THEN
-  expect(ref).toStrictEqual({
-    $ref: '#/definitions/fixture.InterfaceWithPrimitives',
-  });
-  expect(ctx.definitions).toStrictEqual({
-    'fixture.InterfaceWithPrimitives': {
-      type: 'object',
-      title: 'InterfaceWithPrimitives',
-      additionalProperties: false,
-      properties: {
-        arrayOfStrings: {
-          type: 'array',
-          items: { type: 'string' },
-          description: 'Array of strings.',
+    // THEN
+    expect(ref).toStrictEqual({
+      $ref: '#/definitions/fixture.InterfaceWithPrimitives',
+    });
+    expect(ctx.definitions).toStrictEqual({
+      'fixture.InterfaceWithPrimitives': {
+        type: 'object',
+        title: 'InterfaceWithPrimitives',
+        additionalProperties: false,
+        properties: {
+          arrayOfStrings: {
+            type: 'array',
+            items: { type: 'string' },
+            description: 'Array of strings.',
+          },
+          mapOfNumbers: {
+            type: 'object',
+            additionalProperties: { type: 'number' },
+          },
+          numberProperty: {
+            type: 'number',
+            description: 'A property of type number.',
+          },
+          stringProperty: {
+            type: 'string',
+            description: 'A property of type string.',
+          },
+          optionalBoolean: {
+            type: 'boolean',
+            description: 'Optional boolean.',
+          },
         },
-        mapOfNumbers: {
-          type: 'object',
-          additionalProperties: { type: 'number' },
-        },
-        numberProperty: {
-          type: 'number',
-          description: 'A property of type number.',
-        },
-        stringProperty: {
-          type: 'string',
-          description: 'A property of type string.',
-        },
-        optionalBoolean: {
-          type: 'boolean',
-          description: 'Optional boolean.',
-        },
+        required: [
+          'arrayOfStrings',
+          'mapOfNumbers',
+          'numberProperty',
+          'stringProperty',
+        ],
+        comment: 'fixture.InterfaceWithPrimitives',
       },
-      required: [
-        'arrayOfStrings',
-        'mapOfNumbers',
-        'numberProperty',
-        'stringProperty',
-      ],
-      comment: 'fixture.InterfaceWithPrimitives',
-    },
+    });
+  });
+
+  test('Behavioral Interface Implementation Factories', async () => {
+    // GIVEN
+    const defs = {};
+    const ctx = SchemaContext.root(defs);
+
+    // WHEN
+    const ref = schemaForTypeReference(
+      typesys.findFqn('fixture.InterfaceWithBehavioral').reference,
+      ctx
+    );
+
+    // THEN
+    expect(ref).toStrictEqual({
+      $ref: '#/definitions/fixture.InterfaceWithBehavioral',
+    });
+    expect(ctx.definitions).toMatchObject({
+      'fixture.IFeature': {
+        anyOf: [
+          { $ref: '#/definitions/fixture.AnotherFactory' },
+          { $ref: '#/definitions/fixture.FeatureFactory' },
+        ],
+        comment: 'fixture.IFeature',
+      },
+      'fixture.FeatureFactory': {
+        anyOf: [
+          {
+            // inline static method call
+            additionalProperties: false,
+            properties: {
+              'fixture.FeatureFactory.baseFeature': {
+                $ref: '#/definitions/fixture.FeatureFactory.baseFeature',
+              },
+            },
+            type: 'object',
+          },
+          {
+            // top-level declaration using a static method call
+            additionalProperties: false,
+            properties: {
+              Call: {
+                type: 'object',
+              },
+              Type: {
+                type: 'string',
+                enum: ['fixture.FeatureFactory'],
+              },
+              On: {
+                type: 'string',
+              },
+            },
+            type: 'object',
+          },
+        ],
+        comment: 'fixture.FeatureFactory',
+      },
+    });
   });
 });
-
-test('schemaForInterface: Behavioral Interface Implementation Factories', async () => {
-  // GIVEN
-  const defs = {};
-  const ctx = SchemaContext.root(defs);
-
-  // WHEN
-  const ref = schemaForInterface(
-    typesys.findFqn('fixture.InterfaceWithBehavioral'),
-    ctx
-  );
-
-  // THEN
-  expect(ref).toStrictEqual({
-    $ref: '#/definitions/fixture.InterfaceWithBehavioral',
-  });
-  expect(ctx.definitions).toMatchObject({
-    'fixture.IFeature': {
-      anyOf: [
-        { $ref: '#/definitions/fixture.AnotherFactory' },
-        { $ref: '#/definitions/fixture.FeatureFactory' },
-      ],
-      comment: 'fixture.IFeature',
-    },
-    'fixture.FeatureFactory': {
-      anyOf: [
-        {
-          // inline static method call
-          additionalProperties: false,
-          properties: {
-            'fixture.FeatureFactory.baseFeature': {
-              $ref: '#/definitions/fixture.FeatureFactory.baseFeature',
-            },
-          },
-          type: 'object',
-        },
-        {
-          // top-level declaration using a static method call
-          additionalProperties: false,
-          properties: {
-            Call: {
-              type: 'object',
-            },
-            Type: {
-              type: 'string',
-              enum: ['fixture.FeatureFactory'],
-            },
-            On: {
-              type: 'string',
-            },
-          },
-          type: 'object',
-        },
-      ],
-      comment: 'fixture.FeatureFactory',
-    },
-  });
-});
-
 /**
  * Version of spawn() that returns a promise
  *

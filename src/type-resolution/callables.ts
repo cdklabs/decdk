@@ -11,7 +11,6 @@ import {
   TemplateExpression,
   TemplateResource,
 } from '../parser/template';
-import { staticNonVoidMethods } from '../schema';
 import { splitPath } from '../strings';
 import {
   assertExpressionType,
@@ -373,4 +372,10 @@ function assertReferenceType(
     throw new Error(`Construct paths must only contain classes or interfaces.`);
   }
   return t;
+}
+
+function staticNonVoidMethods(cls: reflect.ClassType) {
+  return cls.allMethods.filter(
+    (m) => m.static && m.returns && m.returns.type.type
+  );
 }

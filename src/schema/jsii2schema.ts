@@ -1,5 +1,11 @@
 import * as util from 'util';
-import * as jsiiReflect from 'jsii-reflect';
+import * as reflect from 'jsii-reflect';
+import {
+  enumLikeClassMethods,
+  enumLikeClassProperties,
+  isConstruct,
+  allImplementationsOfType,
+} from '../type-system';
 import { $ref } from './expression';
 
 /* eslint-disable no-console */
@@ -103,7 +109,7 @@ export class SchemaContext {
 }
 
 export function schemaForTypeReference(
-  type: jsiiReflect.TypeReference,
+  type: reflect.TypeReference,
   ctx: SchemaContext
 ): any {
   const prim = schemaForPrimitive(type, ctx);
@@ -158,8 +164,8 @@ export function schemaForTypeReference(
   return undefined;
 }
 
-export function schemaForPolymorphic(
-  type: jsiiReflect.Type | undefined,
+function schemaForPolymorphic(
+  type: reflect.Type | undefined,
   ctx: SchemaContext
 ) {
   if (!type) {
@@ -203,8 +209,8 @@ export function schemaForPolymorphic(
   });
 }
 
-function schemaForEnum(type: jsiiReflect.Type | undefined) {
-  if (!type || !(type instanceof jsiiReflect.EnumType)) {
+function schemaForEnum(type: reflect.Type | undefined) {
+  if (!type || !(type instanceof reflect.EnumType)) {
     return undefined;
   }
 
@@ -213,7 +219,7 @@ function schemaForEnum(type: jsiiReflect.Type | undefined) {
   };
 }
 
-function schemaForMap(type: jsiiReflect.TypeReference, ctx: SchemaContext) {
+function schemaForMap(type: reflect.TypeReference, ctx: SchemaContext) {
   ctx = ctx.child('map', type.toString());
 
   if (!type.mapOfType) {
@@ -231,7 +237,7 @@ function schemaForMap(type: jsiiReflect.TypeReference, ctx: SchemaContext) {
   };
 }
 
-function schemaForArray(type: jsiiReflect.TypeReference, ctx: SchemaContext) {
+function schemaForArray(type: reflect.TypeReference, ctx: SchemaContext) {
   ctx = ctx.child('array', type.toString());
 
   if (!type.arrayOfType) {
@@ -245,12 +251,12 @@ function schemaForArray(type: jsiiReflect.TypeReference, ctx: SchemaContext) {
 
   return {
     type: 'array',
-    items: schemaForTypeReference(type.arrayOfType, ctx),
+    items: s,
   };
 }
 
 function schemaForPrimitive(
-  type: jsiiReflect.TypeReference,
+  type: reflect.TypeReference,
   ctx: SchemaContext
 ): any {
   if (!type.primitive) {
@@ -276,10 +282,7 @@ function schemaForPrimitive(
   }
 }
 
-function schemaForUnion(
-  type: jsiiReflect.TypeReference,
-  ctx: SchemaContext
-): any {
+function schemaForUnion(type: reflect.TypeReference, ctx: SchemaContext): any {
   ctx = ctx.child('union', type.toString());
 
   if (!type.unionOfTypes) {
@@ -297,7 +300,7 @@ function schemaForUnion(
   return { anyOf };
 }
 
-function schemaForConstructRef(type: jsiiReflect.TypeReference) {
+function schemaForConstructRef(type: reflect.TypeReference) {
   if (!isConstruct(type)) {
     return undefined;
   }
@@ -310,11 +313,11 @@ function schemaForConstructRef(type: jsiiReflect.TypeReference) {
   };
 }
 
-export function schemaForInterface(
-  type: jsiiReflect.Type | undefined,
+function schemaForInterface(
+  type: reflect.Type | undefined,
   ctx: SchemaContext
 ) {
-  if (!type || !(type instanceof jsiiReflect.InterfaceType)) {
+  if (!type || !(type instanceof reflect.InterfaceType)) {
     return undefined; // skip
   }
 
@@ -377,7 +380,7 @@ export function schemaForInterface(
     }
 
     function withDescription(
-      prop: jsiiReflect.Property,
+      prop: reflect.Property,
       obj: Record<string, unknown>
     ) {
       const docstring = prop.docs.toString();
@@ -395,14 +398,14 @@ export function schemaForInterface(
 }
 
 export function schemaForEnumLikeClass(
-  type: jsiiReflect.Type | undefined,
+  type: reflect.Type | undefined,
   ctx: SchemaContext
 ) {
   if (type) {
     ctx = ctx.child('enum-like', type.toString());
   }
 
-  if (!type || !(type instanceof jsiiReflect.ClassType)) {
+  if (!type || !(type instanceof reflect.ClassType)) {
     return undefined;
   }
 
@@ -460,7 +463,7 @@ export function schemaForEnumLikeClass(
   });
 }
 
-function methodSchema(method: jsiiReflect.Callable, ctx: SchemaContext) {
+function methodSchema(method: reflect.Callable, ctx: SchemaContext) {
   ctx = ctx.child('method', method.name);
 
   const fqn = `${method.parentType.fqn}.${method.name}`;
@@ -471,9 +474,7 @@ function methodSchema(method: jsiiReflect.Callable, ctx: SchemaContext) {
     const properties: any[] = [];
     const required = new Array<string>();
 
-    const addProperty = (
-      prop: jsiiReflect.Property | jsiiReflect.Parameter
-    ): void => {
+    const addProperty = (prop: reflect.Property | reflect.Parameter): void => {
       const param = schemaForTypeReference(prop.type, ctx);
 
       // bail out - can't serialize a required parameter, so we can't serialize the method
@@ -524,215 +525,4 @@ function methodSchema(method: jsiiReflect.Callable, ctx: SchemaContext) {
 
     return basicSchema;
   });
-}
-
-export function isDataType(
-  t: jsiiReflect.Type | undefined
-): t is jsiiReflect.InterfaceType {
-  if (!t) {
-    return false;
-  }
-  return t instanceof jsiiReflect.InterfaceType && (t as any).spec.datatype;
-}
-
-// Must only have properties, all of which are scalars,
-// lists or isSerializableInterface types.
-export function isSerializableTypeReference(
-  type: jsiiReflect.TypeReference,
-  errorPrefix?: string
-): boolean {
-  if (type.primitive) {
-    return true;
-  }
-
-  if (type.arrayOfType) {
-    return isSerializableTypeReference(type.arrayOfType, errorPrefix);
-  }
-
-  if (type.mapOfType) {
-    return isSerializableTypeReference(type.mapOfType, errorPrefix);
-  }
-
-  if (type.type) {
-    return isSerializableType(type.type, errorPrefix);
-  }
-
-  if (type.unionOfTypes) {
-    return type.unionOfTypes.some((x) =>
-      isSerializableTypeReference(x, errorPrefix)
-    );
-  }
-
-  return false;
-}
-
-function isSerializableType(
-  type: jsiiReflect.Type,
-  errorPrefix?: string
-): boolean {
-  // if this is a cosntruct class, we can represent it as a "Ref"
-  if (isConstruct(type)) {
-    return true;
-  }
-
-  if (isEnum(type)) {
-    return true;
-  }
-
-  if (isSerializableInterface(type)) {
-    return true;
-  }
-
-  // if this is a class that looks like an enum, we can represent it
-  if (isEnumLikeClass(type)) {
-    return true;
-  }
-
-  if (allImplementationsOfType(type).length > 0) {
-    return true;
-  }
-
-  if (errorPrefix) {
-    console.error(errorPrefix, `${type} is not serializable`);
-  }
-
-  return false;
-}
-
-export function isSerializableInterface(
-  type: jsiiReflect.Type | undefined,
-  errorPrefix?: string
-): type is jsiiReflect.InterfaceType {
-  if (!type || !(type instanceof jsiiReflect.InterfaceType)) {
-    return false;
-  }
-
-  if (type.allMethods.length > 0) {
-    return false;
-  }
-
-  return type.allProperties.every(
-    (p) =>
-      isSerializableTypeReference(p.type, errorPrefix) ||
-      isConstruct(p.type) ||
-      p.optional
-  );
-}
-
-export function isBehavioralInterface(
-  type: jsiiReflect.Type | undefined
-): type is jsiiReflect.InterfaceType {
-  if (!type || !type.isInterfaceType()) {
-    return false;
-  }
-
-  return type.name.toLocaleUpperCase().startsWith('I');
-}
-
-export function isEnum(
-  type: jsiiReflect.Type | undefined
-): type is jsiiReflect.EnumType {
-  return type instanceof jsiiReflect.EnumType;
-}
-
-export function isEnumLikeClass(
-  cls: jsiiReflect.Type | undefined
-): cls is jsiiReflect.ClassType {
-  if (!cls) {
-    return false;
-  }
-
-  if (!(cls instanceof jsiiReflect.ClassType)) {
-    return false;
-  }
-  return (
-    enumLikeClassMethods(cls).length > 0 ||
-    enumLikeClassProperties(cls).length > 0
-  );
-}
-
-export function staticNonVoidMethods(cls: jsiiReflect.ClassType) {
-  return cls.allMethods.filter(
-    (m) => m.static && m.returns && m.returns.type.type
-  );
-}
-
-export function enumLikeClassMethods(cls: jsiiReflect.ClassType) {
-  return cls.allMethods.filter(
-    (m) =>
-      m.static &&
-      m.returns &&
-      m.returns.type.type &&
-      m.returns.type.type.extends(cls)
-  );
-}
-
-export function enumLikeClassProperties(cls: jsiiReflect.ClassType) {
-  return cls.allProperties.filter(
-    (p) => p.static && p.type.type && p.type.type.extends(cls)
-  );
-}
-
-export function isConstruct(
-  typeOrTypeRef: jsiiReflect.TypeReference | jsiiReflect.Type
-): boolean {
-  let type: jsiiReflect.Type;
-
-  if (typeOrTypeRef instanceof jsiiReflect.Type) {
-    type = typeOrTypeRef;
-  } else {
-    if (typeOrTypeRef.arrayOfType) {
-      return isConstruct(typeOrTypeRef.arrayOfType);
-    }
-
-    if (typeOrTypeRef.mapOfType) {
-      return isConstruct(typeOrTypeRef.mapOfType);
-    }
-
-    if (typeOrTypeRef.unionOfTypes) {
-      return typeOrTypeRef.unionOfTypes.some((x) => isConstruct(x));
-    }
-
-    if (typeOrTypeRef.type) {
-      type = typeOrTypeRef.type;
-    } else {
-      return false;
-    }
-  }
-
-  // if it is an interface, it should extend constructs.IConstruct
-  if (type instanceof jsiiReflect.InterfaceType) {
-    const constructIface = type.system.findFqn('constructs.IConstruct');
-    return type.extends(constructIface);
-  }
-
-  // if it is a class, it should extend constructs.Construct
-  if (type instanceof jsiiReflect.ClassType) {
-    const constructClass = type.system.findFqn('constructs.Construct');
-    return type.extends(constructClass);
-  }
-
-  return false;
-}
-
-export function allImplementationsOfType(type: jsiiReflect.Type) {
-  if (type instanceof jsiiReflect.ClassType) {
-    return allSubclasses(type).filter((x) => !x.abstract);
-  }
-
-  if (type instanceof jsiiReflect.InterfaceType) {
-    return allImplementations(type).filter((x) => !x.abstract);
-  }
-
-  throw new Error('Must either be a class or an interface');
-}
-
-export function allSubclasses(base: jsiiReflect.ClassType) {
-  return base.system.classes.filter((x) => x.extends(base));
-}
-
-function allImplementations(base: jsiiReflect.InterfaceType) {
-  return base.system.classes.filter((x) =>
-    x.getInterfaces(true).some((i) => i.extends(base))
-  );
 }

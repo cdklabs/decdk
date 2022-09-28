@@ -1,10 +1,7 @@
 import chalk from 'chalk';
-import { ClassType } from 'jsii-reflect';
-import * as jsiiReflect from 'jsii-reflect';
+import * as reflect from 'jsii-reflect';
 import { schemaForIntrinsicFunctions } from './intrinsics';
 import {
-  enumLikeClassMethods,
-  enumLikeClassProperties,
   SchemaContext,
   schemaForEnumLikeClass,
   schemaForTypeReference,
@@ -82,7 +79,7 @@ function dependsOnDefinition() {
 }
 
 export function renderFullSchema(
-  typeSystem: jsiiReflect.TypeSystem,
+  typeSystem: reflect.TypeSystem,
   options: RenderSchemaOptions = {}
 ) {
   if (!process.stdin.isTTY || options.colors === false) {
@@ -119,14 +116,11 @@ export function renderFullSchema(
     addResource(schemaForResource(deco, ctx));
   }
 
-  const enumLikeClasses = typeSystem.classes.filter(
-    (c: ClassType) =>
-      enumLikeClassProperties(c).length > 0 ||
-      enumLikeClassMethods(c).length > 0
-  );
-
-  for (const type of enumLikeClasses) {
-    addResource(schemaForEnumLikeClass(type, ctx));
+  // Top-level static method calls
+  {
+    for (const type of typeSystem.classes) {
+      addResource(schemaForEnumLikeClass(type, ctx));
+    }
   }
 
   output.properties.$schema = {
@@ -183,9 +177,7 @@ export function schemaForResource(
       additionalProperties: false,
       properties: {
         Properties: schemaForProps(construct.propsTypeRef, ctx),
-        Call: {
-          type: 'object',
-        },
+        Call: schemaForCall(construct.constructClass, ctx),
         On: {
           type: 'string',
         },
@@ -209,7 +201,7 @@ export function schemaForResource(
 }
 
 function schemaForProps(
-  propsTypeRef: jsiiReflect.TypeReference | undefined,
+  propsTypeRef: reflect.TypeReference | undefined,
   ctx: SchemaContext
 ) {
   if (!propsTypeRef) {
@@ -219,13 +211,19 @@ function schemaForProps(
   return schemaForTypeReference(propsTypeRef, ctx);
 }
 
-function isCfnResource(klass: jsiiReflect.ClassType) {
+function schemaForCall(_classType: reflect.ClassType, _ctx: SchemaContext) {
+  return {
+    type: 'object',
+  };
+}
+
+function isCfnResource(klass: reflect.ClassType) {
   const resource = klass.system.findClass('aws-cdk-lib.CfnResource');
   return klass.extends(resource);
 }
 
 function unpackConstruct(
-  klass: jsiiReflect.ClassType
+  klass: reflect.ClassType
 ): ConstructAndProps | undefined {
   if (!klass.initializer || klass.abstract) {
     return undefined;
@@ -253,6 +251,6 @@ function unpackConstruct(
 }
 
 export interface ConstructAndProps {
-  constructClass: jsiiReflect.ClassType;
-  propsTypeRef?: jsiiReflect.TypeReference;
+  constructClass: reflect.ClassType;
+  propsTypeRef?: reflect.TypeReference;
 }

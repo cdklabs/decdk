@@ -5,7 +5,7 @@ import {
   isEnum,
   isEnumLikeClass,
   isSerializableInterface,
-} from '../schema/jsii2schema';
+} from '../type-system';
 import { resolveInstanceExpression } from './callables';
 import {
   assertArrayOfType,
