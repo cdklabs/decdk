@@ -1,0 +1,88 @@
+# yaml-language-server: $schema=../cdk.schema.json
+Parameters:
+  DomainName:
+    Type: String
+    Default: www.example.com
+  HostedZoneId:
+    Type: String
+Resources:
+  CloudFrontOAI:
+    Type: aws-cdk-lib.aws_cloudfront.OriginAccessIdentity
+    Properties:
+      comment:
+        Fn::Join: [' ', [OAI, for, Ref: DomainName]]
+  SiteBucket:
+    Type: aws-cdk-lib.aws_s3.Bucket
+    Properties:
+      publicReadAccess: false
+      blockPublicAccess: BLOCK_ALL
+      removalPolicy: DESTROY
+      autoDeleteObjects: true
+  SiteBucketAccess:
+    'On': SiteBucket
+    Call:
+      grantRead:
+        Ref: CloudFrontOAI
+  HostedZone:
+    Call:
+      aws-cdk-lib.aws_route53.HostedZone.fromHostedZoneAttributes:
+        hostedZoneId:
+          Ref: HostedZoneId
+        zoneName:
+          Ref: DomainName # split and join
+  SiteCertificate:
+    Type: aws-cdk-lib.aws_certificatemanager.DnsValidatedCertificate
+    Properties:
+      domainName:
+        Ref: DomainName
+      hostedZone:
+        Ref: HostedZone
+      region:
+        Ref: AWS::Region
+  SiteDistribution:
+    Type: aws-cdk-lib.aws_cloudfront.Distribution
+    Properties:
+      certificate:
+        Ref: SiteCertificate
+      defaultRootObject: index.html
+      domainNames:
+        - Ref: DomainName
+      minimumProtocolVersion: TLS_V1_2_2021
+      defaultBehavior:
+        origin:
+          aws-cdk-lib.aws_cloudfront_origins.S3Origin:
+            - Ref: SiteBucket
+            - originAccessIdentity:
+                Ref: CloudFrontOAI
+      errorResponses:
+        - httpStatus: 403
+          responseHttpStatus: 403
+          responsePagePath: 'error.html'
+          ttl:
+            aws-cdk-lib.Duration.minutes: 30
+  SiteAliasRecord:
+    Type: aws-cdk-lib.aws_route53.ARecord
+    Properties:
+      recordName: www
+      zone:
+        Ref: HostedZone
+      target:
+        aws-cdk-lib.aws_route53.RecordTarget.fromAlias:
+          aws-cdk-lib.aws_route53_targets.CloudFrontTarget:
+            Ref: SiteDistribution
+  SiteDeployment:
+    Type: aws-cdk-lib.aws_s3_deployment.BucketDeployment
+    Properties:
+      sources:
+        - aws-cdk-lib.aws_s3_deployment.Source.data:
+            - 'index.html'
+            - Fn::Join: ['', ['Hello from ', Ref: DomainName]]
+        - aws-cdk-lib.aws_s3_deployment.Source.data:
+            - 'error.html'
+            - Woof woof! Something went wrong.
+      destinationBucket:
+        Ref: SiteBucket
+      distribution:
+        Ref: SiteDistribution
+      distributionPaths:
+        - '/*'
