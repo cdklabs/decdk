@@ -245,7 +245,7 @@ function schemaForArray(type: jsiiReflect.TypeReference, ctx: SchemaContext) {
 
   return {
     type: 'array',
-    items: schemaForTypeReference(type.arrayOfType, ctx),
+    items: s,
   };
 }
 
