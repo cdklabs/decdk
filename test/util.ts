@@ -142,7 +142,7 @@ expect.extend({
         message: () =>
           'Expected valid template, got error(s):' +
           '\n' +
-          result.errors
+          resourceErrors(schema, result.errors)
             .map((e) => `- ${e.path.join('.')} ${e.message}`)
             .join('\n'),
       };
@@ -154,6 +154,30 @@ expect.extend({
     };
   },
 });
+
+function resourceErrors(
+  schema: jsonschema.Schema,
+  errors: jsonschema.ValidationError[]
+): jsonschema.ValidationError[] {
+  return errors.flatMap((e) => {
+    const definitions = schema.definitions || {};
+    if (e.path.length !== 2 || e.path[0] !== 'Resources') {
+      return e;
+    }
+    const local = jsonschema.validate(e.instance, {
+      $schema: 'http://json-schema.org/draft-04/schema#',
+      definitions,
+      $ref: `#/definitions/${e.instance.Type}`,
+    });
+
+    return local.errors.map((localError) => {
+      localError.path = [...e.path, ...localError.path];
+      localError.property = ['instance', ...localError.path].join('.');
+      localError.stack = localError.property + ' ' + localError.message;
+      return localError;
+    });
+  });
+}
 
 export function matchStringLiteral(value: string) {
   return { type: 'string', value };
