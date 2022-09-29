@@ -190,10 +190,16 @@ export class Evaluator {
       this.context.stack,
       x.logicalId,
       ev(x.props),
-    ]);
+    ]) as CfnResource;
+
     if (x.creationPolicy) {
-      (resource as CfnResource).cfnOptions.creationPolicy = x.creationPolicy;
+      resource.cfnOptions.creationPolicy = x.creationPolicy;
     }
+
+    if (x.updatePolicy) {
+      resource.cfnOptions.updatePolicy = x.updatePolicy;
+    }
+
     return resource;
   }
 

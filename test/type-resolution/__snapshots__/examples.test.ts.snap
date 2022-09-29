@@ -166,6 +166,7 @@ TypedTemplate {
           },
         ],
         "type": "aws-cdk-lib.aws_lambda.Function",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
       "MyApi" => Object {
@@ -192,6 +193,7 @@ TypedTemplate {
         },
         "tags": Array [],
         "type": "aws-cdk-lib.aws_apigateway.LambdaRestApi",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
       "GetRoot" => Object {
@@ -223,6 +225,7 @@ TypedTemplate {
         },
         "tags": Array [],
         "type": "aws-cdk-lib.aws_apigateway.Method",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
     },
@@ -563,6 +566,7 @@ TypedTemplate {
         "properties": Object {},
         "tags": Array [],
         "type": "aws-cdk-lib.aws_ec2.Vpc",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
       "ASG" => Object {
@@ -615,6 +619,7 @@ TypedTemplate {
         },
         "tags": Array [],
         "type": "aws-cdk-lib.aws_autoscaling.AutoScalingGroup",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
       "AModestLoad" => Object {
@@ -657,6 +662,7 @@ TypedTemplate {
         "properties": Object {},
         "tags": Array [],
         "type": "aws-cdk-lib.aws_autoscaling.TargetTrackingScalingPolicy",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
       "LB" => Object {
@@ -687,6 +693,7 @@ TypedTemplate {
         },
         "tags": Array [],
         "type": "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationLoadBalancer",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
       "Listener" => Object {
@@ -726,6 +733,7 @@ TypedTemplate {
         "properties": Object {},
         "tags": Array [],
         "type": "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationListener",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
       "Target" => Object {
@@ -776,6 +784,7 @@ TypedTemplate {
         "properties": Object {},
         "tags": Array [],
         "type": "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationTargetGroup",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
       "AllowFromEverywhere" => Object {
@@ -806,6 +815,7 @@ TypedTemplate {
         "properties": Object {},
         "tags": Array [],
         "type": undefined,
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
     },
@@ -1122,6 +1132,7 @@ TypedTemplate {
         },
         "tags": Array [],
         "type": "aws-cdk-lib.aws_s3.Bucket",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
     },
@@ -1274,6 +1285,33 @@ TypedTemplate {
         },
         "tags": Array [],
         "type": "resource",
+        "updatePolicy": Object {
+          "autoScalingReplacingUpdate": Object {
+            "willReplace": false,
+          },
+          "autoScalingRollingUpdate": Object {
+            "maxBatchSize": 3,
+            "minInstancesInService": 5,
+            "minSuccessfulInstancesPercent": 42,
+            "pauseTime": "PT10M",
+            "suspendProcesses": Array [
+              "Launch",
+              "Terminate",
+            ],
+            "waitOnResourceSignals": true,
+          },
+          "autoScalingScheduledAction": Object {
+            "ignoreUnmodifiedGroupSizeProperties": true,
+          },
+          "codeDeployLambdaAliasUpdate": Object {
+            "afterAllowTrafficHook": "SomeFunction",
+            "applicationName": "SomeApp",
+            "beforeAllowTrafficHook": "AnotherFunction",
+            "deploymentGroupName": "SomeGroup",
+          },
+          "enableVersionUpgrade": false,
+          "useOnlineResharding": true,
+        },
       },
       "LaunchConfig": Object {
         "creationPolicy": undefined,
@@ -1348,6 +1386,7 @@ yum update -y aws-cfn-bootstrap
         },
         "tags": Array [],
         "type": "resource",
+        "updatePolicy": undefined,
       },
     },
   },
@@ -1410,6 +1449,33 @@ yum update -y aws-cfn-bootstrap
         },
         "tags": Array [],
         "type": "AWS::AutoScaling::AutoScalingGroup",
+        "updatePolicy": Object {
+          "autoScalingReplacingUpdate": Object {
+            "willReplace": false,
+          },
+          "autoScalingRollingUpdate": Object {
+            "maxBatchSize": 3,
+            "minInstancesInService": 5,
+            "minSuccessfulInstancesPercent": 42,
+            "pauseTime": "PT10M",
+            "suspendProcesses": Array [
+              "Launch",
+              "Terminate",
+            ],
+            "waitOnResourceSignals": true,
+          },
+          "autoScalingScheduledAction": Object {
+            "ignoreUnmodifiedGroupSizeProperties": true,
+          },
+          "codeDeployLambdaAliasUpdate": Object {
+            "afterAllowTrafficHook": "SomeFunction",
+            "applicationName": "SomeApp",
+            "beforeAllowTrafficHook": "AnotherFunction",
+            "deploymentGroupName": "SomeGroup",
+          },
+          "enableVersionUpgrade": false,
+          "useOnlineResharding": true,
+        },
         "updateReplacePolicy": "Delete",
       },
       "LaunchConfig" => Object {
@@ -1471,6 +1537,7 @@ yum update -y aws-cfn-bootstrap
         },
         "tags": Array [],
         "type": "AWS::AutoScaling::LaunchConfiguration",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
     },
@@ -1498,6 +1565,33 @@ yum update -y aws-cfn-bootstrap
             "MinSize": "1",
           },
           "Type": "AWS::AutoScaling::AutoScalingGroup",
+          "UpdatePolicy": Object {
+            "AutoScalingReplacingUpdate": Object {
+              "WillReplace": false,
+            },
+            "AutoScalingRollingUpdate": Object {
+              "MaxBatchSize": 3,
+              "MinInstancesInService": 5,
+              "MinSuccessfulInstancesPercent": 42,
+              "PauseTime": "PT10M",
+              "SuspendProcesses": Array [
+                "Launch",
+                "Terminate",
+              ],
+              "WaitOnResourceSignals": true,
+            },
+            "AutoScalingScheduledAction": Object {
+              "IgnoreUnmodifiedGroupSizeProperties": true,
+            },
+            "CodeDeployLambdaAliasUpdate": Object {
+              "AfterAllowTrafficHook": "SomeFunction",
+              "ApplicationName": "SomeApp",
+              "BeforeAllowTrafficHook": "AnotherFunction",
+              "DeploymentGroupName": "SomeGroup",
+            },
+            "EnableVersionUpgrade": false,
+            "UseOnlineResharding": true,
+          },
         },
         "LaunchConfig": Object {
           "Properties": Object {
@@ -1594,6 +1688,7 @@ TypedTemplate {
         },
         "tags": Array [],
         "type": "resource",
+        "updatePolicy": undefined,
       },
     },
   },
@@ -1654,6 +1749,7 @@ TypedTemplate {
         },
         "tags": Array [],
         "type": "AWS::EC2::Instance",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
     },
@@ -1908,6 +2004,7 @@ TypedTemplate {
         },
         "tags": Array [],
         "type": "aws-cdk-lib.aws_ec2.Vpc",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
       "Cluster" => Object {
@@ -1934,6 +2031,7 @@ TypedTemplate {
         },
         "tags": Array [],
         "type": "aws-cdk-lib.aws_ecs.Cluster",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
       "MyTaskDef" => Object {
@@ -1973,6 +2071,7 @@ TypedTemplate {
         },
         "tags": Array [],
         "type": "aws-cdk-lib.aws_ecs.TaskDefinition",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
       "ContainerDef" => Object {
@@ -2016,6 +2115,7 @@ TypedTemplate {
         },
         "tags": Array [],
         "type": "aws-cdk-lib.aws_ecs.ContainerDefinition",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
       "Service" => Object {
@@ -2048,6 +2148,7 @@ TypedTemplate {
         },
         "tags": Array [],
         "type": "aws-cdk-lib.aws_ecs.FargateService",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
     },
@@ -2243,6 +2344,7 @@ TypedTemplate {
         },
         "tags": Array [],
         "type": "aws-cdk-lib.aws_ec2.Vpc",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
       "MyFleet" => Object {
@@ -2300,6 +2402,7 @@ TypedTemplate {
         },
         "tags": Array [],
         "type": "aws-cdk-lib.aws_autoscaling.AutoScalingGroup",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
     },
@@ -2591,6 +2694,7 @@ TypedTemplate {
         "properties": Object {},
         "tags": Array [],
         "type": "aws-cdk-lib.aws_sns.Topic",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
       "Table" => Object {
@@ -2627,6 +2731,7 @@ TypedTemplate {
         },
         "tags": Array [],
         "type": "aws-cdk-lib.aws_dynamodb.Table",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
       "HelloWorldFunction" => Object {
@@ -2761,6 +2866,7 @@ TypedTemplate {
         },
         "tags": Array [],
         "type": "aws-cdk-lib.aws_lambda.Function",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
     },
@@ -2946,6 +3052,7 @@ TypedTemplate {
         "properties": Object {},
         "tags": Array [],
         "type": "aws-cdk-lib.lambda_layer_awscli.AwsCliLayer",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
       "Lambda" => Object {
@@ -2994,6 +3101,7 @@ TypedTemplate {
         },
         "tags": Array [],
         "type": "aws-cdk-lib.aws_lambda.Function",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
     },
@@ -3315,6 +3423,7 @@ TypedTemplate {
         },
         "tags": Array [],
         "type": "aws-cdk-lib.aws_lambda.Function",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
       "MyBucket" => Object {
@@ -3333,6 +3442,7 @@ TypedTemplate {
         "properties": Object {},
         "tags": Array [],
         "type": "aws-cdk-lib.aws_s3.Bucket",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
     },
@@ -3510,6 +3620,7 @@ TypedTemplate {
         },
         "tags": Array [],
         "type": "aws-cdk-lib.aws_lambda.Function",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
     },
@@ -3664,6 +3775,7 @@ TypedTemplate {
         "properties": Object {},
         "tags": Array [],
         "type": "aws-cdk-lib.aws_sns.Topic",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
       "Lambda" => Object {
@@ -3717,6 +3829,7 @@ TypedTemplate {
         },
         "tags": Array [],
         "type": "aws-cdk-lib.aws_lambda.Function",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
     },
@@ -4084,6 +4197,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
         "properties": Object {},
         "tags": Array [],
         "type": "aws-cdk-lib.aws_s3.Bucket",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
       "BusinessLogic" => Object {
@@ -4119,6 +4233,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
         "properties": Object {},
         "tags": Array [],
         "type": "aws-cdk-lib.aws_lambda.Code",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
       "MyFunction" => Object {
@@ -4153,6 +4268,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
         },
         "tags": Array [],
         "type": "aws-cdk-lib.aws_lambda.Function",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
       "ReadBucket" => Object {
@@ -4176,6 +4292,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
         "properties": Object {},
         "tags": Array [],
         "type": undefined,
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
       "GrantRead" => Object {
@@ -4203,6 +4320,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
         "properties": Object {},
         "tags": Array [],
         "type": "aws-cdk-lib.aws_iam.Grant",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
       "WriteBucket" => Object {
@@ -4243,6 +4361,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
         "properties": Object {},
         "tags": Array [],
         "type": undefined,
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
       "GrantWrite" => Object {
@@ -4270,6 +4389,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
         "properties": Object {},
         "tags": Array [],
         "type": "aws-cdk-lib.aws_iam.Grant",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
       "Alias" => Object {
@@ -4300,6 +4420,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
         "properties": Object {},
         "tags": Array [],
         "type": "aws-cdk-lib.aws_lambda.Alias",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
       "ConfigureAsyncInvokeStatement" => Object {
@@ -4330,6 +4451,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
         "properties": Object {},
         "tags": Array [],
         "type": undefined,
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
     },
@@ -4752,6 +4874,7 @@ TypedTemplate {
         },
         "tags": Array [],
         "type": "aws-cdk-lib.aws_codecommit.Repository",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
       "BuildProject" => Object {
@@ -4778,6 +4901,7 @@ TypedTemplate {
         },
         "tags": Array [],
         "type": "aws-cdk-lib.aws_codebuild.PipelineProject",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
       "Key" => Object {
@@ -4796,6 +4920,7 @@ TypedTemplate {
         "properties": Object {},
         "tags": Array [],
         "type": "aws-cdk-lib.aws_kms.Key",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
       "Pipeline" => Object {
@@ -4975,6 +5100,7 @@ TypedTemplate {
         },
         "tags": Array [],
         "type": "aws-cdk-lib.aws_codepipeline.Pipeline",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
     },
@@ -5139,6 +5265,7 @@ TypedTemplate {
         },
         "tags": Array [],
         "type": "resource",
+        "updatePolicy": undefined,
       },
     },
   },
@@ -5170,6 +5297,7 @@ TypedTemplate {
         },
         "tags": Array [],
         "type": "aws-cdk-lib.aws_sqs.Queue",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
       "MyLogGroup" => Object {
@@ -5196,6 +5324,7 @@ TypedTemplate {
         },
         "tags": Array [],
         "type": "AWS::Logs::LogGroup",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
     },
@@ -5302,6 +5431,7 @@ TypedTemplate {
         },
         "tags": Array [],
         "type": "aws-cdk-lib.aws_sqs.Queue",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
     },
@@ -5928,6 +6058,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
         },
         "tags": Array [],
         "type": "aws-cdk-lib.aws_cloudfront.OriginAccessIdentity",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
       "SiteBucket" => Object {
@@ -5963,6 +6094,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
         },
         "tags": Array [],
         "type": "aws-cdk-lib.aws_s3.Bucket",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
       "SiteBucketAccess" => Object {
@@ -5990,6 +6122,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
         "properties": Object {},
         "tags": Array [],
         "type": undefined,
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
       "HostedZone" => Object {
@@ -6027,6 +6160,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
         "properties": Object {},
         "tags": Array [],
         "type": undefined,
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
       "SiteCertificate" => Object {
@@ -6065,6 +6199,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
         },
         "tags": Array [],
         "type": "aws-cdk-lib.aws_certificatemanager.DnsValidatedCertificate",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
       "SiteDistribution" => Object {
@@ -6173,6 +6308,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
         },
         "tags": Array [],
         "type": "aws-cdk-lib.aws_cloudfront.Distribution",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
       "SiteAliasRecord" => Object {
@@ -6219,6 +6355,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
         },
         "tags": Array [],
         "type": "aws-cdk-lib.aws_route53.ARecord",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
       "SiteDeployment" => Object {
@@ -6317,6 +6454,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
         },
         "tags": Array [],
         "type": "aws-cdk-lib.aws_s3_deployment.BucketDeployment",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
     },
@@ -6543,6 +6681,7 @@ TypedTemplate {
         "properties": Object {},
         "tags": Array [],
         "type": "aws-cdk-lib.aws_ec2.Vpc",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
     },
