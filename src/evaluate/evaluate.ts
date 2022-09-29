@@ -1,4 +1,5 @@
 import * as cdk from 'aws-cdk-lib';
+import { CfnResource } from 'aws-cdk-lib';
 import { Construct, IConstruct } from 'constructs';
 import { SubFragment } from '../parser/private/sub';
 import { assertBoolean, assertString } from '../parser/private/types';
@@ -10,7 +11,12 @@ import {
 import { ResourceOverride } from '../parser/template/overrides';
 import { ResourceTag } from '../parser/template/tags';
 import { splitPath } from '../strings';
-import { isCdkConstructExpression, ResourceLike } from '../type-resolution';
+import {
+  CdkConstruct,
+  isCdkConstructExpression,
+  ResourceLike,
+  CfnResource as CfnResourceNode,
+} from '../type-resolution';
 import {
   InstanceMethodCallExpression,
   StaticMethodCallExpression,
@@ -162,12 +168,9 @@ export class Evaluator {
       case 'lazyResource':
         return this.invoke(x.call);
       case 'construct':
+        return this.initializeConstruct(x, ev);
       case 'resource':
-        return this.initializer(x.fqn, [
-          this.context.stack,
-          x.logicalId,
-          ev(x.props),
-        ]);
+        return this.initializeCfnResource(x, ev);
       case 'initializer':
         return this.initializer(x.fqn, this.evaluateArray(x.args.array));
       case 'staticMethodCall':
@@ -177,6 +180,32 @@ export class Evaluator {
           this.evaluateArray(x.args.array)
         );
     }
+  }
+
+  protected initializeCfnResource(
+    x: CfnResourceNode,
+    ev: (x: TypedTemplateExpression) => any
+  ) {
+    const resource = this.initializer(x.fqn, [
+      this.context.stack,
+      x.logicalId,
+      ev(x.props),
+    ]);
+    if (x.creationPolicy) {
+      (resource as CfnResource).cfnOptions.creationPolicy = x.creationPolicy;
+    }
+    return resource;
+  }
+
+  protected initializeConstruct(
+    x: CdkConstruct,
+    ev: (x: TypedTemplateExpression) => any
+  ) {
+    return this.initializer(x.fqn, [
+      this.context.stack,
+      x.logicalId,
+      ev(x.props),
+    ]);
   }
 
   protected lazyLogicalId(x: LazyLogicalId) {
