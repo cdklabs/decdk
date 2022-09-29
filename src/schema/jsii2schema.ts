@@ -7,7 +7,7 @@ import {
   isConstruct,
   allImplementationsOfType,
 } from '../type-system';
-import { allStaticMethods } from '../type-system/factories';
+import { allStaticFactoryMethods } from '../type-system/factories';
 import { $ref } from './expression';
 
 /* eslint-disable no-console */
@@ -196,11 +196,7 @@ function schemaForPolymorphic(
     }
   }
 
-  const factories = allStaticMethods(type.system)
-    .filter((m) => m.returns.type.fqn === type.fqn)
-    .filter((m) => m.parentType !== type);
-
-  for (const method of factories) {
+  for (const method of allStaticFactoryMethods(type)) {
     const methd = methodSchema(method, ctx);
     if (methd) {
       anyOf.push(methd);

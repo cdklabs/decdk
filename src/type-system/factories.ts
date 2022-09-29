@@ -18,3 +18,12 @@ export function allStaticMethods(ts: reflect.TypeSystem): reflect.Method[] {
   const methods = ts.classes.flatMap((x) => x.ownMethods);
   return (CACHE[STATIC_METHOD_SYM] = methods);
 }
+
+/**
+ * Return all static factory methods that implement the given type
+ */
+export function allStaticFactoryMethods(type: reflect.Type) {
+  return allStaticMethods(type.system)
+    .filter((m) => m.returns.type.fqn === type.fqn)
+    .filter((m) => m.parentType !== type);
+}

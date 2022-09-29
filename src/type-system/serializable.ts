@@ -1,6 +1,7 @@
 import * as reflect from 'jsii-reflect';
 import { isConstruct } from './construct';
 import { isEnum, isEnumLikeClass } from './enums';
+import { allStaticFactoryMethods } from './factories';
 import { allImplementationsOfType } from './implements';
 
 export function isSerializableInterface(
@@ -55,7 +56,7 @@ function isSerializableTypeReference(
 }
 
 function isSerializableType(type: reflect.Type, errorPrefix?: string): boolean {
-  // if this is a cosntruct class, we can represent it as a "Ref"
+  // if this is a construct class, we can represent it as a "Ref"
   if (isConstruct(type)) {
     return true;
   }
@@ -74,6 +75,10 @@ function isSerializableType(type: reflect.Type, errorPrefix?: string): boolean {
   }
 
   if (allImplementationsOfType(type).length > 0) {
+    return true;
+  }
+
+  if (allStaticFactoryMethods(type).length > 0) {
     return true;
   }
 
