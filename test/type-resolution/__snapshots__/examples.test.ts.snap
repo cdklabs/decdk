@@ -2441,6 +2441,991 @@ TypedTemplate {
 }
 `;
 
+exports[`lambda-dashboard.yaml 1`] = `
+TypedTemplate {
+  "conditions": Map {},
+  "mappings": Map {},
+  "outputs": Map {},
+  "parameters": Map {
+    "DashboardName" => Object {
+      "allowedPattern": "^[a-zA-Z0-9-_]*$",
+      "allowedValues": undefined,
+      "constraintDescription": undefined,
+      "default": "SampleDashboard",
+      "description": undefined,
+      "maxLength": undefined,
+      "maxValue": undefined,
+      "minLength": undefined,
+      "minValue": undefined,
+      "noEcho": undefined,
+      "type": "String",
+    },
+  },
+  "resources": DependencyGraph {
+    "_dependencies": Map {
+      "SampleLambda" => Set {},
+      "Invocations" => Set {
+        "SampleLambda",
+      },
+      "Errors" => Set {
+        "SampleLambda",
+      },
+      "Duration" => Set {
+        "SampleLambda",
+      },
+      "Throttles" => Set {
+        "SampleLambda",
+      },
+      "TitleWidget" => Set {
+        "SampleLambda",
+      },
+      "ServiceDashboard" => Set {
+        "TitleWidget",
+        "Invocations",
+        "Errors",
+        "Duration",
+        "Throttles",
+        "SampleLambda",
+      },
+    },
+    "keys": Set {
+      "SampleLambda",
+      "Invocations",
+      "Errors",
+      "Duration",
+      "Throttles",
+      "TitleWidget",
+      "ServiceDashboard",
+    },
+    "nodes": Object {
+      "Duration": Object {
+        "call": Object {
+          "args": Object {
+            "array": Array [
+              Object {
+                "type": "void",
+              },
+            ],
+            "type": "array",
+          },
+          "logicalId": "SampleLambda",
+          "method": "metricDuration",
+          "type": "instanceMethodCall",
+        },
+        "dependsOn": Array [],
+        "logicalId": "Duration",
+        "namespace": "aws_cloudwatch",
+        "overrides": Array [],
+        "tags": Array [],
+        "type": "lazyResource",
+      },
+      "Errors": Object {
+        "call": Object {
+          "args": Object {
+            "array": Array [
+              Object {
+                "type": "void",
+              },
+            ],
+            "type": "array",
+          },
+          "logicalId": "SampleLambda",
+          "method": "metricErrors",
+          "type": "instanceMethodCall",
+        },
+        "dependsOn": Array [],
+        "logicalId": "Errors",
+        "namespace": "aws_cloudwatch",
+        "overrides": Array [],
+        "tags": Array [],
+        "type": "lazyResource",
+      },
+      "Invocations": Object {
+        "call": Object {
+          "args": Object {
+            "array": Array [
+              Object {
+                "type": "void",
+              },
+            ],
+            "type": "array",
+          },
+          "logicalId": "SampleLambda",
+          "method": "metricInvocations",
+          "type": "instanceMethodCall",
+        },
+        "dependsOn": Array [],
+        "logicalId": "Invocations",
+        "namespace": "aws_cloudwatch",
+        "overrides": Array [],
+        "tags": Array [],
+        "type": "lazyResource",
+      },
+      "SampleLambda": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_lambda.Function",
+        "logicalId": "SampleLambda",
+        "namespace": "aws_lambda",
+        "overrides": Array [],
+        "props": Object {
+          "fields": Object {
+            "code": Object {
+              "args": Object {
+                "array": Array [
+                  Object {
+                    "type": "string",
+                    "value": "examples/lambda-handler",
+                  },
+                  Object {
+                    "type": "void",
+                  },
+                ],
+                "type": "array",
+              },
+              "fqn": "aws-cdk-lib.aws_lambda.Code",
+              "method": "fromAsset",
+              "namespace": "aws_lambda",
+              "type": "staticMethodCall",
+            },
+            "handler": Object {
+              "type": "string",
+              "value": "index.handler",
+            },
+            "memorySize": Object {
+              "type": "number",
+              "value": 512,
+            },
+            "runtime": Object {
+              "fqn": "aws-cdk-lib.aws_lambda.Runtime",
+              "namespace": "aws_lambda",
+              "property": "NODEJS_16_X",
+              "type": "staticProperty",
+            },
+            "timeout": Object {
+              "args": Object {
+                "array": Array [
+                  Object {
+                    "type": "number",
+                    "value": 10,
+                  },
+                ],
+                "type": "array",
+              },
+              "fqn": "aws-cdk-lib.Duration",
+              "method": "seconds",
+              "namespace": undefined,
+              "type": "staticMethodCall",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "construct",
+      },
+      "ServiceDashboard": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_cloudwatch.Dashboard",
+        "logicalId": "ServiceDashboard",
+        "namespace": "aws_cloudwatch",
+        "overrides": Array [],
+        "props": Object {
+          "fields": Object {
+            "dashboardName": Object {
+              "fn": "ref",
+              "logicalId": "DashboardName",
+              "type": "intrinsic",
+            },
+            "widgets": Object {
+              "array": Array [
+                Object {
+                  "array": Array [
+                    Object {
+                      "reference": Object {
+                        "fn": "ref",
+                        "logicalId": "TitleWidget",
+                        "type": "intrinsic",
+                      },
+                      "type": "resolve-reference",
+                    },
+                    Object {
+                      "args": Object {
+                        "array": Array [
+                          Object {
+                            "fields": Object {
+                              "left": Object {
+                                "array": Array [
+                                  Object {
+                                    "reference": Object {
+                                      "fn": "ref",
+                                      "logicalId": "Invocations",
+                                      "type": "intrinsic",
+                                    },
+                                    "type": "resolve-reference",
+                                  },
+                                ],
+                                "type": "array",
+                              },
+                              "title": Object {
+                                "type": "string",
+                                "value": "Invocations",
+                              },
+                            },
+                            "type": "struct",
+                          },
+                        ],
+                        "type": "array",
+                      },
+                      "fqn": "aws-cdk-lib.aws_cloudwatch.GraphWidget",
+                      "namespace": "aws_cloudwatch",
+                      "type": "initializer",
+                    },
+                    Object {
+                      "args": Object {
+                        "array": Array [
+                          Object {
+                            "fields": Object {
+                              "left": Object {
+                                "array": Array [
+                                  Object {
+                                    "reference": Object {
+                                      "fn": "ref",
+                                      "logicalId": "Errors",
+                                      "type": "intrinsic",
+                                    },
+                                    "type": "resolve-reference",
+                                  },
+                                ],
+                                "type": "array",
+                              },
+                              "title": Object {
+                                "type": "string",
+                                "value": "Errors",
+                              },
+                            },
+                            "type": "struct",
+                          },
+                        ],
+                        "type": "array",
+                      },
+                      "fqn": "aws-cdk-lib.aws_cloudwatch.GraphWidget",
+                      "namespace": "aws_cloudwatch",
+                      "type": "initializer",
+                    },
+                    Object {
+                      "args": Object {
+                        "array": Array [
+                          Object {
+                            "fields": Object {
+                              "left": Object {
+                                "array": Array [
+                                  Object {
+                                    "reference": Object {
+                                      "fn": "ref",
+                                      "logicalId": "Duration",
+                                      "type": "intrinsic",
+                                    },
+                                    "type": "resolve-reference",
+                                  },
+                                ],
+                                "type": "array",
+                              },
+                              "title": Object {
+                                "type": "string",
+                                "value": "Duration",
+                              },
+                            },
+                            "type": "struct",
+                          },
+                        ],
+                        "type": "array",
+                      },
+                      "fqn": "aws-cdk-lib.aws_cloudwatch.GraphWidget",
+                      "namespace": "aws_cloudwatch",
+                      "type": "initializer",
+                    },
+                    Object {
+                      "args": Object {
+                        "array": Array [
+                          Object {
+                            "fields": Object {
+                              "left": Object {
+                                "array": Array [
+                                  Object {
+                                    "reference": Object {
+                                      "fn": "ref",
+                                      "logicalId": "Throttles",
+                                      "type": "intrinsic",
+                                    },
+                                    "type": "resolve-reference",
+                                  },
+                                ],
+                                "type": "array",
+                              },
+                              "title": Object {
+                                "type": "string",
+                                "value": "Throttles",
+                              },
+                            },
+                            "type": "struct",
+                          },
+                        ],
+                        "type": "array",
+                      },
+                      "fqn": "aws-cdk-lib.aws_cloudwatch.GraphWidget",
+                      "namespace": "aws_cloudwatch",
+                      "type": "initializer",
+                    },
+                    Object {
+                      "args": Object {
+                        "array": Array [
+                          Object {
+                            "fields": Object {
+                              "logGroupNames": Object {
+                                "array": Array [
+                                  Object {
+                                    "fn": "getProp",
+                                    "logicalId": "SampleLambda",
+                                    "property": "logGroup.logGroupName",
+                                    "type": "intrinsic",
+                                  },
+                                ],
+                                "type": "array",
+                              },
+                              "queryLines": Object {
+                                "array": Array [
+                                  Object {
+                                    "type": "string",
+                                    "value": "fields @timestamp, @message",
+                                  },
+                                  Object {
+                                    "type": "string",
+                                    "value": "sort @timestamp desc",
+                                  },
+                                  Object {
+                                    "type": "string",
+                                    "value": "limit 20",
+                                  },
+                                ],
+                                "type": "array",
+                              },
+                              "width": Object {
+                                "type": "number",
+                                "value": 24,
+                              },
+                            },
+                            "type": "struct",
+                          },
+                        ],
+                        "type": "array",
+                      },
+                      "fqn": "aws-cdk-lib.aws_cloudwatch.LogQueryWidget",
+                      "namespace": "aws_cloudwatch",
+                      "type": "initializer",
+                    },
+                  ],
+                  "type": "array",
+                },
+              ],
+              "type": "array",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "construct",
+      },
+      "Throttles": Object {
+        "call": Object {
+          "args": Object {
+            "array": Array [
+              Object {
+                "type": "void",
+              },
+            ],
+            "type": "array",
+          },
+          "logicalId": "SampleLambda",
+          "method": "metricThrottles",
+          "type": "instanceMethodCall",
+        },
+        "dependsOn": Array [],
+        "logicalId": "Throttles",
+        "namespace": "aws_cloudwatch",
+        "overrides": Array [],
+        "tags": Array [],
+        "type": "lazyResource",
+      },
+      "TitleWidget": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_cloudwatch.TextWidget",
+        "logicalId": "TitleWidget",
+        "namespace": "aws_cloudwatch",
+        "overrides": Array [],
+        "props": Object {
+          "fields": Object {
+            "markdown": Object {
+              "fn": "join",
+              "list": Object {
+                "array": Array [
+                  Object {
+                    "type": "string",
+                    "value": "# Operational Metrics: ",
+                  },
+                  Object {
+                    "fn": "ref",
+                    "logicalId": "SampleLambda",
+                    "type": "intrinsic",
+                  },
+                ],
+                "type": "array",
+              },
+              "separator": "",
+              "type": "intrinsic",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "cdkObject",
+      },
+    },
+  },
+  "template": Template {
+    "conditions": Map {},
+    "description": undefined,
+    "mappings": Map {},
+    "outputs": Map {},
+    "parameters": Map {
+      "DashboardName" => Object {
+        "allowedPattern": "^[a-zA-Z0-9-_]*$",
+        "allowedValues": undefined,
+        "constraintDescription": undefined,
+        "default": "SampleDashboard",
+        "description": undefined,
+        "maxLength": undefined,
+        "maxValue": undefined,
+        "minLength": undefined,
+        "minValue": undefined,
+        "noEcho": undefined,
+        "type": "String",
+      },
+    },
+    "resources": Map {
+      "SampleLambda" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "creationPolicy": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {},
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "on": undefined,
+        "overrides": Array [],
+        "properties": Object {
+          "code": Object {
+            "fields": Object {
+              "aws-cdk-lib.aws_lambda.Code.fromAsset": Object {
+                "type": "string",
+                "value": "examples/lambda-handler",
+              },
+            },
+            "type": "object",
+          },
+          "handler": Object {
+            "type": "string",
+            "value": "index.handler",
+          },
+          "memorySize": Object {
+            "type": "number",
+            "value": 512,
+          },
+          "runtime": Object {
+            "type": "string",
+            "value": "NODEJS_16_X",
+          },
+          "timeout": Object {
+            "fields": Object {
+              "aws-cdk-lib.Duration.seconds": Object {
+                "type": "number",
+                "value": 10,
+              },
+            },
+            "type": "object",
+          },
+        },
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_lambda.Function",
+        "updateReplacePolicy": "Delete",
+      },
+      "Invocations" => Object {
+        "call": Object {
+          "fields": Object {
+            "metricInvocations": Object {
+              "type": "null",
+            },
+          },
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "creationPolicy": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "SampleLambda",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "on": "SampleLambda",
+        "overrides": Array [],
+        "properties": Object {},
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_cloudwatch.Metric",
+        "updateReplacePolicy": "Delete",
+      },
+      "Errors" => Object {
+        "call": Object {
+          "fields": Object {
+            "metricErrors": Object {
+              "type": "null",
+            },
+          },
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "creationPolicy": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "SampleLambda",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "on": "SampleLambda",
+        "overrides": Array [],
+        "properties": Object {},
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_cloudwatch.Metric",
+        "updateReplacePolicy": "Delete",
+      },
+      "Duration" => Object {
+        "call": Object {
+          "fields": Object {
+            "metricDuration": Object {
+              "type": "null",
+            },
+          },
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "creationPolicy": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "SampleLambda",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "on": "SampleLambda",
+        "overrides": Array [],
+        "properties": Object {},
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_cloudwatch.Metric",
+        "updateReplacePolicy": "Delete",
+      },
+      "Throttles" => Object {
+        "call": Object {
+          "fields": Object {
+            "metricThrottles": Object {
+              "type": "null",
+            },
+          },
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "creationPolicy": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "SampleLambda",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "on": "SampleLambda",
+        "overrides": Array [],
+        "properties": Object {},
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_cloudwatch.Metric",
+        "updateReplacePolicy": "Delete",
+      },
+      "TitleWidget" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "creationPolicy": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "SampleLambda",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "on": undefined,
+        "overrides": Array [],
+        "properties": Object {
+          "markdown": Object {
+            "fn": "join",
+            "list": Object {
+              "array": Array [
+                Object {
+                  "type": "string",
+                  "value": "# Operational Metrics: ",
+                },
+                Object {
+                  "fn": "ref",
+                  "logicalId": "SampleLambda",
+                  "type": "intrinsic",
+                },
+              ],
+              "type": "array",
+            },
+            "separator": "",
+            "type": "intrinsic",
+          },
+        },
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_cloudwatch.TextWidget",
+        "updateReplacePolicy": "Delete",
+      },
+      "ServiceDashboard" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "creationPolicy": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "DashboardName",
+          "TitleWidget",
+          "Invocations",
+          "Errors",
+          "Duration",
+          "Throttles",
+          "SampleLambda",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "on": undefined,
+        "overrides": Array [],
+        "properties": Object {
+          "dashboardName": Object {
+            "fn": "ref",
+            "logicalId": "DashboardName",
+            "type": "intrinsic",
+          },
+          "widgets": Object {
+            "array": Array [
+              Object {
+                "array": Array [
+                  Object {
+                    "fn": "ref",
+                    "logicalId": "TitleWidget",
+                    "type": "intrinsic",
+                  },
+                  Object {
+                    "fields": Object {
+                      "aws-cdk-lib.aws_cloudwatch.GraphWidget": Object {
+                        "fields": Object {
+                          "left": Object {
+                            "array": Array [
+                              Object {
+                                "fn": "ref",
+                                "logicalId": "Invocations",
+                                "type": "intrinsic",
+                              },
+                            ],
+                            "type": "array",
+                          },
+                          "title": Object {
+                            "type": "string",
+                            "value": "Invocations",
+                          },
+                        },
+                        "type": "object",
+                      },
+                    },
+                    "type": "object",
+                  },
+                  Object {
+                    "fields": Object {
+                      "aws-cdk-lib.aws_cloudwatch.GraphWidget": Object {
+                        "fields": Object {
+                          "left": Object {
+                            "array": Array [
+                              Object {
+                                "fn": "ref",
+                                "logicalId": "Errors",
+                                "type": "intrinsic",
+                              },
+                            ],
+                            "type": "array",
+                          },
+                          "title": Object {
+                            "type": "string",
+                            "value": "Errors",
+                          },
+                        },
+                        "type": "object",
+                      },
+                    },
+                    "type": "object",
+                  },
+                  Object {
+                    "fields": Object {
+                      "aws-cdk-lib.aws_cloudwatch.GraphWidget": Object {
+                        "fields": Object {
+                          "left": Object {
+                            "array": Array [
+                              Object {
+                                "fn": "ref",
+                                "logicalId": "Duration",
+                                "type": "intrinsic",
+                              },
+                            ],
+                            "type": "array",
+                          },
+                          "title": Object {
+                            "type": "string",
+                            "value": "Duration",
+                          },
+                        },
+                        "type": "object",
+                      },
+                    },
+                    "type": "object",
+                  },
+                  Object {
+                    "fields": Object {
+                      "aws-cdk-lib.aws_cloudwatch.GraphWidget": Object {
+                        "fields": Object {
+                          "left": Object {
+                            "array": Array [
+                              Object {
+                                "fn": "ref",
+                                "logicalId": "Throttles",
+                                "type": "intrinsic",
+                              },
+                            ],
+                            "type": "array",
+                          },
+                          "title": Object {
+                            "type": "string",
+                            "value": "Throttles",
+                          },
+                        },
+                        "type": "object",
+                      },
+                    },
+                    "type": "object",
+                  },
+                  Object {
+                    "fields": Object {
+                      "aws-cdk-lib.aws_cloudwatch.LogQueryWidget": Object {
+                        "fields": Object {
+                          "logGroupNames": Object {
+                            "array": Array [
+                              Object {
+                                "fn": "getProp",
+                                "logicalId": "SampleLambda",
+                                "property": "logGroup.logGroupName",
+                                "type": "intrinsic",
+                              },
+                            ],
+                            "type": "array",
+                          },
+                          "queryLines": Object {
+                            "array": Array [
+                              Object {
+                                "type": "string",
+                                "value": "fields @timestamp, @message",
+                              },
+                              Object {
+                                "type": "string",
+                                "value": "sort @timestamp desc",
+                              },
+                              Object {
+                                "type": "string",
+                                "value": "limit 20",
+                              },
+                            ],
+                            "type": "array",
+                          },
+                          "width": Object {
+                            "type": "number",
+                            "value": 24,
+                          },
+                        },
+                        "type": "object",
+                      },
+                    },
+                    "type": "object",
+                  },
+                ],
+                "type": "array",
+              },
+            ],
+            "type": "array",
+          },
+        },
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_cloudwatch.Dashboard",
+        "updateReplacePolicy": "Delete",
+      },
+    },
+    "template": Object {
+      "Parameters": Object {
+        "DashboardName": Object {
+          "AllowedPattern": "^[a-zA-Z0-9-_]*$",
+          "Default": "SampleDashboard",
+          "Type": "String",
+        },
+      },
+      "Resources": Object {
+        "Duration": Object {
+          "Call": Object {
+            "metricDuration": null,
+          },
+          "On": "SampleLambda",
+          "Type": "aws-cdk-lib.aws_cloudwatch.Metric",
+        },
+        "Errors": Object {
+          "Call": Object {
+            "metricErrors": null,
+          },
+          "On": "SampleLambda",
+          "Type": "aws-cdk-lib.aws_cloudwatch.Metric",
+        },
+        "Invocations": Object {
+          "Call": Object {
+            "metricInvocations": null,
+          },
+          "On": "SampleLambda",
+          "Type": "aws-cdk-lib.aws_cloudwatch.Metric",
+        },
+        "SampleLambda": Object {
+          "Properties": Object {
+            "code": Object {
+              "aws-cdk-lib.aws_lambda.Code.fromAsset": "examples/lambda-handler",
+            },
+            "handler": "index.handler",
+            "memorySize": 512,
+            "runtime": "NODEJS_16_X",
+            "timeout": Object {
+              "aws-cdk-lib.Duration.seconds": 10,
+            },
+          },
+          "Type": "aws-cdk-lib.aws_lambda.Function",
+        },
+        "ServiceDashboard": Object {
+          "Properties": Object {
+            "dashboardName": Object {
+              "Ref": "DashboardName",
+            },
+            "widgets": Array [
+              Array [
+                Object {
+                  "Ref": "TitleWidget",
+                },
+                Object {
+                  "aws-cdk-lib.aws_cloudwatch.GraphWidget": Object {
+                    "left": Array [
+                      Object {
+                        "Ref": "Invocations",
+                      },
+                    ],
+                    "title": "Invocations",
+                  },
+                },
+                Object {
+                  "aws-cdk-lib.aws_cloudwatch.GraphWidget": Object {
+                    "left": Array [
+                      Object {
+                        "Ref": "Errors",
+                      },
+                    ],
+                    "title": "Errors",
+                  },
+                },
+                Object {
+                  "aws-cdk-lib.aws_cloudwatch.GraphWidget": Object {
+                    "left": Array [
+                      Object {
+                        "Ref": "Duration",
+                      },
+                    ],
+                    "title": "Duration",
+                  },
+                },
+                Object {
+                  "aws-cdk-lib.aws_cloudwatch.GraphWidget": Object {
+                    "left": Array [
+                      Object {
+                        "Ref": "Throttles",
+                      },
+                    ],
+                    "title": "Throttles",
+                  },
+                },
+                Object {
+                  "aws-cdk-lib.aws_cloudwatch.LogQueryWidget": Object {
+                    "logGroupNames": Array [
+                      Object {
+                        "CDK::GetProp": "SampleLambda.logGroup.logGroupName",
+                      },
+                    ],
+                    "queryLines": Array [
+                      "fields @timestamp, @message",
+                      "sort @timestamp desc",
+                      "limit 20",
+                    ],
+                    "width": 24,
+                  },
+                },
+              ],
+            ],
+          },
+          "Type": "aws-cdk-lib.aws_cloudwatch.Dashboard",
+        },
+        "Throttles": Object {
+          "Call": Object {
+            "metricThrottles": null,
+          },
+          "On": "SampleLambda",
+          "Type": "aws-cdk-lib.aws_cloudwatch.Metric",
+        },
+        "TitleWidget": Object {
+          "Properties": Object {
+            "markdown": Object {
+              "Fn::Join": Array [
+                "",
+                Array [
+                  "# Operational Metrics: ",
+                  Object {
+                    "Ref": "SampleLambda",
+                  },
+                ],
+              ],
+            },
+          },
+          "Type": "aws-cdk-lib.aws_cloudwatch.TextWidget",
+        },
+      },
+    },
+    "templateFormatVersion": undefined,
+  },
+}
+`;
+
 exports[`lambda-events.json 1`] = `
 TypedTemplate {
   "conditions": Map {},

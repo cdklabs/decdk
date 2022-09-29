@@ -87,17 +87,24 @@ export function renderFullSchema(
     process.env.FORCE_COLOR = '0';
   }
 
-  // Find all constructs for which the props interface
-  // (transitively) only consists of JSON primitives or interfaces
-  // that consist of JSON primitives
+  // Find all constructs and top-level classes
   const constructType = typeSystem.findClass('constructs.Construct');
-  const constructs = typeSystem.classes.filter((c) => c.extends(constructType));
+  const cfnResourceType = typeSystem.findClass('aws-cdk-lib.CfnResource');
 
-  const deconstructs = constructs
-    .map(unpackConstruct)
-    .filter(
-      (c) => c && !isCfnResource(c.constructClass)
-    ) as ConstructAndProps[];
+  const constructs = typeSystem.classes.filter(
+    (c) => c.extends(constructType) && !c.extends(cfnResourceType)
+  );
+  const cdkObjects = typeSystem.classes.filter(
+    (c) =>
+      !c.extends(constructType) &&
+      c.initializer &&
+      c.initializer.parameters.length <= 1
+  );
+
+  const deconstructs: ClassAndProps[] = [
+    ...constructs.map(unpackConstruct),
+    ...cdkObjects.map(unpackCdkObject),
+  ].filter((c): c is ClassAndProps => !!c);
 
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   const output = require('../../cloudformation.schema.json');
@@ -167,22 +174,22 @@ function printWarnings(node: SchemaContext, indent = '') {
 }
 
 export function schemaForResource(
-  construct: ConstructAndProps,
+  construct: ClassAndProps,
   ctx: SchemaContext
 ) {
-  ctx = ctx.child('resource', construct.constructClass.fqn);
+  ctx = ctx.child('resource', construct.class.fqn);
 
-  return ctx.define(construct.constructClass.fqn, () => {
+  return ctx.define(construct.class.fqn, () => {
     return {
       additionalProperties: false,
       properties: {
         Properties: schemaForProps(construct.propsTypeRef, ctx),
-        Call: schemaForCall(construct.constructClass, ctx),
+        Call: schemaForCall(construct.class, ctx),
         On: {
           type: 'string',
         },
         Type: {
-          enum: [construct.constructClass.fqn],
+          enum: [construct.class.fqn],
           type: 'string',
         },
         Tags: {
@@ -217,14 +224,7 @@ function schemaForCall(_classType: reflect.ClassType, _ctx: SchemaContext) {
   };
 }
 
-function isCfnResource(klass: reflect.ClassType) {
-  const resource = klass.system.findClass('aws-cdk-lib.CfnResource');
-  return klass.extends(resource);
-}
-
-function unpackConstruct(
-  klass: reflect.ClassType
-): ConstructAndProps | undefined {
+function unpackConstruct(klass: reflect.ClassType): ClassAndProps | undefined {
   if (!klass.initializer || klass.abstract) {
     return undefined;
   }
@@ -234,7 +234,7 @@ function unpackConstruct(
 
   if (klass.initializer.parameters.length == 2) {
     return {
-      constructClass: klass,
+      class: klass,
       propsTypeRef: undefined,
     };
   }
@@ -245,12 +245,38 @@ function unpackConstruct(
   }
 
   return {
-    constructClass: klass,
-    propsTypeRef: klass.initializer.parameters[2].type,
+    class: klass,
+    propsTypeRef: propsParam.type,
   };
 }
 
-export interface ConstructAndProps {
-  constructClass: reflect.ClassType;
+function unpackCdkObject(klass: reflect.ClassType): ClassAndProps | undefined {
+  if (!klass.initializer || klass.abstract) {
+    return undefined;
+  }
+  if (klass.initializer.parameters.length > 1) {
+    return undefined;
+  }
+
+  if (klass.initializer.parameters.length === 0) {
+    return {
+      class: klass,
+      propsTypeRef: undefined,
+    };
+  }
+
+  const propsParam = klass.initializer.parameters[0];
+  if (propsParam.type.fqn === undefined || propsParam.variadic === true) {
+    return undefined;
+  }
+
+  return {
+    class: klass,
+    propsTypeRef: klass.initializer.parameters[0].type,
+  };
+}
+
+export interface ClassAndProps {
+  class: reflect.ClassType;
   propsTypeRef?: reflect.TypeReference;
 }

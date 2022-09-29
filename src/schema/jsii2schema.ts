@@ -196,6 +196,12 @@ function schemaForPolymorphic(
     }
   }
 
+  // If there are any acceptable implementations, they will also be allowed at the top-level
+  // So we need to allow Ref here as well
+  if (anyOf.length >= 1) {
+    anyOf.unshift(schemaForReferences());
+  }
+
   for (const method of allStaticFactoryMethods(type)) {
     const methd = methodSchema(method, ctx);
     if (methd) {
@@ -308,12 +314,11 @@ function schemaForConstructRef(type: reflect.TypeReference) {
     return undefined;
   }
 
-  return {
-    type: 'object',
-    properties: {
-      Ref: { type: 'string' },
-    },
-  };
+  return schemaForReferences();
+}
+
+function schemaForReferences() {
+  return { anyOf: [$ref('FnRef'), $ref('FnGetProp')] };
 }
 
 function schemaForInterface(
@@ -362,15 +367,7 @@ function schemaForInterface(
         properties[prop.name] = {
           anyOf: [
             withDescription(prop, schema),
-            withDescription(prop, {
-              type: 'object',
-              properties: {
-                Ref: {
-                  type: 'string',
-                },
-              },
-              additionalProperties: false,
-            }),
+            withDescription(prop, schemaForReferences()),
           ],
         };
       } else {
