@@ -16,7 +16,12 @@ import {
   TemplateExpression,
 } from './expression';
 import { parseOverrides, ResourceOverride } from './overrides';
-import { CreationPolicy, parseCreationPolicy } from './policies';
+import {
+  CreationPolicy,
+  parseCreationPolicy,
+  parseUpdatePolicy,
+  UpdatePolicy,
+} from './policies';
 import { parseTags, ResourceTag } from './tags';
 
 export interface TemplateResource {
@@ -33,8 +38,7 @@ export interface TemplateResource {
   readonly on?: string;
   readonly call: ObjectLiteral;
   readonly creationPolicy?: CreationPolicy;
-
-  // readonly updatePolicy?: UpdatePolicy;
+  readonly updatePolicy?: UpdatePolicy;
 }
 
 export function parseTemplateResource(
@@ -80,6 +84,7 @@ export function parseTemplateResource(
     on: ifField(resource, 'On', assertString),
     call,
     creationPolicy: parseCreationPolicy(resource.CreationPolicy),
+    updatePolicy: parseUpdatePolicy(resource.UpdatePolicy),
   };
 }
 

@@ -15,6 +15,27 @@ Resources:
       ResourceSignal:
         Count: '3'
         Timeout: PT15M
+    UpdatePolicy:
+      UseOnlineResharding: true
+      AutoScalingReplacingUpdate:
+        WillReplace: false
+      AutoScalingRollingUpdate:
+        MaxBatchSize: 3
+        MinInstancesInService: 5
+        MinSuccessfulInstancesPercent: 42
+        PauseTime: PT10M
+        SuspendProcesses:
+          - Launch
+          - Terminate
+        WaitOnResourceSignals: true
+      AutoScalingScheduledAction:
+        IgnoreUnmodifiedGroupSizeProperties: true
+      CodeDeployLambdaAliasUpdate:
+        AfterAllowTrafficHook: SomeFunction
+        ApplicationName: SomeApp
+        BeforeAllowTrafficHook: AnotherFunction
+        DeploymentGroupName: SomeGroup
+      EnableVersionUpgrade: false
   LaunchConfig:
     Type: AWS::AutoScaling::LaunchConfiguration
     Properties:

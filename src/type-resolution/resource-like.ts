@@ -1,6 +1,6 @@
 import * as reflect from 'jsii-reflect';
 import { ObjectLiteral, Template, TemplateResource } from '../parser/template';
-import { CreationPolicy } from '../parser/template/policies';
+import { CreationPolicy, UpdatePolicy } from '../parser/template/policies';
 import { ResourceTag } from '../parser/template/tags';
 import {
   InstanceMethodCallExpression,
@@ -24,6 +24,7 @@ export interface CfnResource extends BaseConstruct {
   readonly type: 'resource';
   readonly props: TypedTemplateExpression;
   readonly creationPolicy?: CreationPolicy;
+  readonly updatePolicy?: UpdatePolicy;
 }
 
 export interface CdkConstruct extends BaseConstruct {
@@ -139,6 +140,7 @@ function resolveCfnResource(
       type.system.findFqn('aws-cdk-lib.CfnResourceProps').reference
     ),
     creationPolicy: resource.creationPolicy,
+    updatePolicy: resource.updatePolicy,
   };
 }
 

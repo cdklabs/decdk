@@ -1384,6 +1384,33 @@ Object {
         "MinSize": "1",
       },
       "Type": "AWS::AutoScaling::AutoScalingGroup",
+      "UpdatePolicy": Object {
+        "AutoScalingReplacingUpdate": Object {
+          "WillReplace": false,
+        },
+        "AutoScalingRollingUpdate": Object {
+          "MaxBatchSize": 3,
+          "MinInstancesInService": 5,
+          "MinSuccessfulInstancesPercent": 42,
+          "PauseTime": "PT10M",
+          "SuspendProcesses": Array [
+            "Launch",
+            "Terminate",
+          ],
+          "WaitOnResourceSignals": true,
+        },
+        "AutoScalingScheduledAction": Object {
+          "IgnoreUnmodifiedGroupSizeProperties": true,
+        },
+        "CodeDeployLambdaAliasUpdate": Object {
+          "AfterAllowTrafficHook": "SomeFunction",
+          "ApplicationName": "SomeApp",
+          "BeforeAllowTrafficHook": "AnotherFunction",
+          "DeploymentGroupName": "SomeGroup",
+        },
+        "EnableVersionUpgrade": false,
+        "UseOnlineResharding": true,
+      },
     },
     "LaunchConfig": Object {
       "Properties": Object {
