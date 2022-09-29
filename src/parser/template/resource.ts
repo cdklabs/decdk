@@ -16,6 +16,7 @@ import {
   TemplateExpression,
 } from './expression';
 import { parseOverrides, ResourceOverride } from './overrides';
+import { CreationPolicy, parseCreationPolicy } from './policies';
 import { parseTags, ResourceTag } from './tags';
 
 export interface TemplateResource {
@@ -31,8 +32,8 @@ export interface TemplateResource {
   readonly overrides: ResourceOverride[];
   readonly on?: string;
   readonly call: ObjectLiteral;
+  readonly creationPolicy?: CreationPolicy;
 
-  // readonly creationPolicy?: CreationPolicy;
   // readonly updatePolicy?: UpdatePolicy;
 }
 
@@ -78,6 +79,7 @@ export function parseTemplateResource(
     overrides: parseOverrides(resource.Overrides),
     on: ifField(resource, 'On', assertString),
     call,
+    creationPolicy: parseCreationPolicy(resource.CreationPolicy),
   };
 }
 

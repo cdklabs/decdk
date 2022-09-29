@@ -133,6 +133,7 @@ TypedTemplate {
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {},
         "dependsOn": Set {},
@@ -173,6 +174,7 @@ TypedTemplate {
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {
           "HelloLambda",
@@ -198,6 +200,7 @@ TypedTemplate {
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {
           "MyApi",
@@ -550,6 +553,7 @@ TypedTemplate {
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {},
         "dependsOn": Set {},
@@ -567,6 +571,7 @@ TypedTemplate {
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {
           "VPC",
@@ -637,6 +642,7 @@ TypedTemplate {
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {
           "Target",
@@ -659,6 +665,7 @@ TypedTemplate {
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {
           "VPC",
@@ -707,6 +714,7 @@ TypedTemplate {
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {
           "LB",
@@ -755,6 +763,7 @@ TypedTemplate {
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {
           "Listener",
@@ -785,6 +794,7 @@ TypedTemplate {
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {
           "Listener",
@@ -1052,6 +1062,7 @@ TypedTemplate {
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {
           "BucketName",
@@ -1175,6 +1186,341 @@ TypedTemplate {
 }
 `;
 
+exports[`cfn-policies.yaml 1`] = `
+TypedTemplate {
+  "conditions": Map {},
+  "mappings": Map {},
+  "outputs": Map {},
+  "parameters": Map {},
+  "resources": DependencyGraph {
+    "_dependencies": Map {
+      "AutoScalingGroup" => Set {
+        "LaunchConfig",
+      },
+      "LaunchConfig" => Set {},
+    },
+    "keys": Set {
+      "LaunchConfig",
+      "AutoScalingGroup",
+    },
+    "nodes": Object {
+      "AutoScalingGroup": Object {
+        "creationPolicy": Object {
+          "autoScalingCreationPolicy": Object {
+            "minSuccessfulInstancesPercent": 50,
+          },
+          "resourceSignal": Object {
+            "count": 3,
+            "timeout": "PT15M",
+          },
+        },
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.CfnResource",
+        "logicalId": "AutoScalingGroup",
+        "namespace": undefined,
+        "props": Object {
+          "fields": Object {
+            "properties": Object {
+              "fields": Object {
+                "AvailabilityZones": Object {
+                  "type": "any",
+                  "value": Object {
+                    "fn": "getAzs",
+                    "region": Object {
+                      "type": "string",
+                      "value": "",
+                    },
+                    "type": "intrinsic",
+                  },
+                },
+                "DesiredCapacity": Object {
+                  "type": "any",
+                  "value": Object {
+                    "type": "string",
+                    "value": "3",
+                  },
+                },
+                "LaunchConfigurationName": Object {
+                  "type": "any",
+                  "value": Object {
+                    "fn": "ref",
+                    "logicalId": "LaunchConfig",
+                    "type": "intrinsic",
+                  },
+                },
+                "MaxSize": Object {
+                  "type": "any",
+                  "value": Object {
+                    "type": "string",
+                    "value": "4",
+                  },
+                },
+                "MinSize": Object {
+                  "type": "any",
+                  "value": Object {
+                    "type": "string",
+                    "value": "1",
+                  },
+                },
+              },
+              "type": "object",
+            },
+            "type": Object {
+              "type": "string",
+              "value": "AWS::AutoScaling::AutoScalingGroup",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "resource",
+      },
+      "LaunchConfig": Object {
+        "creationPolicy": undefined,
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.CfnResource",
+        "logicalId": "LaunchConfig",
+        "namespace": undefined,
+        "props": Object {
+          "fields": Object {
+            "properties": Object {
+              "fields": Object {
+                "ImageId": Object {
+                  "type": "any",
+                  "value": Object {
+                    "type": "string",
+                    "value": "ami-16d18a7e",
+                  },
+                },
+                "InstanceType": Object {
+                  "type": "any",
+                  "value": Object {
+                    "type": "string",
+                    "value": "t2.micro",
+                  },
+                },
+                "UserData": Object {
+                  "type": "any",
+                  "value": Object {
+                    "expression": Object {
+                      "additionalContext": Object {},
+                      "fn": "sub",
+                      "fragments": Array [
+                        Object {
+                          "content": "#!/bin/bash -xe
+yum update -y aws-cfn-bootstrap
+/opt/aws/bin/cfn-signal -e $? --stack ",
+                          "type": "literal",
+                        },
+                        Object {
+                          "logicalId": "AWS::StackName",
+                          "type": "ref",
+                        },
+                        Object {
+                          "content": " --resource AutoScalingGroup --region ",
+                          "type": "literal",
+                        },
+                        Object {
+                          "logicalId": "AWS::Region",
+                          "type": "ref",
+                        },
+                        Object {
+                          "content": "
+",
+                          "type": "literal",
+                        },
+                      ],
+                      "type": "intrinsic",
+                    },
+                    "fn": "base64",
+                    "type": "intrinsic",
+                  },
+                },
+              },
+              "type": "object",
+            },
+            "type": Object {
+              "type": "string",
+              "value": "AWS::AutoScaling::LaunchConfiguration",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "resource",
+      },
+    },
+  },
+  "template": Template {
+    "conditions": Map {},
+    "description": undefined,
+    "mappings": Map {},
+    "outputs": Map {},
+    "parameters": Map {},
+    "resources": Map {
+      "AutoScalingGroup" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "creationPolicy": Object {
+          "autoScalingCreationPolicy": Object {
+            "minSuccessfulInstancesPercent": 50,
+          },
+          "resourceSignal": Object {
+            "count": 3,
+            "timeout": "PT15M",
+          },
+        },
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "LaunchConfig",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "on": undefined,
+        "overrides": Array [],
+        "properties": Object {
+          "AvailabilityZones": Object {
+            "fn": "getAzs",
+            "region": Object {
+              "type": "string",
+              "value": "",
+            },
+            "type": "intrinsic",
+          },
+          "DesiredCapacity": Object {
+            "type": "string",
+            "value": "3",
+          },
+          "LaunchConfigurationName": Object {
+            "fn": "ref",
+            "logicalId": "LaunchConfig",
+            "type": "intrinsic",
+          },
+          "MaxSize": Object {
+            "type": "string",
+            "value": "4",
+          },
+          "MinSize": Object {
+            "type": "string",
+            "value": "1",
+          },
+        },
+        "tags": Array [],
+        "type": "AWS::AutoScaling::AutoScalingGroup",
+        "updateReplacePolicy": "Delete",
+      },
+      "LaunchConfig" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "creationPolicy": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {},
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "on": undefined,
+        "overrides": Array [],
+        "properties": Object {
+          "ImageId": Object {
+            "type": "string",
+            "value": "ami-16d18a7e",
+          },
+          "InstanceType": Object {
+            "type": "string",
+            "value": "t2.micro",
+          },
+          "UserData": Object {
+            "expression": Object {
+              "additionalContext": Object {},
+              "fn": "sub",
+              "fragments": Array [
+                Object {
+                  "content": "#!/bin/bash -xe
+yum update -y aws-cfn-bootstrap
+/opt/aws/bin/cfn-signal -e $? --stack ",
+                  "type": "literal",
+                },
+                Object {
+                  "logicalId": "AWS::StackName",
+                  "type": "ref",
+                },
+                Object {
+                  "content": " --resource AutoScalingGroup --region ",
+                  "type": "literal",
+                },
+                Object {
+                  "logicalId": "AWS::Region",
+                  "type": "ref",
+                },
+                Object {
+                  "content": "
+",
+                  "type": "literal",
+                },
+              ],
+              "type": "intrinsic",
+            },
+            "fn": "base64",
+            "type": "intrinsic",
+          },
+        },
+        "tags": Array [],
+        "type": "AWS::AutoScaling::LaunchConfiguration",
+        "updateReplacePolicy": "Delete",
+      },
+    },
+    "template": Object {
+      "Resources": Object {
+        "AutoScalingGroup": Object {
+          "CreationPolicy": Object {
+            "AutoScalingCreationPolicy": Object {
+              "MinSuccessfulInstancesPercent": 50,
+            },
+            "ResourceSignal": Object {
+              "Count": "3",
+              "Timeout": "PT15M",
+            },
+          },
+          "Properties": Object {
+            "AvailabilityZones": Object {
+              "Fn::GetAZs": "",
+            },
+            "DesiredCapacity": "3",
+            "LaunchConfigurationName": Object {
+              "Ref": "LaunchConfig",
+            },
+            "MaxSize": "4",
+            "MinSize": "1",
+          },
+          "Type": "AWS::AutoScaling::AutoScalingGroup",
+        },
+        "LaunchConfig": Object {
+          "Properties": Object {
+            "ImageId": "ami-16d18a7e",
+            "InstanceType": "t2.micro",
+            "UserData": Object {
+              "Fn::Base64": Object {
+                "Fn::Sub": "#!/bin/bash -xe
+yum update -y aws-cfn-bootstrap
+/opt/aws/bin/cfn-signal -e $? --stack \${AWS::StackName} --resource AutoScalingGroup --region \${AWS::Region}
+",
+              },
+            },
+          },
+          "Type": "AWS::AutoScaling::LaunchConfiguration",
+        },
+      },
+    },
+    "templateFormatVersion": undefined,
+  },
+}
+`;
+
 exports[`ec2-instance.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
@@ -1203,6 +1549,7 @@ TypedTemplate {
     },
     "nodes": Object {
       "myEC2Instance": Object {
+        "creationPolicy": undefined,
         "dependsOn": Array [],
         "fqn": "aws-cdk-lib.CfnResource",
         "logicalId": "myEC2Instance",
@@ -1276,6 +1623,7 @@ TypedTemplate {
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {
           "AWS::Region",
@@ -1545,6 +1893,7 @@ TypedTemplate {
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {},
         "dependsOn": Set {},
@@ -1567,6 +1916,7 @@ TypedTemplate {
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {
           "VPC",
@@ -1592,6 +1942,7 @@ TypedTemplate {
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {},
         "dependsOn": Set {},
@@ -1630,6 +1981,7 @@ TypedTemplate {
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {
           "MyTaskDef",
@@ -1672,6 +2024,7 @@ TypedTemplate {
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {
           "Cluster",
@@ -1875,6 +2228,7 @@ TypedTemplate {
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {},
         "dependsOn": Set {},
@@ -1897,6 +2251,7 @@ TypedTemplate {
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {
           "MyVpc",
@@ -2226,6 +2581,7 @@ TypedTemplate {
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {},
         "dependsOn": Set {},
@@ -2243,6 +2599,7 @@ TypedTemplate {
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {},
         "dependsOn": Set {},
@@ -2278,6 +2635,7 @@ TypedTemplate {
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {
           "Table",
@@ -2578,6 +2936,7 @@ TypedTemplate {
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {},
         "dependsOn": Set {},
@@ -2595,6 +2954,7 @@ TypedTemplate {
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {
           "AwsCliLayer",
@@ -2841,6 +3201,7 @@ TypedTemplate {
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {
           "MyBucket",
@@ -2962,6 +3323,7 @@ TypedTemplate {
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {},
         "dependsOn": Set {},
@@ -3111,6 +3473,7 @@ TypedTemplate {
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {},
         "dependsOn": Set {},
@@ -3291,6 +3654,7 @@ TypedTemplate {
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {},
         "dependsOn": Set {},
@@ -3308,6 +3672,7 @@ TypedTemplate {
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {
           "Topic",
@@ -3709,6 +4074,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {},
         "dependsOn": Set {},
@@ -3741,6 +4107,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {
           "SourceBucket",
@@ -3760,6 +4127,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {
           "BusinessLogic",
@@ -3798,6 +4166,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {},
         "dependsOn": Set {},
@@ -3821,6 +4190,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {
           "ReadBucket",
@@ -3861,6 +4231,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {
           "CDK::Scope",
@@ -3886,6 +4257,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {
           "WriteBucket",
@@ -3916,6 +4288,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {
           "MyFunction",
@@ -3945,6 +4318,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {
           "Alias",
@@ -4357,6 +4731,7 @@ TypedTemplate {
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {
           "Key",
@@ -4385,6 +4760,7 @@ TypedTemplate {
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {
           "Key",
@@ -4410,6 +4786,7 @@ TypedTemplate {
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {},
         "dependsOn": Set {},
@@ -4427,6 +4804,7 @@ TypedTemplate {
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {
           "Repo",
@@ -4732,6 +5110,7 @@ TypedTemplate {
         "type": "construct",
       },
       "MyLogGroup": Object {
+        "creationPolicy": undefined,
         "dependsOn": Array [],
         "fqn": "aws-cdk-lib.CfnResource",
         "logicalId": "MyLogGroup",
@@ -4776,6 +5155,7 @@ TypedTemplate {
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {},
         "dependsOn": Set {},
@@ -4798,6 +5178,7 @@ TypedTemplate {
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {
           "AWS::AccountId",
@@ -4899,6 +5280,7 @@ TypedTemplate {
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {},
         "dependsOn": Set {},
@@ -5510,6 +5892,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {
           "DomainName",
@@ -5553,6 +5936,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {},
         "dependsOn": Set {},
@@ -5593,6 +5977,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {
           "SiteBucket",
@@ -5629,6 +6014,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {
           "HostedZoneId",
@@ -5649,6 +6035,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {
           "DomainName",
@@ -5686,6 +6073,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {
           "SiteCertificate",
@@ -5793,6 +6181,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {
           "HostedZone",
@@ -5838,6 +6227,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {
           "DomainName",
@@ -6143,6 +6533,7 @@ TypedTemplate {
           "type": "object",
         },
         "conditionName": undefined,
+        "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {},
         "dependsOn": Set {},

@@ -1359,6 +1359,51 @@ Object {
 }
 `;
 
+exports[`cfn-policies.yaml 1`] = `
+Object {
+  "Resources": Object {
+    "AutoScalingGroup": Object {
+      "CreationPolicy": Object {
+        "AutoScalingCreationPolicy": Object {
+          "MinSuccessfulInstancesPercent": 50,
+        },
+        "ResourceSignal": Object {
+          "Count": 3,
+          "Timeout": "PT15M",
+        },
+      },
+      "Properties": Object {
+        "AvailabilityZones": Object {
+          "Fn::GetAZs": "",
+        },
+        "DesiredCapacity": "3",
+        "LaunchConfigurationName": Object {
+          "Ref": "LaunchConfig",
+        },
+        "MaxSize": "4",
+        "MinSize": "1",
+      },
+      "Type": "AWS::AutoScaling::AutoScalingGroup",
+    },
+    "LaunchConfig": Object {
+      "Properties": Object {
+        "ImageId": "ami-16d18a7e",
+        "InstanceType": "t2.micro",
+        "UserData": Object {
+          "Fn::Base64": Object {
+            "Fn::Sub": "#!/bin/bash -xe
+yum update -y aws-cfn-bootstrap
+/opt/aws/bin/cfn-signal -e $? --stack \${AWS::StackName} --resource AutoScalingGroup --region \${AWS::Region}
+",
+          },
+        },
+      },
+      "Type": "AWS::AutoScaling::LaunchConfiguration",
+    },
+  },
+}
+`;
+
 exports[`ec2-instance.yaml 1`] = `
 Object {
   "Mappings": Object {
@@ -4604,7 +4649,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "f98b78092dcdd31f5e6d47489beb5f804d4835ef86a8085d0a2053cb9ae711da.zip",
+          "S3Key": "6ddcf10002539818a9256eff3fb2b22aa09298d8f946e26ba121c175a600c44e.zip",
         },
         "Handler": "index.handler",
         "Layers": Array [
