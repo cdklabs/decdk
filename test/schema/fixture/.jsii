@@ -309,8 +309,34 @@
       ],
       "name": "MyNormalEnum",
       "symbolId": "index:MyNormalEnum"
+    },
+    "fixture.NonImplementingFactory": {
+      "assembly": "fixture",
+      "fqn": "fixture.NonImplementingFactory",
+      "kind": "class",
+      "locationInModule": {
+        "filename": "index.ts",
+        "line": 78
+      },
+      "methods": [
+        {
+          "locationInModule": {
+            "filename": "index.ts",
+            "line": 79
+          },
+          "name": "baseFeature",
+          "returns": {
+            "type": {
+              "fqn": "fixture.IFeature"
+            }
+          },
+          "static": true
+        }
+      ],
+      "name": "NonImplementingFactory",
+      "symbolId": "index:NonImplementingFactory"
     }
   },
   "version": "0.0.0",
-  "fingerprint": "fpYRNBLyhX3T0Y5iSP/DfB10UWAuHgxUj1L9LQQIyxo="
+  "fingerprint": "aGuzPb5FbNZzuoOVvpzyUJRmv7zdVlmay7mwxJTpyEQ="
 }

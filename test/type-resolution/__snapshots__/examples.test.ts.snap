@@ -4947,6 +4947,1160 @@ TypedTemplate {
 }
 `;
 
+exports[`static-site.yaml 1`] = `
+TypedTemplate {
+  "conditions": Map {},
+  "mappings": Map {},
+  "outputs": Map {},
+  "parameters": Map {
+    "DomainName" => Object {
+      "allowedPattern": undefined,
+      "allowedValues": undefined,
+      "constraintDescription": undefined,
+      "default": "www.example.com",
+      "description": undefined,
+      "maxLength": undefined,
+      "maxValue": undefined,
+      "minLength": undefined,
+      "minValue": undefined,
+      "noEcho": undefined,
+      "type": "String",
+    },
+    "HostedZoneId" => Object {
+      "allowedPattern": undefined,
+      "allowedValues": undefined,
+      "constraintDescription": undefined,
+      "default": undefined,
+      "description": undefined,
+      "maxLength": undefined,
+      "maxValue": undefined,
+      "minLength": undefined,
+      "minValue": undefined,
+      "noEcho": undefined,
+      "type": "String",
+    },
+  },
+  "resources": DependencyGraph {
+    "_dependencies": Map {
+      "CloudFrontOAI" => Set {},
+      "SiteBucket" => Set {},
+      "SiteBucketAccess" => Set {
+        "SiteBucket",
+        "CloudFrontOAI",
+      },
+      "HostedZone" => Set {},
+      "SiteCertificate" => Set {
+        "HostedZone",
+      },
+      "SiteDistribution" => Set {
+        "SiteCertificate",
+        "SiteBucket",
+        "CloudFrontOAI",
+      },
+      "SiteAliasRecord" => Set {
+        "HostedZone",
+        "SiteDistribution",
+      },
+      "SiteDeployment" => Set {
+        "SiteBucket",
+        "SiteDistribution",
+      },
+    },
+    "keys": Set {
+      "CloudFrontOAI",
+      "SiteBucket",
+      "HostedZone",
+      "SiteBucketAccess",
+      "SiteCertificate",
+      "SiteDistribution",
+      "SiteAliasRecord",
+      "SiteDeployment",
+    },
+    "nodes": Object {
+      "CloudFrontOAI": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_cloudfront.OriginAccessIdentity",
+        "logicalId": "CloudFrontOAI",
+        "namespace": "aws_cloudfront",
+        "overrides": Array [],
+        "props": Object {
+          "fields": Object {
+            "comment": Object {
+              "fn": "join",
+              "list": Object {
+                "array": Array [
+                  Object {
+                    "type": "string",
+                    "value": "OAI",
+                  },
+                  Object {
+                    "type": "string",
+                    "value": "for",
+                  },
+                  Object {
+                    "fn": "ref",
+                    "logicalId": "DomainName",
+                    "type": "intrinsic",
+                  },
+                ],
+                "type": "array",
+              },
+              "separator": " ",
+              "type": "intrinsic",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "construct",
+      },
+      "HostedZone": Object {
+        "call": Object {
+          "args": Object {
+            "array": Array [
+              Object {
+                "reference": Object {
+                  "fn": "ref",
+                  "logicalId": "CDK::Scope",
+                  "type": "intrinsic",
+                },
+                "type": "resolve-reference",
+              },
+              Object {
+                "errorMessage": "Call to aws-cdk-lib.aws_route53.HostedZone.fromHostedZoneAttributes with parameters:
+
+[{\\"type\\":\\"object\\",\\"fields\\":{\\"hostedZoneId\\":{\\"type\\":\\"intrinsic\\",\\"fn\\":\\"ref\\",\\"logicalId\\":\\"HostedZoneId\\"},\\"zoneName\\":{\\"type\\":\\"intrinsic\\",\\"fn\\":\\"ref\\",\\"logicalId\\":\\"DomainName\\"}}}]
+
+failed because the id could not be inferred. Use the intrinsic function CDK::Args to pass scope and id explicitly.",
+                "fn": "lazyLogicalId",
+                "type": "intrinsic",
+                "value": "HostedZone",
+              },
+              Object {
+                "fields": Object {
+                  "hostedZoneId": Object {
+                    "fn": "ref",
+                    "logicalId": "HostedZoneId",
+                    "type": "intrinsic",
+                  },
+                  "zoneName": Object {
+                    "fn": "ref",
+                    "logicalId": "DomainName",
+                    "type": "intrinsic",
+                  },
+                },
+                "type": "struct",
+              },
+            ],
+            "type": "array",
+          },
+          "fqn": "aws-cdk-lib.aws_route53.HostedZone",
+          "method": "fromHostedZoneAttributes",
+          "namespace": "aws_route53",
+          "type": "staticMethodCall",
+        },
+        "dependsOn": Array [],
+        "logicalId": "HostedZone",
+        "namespace": undefined,
+        "overrides": Array [],
+        "tags": Array [],
+        "type": "lazyResource",
+      },
+      "SiteAliasRecord": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_route53.ARecord",
+        "logicalId": "SiteAliasRecord",
+        "namespace": "aws_route53",
+        "overrides": Array [],
+        "props": Object {
+          "fields": Object {
+            "recordName": Object {
+              "type": "string",
+              "value": "www",
+            },
+            "target": Object {
+              "args": Object {
+                "array": Array [
+                  Object {
+                    "args": Object {
+                      "array": Array [
+                        Object {
+                          "reference": Object {
+                            "fn": "ref",
+                            "logicalId": "SiteDistribution",
+                            "type": "intrinsic",
+                          },
+                          "type": "resolve-reference",
+                        },
+                      ],
+                      "type": "array",
+                    },
+                    "fqn": "aws-cdk-lib.aws_route53_targets.CloudFrontTarget",
+                    "namespace": "aws_route53_targets",
+                    "type": "initializer",
+                  },
+                ],
+                "type": "array",
+              },
+              "fqn": "aws-cdk-lib.aws_route53.RecordTarget",
+              "method": "fromAlias",
+              "namespace": "aws_route53",
+              "type": "staticMethodCall",
+            },
+            "zone": Object {
+              "reference": Object {
+                "fn": "ref",
+                "logicalId": "HostedZone",
+                "type": "intrinsic",
+              },
+              "type": "resolve-reference",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "construct",
+      },
+      "SiteBucket": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_s3.Bucket",
+        "logicalId": "SiteBucket",
+        "namespace": "aws_s3",
+        "overrides": Array [],
+        "props": Object {
+          "fields": Object {
+            "autoDeleteObjects": Object {
+              "type": "boolean",
+              "value": true,
+            },
+            "blockPublicAccess": Object {
+              "fqn": "aws-cdk-lib.aws_s3.BlockPublicAccess",
+              "namespace": "aws_s3",
+              "property": "BLOCK_ALL",
+              "type": "staticProperty",
+            },
+            "publicReadAccess": Object {
+              "type": "boolean",
+              "value": false,
+            },
+            "removalPolicy": Object {
+              "choice": "DESTROY",
+              "fqn": "aws-cdk-lib.RemovalPolicy",
+              "namespace": undefined,
+              "type": "enum",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "construct",
+      },
+      "SiteBucketAccess": Object {
+        "call": Object {
+          "args": Object {
+            "array": Array [
+              Object {
+                "reference": Object {
+                  "fn": "ref",
+                  "logicalId": "CloudFrontOAI",
+                  "type": "intrinsic",
+                },
+                "type": "resolve-reference",
+              },
+              Object {
+                "type": "void",
+              },
+            ],
+            "type": "array",
+          },
+          "logicalId": "SiteBucket",
+          "method": "grantRead",
+          "type": "instanceMethodCall",
+        },
+        "dependsOn": Array [],
+        "logicalId": "SiteBucketAccess",
+        "namespace": undefined,
+        "overrides": Array [],
+        "tags": Array [],
+        "type": "lazyResource",
+      },
+      "SiteCertificate": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_certificatemanager.DnsValidatedCertificate",
+        "logicalId": "SiteCertificate",
+        "namespace": "aws_certificatemanager",
+        "overrides": Array [],
+        "props": Object {
+          "fields": Object {
+            "domainName": Object {
+              "fn": "ref",
+              "logicalId": "DomainName",
+              "type": "intrinsic",
+            },
+            "hostedZone": Object {
+              "reference": Object {
+                "fn": "ref",
+                "logicalId": "HostedZone",
+                "type": "intrinsic",
+              },
+              "type": "resolve-reference",
+            },
+            "region": Object {
+              "fn": "ref",
+              "logicalId": "AWS::Region",
+              "type": "intrinsic",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "construct",
+      },
+      "SiteDeployment": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_s3_deployment.BucketDeployment",
+        "logicalId": "SiteDeployment",
+        "namespace": "aws_s3_deployment",
+        "overrides": Array [],
+        "props": Object {
+          "fields": Object {
+            "destinationBucket": Object {
+              "reference": Object {
+                "fn": "ref",
+                "logicalId": "SiteBucket",
+                "type": "intrinsic",
+              },
+              "type": "resolve-reference",
+            },
+            "distribution": Object {
+              "reference": Object {
+                "fn": "ref",
+                "logicalId": "SiteDistribution",
+                "type": "intrinsic",
+              },
+              "type": "resolve-reference",
+            },
+            "distributionPaths": Object {
+              "array": Array [
+                Object {
+                  "type": "string",
+                  "value": "/*",
+                },
+              ],
+              "type": "array",
+            },
+            "sources": Object {
+              "array": Array [
+                Object {
+                  "args": Object {
+                    "array": Array [
+                      Object {
+                        "type": "string",
+                        "value": "index.html",
+                      },
+                      Object {
+                        "fn": "join",
+                        "list": Object {
+                          "array": Array [
+                            Object {
+                              "type": "string",
+                              "value": "Hello from ",
+                            },
+                            Object {
+                              "fn": "ref",
+                              "logicalId": "DomainName",
+                              "type": "intrinsic",
+                            },
+                          ],
+                          "type": "array",
+                        },
+                        "separator": "",
+                        "type": "intrinsic",
+                      },
+                    ],
+                    "type": "array",
+                  },
+                  "fqn": "aws-cdk-lib.aws_s3_deployment.Source",
+                  "method": "data",
+                  "namespace": "aws_s3_deployment",
+                  "type": "staticMethodCall",
+                },
+                Object {
+                  "args": Object {
+                    "array": Array [
+                      Object {
+                        "type": "string",
+                        "value": "error.html",
+                      },
+                      Object {
+                        "type": "string",
+                        "value": "Woof woof! Something went wrong.",
+                      },
+                    ],
+                    "type": "array",
+                  },
+                  "fqn": "aws-cdk-lib.aws_s3_deployment.Source",
+                  "method": "data",
+                  "namespace": "aws_s3_deployment",
+                  "type": "staticMethodCall",
+                },
+              ],
+              "type": "array",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "construct",
+      },
+      "SiteDistribution": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_cloudfront.Distribution",
+        "logicalId": "SiteDistribution",
+        "namespace": "aws_cloudfront",
+        "overrides": Array [],
+        "props": Object {
+          "fields": Object {
+            "certificate": Object {
+              "reference": Object {
+                "fn": "ref",
+                "logicalId": "SiteCertificate",
+                "type": "intrinsic",
+              },
+              "type": "resolve-reference",
+            },
+            "defaultBehavior": Object {
+              "fields": Object {
+                "origin": Object {
+                  "args": Object {
+                    "array": Array [
+                      Object {
+                        "reference": Object {
+                          "fn": "ref",
+                          "logicalId": "SiteBucket",
+                          "type": "intrinsic",
+                        },
+                        "type": "resolve-reference",
+                      },
+                      Object {
+                        "fields": Object {
+                          "originAccessIdentity": Object {
+                            "reference": Object {
+                              "fn": "ref",
+                              "logicalId": "CloudFrontOAI",
+                              "type": "intrinsic",
+                            },
+                            "type": "resolve-reference",
+                          },
+                        },
+                        "type": "struct",
+                      },
+                    ],
+                    "type": "array",
+                  },
+                  "fqn": "aws-cdk-lib.aws_cloudfront_origins.S3Origin",
+                  "namespace": "aws_cloudfront_origins",
+                  "type": "initializer",
+                },
+              },
+              "type": "struct",
+            },
+            "defaultRootObject": Object {
+              "type": "string",
+              "value": "index.html",
+            },
+            "domainNames": Object {
+              "array": Array [
+                Object {
+                  "fn": "ref",
+                  "logicalId": "DomainName",
+                  "type": "intrinsic",
+                },
+              ],
+              "type": "array",
+            },
+            "errorResponses": Object {
+              "array": Array [
+                Object {
+                  "fields": Object {
+                    "httpStatus": Object {
+                      "type": "number",
+                      "value": 403,
+                    },
+                    "responseHttpStatus": Object {
+                      "type": "number",
+                      "value": 403,
+                    },
+                    "responsePagePath": Object {
+                      "type": "string",
+                      "value": "error.html",
+                    },
+                    "ttl": Object {
+                      "args": Object {
+                        "array": Array [
+                          Object {
+                            "type": "number",
+                            "value": 30,
+                          },
+                        ],
+                        "type": "array",
+                      },
+                      "fqn": "aws-cdk-lib.Duration",
+                      "method": "minutes",
+                      "namespace": undefined,
+                      "type": "staticMethodCall",
+                    },
+                  },
+                  "type": "struct",
+                },
+              ],
+              "type": "array",
+            },
+            "minimumProtocolVersion": Object {
+              "choice": "TLS_V1_2_2021",
+              "fqn": "aws-cdk-lib.aws_cloudfront.SecurityPolicyProtocol",
+              "namespace": "aws_cloudfront",
+              "type": "enum",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "construct",
+      },
+    },
+  },
+  "template": Template {
+    "conditions": Map {},
+    "description": undefined,
+    "mappings": Map {},
+    "outputs": Map {},
+    "parameters": Map {
+      "DomainName" => Object {
+        "allowedPattern": undefined,
+        "allowedValues": undefined,
+        "constraintDescription": undefined,
+        "default": "www.example.com",
+        "description": undefined,
+        "maxLength": undefined,
+        "maxValue": undefined,
+        "minLength": undefined,
+        "minValue": undefined,
+        "noEcho": undefined,
+        "type": "String",
+      },
+      "HostedZoneId" => Object {
+        "allowedPattern": undefined,
+        "allowedValues": undefined,
+        "constraintDescription": undefined,
+        "default": undefined,
+        "description": undefined,
+        "maxLength": undefined,
+        "maxValue": undefined,
+        "minLength": undefined,
+        "minValue": undefined,
+        "noEcho": undefined,
+        "type": "String",
+      },
+    },
+    "resources": Map {
+      "CloudFrontOAI" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "DomainName",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "on": undefined,
+        "overrides": Array [],
+        "properties": Object {
+          "comment": Object {
+            "fn": "join",
+            "list": Object {
+              "array": Array [
+                Object {
+                  "type": "string",
+                  "value": "OAI",
+                },
+                Object {
+                  "type": "string",
+                  "value": "for",
+                },
+                Object {
+                  "fn": "ref",
+                  "logicalId": "DomainName",
+                  "type": "intrinsic",
+                },
+              ],
+              "type": "array",
+            },
+            "separator": " ",
+            "type": "intrinsic",
+          },
+        },
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_cloudfront.OriginAccessIdentity",
+        "updateReplacePolicy": "Delete",
+      },
+      "SiteBucket" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {},
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "on": undefined,
+        "overrides": Array [],
+        "properties": Object {
+          "autoDeleteObjects": Object {
+            "type": "boolean",
+            "value": true,
+          },
+          "blockPublicAccess": Object {
+            "type": "string",
+            "value": "BLOCK_ALL",
+          },
+          "publicReadAccess": Object {
+            "type": "boolean",
+            "value": false,
+          },
+          "removalPolicy": Object {
+            "type": "string",
+            "value": "DESTROY",
+          },
+        },
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_s3.Bucket",
+        "updateReplacePolicy": "Delete",
+      },
+      "SiteBucketAccess" => Object {
+        "call": Object {
+          "fields": Object {
+            "grantRead": Object {
+              "fn": "ref",
+              "logicalId": "CloudFrontOAI",
+              "type": "intrinsic",
+            },
+          },
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "SiteBucket",
+          "CloudFrontOAI",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "on": "SiteBucket",
+        "overrides": Array [],
+        "properties": Object {},
+        "tags": Array [],
+        "type": undefined,
+        "updateReplacePolicy": "Delete",
+      },
+      "HostedZone" => Object {
+        "call": Object {
+          "fields": Object {
+            "aws-cdk-lib.aws_route53.HostedZone.fromHostedZoneAttributes": Object {
+              "fields": Object {
+                "hostedZoneId": Object {
+                  "fn": "ref",
+                  "logicalId": "HostedZoneId",
+                  "type": "intrinsic",
+                },
+                "zoneName": Object {
+                  "fn": "ref",
+                  "logicalId": "DomainName",
+                  "type": "intrinsic",
+                },
+              },
+              "type": "object",
+            },
+          },
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "HostedZoneId",
+          "DomainName",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "on": undefined,
+        "overrides": Array [],
+        "properties": Object {},
+        "tags": Array [],
+        "type": undefined,
+        "updateReplacePolicy": "Delete",
+      },
+      "SiteCertificate" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "DomainName",
+          "HostedZone",
+          "AWS::Region",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "on": undefined,
+        "overrides": Array [],
+        "properties": Object {
+          "domainName": Object {
+            "fn": "ref",
+            "logicalId": "DomainName",
+            "type": "intrinsic",
+          },
+          "hostedZone": Object {
+            "fn": "ref",
+            "logicalId": "HostedZone",
+            "type": "intrinsic",
+          },
+          "region": Object {
+            "fn": "ref",
+            "logicalId": "AWS::Region",
+            "type": "intrinsic",
+          },
+        },
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_certificatemanager.DnsValidatedCertificate",
+        "updateReplacePolicy": "Delete",
+      },
+      "SiteDistribution" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "SiteCertificate",
+          "DomainName",
+          "SiteBucket",
+          "CloudFrontOAI",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "on": undefined,
+        "overrides": Array [],
+        "properties": Object {
+          "certificate": Object {
+            "fn": "ref",
+            "logicalId": "SiteCertificate",
+            "type": "intrinsic",
+          },
+          "defaultBehavior": Object {
+            "fields": Object {
+              "origin": Object {
+                "fields": Object {
+                  "aws-cdk-lib.aws_cloudfront_origins.S3Origin": Object {
+                    "array": Array [
+                      Object {
+                        "fn": "ref",
+                        "logicalId": "SiteBucket",
+                        "type": "intrinsic",
+                      },
+                      Object {
+                        "fields": Object {
+                          "originAccessIdentity": Object {
+                            "fn": "ref",
+                            "logicalId": "CloudFrontOAI",
+                            "type": "intrinsic",
+                          },
+                        },
+                        "type": "object",
+                      },
+                    ],
+                    "type": "array",
+                  },
+                },
+                "type": "object",
+              },
+            },
+            "type": "object",
+          },
+          "defaultRootObject": Object {
+            "type": "string",
+            "value": "index.html",
+          },
+          "domainNames": Object {
+            "array": Array [
+              Object {
+                "fn": "ref",
+                "logicalId": "DomainName",
+                "type": "intrinsic",
+              },
+            ],
+            "type": "array",
+          },
+          "errorResponses": Object {
+            "array": Array [
+              Object {
+                "fields": Object {
+                  "httpStatus": Object {
+                    "type": "number",
+                    "value": 403,
+                  },
+                  "responseHttpStatus": Object {
+                    "type": "number",
+                    "value": 403,
+                  },
+                  "responsePagePath": Object {
+                    "type": "string",
+                    "value": "error.html",
+                  },
+                  "ttl": Object {
+                    "fields": Object {
+                      "aws-cdk-lib.Duration.minutes": Object {
+                        "type": "number",
+                        "value": 30,
+                      },
+                    },
+                    "type": "object",
+                  },
+                },
+                "type": "object",
+              },
+            ],
+            "type": "array",
+          },
+          "minimumProtocolVersion": Object {
+            "type": "string",
+            "value": "TLS_V1_2_2021",
+          },
+        },
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_cloudfront.Distribution",
+        "updateReplacePolicy": "Delete",
+      },
+      "SiteAliasRecord" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "HostedZone",
+          "SiteDistribution",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "on": undefined,
+        "overrides": Array [],
+        "properties": Object {
+          "recordName": Object {
+            "type": "string",
+            "value": "www",
+          },
+          "target": Object {
+            "fields": Object {
+              "aws-cdk-lib.aws_route53.RecordTarget.fromAlias": Object {
+                "fields": Object {
+                  "aws-cdk-lib.aws_route53_targets.CloudFrontTarget": Object {
+                    "fn": "ref",
+                    "logicalId": "SiteDistribution",
+                    "type": "intrinsic",
+                  },
+                },
+                "type": "object",
+              },
+            },
+            "type": "object",
+          },
+          "zone": Object {
+            "fn": "ref",
+            "logicalId": "HostedZone",
+            "type": "intrinsic",
+          },
+        },
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_route53.ARecord",
+        "updateReplacePolicy": "Delete",
+      },
+      "SiteDeployment" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "DomainName",
+          "SiteBucket",
+          "SiteDistribution",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "on": undefined,
+        "overrides": Array [],
+        "properties": Object {
+          "destinationBucket": Object {
+            "fn": "ref",
+            "logicalId": "SiteBucket",
+            "type": "intrinsic",
+          },
+          "distribution": Object {
+            "fn": "ref",
+            "logicalId": "SiteDistribution",
+            "type": "intrinsic",
+          },
+          "distributionPaths": Object {
+            "array": Array [
+              Object {
+                "type": "string",
+                "value": "/*",
+              },
+            ],
+            "type": "array",
+          },
+          "sources": Object {
+            "array": Array [
+              Object {
+                "fields": Object {
+                  "aws-cdk-lib.aws_s3_deployment.Source.data": Object {
+                    "array": Array [
+                      Object {
+                        "type": "string",
+                        "value": "index.html",
+                      },
+                      Object {
+                        "fn": "join",
+                        "list": Object {
+                          "array": Array [
+                            Object {
+                              "type": "string",
+                              "value": "Hello from ",
+                            },
+                            Object {
+                              "fn": "ref",
+                              "logicalId": "DomainName",
+                              "type": "intrinsic",
+                            },
+                          ],
+                          "type": "array",
+                        },
+                        "separator": "",
+                        "type": "intrinsic",
+                      },
+                    ],
+                    "type": "array",
+                  },
+                },
+                "type": "object",
+              },
+              Object {
+                "fields": Object {
+                  "aws-cdk-lib.aws_s3_deployment.Source.data": Object {
+                    "array": Array [
+                      Object {
+                        "type": "string",
+                        "value": "error.html",
+                      },
+                      Object {
+                        "type": "string",
+                        "value": "Woof woof! Something went wrong.",
+                      },
+                    ],
+                    "type": "array",
+                  },
+                },
+                "type": "object",
+              },
+            ],
+            "type": "array",
+          },
+        },
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_s3_deployment.BucketDeployment",
+        "updateReplacePolicy": "Delete",
+      },
+    },
+    "template": Object {
+      "Parameters": Object {
+        "DomainName": Object {
+          "Default": "www.example.com",
+          "Type": "String",
+        },
+        "HostedZoneId": Object {
+          "Type": "String",
+        },
+      },
+      "Resources": Object {
+        "CloudFrontOAI": Object {
+          "Properties": Object {
+            "comment": Object {
+              "Fn::Join": Array [
+                " ",
+                Array [
+                  "OAI",
+                  "for",
+                  Object {
+                    "Ref": "DomainName",
+                  },
+                ],
+              ],
+            },
+          },
+          "Type": "aws-cdk-lib.aws_cloudfront.OriginAccessIdentity",
+        },
+        "HostedZone": Object {
+          "Call": Object {
+            "aws-cdk-lib.aws_route53.HostedZone.fromHostedZoneAttributes": Object {
+              "hostedZoneId": Object {
+                "Ref": "HostedZoneId",
+              },
+              "zoneName": Object {
+                "Ref": "DomainName",
+              },
+            },
+          },
+        },
+        "SiteAliasRecord": Object {
+          "Properties": Object {
+            "recordName": "www",
+            "target": Object {
+              "aws-cdk-lib.aws_route53.RecordTarget.fromAlias": Object {
+                "aws-cdk-lib.aws_route53_targets.CloudFrontTarget": Object {
+                  "Ref": "SiteDistribution",
+                },
+              },
+            },
+            "zone": Object {
+              "Ref": "HostedZone",
+            },
+          },
+          "Type": "aws-cdk-lib.aws_route53.ARecord",
+        },
+        "SiteBucket": Object {
+          "Properties": Object {
+            "autoDeleteObjects": true,
+            "blockPublicAccess": "BLOCK_ALL",
+            "publicReadAccess": false,
+            "removalPolicy": "DESTROY",
+          },
+          "Type": "aws-cdk-lib.aws_s3.Bucket",
+        },
+        "SiteBucketAccess": Object {
+          "Call": Object {
+            "grantRead": Object {
+              "Ref": "CloudFrontOAI",
+            },
+          },
+          "On": "SiteBucket",
+        },
+        "SiteCertificate": Object {
+          "Properties": Object {
+            "domainName": Object {
+              "Ref": "DomainName",
+            },
+            "hostedZone": Object {
+              "Ref": "HostedZone",
+            },
+            "region": Object {
+              "Ref": "AWS::Region",
+            },
+          },
+          "Type": "aws-cdk-lib.aws_certificatemanager.DnsValidatedCertificate",
+        },
+        "SiteDeployment": Object {
+          "Properties": Object {
+            "destinationBucket": Object {
+              "Ref": "SiteBucket",
+            },
+            "distribution": Object {
+              "Ref": "SiteDistribution",
+            },
+            "distributionPaths": Array [
+              "/*",
+            ],
+            "sources": Array [
+              Object {
+                "aws-cdk-lib.aws_s3_deployment.Source.data": Array [
+                  "index.html",
+                  Object {
+                    "Fn::Join": Array [
+                      "",
+                      Array [
+                        "Hello from ",
+                        Object {
+                          "Ref": "DomainName",
+                        },
+                      ],
+                    ],
+                  },
+                ],
+              },
+              Object {
+                "aws-cdk-lib.aws_s3_deployment.Source.data": Array [
+                  "error.html",
+                  "Woof woof! Something went wrong.",
+                ],
+              },
+            ],
+          },
+          "Type": "aws-cdk-lib.aws_s3_deployment.BucketDeployment",
+        },
+        "SiteDistribution": Object {
+          "Properties": Object {
+            "certificate": Object {
+              "Ref": "SiteCertificate",
+            },
+            "defaultBehavior": Object {
+              "origin": Object {
+                "aws-cdk-lib.aws_cloudfront_origins.S3Origin": Array [
+                  Object {
+                    "Ref": "SiteBucket",
+                  },
+                  Object {
+                    "originAccessIdentity": Object {
+                      "Ref": "CloudFrontOAI",
+                    },
+                  },
+                ],
+              },
+            },
+            "defaultRootObject": "index.html",
+            "domainNames": Array [
+              Object {
+                "Ref": "DomainName",
+              },
+            ],
+            "errorResponses": Array [
+              Object {
+                "httpStatus": 403,
+                "responseHttpStatus": 403,
+                "responsePagePath": "error.html",
+                "ttl": Object {
+                  "aws-cdk-lib.Duration.minutes": 30,
+                },
+              },
+            ],
+            "minimumProtocolVersion": "TLS_V1_2_2021",
+          },
+          "Type": "aws-cdk-lib.aws_cloudfront.Distribution",
+        },
+      },
+    },
+    "templateFormatVersion": undefined,
+  },
+}
+`;
+
 exports[`vpc.json 1`] = `
 TypedTemplate {
   "conditions": Map {},

@@ -74,3 +74,13 @@ export class AnotherFactory implements IFeature {
     throw new Error('Method not ' + this.value + '.');
   }
 }
+
+export class NonImplementingFactory {
+  public static baseFeature(): IFeature {
+    return {
+      doStuff: () => 'hello',
+    };
+  }
+
+  private constructor() {}
+}
