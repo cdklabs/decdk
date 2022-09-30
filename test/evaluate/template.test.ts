@@ -414,3 +414,44 @@ describe('Outputs', () => {
     expect(template.toJSON()).toHaveProperty('Outputs');
   });
 });
+
+describe('can evaluate cyclic types', () => {
+  test('JsonSchema', async () => {
+    // GIVEN
+    const template = await Testing.template(
+      await Template.fromObject({
+        Resources: {
+          Api: {
+            Type: 'aws-cdk-lib.aws_apigateway.RestApi',
+          },
+          ResponseModel: {
+            On: 'Api',
+            Call: {
+              addModel: [
+                'ResponseModel',
+                {
+                  contentType: 'application/json',
+                  modelName: 'ResponseModel',
+                  schema: {
+                    schema: 'DRAFT4',
+                    title: 'pollResponse',
+                    type: 'OBJECT',
+                    properties: {
+                      state: { type: 'STRING' },
+                      greeting: { type: 'STRING' },
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        },
+      })
+    );
+
+    // THEN
+    template.hasResourceProperties('AWS::S3::Bucket', {
+      BucketName: { Ref: 'BucketName' },
+    });
+  });
+});
