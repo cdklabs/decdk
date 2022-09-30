@@ -31,6 +31,13 @@ Object {
         ],
       },
     },
+    "SimpleValue": Object {
+      "Description": "Sample primitive output value",
+      "Export": Object {
+        "Name": "SimpleValueExportName",
+      },
+      "Value": "SimpleValue",
+    },
   },
   "Resources": Object {
     "GetRootA9424890": Object {
@@ -3313,6 +3320,26 @@ Object {
 
 exports[`lambda-topic.json 1`] = `
 Object {
+  "Outputs": Object {
+    "FunctionArn": Object {
+      "Export": Object {
+        "Name": Object {
+          "Fn::Join": Array [
+            "-",
+            Array [
+              Object {
+                "Ref": "AWS::StackName",
+              },
+              "FunctionName",
+            ],
+          ],
+        },
+      },
+      "Value": Object {
+        "Ref": "LambdaD247545B",
+      },
+    },
+  },
   "Resources": Object {
     "LambdaAllowInvokeTestTopic346FF53781B07C89": Object {
       "Properties": Object {
@@ -4795,6 +4822,20 @@ Object {
 exports[`pure-cfn.json 1`] = `
 Object {
   "AWSTemplateFormatVersion": "2010-09-09",
+  "Outputs": Object {
+    "LogGroupArn": Object {
+      "Description": "Return log group arn",
+      "Export": Object {
+        "Name": "MyLogGroupArn",
+      },
+      "Value": Object {
+        "Fn::GetAtt": Array [
+          "MyLogGroup",
+          "Arn",
+        ],
+      },
+    },
+  },
   "Resources": Object {
     "Hello4A628BD4": Object {
       "DeletionPolicy": "Delete",
