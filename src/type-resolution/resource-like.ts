@@ -135,10 +135,6 @@ function resolveCfnResource(
   logicalId: string,
   type: reflect.ClassType
 ): CfnResource {
-  if (Array.isArray(resource.properties)) {
-    throw new Error();
-  }
-
   const propsExpressions: ObjectLiteral = {
     type: 'object',
     fields: {
