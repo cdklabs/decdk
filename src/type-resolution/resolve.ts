@@ -171,6 +171,9 @@ export function analyzeTypeReference(
   if (isConstruct(typeRef.type)) {
     return ResolvableExpressionType.CONSTRUCT;
   }
+  if (typeRef.type?.isClassType()) {
+    return ResolvableExpressionType.BEHAVIORAL_INTERFACE;
+  }
 
   return ResolvableExpressionType.UNKNOWN;
 }

@@ -445,13 +445,28 @@ describe('can evaluate cyclic types', () => {
               ],
             },
           },
+          MockIntegration: {
+            Type: 'aws-cdk-lib.aws_apigateway.MockIntegration',
+          },
+          MockMethod: {
+            Type: 'aws-cdk-lib.aws_apigateway.Method',
+            On: 'Api',
+            Call: {
+              'root.addMethod': [
+                'GET',
+                {
+                  Ref: 'MockIntegration',
+                },
+              ],
+            },
+          },
         },
       })
     );
 
     // THEN
-    template.hasResourceProperties('AWS::S3::Bucket', {
-      BucketName: { Ref: 'BucketName' },
-    });
+    template.resourceCountIs('AWS::ApiGateway::RestApi', 1);
+    template.resourceCountIs('AWS::ApiGateway::Model', 1);
+    template.resourceCountIs('AWS::ApiGateway::Method', 1);
   });
 });
