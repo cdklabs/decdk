@@ -85,8 +85,7 @@ export class SchemaContext {
 
     if (!(fqn in this.definitions)) {
       if (this.definitionStack.includes(fqn)) {
-        this.error(`cyclic definition of ${fqn}`);
-        return undefined;
+        return $ref(fqn);
       }
 
       this.definitionStack.push(fqn);

@@ -7,5 +7,9 @@ export function isBehavioralInterface(
     return false;
   }
 
-  return type.name.toLocaleUpperCase().startsWith('I');
+  return (
+    type.name.startsWith('I') &&
+    // Must check second char, otherwise names like `Integration` would match as well
+    type.name[1] === type.name[1].toLocaleUpperCase()
+  );
 }

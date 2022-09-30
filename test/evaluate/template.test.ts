@@ -414,3 +414,59 @@ describe('Outputs', () => {
     expect(template.toJSON()).toHaveProperty('Outputs');
   });
 });
+
+describe('can evaluate cyclic types', () => {
+  test('JsonSchema', async () => {
+    // GIVEN
+    const template = await Testing.template(
+      await Template.fromObject({
+        Resources: {
+          Api: {
+            Type: 'aws-cdk-lib.aws_apigateway.RestApi',
+          },
+          ResponseModel: {
+            On: 'Api',
+            Call: {
+              addModel: [
+                'ResponseModel',
+                {
+                  contentType: 'application/json',
+                  modelName: 'ResponseModel',
+                  schema: {
+                    schema: 'DRAFT4',
+                    title: 'pollResponse',
+                    type: 'OBJECT',
+                    properties: {
+                      state: { type: 'STRING' },
+                      greeting: { type: 'STRING' },
+                    },
+                  },
+                },
+              ],
+            },
+          },
+          MockIntegration: {
+            Type: 'aws-cdk-lib.aws_apigateway.MockIntegration',
+          },
+          MockMethod: {
+            Type: 'aws-cdk-lib.aws_apigateway.Method',
+            On: 'Api',
+            Call: {
+              'root.addMethod': [
+                'GET',
+                {
+                  Ref: 'MockIntegration',
+                },
+              ],
+            },
+          },
+        },
+      })
+    );
+
+    // THEN
+    template.resourceCountIs('AWS::ApiGateway::RestApi', 1);
+    template.resourceCountIs('AWS::ApiGateway::Model', 1);
+    template.resourceCountIs('AWS::ApiGateway::Method', 1);
+  });
+});
