@@ -1,4 +1,5 @@
 import * as reflect from 'jsii-reflect';
+import { isSerializableInterface } from './serializable';
 
 export function isConstruct(
   typeOrTypeRef: reflect.TypeReference | reflect.Type
@@ -40,4 +41,51 @@ export function isConstruct(
   }
 
   return false;
+}
+
+export function hasPropsParam(
+  type: reflect.Type,
+  considerParamAt = 0
+): type is reflect.ClassType {
+  // Not an instantiable class type
+  if (!type.isClassType() || !type.initializer || type.abstract) {
+    return false;
+  }
+
+  // Investigate the constructor
+  const initializer = type.initializer;
+
+  // There are less params than we expect
+  if (initializer.parameters.length < considerParamAt) {
+    return false;
+  }
+
+  // Consider only relevant params from now on
+  const params = initializer.parameters.slice(considerParamAt);
+
+  // All params except the first must be optional
+  if (params.slice(1).filter((p) => !p.optional).length !== 0) {
+    return false;
+  }
+
+  // Investigate the candidate
+  const propsParam = params[0];
+
+  // No props param is okay
+  if (!propsParam) {
+    return true;
+  }
+
+  // Cannot be variadic
+  if (propsParam.variadic) {
+    return false;
+  }
+
+  // Not a resolvable type
+  if (propsParam.type.fqn === undefined) {
+    return false;
+  }
+
+  // Candidate must be a struct
+  return isSerializableInterface(propsParam.type.type);
 }

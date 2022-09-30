@@ -16,15 +16,19 @@ import {
 import { isExpressionShaped, TypedTemplateExpression } from './expression';
 import { resolveExpressionType } from './resolve';
 
-export type ResourceLike = CfnResource | CdkConstruct | LazyResource;
+export type ResourceLike =
+  | CfnResource
+  | CdkConstruct
+  | CdkObject
+  | LazyResource;
 
-interface BaseConstruct {
+interface BaseResourceLike {
   readonly logicalId: string;
   readonly namespace?: string;
   readonly tags: ResourceTag[];
   readonly dependsOn: string[];
 }
-export interface CfnResource extends BaseConstruct {
+export interface CfnResource extends BaseResourceLike {
   readonly fqn: string;
   readonly type: 'resource';
   readonly props: TypedTemplateExpression;
@@ -35,14 +39,19 @@ export interface CfnResource extends BaseConstruct {
   readonly metadata?: Record<string, unknown>;
 }
 
-export interface CdkConstruct extends BaseConstruct {
+export interface CdkConstruct extends BaseResourceLike {
   readonly fqn: string;
   readonly type: 'construct';
   readonly props: TypedTemplateExpression;
   readonly overrides: any;
 }
+export interface CdkObject extends BaseResourceLike {
+  readonly fqn: string;
+  readonly type: 'cdkObject';
+  readonly props: TypedTemplateExpression;
+}
 
-export interface LazyResource extends BaseConstruct {
+export interface LazyResource extends BaseResourceLike {
   readonly type: 'lazyResource';
   readonly call: StaticMethodCallExpression | InstanceMethodCallExpression;
   readonly overrides: any;
@@ -73,6 +82,10 @@ export function resolveResourceLike(
 
   if (isConstruct(type)) {
     return resolveCdkConstruct(resource, logicalId, type);
+  }
+
+  if (isCdkObject(type)) {
+    return resolveCdkObject(resource, logicalId, type);
   }
 
   throw new TypeError(
@@ -186,6 +199,31 @@ function resolveCdkConstruct(
   };
 }
 
+function resolveCdkObject(
+  resource: TemplateResource,
+  logicalId: string,
+  type: reflect.ClassType
+): CdkObject {
+  const [propsParam] = type.initializer?.parameters ?? [];
+
+  const propsExpressions: ObjectLiteral = {
+    type: 'object',
+    fields: resource.properties,
+  };
+
+  return {
+    type: 'cdkObject',
+    logicalId,
+    namespace: type.namespace,
+    fqn: type.fqn,
+    tags: resource.tags,
+    dependsOn: Array.from(resource.dependsOn),
+    props: propsParam
+      ? resolveExpressionType(propsExpressions, propsParam.type)
+      : { type: 'void' },
+  };
+}
+
 export function isCfnResource(resource: TemplateResource) {
   return resource.type?.includes('::') ?? false;
 }
@@ -197,4 +235,19 @@ export function isConstruct(type?: reflect.Type): type is reflect.ClassType {
   }
 
   return false;
+}
+
+export function isCdkObject(type?: reflect.Type): type is reflect.ClassType {
+  if (!type?.isClassType()) {
+    return false;
+  }
+
+  const initializer = type.initializer;
+  return (
+    !type.abstract &&
+    !isConstruct(type) &&
+    !!initializer &&
+    initializer.parameters.length <= 1 &&
+    initializer?.parameters[0]?.variadic !== true
+  );
 }
