@@ -1,5 +1,6 @@
 import chalk from 'chalk';
 import * as reflect from 'jsii-reflect';
+import { hasPropsParam } from '../type-system';
 import { schemaForIntrinsicFunctions } from './intrinsics';
 import {
   SchemaContext,
@@ -94,16 +95,13 @@ export function renderFullSchema(
   const constructs = typeSystem.classes.filter(
     (c) => c.extends(constructType) && !c.extends(cfnResourceType)
   );
-  const cdkObjects = typeSystem.classes.filter(
-    (c) =>
-      !c.extends(constructType) &&
-      c.initializer &&
-      c.initializer.parameters.length <= 1
+  const cdkClasses = typeSystem.classes.filter(
+    (c) => !c.extends(constructType)
   );
 
   const deconstructs: ClassAndProps[] = [
-    ...constructs.map(unpackConstruct),
-    ...cdkObjects.map(unpackCdkObject),
+    ...constructs.map((c) => unpackTopLevel(c, 2)),
+    ...cdkClasses.map((c) => unpackTopLevel(c, 0)),
   ].filter((c): c is ClassAndProps => !!c);
 
   // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -224,55 +222,17 @@ function schemaForCall(_classType: reflect.ClassType, _ctx: SchemaContext) {
   };
 }
 
-function unpackConstruct(klass: reflect.ClassType): ClassAndProps | undefined {
-  if (!klass.initializer || klass.abstract) {
-    return undefined;
-  }
-  if (klass.initializer.parameters.length < 2) {
-    return undefined;
-  }
-
-  if (klass.initializer.parameters.length == 2) {
-    return {
-      class: klass,
-      propsTypeRef: undefined,
-    };
-  }
-
-  const propsParam = klass.initializer.parameters[2];
-  if (propsParam.type.fqn === undefined) {
+function unpackTopLevel(
+  klass: reflect.ClassType,
+  propsParamAt: number
+): ClassAndProps | undefined {
+  if (!hasPropsParam(klass, propsParamAt)) {
     return undefined;
   }
 
   return {
     class: klass,
-    propsTypeRef: propsParam.type,
-  };
-}
-
-function unpackCdkObject(klass: reflect.ClassType): ClassAndProps | undefined {
-  if (!klass.initializer || klass.abstract) {
-    return undefined;
-  }
-  if (klass.initializer.parameters.length > 1) {
-    return undefined;
-  }
-
-  if (klass.initializer.parameters.length === 0) {
-    return {
-      class: klass,
-      propsTypeRef: undefined,
-    };
-  }
-
-  const propsParam = klass.initializer.parameters[0];
-  if (propsParam.type.fqn === undefined || propsParam.variadic === true) {
-    return undefined;
-  }
-
-  return {
-    class: klass,
-    propsTypeRef: klass.initializer.parameters[0].type,
+    propsTypeRef: klass.initializer?.parameters?.[propsParamAt]?.type,
   };
 }
 
