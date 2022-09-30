@@ -41,7 +41,6 @@ export interface CdkObject extends BaseResourceLike {
   readonly fqn: string;
   readonly type: 'cdkObject';
   readonly props: TypedTemplateExpression;
-  readonly overrides: any;
 }
 
 export interface LazyResource extends BaseResourceLike {
@@ -204,7 +203,6 @@ function resolveCdkObject(
     fqn: type.fqn,
     tags: resource.tags,
     dependsOn: Array.from(resource.dependsOn),
-    overrides: resource.overrides,
     props: propsParam
       ? resolveExpressionType(propsExpressions, propsParam.type)
       : { type: 'void' },

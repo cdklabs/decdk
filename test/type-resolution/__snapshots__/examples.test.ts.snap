@@ -2860,7 +2860,6 @@ TypedTemplate {
         "fqn": "aws-cdk-lib.aws_cloudwatch.TextWidget",
         "logicalId": "TitleWidget",
         "namespace": "aws_cloudwatch",
-        "overrides": Array [],
         "props": Object {
           "fields": Object {
             "markdown": Object {
@@ -2958,6 +2957,7 @@ TypedTemplate {
         },
         "tags": Array [],
         "type": "aws-cdk-lib.aws_lambda.Function",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
       "Invocations" => Object {
@@ -2982,6 +2982,7 @@ TypedTemplate {
         "properties": Object {},
         "tags": Array [],
         "type": "aws-cdk-lib.aws_cloudwatch.Metric",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
       "Errors" => Object {
@@ -3006,6 +3007,7 @@ TypedTemplate {
         "properties": Object {},
         "tags": Array [],
         "type": "aws-cdk-lib.aws_cloudwatch.Metric",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
       "Duration" => Object {
@@ -3030,6 +3032,7 @@ TypedTemplate {
         "properties": Object {},
         "tags": Array [],
         "type": "aws-cdk-lib.aws_cloudwatch.Metric",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
       "Throttles" => Object {
@@ -3054,6 +3057,7 @@ TypedTemplate {
         "properties": Object {},
         "tags": Array [],
         "type": "aws-cdk-lib.aws_cloudwatch.Metric",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
       "TitleWidget" => Object {
@@ -3094,6 +3098,7 @@ TypedTemplate {
         },
         "tags": Array [],
         "type": "aws-cdk-lib.aws_cloudwatch.TextWidget",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
       "ServiceDashboard" => Object {
@@ -3279,6 +3284,7 @@ TypedTemplate {
         },
         "tags": Array [],
         "type": "aws-cdk-lib.aws_cloudwatch.Dashboard",
+        "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
     },
