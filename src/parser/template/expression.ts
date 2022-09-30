@@ -506,3 +506,16 @@ export function assertIntrinsic<T extends IntrinsicExpression['fn']>(
     )}], got: ${JSON.stringify(x)}`
   );
 }
+
+/**
+ * Wraps an expression inside an ArrayLiteral. If it is already an ArrayLiteral,
+ * return the expression unmodified.
+ */
+export function asArrayLiteral(x: TemplateExpression): ArrayLiteral {
+  return x.type === 'array'
+    ? x
+    : {
+        type: 'array',
+        array: [x],
+      };
+}

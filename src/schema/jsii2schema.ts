@@ -1,11 +1,11 @@
-import * as util from 'util';
 import * as reflect from 'jsii-reflect';
 import { Initializer } from 'jsii-reflect';
+import * as util from 'util';
 import {
+  allImplementationsOfType,
   enumLikeClassMethods,
   enumLikeClassProperties,
   isConstruct,
-  allImplementationsOfType,
 } from '../type-system';
 import { allStaticFactoryMethods } from '../type-system/factories';
 import { $ref } from './expression';
@@ -83,7 +83,7 @@ export class SchemaContext {
     const originalFqn = fqn;
     fqn = fqn.replace('/', '.');
 
-    if (!(fqn in this.definitions)) {
+    if (!this.isDefined(fqn)) {
       if (this.definitionStack.includes(fqn)) {
         this.error(`cyclic definition of ${fqn}`);
         return undefined;
@@ -107,6 +107,10 @@ export class SchemaContext {
     }
 
     return { $ref: `#/definitions/${fqn}` };
+  }
+
+  public isDefined(fqn: string): boolean {
+    return fqn in this.definitions;
   }
 }
 
@@ -414,6 +418,7 @@ export function schemaForEnumLikeClass(
 
   const enumLikeProps = enumLikeClassProperties(type);
   const enumLikeMethods = enumLikeClassMethods(type);
+  const constructorParams = type.initializer?.parameters ?? [];
 
   if (enumLikeProps.length === 0 && enumLikeMethods.length === 0) {
     return undefined;
@@ -447,6 +452,11 @@ export function schemaForEnumLikeClass(
         type: 'string',
       },
     },
+  });
+
+  anyOf.push({
+    type: 'array',
+    items: constructorParams.map((p) => schemaForTypeReference(p.type, ctx)),
   });
 
   if (anyOf.length === 0) {
