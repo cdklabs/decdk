@@ -1,5 +1,10 @@
 import * as reflect from 'jsii-reflect';
-import { ObjectLiteral, Template, TemplateResource } from '../parser/template';
+import {
+  ObjectLiteral,
+  RetentionPolicy,
+  Template,
+  TemplateResource,
+} from '../parser/template';
 import { CreationPolicy, UpdatePolicy } from '../parser/template/policies';
 import { ResourceTag } from '../parser/template/tags';
 import {
@@ -24,7 +29,10 @@ export interface CfnResource extends BaseConstruct {
   readonly type: 'resource';
   readonly props: TypedTemplateExpression;
   readonly creationPolicy?: CreationPolicy;
+  readonly deletionPolicy?: RetentionPolicy;
+  readonly updateReplacePolicy?: RetentionPolicy;
   readonly updatePolicy?: UpdatePolicy;
+  readonly metadata?: Record<string, unknown>;
 }
 
 export interface CdkConstruct extends BaseConstruct {
@@ -114,6 +122,10 @@ function resolveCfnResource(
   logicalId: string,
   type: reflect.ClassType
 ): CfnResource {
+  if (Array.isArray(resource.properties)) {
+    throw new Error();
+  }
+
   const propsExpressions: ObjectLiteral = {
     type: 'object',
     fields: {
@@ -141,6 +153,9 @@ function resolveCfnResource(
     ),
     creationPolicy: resource.creationPolicy,
     updatePolicy: resource.updatePolicy,
+    metadata: resource.metadata,
+    deletionPolicy: resource.deletionPolicy,
+    updateReplacePolicy: resource.updateReplacePolicy,
   };
 }
 

@@ -1225,9 +1225,11 @@ TypedTemplate {
             "timeout": "PT15M",
           },
         },
+        "deletionPolicy": "Delete",
         "dependsOn": Array [],
         "fqn": "aws-cdk-lib.CfnResource",
         "logicalId": "AutoScalingGroup",
+        "metadata": Object {},
         "namespace": undefined,
         "props": Object {
           "fields": Object {
@@ -1312,12 +1314,18 @@ TypedTemplate {
           "enableVersionUpgrade": false,
           "useOnlineResharding": true,
         },
+        "updateReplacePolicy": "Retain",
       },
       "LaunchConfig": Object {
         "creationPolicy": undefined,
+        "deletionPolicy": "Delete",
         "dependsOn": Array [],
         "fqn": "aws-cdk-lib.CfnResource",
         "logicalId": "LaunchConfig",
+        "metadata": Object {
+          "Object1": "Location1",
+          "Object2": "Location2",
+        },
         "namespace": undefined,
         "props": Object {
           "fields": Object {
@@ -1387,6 +1395,7 @@ yum update -y aws-cfn-bootstrap
         "tags": Array [],
         "type": "resource",
         "updatePolicy": undefined,
+        "updateReplacePolicy": "Delete",
       },
     },
   },
@@ -1476,7 +1485,7 @@ yum update -y aws-cfn-bootstrap
           "enableVersionUpgrade": false,
           "useOnlineResharding": true,
         },
-        "updateReplacePolicy": "Delete",
+        "updateReplacePolicy": "Retain",
       },
       "LaunchConfig" => Object {
         "call": Object {
@@ -1488,7 +1497,10 @@ yum update -y aws-cfn-bootstrap
         "deletionPolicy": "Delete",
         "dependencies": Set {},
         "dependsOn": Set {},
-        "metadata": Object {},
+        "metadata": Object {
+          "Object1": "Location1",
+          "Object2": "Location2",
+        },
         "on": undefined,
         "overrides": Array [],
         "properties": Object {
@@ -1553,6 +1565,7 @@ yum update -y aws-cfn-bootstrap
               "Timeout": "PT15M",
             },
           },
+          "DeletionPolicy": "Delete",
           "Properties": Object {
             "AvailabilityZones": Object {
               "Fn::GetAZs": "",
@@ -1592,8 +1605,13 @@ yum update -y aws-cfn-bootstrap
             "EnableVersionUpgrade": false,
             "UseOnlineResharding": true,
           },
+          "UpdateReplacePolicy": "Retain",
         },
         "LaunchConfig": Object {
+          "Metadata": Object {
+            "Object1": "Location1",
+            "Object2": "Location2",
+          },
           "Properties": Object {
             "ImageId": "ami-16d18a7e",
             "InstanceType": "t2.micro",
@@ -1644,9 +1662,11 @@ TypedTemplate {
     "nodes": Object {
       "myEC2Instance": Object {
         "creationPolicy": undefined,
+        "deletionPolicy": "Delete",
         "dependsOn": Array [],
         "fqn": "aws-cdk-lib.CfnResource",
         "logicalId": "myEC2Instance",
+        "metadata": Object {},
         "namespace": undefined,
         "props": Object {
           "fields": Object {
@@ -1689,6 +1709,7 @@ TypedTemplate {
         "tags": Array [],
         "type": "resource",
         "updatePolicy": undefined,
+        "updateReplacePolicy": "Delete",
       },
     },
   },
@@ -5237,9 +5258,11 @@ TypedTemplate {
       },
       "MyLogGroup": Object {
         "creationPolicy": undefined,
+        "deletionPolicy": "Delete",
         "dependsOn": Array [],
         "fqn": "aws-cdk-lib.CfnResource",
         "logicalId": "MyLogGroup",
+        "metadata": Object {},
         "namespace": undefined,
         "props": Object {
           "fields": Object {
@@ -5266,6 +5289,7 @@ TypedTemplate {
         "tags": Array [],
         "type": "resource",
         "updatePolicy": undefined,
+        "updateReplacePolicy": "Delete",
       },
     },
   },

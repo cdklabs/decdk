@@ -9,6 +9,7 @@ Object {
       "UpdateReplacePolicy": "Retain",
     },
     "TestRole": Object {
+      "DeletionPolicy": "Delete",
       "Properties": Object {
         "assumedBy": Object {
           "aws-cdk-lib.aws_iam.AccountPrincipal": Object {
@@ -66,6 +67,7 @@ Object {
         },
       },
       "Type": "AWS::IAM::Role",
+      "UpdateReplacePolicy": "Delete",
     },
   },
 }
