@@ -95,11 +95,10 @@ describe('interface', () => {
     });
     expect(ctx.definitions).toMatchObject({
       'fixture.IFeature': {
-        anyOf: [
+        anyOf: expect.arrayContaining([
           { $ref: '#/definitions/fixture.AnotherFactory' },
           { $ref: '#/definitions/fixture.FeatureFactory' },
-          { $ref: '#/definitions/fixture.NonImplementingFactory.baseFeature' },
-        ],
+        ]),
         comment: 'fixture.IFeature',
       },
       'fixture.FeatureFactory': {
@@ -145,12 +144,30 @@ describe('interface', () => {
     });
     expect(ctx.definitions).toMatchObject({
       'fixture.IFeature': {
-        anyOf: [
-          { $ref: '#/definitions/fixture.AnotherFactory' },
-          { $ref: '#/definitions/fixture.FeatureFactory' },
-          { $ref: '#/definitions/fixture.NonImplementingFactory.baseFeature' },
-        ],
+        anyOf: expect.arrayContaining([
+          { $ref: '#/definitions/fixture.NonImplementingFactory.factoryOne' },
+          { $ref: '#/definitions/fixture.NonImplementingFactory.factoryTwo' },
+        ]),
         comment: 'fixture.IFeature',
+      },
+      'fixture.NonImplementingFactory.factoryOne': {
+        type: 'object',
+        properties: {
+          'fixture.NonImplementingFactory.factoryOne': {
+            type: ['array', 'null'],
+            maxItems: 0,
+          },
+        },
+      },
+      'fixture.NonImplementingFactory.factoryTwo': {
+        type: 'object',
+        additionalProperties: false,
+        properties: {
+          'fixture.NonImplementingFactory.factoryTwo': {
+            anyOf: expect.anything(),
+          },
+        },
+        comment: 'fixture.NonImplementingFactory.factoryTwo',
       },
     });
   });

@@ -76,9 +76,15 @@ export class AnotherFactory implements IFeature {
 }
 
 export class NonImplementingFactory {
-  public static baseFeature(): IFeature {
+  public static factoryOne(): IFeature {
     return {
       doStuff: () => 'hello',
+    };
+  }
+
+  public static factoryTwo(value: string): IFeature {
+    return {
+      doStuff: () => value,
     };
   }
 

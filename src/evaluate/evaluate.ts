@@ -16,6 +16,7 @@ import {
   isCdkConstructExpression,
   ResourceLike,
   CfnResource as CfnResourceNode,
+  CdkObject,
 } from '../type-resolution';
 import {
   InstanceMethodCallExpression,
@@ -169,6 +170,8 @@ export class Evaluator {
         return this.invoke(x.call);
       case 'construct':
         return this.initializeConstruct(x, ev);
+      case 'cdkObject':
+        return this.initializeCdkObject(x, ev);
       case 'resource':
         return this.initializeCfnResource(x, ev);
       case 'initializer':
@@ -212,6 +215,13 @@ export class Evaluator {
       x.logicalId,
       ev(x.props),
     ]);
+  }
+
+  protected initializeCdkObject(
+    x: CdkObject,
+    ev: (x: TypedTemplateExpression) => any
+  ) {
+    return this.initializer(x.fqn, [ev(x.props)]);
   }
 
   protected lazyLogicalId(x: LazyLogicalId) {
