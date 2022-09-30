@@ -1,5 +1,5 @@
 import * as cdk from 'aws-cdk-lib';
-import { CfnResource } from 'aws-cdk-lib';
+import { CfnDeletionPolicy, CfnResource } from 'aws-cdk-lib';
 import { Construct, IConstruct } from 'constructs';
 import { SubFragment } from '../parser/private/sub';
 import { assertBoolean, assertString } from '../parser/private/types';
@@ -195,13 +195,12 @@ export class Evaluator {
       ev(x.props),
     ]) as CfnResource;
 
-    if (x.creationPolicy) {
-      resource.cfnOptions.creationPolicy = x.creationPolicy;
-    }
-
-    if (x.updatePolicy) {
-      resource.cfnOptions.updatePolicy = x.updatePolicy;
-    }
+    resource.cfnOptions.creationPolicy = x.creationPolicy;
+    resource.cfnOptions.updatePolicy = x.updatePolicy;
+    resource.cfnOptions.metadata = x.metadata;
+    resource.cfnOptions.updateReplacePolicy =
+      x.updateReplacePolicy as CfnDeletionPolicy;
+    resource.cfnOptions.deletionPolicy = x.deletionPolicy as CfnDeletionPolicy;
 
     return resource;
   }

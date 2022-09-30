@@ -1372,6 +1372,7 @@ Object {
           "Timeout": "PT15M",
         },
       },
+      "DeletionPolicy": "Delete",
       "Properties": Object {
         "AvailabilityZones": Object {
           "Fn::GetAZs": "",
@@ -1411,8 +1412,14 @@ Object {
         "EnableVersionUpgrade": false,
         "UseOnlineResharding": true,
       },
+      "UpdateReplacePolicy": "Retain",
     },
     "LaunchConfig": Object {
+      "DeletionPolicy": "Delete",
+      "Metadata": Object {
+        "Object1": "Location1",
+        "Object2": "Location2",
+      },
       "Properties": Object {
         "ImageId": "ami-16d18a7e",
         "InstanceType": "t2.micro",
@@ -1426,6 +1433,7 @@ yum update -y aws-cfn-bootstrap
         },
       },
       "Type": "AWS::AutoScaling::LaunchConfiguration",
+      "UpdateReplacePolicy": "Delete",
     },
   },
 }
@@ -1447,6 +1455,7 @@ Object {
   },
   "Resources": Object {
     "myEC2Instance": Object {
+      "DeletionPolicy": "Delete",
       "Properties": Object {
         "ImageId": Object {
           "Fn::FindInMap": Array [
@@ -1460,6 +1469,7 @@ Object {
         "InstanceType": "m1.small",
       },
       "Type": "AWS::EC2::Instance",
+      "UpdateReplacePolicy": "Delete",
     },
   },
 }
@@ -4792,12 +4802,14 @@ Object {
       "UpdateReplacePolicy": "Delete",
     },
     "MyLogGroup": Object {
+      "DeletionPolicy": "Delete",
       "Properties": Object {
         "LogGroupName": Object {
           "Ref": "AWS::AccountId",
         },
       },
       "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Delete",
     },
   },
 }

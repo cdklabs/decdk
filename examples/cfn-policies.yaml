@@ -36,6 +36,8 @@ Resources:
         BeforeAllowTrafficHook: AnotherFunction
         DeploymentGroupName: SomeGroup
       EnableVersionUpgrade: false
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Retain
   LaunchConfig:
     Type: AWS::AutoScaling::LaunchConfiguration
     Properties:
@@ -46,3 +48,6 @@ Resources:
           #!/bin/bash -xe
           yum update -y aws-cfn-bootstrap
           /opt/aws/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource AutoScalingGroup --region ${AWS::Region}
+    Metadata:
+      Object1: Location1
+      Object2: Location2
