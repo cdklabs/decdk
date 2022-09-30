@@ -14,5 +14,19 @@
         "LogGroupName": { "Ref": "AWS::AccountId" }
       }
     }
+  },
+  "Outputs": {
+    "LogGroupArn": {
+      "Value": {
+        "Fn::GetAtt": [
+          "MyLogGroup",
+          "Arn"
+        ]
+      },
+      "Export": {
+        "Name": "MyLogGroupArn"
+      },
+      "Description": "Return log group arn"
+    }
   }
 }

@@ -63,3 +63,52 @@ export function assertExpressionShaped(x: unknown): TypedTemplateExpression {
 
   return x as TypedTemplateExpression;
 }
+
+export interface TypedTemplateOutput {
+  readonly description?: string;
+  readonly value: TypedTemplateExpression;
+  readonly exportName?: TypedTemplateExpression;
+  readonly conditionName?: string;
+}
+
+export function toTypedTemplateExpression(
+  input: TemplateExpression
+): TypedTemplateExpression {
+  switch (input.type) {
+    case 'boolean':
+    case 'number':
+    case 'string':
+      return {
+        type: input.type,
+        value: input.value,
+      } as TypedTemplateExpression;
+    case 'array':
+      return {
+        type: 'array',
+        array: convertArray(input.array),
+      } as TypedArrayExpression;
+    case 'object':
+      return {
+        type: 'object',
+        fields: convertObject(input.fields),
+      } as TypedObjectExpression;
+    case 'intrinsic':
+      return input;
+    default:
+      throw new Error(`Encounter unexpected type ${input}`);
+  }
+}
+
+export function convertArray(
+  xs: TemplateExpression[]
+): TypedTemplateExpression[] {
+  return xs.map((item) => toTypedTemplateExpression(item));
+}
+
+export function convertObject(
+  xs: Record<string, TemplateExpression>
+): Record<string, TypedTemplateExpression> {
+  return Object.fromEntries(
+    Object.entries(xs).map(([k, v]) => [k, toTypedTemplateExpression(v)])
+  );
+}

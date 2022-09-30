@@ -3,3 +3,4 @@ export * from './expression';
 export * from './parameters';
 export * from './resource';
 export * from './template';
+export * from './output';

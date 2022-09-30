@@ -4,7 +4,20 @@ exports[`apigw.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
-  "outputs": Map {},
+  "outputs": Map {
+    "SimpleValue" => Object {
+      "conditionName": undefined,
+      "description": "Sample primitive output value",
+      "exportName": Object {
+        "type": "string",
+        "value": "SimpleValueExportName",
+      },
+      "value": Object {
+        "type": "string",
+        "value": "SimpleValue",
+      },
+    },
+  },
   "parameters": Map {},
   "resources": DependencyGraph {
     "_dependencies": Map {
@@ -124,7 +137,20 @@ TypedTemplate {
     "conditions": Map {},
     "description": "A template creates a lambda function with an api gateway",
     "mappings": Map {},
-    "outputs": Map {},
+    "outputs": Map {
+      "SimpleValue" => Object {
+        "conditionName": undefined,
+        "description": "Sample primitive output value",
+        "exportName": Object {
+          "type": "string",
+          "value": "SimpleValueExportName",
+        },
+        "value": Object {
+          "type": "string",
+          "value": "SimpleValue",
+        },
+      },
+    },
     "parameters": Map {},
     "resources": Map {
       "HelloLambda" => Object {
@@ -233,6 +259,15 @@ TypedTemplate {
       "$schema": "../cdk.schema.json",
       "AWSTemplateFormatVersion": "2010-09-09",
       "Description": "A template creates a lambda function with an api gateway",
+      "Outputs": Object {
+        "SimpleValue": Object {
+          "Description": "Sample primitive output value",
+          "Export": Object {
+            "Name": "SimpleValueExportName",
+          },
+          "Value": "SimpleValue",
+        },
+      },
       "Resources": Object {
         "GetRoot": Object {
           "Properties": Object {
@@ -4667,7 +4702,37 @@ exports[`lambda-topic.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
-  "outputs": Map {},
+  "outputs": Map {
+    "FunctionArn" => Object {
+      "conditionName": undefined,
+      "description": undefined,
+      "exportName": Object {
+        "fn": "join",
+        "list": Object {
+          "array": Array [
+            Object {
+              "fn": "ref",
+              "logicalId": "AWS::StackName",
+              "type": "intrinsic",
+            },
+            Object {
+              "type": "string",
+              "value": "FunctionName",
+            },
+          ],
+          "type": "array",
+        },
+        "separator": "-",
+        "type": "intrinsic",
+      },
+      "value": Object {
+        "fn": "getProp",
+        "logicalId": "Lambda",
+        "property": "functionName",
+        "type": "intrinsic",
+      },
+    },
+  },
   "parameters": Map {},
   "resources": DependencyGraph {
     "_dependencies": Map {
@@ -4768,7 +4833,37 @@ TypedTemplate {
     "conditions": Map {},
     "description": undefined,
     "mappings": Map {},
-    "outputs": Map {},
+    "outputs": Map {
+      "FunctionArn" => Object {
+        "conditionName": undefined,
+        "description": undefined,
+        "exportName": Object {
+          "fn": "join",
+          "list": Object {
+            "array": Array [
+              Object {
+                "fn": "ref",
+                "logicalId": "AWS::StackName",
+                "type": "intrinsic",
+              },
+              Object {
+                "type": "string",
+                "value": "FunctionName",
+              },
+            ],
+            "type": "array",
+          },
+          "separator": "-",
+          "type": "intrinsic",
+        },
+        "value": Object {
+          "fn": "getProp",
+          "logicalId": "Lambda",
+          "property": "functionName",
+          "type": "intrinsic",
+        },
+      },
+    },
     "parameters": Map {},
     "resources": Map {
       "Topic" => Object {
@@ -4847,6 +4942,26 @@ TypedTemplate {
     },
     "template": Object {
       "$schema": "../cdk.schema.json",
+      "Outputs": Object {
+        "FunctionArn": Object {
+          "Export": Object {
+            "Name": Object {
+              "Fn::Join": Array [
+                "-",
+                Array [
+                  Object {
+                    "Ref": "AWS::StackName",
+                  },
+                  "FunctionName",
+                ],
+              ],
+            },
+          },
+          "Value": Object {
+            "CDK::GetProp": "Lambda.functionName",
+          },
+        },
+      },
       "Resources": Object {
         "Lambda": Object {
           "Properties": Object {
@@ -6215,7 +6330,25 @@ exports[`pure-cfn.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
-  "outputs": Map {},
+  "outputs": Map {
+    "LogGroupArn" => Object {
+      "conditionName": undefined,
+      "description": "Return log group arn",
+      "exportName": Object {
+        "type": "string",
+        "value": "MyLogGroupArn",
+      },
+      "value": Object {
+        "attribute": Object {
+          "type": "string",
+          "value": "Arn",
+        },
+        "fn": "getAtt",
+        "logicalId": "MyLogGroup",
+        "type": "intrinsic",
+      },
+    },
+  },
   "parameters": Map {},
   "resources": DependencyGraph {
     "_dependencies": Map {
@@ -6288,7 +6421,25 @@ TypedTemplate {
     "conditions": Map {},
     "description": undefined,
     "mappings": Map {},
-    "outputs": Map {},
+    "outputs": Map {
+      "LogGroupArn" => Object {
+        "conditionName": undefined,
+        "description": "Return log group arn",
+        "exportName": Object {
+          "type": "string",
+          "value": "MyLogGroupArn",
+        },
+        "value": Object {
+          "attribute": Object {
+            "type": "string",
+            "value": "Arn",
+          },
+          "fn": "getAtt",
+          "logicalId": "MyLogGroup",
+          "type": "intrinsic",
+        },
+      },
+    },
     "parameters": Map {},
     "resources": Map {
       "Hello" => Object {
@@ -6346,6 +6497,20 @@ TypedTemplate {
     "template": Object {
       "$schema": "../cdk.schema.json",
       "AWSTemplateFormatVersion": "2010-09-09",
+      "Outputs": Object {
+        "LogGroupArn": Object {
+          "Description": "Return log group arn",
+          "Export": Object {
+            "Name": "MyLogGroupArn",
+          },
+          "Value": Object {
+            "Fn::GetAtt": Array [
+              "MyLogGroup",
+              "Arn",
+            ],
+          },
+        },
+      },
       "Resources": Object {
         "Hello": Object {
           "Properties": Object {

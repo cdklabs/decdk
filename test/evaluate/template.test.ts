@@ -265,3 +265,208 @@ describe('given a template with unknown top-level properties', () => {
     expect(template.toJSON()).not.toHaveProperty('Whatever');
   });
 });
+
+describe('Outputs', () => {
+  test('Simple value output', async () => {
+    const template = await Testing.template(
+      await Template.fromObject({
+        Resources: {
+          handler: {
+            Type: 'AWS::CloudFormation::WaitConditionHandler',
+          },
+        },
+        Outputs: {
+          SimpleOutput: {
+            Value: 'StringValue',
+            Description: 'Description',
+            Export: {
+              Name: 'ExportName',
+            },
+          },
+        },
+      }),
+      false
+    );
+
+    template.hasOutput('SimpleOutput', {
+      Description: 'Description',
+      Value: 'StringValue',
+      Export: {
+        Name: 'ExportName',
+      },
+    });
+    expect(template.toJSON()).toHaveProperty('Outputs');
+  });
+
+  test('Simple output with condition', async () => {
+    const template = await Testing.template(
+      await Template.fromObject({
+        Parameters: {
+          Stage: {
+            Type: 'String',
+            Default: 'Prod',
+          },
+        },
+        Conditions: {
+          IsProd: {
+            'Fn::Equals': [
+              {
+                Ref: 'Stage',
+              },
+              'Prod',
+            ],
+          },
+        },
+        Resources: {
+          handler: {
+            Type: 'AWS::CloudFormation::WaitConditionHandler',
+          },
+        },
+        Outputs: {
+          SimpleOutput: {
+            Condition: 'IsProd',
+            Value: 'StringValue',
+            Description: 'Description',
+          },
+        },
+      }),
+      false
+    );
+
+    template.hasOutput('SimpleOutput', {
+      Condition: 'IsProd',
+      Description: 'Description',
+      Value: 'StringValue',
+    });
+    template.hasParameter('Stage', {
+      Type: 'String',
+      Default: 'Prod',
+    });
+    expect(template.toJSON()).toHaveProperty('Outputs');
+    expect(template.toJSON()).toHaveProperty('Parameters');
+  });
+
+  test('Simple output value with Fn::Join', async () => {
+    const template = await Testing.template(
+      await Template.fromObject({
+        Resources: {
+          handler: {
+            Type: 'AWS::CloudFormation::WaitConditionHandler',
+          },
+        },
+        Outputs: {
+          SimpleOutput: {
+            Value: {
+              'Fn::Join': ['-', ['simple', 'output', 'value']],
+            },
+            Description: 'Description',
+            Export: {
+              Name: 'ExportName',
+            },
+          },
+        },
+      }),
+      false
+    );
+
+    template.hasOutput('SimpleOutput', {
+      Description: 'Description',
+      Value: 'simple-output-value',
+      Export: {
+        Name: 'ExportName',
+      },
+    });
+    expect(template.toJSON()).toHaveProperty('Outputs');
+  });
+
+  test('Simple export value with Fn::Join', async () => {
+    const template = await Testing.template(
+      await Template.fromObject({
+        Resources: {
+          handler: {
+            Type: 'AWS::CloudFormation::WaitConditionHandler',
+          },
+        },
+        Outputs: {
+          SimpleOutput: {
+            Value: {
+              'Fn::Join': ['-', ['simple', 'output', 'value']],
+            },
+            Description: 'Description',
+            Export: {
+              Name: {
+                'Fn::Join': ['-', ['export', 'value']],
+              },
+            },
+          },
+        },
+      }),
+      false
+    );
+
+    template.hasOutput('SimpleOutput', {
+      Description: 'Description',
+      Value: 'simple-output-value',
+      Export: {
+        Name: 'export-value',
+      },
+    });
+    expect(template.toJSON()).toHaveProperty('Outputs');
+  });
+});
+
+describe('can evaluate cyclic types', () => {
+  test('JsonSchema', async () => {
+    // GIVEN
+    const template = await Testing.template(
+      await Template.fromObject({
+        Resources: {
+          Api: {
+            Type: 'aws-cdk-lib.aws_apigateway.RestApi',
+          },
+          ResponseModel: {
+            On: 'Api',
+            Call: {
+              addModel: [
+                'ResponseModel',
+                {
+                  contentType: 'application/json',
+                  modelName: 'ResponseModel',
+                  schema: {
+                    schema: 'DRAFT4',
+                    title: 'pollResponse',
+                    type: 'OBJECT',
+                    properties: {
+                      state: { type: 'STRING' },
+                      greeting: { type: 'STRING' },
+                    },
+                  },
+                },
+              ],
+            },
+          },
+          MockIntegration: {
+            Type: 'aws-cdk-lib.aws_apigateway.MockIntegration',
+          },
+          MockMethod: {
+            Type: 'aws-cdk-lib.aws_apigateway.Method',
+            On: 'Api',
+            Call: {
+              'root.addMethod': [
+                'GET',
+                {
+                  Ref: 'MockIntegration',
+                },
+              ],
+            },
+          },
+        },
+      })
+    );
+
+    // THEN
+    template.resourceCountIs('AWS::ApiGateway::RestApi', 1);
+    template.resourceCountIs('AWS::ApiGateway::Model', 1);
+    template.resourceCountIs('AWS::ApiGateway::Method', 1);
+  });
+});
