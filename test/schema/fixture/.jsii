@@ -324,7 +324,28 @@
             "filename": "index.ts",
             "line": 79
           },
-          "name": "baseFeature",
+          "name": "factoryOne",
+          "returns": {
+            "type": {
+              "fqn": "fixture.IFeature"
+            }
+          },
+          "static": true
+        },
+        {
+          "locationInModule": {
+            "filename": "index.ts",
+            "line": 85
+          },
+          "name": "factoryTwo",
+          "parameters": [
+            {
+              "name": "value",
+              "type": {
+                "primitive": "string"
+              }
+            }
+          ],
           "returns": {
             "type": {
               "fqn": "fixture.IFeature"
@@ -338,5 +359,5 @@
     }
   },
   "version": "0.0.0",
-  "fingerprint": "aGuzPb5FbNZzuoOVvpzyUJRmv7zdVlmay7mwxJTpyEQ="
+  "fingerprint": "yNm+DWWAQlR0G39d2A+pR5oZIVdMBmvTlQ2Z/V14Cc0="
 }

@@ -625,7 +625,8 @@ test('Calls to fromXxx methods cannot be inlined', async () => {
             },
           },
         },
-      })
+      }),
+      false
     )
   ).rejects.toThrow(/failed because the id could not be inferred/);
 });
