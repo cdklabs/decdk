@@ -1,6 +1,6 @@
+import * as util from 'util';
 import * as reflect from 'jsii-reflect';
 import { Initializer } from 'jsii-reflect';
-import * as util from 'util';
 import {
   allImplementationsOfType,
   enumLikeClassMethods,
@@ -451,17 +451,38 @@ export function schemaForEnumLikeClass(
   });
 
   anyOf.push({
-    type: 'array',
-    items: constructorParams.map((p) => schemaForTypeReference(p.type, ctx)),
+    type: 'object',
+    additionalProperties: false,
+    properties: schemaForConstructorParams(type.fqn, constructorParams),
   });
-
-  if (anyOf.length === 0) {
-    return undefined;
-  }
 
   return ctx.define(type.fqn, () => {
     return { anyOf };
   });
+
+  function schemaForConstructorParams(
+    fqn: string,
+    parameters: reflect.Parameter[]
+  ) {
+    const items = parameters.map(item);
+    const base = {
+      type: 'array',
+      maxItems: items.length,
+    };
+
+    return {
+      [fqn]:
+        items.length > 0 ? { anyOf: [{ ...base, items }, items[0]] } : base,
+    };
+  }
+
+  function item(parameter: reflect.Parameter): any {
+    const fqn = parameter.type.fqn;
+    if (fqn != null && fqn === type?.fqn) {
+      return $ref(fqn.replace('/', '.'));
+    }
+    return schemaForTypeReference(parameter.type, ctx);
+  }
 }
 
 function methodSchema(method: reflect.Callable, ctx: SchemaContext) {

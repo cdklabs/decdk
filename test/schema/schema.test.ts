@@ -121,6 +121,16 @@ describe('interface', () => {
             },
             type: 'object',
           },
+          {
+            type: 'object',
+            additionalProperties: false,
+            properties: {
+              'fixture.FeatureFactory': {
+                type: 'array',
+                maxItems: 0,
+              },
+            },
+          },
         ],
         comment: 'fixture.FeatureFactory',
       },

@@ -90,3 +90,50 @@ describe('depending on a ResourceLike that is not a Construct', () => {
     });
   });
 });
+
+test('Non-constructs can be instantiated inline using constructor args', async () => {
+  const parsedTemplate = await Template.fromObject({
+    Resources: {
+      MyBucket: {
+        Type: 'aws-cdk-lib.aws_s3.Bucket',
+      },
+      MyLambda: {
+        Type: 'aws-cdk-lib.aws_lambda.Function',
+        Properties: {
+          runtime: 'NODEJS_16_X',
+          handler: 'index.handler',
+          memorySize: 10240,
+          code: {
+            'aws-cdk-lib.aws_lambda.Code.fromBucket': [
+              {
+                Ref: 'MyBucket',
+              },
+              'handler.zip',
+            ],
+          },
+          initialPolicy: [
+            {
+              'aws-cdk-lib.aws_iam.PolicyStatement': {
+                actions: ['s3:GetObject*', 's3:PutObject*'],
+                resources: ['*'],
+              },
+            },
+          ],
+        },
+      },
+    },
+  });
+
+  const template = await Testing.template(parsedTemplate);
+  template.hasResourceProperties('AWS::IAM::Policy', {
+    PolicyDocument: {
+      Statement: [
+        {
+          Action: ['s3:GetObject*', 's3:PutObject*'],
+          Effect: 'Allow',
+          Resource: '*',
+        },
+      ],
+    },
+  });
+});
