@@ -51,7 +51,7 @@
     "json-schema": "^0.4.0",
     "npm-check-updates": "^15",
     "prettier": "^2.7.1",
-    "projen": "^0.63.0",
+    "projen": "^0.63.1",
     "standard-version": "^9",
     "ts-jest": "^27",
     "ts-node": "^10.9.1",
@@ -65,7 +65,7 @@
     "jsii-reflect": "^1.69.0",
     "jsonschema": "^1.4.1",
     "yaml": "^1.10.2",
-    "yargs": "^17.5.1"
+    "yargs": "^17.6.0"
   },
   "main": "lib/index.js",
   "license": "Apache-2.0",
