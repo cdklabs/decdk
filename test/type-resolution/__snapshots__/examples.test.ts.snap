@@ -305,7 +305,9 @@ TypedTemplate {
       },
     },
     "templateFormatVersion": "2010-09-09",
+    "transform": Array [],
   },
+  "transform": Array [],
 }
 `;
 
@@ -940,7 +942,9 @@ TypedTemplate {
       },
     },
     "templateFormatVersion": undefined,
+    "transform": Array [],
   },
+  "transform": Array [],
 }
 `;
 
@@ -1228,7 +1232,9 @@ TypedTemplate {
       },
     },
     "templateFormatVersion": undefined,
+    "transform": Array [],
   },
+  "transform": Array [],
 }
 `;
 
@@ -1664,7 +1670,9 @@ yum update -y aws-cfn-bootstrap
       },
     },
     "templateFormatVersion": undefined,
+    "transform": Array [],
   },
+  "transform": Array [],
 }
 `;
 
@@ -1841,7 +1849,9 @@ TypedTemplate {
       },
     },
     "templateFormatVersion": undefined,
+    "transform": Array [],
   },
+  "transform": Array [],
 }
 `;
 
@@ -2264,7 +2274,9 @@ TypedTemplate {
       },
     },
     "templateFormatVersion": "2010-09-09",
+    "transform": Array [],
   },
+  "transform": Array [],
 }
 `;
 
@@ -2493,7 +2505,9 @@ TypedTemplate {
       },
     },
     "templateFormatVersion": undefined,
+    "transform": Array [],
   },
+  "transform": Array [],
 }
 `;
 
@@ -3484,7 +3498,9 @@ TypedTemplate {
       },
     },
     "templateFormatVersion": undefined,
+    "transform": Array [],
   },
+  "transform": Array [],
 }
 `;
 
@@ -3988,7 +4004,9 @@ TypedTemplate {
       },
     },
     "templateFormatVersion": undefined,
+    "transform": Array [],
   },
+  "transform": Array [],
 }
 `;
 
@@ -4178,7 +4196,9 @@ TypedTemplate {
       },
     },
     "templateFormatVersion": "2010-09-09",
+    "transform": Array [],
   },
+  "transform": Array [],
 }
 `;
 
@@ -4546,7 +4566,9 @@ TypedTemplate {
       },
     },
     "templateFormatVersion": undefined,
+    "transform": Array [],
   },
+  "transform": Array [],
 }
 `;
 
@@ -4694,7 +4716,9 @@ TypedTemplate {
       },
     },
     "templateFormatVersion": undefined,
+    "transform": Array [],
   },
+  "transform": Array [],
 }
 `;
 
@@ -4986,7 +5010,9 @@ TypedTemplate {
       },
     },
     "templateFormatVersion": undefined,
+    "transform": Array [],
   },
+  "transform": Array [],
 }
 `;
 
@@ -5666,7 +5692,9 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
       },
     },
     "templateFormatVersion": "2010-09-09",
+    "transform": Array [],
   },
+  "transform": Array [],
 }
 `;
 
@@ -6322,7 +6350,9 @@ TypedTemplate {
       },
     },
     "templateFormatVersion": "2010-09-09",
+    "transform": Array [],
   },
+  "transform": Array [],
 }
 `;
 
@@ -6529,7 +6559,9 @@ TypedTemplate {
       },
     },
     "templateFormatVersion": "2010-09-09",
+    "transform": Array [],
   },
+  "transform": Array [],
 }
 `;
 
@@ -6633,9 +6665,16 @@ TypedTemplate {
           "Type": "aws-cdk-lib.aws_sqs.Queue",
         },
       },
+      "Transform": "AWS::LanguageExtensions",
     },
     "templateFormatVersion": undefined,
+    "transform": Array [
+      "AWS::LanguageExtensions",
+    ],
   },
+  "transform": Array [
+    "AWS::LanguageExtensions",
+  ],
 }
 `;
 
@@ -7805,7 +7844,9 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
       },
     },
     "templateFormatVersion": undefined,
+    "transform": Array [],
   },
+  "transform": Array [],
 }
 `;
 
@@ -7874,6 +7915,8 @@ TypedTemplate {
       },
     },
     "templateFormatVersion": undefined,
+    "transform": Array [],
   },
+  "transform": Array [],
 }
 `;

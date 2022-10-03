@@ -4908,6 +4908,7 @@ Object {
       "UpdateReplacePolicy": "Retain",
     },
   },
+  "Transform": "AWS::LanguageExtensions",
 }
 `;
 

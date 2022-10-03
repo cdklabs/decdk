@@ -65,6 +65,10 @@ export class Evaluator {
       });
       this.context.addReference(new SimpleReference(outputId));
     });
+
+    this.context.template.transform.forEach((t) => {
+      this.context.stack.addTransform(t);
+    });
   }
 
   public evaluateResource(resource: ResourceLike) {

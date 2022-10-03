@@ -1,17 +1,20 @@
 {
   "$schema": "../cdk.schema.json",
+  "Transform": "AWS::LanguageExtensions",
   "Resources": {
     "MyQueue": {
       "Type": "aws-cdk-lib.aws_sqs.Queue",
       "Properties": {
         "encryption": "KMS"
       },
-      "Overrides": [{
-        "ChildConstructPath": "Key",
-        "Delete": {
-          "Path": "Properties.Description"
+      "Overrides": [
+        {
+          "ChildConstructPath": "Key",
+          "Delete": {
+            "Path": "Properties.Description"
+          }
         }
-      }]
+      ]
     }
   }
 }
