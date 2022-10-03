@@ -41,6 +41,7 @@ export class Template {
   public readonly mappings: Map<string, TemplateMapping>;
   public readonly outputs: Map<string, TemplateOutput>;
   public readonly transform: string[];
+  public readonly metadata: Map<string, TemplateExpression>;
 
   constructor(public template: schema.Template) {
     this.parameters = new Map(
@@ -82,6 +83,13 @@ export class Template {
     );
 
     this.transform = parseTransform(template.Transform);
+
+    this.metadata = new Map(
+      Object.entries(template.Metadata ?? {}).map(([k, v]) => [
+        k,
+        parseExpression(v),
+      ])
+    );
   }
 
   public resource(logicalId: string) {

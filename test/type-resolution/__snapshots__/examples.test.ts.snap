@@ -4,6 +4,7 @@ exports[`apigw.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
+  "metadata": Map {},
   "outputs": Map {
     "SimpleValue" => Object {
       "conditionName": undefined,
@@ -137,6 +138,7 @@ TypedTemplate {
     "conditions": Map {},
     "description": "A template creates a lambda function with an api gateway",
     "mappings": Map {},
+    "metadata": Map {},
     "outputs": Map {
       "SimpleValue" => Object {
         "conditionName": undefined,
@@ -315,6 +317,7 @@ exports[`application-load-balancer.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
+  "metadata": Map {},
   "outputs": Map {},
   "parameters": Map {},
   "resources": DependencyGraph {
@@ -584,6 +587,7 @@ TypedTemplate {
     "conditions": Map {},
     "description": undefined,
     "mappings": Map {},
+    "metadata": Map {},
     "outputs": Map {},
     "parameters": Map {},
     "resources": Map {
@@ -952,6 +956,7 @@ exports[`bucket-with-parameters.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
+  "metadata": Map {},
   "outputs": Map {},
   "parameters": Map {
     "BucketName" => Object {
@@ -1067,6 +1072,7 @@ TypedTemplate {
     "conditions": Map {},
     "description": undefined,
     "mappings": Map {},
+    "metadata": Map {},
     "outputs": Map {},
     "parameters": Map {
       "BucketName" => Object {
@@ -1242,6 +1248,7 @@ exports[`cfn-policies.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
+  "metadata": Map {},
   "outputs": Map {},
   "parameters": Map {},
   "resources": DependencyGraph {
@@ -1444,6 +1451,7 @@ yum update -y aws-cfn-bootstrap
     "conditions": Map {},
     "description": undefined,
     "mappings": Map {},
+    "metadata": Map {},
     "outputs": Map {},
     "parameters": Map {},
     "resources": Map {
@@ -1693,6 +1701,7 @@ TypedTemplate {
       },
     },
   },
+  "metadata": Map {},
   "outputs": Map {},
   "parameters": Map {},
   "resources": DependencyGraph {
@@ -1773,6 +1782,7 @@ TypedTemplate {
         },
       },
     },
+    "metadata": Map {},
     "outputs": Map {},
     "parameters": Map {},
     "resources": Map {
@@ -1859,6 +1869,7 @@ exports[`ecs.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
+  "metadata": Map {},
   "outputs": Map {},
   "parameters": Map {},
   "resources": DependencyGraph {
@@ -2046,6 +2057,7 @@ TypedTemplate {
     "conditions": Map {},
     "description": "A template creates a Fargate service with necessary resources",
     "mappings": Map {},
+    "metadata": Map {},
     "outputs": Map {},
     "parameters": Map {},
     "resources": Map {
@@ -2284,6 +2296,7 @@ exports[`fleet.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
+  "metadata": Map {},
   "outputs": Map {},
   "parameters": Map {},
   "resources": DependencyGraph {
@@ -2388,6 +2401,7 @@ TypedTemplate {
     "conditions": Map {},
     "description": "A template creates an ASG and Vpc",
     "mappings": Map {},
+    "metadata": Map {},
     "outputs": Map {},
     "parameters": Map {},
     "resources": Map {
@@ -2515,6 +2529,7 @@ exports[`lambda-dashboard.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
+  "metadata": Map {},
   "outputs": Map {},
   "parameters": Map {
     "DashboardName" => Object {
@@ -2963,6 +2978,7 @@ TypedTemplate {
     "conditions": Map {},
     "description": undefined,
     "mappings": Map {},
+    "metadata": Map {},
     "outputs": Map {},
     "parameters": Map {
       "DashboardName" => Object {
@@ -3508,6 +3524,7 @@ exports[`lambda-events.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
+  "metadata": Map {},
   "outputs": Map {},
   "parameters": Map {},
   "resources": DependencyGraph {
@@ -3738,6 +3755,7 @@ TypedTemplate {
     "conditions": Map {},
     "description": "A template creates a lambda function which can be invoked by an sns topic",
     "mappings": Map {},
+    "metadata": Map {},
     "outputs": Map {},
     "parameters": Map {},
     "resources": Map {
@@ -4014,6 +4032,7 @@ exports[`lambda-layer.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
+  "metadata": Map {},
   "outputs": Map {},
   "parameters": Map {},
   "resources": DependencyGraph {
@@ -4098,6 +4117,7 @@ TypedTemplate {
     "conditions": Map {},
     "description": "A template creates a aws cli lambda layer",
     "mappings": Map {},
+    "metadata": Map {},
     "outputs": Map {},
     "parameters": Map {},
     "resources": Map {
@@ -4206,6 +4226,7 @@ exports[`lambda-policy.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
+  "metadata": Map {},
   "outputs": Map {},
   "parameters": Map {},
   "resources": DependencyGraph {
@@ -4367,6 +4388,7 @@ TypedTemplate {
     "conditions": Map {},
     "description": undefined,
     "mappings": Map {},
+    "metadata": Map {},
     "outputs": Map {},
     "parameters": Map {},
     "resources": Map {
@@ -4576,6 +4598,7 @@ exports[`lambda-role-removed.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
+  "metadata": Map {},
   "outputs": Map {},
   "parameters": Map {},
   "resources": DependencyGraph {
@@ -4643,6 +4666,7 @@ TypedTemplate {
     "conditions": Map {},
     "description": undefined,
     "mappings": Map {},
+    "metadata": Map {},
     "outputs": Map {},
     "parameters": Map {},
     "resources": Map {
@@ -4726,6 +4750,7 @@ exports[`lambda-topic.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
+  "metadata": Map {},
   "outputs": Map {
     "FunctionArn" => Object {
       "conditionName": undefined,
@@ -4857,6 +4882,7 @@ TypedTemplate {
     "conditions": Map {},
     "description": undefined,
     "mappings": Map {},
+    "metadata": Map {},
     "outputs": Map {
       "FunctionArn" => Object {
         "conditionName": undefined,
@@ -5020,6 +5046,7 @@ exports[`method-calls.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
+  "metadata": Map {},
   "outputs": Map {},
   "parameters": Map {},
   "resources": DependencyGraph {
@@ -5331,6 +5358,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
     "conditions": Map {},
     "description": undefined,
     "mappings": Map {},
+    "metadata": Map {},
     "outputs": Map {},
     "parameters": Map {},
     "resources": Map {
@@ -5702,6 +5730,7 @@ exports[`pipeline.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
+  "metadata": Map {},
   "outputs": Map {},
   "parameters": Map {},
   "resources": DependencyGraph {
@@ -5999,6 +6028,7 @@ TypedTemplate {
     "conditions": Map {},
     "description": "A template creates a CodePipeline along with its CodeCommit repository source",
     "mappings": Map {},
+    "metadata": Map {},
     "outputs": Map {},
     "parameters": Map {},
     "resources": Map {
@@ -6360,6 +6390,7 @@ exports[`pure-cfn.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
+  "metadata": Map {},
   "outputs": Map {
     "LogGroupArn" => Object {
       "conditionName": undefined,
@@ -6451,6 +6482,7 @@ TypedTemplate {
     "conditions": Map {},
     "description": undefined,
     "mappings": Map {},
+    "metadata": Map {},
     "outputs": Map {
       "LogGroupArn" => Object {
         "conditionName": undefined,
@@ -6569,6 +6601,26 @@ exports[`queue-kms.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
+  "metadata": Map {
+    "Instances" => Object {
+      "fields": Object {
+        "Description": Object {
+          "type": "string",
+          "value": "Information about the instances",
+        },
+      },
+      "type": "object",
+    },
+    "Databases" => Object {
+      "fields": Object {
+        "Description": Object {
+          "type": "string",
+          "value": "Information about the databases",
+        },
+      },
+      "type": "object",
+    },
+  },
   "outputs": Map {},
   "parameters": Map {},
   "resources": DependencyGraph {
@@ -6612,6 +6664,26 @@ TypedTemplate {
     "conditions": Map {},
     "description": undefined,
     "mappings": Map {},
+    "metadata": Map {
+      "Instances" => Object {
+        "fields": Object {
+          "Description": Object {
+            "type": "string",
+            "value": "Information about the instances",
+          },
+        },
+        "type": "object",
+      },
+      "Databases" => Object {
+        "fields": Object {
+          "Description": Object {
+            "type": "string",
+            "value": "Information about the databases",
+          },
+        },
+        "type": "object",
+      },
+    },
     "outputs": Map {},
     "parameters": Map {},
     "resources": Map {
@@ -6649,6 +6721,14 @@ TypedTemplate {
     },
     "template": Object {
       "$schema": "../cdk.schema.json",
+      "Metadata": Object {
+        "Databases": Object {
+          "Description": "Information about the databases",
+        },
+        "Instances": Object {
+          "Description": "Information about the instances",
+        },
+      },
       "Resources": Object {
         "MyQueue": Object {
           "Overrides": Array [
@@ -6682,6 +6762,7 @@ exports[`static-site.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
+  "metadata": Map {},
   "outputs": Map {},
   "parameters": Map {
     "DomainName" => Object {
@@ -7205,6 +7286,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
     "conditions": Map {},
     "description": undefined,
     "mappings": Map {},
+    "metadata": Map {},
     "outputs": Map {},
     "parameters": Map {
       "DomainName" => Object {
@@ -7854,6 +7936,7 @@ exports[`vpc.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
+  "metadata": Map {},
   "outputs": Map {},
   "parameters": Map {},
   "resources": DependencyGraph {
@@ -7883,6 +7966,7 @@ TypedTemplate {
     "conditions": Map {},
     "description": undefined,
     "mappings": Map {},
+    "metadata": Map {},
     "outputs": Map {},
     "parameters": Map {},
     "resources": Map {

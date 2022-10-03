@@ -13,10 +13,10 @@ import { ResourceTag } from '../parser/template/tags';
 import { splitPath } from '../strings';
 import {
   CdkConstruct,
+  CdkObject,
+  CfnResource as CfnResourceNode,
   isCdkConstructExpression,
   ResourceLike,
-  CfnResource as CfnResourceNode,
-  CdkObject,
 } from '../type-resolution';
 import {
   InstanceMethodCallExpression,
@@ -38,22 +38,37 @@ export class Evaluator {
   constructor(public readonly context: EvaluationContext) {}
 
   public evaluateTemplate() {
+    this.evaluateMappings();
+    this.evaluateParameters();
+    this.evaluateResources();
+    this.evaluateOutputs();
+    this.evaluateTransform();
+    this.evaluateMetadata();
+  }
+
+  private evaluateMappings() {
     this.context.template.mappings.forEach(
       (mapping, mapName) =>
         new cdk.CfnMapping(this.context.stack, mapName, {
           mapping: mapping.toObject(),
         })
     );
+  }
 
+  private evaluateParameters() {
     this.context.template.parameters.forEach((param, paramName) => {
       new cdk.CfnParameter(this.context.stack, paramName, param);
       this.context.addReference(new SimpleReference(paramName));
     });
+  }
 
+  private evaluateResources() {
     this.context.template.resources.forEach((_logicalId, resource) =>
       this.evaluateResource(resource)
     );
+  }
 
+  private evaluateOutputs() {
     this.context.template.outputs.forEach((output, outputId) => {
       new DeCDKCfnOutput(this.context.stack, outputId, {
         value: this.evaluate(output.value),
@@ -65,10 +80,30 @@ export class Evaluator {
       });
       this.context.addReference(new SimpleReference(outputId));
     });
+  }
 
+  private evaluateTransform() {
     this.context.template.transform.forEach((t) => {
       this.context.stack.addTransform(t);
     });
+  }
+
+  private evaluateMetadata() {
+    const metadata = this.context.template.metadata;
+    if (metadata.size > 0) {
+      // Just in case some construct has already added metadata
+      const existingMetadata =
+        this.context.stack.templateOptions.metadata ?? {};
+
+      const newMetadata = Object.fromEntries(
+        [...metadata.entries()].map(([k, v]) => [k, this.evaluate(v)])
+      );
+
+      this.context.stack.templateOptions.metadata = {
+        ...existingMetadata,
+        ...newMetadata,
+      };
+    }
   }
 
   public evaluateResource(resource: ResourceLike) {

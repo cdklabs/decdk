@@ -23,6 +23,7 @@ export class TypedTemplate {
   public readonly mappings: Map<string, TemplateMapping>;
   public readonly outputs: Map<string, TypedTemplateOutput>;
   public readonly transform: string[];
+  public readonly metadata: Map<string, TemplateExpression>;
 
   constructor(public template: Template, props: TypedTemplateProps) {
     this.resources = template
@@ -35,6 +36,7 @@ export class TypedTemplate {
     this.conditions = template.conditions;
     this.mappings = template.mappings;
     this.transform = template.transform;
+    this.metadata = template.metadata;
     this.outputs = new Map();
     for (let [logicalId, output] of template.outputs) {
       const typedOutput = {
