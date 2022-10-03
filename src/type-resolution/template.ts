@@ -6,7 +6,11 @@ import {
   TemplateParameter,
 } from '../parser/template';
 import { TemplateMapping } from '../parser/template/mappings';
-import { toTypedTemplateExpression, TypedTemplateOutput } from './expression';
+import {
+  toTypedTemplateExpression,
+  TypedTemplateExpression,
+  TypedTemplateOutput,
+} from './expression';
 import { resolveResourceLike, ResourceLike } from './resource-like';
 
 export interface TypedTemplateProps {
@@ -19,7 +23,7 @@ export interface TypedTemplateProps {
 export class TypedTemplate {
   public readonly resources: DependencyGraph<ResourceLike>;
   public readonly parameters: Map<string, TemplateParameter>;
-  public readonly conditions: Map<string, TemplateExpression>;
+  public readonly conditions: Map<string, TypedTemplateExpression>;
   public readonly mappings: Map<string, TemplateMapping>;
   public readonly outputs: Map<string, TypedTemplateOutput>;
   public readonly transform: string[];
@@ -33,7 +37,11 @@ export class TypedTemplate {
       );
 
     this.parameters = template.parameters;
-    this.conditions = template.conditions;
+    this.conditions = new Map();
+    for (let [logicalId, condition] of template.conditions) {
+      const typedCondition = toTypedTemplateExpression(condition);
+      this.conditions.set(logicalId, typedCondition);
+    }
     this.mappings = template.mappings;
     this.transform = template.transform;
     this.metadata = template.metadata;

@@ -4822,6 +4822,28 @@ Object {
 exports[`pure-cfn.json 1`] = `
 Object {
   "AWSTemplateFormatVersion": "2010-09-09",
+  "Conditions": Object {
+    "CreateLogGroup": Object {
+      "Fn::And": Array [
+        Object {
+          "Fn::Equals": Array [
+            Object {
+              "Ref": "Stage",
+            },
+            "Prod",
+          ],
+        },
+        Object {
+          "Fn::Equals": Array [
+            Object {
+              "Ref": "AWS::Region",
+            },
+            "us-east-1",
+          ],
+        },
+      ],
+    },
+  },
   "Outputs": Object {
     "LogGroupArn": Object {
       "Description": "Return log group arn",
@@ -4834,6 +4856,12 @@ Object {
           "Arn",
         ],
       },
+    },
+  },
+  "Parameters": Object {
+    "Stage": Object {
+      "Default": "Prod",
+      "Type": "String",
     },
   },
   "Resources": Object {

@@ -470,3 +470,229 @@ describe('can evaluate cyclic types', () => {
     template.resourceCountIs('AWS::ApiGateway::Method', 1);
   });
 });
+
+describe('Conditions', () => {
+  test('simple equal condition should be support', async () => {
+    const template = await Testing.template(
+      await Template.fromObject({
+        Resources: {
+          handler: {
+            Condition: 'createHandler',
+            Type: 'AWS::CloudFormation::WaitConditionHandle',
+          },
+        },
+        Conditions: {
+          createHandler: {
+            'Fn::Equals': ['true', 'true'],
+          },
+        },
+      }),
+      false
+    );
+    template.hasCondition('createHandler', { 'Fn::Equals': ['true', 'true'] });
+  });
+
+  test('simple and should be supported', async () => {
+    const template = await Testing.template(
+      await Template.fromObject({
+        Resources: {
+          handler: {
+            Condition: 'createHandler',
+            Type: 'AWS::CloudFormation::WaitConditionHandle',
+          },
+        },
+        Conditions: {
+          createHandler: {
+            'Fn::And': [
+              {
+                'Fn::Equals': ['true', 'true'],
+              },
+              {
+                'Fn::Equals': ['false', 'false'],
+              },
+            ],
+          },
+        },
+      }),
+      false
+    );
+    template.hasCondition('createHandler', {
+      'Fn::And': [
+        { 'Fn::Equals': ['true', 'true'] },
+        { 'Fn::Equals': ['false', 'false'] },
+      ],
+    });
+  });
+
+  test('ref to parameter should be supported', async () => {
+    const template = await Testing.template(
+      await Template.fromObject({
+        Resources: {
+          handler: {
+            Condition: 'createHandler',
+            Type: 'AWS::CloudFormation::WaitConditionHandle',
+          },
+        },
+        Parameters: {
+          Stage: {
+            Type: 'String',
+            Default: 'Prod',
+          },
+        },
+        Conditions: {
+          createHandler: {
+            'Fn::Equals': [{ Ref: 'Stage' }, 'Prod'],
+          },
+        },
+      }),
+      false
+    );
+
+    template.hasCondition('createHandler', {
+      'Fn::Equals': [{ Ref: 'Stage' }, 'Prod'],
+    });
+  });
+
+  test('simple fn::or should be supported', async () => {
+    const template = await Testing.template(
+      await Template.fromObject({
+        Resources: {
+          handler: {
+            Condition: 'createHandler',
+            Type: 'AWS::CloudFormation::WaitConditionHandle',
+          },
+        },
+        Conditions: {
+          createHandler: {
+            'Fn::Or': [
+              {
+                'Fn::Equals': ['true', 'true'],
+              },
+              {
+                'Fn::Equals': ['false', 'false'],
+              },
+            ],
+          },
+        },
+      }),
+      false
+    );
+    template.hasCondition('createHandler', {
+      'Fn::Or': [
+        { 'Fn::Equals': ['true', 'true'] },
+        { 'Fn::Equals': ['false', 'false'] },
+      ],
+    });
+  });
+
+  test('ref to parameter should be supported in fn::or', async () => {
+    const template = await Testing.template(
+      await Template.fromObject({
+        Resources: {
+          handler: {
+            Condition: 'createHandler',
+            Type: 'AWS::CloudFormation::WaitConditionHandle',
+          },
+        },
+        Parameters: {
+          Stage: {
+            Type: 'String',
+            Default: 'Prod',
+          },
+        },
+        Conditions: {
+          createHandler: {
+            'Fn::Or': [
+              {
+                'Fn::Equals': [{ Ref: 'Stage' }, 'Prod'],
+              },
+              {
+                'Fn::Equals': [{ Ref: 'Stage' }, 'Gamma'],
+              },
+            ],
+          },
+        },
+      }),
+      false
+    );
+
+    template.hasCondition('createHandler', {
+      'Fn::Or': [
+        {
+          'Fn::Equals': [{ Ref: 'Stage' }, 'Prod'],
+        },
+        {
+          'Fn::Equals': [{ Ref: 'Stage' }, 'Gamma'],
+        },
+      ],
+    });
+  });
+
+  test('simple fn::not should be supported', async () => {
+    const template = await Testing.template(
+      await Template.fromObject({
+        Resources: {
+          handler: {
+            Condition: 'createHandler',
+            Type: 'AWS::CloudFormation::WaitConditionHandle',
+          },
+        },
+        Conditions: {
+          createHandler: {
+            'Fn::Not': [
+              {
+                'Fn::Equals': ['Gamma', 'Prod'],
+              },
+            ],
+          },
+        },
+      }),
+      false
+    );
+
+    template.hasCondition('createHandler', {
+      'Fn::Not': [
+        {
+          'Fn::Equals': ['Gamma', 'Prod'],
+        },
+      ],
+    });
+  });
+
+  test('ref to parameter should be supported in fn::not', async () => {
+    const template = await Testing.template(
+      await Template.fromObject({
+        Resources: {
+          handler: {
+            Condition: 'createHandler',
+            Type: 'AWS::CloudFormation::WaitConditionHandle',
+          },
+        },
+        Parameters: {
+          Stage: {
+            Type: 'String',
+            Default: 'Prod',
+          },
+        },
+        Conditions: {
+          createHandler: {
+            'Fn::Not': [
+              {
+                'Fn::Equals': [{ Ref: 'Stage' }, 'Prod'],
+              },
+            ],
+          },
+        },
+      }),
+      false
+    );
+
+    template.hasCondition('createHandler', {
+      'Fn::Not': [
+        {
+          'Fn::Equals': [{ Ref: 'Stage' }, 'Prod'],
+        },
+      ],
+    });
+  });
+});
