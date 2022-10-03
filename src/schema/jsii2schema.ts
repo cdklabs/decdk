@@ -450,11 +450,13 @@ export function schemaForEnumLikeClass(
     },
   });
 
-  anyOf.push({
-    type: 'object',
-    additionalProperties: false,
-    properties: schemaForConstructorParams(type.fqn, constructorParams),
-  });
+  if (type.initializer) {
+    anyOf.push({
+      type: 'object',
+      additionalProperties: false,
+      properties: schemaForConstructorParams(type.fqn, constructorParams),
+    });
+  }
 
   return ctx.define(type.fqn, () => {
     return { anyOf };
