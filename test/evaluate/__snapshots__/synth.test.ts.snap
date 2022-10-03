@@ -4858,6 +4858,14 @@ Object {
 
 exports[`queue-kms.json 1`] = `
 Object {
+  "Metadata": Object {
+    "Databases": Object {
+      "Description": "Information about the databases",
+    },
+    "Instances": Object {
+      "Description": "Information about the instances",
+    },
+  },
   "Resources": Object {
     "MyQueueE6CA6235": Object {
       "DeletionPolicy": "Delete",
