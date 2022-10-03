@@ -8,7 +8,7 @@ export namespace schema {
     readonly Rules?: Record<string, Rule>;
     readonly Mappings?: Record<string, Mapping>;
     readonly Conditions?: Record<string, Condition>;
-    readonly Transform?: string[];
+    readonly Transform?: string | string[];
     readonly Outputs?: Record<string, Output>;
   }
 
