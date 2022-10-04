@@ -1,4 +1,14 @@
 # yaml-language-server: $schema=../cdk.schema.json
+Parameters:
+  BucketName:
+    Type: String
+  Stage:
+    Type: String
+    Default: 'Gamma'
+Conditions:
+  IsProd: !Equals
+    - !Ref Stage
+    - Prod
 Resources:
   MyLambda:
     Type: aws-cdk-lib.aws_lambda.Function
@@ -17,8 +27,17 @@ Resources:
                 - s3:GetObject*
                 - s3:PutObject*
               Resource:
-                - { Ref: MyBucket }
-                - { Fn::Join: ['', [{ Fn::GetAtt: MyBucket.Arn }, '/*']] }
+                - !Ref MyBucket
+                - !Join ['', [!GetAtt MyBucket.Arn, '/*']]
 
   MyBucket:
     Type: aws-cdk-lib.aws_s3.Bucket
+    Properties:
+      bucketName: !Join
+        - '-'
+        - - !Ref 'AWS::Region'
+          - !Ref BucketName
+          - !If
+            - IsProd
+            - !Ref 'AWS::NoValue'
+            - !Ref Stage
