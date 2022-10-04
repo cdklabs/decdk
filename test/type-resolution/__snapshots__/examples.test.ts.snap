@@ -6388,7 +6388,40 @@ TypedTemplate {
 
 exports[`pure-cfn.json 1`] = `
 TypedTemplate {
-  "conditions": Map {},
+  "conditions": Map {
+    "CreateLogGroup" => Object {
+      "fn": "and",
+      "operands": Array [
+        Object {
+          "fn": "equals",
+          "type": "intrinsic",
+          "value1": Object {
+            "fn": "ref",
+            "logicalId": "Stage",
+            "type": "intrinsic",
+          },
+          "value2": Object {
+            "type": "string",
+            "value": "Prod",
+          },
+        },
+        Object {
+          "fn": "equals",
+          "type": "intrinsic",
+          "value1": Object {
+            "fn": "ref",
+            "logicalId": "AWS::Region",
+            "type": "intrinsic",
+          },
+          "value2": Object {
+            "type": "string",
+            "value": "us-east-1",
+          },
+        },
+      ],
+      "type": "intrinsic",
+    },
+  },
   "mappings": Map {},
   "metadata": Map {},
   "outputs": Map {
@@ -6410,7 +6443,21 @@ TypedTemplate {
       },
     },
   },
-  "parameters": Map {},
+  "parameters": Map {
+    "Stage" => Object {
+      "allowedPattern": undefined,
+      "allowedValues": undefined,
+      "constraintDescription": undefined,
+      "default": "Prod",
+      "description": undefined,
+      "maxLength": undefined,
+      "maxValue": undefined,
+      "minLength": undefined,
+      "minValue": undefined,
+      "noEcho": undefined,
+      "type": "String",
+    },
+  },
   "resources": DependencyGraph {
     "_dependencies": Map {
       "Hello" => Set {},
@@ -6479,7 +6526,40 @@ TypedTemplate {
     },
   },
   "template": Template {
-    "conditions": Map {},
+    "conditions": Map {
+      "CreateLogGroup" => Object {
+        "fn": "and",
+        "operands": Array [
+          Object {
+            "fn": "equals",
+            "type": "intrinsic",
+            "value1": Object {
+              "fn": "ref",
+              "logicalId": "Stage",
+              "type": "intrinsic",
+            },
+            "value2": Object {
+              "type": "string",
+              "value": "Prod",
+            },
+          },
+          Object {
+            "fn": "equals",
+            "type": "intrinsic",
+            "value1": Object {
+              "fn": "ref",
+              "logicalId": "AWS::Region",
+              "type": "intrinsic",
+            },
+            "value2": Object {
+              "type": "string",
+              "value": "us-east-1",
+            },
+          },
+        ],
+        "type": "intrinsic",
+      },
+    },
     "description": undefined,
     "mappings": Map {},
     "metadata": Map {},
@@ -6502,7 +6582,21 @@ TypedTemplate {
         },
       },
     },
-    "parameters": Map {},
+    "parameters": Map {
+      "Stage" => Object {
+        "allowedPattern": undefined,
+        "allowedValues": undefined,
+        "constraintDescription": undefined,
+        "default": "Prod",
+        "description": undefined,
+        "maxLength": undefined,
+        "maxValue": undefined,
+        "minLength": undefined,
+        "minValue": undefined,
+        "noEcho": undefined,
+        "type": "String",
+      },
+    },
     "resources": Map {
       "Hello" => Object {
         "call": Object {
@@ -6533,7 +6627,7 @@ TypedTemplate {
           "fields": Object {},
           "type": "object",
         },
-        "conditionName": undefined,
+        "conditionName": "CreateLogGroup",
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {
@@ -6559,6 +6653,28 @@ TypedTemplate {
     "template": Object {
       "$schema": "../cdk.schema.json",
       "AWSTemplateFormatVersion": "2010-09-09",
+      "Conditions": Object {
+        "CreateLogGroup": Object {
+          "Fn::And": Array [
+            Object {
+              "Fn::Equals": Array [
+                Object {
+                  "Ref": "Stage",
+                },
+                "Prod",
+              ],
+            },
+            Object {
+              "Fn::Equals": Array [
+                Object {
+                  "Ref": "AWS::Region",
+                },
+                "us-east-1",
+              ],
+            },
+          ],
+        },
+      },
       "Outputs": Object {
         "LogGroupArn": Object {
           "Description": "Return log group arn",
@@ -6573,6 +6689,12 @@ TypedTemplate {
           },
         },
       },
+      "Parameters": Object {
+        "Stage": Object {
+          "Default": "Prod",
+          "Type": "String",
+        },
+      },
       "Resources": Object {
         "Hello": Object {
           "Properties": Object {
@@ -6581,6 +6703,7 @@ TypedTemplate {
           "Type": "aws-cdk-lib.aws_sqs.Queue",
         },
         "MyLogGroup": Object {
+          "Condition": "CreateLogGroup",
           "Properties": Object {
             "LogGroupName": Object {
               "Ref": "AWS::AccountId",
