@@ -409,8 +409,11 @@ export class Evaluator {
     ifYes: TypedTemplateExpression,
     ifNo: TypedTemplateExpression
   ) {
-    const evaled = this.evaluateCondition(conditionName);
-    return evaled ? this.evaluate(ifYes) : this.evaluate(ifNo);
+    return cdk.Fn.conditionIf(
+      conditionName,
+      this.evaluate(ifYes),
+      this.evaluate(ifNo)
+    );
   }
 
   protected fnImportValue(exportName: string) {
