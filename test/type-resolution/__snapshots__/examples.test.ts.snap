@@ -4598,6 +4598,7 @@ exports[`lambda-policy-from-constructor.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
+  "metadata": Map {},
   "outputs": Map {},
   "parameters": Map {},
   "resources": DependencyGraph {
@@ -4727,6 +4728,7 @@ TypedTemplate {
     "conditions": Map {},
     "description": undefined,
     "mappings": Map {},
+    "metadata": Map {},
     "outputs": Map {},
     "parameters": Map {},
     "resources": Map {
@@ -4877,7 +4879,9 @@ TypedTemplate {
       },
     },
     "templateFormatVersion": undefined,
+    "transform": Array [],
   },
+  "transform": Array [],
 }
 `;
 
