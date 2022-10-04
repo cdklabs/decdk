@@ -1,8 +1,13 @@
 import * as cdk from 'aws-cdk-lib';
-import { CfnDeletionPolicy, CfnResource } from 'aws-cdk-lib';
+import {
+  CfnDeletionPolicy,
+  CfnResource,
+  ICfnConditionExpression,
+  ICfnRuleConditionExpression,
+} from 'aws-cdk-lib';
 import { Construct, IConstruct } from 'constructs';
 import { SubFragment } from '../parser/private/sub';
-import { assertBoolean, assertString } from '../parser/private/types';
+import { assertString } from '../parser/private/types';
 import {
   GetPropIntrinsic,
   LazyLogicalId,
@@ -13,10 +18,10 @@ import { ResourceTag } from '../parser/template/tags';
 import { splitPath } from '../strings';
 import {
   CdkConstruct,
+  CdkObject,
+  CfnResource as CfnResourceNode,
   isCdkConstructExpression,
   ResourceLike,
-  CfnResource as CfnResourceNode,
-  CdkObject,
 } from '../type-resolution';
 import {
   InstanceMethodCallExpression,
@@ -38,22 +43,38 @@ export class Evaluator {
   constructor(public readonly context: EvaluationContext) {}
 
   public evaluateTemplate() {
+    this.evaluateParameters();
+    this.evaluateMappings();
+    this.evaluateConditions();
+    this.evaluateResources();
+    this.evaluateOutputs();
+    this.evaluateTransform();
+    this.evaluateMetadata();
+  }
+
+  private evaluateMappings() {
     this.context.template.mappings.forEach(
       (mapping, mapName) =>
         new cdk.CfnMapping(this.context.stack, mapName, {
           mapping: mapping.toObject(),
         })
     );
+  }
 
+  private evaluateParameters() {
     this.context.template.parameters.forEach((param, paramName) => {
       new cdk.CfnParameter(this.context.stack, paramName, param);
       this.context.addReference(new SimpleReference(paramName));
     });
+  }
 
+  private evaluateResources() {
     this.context.template.resources.forEach((_logicalId, resource) =>
       this.evaluateResource(resource)
     );
+  }
 
+  private evaluateOutputs() {
     this.context.template.outputs.forEach((output, outputId) => {
       new DeCDKCfnOutput(this.context.stack, outputId, {
         value: this.evaluate(output.value),
@@ -64,6 +85,39 @@ export class Evaluator {
         condition: output.conditionName,
       });
       this.context.addReference(new SimpleReference(outputId));
+    });
+  }
+
+  private evaluateTransform() {
+    this.context.template.transform.forEach((t) => {
+      this.context.stack.addTransform(t);
+    });
+  }
+
+  private evaluateMetadata() {
+    const metadata = this.context.template.metadata;
+    if (metadata.size > 0) {
+      // Just in case some construct has already added metadata
+      const existingMetadata =
+        this.context.stack.templateOptions.metadata ?? {};
+
+      const newMetadata = Object.fromEntries(
+        [...metadata.entries()].map(([k, v]) => [k, this.evaluate(v)])
+      );
+
+      this.context.stack.templateOptions.metadata = {
+        ...existingMetadata,
+        ...newMetadata,
+      };
+    }
+  }
+
+  private evaluateConditions() {
+    this.context.template.conditions.forEach((condition, logicalId) => {
+      const conditionFn = this.evaluate(condition);
+      new cdk.CfnCondition(this.context.stack, logicalId, {
+        expression: conditionFn,
+      });
     });
   }
 
@@ -159,11 +213,11 @@ export class Evaluator {
               this.evaluateObject(x.parameters)
             );
           case 'and':
-            return this.fnAnd(x.operands.map(ev).map(assertBoolean));
+            return this.fnAnd(x.operands.map(ev));
           case 'or':
-            return this.fnOr(x.operands.map(ev).map(assertBoolean));
+            return this.fnOr(x.operands.map(ev));
           case 'not':
-            return this.fnNot(assertBoolean(ev(x.operand)));
+            return this.fnNot(ev(x.operand));
           case 'equals':
             return this.fnEquals(ev(x.value1), ev(x.value2));
           case 'args':
@@ -440,32 +494,35 @@ export class Evaluator {
     return cdk.Fn.transform(transformName, parameters);
   }
 
-  protected fnAnd(_operands: boolean[]): boolean {
-    // @todo
-    throw Error('not implemented');
-    // return operands.every((x) => x);
-    // return cdk.Fn.conditionAnd(...operands) as any;
+  protected fnAnd(
+    operands: ICfnConditionExpression[]
+  ): ICfnConditionExpression {
+    return cdk.Fn.conditionAnd(...operands);
   }
 
-  protected fnOr(_operands: boolean[]): boolean {
-    // @todo
-    throw Error('not implemented');
-    // return operands.some((x) => x);
-    // return cdk.Fn.conditionOr(...operands);
+  protected fnOr(operands: ICfnConditionExpression[]): ICfnConditionExpression {
+    return cdk.Fn.conditionOr(...operands);
   }
 
-  protected fnNot(_operand: boolean): boolean {
-    // @todo
-    throw Error('not implemented');
-    // return !operand;
-    // return cdk.Fn.conditionNot(operand);
+  protected fnNot(
+    operand: ICfnConditionExpression
+  ): ICfnRuleConditionExpression {
+    if (Array.isArray(operand)) {
+      if (operand.length != 1) {
+        throw new Error('Fn::Not requires a list argument with one element');
+      } else {
+        return cdk.Fn.conditionNot(operand[0]);
+      }
+    }
+    return cdk.Fn.conditionNot(operand);
   }
 
-  protected fnEquals(_value1: unknown, _value2: unknown): boolean {
-    // @todo
-    throw Error('not implemented');
+  protected fnEquals(
+    _value1: unknown,
+    _value2: unknown
+  ): ICfnConditionExpression {
     // return assertString(value1) === assertString(value2);
-    // return cdk.Fn.conditionEquals(value1, value2);
+    return cdk.Fn.conditionEquals(_value1, _value2);
   }
 
   protected applyTags(resource: IConstruct, tags: ResourceTag[] = []) {

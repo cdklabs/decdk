@@ -4,6 +4,7 @@ exports[`apigw.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
+  "metadata": Map {},
   "outputs": Map {
     "SimpleValue" => Object {
       "conditionName": undefined,
@@ -137,6 +138,7 @@ TypedTemplate {
     "conditions": Map {},
     "description": "A template creates a lambda function with an api gateway",
     "mappings": Map {},
+    "metadata": Map {},
     "outputs": Map {
       "SimpleValue" => Object {
         "conditionName": undefined,
@@ -305,7 +307,9 @@ TypedTemplate {
       },
     },
     "templateFormatVersion": "2010-09-09",
+    "transform": Array [],
   },
+  "transform": Array [],
 }
 `;
 
@@ -313,6 +317,7 @@ exports[`application-load-balancer.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
+  "metadata": Map {},
   "outputs": Map {},
   "parameters": Map {},
   "resources": DependencyGraph {
@@ -582,6 +587,7 @@ TypedTemplate {
     "conditions": Map {},
     "description": undefined,
     "mappings": Map {},
+    "metadata": Map {},
     "outputs": Map {},
     "parameters": Map {},
     "resources": Map {
@@ -940,7 +946,9 @@ TypedTemplate {
       },
     },
     "templateFormatVersion": undefined,
+    "transform": Array [],
   },
+  "transform": Array [],
 }
 `;
 
@@ -948,6 +956,7 @@ exports[`bucket-with-parameters.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
+  "metadata": Map {},
   "outputs": Map {},
   "parameters": Map {
     "BucketName" => Object {
@@ -1063,6 +1072,7 @@ TypedTemplate {
     "conditions": Map {},
     "description": undefined,
     "mappings": Map {},
+    "metadata": Map {},
     "outputs": Map {},
     "parameters": Map {
       "BucketName" => Object {
@@ -1228,7 +1238,9 @@ TypedTemplate {
       },
     },
     "templateFormatVersion": undefined,
+    "transform": Array [],
   },
+  "transform": Array [],
 }
 `;
 
@@ -1236,6 +1248,7 @@ exports[`cfn-policies.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
+  "metadata": Map {},
   "outputs": Map {},
   "parameters": Map {},
   "resources": DependencyGraph {
@@ -1438,6 +1451,7 @@ yum update -y aws-cfn-bootstrap
     "conditions": Map {},
     "description": undefined,
     "mappings": Map {},
+    "metadata": Map {},
     "outputs": Map {},
     "parameters": Map {},
     "resources": Map {
@@ -1664,7 +1678,9 @@ yum update -y aws-cfn-bootstrap
       },
     },
     "templateFormatVersion": undefined,
+    "transform": Array [],
   },
+  "transform": Array [],
 }
 `;
 
@@ -1685,6 +1701,7 @@ TypedTemplate {
       },
     },
   },
+  "metadata": Map {},
   "outputs": Map {},
   "parameters": Map {},
   "resources": DependencyGraph {
@@ -1765,6 +1782,7 @@ TypedTemplate {
         },
       },
     },
+    "metadata": Map {},
     "outputs": Map {},
     "parameters": Map {},
     "resources": Map {
@@ -1841,7 +1859,9 @@ TypedTemplate {
       },
     },
     "templateFormatVersion": undefined,
+    "transform": Array [],
   },
+  "transform": Array [],
 }
 `;
 
@@ -1849,6 +1869,7 @@ exports[`ecs.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
+  "metadata": Map {},
   "outputs": Map {},
   "parameters": Map {},
   "resources": DependencyGraph {
@@ -2036,6 +2057,7 @@ TypedTemplate {
     "conditions": Map {},
     "description": "A template creates a Fargate service with necessary resources",
     "mappings": Map {},
+    "metadata": Map {},
     "outputs": Map {},
     "parameters": Map {},
     "resources": Map {
@@ -2264,7 +2286,9 @@ TypedTemplate {
       },
     },
     "templateFormatVersion": "2010-09-09",
+    "transform": Array [],
   },
+  "transform": Array [],
 }
 `;
 
@@ -2272,6 +2296,7 @@ exports[`fleet.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
+  "metadata": Map {},
   "outputs": Map {},
   "parameters": Map {},
   "resources": DependencyGraph {
@@ -2376,6 +2401,7 @@ TypedTemplate {
     "conditions": Map {},
     "description": "A template creates an ASG and Vpc",
     "mappings": Map {},
+    "metadata": Map {},
     "outputs": Map {},
     "parameters": Map {},
     "resources": Map {
@@ -2493,7 +2519,9 @@ TypedTemplate {
       },
     },
     "templateFormatVersion": undefined,
+    "transform": Array [],
   },
+  "transform": Array [],
 }
 `;
 
@@ -2501,6 +2529,7 @@ exports[`lambda-dashboard.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
+  "metadata": Map {},
   "outputs": Map {},
   "parameters": Map {
     "DashboardName" => Object {
@@ -2949,6 +2978,7 @@ TypedTemplate {
     "conditions": Map {},
     "description": undefined,
     "mappings": Map {},
+    "metadata": Map {},
     "outputs": Map {},
     "parameters": Map {
       "DashboardName" => Object {
@@ -3484,7 +3514,9 @@ TypedTemplate {
       },
     },
     "templateFormatVersion": undefined,
+    "transform": Array [],
   },
+  "transform": Array [],
 }
 `;
 
@@ -3492,6 +3524,7 @@ exports[`lambda-events.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
+  "metadata": Map {},
   "outputs": Map {},
   "parameters": Map {},
   "resources": DependencyGraph {
@@ -3722,6 +3755,7 @@ TypedTemplate {
     "conditions": Map {},
     "description": "A template creates a lambda function which can be invoked by an sns topic",
     "mappings": Map {},
+    "metadata": Map {},
     "outputs": Map {},
     "parameters": Map {},
     "resources": Map {
@@ -3988,7 +4022,9 @@ TypedTemplate {
       },
     },
     "templateFormatVersion": undefined,
+    "transform": Array [],
   },
+  "transform": Array [],
 }
 `;
 
@@ -3996,6 +4032,7 @@ exports[`lambda-layer.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
+  "metadata": Map {},
   "outputs": Map {},
   "parameters": Map {},
   "resources": DependencyGraph {
@@ -4080,6 +4117,7 @@ TypedTemplate {
     "conditions": Map {},
     "description": "A template creates a aws cli lambda layer",
     "mappings": Map {},
+    "metadata": Map {},
     "outputs": Map {},
     "parameters": Map {},
     "resources": Map {
@@ -4178,7 +4216,9 @@ TypedTemplate {
       },
     },
     "templateFormatVersion": "2010-09-09",
+    "transform": Array [],
   },
+  "transform": Array [],
 }
 `;
 
@@ -4186,6 +4226,7 @@ exports[`lambda-policy.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
+  "metadata": Map {},
   "outputs": Map {},
   "parameters": Map {},
   "resources": DependencyGraph {
@@ -4347,6 +4388,7 @@ TypedTemplate {
     "conditions": Map {},
     "description": undefined,
     "mappings": Map {},
+    "metadata": Map {},
     "outputs": Map {},
     "parameters": Map {},
     "resources": Map {
@@ -4546,7 +4588,9 @@ TypedTemplate {
       },
     },
     "templateFormatVersion": undefined,
+    "transform": Array [],
   },
+  "transform": Array [],
 }
 `;
 
@@ -4841,6 +4885,7 @@ exports[`lambda-role-removed.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
+  "metadata": Map {},
   "outputs": Map {},
   "parameters": Map {},
   "resources": DependencyGraph {
@@ -4908,6 +4953,7 @@ TypedTemplate {
     "conditions": Map {},
     "description": undefined,
     "mappings": Map {},
+    "metadata": Map {},
     "outputs": Map {},
     "parameters": Map {},
     "resources": Map {
@@ -4981,7 +5027,9 @@ TypedTemplate {
       },
     },
     "templateFormatVersion": undefined,
+    "transform": Array [],
   },
+  "transform": Array [],
 }
 `;
 
@@ -4989,6 +5037,7 @@ exports[`lambda-topic.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
+  "metadata": Map {},
   "outputs": Map {
     "FunctionArn" => Object {
       "conditionName": undefined,
@@ -5120,6 +5169,7 @@ TypedTemplate {
     "conditions": Map {},
     "description": undefined,
     "mappings": Map {},
+    "metadata": Map {},
     "outputs": Map {
       "FunctionArn" => Object {
         "conditionName": undefined,
@@ -5273,7 +5323,9 @@ TypedTemplate {
       },
     },
     "templateFormatVersion": undefined,
+    "transform": Array [],
   },
+  "transform": Array [],
 }
 `;
 
@@ -5281,6 +5333,7 @@ exports[`method-calls.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
+  "metadata": Map {},
   "outputs": Map {},
   "parameters": Map {},
   "resources": DependencyGraph {
@@ -5592,6 +5645,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
     "conditions": Map {},
     "description": undefined,
     "mappings": Map {},
+    "metadata": Map {},
     "outputs": Map {},
     "parameters": Map {},
     "resources": Map {
@@ -5953,7 +6007,9 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
       },
     },
     "templateFormatVersion": "2010-09-09",
+    "transform": Array [],
   },
+  "transform": Array [],
 }
 `;
 
@@ -5961,6 +6017,7 @@ exports[`pipeline.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
+  "metadata": Map {},
   "outputs": Map {},
   "parameters": Map {},
   "resources": DependencyGraph {
@@ -6258,6 +6315,7 @@ TypedTemplate {
     "conditions": Map {},
     "description": "A template creates a CodePipeline along with its CodeCommit repository source",
     "mappings": Map {},
+    "metadata": Map {},
     "outputs": Map {},
     "parameters": Map {},
     "resources": Map {
@@ -6609,14 +6667,50 @@ TypedTemplate {
       },
     },
     "templateFormatVersion": "2010-09-09",
+    "transform": Array [],
   },
+  "transform": Array [],
 }
 `;
 
 exports[`pure-cfn.json 1`] = `
 TypedTemplate {
-  "conditions": Map {},
+  "conditions": Map {
+    "CreateLogGroup" => Object {
+      "fn": "and",
+      "operands": Array [
+        Object {
+          "fn": "equals",
+          "type": "intrinsic",
+          "value1": Object {
+            "fn": "ref",
+            "logicalId": "Stage",
+            "type": "intrinsic",
+          },
+          "value2": Object {
+            "type": "string",
+            "value": "Prod",
+          },
+        },
+        Object {
+          "fn": "equals",
+          "type": "intrinsic",
+          "value1": Object {
+            "fn": "ref",
+            "logicalId": "AWS::Region",
+            "type": "intrinsic",
+          },
+          "value2": Object {
+            "type": "string",
+            "value": "us-east-1",
+          },
+        },
+      ],
+      "type": "intrinsic",
+    },
+  },
   "mappings": Map {},
+  "metadata": Map {},
   "outputs": Map {
     "LogGroupArn" => Object {
       "conditionName": undefined,
@@ -6636,7 +6730,21 @@ TypedTemplate {
       },
     },
   },
-  "parameters": Map {},
+  "parameters": Map {
+    "Stage" => Object {
+      "allowedPattern": undefined,
+      "allowedValues": undefined,
+      "constraintDescription": undefined,
+      "default": "Prod",
+      "description": undefined,
+      "maxLength": undefined,
+      "maxValue": undefined,
+      "minLength": undefined,
+      "minValue": undefined,
+      "noEcho": undefined,
+      "type": "String",
+    },
+  },
   "resources": DependencyGraph {
     "_dependencies": Map {
       "Hello" => Set {},
@@ -6705,9 +6813,43 @@ TypedTemplate {
     },
   },
   "template": Template {
-    "conditions": Map {},
+    "conditions": Map {
+      "CreateLogGroup" => Object {
+        "fn": "and",
+        "operands": Array [
+          Object {
+            "fn": "equals",
+            "type": "intrinsic",
+            "value1": Object {
+              "fn": "ref",
+              "logicalId": "Stage",
+              "type": "intrinsic",
+            },
+            "value2": Object {
+              "type": "string",
+              "value": "Prod",
+            },
+          },
+          Object {
+            "fn": "equals",
+            "type": "intrinsic",
+            "value1": Object {
+              "fn": "ref",
+              "logicalId": "AWS::Region",
+              "type": "intrinsic",
+            },
+            "value2": Object {
+              "type": "string",
+              "value": "us-east-1",
+            },
+          },
+        ],
+        "type": "intrinsic",
+      },
+    },
     "description": undefined,
     "mappings": Map {},
+    "metadata": Map {},
     "outputs": Map {
       "LogGroupArn" => Object {
         "conditionName": undefined,
@@ -6727,7 +6869,21 @@ TypedTemplate {
         },
       },
     },
-    "parameters": Map {},
+    "parameters": Map {
+      "Stage" => Object {
+        "allowedPattern": undefined,
+        "allowedValues": undefined,
+        "constraintDescription": undefined,
+        "default": "Prod",
+        "description": undefined,
+        "maxLength": undefined,
+        "maxValue": undefined,
+        "minLength": undefined,
+        "minValue": undefined,
+        "noEcho": undefined,
+        "type": "String",
+      },
+    },
     "resources": Map {
       "Hello" => Object {
         "call": Object {
@@ -6758,7 +6914,7 @@ TypedTemplate {
           "fields": Object {},
           "type": "object",
         },
-        "conditionName": undefined,
+        "conditionName": "CreateLogGroup",
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {
@@ -6784,6 +6940,28 @@ TypedTemplate {
     "template": Object {
       "$schema": "../cdk.schema.json",
       "AWSTemplateFormatVersion": "2010-09-09",
+      "Conditions": Object {
+        "CreateLogGroup": Object {
+          "Fn::And": Array [
+            Object {
+              "Fn::Equals": Array [
+                Object {
+                  "Ref": "Stage",
+                },
+                "Prod",
+              ],
+            },
+            Object {
+              "Fn::Equals": Array [
+                Object {
+                  "Ref": "AWS::Region",
+                },
+                "us-east-1",
+              ],
+            },
+          ],
+        },
+      },
       "Outputs": Object {
         "LogGroupArn": Object {
           "Description": "Return log group arn",
@@ -6798,6 +6976,12 @@ TypedTemplate {
           },
         },
       },
+      "Parameters": Object {
+        "Stage": Object {
+          "Default": "Prod",
+          "Type": "String",
+        },
+      },
       "Resources": Object {
         "Hello": Object {
           "Properties": Object {
@@ -6806,6 +6990,7 @@ TypedTemplate {
           "Type": "aws-cdk-lib.aws_sqs.Queue",
         },
         "MyLogGroup": Object {
+          "Condition": "CreateLogGroup",
           "Properties": Object {
             "LogGroupName": Object {
               "Ref": "AWS::AccountId",
@@ -6816,7 +7001,9 @@ TypedTemplate {
       },
     },
     "templateFormatVersion": "2010-09-09",
+    "transform": Array [],
   },
+  "transform": Array [],
 }
 `;
 
@@ -6824,6 +7011,26 @@ exports[`queue-kms.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
+  "metadata": Map {
+    "Instances" => Object {
+      "fields": Object {
+        "Description": Object {
+          "type": "string",
+          "value": "Information about the instances",
+        },
+      },
+      "type": "object",
+    },
+    "Databases" => Object {
+      "fields": Object {
+        "Description": Object {
+          "type": "string",
+          "value": "Information about the databases",
+        },
+      },
+      "type": "object",
+    },
+  },
   "outputs": Map {},
   "parameters": Map {},
   "resources": DependencyGraph {
@@ -6867,6 +7074,26 @@ TypedTemplate {
     "conditions": Map {},
     "description": undefined,
     "mappings": Map {},
+    "metadata": Map {
+      "Instances" => Object {
+        "fields": Object {
+          "Description": Object {
+            "type": "string",
+            "value": "Information about the instances",
+          },
+        },
+        "type": "object",
+      },
+      "Databases" => Object {
+        "fields": Object {
+          "Description": Object {
+            "type": "string",
+            "value": "Information about the databases",
+          },
+        },
+        "type": "object",
+      },
+    },
     "outputs": Map {},
     "parameters": Map {},
     "resources": Map {
@@ -6904,6 +7131,14 @@ TypedTemplate {
     },
     "template": Object {
       "$schema": "../cdk.schema.json",
+      "Metadata": Object {
+        "Databases": Object {
+          "Description": "Information about the databases",
+        },
+        "Instances": Object {
+          "Description": "Information about the instances",
+        },
+      },
       "Resources": Object {
         "MyQueue": Object {
           "Overrides": Array [
@@ -6920,9 +7155,16 @@ TypedTemplate {
           "Type": "aws-cdk-lib.aws_sqs.Queue",
         },
       },
+      "Transform": "AWS::LanguageExtensions",
     },
     "templateFormatVersion": undefined,
+    "transform": Array [
+      "AWS::LanguageExtensions",
+    ],
   },
+  "transform": Array [
+    "AWS::LanguageExtensions",
+  ],
 }
 `;
 
@@ -6930,6 +7172,7 @@ exports[`static-site.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
+  "metadata": Map {},
   "outputs": Map {},
   "parameters": Map {
     "DomainName" => Object {
@@ -7453,6 +7696,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
     "conditions": Map {},
     "description": undefined,
     "mappings": Map {},
+    "metadata": Map {},
     "outputs": Map {},
     "parameters": Map {
       "DomainName" => Object {
@@ -8092,7 +8336,9 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
       },
     },
     "templateFormatVersion": undefined,
+    "transform": Array [],
   },
+  "transform": Array [],
 }
 `;
 
@@ -8100,6 +8346,7 @@ exports[`vpc.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
+  "metadata": Map {},
   "outputs": Map {},
   "parameters": Map {},
   "resources": DependencyGraph {
@@ -8129,6 +8376,7 @@ TypedTemplate {
     "conditions": Map {},
     "description": undefined,
     "mappings": Map {},
+    "metadata": Map {},
     "outputs": Map {},
     "parameters": Map {},
     "resources": Map {
@@ -8161,6 +8409,8 @@ TypedTemplate {
       },
     },
     "templateFormatVersion": undefined,
+    "transform": Array [],
   },
+  "transform": Array [],
 }
 `;

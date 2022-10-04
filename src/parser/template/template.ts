@@ -7,6 +7,7 @@ import { parseMapping, TemplateMapping } from './mappings';
 import { parseOutput, TemplateOutput } from './output';
 import { parseParameter, TemplateParameter } from './parameters';
 import { parseTemplateResource, TemplateResource } from './resource';
+import { parseTransform } from './transform';
 
 /**
  * A template describes the desired state of some infrastructure
@@ -39,6 +40,8 @@ export class Template {
   public readonly conditions: Map<string, TemplateExpression>;
   public readonly mappings: Map<string, TemplateMapping>;
   public readonly outputs: Map<string, TemplateOutput>;
+  public readonly transform: string[];
+  public readonly metadata: Map<string, TemplateExpression>;
 
   constructor(public template: schema.Template) {
     this.parameters = new Map(
@@ -76,6 +79,15 @@ export class Template {
       Object.entries(template.Outputs ?? {}).map(([k, v]) => [
         k,
         parseOutput(v),
+      ])
+    );
+
+    this.transform = parseTransform(template.Transform);
+
+    this.metadata = new Map(
+      Object.entries(template.Metadata ?? {}).map(([k, v]) => [
+        k,
+        parseExpression(v),
       ])
     );
   }
