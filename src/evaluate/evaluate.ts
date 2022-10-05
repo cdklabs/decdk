@@ -6,14 +6,10 @@ import {
   ICfnConditionExpression,
   ICfnRuleConditionExpression,
   Token,
-  Tokenization,
 } from 'aws-cdk-lib';
 import { Construct, IConstruct } from 'constructs';
 import { SubFragment } from '../parser/private/sub';
-import {
-  assertString,
-  assertStringOrStringList,
-} from '../parser/private/types';
+import { assertString } from '../parser/private/types';
 import {
   GetPropIntrinsic,
   LazyLogicalId,
@@ -121,15 +117,7 @@ export class Evaluator {
 
   private evaluateRules() {
     this.context.template.rules.forEach((rule, name) => {
-      new CfnRule(this.context.stack, name, {
-        ruleCondition: rule.ruleCondition
-          ? this.evaluate(rule.ruleCondition)
-          : undefined,
-        assertions: rule.assertions.map((a) => ({
-          assert: this.evaluate(a.assert),
-          assertDescription: a.assertDescription,
-        })),
-      });
+      new CfnRule(this.context.stack, name, rule);
     });
   }
 
@@ -245,27 +233,6 @@ export class Evaluator {
             return this.evaluateArray(x.array);
           case 'lazyLogicalId':
             return this.lazyLogicalId(x);
-          case 'refAll':
-            return this.fnRefAll(assertString(ev(x.parameterType)));
-          case 'valueOf':
-            return this.fnValueOf(x.parameterLogicalId, x.attribute);
-          case 'valueOfAll':
-            return this.fnValueOfAll(x.parameterType, x.attribute);
-          case 'contains':
-            return this.fnContains(
-              assertStringOrStringList(ev(x.list)),
-              assertString(ev(x.candidate))
-            );
-          case 'eachMemberEquals':
-            return this.fnEachMemberEquals(
-              assertStringOrStringList(ev(x.list)),
-              assertString(ev(x.candidate))
-            );
-          case 'eachMemberIn':
-            return this.fnEachMemberIn(
-              assertStringOrStringList(ev(x.listToCheck)),
-              assertStringOrStringList(ev(x.listToMatch))
-            );
         }
       case 'enum':
         return this.enum(x.fqn, x.choice);
@@ -569,45 +536,6 @@ export class Evaluator {
     return cdk.Fn.conditionEquals(value1, value2);
   }
 
-  protected fnRefAll(parameterType: string): string[] {
-    return cdk.Fn.refAll(parameterType);
-  }
-
-  protected fnValueOf(parameterLogicalId: string, attribute: string): string {
-    return cdk.Fn.valueOf(parameterLogicalId, attribute);
-  }
-
-  protected fnValueOfAll(parameterType: string, attribute: string): string[] {
-    return cdk.Fn.valueOfAll(parameterType, attribute);
-  }
-
-  protected fnContains(
-    list: string | string[],
-    candidate: string
-  ): ICfnRuleConditionExpression {
-    return cdk.Fn.conditionContains(assertSupportedList(list), candidate);
-  }
-
-  protected fnEachMemberEquals(
-    list: string | string[],
-    candidate: string
-  ): ICfnRuleConditionExpression {
-    return cdk.Fn.conditionEachMemberEquals(
-      assertSupportedList(list),
-      candidate
-    );
-  }
-
-  protected fnEachMemberIn(
-    stringsToCheck: string | string[],
-    stringsToMatch: string | string[]
-  ): ICfnRuleConditionExpression {
-    return cdk.Fn.conditionEachMemberIn(
-      assertSupportedList(stringsToCheck),
-      assertSupportedList(stringsToMatch)
-    );
-  }
-
   protected applyTags(resource: IConstruct, tags: ResourceTag[] = []) {
     tags.forEach((tag: ResourceTag) => {
       cdk.Tags.of(resource).add(tag.key, tag.value);
@@ -631,20 +559,4 @@ export class Evaluator {
       applyOverride(resource, override, ev);
     });
   }
-}
-
-function assertSupportedList(token: string | string[]): string[] {
-  if (Array.isArray(token)) {
-    return token;
-  }
-  if (!Token.isUnresolved(token)) {
-    throw new Error('Not a token');
-  }
-  const resolvable = Tokenization.reverse(token) as any;
-  const intrinsic = Object.keys(resolvable?.value ?? {});
-  if (intrinsic.length === 1 && intrinsic[0] === 'Fn::ValueOf') {
-    return Token.asList(resolvable);
-  }
-
-  throw new Error('Not valueOf');
 }

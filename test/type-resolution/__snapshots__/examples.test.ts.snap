@@ -2988,22 +2988,20 @@ TypedTemplate {
     "SubnetsInVPC" => Object {
       "assertions": Array [
         Object {
-          "assert": Object {
-            "candidate": Object {
-              "fn": "ref",
-              "logicalId": "VpcId",
-              "type": "intrinsic",
-            },
-            "fn": "eachMemberEquals",
-            "list": Object {
-              "attribute": "VpcId",
-              "fn": "valueOf",
-              "parameterLogicalId": "Subnets",
-              "type": "intrinsic",
-            },
-            "type": "intrinsic",
+          "Assert": Object {
+            "Fn::EachMemberEquals": Array [
+              Object {
+                "Fn::ValueOf": Array [
+                  "Subnets",
+                  "VpcId",
+                ],
+              },
+              Object {
+                "Ref": "VpcId",
+              },
+            ],
           },
-          "assertDescription": "All subnets must in the VPC",
+          "AssertDescription": "All subnets must in the VPC",
         },
       ],
       "ruleCondition": undefined,
@@ -3011,68 +3009,43 @@ TypedTemplate {
     "ValidateHostedZone" => Object {
       "assertions": Array [
         Object {
-          "assert": Object {
-            "fn": "not",
-            "operand": Object {
-              "array": Array [
-                Object {
-                  "fn": "equals",
-                  "type": "intrinsic",
-                  "value1": Object {
-                    "fn": "ref",
-                    "logicalId": "ALBSSLCertificateARN",
-                    "type": "intrinsic",
+          "Assert": Object {
+            "Fn::Not": Array [
+              Object {
+                "Fn::Equals": Array [
+                  Object {
+                    "Ref": "ALBSSLCertificateARN",
                   },
-                  "value2": Object {
-                    "type": "string",
-                    "value": "",
-                  },
-                },
-              ],
-              "type": "array",
-            },
-            "type": "intrinsic",
+                  "",
+                ],
+              },
+            ],
           },
-          "assertDescription": "ACM Certificate value cannot be empty if SSL is required",
+          "AssertDescription": "ACM Certificate value cannot be empty if SSL is required",
         },
         Object {
-          "assert": Object {
-            "fn": "not",
-            "operand": Object {
-              "array": Array [
-                Object {
-                  "fn": "equals",
-                  "type": "intrinsic",
-                  "value1": Object {
-                    "fn": "ref",
-                    "logicalId": "HostedZoneName",
-                    "type": "intrinsic",
+          "Assert": Object {
+            "Fn::Not": Array [
+              Object {
+                "Fn::Equals": Array [
+                  Object {
+                    "Ref": "HostedZoneName",
                   },
-                  "value2": Object {
-                    "type": "string",
-                    "value": "",
-                  },
-                },
-              ],
-              "type": "array",
-            },
-            "type": "intrinsic",
+                  "",
+                ],
+              },
+            ],
           },
-          "assertDescription": "Route53 Hosted Zone Name is mandatory when SSL is required",
+          "AssertDescription": "Route53 Hosted Zone Name is mandatory when SSL is required",
         },
       ],
       "ruleCondition": Object {
-        "fn": "equals",
-        "type": "intrinsic",
-        "value1": Object {
-          "fn": "ref",
-          "logicalId": "UseSSL",
-          "type": "intrinsic",
-        },
-        "value2": Object {
-          "type": "string",
-          "value": "Yes",
-        },
+        "Fn::Equals": Array [
+          Object {
+            "Ref": "UseSSL",
+          },
+          "Yes",
+        ],
       },
     },
   },
@@ -4213,22 +4186,20 @@ TypedTemplate {
       "SubnetsInVPC" => Object {
         "assertions": Array [
           Object {
-            "assert": Object {
-              "candidate": Object {
-                "fn": "ref",
-                "logicalId": "VpcId",
-                "type": "intrinsic",
-              },
-              "fn": "eachMemberEquals",
-              "list": Object {
-                "attribute": "VpcId",
-                "fn": "valueOf",
-                "parameterLogicalId": "Subnets",
-                "type": "intrinsic",
-              },
-              "type": "intrinsic",
+            "Assert": Object {
+              "Fn::EachMemberEquals": Array [
+                Object {
+                  "Fn::ValueOf": Array [
+                    "Subnets",
+                    "VpcId",
+                  ],
+                },
+                Object {
+                  "Ref": "VpcId",
+                },
+              ],
             },
-            "assertDescription": "All subnets must in the VPC",
+            "AssertDescription": "All subnets must in the VPC",
           },
         ],
         "ruleCondition": undefined,
@@ -4236,68 +4207,43 @@ TypedTemplate {
       "ValidateHostedZone" => Object {
         "assertions": Array [
           Object {
-            "assert": Object {
-              "fn": "not",
-              "operand": Object {
-                "array": Array [
-                  Object {
-                    "fn": "equals",
-                    "type": "intrinsic",
-                    "value1": Object {
-                      "fn": "ref",
-                      "logicalId": "ALBSSLCertificateARN",
-                      "type": "intrinsic",
+            "Assert": Object {
+              "Fn::Not": Array [
+                Object {
+                  "Fn::Equals": Array [
+                    Object {
+                      "Ref": "ALBSSLCertificateARN",
                     },
-                    "value2": Object {
-                      "type": "string",
-                      "value": "",
-                    },
-                  },
-                ],
-                "type": "array",
-              },
-              "type": "intrinsic",
+                    "",
+                  ],
+                },
+              ],
             },
-            "assertDescription": "ACM Certificate value cannot be empty if SSL is required",
+            "AssertDescription": "ACM Certificate value cannot be empty if SSL is required",
           },
           Object {
-            "assert": Object {
-              "fn": "not",
-              "operand": Object {
-                "array": Array [
-                  Object {
-                    "fn": "equals",
-                    "type": "intrinsic",
-                    "value1": Object {
-                      "fn": "ref",
-                      "logicalId": "HostedZoneName",
-                      "type": "intrinsic",
+            "Assert": Object {
+              "Fn::Not": Array [
+                Object {
+                  "Fn::Equals": Array [
+                    Object {
+                      "Ref": "HostedZoneName",
                     },
-                    "value2": Object {
-                      "type": "string",
-                      "value": "",
-                    },
-                  },
-                ],
-                "type": "array",
-              },
-              "type": "intrinsic",
+                    "",
+                  ],
+                },
+              ],
             },
-            "assertDescription": "Route53 Hosted Zone Name is mandatory when SSL is required",
+            "AssertDescription": "Route53 Hosted Zone Name is mandatory when SSL is required",
           },
         ],
         "ruleCondition": Object {
-          "fn": "equals",
-          "type": "intrinsic",
-          "value1": Object {
-            "fn": "ref",
-            "logicalId": "UseSSL",
-            "type": "intrinsic",
-          },
-          "value2": Object {
-            "type": "string",
-            "value": "Yes",
-          },
+          "Fn::Equals": Array [
+            Object {
+              "Ref": "UseSSL",
+            },
+            "Yes",
+          ],
         },
       },
     },

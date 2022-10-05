@@ -50,12 +50,6 @@ export interface ObjectLiteral extends ObjectExpression<TemplateExpression> {}
 
 export type IntrinsicExpression =
   | RefIntrinsic
-  | RefAllIntrinsic
-  | ValueOfIntrinsic
-  | ValueOfAllIntrinsic
-  | ContainsIntrinsic
-  | EachMemberEqualsIntrinsic
-  | EachMemberInIntrinsic
   | GetAttIntrinsic
   | GetPropIntrinsic
   | Base64Intrinsic
@@ -80,47 +74,6 @@ export interface RefIntrinsic {
   readonly type: 'intrinsic';
   readonly fn: 'ref';
   readonly logicalId: string;
-}
-
-export interface RefAllIntrinsic {
-  readonly type: 'intrinsic';
-  readonly fn: 'refAll';
-  readonly parameterType: TemplateExpression;
-}
-
-export interface ValueOfIntrinsic {
-  readonly type: 'intrinsic';
-  readonly fn: 'valueOf';
-  readonly parameterLogicalId: string;
-  readonly attribute: string;
-}
-
-export interface ValueOfAllIntrinsic {
-  readonly type: 'intrinsic';
-  readonly fn: 'valueOfAll';
-  readonly parameterType: string;
-  readonly attribute: string;
-}
-
-export interface ContainsIntrinsic {
-  readonly type: 'intrinsic';
-  readonly fn: 'contains';
-  readonly list: TemplateExpression;
-  readonly candidate: TemplateExpression;
-}
-
-export interface EachMemberEqualsIntrinsic {
-  readonly type: 'intrinsic';
-  readonly fn: 'eachMemberEquals';
-  readonly list: TemplateExpression;
-  readonly candidate: TemplateExpression;
-}
-
-export interface EachMemberInIntrinsic {
-  readonly type: 'intrinsic';
-  readonly fn: 'eachMemberIn';
-  readonly listToCheck: TemplateExpression;
-  readonly listToMatch: TemplateExpression;
 }
 
 export interface GetAttIntrinsic {
@@ -465,58 +418,6 @@ export function parseExpression(x: unknown): TemplateExpression {
         fn: 'equals',
         value1: parseExpression(x1),
         value2: parseExpression(x2),
-      };
-    },
-    'Fn::RefAll': (value) => {
-      return {
-        type: 'intrinsic',
-        fn: 'refAll',
-        parameterType: parseExpression(value),
-      };
-    },
-    'Fn::ValueOf': (value) => {
-      const [parameterLogicalId, attribute] = assertList(value, [2]);
-      return {
-        type: 'intrinsic',
-        fn: 'valueOf',
-        parameterLogicalId: assertString(parameterLogicalId),
-        attribute: assertString(attribute),
-      };
-    },
-    'Fn::ValueOfAll': (value) => {
-      const [parameterType, attribute] = assertList<string>(value, [2]);
-      return {
-        type: 'intrinsic',
-        fn: 'valueOfAll',
-        parameterType: assertString(parameterType),
-        attribute: assertString(attribute),
-      };
-    },
-    'Fn::Contains': (value) => {
-      const [list, candidate] = assertList<string>(value, [2]);
-      return {
-        type: 'intrinsic',
-        fn: 'contains',
-        list: parseExpression(list),
-        candidate: parseExpression(candidate),
-      };
-    },
-    'Fn::EachMemberEquals': (value) => {
-      const [list, candidate] = assertList<string>(value, [2]);
-      return {
-        type: 'intrinsic',
-        fn: 'eachMemberEquals',
-        list: parseExpression(list),
-        candidate: parseExpression(candidate),
-      };
-    },
-    'Fn::EachMemberIn': (value) => {
-      const [toCheck, toMatch] = assertList<string>(value, [2]);
-      return {
-        type: 'intrinsic',
-        fn: 'eachMemberIn',
-        listToCheck: parseExpression(toCheck),
-        listToMatch: parseExpression(toMatch),
       };
     },
     'CDK::Args': (value) => {
