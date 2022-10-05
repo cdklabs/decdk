@@ -4224,11 +4224,52 @@ TypedTemplate {
 
 exports[`lambda-policy.yaml 1`] = `
 TypedTemplate {
-  "conditions": Map {},
+  "conditions": Map {
+    "IsProd" => Object {
+      "fn": "equals",
+      "type": "intrinsic",
+      "value1": Object {
+        "fn": "ref",
+        "logicalId": "Stage",
+        "type": "intrinsic",
+      },
+      "value2": Object {
+        "type": "string",
+        "value": "Prod",
+      },
+    },
+  },
   "mappings": Map {},
   "metadata": Map {},
   "outputs": Map {},
-  "parameters": Map {},
+  "parameters": Map {
+    "BucketName" => Object {
+      "allowedPattern": undefined,
+      "allowedValues": undefined,
+      "constraintDescription": undefined,
+      "default": undefined,
+      "description": undefined,
+      "maxLength": undefined,
+      "maxValue": undefined,
+      "minLength": undefined,
+      "minValue": undefined,
+      "noEcho": undefined,
+      "type": "String",
+    },
+    "Stage" => Object {
+      "allowedPattern": undefined,
+      "allowedValues": undefined,
+      "constraintDescription": undefined,
+      "default": "Gamma",
+      "description": undefined,
+      "maxLength": undefined,
+      "maxValue": undefined,
+      "minLength": undefined,
+      "minValue": undefined,
+      "noEcho": undefined,
+      "type": "String",
+    },
+  },
   "resources": DependencyGraph {
     "_dependencies": Map {
       "MyLambda" => Set {
@@ -4248,7 +4289,43 @@ TypedTemplate {
         "namespace": "aws_s3",
         "overrides": Array [],
         "props": Object {
-          "fields": Object {},
+          "fields": Object {
+            "bucketName": Object {
+              "fn": "join",
+              "list": Object {
+                "array": Array [
+                  Object {
+                    "fn": "ref",
+                    "logicalId": "AWS::Region",
+                    "type": "intrinsic",
+                  },
+                  Object {
+                    "fn": "ref",
+                    "logicalId": "BucketName",
+                    "type": "intrinsic",
+                  },
+                  Object {
+                    "conditionName": "IsProd",
+                    "else": Object {
+                      "fn": "ref",
+                      "logicalId": "Stage",
+                      "type": "intrinsic",
+                    },
+                    "fn": "if",
+                    "then": Object {
+                      "fn": "ref",
+                      "logicalId": "AWS::NoValue",
+                      "type": "intrinsic",
+                    },
+                    "type": "intrinsic",
+                  },
+                ],
+                "type": "array",
+              },
+              "separator": "-",
+              "type": "intrinsic",
+            },
+          },
           "type": "struct",
         },
         "tags": Array [],
@@ -4385,12 +4462,53 @@ TypedTemplate {
     },
   },
   "template": Template {
-    "conditions": Map {},
+    "conditions": Map {
+      "IsProd" => Object {
+        "fn": "equals",
+        "type": "intrinsic",
+        "value1": Object {
+          "fn": "ref",
+          "logicalId": "Stage",
+          "type": "intrinsic",
+        },
+        "value2": Object {
+          "type": "string",
+          "value": "Prod",
+        },
+      },
+    },
     "description": undefined,
     "mappings": Map {},
     "metadata": Map {},
     "outputs": Map {},
-    "parameters": Map {},
+    "parameters": Map {
+      "BucketName" => Object {
+        "allowedPattern": undefined,
+        "allowedValues": undefined,
+        "constraintDescription": undefined,
+        "default": undefined,
+        "description": undefined,
+        "maxLength": undefined,
+        "maxValue": undefined,
+        "minLength": undefined,
+        "minValue": undefined,
+        "noEcho": undefined,
+        "type": "String",
+      },
+      "Stage" => Object {
+        "allowedPattern": undefined,
+        "allowedValues": undefined,
+        "constraintDescription": undefined,
+        "default": "Gamma",
+        "description": undefined,
+        "maxLength": undefined,
+        "maxValue": undefined,
+        "minLength": undefined,
+        "minValue": undefined,
+        "noEcho": undefined,
+        "type": "String",
+      },
+    },
     "resources": Map {
       "MyLambda" => Object {
         "call": Object {
@@ -4523,12 +4641,53 @@ TypedTemplate {
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
-        "dependencies": Set {},
+        "dependencies": Set {
+          "AWS::Region",
+          "BucketName",
+          "AWS::NoValue",
+          "Stage",
+        },
         "dependsOn": Set {},
         "metadata": Object {},
         "on": undefined,
         "overrides": Array [],
-        "properties": Object {},
+        "properties": Object {
+          "bucketName": Object {
+            "fn": "join",
+            "list": Object {
+              "array": Array [
+                Object {
+                  "fn": "ref",
+                  "logicalId": "AWS::Region",
+                  "type": "intrinsic",
+                },
+                Object {
+                  "fn": "ref",
+                  "logicalId": "BucketName",
+                  "type": "intrinsic",
+                },
+                Object {
+                  "conditionName": "IsProd",
+                  "else": Object {
+                    "fn": "ref",
+                    "logicalId": "Stage",
+                    "type": "intrinsic",
+                  },
+                  "fn": "if",
+                  "then": Object {
+                    "fn": "ref",
+                    "logicalId": "AWS::NoValue",
+                    "type": "intrinsic",
+                  },
+                  "type": "intrinsic",
+                },
+              ],
+              "type": "array",
+            },
+            "separator": "-",
+            "type": "intrinsic",
+          },
+        },
         "tags": Array [],
         "type": "aws-cdk-lib.aws_s3.Bucket",
         "updatePolicy": undefined,
@@ -4536,8 +4695,53 @@ TypedTemplate {
       },
     },
     "template": Object {
+      "Conditions": Object {
+        "IsProd": Object {
+          "Fn::Equals": Array [
+            Object {
+              "Ref": "Stage",
+            },
+            "Prod",
+          ],
+        },
+      },
+      "Parameters": Object {
+        "BucketName": Object {
+          "Type": "String",
+        },
+        "Stage": Object {
+          "Default": "Gamma",
+          "Type": "String",
+        },
+      },
       "Resources": Object {
         "MyBucket": Object {
+          "Properties": Object {
+            "bucketName": Object {
+              "Fn::Join": Array [
+                "-",
+                Array [
+                  Object {
+                    "Ref": "AWS::Region",
+                  },
+                  Object {
+                    "Ref": "BucketName",
+                  },
+                  Object {
+                    "Fn::If": Array [
+                      "IsProd",
+                      Object {
+                        "Ref": "AWS::NoValue",
+                      },
+                      Object {
+                        "Ref": "Stage",
+                      },
+                    ],
+                  },
+                ],
+              ],
+            },
+          },
           "Type": "aws-cdk-lib.aws_s3.Bucket",
         },
         "MyLambda": Object {

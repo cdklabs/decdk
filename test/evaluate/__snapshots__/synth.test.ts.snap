@@ -3181,9 +3181,54 @@ Object {
 
 exports[`lambda-policy.yaml 1`] = `
 Object {
+  "Conditions": Object {
+    "IsProd": Object {
+      "Fn::Equals": Array [
+        Object {
+          "Ref": "Stage",
+        },
+        "Prod",
+      ],
+    },
+  },
+  "Parameters": Object {
+    "BucketName": Object {
+      "Type": "String",
+    },
+    "Stage": Object {
+      "Default": "Gamma",
+      "Type": "String",
+    },
+  },
   "Resources": Object {
     "MyBucketF68F3FF0": Object {
       "DeletionPolicy": "Retain",
+      "Properties": Object {
+        "BucketName": Object {
+          "Fn::Join": Array [
+            "-",
+            Array [
+              Object {
+                "Ref": "AWS::Region",
+              },
+              Object {
+                "Ref": "BucketName",
+              },
+              Object {
+                "Fn::If": Array [
+                  "IsProd",
+                  Object {
+                    "Ref": "AWS::NoValue",
+                  },
+                  Object {
+                    "Ref": "Stage",
+                  },
+                ],
+              },
+            ],
+          ],
+        },
+      },
       "Type": "AWS::S3::Bucket",
       "UpdateReplacePolicy": "Retain",
     },
