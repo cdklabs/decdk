@@ -46,56 +46,16 @@ export class Template {
   public readonly rules: Map<string, TemplateRule>;
 
   constructor(public template: schema.Template) {
-    this.parameters = new Map(
-      Object.entries(template.Parameters ?? {}).map(([k, v]) => [
-        k,
-        parseParameter(v),
-      ])
-    );
-
     this.templateFormatVersion = template.AWSTemplateFormatVersion;
     this.description = template.Description;
-
-    this.resources = new Map(
-      Object.entries(template.Resources ?? {}).map(([k, v]) => [
-        k,
-        parseTemplateResource(k, v),
-      ])
-    );
-
-    this.conditions = new Map(
-      Object.entries(template.Conditions ?? {}).map(([k, v]) => [
-        k,
-        parseExpression(v),
-      ])
-    );
-
-    this.mappings = new Map(
-      Object.entries(template.Mappings ?? {}).map(([k, v]) => [
-        k,
-        parseMapping(v),
-      ])
-    );
-
-    this.outputs = new Map(
-      Object.entries(template.Outputs ?? {}).map(([k, v]) => [
-        k,
-        parseOutput(v),
-      ])
-    );
-
+    this.parameters = mapValues(template.Parameters, parseParameter);
+    this.resources = mapEntries(template.Resources, parseTemplateResource);
+    this.conditions = mapValues(template.Conditions, parseExpression);
+    this.mappings = mapValues(template.Mappings, parseMapping);
+    this.outputs = mapValues(template.Outputs, parseOutput);
     this.transform = parseTransform(template.Transform);
-
-    this.metadata = new Map(
-      Object.entries(template.Metadata ?? {}).map(([k, v]) => [
-        k,
-        parseExpression(v),
-      ])
-    );
-
-    this.rules = new Map(
-      Object.entries(template.Rules ?? {}).map(([k, v]) => [k, parseRule(v)])
-    );
+    this.metadata = mapValues(template.Metadata, parseExpression);
+    this.rules = mapValues(template.Rules, parseRule);
   }
 
   public resource(logicalId: string) {
@@ -131,4 +91,18 @@ export class Template {
       dependencies
     );
   }
+}
+
+function mapValues<T, U>(
+  record: Record<string, T> | undefined,
+  fn: (t: T) => U
+): Map<string, U> {
+  return new Map(Object.entries(record ?? {}).map(([k, v]) => [k, fn(v)]));
+}
+
+function mapEntries<T, U>(
+  record: Record<string, T> | undefined,
+  fn: (key: string, t: T) => U
+): Map<string, U> {
+  return new Map(Object.entries(record ?? {}).map(([k, v]) => [k, fn(k, v)]));
 }
