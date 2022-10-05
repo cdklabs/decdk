@@ -6,6 +6,7 @@ import {
 } from '../parser/private/types';
 import {
   ArrayLiteral,
+  asArrayLiteral,
   ObjectLiteral,
   Template,
   TemplateExpression,
@@ -232,42 +233,43 @@ export interface InitializerExpression {
 
 export function resolveInstanceExpression(
   x: ObjectLiteral,
-  type: reflect.InterfaceType
+  type: reflect.Type
 ): InitializerExpression | StaticMethodCallExpression {
-  const allSubClasses = type.system.classes.filter((i) => i.extends(type));
-
   const candidateFQN = assertOneField(x.fields);
-  const candidateClass = type.system.tryFindFqn(candidateFQN);
+  const klass = type.system.tryFindFqn(candidateFQN);
 
   // Cannot find a class for the fqn, try a static method call instead
-  if (!candidateClass) {
+  if (!klass) {
     return resolveStaticMethodCallExpression(x, type.system, type);
   }
 
-  const selectedSubClassFQN = assertExactlyOneOfFields(
-    x.fields,
-    allSubClasses.map((s) => s.fqn)
-  );
-  const selectedSubClass = candidateClass;
-
-  const maybeArray = x.fields[selectedSubClassFQN];
-  const parameters: ArrayLiteral =
-    maybeArray.type === 'array'
-      ? maybeArray
-      : {
-          type: 'array',
-          array: [maybeArray],
-        };
-
-  const initializer = assertInitializer(selectedSubClass);
+  const classFqn = selectClassFqn(x, type, candidateFQN);
+  const parameters = asArrayLiteral(x.fields[classFqn]);
+  const initializer = assertInitializer(klass);
   const args = resolvePositionalCallableParameters(parameters, initializer);
 
   return {
     type: 'initializer',
-    fqn: selectedSubClass.fqn,
-    namespace: selectedSubClass.namespace,
+    fqn: klass.fqn,
+    namespace: klass.namespace,
     args,
   };
+}
+
+function selectClassFqn(
+  x: ObjectLiteral,
+  type: reflect.Type,
+  fqn: string
+): string {
+  if (type.isClassType()) {
+    return fqn;
+  }
+
+  const allSubClasses = type.system.classes.filter((i) => i.extends(type));
+  return assertExactlyOneOfFields(
+    x.fields,
+    allSubClasses.map((s) => s.fqn)
+  );
 }
 
 export function assertInitializer(type: reflect.Type): reflect.Initializer {

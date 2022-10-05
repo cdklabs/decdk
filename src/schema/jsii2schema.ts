@@ -2,10 +2,10 @@ import * as util from 'util';
 import * as reflect from 'jsii-reflect';
 import { Initializer } from 'jsii-reflect';
 import {
+  allImplementationsOfType,
   enumLikeClassMethods,
   enumLikeClassProperties,
   isConstruct,
-  allImplementationsOfType,
 } from '../type-system';
 import { allStaticFactoryMethods } from '../type-system/factories';
 import { $ref } from './expression';
@@ -83,7 +83,7 @@ export class SchemaContext {
     const originalFqn = fqn;
     fqn = fqn.replace('/', '.');
 
-    if (!(fqn in this.definitions)) {
+    if (!this.isDefined(fqn)) {
       if (this.definitionStack.includes(fqn)) {
         return $ref(fqn);
       }
@@ -106,6 +106,10 @@ export class SchemaContext {
     }
 
     return { $ref: `#/definitions/${fqn}` };
+  }
+
+  public isDefined(fqn: string): boolean {
+    return fqn in this.definitions;
   }
 }
 
@@ -410,6 +414,7 @@ export function schemaForEnumLikeClass(
 
   const enumLikeProps = enumLikeClassProperties(type);
   const enumLikeMethods = enumLikeClassMethods(type);
+  const constructorParams = type.initializer?.parameters ?? [];
 
   if (enumLikeProps.length === 0 && enumLikeMethods.length === 0) {
     return undefined;
@@ -445,13 +450,41 @@ export function schemaForEnumLikeClass(
     },
   });
 
-  if (anyOf.length === 0) {
-    return undefined;
+  if (type.initializer) {
+    anyOf.push({
+      type: 'object',
+      additionalProperties: false,
+      properties: schemaForConstructorParams(type.fqn, constructorParams),
+    });
   }
 
   return ctx.define(type.fqn, () => {
     return { anyOf };
   });
+
+  function schemaForConstructorParams(
+    fqn: string,
+    parameters: reflect.Parameter[]
+  ) {
+    const items = parameters.map(item);
+    const base = {
+      type: 'array',
+      maxItems: items.length,
+    };
+
+    return {
+      [fqn]:
+        items.length > 0 ? { anyOf: [{ ...base, items }, items[0]] } : base,
+    };
+  }
+
+  function item(parameter: reflect.Parameter): any {
+    const fqn = parameter.type.fqn;
+    if (fqn != null && fqn === type?.fqn) {
+      return $ref(fqn.replace('/', '.'));
+    }
+    return schemaForTypeReference(parameter.type, ctx);
+  }
 }
 
 function methodSchema(method: reflect.Callable, ctx: SchemaContext) {
