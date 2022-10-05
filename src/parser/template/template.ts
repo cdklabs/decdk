@@ -7,6 +7,7 @@ import { parseMapping, TemplateMapping } from './mappings';
 import { parseOutput, TemplateOutput } from './output';
 import { parseParameter, TemplateParameter } from './parameters';
 import { parseTemplateResource, TemplateResource } from './resource';
+import { parseRule, TemplateRule } from './rules';
 import { parseTransform } from './transform';
 
 /**
@@ -42,6 +43,7 @@ export class Template {
   public readonly outputs: Map<string, TemplateOutput>;
   public readonly transform: string[];
   public readonly metadata: Map<string, TemplateExpression>;
+  public readonly rules: Map<string, TemplateRule>;
 
   constructor(public template: schema.Template) {
     this.parameters = new Map(
@@ -89,6 +91,10 @@ export class Template {
         k,
         parseExpression(v),
       ])
+    );
+
+    this.rules = new Map(
+      Object.entries(template.Rules ?? {}).map(([k, v]) => [k, parseRule(v)])
     );
   }
 

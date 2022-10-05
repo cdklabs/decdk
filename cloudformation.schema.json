@@ -1,158 +1,176 @@
 {
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "additionalProperties": false,
-    "definitions": {
-        "CfnResource": {
-            "additionalProperties": true,
-            "properties": {
-                "Type": {
-                    "type": "string",
-                    "pattern": ".*::.*"
-                }
-            },
-            "required": [
-                "Type"
-            ],
-            "type": "object"
-        },
-        "Parameter": {
-            "additionalProperties": false,
-            "properties": {
-                "AllowedPattern": {
-                    "type": "string"
-                },
-                "AllowedValues": {
-                    "type": "array"
-                },
-                "ConstraintDescription": {
-                    "type": "string"
-                },
-                "Default": {
-                    "type": ["number", "string"]
-                },
-                "Description": {
-                    "type": "string"
-                },
-                "MaxLength": {
-                    "type": ["number", "string"]
-                },
-                "MaxValue": {
-                    "type": ["number", "string"]
-                },
-                "MinLength": {
-                    "type": ["number", "string"]
-                },
-                "MinValue": {
-                    "type": ["number", "string"]
-                },
-                "NoEcho": {
-                    "type": [
-                        "string",
-                        "boolean"
-                    ]
-                },
-                "Type": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "Type"
-            ],
-            "type": "object"
-        },
-        "Tag": {
-            "additionalProperties": false,
-            "properties": {
-                "Key": {
-                    "type": "string"
-                },
-                "Value": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "Key",
-                "Value"
-            ],
-            "type": "object"
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "additionalProperties": false,
+  "definitions": {
+    "CfnResource": {
+      "additionalProperties": true,
+      "properties": {
+        "Type": {
+          "type": "string",
+          "pattern": ".*::.*"
         }
+      },
+      "required": ["Type"],
+      "type": "object"
     },
-    "properties": {
-        "AWSTemplateFormatVersion": {
-            "enum": [
-                "2010-09-09"
-            ],
-            "type": "string"
+    "Parameter": {
+      "additionalProperties": false,
+      "properties": {
+        "AllowedPattern": {
+          "type": "string"
         },
-        "Conditions": {
-            "additionalProperties": false,
-            "patternProperties": {
-                "^[a-zA-Z0-9]+$": {
-                    "type": "object"
-                }
-            },
-            "type": "object"
+        "AllowedValues": {
+          "type": "array"
+        },
+        "ConstraintDescription": {
+          "type": "string"
+        },
+        "Default": {
+          "type": ["number", "string"]
         },
         "Description": {
-            "description": "Template description",
-            "maxLength": 1024,
-            "type": "string"
+          "type": "string"
         },
-        "Mappings": {
-            "additionalProperties": false,
-            "patternProperties": {
-                "^[a-zA-Z0-9]+$": {
-                    "type": "object"
-                }
-            },
-            "type": "object"
+        "MaxLength": {
+          "type": ["number", "string"]
         },
-        "Metadata": {
-            "type": "object"
+        "MaxValue": {
+          "type": ["number", "string"]
         },
-        "Outputs": {
-            "additionalProperties": false,
-            "maxProperties": 60,
-            "minProperties": 1,
-            "patternProperties": {
-                "^[a-zA-Z0-9]+$": {
-                    "type": "object"
-                }
-            },
-            "type": "object"
+        "MinLength": {
+          "type": ["number", "string"]
         },
-        "Parameters": {
-            "additionalProperties": false,
-            "maxProperties": 50,
-            "patternProperties": {
-                "^[a-zA-Z0-9]+$": {
-                    "$ref": "#/definitions/Parameter"
-                }
-            },
-            "type": "object"
+        "MinValue": {
+          "type": ["number", "string"]
         },
-        "Resources": {
-            "additionalProperties": false,
-            "patternProperties": {
-                "^[a-zA-Z0-9]+$": {
-                    "anyOf": [
-                        {
-                            "$ref": "#/definitions/CfnResource"
-                        }
-                    ]
-                }
-            },
-            "type": "object"
+        "NoEcho": {
+          "type": ["string", "boolean"]
         },
-        "Transform": {
-            "type": [
-                "object",
-                "string"
-            ]
+        "Type": {
+          "type": "string"
         }
+      },
+      "required": ["Type"],
+      "type": "object"
     },
-    "required": [
-        "Resources"
-    ],
-    "type": "object"
+    "Tag": {
+      "additionalProperties": false,
+      "properties": {
+        "Key": {
+          "type": "string"
+        },
+        "Value": {
+          "type": "string"
+        }
+      },
+      "required": ["Key", "Value"],
+      "type": "object"
+    },
+    "RuleSpecificIntrinsic": {
+      "type": "object",
+      "maxProperties": 1,
+      "minProperties": 1
+    },
+    "Rule": {
+      "additionalProperties": false,
+      "properties": {
+        "RuleCondition": {
+          "$ref": "#/definitions/RuleSpecificIntrinsic"
+        },
+        "Assertions": {
+          "type": "array",
+          "items": [
+            {
+              "Assert": {
+                "$ref": "#/definitions/RuleSpecificIntrinsic"
+              },
+              "AssertDescription": {
+                "type": "string"
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "properties": {
+    "AWSTemplateFormatVersion": {
+      "enum": ["2010-09-09"],
+      "type": "string"
+    },
+    "Conditions": {
+      "additionalProperties": false,
+      "patternProperties": {
+        "^[a-zA-Z0-9]+$": {
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "Description": {
+      "description": "Template description",
+      "maxLength": 1024,
+      "type": "string"
+    },
+    "Mappings": {
+      "additionalProperties": false,
+      "patternProperties": {
+        "^[a-zA-Z0-9]+$": {
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "Metadata": {
+      "type": "object"
+    },
+    "Outputs": {
+      "additionalProperties": false,
+      "maxProperties": 60,
+      "minProperties": 1,
+      "patternProperties": {
+        "^[a-zA-Z0-9]+$": {
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "Parameters": {
+      "additionalProperties": false,
+      "maxProperties": 50,
+      "patternProperties": {
+        "^[a-zA-Z0-9]+$": {
+          "$ref": "#/definitions/Parameter"
+        }
+      },
+      "type": "object"
+    },
+    "Resources": {
+      "additionalProperties": false,
+      "patternProperties": {
+        "^[a-zA-Z0-9]+$": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/CfnResource"
+            }
+          ]
+        }
+      },
+      "type": "object"
+    },
+    "Transform": {
+      "type": ["object", "string"]
+    },
+    "Rules": {
+      "additionalProperties": false,
+      "patternProperties": {
+        "^[a-zA-Z0-9]+$": {
+          "$ref": "#/definitions/Rule"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "required": ["Resources"],
+  "type": "object"
 }

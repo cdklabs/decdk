@@ -782,3 +782,169 @@ test('FnSub', async () => {
     },
   });
 });
+
+test('FnIf', async () => {
+  // GIVEN
+  const template = await Testing.template(
+    await Template.fromObject({
+      Resources: {
+        BucketA: {
+          Type: 'aws-cdk-lib.aws_s3.Bucket',
+        },
+        BucketB: {
+          Type: 'aws-cdk-lib.aws_s3.Bucket',
+        },
+      },
+      Outputs: {
+        SecurityGroupId: {
+          Description: 'Group ID of the security group used.',
+          Value: {
+            'Fn::If': ['ChooseBucketA', { Ref: 'BucketA' }, { Ref: 'BucketB' }],
+          },
+        },
+      },
+    })
+  );
+
+  // THEN
+  template.hasOutput('SecurityGroupId', {
+    Description: 'Group ID of the security group used.',
+    Value: {
+      'Fn::If': [
+        'ChooseBucketA',
+        {
+          Ref: Match.logicalIdFor('BucketA'),
+        },
+        {
+          Ref: Match.logicalIdFor('BucketB'),
+        },
+      ],
+    },
+  });
+});
+
+test('Contains and FnRefAll', async () => {
+  const template = await Testing.template(
+    await Template.fromObject({
+      Parameters: {
+        VpcId1: {
+          Type: 'AWS::EC2::VPC::Id',
+        },
+        VpcId2: {
+          Type: 'AWS::EC2::VPC::Id',
+        },
+        CandidateVpcId: {
+          Type: 'AWS::EC2::VPC::Id',
+        },
+      },
+      Rules: {
+        ValidVpc: {
+          Assertions: [
+            {
+              Assert: {
+                'Fn::Contains': [
+                  { 'Fn::RefAll': 'AWS::EC2::VPC::Id' },
+                  { Ref: 'CandidateVpcId' },
+                ],
+              },
+              AssertDescription: 'bla',
+            },
+          ],
+        },
+      },
+      Resources: {
+        Bucket: {
+          Type: 'aws-cdk-lib.aws_s3.Bucket',
+        },
+      },
+    })
+  );
+
+  expect(template.toJSON()).toEqual(
+    expect.objectContaining({
+      Rules: {
+        ValidVpc: {
+          Assertions: [
+            {
+              Assert: {
+                'Fn::Contains': [
+                  {
+                    'Fn::RefAll': 'AWS::EC2::VPC::Id',
+                  },
+                  {
+                    Ref: 'CandidateVpcId',
+                  },
+                ],
+              },
+              AssertDescription: 'bla',
+            },
+          ],
+        },
+      },
+    })
+  );
+});
+
+test('Contains, ValueOf and ValueOfAll', async () => {
+  const template = await Testing.template(
+    await Template.fromObject({
+      Parameters: {
+        VpcId1: {
+          Type: 'AWS::EC2::VPC::Id',
+        },
+        VpcId2: {
+          Type: 'AWS::EC2::VPC::Id',
+        },
+        ElbVpc: {
+          Type: 'AWS::EC2::VPC::Id',
+        },
+      },
+      Rules: {
+        ValidVpc: {
+          Assertions: [
+            {
+              Assert: {
+                'Fn::Contains': [
+                  {
+                    'Fn::ValueOfAll': ['AWS::EC2::VPC::Id', 'Tags.Department'],
+                  },
+                  { 'Fn::ValueOf': ['ElbVpc', 'Tags.Department'] },
+                ],
+              },
+              AssertDescription: 'bla',
+            },
+          ],
+        },
+      },
+      Resources: {
+        Bucket: {
+          Type: 'aws-cdk-lib.aws_s3.Bucket',
+        },
+      },
+    })
+  );
+
+  expect(template.toJSON()).toEqual(
+    expect.objectContaining({
+      Rules: {
+        ValidVpc: {
+          Assertions: [
+            {
+              Assert: {
+                'Fn::Contains': [
+                  {
+                    'Fn::ValueOfAll': ['AWS::EC2::VPC::Id', 'Tags.Department'],
+                  },
+                  {
+                    'Fn::ValueOf': ['ElbVpc', 'Tags.Department'],
+                  },
+                ],
+              },
+              AssertDescription: 'bla',
+            },
+          ],
+        },
+      },
+    })
+  );
+});

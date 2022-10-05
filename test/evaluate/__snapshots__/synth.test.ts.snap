@@ -1446,6 +1446,679 @@ yum update -y aws-cfn-bootstrap
 }
 `;
 
+exports[`complex-cfn.json 1`] = `
+Object {
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Conditions": Object {
+    "UseALBSSL": Object {
+      "Fn::Not": Array [
+        Object {
+          "Fn::Equals": Array [
+            Object {
+              "Ref": "UseSSL",
+            },
+            "Yes",
+          ],
+        },
+      ],
+    },
+  },
+  "Description": "AWS CloudFormation Sample Template for using Assertions: Create a load balanced, Auto Scaled sample website where the instances are locked down to only accept traffic from the load balancer. This example creates an Auto Scaling group behind a load balancer with a health check. The web site is available on port 80 or 443 based on the input.",
+  "Mappings": Object {
+    "AWSAMIRegionMap": Object {
+      "AMI": Object {
+        "AMZNLINUXHVM": "amzn-ami-hvm-2017.09.1.20171120-x86_64-gp2",
+      },
+      "ap-northeast-1": Object {
+        "AMZNLINUXHVM": "ami-da9e2cbc",
+      },
+      "ap-northeast-2": Object {
+        "AMZNLINUXHVM": "ami-1196317f",
+      },
+      "ap-south-1": Object {
+        "AMZNLINUXHVM": "ami-d5c18eba",
+      },
+      "ap-southeast-1": Object {
+        "AMZNLINUXHVM": "ami-c63d6aa5",
+      },
+      "ap-southeast-2": Object {
+        "AMZNLINUXHVM": "ami-ff4ea59d",
+      },
+      "ca-central-1": Object {
+        "AMZNLINUXHVM": "ami-d29e25b6",
+      },
+      "eu-central-1": Object {
+        "AMZNLINUXHVM": "ami-bf2ba8d0",
+      },
+      "eu-west-1": Object {
+        "AMZNLINUXHVM": "ami-1a962263",
+      },
+      "eu-west-2": Object {
+        "AMZNLINUXHVM": "ami-e7d6c983",
+      },
+      "sa-east-1": Object {
+        "AMZNLINUXHVM": "ami-286f2a44",
+      },
+      "us-east-1": Object {
+        "AMZNLINUXHVM": "ami-55ef662f",
+      },
+      "us-east-2": Object {
+        "AMZNLINUXHVM": "ami-15e9c770",
+      },
+      "us-west-1": Object {
+        "AMZNLINUXHVM": "ami-a51f27c5",
+      },
+      "us-west-2": Object {
+        "AMZNLINUXHVM": "ami-bf4193c7",
+      },
+    },
+  },
+  "Outputs": Object {
+    "URL": Object {
+      "Description": "URL of the website",
+      "Value": Object {
+        "Fn::If": Array [
+          "UseALBSSL",
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "https://",
+                Object {
+                  "Fn::Select": Array [
+                    "0",
+                    Object {
+                      "Fn::Split": Array [
+                        ".",
+                        Object {
+                          "Fn::GetAtt": Array [
+                            "ApplicationLoadBalancer",
+                            "DNSName",
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+                ".",
+                Object {
+                  "Ref": "HostedZoneName",
+                },
+                ".",
+              ],
+            ],
+          },
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "http://",
+                Object {
+                  "Fn::GetAtt": Array [
+                    "ApplicationLoadBalancer",
+                    "DNSName",
+                  ],
+                },
+              ],
+            ],
+          },
+        ],
+      },
+    },
+  },
+  "Parameters": Object {
+    "ALBSSLCertificateARN": Object {
+      "Default": "",
+      "Description": "[Optional] The ARN of the SSL certificate to be used for the Application Load Balancer",
+      "Type": "String",
+    },
+    "HostedZoneName": Object {
+      "AllowedPattern": "^$|(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\\\-]*[a-zA-Z0-9])\\\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\\\-]*[A-Za-z0-9])$",
+      "Default": "",
+      "Description": "[Optional] The domain name of a valid Hosted Zone on AWS.",
+      "Type": "String",
+    },
+    "InstanceType": Object {
+      "AllowedValues": Array [
+        "t2.nano",
+        "t2.micro",
+        "t2.small",
+        "t2.medium",
+        "t2.large",
+        "m4.large",
+        "m4.xlarge",
+        "m4.2xlarge",
+        "m4.4xlarge",
+        "m4.10xlarge",
+        "m3.medium",
+        "m3.large",
+        "m3.xlarge",
+        "m3.2xlarge",
+        "c4.large",
+        "c4.xlarge",
+        "c4.2xlarge",
+        "c4.4xlarge",
+        "c4.8xlarge",
+        "c3.large",
+        "c3.xlarge",
+        "c3.2xlarge",
+        "c3.4xlarge",
+        "c3.8xlarge",
+        "r3.large",
+        "r3.xlarge",
+      ],
+      "ConstraintDescription": "must be a valid EC2 instance type.",
+      "Default": "t2.small",
+      "Description": "WebServer EC2 instance type",
+      "Type": "String",
+    },
+    "KeyName": Object {
+      "ConstraintDescription": "must be the name of an existing EC2 KeyPair.",
+      "Description": "Name of an existing EC2 KeyPair to enable SSH access to the instances",
+      "Type": "AWS::EC2::KeyPair::KeyName",
+    },
+    "SSHLocation": Object {
+      "AllowedPattern": "(\\\\d{1,3})\\\\.(\\\\d{1,3})\\\\.(\\\\d{1,3})\\\\.(\\\\d{1,3})/(\\\\d{1,2})",
+      "ConstraintDescription": "must be a valid IP CIDR range of the form x.x.x.x/x.",
+      "Default": "0.0.0.0/0",
+      "Description": "The IP address range that can be used to SSH to the EC2 instances",
+      "MaxLength": 18,
+      "MinLength": 9,
+      "Type": "String",
+    },
+    "Subnets": Object {
+      "ConstraintDescription": "must be a list of at least two existing subnets associated with at least two different availability zones. They should be residing in the selected Virtual Private Cloud.",
+      "Description": "The list of SubnetIds in your Virtual Private Cloud (VPC)",
+      "Type": "List<AWS::EC2::Subnet::Id>",
+    },
+    "UseSSL": Object {
+      "AllowedValues": Array [
+        "Yes",
+        "No",
+      ],
+      "ConstraintDescription": "Select Yes to create a HTTPS Listener",
+      "Default": "No",
+      "Description": "Select \\"Yes\\" to implement SSL, \\"No\\" to skip (default).",
+      "Type": "String",
+    },
+    "VpcId": Object {
+      "ConstraintDescription": "must be the VPC Id of an existing Virtual Private Cloud.",
+      "Description": "VpcId of your existing Virtual Private Cloud (VPC)",
+      "Type": "AWS::EC2::VPC::Id",
+    },
+  },
+  "Resources": Object {
+    "ALBListener": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "Certificates": Array [
+          Object {
+            "Fn::If": Array [
+              "UseALBSSL",
+              Object {
+                "CertificateArn": Object {
+                  "Ref": "ALBSSLCertificateARN",
+                },
+              },
+              Object {
+                "Ref": "AWS::NoValue",
+              },
+            ],
+          },
+        ],
+        "DefaultActions": Array [
+          Object {
+            "TargetGroupArn": Object {
+              "Ref": "ALBTargetGroup",
+            },
+            "Type": "forward",
+          },
+        ],
+        "LoadBalancerArn": Object {
+          "Ref": "ApplicationLoadBalancer",
+        },
+        "Port": Object {
+          "Fn::If": Array [
+            "UseALBSSL",
+            443,
+            80,
+          ],
+        },
+        "Protocol": Object {
+          "Fn::If": Array [
+            "UseALBSSL",
+            "HTTPS",
+            "HTTP",
+          ],
+        },
+      },
+      "Type": "AWS::ElasticLoadBalancingV2::Listener",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "ALBTargetGroup": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "HealthCheckIntervalSeconds": 30,
+        "HealthCheckTimeoutSeconds": 5,
+        "HealthyThresholdCount": 3,
+        "Port": 80,
+        "Protocol": "HTTP",
+        "UnhealthyThresholdCount": 5,
+        "VpcId": Object {
+          "Ref": "VpcId",
+        },
+      },
+      "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "ApplicationLoadBalancer": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "SecurityGroups": Array [
+          Object {
+            "Ref": "ELBSecurityGroup",
+          },
+        ],
+        "Subnets": Object {
+          "Ref": "Subnets",
+        },
+      },
+      "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "ELBSecurityGroup": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "GroupDescription": "Allow access to the ELB",
+        "SecurityGroupIngress": Array [
+          Object {
+            "Fn::If": Array [
+              "UseALBSSL",
+              Object {
+                "CidrIp": "0.0.0.0/0",
+                "FromPort": 443,
+                "IpProtocol": "tcp",
+                "ToPort": 443,
+              },
+              Object {
+                "CidrIp": "0.0.0.0/0",
+                "FromPort": 80,
+                "IpProtocol": "tcp",
+                "ToPort": 80,
+              },
+            ],
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "VpcId",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "InstanceSecurityGroup": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "GroupDescription": "Enable SSH access and HTTP access on the inbound port",
+        "SecurityGroupIngress": Array [
+          Object {
+            "FromPort": 80,
+            "IpProtocol": "tcp",
+            "SourceSecurityGroupId": Object {
+              "Fn::Select": Array [
+                0,
+                Object {
+                  "Fn::GetAtt": Array [
+                    "ApplicationLoadBalancer",
+                    "SecurityGroups",
+                  ],
+                },
+              ],
+            },
+            "ToPort": 80,
+          },
+          Object {
+            "CidrIp": Object {
+              "Ref": "SSHLocation",
+            },
+            "FromPort": 22,
+            "IpProtocol": "tcp",
+            "ToPort": 22,
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "VpcId",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "LaunchConfig": Object {
+      "DeletionPolicy": "Delete",
+      "Metadata": Object {
+        "AWS::CloudFormation::Init": Object {
+          "config": Object {
+            "files": Object {
+              "/etc/cfn/cfn-hup.conf": Object {
+                "content": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "[main]
+",
+                      "stack=",
+                      Object {
+                        "Ref": "AWS::StackId",
+                      },
+                      "
+",
+                      "region=",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
+                      "
+",
+                    ],
+                  ],
+                },
+                "group": "root",
+                "mode": "000400",
+                "owner": "root",
+              },
+              "/etc/cfn/hooks.d/cfn-auto-reloader.conf": Object {
+                "content": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "[cfn-auto-reloader-hook]
+",
+                      "triggers=post.update
+",
+                      "path=Resources.LaunchConfig.Metadata.AWS::CloudFormation::Init
+",
+                      "action=/opt/aws/bin/cfn-init -v ",
+                      "         --stack ",
+                      Object {
+                        "Ref": "AWS::StackName",
+                      },
+                      "         --resource LaunchConfig ",
+                      "         --region ",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
+                      "
+",
+                      "runas=root
+",
+                    ],
+                  ],
+                },
+                "group": "root",
+                "mode": "000400",
+                "owner": "root",
+              },
+              "/var/www/html/index.html": Object {
+                "content": Object {
+                  "Fn::Join": Array [
+                    "
+",
+                    Array [
+                      "<h1>Congratulations, you have successfully launched the AWS CloudFormation sample.<h1>",
+                    ],
+                  ],
+                },
+                "group": "root",
+                "mode": "000644",
+                "owner": "root",
+              },
+            },
+            "packages": Object {
+              "yum": Object {
+                "httpd": Array [],
+              },
+            },
+            "services": Object {
+              "sysvinit": Object {
+                "cfn-hup": Object {
+                  "enabled": "true",
+                  "ensureRunning": "true",
+                  "files": Array [
+                    "/etc/cfn/cfn-hup.conf",
+                    "/etc/cfn/hooks.d/cfn-auto-reloader.conf",
+                  ],
+                },
+                "httpd": Object {
+                  "enabled": "true",
+                  "ensureRunning": "true",
+                },
+              },
+            },
+          },
+        },
+        "Comment": "Install a simple application",
+      },
+      "Properties": Object {
+        "ImageId": Object {
+          "Fn::FindInMap": Array [
+            "AWSAMIRegionMap",
+            Object {
+              "Ref": "AWS::Region",
+            },
+            "AMZNLINUXHVM",
+          ],
+        },
+        "InstanceType": Object {
+          "Ref": "InstanceType",
+        },
+        "KeyName": Object {
+          "Ref": "KeyName",
+        },
+        "SecurityGroups": Array [
+          Object {
+            "Ref": "InstanceSecurityGroup",
+          },
+        ],
+        "UserData": Object {
+          "Fn::Base64": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "#!/bin/bash -xe
+yum update -y aws-cfn-bootstrap
+/opt/aws/bin/cfn-init -v          --stack ",
+                Object {
+                  "Ref": "AWS::StackName",
+                },
+                "         --resource LaunchConfig          --region ",
+                Object {
+                  "Ref": "AWS::Region",
+                },
+                "
+/opt/aws/bin/cfn-signal -e $?          --stack ",
+                Object {
+                  "Ref": "AWS::StackName",
+                },
+                "         --resource WebServerGroup          --region ",
+                Object {
+                  "Ref": "AWS::Region",
+                },
+                "
+",
+              ],
+            ],
+          },
+        },
+      },
+      "Type": "AWS::AutoScaling::LaunchConfiguration",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "RecordSet": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "HostedZoneName": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              Object {
+                "Ref": "HostedZoneName",
+              },
+              ".",
+            ],
+          ],
+        },
+        "RecordSets": Array [
+          Object {
+            "AliasTarget": Object {
+              "DNSName": Object {
+                "Fn::GetAtt": Array [
+                  "ApplicationLoadBalancer",
+                  "DNSName",
+                ],
+              },
+              "EvaluateTargetHealth": true,
+              "HostedZoneId": Object {
+                "Fn::GetAtt": Array [
+                  "ApplicationLoadBalancer",
+                  "CanonicalHostedZoneID",
+                ],
+              },
+            },
+            "Name": Object {
+              "Fn::Join": Array [
+                "",
+                Array [
+                  Object {
+                    "Fn::Select": Array [
+                      "0",
+                      Object {
+                        "Fn::Split": Array [
+                          ".",
+                          Object {
+                            "Fn::GetAtt": Array [
+                              "ApplicationLoadBalancer",
+                              "DNSName",
+                            ],
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                  ".",
+                  Object {
+                    "Ref": "HostedZoneName",
+                  },
+                  ".",
+                ],
+              ],
+            },
+            "Type": "A",
+          },
+        ],
+      },
+      "Type": "AWS::Route53::RecordSetGroup",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "WebServerGroup": Object {
+      "CreationPolicy": Object {
+        "ResourceSignal": Object {
+          "Timeout": "PT15M",
+        },
+      },
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "LaunchConfigurationName": Object {
+          "Ref": "LaunchConfig",
+        },
+        "MaxSize": "2",
+        "MinSize": "2",
+        "TargetGroupARNs": Array [
+          Object {
+            "Ref": "ALBTargetGroup",
+          },
+        ],
+        "VPCZoneIdentifier": Object {
+          "Ref": "Subnets",
+        },
+      },
+      "Type": "AWS::AutoScaling::AutoScalingGroup",
+      "UpdatePolicy": Object {
+        "AutoScalingRollingUpdate": Object {
+          "MaxBatchSize": 1,
+          "MinInstancesInService": 1,
+          "PauseTime": "PT15M",
+          "WaitOnResourceSignals": true,
+        },
+      },
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+  "Rules": Object {
+    "SubnetsInVPC": Object {
+      "Assertions": Array [
+        Object {
+          "Assert": Object {
+            "Fn::EachMemberEquals": Array [
+              Object {
+                "Fn::ValueOf": Array [
+                  "Subnets",
+                  "VpcId",
+                ],
+              },
+              Object {
+                "Ref": "VpcId",
+              },
+            ],
+          },
+          "AssertDescription": "All subnets must in the VPC",
+        },
+      ],
+    },
+    "ValidateHostedZone": Object {
+      "Assertions": Array [
+        Object {
+          "Assert": Object {
+            "Fn::Not": Array [
+              Object {
+                "Fn::Equals": Array [
+                  Object {
+                    "Ref": "ALBSSLCertificateARN",
+                  },
+                  "",
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "ACM Certificate value cannot be empty if SSL is required",
+        },
+        Object {
+          "Assert": Object {
+            "Fn::Not": Array [
+              Object {
+                "Fn::Equals": Array [
+                  Object {
+                    "Ref": "HostedZoneName",
+                  },
+                  "",
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "Route53 Hosted Zone Name is mandatory when SSL is required",
+        },
+      ],
+      "RuleCondition": Object {
+        "Fn::Equals": Array [
+          Object {
+            "Ref": "UseSSL",
+          },
+          "Yes",
+        ],
+      },
+    },
+  },
+}
+`;
+
 exports[`ec2-instance.yaml 1`] = `
 Object {
   "Mappings": Object {

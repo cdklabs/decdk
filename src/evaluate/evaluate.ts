@@ -2,12 +2,18 @@ import * as cdk from 'aws-cdk-lib';
 import {
   CfnDeletionPolicy,
   CfnResource,
+  CfnRule,
   ICfnConditionExpression,
   ICfnRuleConditionExpression,
+  Token,
+  Tokenization,
 } from 'aws-cdk-lib';
 import { Construct, IConstruct } from 'constructs';
 import { SubFragment } from '../parser/private/sub';
-import { assertString } from '../parser/private/types';
+import {
+  assertString,
+  assertStringOrStringList,
+} from '../parser/private/types';
 import {
   GetPropIntrinsic,
   LazyLogicalId,
@@ -50,6 +56,7 @@ export class Evaluator {
     this.evaluateOutputs();
     this.evaluateTransform();
     this.evaluateMetadata();
+    this.evaluateRules();
   }
 
   private evaluateMappings() {
@@ -110,6 +117,20 @@ export class Evaluator {
         ...newMetadata,
       };
     }
+  }
+
+  private evaluateRules() {
+    this.context.template.rules.forEach((rule, name) => {
+      new CfnRule(this.context.stack, name, {
+        ruleCondition: rule.ruleCondition
+          ? this.evaluate(rule.ruleCondition)
+          : undefined,
+        assertions: rule.assertions.map((a) => ({
+          assert: this.evaluate(a.assert),
+          assertDescription: a.assertDescription,
+        })),
+      });
+    });
   }
 
   private evaluateConditions() {
@@ -224,6 +245,27 @@ export class Evaluator {
             return this.evaluateArray(x.array);
           case 'lazyLogicalId':
             return this.lazyLogicalId(x);
+          case 'refAll':
+            return this.fnRefAll(assertString(ev(x.parameterType)));
+          case 'valueOf':
+            return this.fnValueOf(x.parameterLogicalId, x.attribute);
+          case 'valueOfAll':
+            return this.fnValueOfAll(x.parameterType, x.attribute);
+          case 'contains':
+            return this.fnContains(
+              assertStringOrStringList(ev(x.list)),
+              assertString(ev(x.candidate))
+            );
+          case 'eachMemberEquals':
+            return this.fnEachMemberEquals(
+              assertStringOrStringList(ev(x.list)),
+              assertString(ev(x.candidate))
+            );
+          case 'eachMemberIn':
+            return this.fnEachMemberIn(
+              assertStringOrStringList(ev(x.listToCheck)),
+              assertStringOrStringList(ev(x.listToMatch))
+            );
         }
       case 'enum':
         return this.enum(x.fqn, x.choice);
@@ -397,7 +439,7 @@ export class Evaluator {
         `Fn::GetAtt: Expected Cloudformation Attribute, got: ${logicalId}.${attribute}`
       );
     }
-    return cdk.Fn.getAtt(c.ref, attribute);
+    return Token.asString(cdk.Fn.getAtt(c.ref, attribute));
   }
 
   protected fnGetAzs(region: string) {
@@ -521,11 +563,49 @@ export class Evaluator {
   }
 
   protected fnEquals(
-    _value1: unknown,
-    _value2: unknown
+    value1: unknown,
+    value2: unknown
   ): ICfnConditionExpression {
-    // return assertString(value1) === assertString(value2);
-    return cdk.Fn.conditionEquals(_value1, _value2);
+    return cdk.Fn.conditionEquals(value1, value2);
+  }
+
+  protected fnRefAll(parameterType: string): string[] {
+    return cdk.Fn.refAll(parameterType);
+  }
+
+  protected fnValueOf(parameterLogicalId: string, attribute: string): string {
+    return cdk.Fn.valueOf(parameterLogicalId, attribute);
+  }
+
+  protected fnValueOfAll(parameterType: string, attribute: string): string[] {
+    return cdk.Fn.valueOfAll(parameterType, attribute);
+  }
+
+  protected fnContains(
+    list: string | string[],
+    candidate: string
+  ): ICfnRuleConditionExpression {
+    return cdk.Fn.conditionContains(assertSupportedList(list), candidate);
+  }
+
+  protected fnEachMemberEquals(
+    list: string | string[],
+    candidate: string
+  ): ICfnRuleConditionExpression {
+    return cdk.Fn.conditionEachMemberEquals(
+      assertSupportedList(list),
+      candidate
+    );
+  }
+
+  protected fnEachMemberIn(
+    stringsToCheck: string | string[],
+    stringsToMatch: string | string[]
+  ): ICfnRuleConditionExpression {
+    return cdk.Fn.conditionEachMemberIn(
+      assertSupportedList(stringsToCheck),
+      assertSupportedList(stringsToMatch)
+    );
   }
 
   protected applyTags(resource: IConstruct, tags: ResourceTag[] = []) {
@@ -551,4 +631,20 @@ export class Evaluator {
       applyOverride(resource, override, ev);
     });
   }
+}
+
+function assertSupportedList(token: string | string[]): string[] {
+  if (Array.isArray(token)) {
+    return token;
+  }
+  if (!Token.isUnresolved(token)) {
+    throw new Error('Not a token');
+  }
+  const resolvable = Tokenization.reverse(token) as any;
+  const intrinsic = Object.keys(resolvable?.value ?? {});
+  if (intrinsic.length === 1 && intrinsic[0] === 'Fn::ValueOf') {
+    return Token.asList(resolvable);
+  }
+
+  throw new Error('Not valueOf');
 }
