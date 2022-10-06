@@ -66,10 +66,18 @@ export function assertListOfForm<T>(
 }
 
 export function assertBoolean(x: unknown): boolean {
-  if (typeof x !== 'boolean') {
-    throw new ParserError(`Expected boolean, got: ${JSON.stringify(x)}`);
+  if (typeof x === 'boolean') {
+    return x;
   }
-  return x;
+
+  switch (x) {
+    case 'true':
+      return true;
+    case 'false':
+      return false;
+    default:
+      throw new ParserError(`Expected boolean, got: ${JSON.stringify(x)}`);
+  }
 }
 
 export function assertTrue(x: unknown): true {

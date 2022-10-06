@@ -134,6 +134,7 @@ TypedTemplate {
       },
     },
   },
+  "rules": Map {},
   "template": Template {
     "conditions": Map {},
     "description": "A template creates a lambda function with an api gateway",
@@ -257,6 +258,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
     },
+    "rules": Map {},
     "template": Object {
       "$schema": "../cdk.schema.json",
       "AWSTemplateFormatVersion": "2010-09-09",
@@ -583,6 +585,7 @@ TypedTemplate {
       },
     },
   },
+  "rules": Map {},
   "template": Template {
     "conditions": Map {},
     "description": undefined,
@@ -860,6 +863,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
     },
+    "rules": Map {},
     "template": Object {
       "Resources": Object {
         "AModestLoad": Object {
@@ -1068,6 +1072,7 @@ TypedTemplate {
       },
     },
   },
+  "rules": Map {},
   "template": Template {
     "conditions": Map {},
     "description": undefined,
@@ -1181,6 +1186,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
     },
+    "rules": Map {},
     "template": Object {
       "Parameters": Object {
         "BucketName": Object {
@@ -1447,6 +1453,7 @@ yum update -y aws-cfn-bootstrap
       },
     },
   },
+  "rules": Map {},
   "template": Template {
     "conditions": Map {},
     "description": undefined,
@@ -1602,6 +1609,7 @@ yum update -y aws-cfn-bootstrap
         "updateReplacePolicy": "Delete",
       },
     },
+    "rules": Map {},
     "template": Object {
       "Resources": Object {
         "AutoScalingGroup": Object {
@@ -1678,6 +1686,3244 @@ yum update -y aws-cfn-bootstrap
       },
     },
     "templateFormatVersion": undefined,
+    "transform": Array [],
+  },
+  "transform": Array [],
+}
+`;
+
+exports[`complex-cfn.json 1`] = `
+TypedTemplate {
+  "conditions": Map {
+    "UseALBSSL" => Object {
+      "fn": "not",
+      "operand": Object {
+        "array": Array [
+          Object {
+            "fn": "equals",
+            "type": "intrinsic",
+            "value1": Object {
+              "fn": "ref",
+              "logicalId": "UseSSL",
+              "type": "intrinsic",
+            },
+            "value2": Object {
+              "type": "string",
+              "value": "Yes",
+            },
+          },
+        ],
+        "type": "array",
+      },
+      "type": "intrinsic",
+    },
+  },
+  "mappings": Map {
+    "AWSAMIRegionMap" => TemplateMapping {
+      "mapping": Map {
+        "AMI" => Map {
+          "AMZNLINUXHVM" => "amzn-ami-hvm-2017.09.1.20171120-x86_64-gp2",
+        },
+        "ap-northeast-1" => Map {
+          "AMZNLINUXHVM" => "ami-da9e2cbc",
+        },
+        "ap-northeast-2" => Map {
+          "AMZNLINUXHVM" => "ami-1196317f",
+        },
+        "ap-south-1" => Map {
+          "AMZNLINUXHVM" => "ami-d5c18eba",
+        },
+        "ap-southeast-1" => Map {
+          "AMZNLINUXHVM" => "ami-c63d6aa5",
+        },
+        "ap-southeast-2" => Map {
+          "AMZNLINUXHVM" => "ami-ff4ea59d",
+        },
+        "ca-central-1" => Map {
+          "AMZNLINUXHVM" => "ami-d29e25b6",
+        },
+        "eu-central-1" => Map {
+          "AMZNLINUXHVM" => "ami-bf2ba8d0",
+        },
+        "eu-west-1" => Map {
+          "AMZNLINUXHVM" => "ami-1a962263",
+        },
+        "eu-west-2" => Map {
+          "AMZNLINUXHVM" => "ami-e7d6c983",
+        },
+        "sa-east-1" => Map {
+          "AMZNLINUXHVM" => "ami-286f2a44",
+        },
+        "us-east-1" => Map {
+          "AMZNLINUXHVM" => "ami-55ef662f",
+        },
+        "us-east-2" => Map {
+          "AMZNLINUXHVM" => "ami-15e9c770",
+        },
+        "us-west-1" => Map {
+          "AMZNLINUXHVM" => "ami-a51f27c5",
+        },
+        "us-west-2" => Map {
+          "AMZNLINUXHVM" => "ami-bf4193c7",
+        },
+      },
+    },
+  },
+  "metadata": Map {},
+  "outputs": Map {
+    "URL" => Object {
+      "conditionName": undefined,
+      "description": "URL of the website",
+      "exportName": undefined,
+      "value": Object {
+        "fn": "join",
+        "list": Object {
+          "array": Array [
+            Object {
+              "conditionName": "UseALBSSL",
+              "else": Object {
+                "fn": "join",
+                "list": Object {
+                  "array": Array [
+                    Object {
+                      "type": "string",
+                      "value": "http://",
+                    },
+                    Object {
+                      "attribute": Object {
+                        "type": "string",
+                        "value": "DNSName",
+                      },
+                      "fn": "getAtt",
+                      "logicalId": "ApplicationLoadBalancer",
+                      "type": "intrinsic",
+                    },
+                  ],
+                  "type": "array",
+                },
+                "separator": "",
+                "type": "intrinsic",
+              },
+              "fn": "if",
+              "then": Object {
+                "fn": "join",
+                "list": Object {
+                  "array": Array [
+                    Object {
+                      "type": "string",
+                      "value": "https://",
+                    },
+                    Object {
+                      "fn": "join",
+                      "list": Object {
+                        "array": Array [
+                          Object {
+                            "fn": "select",
+                            "index": Object {
+                              "type": "string",
+                              "value": "0",
+                            },
+                            "objects": Object {
+                              "fn": "split",
+                              "separator": ".",
+                              "type": "intrinsic",
+                              "value": Object {
+                                "attribute": Object {
+                                  "type": "string",
+                                  "value": "DNSName",
+                                },
+                                "fn": "getAtt",
+                                "logicalId": "ApplicationLoadBalancer",
+                                "type": "intrinsic",
+                              },
+                            },
+                            "type": "intrinsic",
+                          },
+                          Object {
+                            "type": "string",
+                            "value": ".",
+                          },
+                          Object {
+                            "fn": "ref",
+                            "logicalId": "HostedZoneName",
+                            "type": "intrinsic",
+                          },
+                          Object {
+                            "type": "string",
+                            "value": ".",
+                          },
+                        ],
+                        "type": "array",
+                      },
+                      "separator": "",
+                      "type": "intrinsic",
+                    },
+                  ],
+                  "type": "array",
+                },
+                "separator": "",
+                "type": "intrinsic",
+              },
+              "type": "intrinsic",
+            },
+          ],
+          "type": "array",
+        },
+        "separator": "",
+        "type": "intrinsic",
+      },
+    },
+  },
+  "parameters": Map {
+    "VpcId" => Object {
+      "allowedPattern": undefined,
+      "allowedValues": undefined,
+      "constraintDescription": "must be the VPC Id of an existing Virtual Private Cloud.",
+      "default": undefined,
+      "description": "VpcId of your existing Virtual Private Cloud (VPC)",
+      "maxLength": undefined,
+      "maxValue": undefined,
+      "minLength": undefined,
+      "minValue": undefined,
+      "noEcho": undefined,
+      "type": "AWS::EC2::VPC::Id",
+    },
+    "Subnets" => Object {
+      "allowedPattern": undefined,
+      "allowedValues": undefined,
+      "constraintDescription": "must be a list of at least two existing subnets associated with at least two different availability zones. They should be residing in the selected Virtual Private Cloud.",
+      "default": undefined,
+      "description": "The list of SubnetIds in your Virtual Private Cloud (VPC)",
+      "maxLength": undefined,
+      "maxValue": undefined,
+      "minLength": undefined,
+      "minValue": undefined,
+      "noEcho": undefined,
+      "type": "List<AWS::EC2::Subnet::Id>",
+    },
+    "InstanceType" => Object {
+      "allowedPattern": undefined,
+      "allowedValues": Array [
+        "t2.nano",
+        "t2.micro",
+        "t2.small",
+        "t2.medium",
+        "t2.large",
+        "m4.large",
+        "m4.xlarge",
+        "m4.2xlarge",
+        "m4.4xlarge",
+        "m4.10xlarge",
+        "m3.medium",
+        "m3.large",
+        "m3.xlarge",
+        "m3.2xlarge",
+        "c4.large",
+        "c4.xlarge",
+        "c4.2xlarge",
+        "c4.4xlarge",
+        "c4.8xlarge",
+        "c3.large",
+        "c3.xlarge",
+        "c3.2xlarge",
+        "c3.4xlarge",
+        "c3.8xlarge",
+        "r3.large",
+        "r3.xlarge",
+      ],
+      "constraintDescription": "must be a valid EC2 instance type.",
+      "default": "t2.small",
+      "description": "WebServer EC2 instance type",
+      "maxLength": undefined,
+      "maxValue": undefined,
+      "minLength": undefined,
+      "minValue": undefined,
+      "noEcho": undefined,
+      "type": "String",
+    },
+    "KeyName" => Object {
+      "allowedPattern": undefined,
+      "allowedValues": undefined,
+      "constraintDescription": "must be the name of an existing EC2 KeyPair.",
+      "default": undefined,
+      "description": "Name of an existing EC2 KeyPair to enable SSH access to the instances",
+      "maxLength": undefined,
+      "maxValue": undefined,
+      "minLength": undefined,
+      "minValue": undefined,
+      "noEcho": undefined,
+      "type": "AWS::EC2::KeyPair::KeyName",
+    },
+    "SSHLocation" => Object {
+      "allowedPattern": "(\\\\d{1,3})\\\\.(\\\\d{1,3})\\\\.(\\\\d{1,3})\\\\.(\\\\d{1,3})/(\\\\d{1,2})",
+      "allowedValues": undefined,
+      "constraintDescription": "must be a valid IP CIDR range of the form x.x.x.x/x.",
+      "default": "0.0.0.0/0",
+      "description": "The IP address range that can be used to SSH to the EC2 instances",
+      "maxLength": 18,
+      "maxValue": undefined,
+      "minLength": 9,
+      "minValue": undefined,
+      "noEcho": undefined,
+      "type": "String",
+    },
+    "UseSSL" => Object {
+      "allowedPattern": undefined,
+      "allowedValues": Array [
+        "Yes",
+        "No",
+      ],
+      "constraintDescription": "Select Yes to create a HTTPS Listener",
+      "default": "No",
+      "description": "Select \\"Yes\\" to implement SSL, \\"No\\" to skip (default).",
+      "maxLength": undefined,
+      "maxValue": undefined,
+      "minLength": undefined,
+      "minValue": undefined,
+      "noEcho": undefined,
+      "type": "String",
+    },
+    "ALBSSLCertificateARN" => Object {
+      "allowedPattern": undefined,
+      "allowedValues": undefined,
+      "constraintDescription": undefined,
+      "default": "",
+      "description": "[Optional] The ARN of the SSL certificate to be used for the Application Load Balancer",
+      "maxLength": undefined,
+      "maxValue": undefined,
+      "minLength": undefined,
+      "minValue": undefined,
+      "noEcho": undefined,
+      "type": "String",
+    },
+    "HostedZoneName" => Object {
+      "allowedPattern": "^$|(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\\\-]*[a-zA-Z0-9])\\\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\\\-]*[A-Za-z0-9])$",
+      "allowedValues": undefined,
+      "constraintDescription": undefined,
+      "default": "",
+      "description": "[Optional] The domain name of a valid Hosted Zone on AWS.",
+      "maxLength": undefined,
+      "maxValue": undefined,
+      "minLength": undefined,
+      "minValue": undefined,
+      "noEcho": undefined,
+      "type": "String",
+    },
+  },
+  "resources": DependencyGraph {
+    "_dependencies": Map {
+      "WebServerGroup" => Set {
+        "LaunchConfig",
+        "ALBTargetGroup",
+      },
+      "LaunchConfig" => Set {
+        "InstanceSecurityGroup",
+      },
+      "ELBSecurityGroup" => Set {},
+      "ApplicationLoadBalancer" => Set {
+        "ELBSecurityGroup",
+      },
+      "ALBListener" => Set {
+        "ALBTargetGroup",
+        "ApplicationLoadBalancer",
+      },
+      "ALBTargetGroup" => Set {},
+      "InstanceSecurityGroup" => Set {
+        "ApplicationLoadBalancer",
+      },
+      "RecordSet" => Set {
+        "ApplicationLoadBalancer",
+      },
+    },
+    "keys": Set {
+      "ELBSecurityGroup",
+      "ALBTargetGroup",
+      "ApplicationLoadBalancer",
+      "ALBListener",
+      "InstanceSecurityGroup",
+      "RecordSet",
+      "LaunchConfig",
+      "WebServerGroup",
+    },
+    "nodes": Object {
+      "ALBListener": Object {
+        "creationPolicy": undefined,
+        "deletionPolicy": "Delete",
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.CfnResource",
+        "logicalId": "ALBListener",
+        "metadata": Object {},
+        "namespace": undefined,
+        "props": Object {
+          "fields": Object {
+            "properties": Object {
+              "fields": Object {
+                "Certificates": Object {
+                  "type": "any",
+                  "value": Object {
+                    "array": Array [
+                      Object {
+                        "conditionName": "UseALBSSL",
+                        "else": Object {
+                          "fn": "ref",
+                          "logicalId": "AWS::NoValue",
+                          "type": "intrinsic",
+                        },
+                        "fn": "if",
+                        "then": Object {
+                          "fields": Object {
+                            "CertificateArn": Object {
+                              "fn": "ref",
+                              "logicalId": "ALBSSLCertificateARN",
+                              "type": "intrinsic",
+                            },
+                          },
+                          "type": "object",
+                        },
+                        "type": "intrinsic",
+                      },
+                    ],
+                    "type": "array",
+                  },
+                },
+                "DefaultActions": Object {
+                  "type": "any",
+                  "value": Object {
+                    "array": Array [
+                      Object {
+                        "fields": Object {
+                          "TargetGroupArn": Object {
+                            "fn": "ref",
+                            "logicalId": "ALBTargetGroup",
+                            "type": "intrinsic",
+                          },
+                          "Type": Object {
+                            "type": "string",
+                            "value": "forward",
+                          },
+                        },
+                        "type": "object",
+                      },
+                    ],
+                    "type": "array",
+                  },
+                },
+                "LoadBalancerArn": Object {
+                  "type": "any",
+                  "value": Object {
+                    "fn": "ref",
+                    "logicalId": "ApplicationLoadBalancer",
+                    "type": "intrinsic",
+                  },
+                },
+                "Port": Object {
+                  "type": "any",
+                  "value": Object {
+                    "conditionName": "UseALBSSL",
+                    "else": Object {
+                      "type": "number",
+                      "value": 80,
+                    },
+                    "fn": "if",
+                    "then": Object {
+                      "type": "number",
+                      "value": 443,
+                    },
+                    "type": "intrinsic",
+                  },
+                },
+                "Protocol": Object {
+                  "type": "any",
+                  "value": Object {
+                    "conditionName": "UseALBSSL",
+                    "else": Object {
+                      "type": "string",
+                      "value": "HTTP",
+                    },
+                    "fn": "if",
+                    "then": Object {
+                      "type": "string",
+                      "value": "HTTPS",
+                    },
+                    "type": "intrinsic",
+                  },
+                },
+              },
+              "type": "object",
+            },
+            "type": Object {
+              "type": "string",
+              "value": "AWS::ElasticLoadBalancingV2::Listener",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "resource",
+        "updatePolicy": undefined,
+        "updateReplacePolicy": "Delete",
+      },
+      "ALBTargetGroup": Object {
+        "creationPolicy": undefined,
+        "deletionPolicy": "Delete",
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.CfnResource",
+        "logicalId": "ALBTargetGroup",
+        "metadata": Object {},
+        "namespace": undefined,
+        "props": Object {
+          "fields": Object {
+            "properties": Object {
+              "fields": Object {
+                "HealthCheckIntervalSeconds": Object {
+                  "type": "any",
+                  "value": Object {
+                    "type": "number",
+                    "value": 30,
+                  },
+                },
+                "HealthCheckTimeoutSeconds": Object {
+                  "type": "any",
+                  "value": Object {
+                    "type": "number",
+                    "value": 5,
+                  },
+                },
+                "HealthyThresholdCount": Object {
+                  "type": "any",
+                  "value": Object {
+                    "type": "number",
+                    "value": 3,
+                  },
+                },
+                "Port": Object {
+                  "type": "any",
+                  "value": Object {
+                    "type": "number",
+                    "value": 80,
+                  },
+                },
+                "Protocol": Object {
+                  "type": "any",
+                  "value": Object {
+                    "type": "string",
+                    "value": "HTTP",
+                  },
+                },
+                "UnhealthyThresholdCount": Object {
+                  "type": "any",
+                  "value": Object {
+                    "type": "number",
+                    "value": 5,
+                  },
+                },
+                "VpcId": Object {
+                  "type": "any",
+                  "value": Object {
+                    "fn": "ref",
+                    "logicalId": "VpcId",
+                    "type": "intrinsic",
+                  },
+                },
+              },
+              "type": "object",
+            },
+            "type": Object {
+              "type": "string",
+              "value": "AWS::ElasticLoadBalancingV2::TargetGroup",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "resource",
+        "updatePolicy": undefined,
+        "updateReplacePolicy": "Delete",
+      },
+      "ApplicationLoadBalancer": Object {
+        "creationPolicy": undefined,
+        "deletionPolicy": "Delete",
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.CfnResource",
+        "logicalId": "ApplicationLoadBalancer",
+        "metadata": Object {},
+        "namespace": undefined,
+        "props": Object {
+          "fields": Object {
+            "properties": Object {
+              "fields": Object {
+                "SecurityGroups": Object {
+                  "type": "any",
+                  "value": Object {
+                    "array": Array [
+                      Object {
+                        "fn": "ref",
+                        "logicalId": "ELBSecurityGroup",
+                        "type": "intrinsic",
+                      },
+                    ],
+                    "type": "array",
+                  },
+                },
+                "Subnets": Object {
+                  "type": "any",
+                  "value": Object {
+                    "fn": "ref",
+                    "logicalId": "Subnets",
+                    "type": "intrinsic",
+                  },
+                },
+              },
+              "type": "object",
+            },
+            "type": Object {
+              "type": "string",
+              "value": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "resource",
+        "updatePolicy": undefined,
+        "updateReplacePolicy": "Delete",
+      },
+      "ELBSecurityGroup": Object {
+        "creationPolicy": undefined,
+        "deletionPolicy": "Delete",
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.CfnResource",
+        "logicalId": "ELBSecurityGroup",
+        "metadata": Object {},
+        "namespace": undefined,
+        "props": Object {
+          "fields": Object {
+            "properties": Object {
+              "fields": Object {
+                "GroupDescription": Object {
+                  "type": "any",
+                  "value": Object {
+                    "type": "string",
+                    "value": "Allow access to the ELB",
+                  },
+                },
+                "SecurityGroupIngress": Object {
+                  "type": "any",
+                  "value": Object {
+                    "array": Array [
+                      Object {
+                        "conditionName": "UseALBSSL",
+                        "else": Object {
+                          "fields": Object {
+                            "CidrIp": Object {
+                              "type": "string",
+                              "value": "0.0.0.0/0",
+                            },
+                            "FromPort": Object {
+                              "type": "number",
+                              "value": 80,
+                            },
+                            "IpProtocol": Object {
+                              "type": "string",
+                              "value": "tcp",
+                            },
+                            "ToPort": Object {
+                              "type": "number",
+                              "value": 80,
+                            },
+                          },
+                          "type": "object",
+                        },
+                        "fn": "if",
+                        "then": Object {
+                          "fields": Object {
+                            "CidrIp": Object {
+                              "type": "string",
+                              "value": "0.0.0.0/0",
+                            },
+                            "FromPort": Object {
+                              "type": "number",
+                              "value": 443,
+                            },
+                            "IpProtocol": Object {
+                              "type": "string",
+                              "value": "tcp",
+                            },
+                            "ToPort": Object {
+                              "type": "number",
+                              "value": 443,
+                            },
+                          },
+                          "type": "object",
+                        },
+                        "type": "intrinsic",
+                      },
+                    ],
+                    "type": "array",
+                  },
+                },
+                "VpcId": Object {
+                  "type": "any",
+                  "value": Object {
+                    "fn": "ref",
+                    "logicalId": "VpcId",
+                    "type": "intrinsic",
+                  },
+                },
+              },
+              "type": "object",
+            },
+            "type": Object {
+              "type": "string",
+              "value": "AWS::EC2::SecurityGroup",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "resource",
+        "updatePolicy": undefined,
+        "updateReplacePolicy": "Delete",
+      },
+      "InstanceSecurityGroup": Object {
+        "creationPolicy": undefined,
+        "deletionPolicy": "Delete",
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.CfnResource",
+        "logicalId": "InstanceSecurityGroup",
+        "metadata": Object {},
+        "namespace": undefined,
+        "props": Object {
+          "fields": Object {
+            "properties": Object {
+              "fields": Object {
+                "GroupDescription": Object {
+                  "type": "any",
+                  "value": Object {
+                    "type": "string",
+                    "value": "Enable SSH access and HTTP access on the inbound port",
+                  },
+                },
+                "SecurityGroupIngress": Object {
+                  "type": "any",
+                  "value": Object {
+                    "array": Array [
+                      Object {
+                        "fields": Object {
+                          "FromPort": Object {
+                            "type": "number",
+                            "value": 80,
+                          },
+                          "IpProtocol": Object {
+                            "type": "string",
+                            "value": "tcp",
+                          },
+                          "SourceSecurityGroupId": Object {
+                            "fn": "select",
+                            "index": Object {
+                              "type": "number",
+                              "value": 0,
+                            },
+                            "objects": Object {
+                              "attribute": Object {
+                                "type": "string",
+                                "value": "SecurityGroups",
+                              },
+                              "fn": "getAtt",
+                              "logicalId": "ApplicationLoadBalancer",
+                              "type": "intrinsic",
+                            },
+                            "type": "intrinsic",
+                          },
+                          "ToPort": Object {
+                            "type": "number",
+                            "value": 80,
+                          },
+                        },
+                        "type": "object",
+                      },
+                      Object {
+                        "fields": Object {
+                          "CidrIp": Object {
+                            "fn": "ref",
+                            "logicalId": "SSHLocation",
+                            "type": "intrinsic",
+                          },
+                          "FromPort": Object {
+                            "type": "number",
+                            "value": 22,
+                          },
+                          "IpProtocol": Object {
+                            "type": "string",
+                            "value": "tcp",
+                          },
+                          "ToPort": Object {
+                            "type": "number",
+                            "value": 22,
+                          },
+                        },
+                        "type": "object",
+                      },
+                    ],
+                    "type": "array",
+                  },
+                },
+                "VpcId": Object {
+                  "type": "any",
+                  "value": Object {
+                    "fn": "ref",
+                    "logicalId": "VpcId",
+                    "type": "intrinsic",
+                  },
+                },
+              },
+              "type": "object",
+            },
+            "type": Object {
+              "type": "string",
+              "value": "AWS::EC2::SecurityGroup",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "resource",
+        "updatePolicy": undefined,
+        "updateReplacePolicy": "Delete",
+      },
+      "LaunchConfig": Object {
+        "creationPolicy": undefined,
+        "deletionPolicy": "Delete",
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.CfnResource",
+        "logicalId": "LaunchConfig",
+        "metadata": Object {
+          "AWS::CloudFormation::Init": Object {
+            "config": Object {
+              "files": Object {
+                "/etc/cfn/cfn-hup.conf": Object {
+                  "content": Object {
+                    "Fn::Join": Array [
+                      "",
+                      Array [
+                        "[main]
+",
+                        "stack=",
+                        Object {
+                          "Ref": "AWS::StackId",
+                        },
+                        "
+",
+                        "region=",
+                        Object {
+                          "Ref": "AWS::Region",
+                        },
+                        "
+",
+                      ],
+                    ],
+                  },
+                  "group": "root",
+                  "mode": "000400",
+                  "owner": "root",
+                },
+                "/etc/cfn/hooks.d/cfn-auto-reloader.conf": Object {
+                  "content": Object {
+                    "Fn::Join": Array [
+                      "",
+                      Array [
+                        "[cfn-auto-reloader-hook]
+",
+                        "triggers=post.update
+",
+                        "path=Resources.LaunchConfig.Metadata.AWS::CloudFormation::Init
+",
+                        "action=/opt/aws/bin/cfn-init -v ",
+                        "         --stack ",
+                        Object {
+                          "Ref": "AWS::StackName",
+                        },
+                        "         --resource LaunchConfig ",
+                        "         --region ",
+                        Object {
+                          "Ref": "AWS::Region",
+                        },
+                        "
+",
+                        "runas=root
+",
+                      ],
+                    ],
+                  },
+                  "group": "root",
+                  "mode": "000400",
+                  "owner": "root",
+                },
+                "/var/www/html/index.html": Object {
+                  "content": Object {
+                    "Fn::Join": Array [
+                      "
+",
+                      Array [
+                        "<h1>Congratulations, you have successfully launched the AWS CloudFormation sample.<h1>",
+                      ],
+                    ],
+                  },
+                  "group": "root",
+                  "mode": "000644",
+                  "owner": "root",
+                },
+              },
+              "packages": Object {
+                "yum": Object {
+                  "httpd": Array [],
+                },
+              },
+              "services": Object {
+                "sysvinit": Object {
+                  "cfn-hup": Object {
+                    "enabled": "true",
+                    "ensureRunning": "true",
+                    "files": Array [
+                      "/etc/cfn/cfn-hup.conf",
+                      "/etc/cfn/hooks.d/cfn-auto-reloader.conf",
+                    ],
+                  },
+                  "httpd": Object {
+                    "enabled": "true",
+                    "ensureRunning": "true",
+                  },
+                },
+              },
+            },
+          },
+          "Comment": "Install a simple application",
+        },
+        "namespace": undefined,
+        "props": Object {
+          "fields": Object {
+            "properties": Object {
+              "fields": Object {
+                "ImageId": Object {
+                  "type": "any",
+                  "value": Object {
+                    "fn": "findInMap",
+                    "key1": Object {
+                      "fn": "ref",
+                      "logicalId": "AWS::Region",
+                      "type": "intrinsic",
+                    },
+                    "key2": Object {
+                      "type": "string",
+                      "value": "AMZNLINUXHVM",
+                    },
+                    "mappingName": "AWSAMIRegionMap",
+                    "type": "intrinsic",
+                  },
+                },
+                "InstanceType": Object {
+                  "type": "any",
+                  "value": Object {
+                    "fn": "ref",
+                    "logicalId": "InstanceType",
+                    "type": "intrinsic",
+                  },
+                },
+                "KeyName": Object {
+                  "type": "any",
+                  "value": Object {
+                    "fn": "ref",
+                    "logicalId": "KeyName",
+                    "type": "intrinsic",
+                  },
+                },
+                "SecurityGroups": Object {
+                  "type": "any",
+                  "value": Object {
+                    "array": Array [
+                      Object {
+                        "fn": "ref",
+                        "logicalId": "InstanceSecurityGroup",
+                        "type": "intrinsic",
+                      },
+                    ],
+                    "type": "array",
+                  },
+                },
+                "UserData": Object {
+                  "type": "any",
+                  "value": Object {
+                    "expression": Object {
+                      "fn": "join",
+                      "list": Object {
+                        "array": Array [
+                          Object {
+                            "type": "string",
+                            "value": "#!/bin/bash -xe
+",
+                          },
+                          Object {
+                            "type": "string",
+                            "value": "yum update -y aws-cfn-bootstrap
+",
+                          },
+                          Object {
+                            "type": "string",
+                            "value": "/opt/aws/bin/cfn-init -v ",
+                          },
+                          Object {
+                            "type": "string",
+                            "value": "         --stack ",
+                          },
+                          Object {
+                            "fn": "ref",
+                            "logicalId": "AWS::StackName",
+                            "type": "intrinsic",
+                          },
+                          Object {
+                            "type": "string",
+                            "value": "         --resource LaunchConfig ",
+                          },
+                          Object {
+                            "type": "string",
+                            "value": "         --region ",
+                          },
+                          Object {
+                            "fn": "ref",
+                            "logicalId": "AWS::Region",
+                            "type": "intrinsic",
+                          },
+                          Object {
+                            "type": "string",
+                            "value": "
+",
+                          },
+                          Object {
+                            "type": "string",
+                            "value": "/opt/aws/bin/cfn-signal -e $? ",
+                          },
+                          Object {
+                            "type": "string",
+                            "value": "         --stack ",
+                          },
+                          Object {
+                            "fn": "ref",
+                            "logicalId": "AWS::StackName",
+                            "type": "intrinsic",
+                          },
+                          Object {
+                            "type": "string",
+                            "value": "         --resource WebServerGroup ",
+                          },
+                          Object {
+                            "type": "string",
+                            "value": "         --region ",
+                          },
+                          Object {
+                            "fn": "ref",
+                            "logicalId": "AWS::Region",
+                            "type": "intrinsic",
+                          },
+                          Object {
+                            "type": "string",
+                            "value": "
+",
+                          },
+                        ],
+                        "type": "array",
+                      },
+                      "separator": "",
+                      "type": "intrinsic",
+                    },
+                    "fn": "base64",
+                    "type": "intrinsic",
+                  },
+                },
+              },
+              "type": "object",
+            },
+            "type": Object {
+              "type": "string",
+              "value": "AWS::AutoScaling::LaunchConfiguration",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "resource",
+        "updatePolicy": undefined,
+        "updateReplacePolicy": "Delete",
+      },
+      "RecordSet": Object {
+        "creationPolicy": undefined,
+        "deletionPolicy": "Delete",
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.CfnResource",
+        "logicalId": "RecordSet",
+        "metadata": Object {},
+        "namespace": undefined,
+        "props": Object {
+          "fields": Object {
+            "properties": Object {
+              "fields": Object {
+                "HostedZoneName": Object {
+                  "type": "any",
+                  "value": Object {
+                    "fn": "join",
+                    "list": Object {
+                      "array": Array [
+                        Object {
+                          "fn": "ref",
+                          "logicalId": "HostedZoneName",
+                          "type": "intrinsic",
+                        },
+                        Object {
+                          "type": "string",
+                          "value": ".",
+                        },
+                      ],
+                      "type": "array",
+                    },
+                    "separator": "",
+                    "type": "intrinsic",
+                  },
+                },
+                "RecordSets": Object {
+                  "type": "any",
+                  "value": Object {
+                    "array": Array [
+                      Object {
+                        "fields": Object {
+                          "AliasTarget": Object {
+                            "fields": Object {
+                              "DNSName": Object {
+                                "attribute": Object {
+                                  "type": "string",
+                                  "value": "DNSName",
+                                },
+                                "fn": "getAtt",
+                                "logicalId": "ApplicationLoadBalancer",
+                                "type": "intrinsic",
+                              },
+                              "EvaluateTargetHealth": Object {
+                                "type": "boolean",
+                                "value": true,
+                              },
+                              "HostedZoneId": Object {
+                                "attribute": Object {
+                                  "type": "string",
+                                  "value": "CanonicalHostedZoneID",
+                                },
+                                "fn": "getAtt",
+                                "logicalId": "ApplicationLoadBalancer",
+                                "type": "intrinsic",
+                              },
+                            },
+                            "type": "object",
+                          },
+                          "Name": Object {
+                            "fn": "join",
+                            "list": Object {
+                              "array": Array [
+                                Object {
+                                  "fn": "select",
+                                  "index": Object {
+                                    "type": "string",
+                                    "value": "0",
+                                  },
+                                  "objects": Object {
+                                    "fn": "split",
+                                    "separator": ".",
+                                    "type": "intrinsic",
+                                    "value": Object {
+                                      "attribute": Object {
+                                        "type": "string",
+                                        "value": "DNSName",
+                                      },
+                                      "fn": "getAtt",
+                                      "logicalId": "ApplicationLoadBalancer",
+                                      "type": "intrinsic",
+                                    },
+                                  },
+                                  "type": "intrinsic",
+                                },
+                                Object {
+                                  "type": "string",
+                                  "value": ".",
+                                },
+                                Object {
+                                  "fn": "ref",
+                                  "logicalId": "HostedZoneName",
+                                  "type": "intrinsic",
+                                },
+                                Object {
+                                  "type": "string",
+                                  "value": ".",
+                                },
+                              ],
+                              "type": "array",
+                            },
+                            "separator": "",
+                            "type": "intrinsic",
+                          },
+                          "Type": Object {
+                            "type": "string",
+                            "value": "A",
+                          },
+                        },
+                        "type": "object",
+                      },
+                    ],
+                    "type": "array",
+                  },
+                },
+              },
+              "type": "object",
+            },
+            "type": Object {
+              "type": "string",
+              "value": "AWS::Route53::RecordSetGroup",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "resource",
+        "updatePolicy": undefined,
+        "updateReplacePolicy": "Delete",
+      },
+      "WebServerGroup": Object {
+        "creationPolicy": Object {
+          "autoScalingCreationPolicy": undefined,
+          "resourceSignal": Object {
+            "count": undefined,
+            "timeout": "PT15M",
+          },
+        },
+        "deletionPolicy": "Delete",
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.CfnResource",
+        "logicalId": "WebServerGroup",
+        "metadata": Object {},
+        "namespace": undefined,
+        "props": Object {
+          "fields": Object {
+            "properties": Object {
+              "fields": Object {
+                "LaunchConfigurationName": Object {
+                  "type": "any",
+                  "value": Object {
+                    "fn": "ref",
+                    "logicalId": "LaunchConfig",
+                    "type": "intrinsic",
+                  },
+                },
+                "MaxSize": Object {
+                  "type": "any",
+                  "value": Object {
+                    "type": "string",
+                    "value": "2",
+                  },
+                },
+                "MinSize": Object {
+                  "type": "any",
+                  "value": Object {
+                    "type": "string",
+                    "value": "2",
+                  },
+                },
+                "TargetGroupARNs": Object {
+                  "type": "any",
+                  "value": Object {
+                    "array": Array [
+                      Object {
+                        "fn": "ref",
+                        "logicalId": "ALBTargetGroup",
+                        "type": "intrinsic",
+                      },
+                    ],
+                    "type": "array",
+                  },
+                },
+                "VPCZoneIdentifier": Object {
+                  "type": "any",
+                  "value": Object {
+                    "fn": "ref",
+                    "logicalId": "Subnets",
+                    "type": "intrinsic",
+                  },
+                },
+              },
+              "type": "object",
+            },
+            "type": Object {
+              "type": "string",
+              "value": "AWS::AutoScaling::AutoScalingGroup",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "resource",
+        "updatePolicy": Object {
+          "autoScalingReplacingUpdate": undefined,
+          "autoScalingRollingUpdate": Object {
+            "maxBatchSize": 1,
+            "minInstancesInService": 1,
+            "minSuccessfulInstancesPercent": undefined,
+            "pauseTime": "PT15M",
+            "suspendProcesses": undefined,
+            "waitOnResourceSignals": true,
+          },
+          "autoScalingScheduledAction": undefined,
+          "codeDeployLambdaAliasUpdate": undefined,
+          "enableVersionUpgrade": undefined,
+          "useOnlineResharding": undefined,
+        },
+        "updateReplacePolicy": "Delete",
+      },
+    },
+  },
+  "rules": Map {
+    "SubnetsInVPC" => Object {
+      "assertions": Array [
+        Object {
+          "Assert": Object {
+            "Fn::EachMemberEquals": Array [
+              Object {
+                "Fn::ValueOf": Array [
+                  "Subnets",
+                  "VpcId",
+                ],
+              },
+              Object {
+                "Ref": "VpcId",
+              },
+            ],
+          },
+          "AssertDescription": "All subnets must in the VPC",
+        },
+      ],
+      "ruleCondition": undefined,
+    },
+    "ValidateHostedZone" => Object {
+      "assertions": Array [
+        Object {
+          "Assert": Object {
+            "Fn::Not": Array [
+              Object {
+                "Fn::Equals": Array [
+                  Object {
+                    "Ref": "ALBSSLCertificateARN",
+                  },
+                  "",
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "ACM Certificate value cannot be empty if SSL is required",
+        },
+        Object {
+          "Assert": Object {
+            "Fn::Not": Array [
+              Object {
+                "Fn::Equals": Array [
+                  Object {
+                    "Ref": "HostedZoneName",
+                  },
+                  "",
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "Route53 Hosted Zone Name is mandatory when SSL is required",
+        },
+      ],
+      "ruleCondition": Object {
+        "Fn::Equals": Array [
+          Object {
+            "Ref": "UseSSL",
+          },
+          "Yes",
+        ],
+      },
+    },
+  },
+  "template": Template {
+    "conditions": Map {
+      "UseALBSSL" => Object {
+        "fn": "not",
+        "operand": Object {
+          "array": Array [
+            Object {
+              "fn": "equals",
+              "type": "intrinsic",
+              "value1": Object {
+                "fn": "ref",
+                "logicalId": "UseSSL",
+                "type": "intrinsic",
+              },
+              "value2": Object {
+                "type": "string",
+                "value": "Yes",
+              },
+            },
+          ],
+          "type": "array",
+        },
+        "type": "intrinsic",
+      },
+    },
+    "description": "AWS CloudFormation Sample Template for using Assertions: Create a load balanced, Auto Scaled sample website where the instances are locked down to only accept traffic from the load balancer. This example creates an Auto Scaling group behind a load balancer with a health check. The web site is available on port 80 or 443 based on the input.",
+    "mappings": Map {
+      "AWSAMIRegionMap" => TemplateMapping {
+        "mapping": Map {
+          "AMI" => Map {
+            "AMZNLINUXHVM" => "amzn-ami-hvm-2017.09.1.20171120-x86_64-gp2",
+          },
+          "ap-northeast-1" => Map {
+            "AMZNLINUXHVM" => "ami-da9e2cbc",
+          },
+          "ap-northeast-2" => Map {
+            "AMZNLINUXHVM" => "ami-1196317f",
+          },
+          "ap-south-1" => Map {
+            "AMZNLINUXHVM" => "ami-d5c18eba",
+          },
+          "ap-southeast-1" => Map {
+            "AMZNLINUXHVM" => "ami-c63d6aa5",
+          },
+          "ap-southeast-2" => Map {
+            "AMZNLINUXHVM" => "ami-ff4ea59d",
+          },
+          "ca-central-1" => Map {
+            "AMZNLINUXHVM" => "ami-d29e25b6",
+          },
+          "eu-central-1" => Map {
+            "AMZNLINUXHVM" => "ami-bf2ba8d0",
+          },
+          "eu-west-1" => Map {
+            "AMZNLINUXHVM" => "ami-1a962263",
+          },
+          "eu-west-2" => Map {
+            "AMZNLINUXHVM" => "ami-e7d6c983",
+          },
+          "sa-east-1" => Map {
+            "AMZNLINUXHVM" => "ami-286f2a44",
+          },
+          "us-east-1" => Map {
+            "AMZNLINUXHVM" => "ami-55ef662f",
+          },
+          "us-east-2" => Map {
+            "AMZNLINUXHVM" => "ami-15e9c770",
+          },
+          "us-west-1" => Map {
+            "AMZNLINUXHVM" => "ami-a51f27c5",
+          },
+          "us-west-2" => Map {
+            "AMZNLINUXHVM" => "ami-bf4193c7",
+          },
+        },
+      },
+    },
+    "metadata": Map {},
+    "outputs": Map {
+      "URL" => Object {
+        "conditionName": undefined,
+        "description": "URL of the website",
+        "exportName": undefined,
+        "value": Object {
+          "fn": "join",
+          "list": Object {
+            "array": Array [
+              Object {
+                "conditionName": "UseALBSSL",
+                "else": Object {
+                  "fn": "join",
+                  "list": Object {
+                    "array": Array [
+                      Object {
+                        "type": "string",
+                        "value": "http://",
+                      },
+                      Object {
+                        "attribute": Object {
+                          "type": "string",
+                          "value": "DNSName",
+                        },
+                        "fn": "getAtt",
+                        "logicalId": "ApplicationLoadBalancer",
+                        "type": "intrinsic",
+                      },
+                    ],
+                    "type": "array",
+                  },
+                  "separator": "",
+                  "type": "intrinsic",
+                },
+                "fn": "if",
+                "then": Object {
+                  "fn": "join",
+                  "list": Object {
+                    "array": Array [
+                      Object {
+                        "type": "string",
+                        "value": "https://",
+                      },
+                      Object {
+                        "fn": "join",
+                        "list": Object {
+                          "array": Array [
+                            Object {
+                              "fn": "select",
+                              "index": Object {
+                                "type": "string",
+                                "value": "0",
+                              },
+                              "objects": Object {
+                                "fn": "split",
+                                "separator": ".",
+                                "type": "intrinsic",
+                                "value": Object {
+                                  "attribute": Object {
+                                    "type": "string",
+                                    "value": "DNSName",
+                                  },
+                                  "fn": "getAtt",
+                                  "logicalId": "ApplicationLoadBalancer",
+                                  "type": "intrinsic",
+                                },
+                              },
+                              "type": "intrinsic",
+                            },
+                            Object {
+                              "type": "string",
+                              "value": ".",
+                            },
+                            Object {
+                              "fn": "ref",
+                              "logicalId": "HostedZoneName",
+                              "type": "intrinsic",
+                            },
+                            Object {
+                              "type": "string",
+                              "value": ".",
+                            },
+                          ],
+                          "type": "array",
+                        },
+                        "separator": "",
+                        "type": "intrinsic",
+                      },
+                    ],
+                    "type": "array",
+                  },
+                  "separator": "",
+                  "type": "intrinsic",
+                },
+                "type": "intrinsic",
+              },
+            ],
+            "type": "array",
+          },
+          "separator": "",
+          "type": "intrinsic",
+        },
+      },
+    },
+    "parameters": Map {
+      "VpcId" => Object {
+        "allowedPattern": undefined,
+        "allowedValues": undefined,
+        "constraintDescription": "must be the VPC Id of an existing Virtual Private Cloud.",
+        "default": undefined,
+        "description": "VpcId of your existing Virtual Private Cloud (VPC)",
+        "maxLength": undefined,
+        "maxValue": undefined,
+        "minLength": undefined,
+        "minValue": undefined,
+        "noEcho": undefined,
+        "type": "AWS::EC2::VPC::Id",
+      },
+      "Subnets" => Object {
+        "allowedPattern": undefined,
+        "allowedValues": undefined,
+        "constraintDescription": "must be a list of at least two existing subnets associated with at least two different availability zones. They should be residing in the selected Virtual Private Cloud.",
+        "default": undefined,
+        "description": "The list of SubnetIds in your Virtual Private Cloud (VPC)",
+        "maxLength": undefined,
+        "maxValue": undefined,
+        "minLength": undefined,
+        "minValue": undefined,
+        "noEcho": undefined,
+        "type": "List<AWS::EC2::Subnet::Id>",
+      },
+      "InstanceType" => Object {
+        "allowedPattern": undefined,
+        "allowedValues": Array [
+          "t2.nano",
+          "t2.micro",
+          "t2.small",
+          "t2.medium",
+          "t2.large",
+          "m4.large",
+          "m4.xlarge",
+          "m4.2xlarge",
+          "m4.4xlarge",
+          "m4.10xlarge",
+          "m3.medium",
+          "m3.large",
+          "m3.xlarge",
+          "m3.2xlarge",
+          "c4.large",
+          "c4.xlarge",
+          "c4.2xlarge",
+          "c4.4xlarge",
+          "c4.8xlarge",
+          "c3.large",
+          "c3.xlarge",
+          "c3.2xlarge",
+          "c3.4xlarge",
+          "c3.8xlarge",
+          "r3.large",
+          "r3.xlarge",
+        ],
+        "constraintDescription": "must be a valid EC2 instance type.",
+        "default": "t2.small",
+        "description": "WebServer EC2 instance type",
+        "maxLength": undefined,
+        "maxValue": undefined,
+        "minLength": undefined,
+        "minValue": undefined,
+        "noEcho": undefined,
+        "type": "String",
+      },
+      "KeyName" => Object {
+        "allowedPattern": undefined,
+        "allowedValues": undefined,
+        "constraintDescription": "must be the name of an existing EC2 KeyPair.",
+        "default": undefined,
+        "description": "Name of an existing EC2 KeyPair to enable SSH access to the instances",
+        "maxLength": undefined,
+        "maxValue": undefined,
+        "minLength": undefined,
+        "minValue": undefined,
+        "noEcho": undefined,
+        "type": "AWS::EC2::KeyPair::KeyName",
+      },
+      "SSHLocation" => Object {
+        "allowedPattern": "(\\\\d{1,3})\\\\.(\\\\d{1,3})\\\\.(\\\\d{1,3})\\\\.(\\\\d{1,3})/(\\\\d{1,2})",
+        "allowedValues": undefined,
+        "constraintDescription": "must be a valid IP CIDR range of the form x.x.x.x/x.",
+        "default": "0.0.0.0/0",
+        "description": "The IP address range that can be used to SSH to the EC2 instances",
+        "maxLength": 18,
+        "maxValue": undefined,
+        "minLength": 9,
+        "minValue": undefined,
+        "noEcho": undefined,
+        "type": "String",
+      },
+      "UseSSL" => Object {
+        "allowedPattern": undefined,
+        "allowedValues": Array [
+          "Yes",
+          "No",
+        ],
+        "constraintDescription": "Select Yes to create a HTTPS Listener",
+        "default": "No",
+        "description": "Select \\"Yes\\" to implement SSL, \\"No\\" to skip (default).",
+        "maxLength": undefined,
+        "maxValue": undefined,
+        "minLength": undefined,
+        "minValue": undefined,
+        "noEcho": undefined,
+        "type": "String",
+      },
+      "ALBSSLCertificateARN" => Object {
+        "allowedPattern": undefined,
+        "allowedValues": undefined,
+        "constraintDescription": undefined,
+        "default": "",
+        "description": "[Optional] The ARN of the SSL certificate to be used for the Application Load Balancer",
+        "maxLength": undefined,
+        "maxValue": undefined,
+        "minLength": undefined,
+        "minValue": undefined,
+        "noEcho": undefined,
+        "type": "String",
+      },
+      "HostedZoneName" => Object {
+        "allowedPattern": "^$|(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\\\-]*[a-zA-Z0-9])\\\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\\\-]*[A-Za-z0-9])$",
+        "allowedValues": undefined,
+        "constraintDescription": undefined,
+        "default": "",
+        "description": "[Optional] The domain name of a valid Hosted Zone on AWS.",
+        "maxLength": undefined,
+        "maxValue": undefined,
+        "minLength": undefined,
+        "minValue": undefined,
+        "noEcho": undefined,
+        "type": "String",
+      },
+    },
+    "resources": Map {
+      "WebServerGroup" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "creationPolicy": Object {
+          "autoScalingCreationPolicy": undefined,
+          "resourceSignal": Object {
+            "count": undefined,
+            "timeout": "PT15M",
+          },
+        },
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "Subnets",
+          "LaunchConfig",
+          "ALBTargetGroup",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "on": undefined,
+        "overrides": Array [],
+        "properties": Object {
+          "LaunchConfigurationName": Object {
+            "fn": "ref",
+            "logicalId": "LaunchConfig",
+            "type": "intrinsic",
+          },
+          "MaxSize": Object {
+            "type": "string",
+            "value": "2",
+          },
+          "MinSize": Object {
+            "type": "string",
+            "value": "2",
+          },
+          "TargetGroupARNs": Object {
+            "array": Array [
+              Object {
+                "fn": "ref",
+                "logicalId": "ALBTargetGroup",
+                "type": "intrinsic",
+              },
+            ],
+            "type": "array",
+          },
+          "VPCZoneIdentifier": Object {
+            "fn": "ref",
+            "logicalId": "Subnets",
+            "type": "intrinsic",
+          },
+        },
+        "tags": Array [],
+        "type": "AWS::AutoScaling::AutoScalingGroup",
+        "updatePolicy": Object {
+          "autoScalingReplacingUpdate": undefined,
+          "autoScalingRollingUpdate": Object {
+            "maxBatchSize": 1,
+            "minInstancesInService": 1,
+            "minSuccessfulInstancesPercent": undefined,
+            "pauseTime": "PT15M",
+            "suspendProcesses": undefined,
+            "waitOnResourceSignals": true,
+          },
+          "autoScalingScheduledAction": undefined,
+          "codeDeployLambdaAliasUpdate": undefined,
+          "enableVersionUpgrade": undefined,
+          "useOnlineResharding": undefined,
+        },
+        "updateReplacePolicy": "Delete",
+      },
+      "LaunchConfig" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "creationPolicy": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "AWS::Region",
+          "InstanceSecurityGroup",
+          "InstanceType",
+          "KeyName",
+          "AWS::StackName",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {
+          "AWS::CloudFormation::Init": Object {
+            "config": Object {
+              "files": Object {
+                "/etc/cfn/cfn-hup.conf": Object {
+                  "content": Object {
+                    "Fn::Join": Array [
+                      "",
+                      Array [
+                        "[main]
+",
+                        "stack=",
+                        Object {
+                          "Ref": "AWS::StackId",
+                        },
+                        "
+",
+                        "region=",
+                        Object {
+                          "Ref": "AWS::Region",
+                        },
+                        "
+",
+                      ],
+                    ],
+                  },
+                  "group": "root",
+                  "mode": "000400",
+                  "owner": "root",
+                },
+                "/etc/cfn/hooks.d/cfn-auto-reloader.conf": Object {
+                  "content": Object {
+                    "Fn::Join": Array [
+                      "",
+                      Array [
+                        "[cfn-auto-reloader-hook]
+",
+                        "triggers=post.update
+",
+                        "path=Resources.LaunchConfig.Metadata.AWS::CloudFormation::Init
+",
+                        "action=/opt/aws/bin/cfn-init -v ",
+                        "         --stack ",
+                        Object {
+                          "Ref": "AWS::StackName",
+                        },
+                        "         --resource LaunchConfig ",
+                        "         --region ",
+                        Object {
+                          "Ref": "AWS::Region",
+                        },
+                        "
+",
+                        "runas=root
+",
+                      ],
+                    ],
+                  },
+                  "group": "root",
+                  "mode": "000400",
+                  "owner": "root",
+                },
+                "/var/www/html/index.html": Object {
+                  "content": Object {
+                    "Fn::Join": Array [
+                      "
+",
+                      Array [
+                        "<h1>Congratulations, you have successfully launched the AWS CloudFormation sample.<h1>",
+                      ],
+                    ],
+                  },
+                  "group": "root",
+                  "mode": "000644",
+                  "owner": "root",
+                },
+              },
+              "packages": Object {
+                "yum": Object {
+                  "httpd": Array [],
+                },
+              },
+              "services": Object {
+                "sysvinit": Object {
+                  "cfn-hup": Object {
+                    "enabled": "true",
+                    "ensureRunning": "true",
+                    "files": Array [
+                      "/etc/cfn/cfn-hup.conf",
+                      "/etc/cfn/hooks.d/cfn-auto-reloader.conf",
+                    ],
+                  },
+                  "httpd": Object {
+                    "enabled": "true",
+                    "ensureRunning": "true",
+                  },
+                },
+              },
+            },
+          },
+          "Comment": "Install a simple application",
+        },
+        "on": undefined,
+        "overrides": Array [],
+        "properties": Object {
+          "ImageId": Object {
+            "fn": "findInMap",
+            "key1": Object {
+              "fn": "ref",
+              "logicalId": "AWS::Region",
+              "type": "intrinsic",
+            },
+            "key2": Object {
+              "type": "string",
+              "value": "AMZNLINUXHVM",
+            },
+            "mappingName": "AWSAMIRegionMap",
+            "type": "intrinsic",
+          },
+          "InstanceType": Object {
+            "fn": "ref",
+            "logicalId": "InstanceType",
+            "type": "intrinsic",
+          },
+          "KeyName": Object {
+            "fn": "ref",
+            "logicalId": "KeyName",
+            "type": "intrinsic",
+          },
+          "SecurityGroups": Object {
+            "array": Array [
+              Object {
+                "fn": "ref",
+                "logicalId": "InstanceSecurityGroup",
+                "type": "intrinsic",
+              },
+            ],
+            "type": "array",
+          },
+          "UserData": Object {
+            "expression": Object {
+              "fn": "join",
+              "list": Object {
+                "array": Array [
+                  Object {
+                    "type": "string",
+                    "value": "#!/bin/bash -xe
+",
+                  },
+                  Object {
+                    "type": "string",
+                    "value": "yum update -y aws-cfn-bootstrap
+",
+                  },
+                  Object {
+                    "type": "string",
+                    "value": "/opt/aws/bin/cfn-init -v ",
+                  },
+                  Object {
+                    "type": "string",
+                    "value": "         --stack ",
+                  },
+                  Object {
+                    "fn": "ref",
+                    "logicalId": "AWS::StackName",
+                    "type": "intrinsic",
+                  },
+                  Object {
+                    "type": "string",
+                    "value": "         --resource LaunchConfig ",
+                  },
+                  Object {
+                    "type": "string",
+                    "value": "         --region ",
+                  },
+                  Object {
+                    "fn": "ref",
+                    "logicalId": "AWS::Region",
+                    "type": "intrinsic",
+                  },
+                  Object {
+                    "type": "string",
+                    "value": "
+",
+                  },
+                  Object {
+                    "type": "string",
+                    "value": "/opt/aws/bin/cfn-signal -e $? ",
+                  },
+                  Object {
+                    "type": "string",
+                    "value": "         --stack ",
+                  },
+                  Object {
+                    "fn": "ref",
+                    "logicalId": "AWS::StackName",
+                    "type": "intrinsic",
+                  },
+                  Object {
+                    "type": "string",
+                    "value": "         --resource WebServerGroup ",
+                  },
+                  Object {
+                    "type": "string",
+                    "value": "         --region ",
+                  },
+                  Object {
+                    "fn": "ref",
+                    "logicalId": "AWS::Region",
+                    "type": "intrinsic",
+                  },
+                  Object {
+                    "type": "string",
+                    "value": "
+",
+                  },
+                ],
+                "type": "array",
+              },
+              "separator": "",
+              "type": "intrinsic",
+            },
+            "fn": "base64",
+            "type": "intrinsic",
+          },
+        },
+        "tags": Array [],
+        "type": "AWS::AutoScaling::LaunchConfiguration",
+        "updatePolicy": undefined,
+        "updateReplacePolicy": "Delete",
+      },
+      "ELBSecurityGroup" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "creationPolicy": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "VpcId",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "on": undefined,
+        "overrides": Array [],
+        "properties": Object {
+          "GroupDescription": Object {
+            "type": "string",
+            "value": "Allow access to the ELB",
+          },
+          "SecurityGroupIngress": Object {
+            "array": Array [
+              Object {
+                "conditionName": "UseALBSSL",
+                "else": Object {
+                  "fields": Object {
+                    "CidrIp": Object {
+                      "type": "string",
+                      "value": "0.0.0.0/0",
+                    },
+                    "FromPort": Object {
+                      "type": "number",
+                      "value": 80,
+                    },
+                    "IpProtocol": Object {
+                      "type": "string",
+                      "value": "tcp",
+                    },
+                    "ToPort": Object {
+                      "type": "number",
+                      "value": 80,
+                    },
+                  },
+                  "type": "object",
+                },
+                "fn": "if",
+                "then": Object {
+                  "fields": Object {
+                    "CidrIp": Object {
+                      "type": "string",
+                      "value": "0.0.0.0/0",
+                    },
+                    "FromPort": Object {
+                      "type": "number",
+                      "value": 443,
+                    },
+                    "IpProtocol": Object {
+                      "type": "string",
+                      "value": "tcp",
+                    },
+                    "ToPort": Object {
+                      "type": "number",
+                      "value": 443,
+                    },
+                  },
+                  "type": "object",
+                },
+                "type": "intrinsic",
+              },
+            ],
+            "type": "array",
+          },
+          "VpcId": Object {
+            "fn": "ref",
+            "logicalId": "VpcId",
+            "type": "intrinsic",
+          },
+        },
+        "tags": Array [],
+        "type": "AWS::EC2::SecurityGroup",
+        "updatePolicy": undefined,
+        "updateReplacePolicy": "Delete",
+      },
+      "ApplicationLoadBalancer" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "creationPolicy": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "Subnets",
+          "ELBSecurityGroup",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "on": undefined,
+        "overrides": Array [],
+        "properties": Object {
+          "SecurityGroups": Object {
+            "array": Array [
+              Object {
+                "fn": "ref",
+                "logicalId": "ELBSecurityGroup",
+                "type": "intrinsic",
+              },
+            ],
+            "type": "array",
+          },
+          "Subnets": Object {
+            "fn": "ref",
+            "logicalId": "Subnets",
+            "type": "intrinsic",
+          },
+        },
+        "tags": Array [],
+        "type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+        "updatePolicy": undefined,
+        "updateReplacePolicy": "Delete",
+      },
+      "ALBListener" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "creationPolicy": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "ALBTargetGroup",
+          "ApplicationLoadBalancer",
+          "ALBSSLCertificateARN",
+          "AWS::NoValue",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "on": undefined,
+        "overrides": Array [],
+        "properties": Object {
+          "Certificates": Object {
+            "array": Array [
+              Object {
+                "conditionName": "UseALBSSL",
+                "else": Object {
+                  "fn": "ref",
+                  "logicalId": "AWS::NoValue",
+                  "type": "intrinsic",
+                },
+                "fn": "if",
+                "then": Object {
+                  "fields": Object {
+                    "CertificateArn": Object {
+                      "fn": "ref",
+                      "logicalId": "ALBSSLCertificateARN",
+                      "type": "intrinsic",
+                    },
+                  },
+                  "type": "object",
+                },
+                "type": "intrinsic",
+              },
+            ],
+            "type": "array",
+          },
+          "DefaultActions": Object {
+            "array": Array [
+              Object {
+                "fields": Object {
+                  "TargetGroupArn": Object {
+                    "fn": "ref",
+                    "logicalId": "ALBTargetGroup",
+                    "type": "intrinsic",
+                  },
+                  "Type": Object {
+                    "type": "string",
+                    "value": "forward",
+                  },
+                },
+                "type": "object",
+              },
+            ],
+            "type": "array",
+          },
+          "LoadBalancerArn": Object {
+            "fn": "ref",
+            "logicalId": "ApplicationLoadBalancer",
+            "type": "intrinsic",
+          },
+          "Port": Object {
+            "conditionName": "UseALBSSL",
+            "else": Object {
+              "type": "number",
+              "value": 80,
+            },
+            "fn": "if",
+            "then": Object {
+              "type": "number",
+              "value": 443,
+            },
+            "type": "intrinsic",
+          },
+          "Protocol": Object {
+            "conditionName": "UseALBSSL",
+            "else": Object {
+              "type": "string",
+              "value": "HTTP",
+            },
+            "fn": "if",
+            "then": Object {
+              "type": "string",
+              "value": "HTTPS",
+            },
+            "type": "intrinsic",
+          },
+        },
+        "tags": Array [],
+        "type": "AWS::ElasticLoadBalancingV2::Listener",
+        "updatePolicy": undefined,
+        "updateReplacePolicy": "Delete",
+      },
+      "ALBTargetGroup" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "creationPolicy": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "VpcId",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "on": undefined,
+        "overrides": Array [],
+        "properties": Object {
+          "HealthCheckIntervalSeconds": Object {
+            "type": "number",
+            "value": 30,
+          },
+          "HealthCheckTimeoutSeconds": Object {
+            "type": "number",
+            "value": 5,
+          },
+          "HealthyThresholdCount": Object {
+            "type": "number",
+            "value": 3,
+          },
+          "Port": Object {
+            "type": "number",
+            "value": 80,
+          },
+          "Protocol": Object {
+            "type": "string",
+            "value": "HTTP",
+          },
+          "UnhealthyThresholdCount": Object {
+            "type": "number",
+            "value": 5,
+          },
+          "VpcId": Object {
+            "fn": "ref",
+            "logicalId": "VpcId",
+            "type": "intrinsic",
+          },
+        },
+        "tags": Array [],
+        "type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+        "updatePolicy": undefined,
+        "updateReplacePolicy": "Delete",
+      },
+      "InstanceSecurityGroup" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "creationPolicy": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "ApplicationLoadBalancer",
+          "SSHLocation",
+          "VpcId",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "on": undefined,
+        "overrides": Array [],
+        "properties": Object {
+          "GroupDescription": Object {
+            "type": "string",
+            "value": "Enable SSH access and HTTP access on the inbound port",
+          },
+          "SecurityGroupIngress": Object {
+            "array": Array [
+              Object {
+                "fields": Object {
+                  "FromPort": Object {
+                    "type": "number",
+                    "value": 80,
+                  },
+                  "IpProtocol": Object {
+                    "type": "string",
+                    "value": "tcp",
+                  },
+                  "SourceSecurityGroupId": Object {
+                    "fn": "select",
+                    "index": Object {
+                      "type": "number",
+                      "value": 0,
+                    },
+                    "objects": Object {
+                      "attribute": Object {
+                        "type": "string",
+                        "value": "SecurityGroups",
+                      },
+                      "fn": "getAtt",
+                      "logicalId": "ApplicationLoadBalancer",
+                      "type": "intrinsic",
+                    },
+                    "type": "intrinsic",
+                  },
+                  "ToPort": Object {
+                    "type": "number",
+                    "value": 80,
+                  },
+                },
+                "type": "object",
+              },
+              Object {
+                "fields": Object {
+                  "CidrIp": Object {
+                    "fn": "ref",
+                    "logicalId": "SSHLocation",
+                    "type": "intrinsic",
+                  },
+                  "FromPort": Object {
+                    "type": "number",
+                    "value": 22,
+                  },
+                  "IpProtocol": Object {
+                    "type": "string",
+                    "value": "tcp",
+                  },
+                  "ToPort": Object {
+                    "type": "number",
+                    "value": 22,
+                  },
+                },
+                "type": "object",
+              },
+            ],
+            "type": "array",
+          },
+          "VpcId": Object {
+            "fn": "ref",
+            "logicalId": "VpcId",
+            "type": "intrinsic",
+          },
+        },
+        "tags": Array [],
+        "type": "AWS::EC2::SecurityGroup",
+        "updatePolicy": undefined,
+        "updateReplacePolicy": "Delete",
+      },
+      "RecordSet" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": "UseALBSSL",
+        "creationPolicy": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "HostedZoneName",
+          "ApplicationLoadBalancer",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "on": undefined,
+        "overrides": Array [],
+        "properties": Object {
+          "HostedZoneName": Object {
+            "fn": "join",
+            "list": Object {
+              "array": Array [
+                Object {
+                  "fn": "ref",
+                  "logicalId": "HostedZoneName",
+                  "type": "intrinsic",
+                },
+                Object {
+                  "type": "string",
+                  "value": ".",
+                },
+              ],
+              "type": "array",
+            },
+            "separator": "",
+            "type": "intrinsic",
+          },
+          "RecordSets": Object {
+            "array": Array [
+              Object {
+                "fields": Object {
+                  "AliasTarget": Object {
+                    "fields": Object {
+                      "DNSName": Object {
+                        "attribute": Object {
+                          "type": "string",
+                          "value": "DNSName",
+                        },
+                        "fn": "getAtt",
+                        "logicalId": "ApplicationLoadBalancer",
+                        "type": "intrinsic",
+                      },
+                      "EvaluateTargetHealth": Object {
+                        "type": "boolean",
+                        "value": true,
+                      },
+                      "HostedZoneId": Object {
+                        "attribute": Object {
+                          "type": "string",
+                          "value": "CanonicalHostedZoneID",
+                        },
+                        "fn": "getAtt",
+                        "logicalId": "ApplicationLoadBalancer",
+                        "type": "intrinsic",
+                      },
+                    },
+                    "type": "object",
+                  },
+                  "Name": Object {
+                    "fn": "join",
+                    "list": Object {
+                      "array": Array [
+                        Object {
+                          "fn": "select",
+                          "index": Object {
+                            "type": "string",
+                            "value": "0",
+                          },
+                          "objects": Object {
+                            "fn": "split",
+                            "separator": ".",
+                            "type": "intrinsic",
+                            "value": Object {
+                              "attribute": Object {
+                                "type": "string",
+                                "value": "DNSName",
+                              },
+                              "fn": "getAtt",
+                              "logicalId": "ApplicationLoadBalancer",
+                              "type": "intrinsic",
+                            },
+                          },
+                          "type": "intrinsic",
+                        },
+                        Object {
+                          "type": "string",
+                          "value": ".",
+                        },
+                        Object {
+                          "fn": "ref",
+                          "logicalId": "HostedZoneName",
+                          "type": "intrinsic",
+                        },
+                        Object {
+                          "type": "string",
+                          "value": ".",
+                        },
+                      ],
+                      "type": "array",
+                    },
+                    "separator": "",
+                    "type": "intrinsic",
+                  },
+                  "Type": Object {
+                    "type": "string",
+                    "value": "A",
+                  },
+                },
+                "type": "object",
+              },
+            ],
+            "type": "array",
+          },
+        },
+        "tags": Array [],
+        "type": "AWS::Route53::RecordSetGroup",
+        "updatePolicy": undefined,
+        "updateReplacePolicy": "Delete",
+      },
+    },
+    "rules": Map {
+      "SubnetsInVPC" => Object {
+        "assertions": Array [
+          Object {
+            "Assert": Object {
+              "Fn::EachMemberEquals": Array [
+                Object {
+                  "Fn::ValueOf": Array [
+                    "Subnets",
+                    "VpcId",
+                  ],
+                },
+                Object {
+                  "Ref": "VpcId",
+                },
+              ],
+            },
+            "AssertDescription": "All subnets must in the VPC",
+          },
+        ],
+        "ruleCondition": undefined,
+      },
+      "ValidateHostedZone" => Object {
+        "assertions": Array [
+          Object {
+            "Assert": Object {
+              "Fn::Not": Array [
+                Object {
+                  "Fn::Equals": Array [
+                    Object {
+                      "Ref": "ALBSSLCertificateARN",
+                    },
+                    "",
+                  ],
+                },
+              ],
+            },
+            "AssertDescription": "ACM Certificate value cannot be empty if SSL is required",
+          },
+          Object {
+            "Assert": Object {
+              "Fn::Not": Array [
+                Object {
+                  "Fn::Equals": Array [
+                    Object {
+                      "Ref": "HostedZoneName",
+                    },
+                    "",
+                  ],
+                },
+              ],
+            },
+            "AssertDescription": "Route53 Hosted Zone Name is mandatory when SSL is required",
+          },
+        ],
+        "ruleCondition": Object {
+          "Fn::Equals": Array [
+            Object {
+              "Ref": "UseSSL",
+            },
+            "Yes",
+          ],
+        },
+      },
+    },
+    "template": Object {
+      "AWSTemplateFormatVersion": "2010-09-09",
+      "Conditions": Object {
+        "UseALBSSL": Object {
+          "Fn::Not": Array [
+            Object {
+              "Fn::Equals": Array [
+                Object {
+                  "Ref": "UseSSL",
+                },
+                "Yes",
+              ],
+            },
+          ],
+        },
+      },
+      "Description": "AWS CloudFormation Sample Template for using Assertions: Create a load balanced, Auto Scaled sample website where the instances are locked down to only accept traffic from the load balancer. This example creates an Auto Scaling group behind a load balancer with a health check. The web site is available on port 80 or 443 based on the input.",
+      "Mappings": Object {
+        "AWSAMIRegionMap": Object {
+          "AMI": Object {
+            "AMZNLINUXHVM": "amzn-ami-hvm-2017.09.1.20171120-x86_64-gp2",
+          },
+          "ap-northeast-1": Object {
+            "AMZNLINUXHVM": "ami-da9e2cbc",
+          },
+          "ap-northeast-2": Object {
+            "AMZNLINUXHVM": "ami-1196317f",
+          },
+          "ap-south-1": Object {
+            "AMZNLINUXHVM": "ami-d5c18eba",
+          },
+          "ap-southeast-1": Object {
+            "AMZNLINUXHVM": "ami-c63d6aa5",
+          },
+          "ap-southeast-2": Object {
+            "AMZNLINUXHVM": "ami-ff4ea59d",
+          },
+          "ca-central-1": Object {
+            "AMZNLINUXHVM": "ami-d29e25b6",
+          },
+          "eu-central-1": Object {
+            "AMZNLINUXHVM": "ami-bf2ba8d0",
+          },
+          "eu-west-1": Object {
+            "AMZNLINUXHVM": "ami-1a962263",
+          },
+          "eu-west-2": Object {
+            "AMZNLINUXHVM": "ami-e7d6c983",
+          },
+          "sa-east-1": Object {
+            "AMZNLINUXHVM": "ami-286f2a44",
+          },
+          "us-east-1": Object {
+            "AMZNLINUXHVM": "ami-55ef662f",
+          },
+          "us-east-2": Object {
+            "AMZNLINUXHVM": "ami-15e9c770",
+          },
+          "us-west-1": Object {
+            "AMZNLINUXHVM": "ami-a51f27c5",
+          },
+          "us-west-2": Object {
+            "AMZNLINUXHVM": "ami-bf4193c7",
+          },
+        },
+      },
+      "Outputs": Object {
+        "URL": Object {
+          "Description": "URL of the website",
+          "Value": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                Object {
+                  "Fn::If": Array [
+                    "UseALBSSL",
+                    Object {
+                      "Fn::Join": Array [
+                        "",
+                        Array [
+                          "https://",
+                          Object {
+                            "Fn::Join": Array [
+                              "",
+                              Array [
+                                Object {
+                                  "Fn::Select": Array [
+                                    "0",
+                                    Object {
+                                      "Fn::Split": Array [
+                                        ".",
+                                        Object {
+                                          "Fn::GetAtt": Array [
+                                            "ApplicationLoadBalancer",
+                                            "DNSName",
+                                          ],
+                                        },
+                                      ],
+                                    },
+                                  ],
+                                },
+                                ".",
+                                Object {
+                                  "Ref": "HostedZoneName",
+                                },
+                                ".",
+                              ],
+                            ],
+                          },
+                        ],
+                      ],
+                    },
+                    Object {
+                      "Fn::Join": Array [
+                        "",
+                        Array [
+                          "http://",
+                          Object {
+                            "Fn::GetAtt": Array [
+                              "ApplicationLoadBalancer",
+                              "DNSName",
+                            ],
+                          },
+                        ],
+                      ],
+                    },
+                  ],
+                },
+              ],
+            ],
+          },
+        },
+      },
+      "Parameters": Object {
+        "ALBSSLCertificateARN": Object {
+          "Default": "",
+          "Description": "[Optional] The ARN of the SSL certificate to be used for the Application Load Balancer",
+          "Type": "String",
+        },
+        "HostedZoneName": Object {
+          "AllowedPattern": "^$|(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\\\-]*[a-zA-Z0-9])\\\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\\\-]*[A-Za-z0-9])$",
+          "Default": "",
+          "Description": "[Optional] The domain name of a valid Hosted Zone on AWS.",
+          "Type": "String",
+        },
+        "InstanceType": Object {
+          "AllowedValues": Array [
+            "t2.nano",
+            "t2.micro",
+            "t2.small",
+            "t2.medium",
+            "t2.large",
+            "m4.large",
+            "m4.xlarge",
+            "m4.2xlarge",
+            "m4.4xlarge",
+            "m4.10xlarge",
+            "m3.medium",
+            "m3.large",
+            "m3.xlarge",
+            "m3.2xlarge",
+            "c4.large",
+            "c4.xlarge",
+            "c4.2xlarge",
+            "c4.4xlarge",
+            "c4.8xlarge",
+            "c3.large",
+            "c3.xlarge",
+            "c3.2xlarge",
+            "c3.4xlarge",
+            "c3.8xlarge",
+            "r3.large",
+            "r3.xlarge",
+          ],
+          "ConstraintDescription": "must be a valid EC2 instance type.",
+          "Default": "t2.small",
+          "Description": "WebServer EC2 instance type",
+          "Type": "String",
+        },
+        "KeyName": Object {
+          "ConstraintDescription": "must be the name of an existing EC2 KeyPair.",
+          "Description": "Name of an existing EC2 KeyPair to enable SSH access to the instances",
+          "Type": "AWS::EC2::KeyPair::KeyName",
+        },
+        "SSHLocation": Object {
+          "AllowedPattern": "(\\\\d{1,3})\\\\.(\\\\d{1,3})\\\\.(\\\\d{1,3})\\\\.(\\\\d{1,3})/(\\\\d{1,2})",
+          "ConstraintDescription": "must be a valid IP CIDR range of the form x.x.x.x/x.",
+          "Default": "0.0.0.0/0",
+          "Description": "The IP address range that can be used to SSH to the EC2 instances",
+          "MaxLength": "18",
+          "MinLength": "9",
+          "Type": "String",
+        },
+        "Subnets": Object {
+          "ConstraintDescription": "must be a list of at least two existing subnets associated with at least two different availability zones. They should be residing in the selected Virtual Private Cloud.",
+          "Description": "The list of SubnetIds in your Virtual Private Cloud (VPC)",
+          "Type": "List<AWS::EC2::Subnet::Id>",
+        },
+        "UseSSL": Object {
+          "AllowedValues": Array [
+            "Yes",
+            "No",
+          ],
+          "ConstraintDescription": "Select Yes to create a HTTPS Listener",
+          "Default": "No",
+          "Description": "Select \\"Yes\\" to implement SSL, \\"No\\" to skip (default).",
+          "Type": "String",
+        },
+        "VpcId": Object {
+          "ConstraintDescription": "must be the VPC Id of an existing Virtual Private Cloud.",
+          "Description": "VpcId of your existing Virtual Private Cloud (VPC)",
+          "Type": "AWS::EC2::VPC::Id",
+        },
+      },
+      "Resources": Object {
+        "ALBListener": Object {
+          "Properties": Object {
+            "Certificates": Array [
+              Object {
+                "Fn::If": Array [
+                  "UseALBSSL",
+                  Object {
+                    "CertificateArn": Object {
+                      "Ref": "ALBSSLCertificateARN",
+                    },
+                  },
+                  Object {
+                    "Ref": "AWS::NoValue",
+                  },
+                ],
+              },
+            ],
+            "DefaultActions": Array [
+              Object {
+                "TargetGroupArn": Object {
+                  "Ref": "ALBTargetGroup",
+                },
+                "Type": "forward",
+              },
+            ],
+            "LoadBalancerArn": Object {
+              "Ref": "ApplicationLoadBalancer",
+            },
+            "Port": Object {
+              "Fn::If": Array [
+                "UseALBSSL",
+                443,
+                80,
+              ],
+            },
+            "Protocol": Object {
+              "Fn::If": Array [
+                "UseALBSSL",
+                "HTTPS",
+                "HTTP",
+              ],
+            },
+          },
+          "Type": "AWS::ElasticLoadBalancingV2::Listener",
+        },
+        "ALBTargetGroup": Object {
+          "Properties": Object {
+            "HealthCheckIntervalSeconds": 30,
+            "HealthCheckTimeoutSeconds": 5,
+            "HealthyThresholdCount": 3,
+            "Port": 80,
+            "Protocol": "HTTP",
+            "UnhealthyThresholdCount": 5,
+            "VpcId": Object {
+              "Ref": "VpcId",
+            },
+          },
+          "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+        },
+        "ApplicationLoadBalancer": Object {
+          "Properties": Object {
+            "SecurityGroups": Array [
+              Object {
+                "Ref": "ELBSecurityGroup",
+              },
+            ],
+            "Subnets": Object {
+              "Ref": "Subnets",
+            },
+          },
+          "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+        },
+        "ELBSecurityGroup": Object {
+          "Properties": Object {
+            "GroupDescription": "Allow access to the ELB",
+            "SecurityGroupIngress": Array [
+              Object {
+                "Fn::If": Array [
+                  "UseALBSSL",
+                  Object {
+                    "CidrIp": "0.0.0.0/0",
+                    "FromPort": 443,
+                    "IpProtocol": "tcp",
+                    "ToPort": 443,
+                  },
+                  Object {
+                    "CidrIp": "0.0.0.0/0",
+                    "FromPort": 80,
+                    "IpProtocol": "tcp",
+                    "ToPort": 80,
+                  },
+                ],
+              },
+            ],
+            "VpcId": Object {
+              "Ref": "VpcId",
+            },
+          },
+          "Type": "AWS::EC2::SecurityGroup",
+        },
+        "InstanceSecurityGroup": Object {
+          "Properties": Object {
+            "GroupDescription": "Enable SSH access and HTTP access on the inbound port",
+            "SecurityGroupIngress": Array [
+              Object {
+                "FromPort": 80,
+                "IpProtocol": "tcp",
+                "SourceSecurityGroupId": Object {
+                  "Fn::Select": Array [
+                    0,
+                    Object {
+                      "Fn::GetAtt": Array [
+                        "ApplicationLoadBalancer",
+                        "SecurityGroups",
+                      ],
+                    },
+                  ],
+                },
+                "ToPort": 80,
+              },
+              Object {
+                "CidrIp": Object {
+                  "Ref": "SSHLocation",
+                },
+                "FromPort": 22,
+                "IpProtocol": "tcp",
+                "ToPort": 22,
+              },
+            ],
+            "VpcId": Object {
+              "Ref": "VpcId",
+            },
+          },
+          "Type": "AWS::EC2::SecurityGroup",
+        },
+        "LaunchConfig": Object {
+          "Metadata": Object {
+            "AWS::CloudFormation::Init": Object {
+              "config": Object {
+                "files": Object {
+                  "/etc/cfn/cfn-hup.conf": Object {
+                    "content": Object {
+                      "Fn::Join": Array [
+                        "",
+                        Array [
+                          "[main]
+",
+                          "stack=",
+                          Object {
+                            "Ref": "AWS::StackId",
+                          },
+                          "
+",
+                          "region=",
+                          Object {
+                            "Ref": "AWS::Region",
+                          },
+                          "
+",
+                        ],
+                      ],
+                    },
+                    "group": "root",
+                    "mode": "000400",
+                    "owner": "root",
+                  },
+                  "/etc/cfn/hooks.d/cfn-auto-reloader.conf": Object {
+                    "content": Object {
+                      "Fn::Join": Array [
+                        "",
+                        Array [
+                          "[cfn-auto-reloader-hook]
+",
+                          "triggers=post.update
+",
+                          "path=Resources.LaunchConfig.Metadata.AWS::CloudFormation::Init
+",
+                          "action=/opt/aws/bin/cfn-init -v ",
+                          "         --stack ",
+                          Object {
+                            "Ref": "AWS::StackName",
+                          },
+                          "         --resource LaunchConfig ",
+                          "         --region ",
+                          Object {
+                            "Ref": "AWS::Region",
+                          },
+                          "
+",
+                          "runas=root
+",
+                        ],
+                      ],
+                    },
+                    "group": "root",
+                    "mode": "000400",
+                    "owner": "root",
+                  },
+                  "/var/www/html/index.html": Object {
+                    "content": Object {
+                      "Fn::Join": Array [
+                        "
+",
+                        Array [
+                          "<h1>Congratulations, you have successfully launched the AWS CloudFormation sample.<h1>",
+                        ],
+                      ],
+                    },
+                    "group": "root",
+                    "mode": "000644",
+                    "owner": "root",
+                  },
+                },
+                "packages": Object {
+                  "yum": Object {
+                    "httpd": Array [],
+                  },
+                },
+                "services": Object {
+                  "sysvinit": Object {
+                    "cfn-hup": Object {
+                      "enabled": "true",
+                      "ensureRunning": "true",
+                      "files": Array [
+                        "/etc/cfn/cfn-hup.conf",
+                        "/etc/cfn/hooks.d/cfn-auto-reloader.conf",
+                      ],
+                    },
+                    "httpd": Object {
+                      "enabled": "true",
+                      "ensureRunning": "true",
+                    },
+                  },
+                },
+              },
+            },
+            "Comment": "Install a simple application",
+          },
+          "Properties": Object {
+            "ImageId": Object {
+              "Fn::FindInMap": Array [
+                "AWSAMIRegionMap",
+                Object {
+                  "Ref": "AWS::Region",
+                },
+                "AMZNLINUXHVM",
+              ],
+            },
+            "InstanceType": Object {
+              "Ref": "InstanceType",
+            },
+            "KeyName": Object {
+              "Ref": "KeyName",
+            },
+            "SecurityGroups": Array [
+              Object {
+                "Ref": "InstanceSecurityGroup",
+              },
+            ],
+            "UserData": Object {
+              "Fn::Base64": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "#!/bin/bash -xe
+",
+                    "yum update -y aws-cfn-bootstrap
+",
+                    "/opt/aws/bin/cfn-init -v ",
+                    "         --stack ",
+                    Object {
+                      "Ref": "AWS::StackName",
+                    },
+                    "         --resource LaunchConfig ",
+                    "         --region ",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    "
+",
+                    "/opt/aws/bin/cfn-signal -e $? ",
+                    "         --stack ",
+                    Object {
+                      "Ref": "AWS::StackName",
+                    },
+                    "         --resource WebServerGroup ",
+                    "         --region ",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    "
+",
+                  ],
+                ],
+              },
+            },
+          },
+          "Type": "AWS::AutoScaling::LaunchConfiguration",
+        },
+        "RecordSet": Object {
+          "Condition": "UseALBSSL",
+          "Properties": Object {
+            "HostedZoneName": Object {
+              "Fn::Join": Array [
+                "",
+                Array [
+                  Object {
+                    "Ref": "HostedZoneName",
+                  },
+                  ".",
+                ],
+              ],
+            },
+            "RecordSets": Array [
+              Object {
+                "AliasTarget": Object {
+                  "DNSName": Object {
+                    "Fn::GetAtt": Array [
+                      "ApplicationLoadBalancer",
+                      "DNSName",
+                    ],
+                  },
+                  "EvaluateTargetHealth": true,
+                  "HostedZoneId": Object {
+                    "Fn::GetAtt": Array [
+                      "ApplicationLoadBalancer",
+                      "CanonicalHostedZoneID",
+                    ],
+                  },
+                },
+                "Name": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::Select": Array [
+                          "0",
+                          Object {
+                            "Fn::Split": Array [
+                              ".",
+                              Object {
+                                "Fn::GetAtt": Array [
+                                  "ApplicationLoadBalancer",
+                                  "DNSName",
+                                ],
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                      ".",
+                      Object {
+                        "Ref": "HostedZoneName",
+                      },
+                      ".",
+                    ],
+                  ],
+                },
+                "Type": "A",
+              },
+            ],
+          },
+          "Type": "AWS::Route53::RecordSetGroup",
+        },
+        "WebServerGroup": Object {
+          "CreationPolicy": Object {
+            "ResourceSignal": Object {
+              "Timeout": "PT15M",
+            },
+          },
+          "Properties": Object {
+            "LaunchConfigurationName": Object {
+              "Ref": "LaunchConfig",
+            },
+            "MaxSize": "2",
+            "MinSize": "2",
+            "TargetGroupARNs": Array [
+              Object {
+                "Ref": "ALBTargetGroup",
+              },
+            ],
+            "VPCZoneIdentifier": Object {
+              "Ref": "Subnets",
+            },
+          },
+          "Type": "AWS::AutoScaling::AutoScalingGroup",
+          "UpdatePolicy": Object {
+            "AutoScalingRollingUpdate": Object {
+              "MaxBatchSize": "1",
+              "MinInstancesInService": "1",
+              "PauseTime": "PT15M",
+              "WaitOnResourceSignals": "true",
+            },
+          },
+        },
+      },
+      "Rules": Object {
+        "SubnetsInVPC": Object {
+          "Assertions": Array [
+            Object {
+              "Assert": Object {
+                "Fn::EachMemberEquals": Array [
+                  Object {
+                    "Fn::ValueOf": Array [
+                      "Subnets",
+                      "VpcId",
+                    ],
+                  },
+                  Object {
+                    "Ref": "VpcId",
+                  },
+                ],
+              },
+              "AssertDescription": "All subnets must in the VPC",
+            },
+          ],
+        },
+        "ValidateHostedZone": Object {
+          "Assertions": Array [
+            Object {
+              "Assert": Object {
+                "Fn::Not": Array [
+                  Object {
+                    "Fn::Equals": Array [
+                      Object {
+                        "Ref": "ALBSSLCertificateARN",
+                      },
+                      "",
+                    ],
+                  },
+                ],
+              },
+              "AssertDescription": "ACM Certificate value cannot be empty if SSL is required",
+            },
+            Object {
+              "Assert": Object {
+                "Fn::Not": Array [
+                  Object {
+                    "Fn::Equals": Array [
+                      Object {
+                        "Ref": "HostedZoneName",
+                      },
+                      "",
+                    ],
+                  },
+                ],
+              },
+              "AssertDescription": "Route53 Hosted Zone Name is mandatory when SSL is required",
+            },
+          ],
+          "RuleCondition": Object {
+            "Fn::Equals": Array [
+              Object {
+                "Ref": "UseSSL",
+              },
+              "Yes",
+            ],
+          },
+        },
+      },
+    },
+    "templateFormatVersion": "2010-09-09",
     "transform": Array [],
   },
   "transform": Array [],
@@ -1765,6 +5011,7 @@ TypedTemplate {
       },
     },
   },
+  "rules": Map {},
   "template": Template {
     "conditions": Map {},
     "description": undefined,
@@ -1827,6 +5074,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
     },
+    "rules": Map {},
     "template": Object {
       "Mappings": Object {
         "RegionMap": Object {
@@ -2053,6 +5301,7 @@ TypedTemplate {
       },
     },
   },
+  "rules": Map {},
   "template": Template {
     "conditions": Map {},
     "description": "A template creates a Fargate service with necessary resources",
@@ -2230,6 +5479,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
     },
+    "rules": Map {},
     "template": Object {
       "$schema": "../cdk.schema.json",
       "AWSTemplateFormatVersion": "2010-09-09",
@@ -2397,6 +5647,7 @@ TypedTemplate {
       },
     },
   },
+  "rules": Map {},
   "template": Template {
     "conditions": Map {},
     "description": "A template creates an ASG and Vpc",
@@ -2488,6 +5739,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
     },
+    "rules": Map {},
     "template": Object {
       "$schema": "../cdk.schema.json",
       "Description": "A template creates an ASG and Vpc",
@@ -2974,6 +6226,7 @@ TypedTemplate {
       },
     },
   },
+  "rules": Map {},
   "template": Template {
     "conditions": Map {},
     "description": undefined,
@@ -3374,6 +6627,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
     },
+    "rules": Map {},
     "template": Object {
       "Parameters": Object {
         "DashboardName": Object {
@@ -3751,6 +7005,7 @@ TypedTemplate {
       },
     },
   },
+  "rules": Map {},
   "template": Template {
     "conditions": Map {},
     "description": "A template creates a lambda function which can be invoked by an sns topic",
@@ -3951,6 +7206,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
     },
+    "rules": Map {},
     "template": Object {
       "$schema": "../cdk.schema.json",
       "Description": "A template creates a lambda function which can be invoked by an sns topic",
@@ -4113,6 +7369,7 @@ TypedTemplate {
       },
     },
   },
+  "rules": Map {},
   "template": Template {
     "conditions": Map {},
     "description": "A template creates a aws cli lambda layer",
@@ -4190,6 +7447,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
     },
+    "rules": Map {},
     "template": Object {
       "$schema": "../cdk.schema.json",
       "AWSTemplateFormatVersion": "2010-09-09",
@@ -4461,6 +7719,7 @@ TypedTemplate {
       },
     },
   },
+  "rules": Map {},
   "template": Template {
     "conditions": Map {
       "IsProd" => Object {
@@ -4694,6 +7953,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
     },
+    "rules": Map {},
     "template": Object {
       "Conditions": Object {
         "IsProd": Object {
@@ -4928,6 +8188,7 @@ TypedTemplate {
       },
     },
   },
+  "rules": Map {},
   "template": Template {
     "conditions": Map {},
     "description": undefined,
@@ -5046,6 +8307,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
     },
+    "rules": Map {},
     "template": Object {
       "Resources": Object {
         "MyBucket": Object {
@@ -5157,6 +8419,7 @@ TypedTemplate {
       },
     },
   },
+  "rules": Map {},
   "template": Template {
     "conditions": Map {},
     "description": undefined,
@@ -5212,6 +8475,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
     },
+    "rules": Map {},
     "template": Object {
       "$schema": "../cdk.schema.json",
       "Resources": Object {
@@ -5373,6 +8637,7 @@ TypedTemplate {
       },
     },
   },
+  "rules": Map {},
   "template": Template {
     "conditions": Map {},
     "description": undefined,
@@ -5485,6 +8750,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
     },
+    "rules": Map {},
     "template": Object {
       "$schema": "../cdk.schema.json",
       "Outputs": Object {
@@ -5849,6 +9115,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
       },
     },
   },
+  "rules": Map {},
   "template": Template {
     "conditions": Map {},
     "description": undefined,
@@ -6131,6 +9398,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
         "updateReplacePolicy": "Delete",
       },
     },
+    "rules": Map {},
     "template": Object {
       "$schema": "../cdk.schema.json",
       "AWSTemplateFormatVersion": "2010-09-09",
@@ -6519,6 +9787,7 @@ TypedTemplate {
       },
     },
   },
+  "rules": Map {},
   "template": Template {
     "conditions": Map {},
     "description": "A template creates a CodePipeline along with its CodeCommit repository source",
@@ -6784,6 +10053,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
     },
+    "rules": Map {},
     "template": Object {
       "$schema": "../cdk.schema.json",
       "AWSTemplateFormatVersion": "2010-09-09",
@@ -7020,6 +10290,7 @@ TypedTemplate {
       },
     },
   },
+  "rules": Map {},
   "template": Template {
     "conditions": Map {
       "CreateLogGroup" => Object {
@@ -7145,6 +10416,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
     },
+    "rules": Map {},
     "template": Object {
       "$schema": "../cdk.schema.json",
       "AWSTemplateFormatVersion": "2010-09-09",
@@ -7278,6 +10550,7 @@ TypedTemplate {
       },
     },
   },
+  "rules": Map {},
   "template": Template {
     "conditions": Map {},
     "description": undefined,
@@ -7337,6 +10610,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
     },
+    "rules": Map {},
     "template": Object {
       "$schema": "../cdk.schema.json",
       "Metadata": Object {
@@ -7900,6 +11174,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
       },
     },
   },
+  "rules": Map {},
   "template": Template {
     "conditions": Map {},
     "description": undefined,
@@ -8377,6 +11652,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
         "updateReplacePolicy": "Delete",
       },
     },
+    "rules": Map {},
     "template": Object {
       "Parameters": Object {
         "DomainName": Object {
@@ -8580,6 +11856,7 @@ TypedTemplate {
       },
     },
   },
+  "rules": Map {},
   "template": Template {
     "conditions": Map {},
     "description": undefined,
@@ -8608,6 +11885,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
     },
+    "rules": Map {},
     "template": Object {
       "$schema": "../cdk.schema.json",
       "Resources": Object {

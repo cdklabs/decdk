@@ -2,8 +2,10 @@ import * as cdk from 'aws-cdk-lib';
 import {
   CfnDeletionPolicy,
   CfnResource,
+  CfnRule,
   ICfnConditionExpression,
   ICfnRuleConditionExpression,
+  Token,
 } from 'aws-cdk-lib';
 import { Construct, IConstruct } from 'constructs';
 import { SubFragment } from '../parser/private/sub';
@@ -50,6 +52,7 @@ export class Evaluator {
     this.evaluateOutputs();
     this.evaluateTransform();
     this.evaluateMetadata();
+    this.evaluateRules();
   }
 
   private evaluateMappings() {
@@ -110,6 +113,12 @@ export class Evaluator {
         ...newMetadata,
       };
     }
+  }
+
+  private evaluateRules() {
+    this.context.template.rules.forEach((rule, name) => {
+      new CfnRule(this.context.stack, name, rule);
+    });
   }
 
   private evaluateConditions() {
@@ -397,7 +406,7 @@ export class Evaluator {
         `Fn::GetAtt: Expected Cloudformation Attribute, got: ${logicalId}.${attribute}`
       );
     }
-    return cdk.Fn.getAtt(c.ref, attribute);
+    return Token.asString(cdk.Fn.getAtt(c.ref, attribute));
   }
 
   protected fnGetAzs(region: string) {
@@ -521,11 +530,10 @@ export class Evaluator {
   }
 
   protected fnEquals(
-    _value1: unknown,
-    _value2: unknown
+    value1: unknown,
+    value2: unknown
   ): ICfnConditionExpression {
-    // return assertString(value1) === assertString(value2);
-    return cdk.Fn.conditionEquals(_value1, _value2);
+    return cdk.Fn.conditionEquals(value1, value2);
   }
 
   protected applyTags(resource: IConstruct, tags: ResourceTag[] = []) {
