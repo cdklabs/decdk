@@ -65,6 +65,11 @@ project.tasks
   .tryFind('post-compile')
   ?.exec('node bin/decdk-schema --no-warnings > cdk.schema.json');
 
+// Build deCDK specs after compilation
+project.tasks
+  .tryFind('post-compile')
+  ?.exec('node bin/decdk-specs --no-warnings > decdk.specs.json');
+
 // resolve @types/prettier@2.6.0 conflicts with
 // typescript 3.9 (required by current jsii)
 project.addFields({

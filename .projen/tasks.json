@@ -130,6 +130,9 @@
       "steps": [
         {
           "exec": "node bin/decdk-schema --no-warnings > cdk.schema.json"
+        },
+        {
+          "exec": "node bin/decdk-specs --no-warnings > decdk.specs.json"
         }
       ]
     },
