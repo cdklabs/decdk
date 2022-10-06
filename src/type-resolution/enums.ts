@@ -2,7 +2,8 @@ import * as reflect from 'jsii-reflect';
 import { assertString } from '../parser/private/types';
 import { StringLiteral, TemplateExpression } from '../parser/template';
 import {
-  resolveStaticMethodCallExpression,
+  InitializerExpression,
+  resolveInstanceExpression,
   StaticMethodCallExpression,
 } from './callables';
 import { assertExpressionType } from './expression';
@@ -17,7 +18,10 @@ export interface StaticPropertyExpression {
 export function resolveEnumLikeExpression(
   x: TemplateExpression,
   type: reflect.ClassType
-): StaticPropertyExpression | StaticMethodCallExpression {
+):
+  | StaticPropertyExpression
+  | StaticMethodCallExpression
+  | InitializerExpression {
   if (x.type === 'string') {
     return {
       type: 'staticProperty',
@@ -27,11 +31,7 @@ export function resolveEnumLikeExpression(
     };
   }
 
-  return resolveStaticMethodCallExpression(
-    assertExpressionType(x, 'object'),
-    type.system,
-    type
-  );
+  return resolveInstanceExpression(assertExpressionType(x, 'object'), type);
 }
 
 export function assertClass(typeRef: reflect.TypeReference): reflect.ClassType {

@@ -4006,6 +4006,97 @@ Object {
 }
 `;
 
+exports[`lambda-policy-from-constructor.yaml 1`] = `
+Object {
+  "Resources": Object {
+    "MyBucketF68F3FF0": Object {
+      "DeletionPolicy": "Retain",
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "MyLambdaCCE802FB": Object {
+      "DependsOn": Array [
+        "MyLambdaServiceRoleDefaultPolicy5BBC6F68",
+        "MyLambdaServiceRole4539ECB6",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Ref": "MyBucketF68F3FF0",
+          },
+          "S3Key": "handler.zip",
+        },
+        "Handler": "index.handler",
+        "MemorySize": 10240,
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "MyLambdaServiceRole4539ECB6",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs16.x",
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "MyLambdaServiceRole4539ECB6": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "MyLambdaServiceRoleDefaultPolicy5BBC6F68": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "s3:GetObject*",
+                "s3:PutObject*",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "MyLambdaServiceRoleDefaultPolicy5BBC6F68",
+        "Roles": Array [
+          Object {
+            "Ref": "MyLambdaServiceRole4539ECB6",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+  },
+}
+`;
+
 exports[`lambda-role-removed.json 1`] = `
 Object {
   "Resources": Object {
