@@ -8188,6 +8188,7 @@ TypedTemplate {
       },
     },
   },
+  "rules": Map {},
   "template": Template {
     "conditions": Map {},
     "description": undefined,
@@ -8306,6 +8307,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
     },
+    "rules": Map {},
     "template": Object {
       "Resources": Object {
         "MyBucket": Object {
