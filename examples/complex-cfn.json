@@ -2,6 +2,10 @@
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "AWS CloudFormation Sample Template for using Assertions: Create a load balanced, Auto Scaled sample website where the instances are locked down to only accept traffic from the load balancer. This example creates an Auto Scaling group behind a load balancer with a health check. The web site is available on port 80 or 443 based on the input.",
   "Parameters": {
+    "MarkdownText": {
+      "Type": "String",
+      "Default": "# Hello world"
+    },
     "VpcId": {
       "Type": "AWS::EC2::VPC::Id",
       "Description": "VpcId of your existing Virtual Private Cloud (VPC)",
@@ -567,6 +571,35 @@
             }
           }
         ]
+      }
+    },
+    "Dashboard": {
+      "Type": "AWS::CloudWatch::Dashboard",
+      "Properties": {
+        "DashboardBody": {
+          "Fn::ToJsonString": {
+            "start": "-PT6H",
+            "periodOverride": "inherit",
+            "widgets": [
+              {
+                "type": "text",
+                "x": 0,
+                "y": 7,
+                "width": 3,
+                "height": {
+                  "Fn::Length": {
+                    "Ref": "Subnets"
+                  }
+                },
+                "properties": {
+                  "markdown": {
+                    "Fn::Ref": "MarkdownText"
+                  }
+                }
+              }
+            ]
+          }
+        }
       }
     }
   },

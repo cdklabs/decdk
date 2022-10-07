@@ -68,7 +68,9 @@ export type IntrinsicExpression =
   | NotIntrinsic
   | EqualsIntrinsic
   | ArgsIntrinsic
-  | LazyLogicalId;
+  | LazyLogicalId
+  | LengthIntrinsic
+  | ToJsonStringIntrinsic;
 
 export interface RefIntrinsic {
   readonly type: 'intrinsic';
@@ -203,6 +205,18 @@ export interface LazyLogicalId {
   readonly fn: 'lazyLogicalId';
   readonly value?: string;
   readonly errorMessage?: string;
+}
+
+export interface LengthIntrinsic {
+  readonly type: 'intrinsic';
+  readonly fn: 'length';
+  readonly list: ListIntrinsic;
+}
+
+export interface ToJsonStringIntrinsic {
+  readonly type: 'intrinsic';
+  readonly fn: 'toJsonString';
+  readonly value: ObjectLiteral;
 }
 
 export function isExpression(x: unknown): x is TemplateExpression {

@@ -1875,6 +1875,19 @@ TypedTemplate {
     },
   },
   "parameters": Map {
+    "MarkdownText" => Object {
+      "allowedPattern": undefined,
+      "allowedValues": undefined,
+      "constraintDescription": undefined,
+      "default": "# Hello world",
+      "description": undefined,
+      "maxLength": undefined,
+      "maxValue": undefined,
+      "minLength": undefined,
+      "minValue": undefined,
+      "noEcho": undefined,
+      "type": "String",
+    },
     "VpcId" => Object {
       "allowedPattern": undefined,
       "allowedValues": undefined,
@@ -2034,10 +2047,12 @@ TypedTemplate {
       "RecordSet" => Set {
         "ApplicationLoadBalancer",
       },
+      "Dashboard" => Set {},
     },
     "keys": Set {
       "ELBSecurityGroup",
       "ALBTargetGroup",
+      "Dashboard",
       "ApplicationLoadBalancer",
       "ALBListener",
       "InstanceSecurityGroup",
@@ -2279,6 +2294,104 @@ TypedTemplate {
             "type": Object {
               "type": "string",
               "value": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "resource",
+        "updatePolicy": undefined,
+        "updateReplacePolicy": "Delete",
+      },
+      "Dashboard": Object {
+        "creationPolicy": undefined,
+        "deletionPolicy": "Delete",
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.CfnResource",
+        "logicalId": "Dashboard",
+        "metadata": Object {},
+        "namespace": undefined,
+        "props": Object {
+          "fields": Object {
+            "properties": Object {
+              "fields": Object {
+                "DashboardBody": Object {
+                  "type": "any",
+                  "value": Object {
+                    "fields": Object {
+                      "Fn::ToJsonString": Object {
+                        "fields": Object {
+                          "periodOverride": Object {
+                            "type": "string",
+                            "value": "inherit",
+                          },
+                          "start": Object {
+                            "type": "string",
+                            "value": "-PT6H",
+                          },
+                          "widgets": Object {
+                            "array": Array [
+                              Object {
+                                "fields": Object {
+                                  "height": Object {
+                                    "fields": Object {
+                                      "Fn::Length": Object {
+                                        "fn": "ref",
+                                        "logicalId": "Subnets",
+                                        "type": "intrinsic",
+                                      },
+                                    },
+                                    "type": "object",
+                                  },
+                                  "properties": Object {
+                                    "fields": Object {
+                                      "markdown": Object {
+                                        "fields": Object {
+                                          "Fn::Ref": Object {
+                                            "type": "string",
+                                            "value": "MarkdownText",
+                                          },
+                                        },
+                                        "type": "object",
+                                      },
+                                    },
+                                    "type": "object",
+                                  },
+                                  "type": Object {
+                                    "type": "string",
+                                    "value": "text",
+                                  },
+                                  "width": Object {
+                                    "type": "number",
+                                    "value": 3,
+                                  },
+                                  "x": Object {
+                                    "type": "number",
+                                    "value": 0,
+                                  },
+                                  "y": Object {
+                                    "type": "number",
+                                    "value": 7,
+                                  },
+                                },
+                                "type": "object",
+                              },
+                            ],
+                            "type": "array",
+                          },
+                        },
+                        "type": "object",
+                      },
+                    },
+                    "type": "object",
+                  },
+                },
+              },
+              "type": "object",
+            },
+            "type": Object {
+              "type": "string",
+              "value": "AWS::CloudWatch::Dashboard",
             },
           },
           "type": "struct",
@@ -3232,6 +3345,19 @@ TypedTemplate {
       },
     },
     "parameters": Map {
+      "MarkdownText" => Object {
+        "allowedPattern": undefined,
+        "allowedValues": undefined,
+        "constraintDescription": undefined,
+        "default": "# Hello world",
+        "description": undefined,
+        "maxLength": undefined,
+        "maxValue": undefined,
+        "minLength": undefined,
+        "minValue": undefined,
+        "noEcho": undefined,
+        "type": "String",
+      },
       "VpcId" => Object {
         "allowedPattern": undefined,
         "allowedValues": undefined,
@@ -4181,6 +4307,96 @@ TypedTemplate {
         "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
+      "Dashboard" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "creationPolicy": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "Subnets",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "on": undefined,
+        "overrides": Array [],
+        "properties": Object {
+          "DashboardBody": Object {
+            "fields": Object {
+              "Fn::ToJsonString": Object {
+                "fields": Object {
+                  "periodOverride": Object {
+                    "type": "string",
+                    "value": "inherit",
+                  },
+                  "start": Object {
+                    "type": "string",
+                    "value": "-PT6H",
+                  },
+                  "widgets": Object {
+                    "array": Array [
+                      Object {
+                        "fields": Object {
+                          "height": Object {
+                            "fields": Object {
+                              "Fn::Length": Object {
+                                "fn": "ref",
+                                "logicalId": "Subnets",
+                                "type": "intrinsic",
+                              },
+                            },
+                            "type": "object",
+                          },
+                          "properties": Object {
+                            "fields": Object {
+                              "markdown": Object {
+                                "fields": Object {
+                                  "Fn::Ref": Object {
+                                    "type": "string",
+                                    "value": "MarkdownText",
+                                  },
+                                },
+                                "type": "object",
+                              },
+                            },
+                            "type": "object",
+                          },
+                          "type": Object {
+                            "type": "string",
+                            "value": "text",
+                          },
+                          "width": Object {
+                            "type": "number",
+                            "value": 3,
+                          },
+                          "x": Object {
+                            "type": "number",
+                            "value": 0,
+                          },
+                          "y": Object {
+                            "type": "number",
+                            "value": 7,
+                          },
+                        },
+                        "type": "object",
+                      },
+                    ],
+                    "type": "array",
+                  },
+                },
+                "type": "object",
+              },
+            },
+            "type": "object",
+          },
+        },
+        "tags": Array [],
+        "type": "AWS::CloudWatch::Dashboard",
+        "updatePolicy": undefined,
+        "updateReplacePolicy": "Delete",
+      },
     },
     "rules": Map {
       "SubnetsInVPC" => Object {
@@ -4431,6 +4647,10 @@ TypedTemplate {
           "Description": "Name of an existing EC2 KeyPair to enable SSH access to the instances",
           "Type": "AWS::EC2::KeyPair::KeyName",
         },
+        "MarkdownText": Object {
+          "Default": "# Hello world",
+          "Type": "String",
+        },
         "SSHLocation": Object {
           "AllowedPattern": "(\\\\d{1,3})\\\\.(\\\\d{1,3})\\\\.(\\\\d{1,3})\\\\.(\\\\d{1,3})/(\\\\d{1,2})",
           "ConstraintDescription": "must be a valid IP CIDR range of the form x.x.x.x/x.",
@@ -4533,6 +4753,35 @@ TypedTemplate {
             },
           },
           "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+        },
+        "Dashboard": Object {
+          "Properties": Object {
+            "DashboardBody": Object {
+              "Fn::ToJsonString": Object {
+                "periodOverride": "inherit",
+                "start": "-PT6H",
+                "widgets": Array [
+                  Object {
+                    "height": Object {
+                      "Fn::Length": Object {
+                        "Ref": "Subnets",
+                      },
+                    },
+                    "properties": Object {
+                      "markdown": Object {
+                        "Fn::Ref": "MarkdownText",
+                      },
+                    },
+                    "type": "text",
+                    "width": 3,
+                    "x": 0,
+                    "y": 7,
+                  },
+                ],
+              },
+            },
+          },
+          "Type": "AWS::CloudWatch::Dashboard",
         },
         "ELBSecurityGroup": Object {
           "Properties": Object {
@@ -10141,342 +10390,6 @@ TypedTemplate {
             "repositoryName": "my-first-decdk-repo",
           },
           "Type": "aws-cdk-lib.aws_codecommit.Repository",
-        },
-      },
-    },
-    "templateFormatVersion": "2010-09-09",
-    "transform": Array [],
-  },
-  "transform": Array [],
-}
-`;
-
-exports[`pure-cfn.json 1`] = `
-TypedTemplate {
-  "conditions": Map {
-    "CreateLogGroup" => Object {
-      "fn": "and",
-      "operands": Array [
-        Object {
-          "fn": "equals",
-          "type": "intrinsic",
-          "value1": Object {
-            "fn": "ref",
-            "logicalId": "Stage",
-            "type": "intrinsic",
-          },
-          "value2": Object {
-            "type": "string",
-            "value": "Prod",
-          },
-        },
-        Object {
-          "fn": "equals",
-          "type": "intrinsic",
-          "value1": Object {
-            "fn": "ref",
-            "logicalId": "AWS::Region",
-            "type": "intrinsic",
-          },
-          "value2": Object {
-            "type": "string",
-            "value": "us-east-1",
-          },
-        },
-      ],
-      "type": "intrinsic",
-    },
-  },
-  "mappings": Map {},
-  "metadata": Map {},
-  "outputs": Map {
-    "LogGroupArn" => Object {
-      "conditionName": undefined,
-      "description": "Return log group arn",
-      "exportName": Object {
-        "type": "string",
-        "value": "MyLogGroupArn",
-      },
-      "value": Object {
-        "attribute": Object {
-          "type": "string",
-          "value": "Arn",
-        },
-        "fn": "getAtt",
-        "logicalId": "MyLogGroup",
-        "type": "intrinsic",
-      },
-    },
-  },
-  "parameters": Map {
-    "Stage" => Object {
-      "allowedPattern": undefined,
-      "allowedValues": undefined,
-      "constraintDescription": undefined,
-      "default": "Prod",
-      "description": undefined,
-      "maxLength": undefined,
-      "maxValue": undefined,
-      "minLength": undefined,
-      "minValue": undefined,
-      "noEcho": undefined,
-      "type": "String",
-    },
-  },
-  "resources": DependencyGraph {
-    "_dependencies": Map {
-      "Hello" => Set {},
-      "MyLogGroup" => Set {},
-    },
-    "keys": Set {
-      "Hello",
-      "MyLogGroup",
-    },
-    "nodes": Object {
-      "Hello": Object {
-        "dependsOn": Array [],
-        "fqn": "aws-cdk-lib.aws_sqs.Queue",
-        "logicalId": "Hello",
-        "namespace": "aws_sqs",
-        "overrides": Array [],
-        "props": Object {
-          "fields": Object {
-            "encryption": Object {
-              "choice": "UNENCRYPTED",
-              "fqn": "aws-cdk-lib.aws_sqs.QueueEncryption",
-              "namespace": "aws_sqs",
-              "type": "enum",
-            },
-          },
-          "type": "struct",
-        },
-        "tags": Array [],
-        "type": "construct",
-      },
-      "MyLogGroup": Object {
-        "creationPolicy": undefined,
-        "deletionPolicy": "Delete",
-        "dependsOn": Array [],
-        "fqn": "aws-cdk-lib.CfnResource",
-        "logicalId": "MyLogGroup",
-        "metadata": Object {},
-        "namespace": undefined,
-        "props": Object {
-          "fields": Object {
-            "properties": Object {
-              "fields": Object {
-                "LogGroupName": Object {
-                  "type": "any",
-                  "value": Object {
-                    "fn": "ref",
-                    "logicalId": "AWS::AccountId",
-                    "type": "intrinsic",
-                  },
-                },
-              },
-              "type": "object",
-            },
-            "type": Object {
-              "type": "string",
-              "value": "AWS::Logs::LogGroup",
-            },
-          },
-          "type": "struct",
-        },
-        "tags": Array [],
-        "type": "resource",
-        "updatePolicy": undefined,
-        "updateReplacePolicy": "Delete",
-      },
-    },
-  },
-  "rules": Map {},
-  "template": Template {
-    "conditions": Map {
-      "CreateLogGroup" => Object {
-        "fn": "and",
-        "operands": Array [
-          Object {
-            "fn": "equals",
-            "type": "intrinsic",
-            "value1": Object {
-              "fn": "ref",
-              "logicalId": "Stage",
-              "type": "intrinsic",
-            },
-            "value2": Object {
-              "type": "string",
-              "value": "Prod",
-            },
-          },
-          Object {
-            "fn": "equals",
-            "type": "intrinsic",
-            "value1": Object {
-              "fn": "ref",
-              "logicalId": "AWS::Region",
-              "type": "intrinsic",
-            },
-            "value2": Object {
-              "type": "string",
-              "value": "us-east-1",
-            },
-          },
-        ],
-        "type": "intrinsic",
-      },
-    },
-    "description": undefined,
-    "mappings": Map {},
-    "metadata": Map {},
-    "outputs": Map {
-      "LogGroupArn" => Object {
-        "conditionName": undefined,
-        "description": "Return log group arn",
-        "exportName": Object {
-          "type": "string",
-          "value": "MyLogGroupArn",
-        },
-        "value": Object {
-          "attribute": Object {
-            "type": "string",
-            "value": "Arn",
-          },
-          "fn": "getAtt",
-          "logicalId": "MyLogGroup",
-          "type": "intrinsic",
-        },
-      },
-    },
-    "parameters": Map {
-      "Stage" => Object {
-        "allowedPattern": undefined,
-        "allowedValues": undefined,
-        "constraintDescription": undefined,
-        "default": "Prod",
-        "description": undefined,
-        "maxLength": undefined,
-        "maxValue": undefined,
-        "minLength": undefined,
-        "minValue": undefined,
-        "noEcho": undefined,
-        "type": "String",
-      },
-    },
-    "resources": Map {
-      "Hello" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
-        "conditionName": undefined,
-        "creationPolicy": undefined,
-        "deletionPolicy": "Delete",
-        "dependencies": Set {},
-        "dependsOn": Set {},
-        "metadata": Object {},
-        "on": undefined,
-        "overrides": Array [],
-        "properties": Object {
-          "encryption": Object {
-            "type": "string",
-            "value": "UNENCRYPTED",
-          },
-        },
-        "tags": Array [],
-        "type": "aws-cdk-lib.aws_sqs.Queue",
-        "updatePolicy": undefined,
-        "updateReplacePolicy": "Delete",
-      },
-      "MyLogGroup" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
-        "conditionName": "CreateLogGroup",
-        "creationPolicy": undefined,
-        "deletionPolicy": "Delete",
-        "dependencies": Set {
-          "AWS::AccountId",
-        },
-        "dependsOn": Set {},
-        "metadata": Object {},
-        "on": undefined,
-        "overrides": Array [],
-        "properties": Object {
-          "LogGroupName": Object {
-            "fn": "ref",
-            "logicalId": "AWS::AccountId",
-            "type": "intrinsic",
-          },
-        },
-        "tags": Array [],
-        "type": "AWS::Logs::LogGroup",
-        "updatePolicy": undefined,
-        "updateReplacePolicy": "Delete",
-      },
-    },
-    "rules": Map {},
-    "template": Object {
-      "$schema": "../cdk.schema.json",
-      "AWSTemplateFormatVersion": "2010-09-09",
-      "Conditions": Object {
-        "CreateLogGroup": Object {
-          "Fn::And": Array [
-            Object {
-              "Fn::Equals": Array [
-                Object {
-                  "Ref": "Stage",
-                },
-                "Prod",
-              ],
-            },
-            Object {
-              "Fn::Equals": Array [
-                Object {
-                  "Ref": "AWS::Region",
-                },
-                "us-east-1",
-              ],
-            },
-          ],
-        },
-      },
-      "Outputs": Object {
-        "LogGroupArn": Object {
-          "Description": "Return log group arn",
-          "Export": Object {
-            "Name": "MyLogGroupArn",
-          },
-          "Value": Object {
-            "Fn::GetAtt": Array [
-              "MyLogGroup",
-              "Arn",
-            ],
-          },
-        },
-      },
-      "Parameters": Object {
-        "Stage": Object {
-          "Default": "Prod",
-          "Type": "String",
-        },
-      },
-      "Resources": Object {
-        "Hello": Object {
-          "Properties": Object {
-            "encryption": "UNENCRYPTED",
-          },
-          "Type": "aws-cdk-lib.aws_sqs.Queue",
-        },
-        "MyLogGroup": Object {
-          "Condition": "CreateLogGroup",
-          "Properties": Object {
-            "LogGroupName": Object {
-              "Ref": "AWS::AccountId",
-            },
-          },
-          "Type": "AWS::Logs::LogGroup",
         },
       },
     },
