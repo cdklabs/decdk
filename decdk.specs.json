@@ -1,0 +1,1070 @@
+{
+  "ModuleTypes": {
+    "aws-cdk-lib.aws_lambda": {
+      "ResourceTypes": {
+        "Alias": {
+          "Properties": {
+            "maxEventAge": {
+              "Remarks": "Minimum: 60 seconds\nMaximum: 6 hours",
+              "Summary": "The maximum age of a request that Lambda sends to a function for processing.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.Duration"
+            },
+            "onFailure": {
+              "Remarks": "",
+              "Summary": "The destination for failed invocations.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_lambda.IDestination"
+            },
+            "onSuccess": {
+              "Remarks": "",
+              "Summary": "The destination for successful invocations.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_lambda.IDestination"
+            },
+            "retryAttempts": {
+              "Remarks": "Minimum: 0\nMaximum: 2",
+              "Summary": "The maximum number of times to retry when the function returns an error.",
+              "Required": "False",
+              "Type": "Number"
+            },
+            "additionalVersions": {
+              "Remarks": "Individual additional version weights specified here should add up to\n(less than) one. All remaining weight is routed to the default\nversion.\n\nFor example, the config is\n\n    version: \"1\"\n    additionalVersions: [{ version: \"2\", weight: 0.05 }]\n\nThen 5% of traffic will be routed to function version 2, while\nthe remaining 95% of traffic will be routed to function version 1.",
+              "Summary": "Additional versions with individual weights this alias points to.",
+              "Required": "False",
+              "Type": "Unhandled Type: system,spec"
+            },
+            "description": {
+              "Remarks": "",
+              "Summary": "Description for the alias.",
+              "Required": "False",
+              "Type": "String"
+            },
+            "provisionedConcurrentExecutions": {
+              "Remarks": "",
+              "Summary": "Specifies a provisioned concurrency configuration for a function's alias.",
+              "Required": "False",
+              "Type": "Number"
+            },
+            "aliasName": {
+              "Remarks": "",
+              "Summary": "Name of this alias.",
+              "Required": "True",
+              "Type": "String"
+            },
+            "version": {
+              "Remarks": "Use lambda.currentVersion to reference a version with your latest changes.",
+              "Summary": "Function version this alias refers to.",
+              "Required": "True",
+              "Type": "aws-cdk-lib.aws_lambda.IVersion"
+            }
+          }
+        },
+        "CodeSigningConfig": {
+          "Properties": {
+            "signingProfiles": {
+              "Remarks": "",
+              "Summary": "List of signing profiles that defines a trusted user who can sign a code package.",
+              "Required": "True",
+              "Type": "Unhandled Type: system,spec"
+            },
+            "description": {
+              "Remarks": "",
+              "Summary": "Code signing configuration description.",
+              "Required": "False",
+              "Type": "String"
+            },
+            "untrustedArtifactOnDeployment": {
+              "Remarks": "If you set the policy to Enforce, Lambda blocks the deployment request\nif signature validation checks fail.\nIf you set the policy to Warn, Lambda allows the deployment and\ncreates a CloudWatch log.",
+              "Summary": "Code signing configuration policy for deployment validation failure.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_lambda.UntrustedArtifactOnDeployment"
+            }
+          }
+        },
+        "DockerImageFunction": {
+          "Properties": {
+            "maxEventAge": {
+              "Remarks": "Minimum: 60 seconds\nMaximum: 6 hours",
+              "Summary": "The maximum age of a request that Lambda sends to a function for processing.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.Duration"
+            },
+            "onFailure": {
+              "Remarks": "",
+              "Summary": "The destination for failed invocations.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_lambda.IDestination"
+            },
+            "onSuccess": {
+              "Remarks": "",
+              "Summary": "The destination for successful invocations.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_lambda.IDestination"
+            },
+            "retryAttempts": {
+              "Remarks": "Minimum: 0\nMaximum: 2",
+              "Summary": "The maximum number of times to retry when the function returns an error.",
+              "Required": "False",
+              "Type": "Number"
+            },
+            "allowAllOutbound": {
+              "Remarks": "If set to false, you must individually add traffic rules to allow the\nLambda to connect to network targets.",
+              "Summary": "Whether to allow the Lambda to send all network traffic.",
+              "Required": "False",
+              "Type": "Boolean"
+            },
+            "allowPublicSubnet": {
+              "Remarks": "Use this property to acknowledge this limitation and still place the function in a public subnet.",
+              "Summary": "Lambda Functions in a public subnet can NOT access the internet.",
+              "Required": "False",
+              "Type": "Boolean"
+            },
+            "architecture": {
+              "Remarks": "",
+              "Summary": "The system architectures compatible with this lambda function.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_lambda.Architecture"
+            },
+            "codeSigningConfig": {
+              "Remarks": "",
+              "Summary": "Code signing config associated with this function.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_lambda.ICodeSigningConfig"
+            },
+            "currentVersionOptions": {
+              "Remarks": "",
+              "Summary": "Options for the `lambda.Version` resource automatically created by the `fn.currentVersion` method.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_lambda.VersionOptions"
+            },
+            "deadLetterQueue": {
+              "Remarks": "If SNS topic is desired, specify `deadLetterTopic` property instead.",
+              "Summary": "The SQS queue to use if DLQ is enabled.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_sqs.IQueue"
+            },
+            "deadLetterQueueEnabled": {
+              "Remarks": "If `deadLetterQueue` is undefined,\nan SQS queue with default options will be defined for your Function.",
+              "Summary": "Enabled DLQ.",
+              "Required": "False",
+              "Type": "Boolean"
+            },
+            "deadLetterTopic": {
+              "Remarks": "Note that if `deadLetterQueueEnabled` is set to `true`, an SQS queue will be created\nrather than an SNS topic. Using an SNS topic as a DLQ requires this property to be set explicitly.",
+              "Summary": "The SNS topic to use as a DLQ.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_sns.ITopic"
+            },
+            "description": {
+              "Remarks": "",
+              "Summary": "A description of the function.",
+              "Required": "False",
+              "Type": "String"
+            },
+            "environment": {
+              "Remarks": "Use environment variables to apply configuration changes, such\nas test and production environment configurations, without changing your\nLambda function source code.",
+              "Summary": "Key-value pairs that Lambda caches and makes available for your Lambda functions.",
+              "Required": "False",
+              "Type": "Unhandled Type: system,spec"
+            },
+            "environmentEncryption": {
+              "Remarks": "",
+              "Summary": "The AWS KMS key that's used to encrypt your function's environment variables.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_kms.IKey"
+            },
+            "ephemeralStorageSize": {
+              "Remarks": "",
+              "Summary": "The size of the function’s /tmp directory in MiB.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.Size"
+            },
+            "events": {
+              "Remarks": "You can also add event sources using `addEventSource`.",
+              "Summary": "Event sources for this function.",
+              "Required": "False",
+              "Type": "Unhandled Type: system,spec"
+            },
+            "filesystem": {
+              "Remarks": "",
+              "Summary": "The filesystem configuration for the lambda function.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_lambda.FileSystem"
+            },
+            "functionName": {
+              "Remarks": "",
+              "Summary": "A name for the function.",
+              "Required": "False",
+              "Type": "String"
+            },
+            "initialPolicy": {
+              "Remarks": "You can call `addToRolePolicy` to the created lambda to add statements post creation.",
+              "Summary": "Initial policy statements to add to the created Lambda Role.",
+              "Required": "False",
+              "Type": "Unhandled Type: system,spec"
+            },
+            "insightsVersion": {
+              "Remarks": "",
+              "Summary": "Specify the version of CloudWatch Lambda insights to use for monitoring.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_lambda.LambdaInsightsVersion"
+            },
+            "layers": {
+              "Remarks": "You can configure your Lambda function to pull in\nadditional code during initialization in the form of layers. Layers are packages of libraries or other dependencies\nthat can be used by multiple functions.",
+              "Summary": "A list of layers to add to the function's execution environment.",
+              "Required": "False",
+              "Type": "Unhandled Type: system,spec"
+            },
+            "logRetention": {
+              "Remarks": "When updating\nthis property, unsetting it doesn't remove the log retention policy. To\nremove the retention policy, set the value to `INFINITE`.",
+              "Summary": "The number of days log events are kept in CloudWatch Logs.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_logs.RetentionDays"
+            },
+            "logRetentionRetryOptions": {
+              "Remarks": "These options control the retry policy when interacting with CloudWatch APIs.",
+              "Summary": "When log retention is specified, a custom resource attempts to create the CloudWatch log group.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_lambda.LogRetentionRetryOptions"
+            },
+            "logRetentionRole": {
+              "Remarks": "",
+              "Summary": "The IAM role for the Lambda function associated with the custom resource that sets the retention policy.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_iam.IRole"
+            },
+            "memorySize": {
+              "Remarks": "Lambda uses this value to proportionally allocate the amount of CPU\npower. For more information, see Resource Model in the AWS Lambda\nDeveloper Guide.",
+              "Summary": "The amount of memory, in MB, that is allocated to your Lambda function.",
+              "Required": "False",
+              "Type": "Number"
+            },
+            "profiling": {
+              "Remarks": "",
+              "Summary": "Enable profiling.",
+              "Required": "False",
+              "Type": "Boolean"
+            },
+            "profilingGroup": {
+              "Remarks": "",
+              "Summary": "Profiling Group.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_codeguruprofiler.IProfilingGroup"
+            },
+            "reservedConcurrentExecutions": {
+              "Remarks": "",
+              "Summary": "The maximum of concurrent executions you want to reserve for the function.",
+              "Required": "False",
+              "Type": "Number"
+            },
+            "role": {
+              "Remarks": "This is the role that will be assumed by the function upon execution.\nIt controls the permissions that the function will have. The Role must\nbe assumable by the 'lambda.amazonaws.com' service principal.\n\nThe default Role automatically has permissions granted for Lambda execution. If you\nprovide a Role, you must add the relevant AWS managed policies yourself.\n\nThe relevant managed policies are \"service-role/AWSLambdaBasicExecutionRole\" and\n\"service-role/AWSLambdaVPCAccessExecutionRole\".",
+              "Summary": "Lambda execution role.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_iam.IRole"
+            },
+            "securityGroups": {
+              "Remarks": "Only used if 'vpc' is supplied.",
+              "Summary": "The list of security groups to associate with the Lambda's network interfaces.",
+              "Required": "False",
+              "Type": "Unhandled Type: system,spec"
+            },
+            "timeout": {
+              "Remarks": "Because the execution time affects cost, set this value\nbased on the function's expected execution time.",
+              "Summary": "The function execution time (in seconds) after which Lambda terminates the function.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.Duration"
+            },
+            "tracing": {
+              "Remarks": "",
+              "Summary": "Enable AWS X-Ray Tracing for Lambda Function.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_lambda.Tracing"
+            },
+            "vpc": {
+              "Remarks": "Specify this if the Lambda function needs to access resources in a VPC.\nThis is required when `vpcSubnets` is specified.",
+              "Summary": "VPC network to place Lambda network interfaces.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_ec2.IVpc"
+            },
+            "vpcSubnets": {
+              "Remarks": "This requires `vpc` to be specified in order for interfaces to actually be\nplaced in the subnets. If `vpc` is not specify, this will raise an error.\n\nNote: Internet access for Lambda Functions requires a NAT Gateway, so picking\npublic subnets is not allowed (unless `allowPublicSubnet` is set to `true`).",
+              "Summary": "Where to place the network interfaces within the VPC.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_ec2.SubnetSelection"
+            },
+            "code": {
+              "Remarks": "You can point to a file in an\nAmazon Simple Storage Service (Amazon S3) bucket or specify your source\ncode as inline text.",
+              "Summary": "The source code of your Lambda function.",
+              "Required": "True",
+              "Type": "aws-cdk-lib.aws_lambda.DockerImageCode"
+            }
+          }
+        },
+        "EventInvokeConfig": {
+          "Properties": {
+            "maxEventAge": {
+              "Remarks": "Minimum: 60 seconds\nMaximum: 6 hours",
+              "Summary": "The maximum age of a request that Lambda sends to a function for processing.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.Duration"
+            },
+            "onFailure": {
+              "Remarks": "",
+              "Summary": "The destination for failed invocations.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_lambda.IDestination"
+            },
+            "onSuccess": {
+              "Remarks": "",
+              "Summary": "The destination for successful invocations.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_lambda.IDestination"
+            },
+            "retryAttempts": {
+              "Remarks": "Minimum: 0\nMaximum: 2",
+              "Summary": "The maximum number of times to retry when the function returns an error.",
+              "Required": "False",
+              "Type": "Number"
+            },
+            "function": {
+              "Remarks": "",
+              "Summary": "The Lambda function.",
+              "Required": "True",
+              "Type": "aws-cdk-lib.aws_lambda.IFunction"
+            },
+            "qualifier": {
+              "Remarks": "",
+              "Summary": "The qualifier.",
+              "Required": "False",
+              "Type": "String"
+            }
+          }
+        },
+        "EventSourceMapping": {
+          "Properties": {
+            "batchSize": {
+              "Remarks": "Your function receives an\nevent with all the retrieved records.\n\nValid Range: Minimum value of 1. Maximum value of 10000.",
+              "Summary": "The largest number of records that AWS Lambda will retrieve from your event source at the time of invoking your function.",
+              "Required": "False",
+              "Type": "Number"
+            },
+            "bisectBatchOnError": {
+              "Remarks": "",
+              "Summary": "If the function returns an error, split the batch in two and retry.",
+              "Required": "False",
+              "Type": "Boolean"
+            },
+            "enabled": {
+              "Remarks": "",
+              "Summary": "Set to false to disable the event source upon creation.",
+              "Required": "False",
+              "Type": "Boolean"
+            },
+            "eventSourceArn": {
+              "Remarks": "Any record added to\nthis stream can invoke the Lambda function.",
+              "Summary": "The Amazon Resource Name (ARN) of the event source.",
+              "Required": "False",
+              "Type": "String"
+            },
+            "filters": {
+              "Remarks": "",
+              "Summary": "Add filter criteria to Event Source.",
+              "Required": "False",
+              "Type": "Unhandled Type: system,spec"
+            },
+            "kafkaBootstrapServers": {
+              "Remarks": "They are in the format `abc.example.com:9096`.",
+              "Summary": "A list of host and port pairs that are the addresses of the Kafka brokers in a self managed \"bootstrap\" Kafka cluster that a Kafka client connects to initially to bootstrap itself.",
+              "Required": "False",
+              "Type": "Unhandled Type: system,spec"
+            },
+            "kafkaConsumerGroupId": {
+              "Remarks": "The consumer group ID must be unique among all your Kafka event sources. After creating a Kafka event source mapping with the consumer group ID specified, you cannot update this value. The value must have a lenght between 1 and 200 and full the pattern '[a-zA-Z0-9-\\/*:_+=.@-]*'. For more information, see [Customizable consumer group ID](https://docs.aws.amazon.com/lambda/latest/dg/with-msk.html#services-msk-consumer-group-id).",
+              "Summary": "The identifier for the Kafka consumer group to join.",
+              "Required": "False",
+              "Type": "String"
+            },
+            "kafkaTopic": {
+              "Remarks": "",
+              "Summary": "The name of the Kafka topic.",
+              "Required": "False",
+              "Type": "String"
+            },
+            "maxBatchingWindow": {
+              "Remarks": "Maximum of Duration.minutes(5)",
+              "Summary": "The maximum amount of time to gather records before invoking the function.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.Duration"
+            },
+            "maxRecordAge": {
+              "Remarks": "Valid Range:\n* Minimum value of 60 seconds\n* Maximum value of 7 days",
+              "Summary": "The maximum age of a record that Lambda sends to a function for processing.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.Duration"
+            },
+            "onFailure": {
+              "Remarks": "",
+              "Summary": "An Amazon SQS queue or Amazon SNS topic destination for discarded records.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_lambda.IEventSourceDlq"
+            },
+            "parallelizationFactor": {
+              "Remarks": "Valid Range:\n* Minimum value of 1\n* Maximum value of 10",
+              "Summary": "The number of batches to process from each shard concurrently.",
+              "Required": "False",
+              "Type": "Number"
+            },
+            "reportBatchItemFailures": {
+              "Remarks": "",
+              "Summary": "Allow functions to return partially successful responses for a batch of records.",
+              "Required": "False",
+              "Type": "Boolean"
+            },
+            "retryAttempts": {
+              "Remarks": "Set to `undefined` if you want lambda to keep retrying infinitely or until\nthe record expires.\n\nValid Range:\n* Minimum value of 0\n* Maximum value of 10000",
+              "Summary": "The maximum number of times to retry when the function returns an error.",
+              "Required": "False",
+              "Type": "Number"
+            },
+            "sourceAccessConfigurations": {
+              "Remarks": "",
+              "Summary": "Specific settings like the authentication protocol or the VPC components to secure access to your event source.",
+              "Required": "False",
+              "Type": "Unhandled Type: system,spec"
+            },
+            "startingPosition": {
+              "Remarks": "",
+              "Summary": "The position in the DynamoDB, Kinesis or MSK stream where AWS Lambda should start reading.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_lambda.StartingPosition"
+            },
+            "startingPositionTimestamp": {
+              "Remarks": "",
+              "Summary": "The time from which to start reading, in Unix time seconds.",
+              "Required": "False",
+              "Type": "Number"
+            },
+            "tumblingWindow": {
+              "Remarks": "",
+              "Summary": "The size of the tumbling windows to group records sent to DynamoDB or Kinesis.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.Duration"
+            },
+            "target": {
+              "Remarks": "",
+              "Summary": "The target AWS Lambda function.",
+              "Required": "True",
+              "Type": "aws-cdk-lib.aws_lambda.IFunction"
+            }
+          }
+        },
+        "Function": {
+          "Properties": {
+            "maxEventAge": {
+              "Remarks": "Minimum: 60 seconds\nMaximum: 6 hours",
+              "Summary": "The maximum age of a request that Lambda sends to a function for processing.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.Duration"
+            },
+            "onFailure": {
+              "Remarks": "",
+              "Summary": "The destination for failed invocations.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_lambda.IDestination"
+            },
+            "onSuccess": {
+              "Remarks": "",
+              "Summary": "The destination for successful invocations.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_lambda.IDestination"
+            },
+            "retryAttempts": {
+              "Remarks": "Minimum: 0\nMaximum: 2",
+              "Summary": "The maximum number of times to retry when the function returns an error.",
+              "Required": "False",
+              "Type": "Number"
+            },
+            "allowAllOutbound": {
+              "Remarks": "If set to false, you must individually add traffic rules to allow the\nLambda to connect to network targets.",
+              "Summary": "Whether to allow the Lambda to send all network traffic.",
+              "Required": "False",
+              "Type": "Boolean"
+            },
+            "allowPublicSubnet": {
+              "Remarks": "Use this property to acknowledge this limitation and still place the function in a public subnet.",
+              "Summary": "Lambda Functions in a public subnet can NOT access the internet.",
+              "Required": "False",
+              "Type": "Boolean"
+            },
+            "architecture": {
+              "Remarks": "",
+              "Summary": "The system architectures compatible with this lambda function.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_lambda.Architecture"
+            },
+            "codeSigningConfig": {
+              "Remarks": "",
+              "Summary": "Code signing config associated with this function.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_lambda.ICodeSigningConfig"
+            },
+            "currentVersionOptions": {
+              "Remarks": "",
+              "Summary": "Options for the `lambda.Version` resource automatically created by the `fn.currentVersion` method.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_lambda.VersionOptions"
+            },
+            "deadLetterQueue": {
+              "Remarks": "If SNS topic is desired, specify `deadLetterTopic` property instead.",
+              "Summary": "The SQS queue to use if DLQ is enabled.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_sqs.IQueue"
+            },
+            "deadLetterQueueEnabled": {
+              "Remarks": "If `deadLetterQueue` is undefined,\nan SQS queue with default options will be defined for your Function.",
+              "Summary": "Enabled DLQ.",
+              "Required": "False",
+              "Type": "Boolean"
+            },
+            "deadLetterTopic": {
+              "Remarks": "Note that if `deadLetterQueueEnabled` is set to `true`, an SQS queue will be created\nrather than an SNS topic. Using an SNS topic as a DLQ requires this property to be set explicitly.",
+              "Summary": "The SNS topic to use as a DLQ.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_sns.ITopic"
+            },
+            "description": {
+              "Remarks": "",
+              "Summary": "A description of the function.",
+              "Required": "False",
+              "Type": "String"
+            },
+            "environment": {
+              "Remarks": "Use environment variables to apply configuration changes, such\nas test and production environment configurations, without changing your\nLambda function source code.",
+              "Summary": "Key-value pairs that Lambda caches and makes available for your Lambda functions.",
+              "Required": "False",
+              "Type": "Unhandled Type: system,spec"
+            },
+            "environmentEncryption": {
+              "Remarks": "",
+              "Summary": "The AWS KMS key that's used to encrypt your function's environment variables.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_kms.IKey"
+            },
+            "ephemeralStorageSize": {
+              "Remarks": "",
+              "Summary": "The size of the function’s /tmp directory in MiB.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.Size"
+            },
+            "events": {
+              "Remarks": "You can also add event sources using `addEventSource`.",
+              "Summary": "Event sources for this function.",
+              "Required": "False",
+              "Type": "Unhandled Type: system,spec"
+            },
+            "filesystem": {
+              "Remarks": "",
+              "Summary": "The filesystem configuration for the lambda function.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_lambda.FileSystem"
+            },
+            "functionName": {
+              "Remarks": "",
+              "Summary": "A name for the function.",
+              "Required": "False",
+              "Type": "String"
+            },
+            "initialPolicy": {
+              "Remarks": "You can call `addToRolePolicy` to the created lambda to add statements post creation.",
+              "Summary": "Initial policy statements to add to the created Lambda Role.",
+              "Required": "False",
+              "Type": "Unhandled Type: system,spec"
+            },
+            "insightsVersion": {
+              "Remarks": "",
+              "Summary": "Specify the version of CloudWatch Lambda insights to use for monitoring.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_lambda.LambdaInsightsVersion"
+            },
+            "layers": {
+              "Remarks": "You can configure your Lambda function to pull in\nadditional code during initialization in the form of layers. Layers are packages of libraries or other dependencies\nthat can be used by multiple functions.",
+              "Summary": "A list of layers to add to the function's execution environment.",
+              "Required": "False",
+              "Type": "Unhandled Type: system,spec"
+            },
+            "logRetention": {
+              "Remarks": "When updating\nthis property, unsetting it doesn't remove the log retention policy. To\nremove the retention policy, set the value to `INFINITE`.",
+              "Summary": "The number of days log events are kept in CloudWatch Logs.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_logs.RetentionDays"
+            },
+            "logRetentionRetryOptions": {
+              "Remarks": "These options control the retry policy when interacting with CloudWatch APIs.",
+              "Summary": "When log retention is specified, a custom resource attempts to create the CloudWatch log group.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_lambda.LogRetentionRetryOptions"
+            },
+            "logRetentionRole": {
+              "Remarks": "",
+              "Summary": "The IAM role for the Lambda function associated with the custom resource that sets the retention policy.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_iam.IRole"
+            },
+            "memorySize": {
+              "Remarks": "Lambda uses this value to proportionally allocate the amount of CPU\npower. For more information, see Resource Model in the AWS Lambda\nDeveloper Guide.",
+              "Summary": "The amount of memory, in MB, that is allocated to your Lambda function.",
+              "Required": "False",
+              "Type": "Number"
+            },
+            "profiling": {
+              "Remarks": "",
+              "Summary": "Enable profiling.",
+              "Required": "False",
+              "Type": "Boolean"
+            },
+            "profilingGroup": {
+              "Remarks": "",
+              "Summary": "Profiling Group.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_codeguruprofiler.IProfilingGroup"
+            },
+            "reservedConcurrentExecutions": {
+              "Remarks": "",
+              "Summary": "The maximum of concurrent executions you want to reserve for the function.",
+              "Required": "False",
+              "Type": "Number"
+            },
+            "role": {
+              "Remarks": "This is the role that will be assumed by the function upon execution.\nIt controls the permissions that the function will have. The Role must\nbe assumable by the 'lambda.amazonaws.com' service principal.\n\nThe default Role automatically has permissions granted for Lambda execution. If you\nprovide a Role, you must add the relevant AWS managed policies yourself.\n\nThe relevant managed policies are \"service-role/AWSLambdaBasicExecutionRole\" and\n\"service-role/AWSLambdaVPCAccessExecutionRole\".",
+              "Summary": "Lambda execution role.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_iam.IRole"
+            },
+            "securityGroups": {
+              "Remarks": "Only used if 'vpc' is supplied.",
+              "Summary": "The list of security groups to associate with the Lambda's network interfaces.",
+              "Required": "False",
+              "Type": "Unhandled Type: system,spec"
+            },
+            "timeout": {
+              "Remarks": "Because the execution time affects cost, set this value\nbased on the function's expected execution time.",
+              "Summary": "The function execution time (in seconds) after which Lambda terminates the function.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.Duration"
+            },
+            "tracing": {
+              "Remarks": "",
+              "Summary": "Enable AWS X-Ray Tracing for Lambda Function.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_lambda.Tracing"
+            },
+            "vpc": {
+              "Remarks": "Specify this if the Lambda function needs to access resources in a VPC.\nThis is required when `vpcSubnets` is specified.",
+              "Summary": "VPC network to place Lambda network interfaces.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_ec2.IVpc"
+            },
+            "vpcSubnets": {
+              "Remarks": "This requires `vpc` to be specified in order for interfaces to actually be\nplaced in the subnets. If `vpc` is not specify, this will raise an error.\n\nNote: Internet access for Lambda Functions requires a NAT Gateway, so picking\npublic subnets is not allowed (unless `allowPublicSubnet` is set to `true`).",
+              "Summary": "Where to place the network interfaces within the VPC.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_ec2.SubnetSelection"
+            },
+            "code": {
+              "Remarks": "You can point to a file in an\nAmazon Simple Storage Service (Amazon S3) bucket or specify your source\ncode as inline text.",
+              "Summary": "The source code of your Lambda function.",
+              "Required": "True",
+              "Type": "aws-cdk-lib.aws_lambda.Code"
+            },
+            "handler": {
+              "Remarks": "The format includes the file name. It can also include\nnamespaces and other qualifiers, depending on the runtime.\nFor more information, see https://docs.aws.amazon.com/lambda/latest/dg/foundation-progmodel.html.\n\nUse `Handler.FROM_IMAGE` when defining a function from a Docker image.\n\nNOTE: If you specify your source code as inline text by specifying the\nZipFile property within the Code property, specify index.function_name as\nthe handler.",
+              "Summary": "The name of the method within your code that Lambda calls to execute your function.",
+              "Required": "True",
+              "Type": "String"
+            },
+            "runtime": {
+              "Remarks": "For valid values, see the Runtime property in the AWS Lambda Developer\nGuide.\n\nUse `Runtime.FROM_IMAGE` when defining a function from a Docker image.",
+              "Summary": "The runtime environment for the Lambda function that you are uploading.",
+              "Required": "True",
+              "Type": "aws-cdk-lib.aws_lambda.Runtime"
+            }
+          }
+        },
+        "FunctionBase": {},
+        "FunctionUrl": {
+          "Properties": {
+            "authType": {
+              "Remarks": "",
+              "Summary": "The type of authentication that your function URL uses.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_lambda.FunctionUrlAuthType"
+            },
+            "cors": {
+              "Remarks": "",
+              "Summary": "The cross-origin resource sharing (CORS) settings for your function URL.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_lambda.FunctionUrlCorsOptions"
+            },
+            "function": {
+              "Remarks": "It can also be an `Alias` but not a `Version`.",
+              "Summary": "The function to which this url refers.",
+              "Required": "True",
+              "Type": "aws-cdk-lib.aws_lambda.IFunction"
+            }
+          }
+        },
+        "LayerVersion": {
+          "Properties": {
+            "description": {
+              "Remarks": "",
+              "Summary": "The description the this Lambda Layer.",
+              "Required": "False",
+              "Type": "String"
+            },
+            "layerVersionName": {
+              "Remarks": "",
+              "Summary": "The name of the layer.",
+              "Required": "False",
+              "Type": "String"
+            },
+            "license": {
+              "Remarks": "",
+              "Summary": "The SPDX licence identifier or URL to the license file for this layer.",
+              "Required": "False",
+              "Type": "String"
+            },
+            "removalPolicy": {
+              "Remarks": "",
+              "Summary": "Whether to retain this version of the layer when a new version is added or when the stack is deleted.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.RemovalPolicy"
+            },
+            "code": {
+              "Remarks": "Using `Code.fromInline` is not supported.",
+              "Summary": "The content of this Layer.",
+              "Required": "True",
+              "Type": "aws-cdk-lib.aws_lambda.Code"
+            },
+            "compatibleArchitectures": {
+              "Remarks": "",
+              "Summary": "The system architectures compatible with this layer.",
+              "Required": "False",
+              "Type": "Unhandled Type: system,spec"
+            },
+            "compatibleRuntimes": {
+              "Remarks": "",
+              "Summary": "The runtimes compatible with this Layer.",
+              "Required": "False",
+              "Type": "Unhandled Type: system,spec"
+            }
+          }
+        },
+        "QualifiedFunctionBase": {},
+        "SingletonFunction": {
+          "Properties": {
+            "maxEventAge": {
+              "Remarks": "Minimum: 60 seconds\nMaximum: 6 hours",
+              "Summary": "The maximum age of a request that Lambda sends to a function for processing.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.Duration"
+            },
+            "onFailure": {
+              "Remarks": "",
+              "Summary": "The destination for failed invocations.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_lambda.IDestination"
+            },
+            "onSuccess": {
+              "Remarks": "",
+              "Summary": "The destination for successful invocations.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_lambda.IDestination"
+            },
+            "retryAttempts": {
+              "Remarks": "Minimum: 0\nMaximum: 2",
+              "Summary": "The maximum number of times to retry when the function returns an error.",
+              "Required": "False",
+              "Type": "Number"
+            },
+            "allowAllOutbound": {
+              "Remarks": "If set to false, you must individually add traffic rules to allow the\nLambda to connect to network targets.",
+              "Summary": "Whether to allow the Lambda to send all network traffic.",
+              "Required": "False",
+              "Type": "Boolean"
+            },
+            "allowPublicSubnet": {
+              "Remarks": "Use this property to acknowledge this limitation and still place the function in a public subnet.",
+              "Summary": "Lambda Functions in a public subnet can NOT access the internet.",
+              "Required": "False",
+              "Type": "Boolean"
+            },
+            "architecture": {
+              "Remarks": "",
+              "Summary": "The system architectures compatible with this lambda function.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_lambda.Architecture"
+            },
+            "codeSigningConfig": {
+              "Remarks": "",
+              "Summary": "Code signing config associated with this function.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_lambda.ICodeSigningConfig"
+            },
+            "currentVersionOptions": {
+              "Remarks": "",
+              "Summary": "Options for the `lambda.Version` resource automatically created by the `fn.currentVersion` method.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_lambda.VersionOptions"
+            },
+            "deadLetterQueue": {
+              "Remarks": "If SNS topic is desired, specify `deadLetterTopic` property instead.",
+              "Summary": "The SQS queue to use if DLQ is enabled.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_sqs.IQueue"
+            },
+            "deadLetterQueueEnabled": {
+              "Remarks": "If `deadLetterQueue` is undefined,\nan SQS queue with default options will be defined for your Function.",
+              "Summary": "Enabled DLQ.",
+              "Required": "False",
+              "Type": "Boolean"
+            },
+            "deadLetterTopic": {
+              "Remarks": "Note that if `deadLetterQueueEnabled` is set to `true`, an SQS queue will be created\nrather than an SNS topic. Using an SNS topic as a DLQ requires this property to be set explicitly.",
+              "Summary": "The SNS topic to use as a DLQ.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_sns.ITopic"
+            },
+            "description": {
+              "Remarks": "",
+              "Summary": "A description of the function.",
+              "Required": "False",
+              "Type": "String"
+            },
+            "environment": {
+              "Remarks": "Use environment variables to apply configuration changes, such\nas test and production environment configurations, without changing your\nLambda function source code.",
+              "Summary": "Key-value pairs that Lambda caches and makes available for your Lambda functions.",
+              "Required": "False",
+              "Type": "Unhandled Type: system,spec"
+            },
+            "environmentEncryption": {
+              "Remarks": "",
+              "Summary": "The AWS KMS key that's used to encrypt your function's environment variables.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_kms.IKey"
+            },
+            "ephemeralStorageSize": {
+              "Remarks": "",
+              "Summary": "The size of the function’s /tmp directory in MiB.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.Size"
+            },
+            "events": {
+              "Remarks": "You can also add event sources using `addEventSource`.",
+              "Summary": "Event sources for this function.",
+              "Required": "False",
+              "Type": "Unhandled Type: system,spec"
+            },
+            "filesystem": {
+              "Remarks": "",
+              "Summary": "The filesystem configuration for the lambda function.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_lambda.FileSystem"
+            },
+            "functionName": {
+              "Remarks": "",
+              "Summary": "A name for the function.",
+              "Required": "False",
+              "Type": "String"
+            },
+            "initialPolicy": {
+              "Remarks": "You can call `addToRolePolicy` to the created lambda to add statements post creation.",
+              "Summary": "Initial policy statements to add to the created Lambda Role.",
+              "Required": "False",
+              "Type": "Unhandled Type: system,spec"
+            },
+            "insightsVersion": {
+              "Remarks": "",
+              "Summary": "Specify the version of CloudWatch Lambda insights to use for monitoring.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_lambda.LambdaInsightsVersion"
+            },
+            "layers": {
+              "Remarks": "You can configure your Lambda function to pull in\nadditional code during initialization in the form of layers. Layers are packages of libraries or other dependencies\nthat can be used by multiple functions.",
+              "Summary": "A list of layers to add to the function's execution environment.",
+              "Required": "False",
+              "Type": "Unhandled Type: system,spec"
+            },
+            "logRetention": {
+              "Remarks": "When updating\nthis property, unsetting it doesn't remove the log retention policy. To\nremove the retention policy, set the value to `INFINITE`.",
+              "Summary": "The number of days log events are kept in CloudWatch Logs.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_logs.RetentionDays"
+            },
+            "logRetentionRetryOptions": {
+              "Remarks": "These options control the retry policy when interacting with CloudWatch APIs.",
+              "Summary": "When log retention is specified, a custom resource attempts to create the CloudWatch log group.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_lambda.LogRetentionRetryOptions"
+            },
+            "logRetentionRole": {
+              "Remarks": "",
+              "Summary": "The IAM role for the Lambda function associated with the custom resource that sets the retention policy.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_iam.IRole"
+            },
+            "memorySize": {
+              "Remarks": "Lambda uses this value to proportionally allocate the amount of CPU\npower. For more information, see Resource Model in the AWS Lambda\nDeveloper Guide.",
+              "Summary": "The amount of memory, in MB, that is allocated to your Lambda function.",
+              "Required": "False",
+              "Type": "Number"
+            },
+            "profiling": {
+              "Remarks": "",
+              "Summary": "Enable profiling.",
+              "Required": "False",
+              "Type": "Boolean"
+            },
+            "profilingGroup": {
+              "Remarks": "",
+              "Summary": "Profiling Group.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_codeguruprofiler.IProfilingGroup"
+            },
+            "reservedConcurrentExecutions": {
+              "Remarks": "",
+              "Summary": "The maximum of concurrent executions you want to reserve for the function.",
+              "Required": "False",
+              "Type": "Number"
+            },
+            "role": {
+              "Remarks": "This is the role that will be assumed by the function upon execution.\nIt controls the permissions that the function will have. The Role must\nbe assumable by the 'lambda.amazonaws.com' service principal.\n\nThe default Role automatically has permissions granted for Lambda execution. If you\nprovide a Role, you must add the relevant AWS managed policies yourself.\n\nThe relevant managed policies are \"service-role/AWSLambdaBasicExecutionRole\" and\n\"service-role/AWSLambdaVPCAccessExecutionRole\".",
+              "Summary": "Lambda execution role.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_iam.IRole"
+            },
+            "securityGroups": {
+              "Remarks": "Only used if 'vpc' is supplied.",
+              "Summary": "The list of security groups to associate with the Lambda's network interfaces.",
+              "Required": "False",
+              "Type": "Unhandled Type: system,spec"
+            },
+            "timeout": {
+              "Remarks": "Because the execution time affects cost, set this value\nbased on the function's expected execution time.",
+              "Summary": "The function execution time (in seconds) after which Lambda terminates the function.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.Duration"
+            },
+            "tracing": {
+              "Remarks": "",
+              "Summary": "Enable AWS X-Ray Tracing for Lambda Function.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_lambda.Tracing"
+            },
+            "vpc": {
+              "Remarks": "Specify this if the Lambda function needs to access resources in a VPC.\nThis is required when `vpcSubnets` is specified.",
+              "Summary": "VPC network to place Lambda network interfaces.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_ec2.IVpc"
+            },
+            "vpcSubnets": {
+              "Remarks": "This requires `vpc` to be specified in order for interfaces to actually be\nplaced in the subnets. If `vpc` is not specify, this will raise an error.\n\nNote: Internet access for Lambda Functions requires a NAT Gateway, so picking\npublic subnets is not allowed (unless `allowPublicSubnet` is set to `true`).",
+              "Summary": "Where to place the network interfaces within the VPC.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_ec2.SubnetSelection"
+            },
+            "code": {
+              "Remarks": "You can point to a file in an\nAmazon Simple Storage Service (Amazon S3) bucket or specify your source\ncode as inline text.",
+              "Summary": "The source code of your Lambda function.",
+              "Required": "True",
+              "Type": "aws-cdk-lib.aws_lambda.Code"
+            },
+            "handler": {
+              "Remarks": "The format includes the file name. It can also include\nnamespaces and other qualifiers, depending on the runtime.\nFor more information, see https://docs.aws.amazon.com/lambda/latest/dg/foundation-progmodel.html.\n\nUse `Handler.FROM_IMAGE` when defining a function from a Docker image.\n\nNOTE: If you specify your source code as inline text by specifying the\nZipFile property within the Code property, specify index.function_name as\nthe handler.",
+              "Summary": "The name of the method within your code that Lambda calls to execute your function.",
+              "Required": "True",
+              "Type": "String"
+            },
+            "runtime": {
+              "Remarks": "For valid values, see the Runtime property in the AWS Lambda Developer\nGuide.\n\nUse `Runtime.FROM_IMAGE` when defining a function from a Docker image.",
+              "Summary": "The runtime environment for the Lambda function that you are uploading.",
+              "Required": "True",
+              "Type": "aws-cdk-lib.aws_lambda.Runtime"
+            },
+            "uuid": {
+              "Remarks": "The identifier should be unique across all custom resource providers.\nWe recommend generating a UUID per provider.",
+              "Summary": "A unique identifier to identify this lambda.",
+              "Required": "True",
+              "Type": "String"
+            },
+            "lambdaPurpose": {
+              "Remarks": "If the Lambda does not have a physical name, this string will be\nreflected its generated name. The combination of lambdaPurpose\nand uuid must be unique.",
+              "Summary": "A descriptive name for the purpose of this Lambda.",
+              "Required": "False",
+              "Type": "String"
+            }
+          }
+        },
+        "Version": {
+          "Properties": {
+            "maxEventAge": {
+              "Remarks": "Minimum: 60 seconds\nMaximum: 6 hours",
+              "Summary": "The maximum age of a request that Lambda sends to a function for processing.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.Duration"
+            },
+            "onFailure": {
+              "Remarks": "",
+              "Summary": "The destination for failed invocations.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_lambda.IDestination"
+            },
+            "onSuccess": {
+              "Remarks": "",
+              "Summary": "The destination for successful invocations.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.aws_lambda.IDestination"
+            },
+            "retryAttempts": {
+              "Remarks": "Minimum: 0\nMaximum: 2",
+              "Summary": "The maximum number of times to retry when the function returns an error.",
+              "Required": "False",
+              "Type": "Number"
+            },
+            "codeSha256": {
+              "Remarks": "Specify to validate that you're deploying the right version.",
+              "Summary": "SHA256 of the version of the Lambda source code.",
+              "Required": "False",
+              "Type": "String"
+            },
+            "description": {
+              "Remarks": "",
+              "Summary": "Description of the version.",
+              "Required": "False",
+              "Type": "String"
+            },
+            "provisionedConcurrentExecutions": {
+              "Remarks": "",
+              "Summary": "Specifies a provisioned concurrency configuration for a function's version.",
+              "Required": "False",
+              "Type": "Number"
+            },
+            "removalPolicy": {
+              "Remarks": "",
+              "Summary": "Whether to retain old versions of this function when a new version is created.",
+              "Required": "False",
+              "Type": "aws-cdk-lib.RemovalPolicy"
+            },
+            "lambda": {
+              "Remarks": "",
+              "Summary": "Function to get the value of.",
+              "Required": "True",
+              "Type": "aws-cdk-lib.aws_lambda.IFunction"
+            }
+          }
+        }
+      }
+    }
+  }
+}
