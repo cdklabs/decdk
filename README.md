@@ -78,7 +78,7 @@ cdk -a "ts-node src/decdk.ts template.json" synth
 
 ## Features
 
-### Raw CloudFormation
+### CloudFormation Resources
 
 If deCDK doesn't identify a resource type as a CDK resource, it will just pass it through to the resulting output. This
 means that any existing CloudFormation/SAM resources (such as `AWS::SQS::Queue`) can be used as-is.
