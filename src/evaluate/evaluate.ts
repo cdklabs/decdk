@@ -233,6 +233,10 @@ export class Evaluator {
             return this.evaluateArray(x.array);
           case 'lazyLogicalId':
             return this.lazyLogicalId(x);
+          case 'length':
+            return this.fnLength(ev(x.list));
+          case 'toJsonString':
+            return this.toJsonString(ev(x.value));
         }
       case 'enum':
         return this.enum(x.fqn, x.choice);
@@ -304,6 +308,14 @@ export class Evaluator {
       return x.value;
     }
     throw new Error(x.errorMessage);
+  }
+
+  protected fnLength(x: unknown) {
+    return cdk.Fn.len(x);
+  }
+
+  protected toJsonString(x: unknown) {
+    return cdk.Fn.toJsonString(x);
   }
 
   public evaluateObject(
