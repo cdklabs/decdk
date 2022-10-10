@@ -208,8 +208,7 @@ directly to a stack, and they don't correspond to a CloudFormation resource. For
 These classes abstract
 certain concepts and improve the ergonomics of the API.
 
-If the class has a public constructor with less than two required parameters (e.g., `TextWidget`), you can pass the
-argument via `Properties`:
+If the class has a public constructor with one required parameter that is a props interface (e.g., `TextWidget`), you can pass them via `Properties`:
 
 ```json
 {
