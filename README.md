@@ -336,7 +336,8 @@ Resources:
 > **Work in progress**: We are investigating the possibility of supporting the second case.
 
 Notably, CDK constructs, that is, types that extend `cdk.Construct` or interfaces that extend `cdk.IConstruct`, can be
-referenced from anywhere, even from CloudFormation resource declarations:
+referenced from anywhere, even from CloudFormation resource declarations.
+In this case a reference to the underlying L1 CloudFormation resource is returned.
 
 ```yaml
 Resources:
