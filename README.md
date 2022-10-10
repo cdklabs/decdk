@@ -252,6 +252,8 @@ Resources:
       aws-cdk-lib.aws_lambda.Code.fromInline: "exports.handler = function(event, ctx, cb) { return cb(null, \"hi\"); }"
 ```
 
+#### Inline calls
+
 So far, we have seen how to create non-construct instances at the top level, with associated logical IDs, just like you
 would do for constructs. This is useful in cases where you want to create an instance to be reused later. More often
 than not, however, there is no need for re-use. A simpler alternative for these cases is to declare the instance
