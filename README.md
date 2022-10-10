@@ -130,8 +130,8 @@ inferred by deCDK; for the scope, deCDK uses a stack that it creates during the 
 all constructs are added; for the ID, it uses the logical ID of the construct being declared (`"MyAccessPoint"` in
 this case).
 
-If you need to provide these arguments explicitly, you can do it using two new (CDK specific) intrinsics:
-`CDK::Args` and `CDK::Scope`. Rewriting the example above, but with all arguments being explicitly
+If you need to provide these arguments explicitly, you can do it using the new (CDK specific) intrinsic function
+`CDK::Args` and pseudo parameter `CDK::Scope`. Rewriting the example above, but with all arguments being explicitly
 defined, it becomes:
 
 ```json
