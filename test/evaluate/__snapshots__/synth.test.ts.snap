@@ -3037,6 +3037,184 @@ Object {
 }
 `;
 
+exports[`http-proxy.yaml 1`] = `
+Object {
+  "Outputs": Object {
+    "ProxyApiEndpoint2177970D": Object {
+      "Value": Object {
+        "Fn::Join": Array [
+          "",
+          Array [
+            "https://",
+            Object {
+              "Ref": "ProxyApi0DF2D7AE",
+            },
+            ".execute-api.",
+            Object {
+              "Ref": "AWS::Region",
+            },
+            ".",
+            Object {
+              "Ref": "AWS::URLSuffix",
+            },
+            "/",
+            Object {
+              "Ref": "ProxyApiDeploymentStageprod9EF20FCC",
+            },
+            "/",
+          ],
+        ],
+      },
+    },
+  },
+  "Parameters": Object {
+    "ProxyUrl": Object {
+      "Default": "https://aws.amazon.com/ko/",
+      "Type": "String",
+    },
+  },
+  "Resources": Object {
+    "ProxyApi0DF2D7AE": Object {
+      "Properties": Object {
+        "EndpointConfiguration": Object {
+          "Types": Array [
+            "EDGE",
+          ],
+        },
+        "Name": "Hello",
+      },
+      "Type": "AWS::ApiGateway::RestApi",
+    },
+    "ProxyApiAccount987F032E": Object {
+      "DeletionPolicy": "Retain",
+      "DependsOn": Array [
+        "ProxyApi0DF2D7AE",
+      ],
+      "Properties": Object {
+        "CloudWatchRoleArn": Object {
+          "Fn::GetAtt": Array [
+            "ProxyApiCloudWatchRole6287CBD0",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::ApiGateway::Account",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "ProxyApiCloudWatchRole6287CBD0": Object {
+      "DeletionPolicy": "Retain",
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "apigateway.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "ProxyApiDeployment6107D4F3d1a71147efeff25ca021f34ec61cf677": Object {
+      "DependsOn": Array [
+        "ProxyMethod54C3A837",
+        "ProxyResourceD65343FB",
+      ],
+      "Properties": Object {
+        "Description": "Automatically created by the RestApi construct",
+        "RestApiId": Object {
+          "Ref": "ProxyApi0DF2D7AE",
+        },
+      },
+      "Type": "AWS::ApiGateway::Deployment",
+    },
+    "ProxyApiDeploymentStageprod9EF20FCC": Object {
+      "DependsOn": Array [
+        "ProxyApiAccount987F032E",
+      ],
+      "Properties": Object {
+        "DeploymentId": Object {
+          "Ref": "ProxyApiDeployment6107D4F3d1a71147efeff25ca021f34ec61cf677",
+        },
+        "RestApiId": Object {
+          "Ref": "ProxyApi0DF2D7AE",
+        },
+        "StageName": "prod",
+      },
+      "Type": "AWS::ApiGateway::Stage",
+    },
+    "ProxyMethod54C3A837": Object {
+      "Properties": Object {
+        "AuthorizationType": "NONE",
+        "HttpMethod": "GET",
+        "Integration": Object {
+          "IntegrationHttpMethod": "GET",
+          "RequestParameters": Object {
+            "integration.request.path.proxy": "method.request.path.proxy",
+          },
+          "Type": "HTTP_PROXY",
+          "Uri": Object {
+            "Fn::Join": Array [
+              "/",
+              Array [
+                Object {
+                  "Ref": "ProxyUrl",
+                },
+                "{proxy}",
+              ],
+            ],
+          },
+        },
+        "RequestParameters": Object {
+          "method.request.path.proxy": true,
+        },
+        "ResourceId": Object {
+          "Ref": "ProxyResourceD65343FB",
+        },
+        "RestApiId": Object {
+          "Ref": "ProxyApi0DF2D7AE",
+        },
+      },
+      "Type": "AWS::ApiGateway::Method",
+    },
+    "ProxyResourceD65343FB": Object {
+      "Properties": Object {
+        "ParentId": Object {
+          "Fn::GetAtt": Array [
+            "ProxyApi0DF2D7AE",
+            "RootResourceId",
+          ],
+        },
+        "PathPart": "{proxy+}",
+        "RestApiId": Object {
+          "Ref": "ProxyApi0DF2D7AE",
+        },
+      },
+      "Type": "AWS::ApiGateway::Resource",
+    },
+  },
+}
+`;
+
 exports[`lambda-dashboard.yaml 1`] = `
 Object {
   "Parameters": Object {

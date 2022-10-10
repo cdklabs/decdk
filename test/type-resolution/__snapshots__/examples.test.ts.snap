@@ -6026,6 +6026,474 @@ TypedTemplate {
 }
 `;
 
+exports[`http-proxy.yaml 1`] = `
+TypedTemplate {
+  "conditions": Map {},
+  "mappings": Map {},
+  "metadata": Map {},
+  "outputs": Map {},
+  "parameters": Map {
+    "ProxyUrl" => Object {
+      "allowedPattern": undefined,
+      "allowedValues": undefined,
+      "constraintDescription": undefined,
+      "default": "https://aws.amazon.com/ko/",
+      "description": undefined,
+      "maxLength": undefined,
+      "maxValue": undefined,
+      "minLength": undefined,
+      "minValue": undefined,
+      "noEcho": undefined,
+      "type": "String",
+    },
+  },
+  "resources": DependencyGraph {
+    "_dependencies": Map {
+      "ProxyApi" => Set {},
+      "ProxyResource" => Set {
+        "ProxyApi",
+      },
+      "ProxyMethod" => Set {
+        "ProxyResource",
+      },
+    },
+    "keys": Set {
+      "ProxyApi",
+      "ProxyResource",
+      "ProxyMethod",
+    },
+    "nodes": Object {
+      "ProxyApi": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_apigateway.RestApi",
+        "logicalId": "ProxyApi",
+        "namespace": "aws_apigateway",
+        "overrides": Array [],
+        "props": Object {
+          "fields": Object {
+            "endpointConfiguration": Object {
+              "fields": Object {
+                "types": Object {
+                  "array": Array [
+                    Object {
+                      "choice": "EDGE",
+                      "fqn": "aws-cdk-lib.aws_apigateway.EndpointType",
+                      "namespace": "aws_apigateway",
+                      "type": "enum",
+                    },
+                  ],
+                  "type": "array",
+                },
+              },
+              "type": "struct",
+            },
+            "restApiName": Object {
+              "type": "string",
+              "value": "Hello",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "construct",
+      },
+      "ProxyMethod": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_apigateway.Method",
+        "logicalId": "ProxyMethod",
+        "namespace": "aws_apigateway",
+        "overrides": Array [],
+        "props": Object {
+          "fields": Object {
+            "httpMethod": Object {
+              "type": "string",
+              "value": "GET",
+            },
+            "integration": Object {
+              "args": Object {
+                "array": Array [
+                  Object {
+                    "fn": "join",
+                    "list": Object {
+                      "array": Array [
+                        Object {
+                          "fn": "ref",
+                          "logicalId": "ProxyUrl",
+                          "type": "intrinsic",
+                        },
+                        Object {
+                          "type": "string",
+                          "value": "{proxy}",
+                        },
+                      ],
+                      "type": "array",
+                    },
+                    "separator": "/",
+                    "type": "intrinsic",
+                  },
+                  Object {
+                    "fields": Object {
+                      "httpMethod": Object {
+                        "type": "string",
+                        "value": "GET",
+                      },
+                      "options": Object {
+                        "fields": Object {
+                          "requestParameters": Object {
+                            "fields": Object {
+                              "integration.request.path.proxy": Object {
+                                "type": "string",
+                                "value": "method.request.path.proxy",
+                              },
+                            },
+                            "type": "object",
+                          },
+                        },
+                        "type": "struct",
+                      },
+                      "proxy": Object {
+                        "type": "boolean",
+                        "value": true,
+                      },
+                    },
+                    "type": "struct",
+                  },
+                ],
+                "type": "array",
+              },
+              "fqn": "aws-cdk-lib.aws_apigateway.HttpIntegration",
+              "namespace": "aws_apigateway",
+              "type": "initializer",
+            },
+            "options": Object {
+              "fields": Object {
+                "requestParameters": Object {
+                  "fields": Object {
+                    "method.request.path.proxy": Object {
+                      "type": "boolean",
+                      "value": true,
+                    },
+                  },
+                  "type": "object",
+                },
+              },
+              "type": "struct",
+            },
+            "resource": Object {
+              "reference": Object {
+                "fn": "ref",
+                "logicalId": "ProxyResource",
+                "type": "intrinsic",
+              },
+              "type": "resolve-reference",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "construct",
+      },
+      "ProxyResource": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_apigateway.ProxyResource",
+        "logicalId": "ProxyResource",
+        "namespace": "aws_apigateway",
+        "overrides": Array [],
+        "props": Object {
+          "fields": Object {
+            "anyMethod": Object {
+              "type": "boolean",
+              "value": false,
+            },
+            "parent": Object {
+              "reference": Object {
+                "fn": "getProp",
+                "logicalId": "ProxyApi",
+                "property": "root",
+                "type": "intrinsic",
+              },
+              "type": "resolve-reference",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "construct",
+      },
+    },
+  },
+  "rules": Map {},
+  "template": Template {
+    "conditions": Map {},
+    "description": undefined,
+    "mappings": Map {},
+    "metadata": Map {},
+    "outputs": Map {},
+    "parameters": Map {
+      "ProxyUrl" => Object {
+        "allowedPattern": undefined,
+        "allowedValues": undefined,
+        "constraintDescription": undefined,
+        "default": "https://aws.amazon.com/ko/",
+        "description": undefined,
+        "maxLength": undefined,
+        "maxValue": undefined,
+        "minLength": undefined,
+        "minValue": undefined,
+        "noEcho": undefined,
+        "type": "String",
+      },
+    },
+    "resources": Map {
+      "ProxyApi" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "creationPolicy": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {},
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "on": undefined,
+        "overrides": Array [],
+        "properties": Object {
+          "endpointConfiguration": Object {
+            "fields": Object {
+              "types": Object {
+                "array": Array [
+                  Object {
+                    "type": "string",
+                    "value": "EDGE",
+                  },
+                ],
+                "type": "array",
+              },
+            },
+            "type": "object",
+          },
+          "restApiName": Object {
+            "type": "string",
+            "value": "Hello",
+          },
+        },
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_apigateway.RestApi",
+        "updatePolicy": undefined,
+        "updateReplacePolicy": "Delete",
+      },
+      "ProxyResource" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "creationPolicy": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "ProxyApi",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "on": undefined,
+        "overrides": Array [],
+        "properties": Object {
+          "anyMethod": Object {
+            "type": "boolean",
+            "value": false,
+          },
+          "parent": Object {
+            "fn": "getProp",
+            "logicalId": "ProxyApi",
+            "property": "root",
+            "type": "intrinsic",
+          },
+        },
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_apigateway.ProxyResource",
+        "updatePolicy": undefined,
+        "updateReplacePolicy": "Delete",
+      },
+      "ProxyMethod" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "creationPolicy": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "ProxyResource",
+          "ProxyUrl",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "on": undefined,
+        "overrides": Array [],
+        "properties": Object {
+          "httpMethod": Object {
+            "type": "string",
+            "value": "GET",
+          },
+          "integration": Object {
+            "fields": Object {
+              "aws-cdk-lib.aws_apigateway.HttpIntegration": Object {
+                "array": Array [
+                  Object {
+                    "fn": "join",
+                    "list": Object {
+                      "array": Array [
+                        Object {
+                          "fn": "ref",
+                          "logicalId": "ProxyUrl",
+                          "type": "intrinsic",
+                        },
+                        Object {
+                          "type": "string",
+                          "value": "{proxy}",
+                        },
+                      ],
+                      "type": "array",
+                    },
+                    "separator": "/",
+                    "type": "intrinsic",
+                  },
+                  Object {
+                    "fields": Object {
+                      "httpMethod": Object {
+                        "type": "string",
+                        "value": "GET",
+                      },
+                      "options": Object {
+                        "fields": Object {
+                          "requestParameters": Object {
+                            "fields": Object {
+                              "integration.request.path.proxy": Object {
+                                "type": "string",
+                                "value": "method.request.path.proxy",
+                              },
+                            },
+                            "type": "object",
+                          },
+                        },
+                        "type": "object",
+                      },
+                      "proxy": Object {
+                        "type": "boolean",
+                        "value": true,
+                      },
+                    },
+                    "type": "object",
+                  },
+                ],
+                "type": "array",
+              },
+            },
+            "type": "object",
+          },
+          "options": Object {
+            "fields": Object {
+              "requestParameters": Object {
+                "fields": Object {
+                  "method.request.path.proxy": Object {
+                    "type": "boolean",
+                    "value": true,
+                  },
+                },
+                "type": "object",
+              },
+            },
+            "type": "object",
+          },
+          "resource": Object {
+            "fn": "ref",
+            "logicalId": "ProxyResource",
+            "type": "intrinsic",
+          },
+        },
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_apigateway.Method",
+        "updatePolicy": undefined,
+        "updateReplacePolicy": "Delete",
+      },
+    },
+    "rules": Map {},
+    "template": Object {
+      "Parameters": Object {
+        "ProxyUrl": Object {
+          "Default": "https://aws.amazon.com/ko/",
+          "Type": "String",
+        },
+      },
+      "Resources": Object {
+        "ProxyApi": Object {
+          "Properties": Object {
+            "endpointConfiguration": Object {
+              "types": Array [
+                "EDGE",
+              ],
+            },
+            "restApiName": "Hello",
+          },
+          "Type": "aws-cdk-lib.aws_apigateway.RestApi",
+        },
+        "ProxyMethod": Object {
+          "Properties": Object {
+            "httpMethod": "GET",
+            "integration": Object {
+              "aws-cdk-lib.aws_apigateway.HttpIntegration": Array [
+                Object {
+                  "Fn::Join": Array [
+                    "/",
+                    Array [
+                      Object {
+                        "Ref": "ProxyUrl",
+                      },
+                      "{proxy}",
+                    ],
+                  ],
+                },
+                Object {
+                  "httpMethod": "GET",
+                  "options": Object {
+                    "requestParameters": Object {
+                      "integration.request.path.proxy": "method.request.path.proxy",
+                    },
+                  },
+                  "proxy": true,
+                },
+              ],
+            },
+            "options": Object {
+              "requestParameters": Object {
+                "method.request.path.proxy": true,
+              },
+            },
+            "resource": Object {
+              "Ref": "ProxyResource",
+            },
+          },
+          "Type": "aws-cdk-lib.aws_apigateway.Method",
+        },
+        "ProxyResource": Object {
+          "Properties": Object {
+            "anyMethod": false,
+            "parent": Object {
+              "CDK::GetProp": "ProxyApi.root",
+            },
+          },
+          "Type": "aws-cdk-lib.aws_apigateway.ProxyResource",
+        },
+      },
+    },
+    "templateFormatVersion": undefined,
+    "transform": Array [],
+  },
+  "transform": Array [],
+}
+`;
+
 exports[`lambda-dashboard.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},

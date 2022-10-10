@@ -89,6 +89,13 @@ export function resolveExpressionType(
           assertInterface(typeRef)
         )
       );
+    case ResolvableExpressionType.OTHER_CLASS:
+      return refOrResolve(x, (y) =>
+        resolveInstanceExpression(
+          assertExpressionType(y, 'object'),
+          assertClass(typeRef)
+        )
+      );
 
     case ResolvableExpressionType.CONSTRUCT:
       return resolveRefToValue(assertRef(x));
@@ -121,6 +128,7 @@ export enum ResolvableExpressionType {
   STRUCT,
   BEHAVIORAL_INTERFACE,
   CONSTRUCT,
+  OTHER_CLASS,
 }
 
 export function analyzeTypeReference(
@@ -172,7 +180,7 @@ export function analyzeTypeReference(
     return ResolvableExpressionType.CONSTRUCT;
   }
   if (typeRef.type?.isClassType()) {
-    return ResolvableExpressionType.BEHAVIORAL_INTERFACE;
+    return ResolvableExpressionType.OTHER_CLASS;
   }
 
   return ResolvableExpressionType.UNKNOWN;
