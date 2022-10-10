@@ -235,6 +235,8 @@ If the class has a public constructor with one required parameter that is a prop
 }
 ```
 
+If no parameters are required, `Properties` can be omitted completely.
+
 > **Work in progress**: it is possible to support public constructors with two or more required parameters, but it
 > requires careful design of the syntax. Still under investigation.
 
