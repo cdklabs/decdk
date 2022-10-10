@@ -76,7 +76,7 @@ argument to `cdk`:
 cdk -a "ts-node src/decdk.ts template.json" synth
 ```
 
-## Other features
+## Features
 
 ### Raw CloudFormation
 
