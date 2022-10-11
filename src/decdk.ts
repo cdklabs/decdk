@@ -2,7 +2,9 @@ import * as cdk from 'aws-cdk-lib';
 import chalk from 'chalk';
 import yargs from 'yargs';
 import { DeclarativeStack } from './declarative-stack';
+import { DeclarativeStackSynthesizer } from './synthesizer';
 import { loadTypeSystem, readTemplate, stackNameFromFileName } from './util';
+import * as cxapi from 'aws-cdk-lib/cx-api';
 
 async function main() {
   const argv = await yargs
@@ -21,7 +23,12 @@ async function main() {
   const stackName = stackNameFromFileName(templateFile);
   const typeSystem = await loadTypeSystem();
 
-  const app = new cdk.App();
+  const app = new cdk.App({
+    context: {
+      [cxapi.DISABLE_ASSET_STAGING_CONTEXT]: 'true',
+    },
+  });
+
   new DeclarativeStack(app, stackName, {
     template,
     typeSystem,
@@ -30,6 +37,7 @@ async function main() {
         process.env.CDK_DEPLOY_ACCOUNT || process.env.CDK_DEFAULT_ACCOUNT,
       region: process.env.CDK_DEPLOY_REGION || process.env.CDK_DEFAULT_REGION,
     },
+    synthesizer: new DeclarativeStackSynthesizer(),
   });
   app.synth();
 }
