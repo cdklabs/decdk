@@ -35,31 +35,40 @@ const isTemplateFile = (dirent: fs.Dirent): boolean =>
   dirent.isFile() &&
   (dirent.name.endsWith('.json') || dirent.name.endsWith('.yaml'));
 
-let _cachedExamples: Array<{
+interface TemplateFixture {
   id: string;
   name: string;
   path: string;
-}>;
-function loadTemplateFixtures() {
-  const fixtureDirs = [
-    path.join(__dirname, '..', 'examples'),
-    path.join(__dirname, 'fixtures', 'templates'),
-  ];
-
+}
+let _cachedExamples: Map<string, TemplateFixture[]> = new Map();
+const fixtureDirs = [
+  path.join(__dirname, '..', 'examples'),
+  path.join(__dirname, 'fixtures', 'templates'),
+];
+export function loadTemplateFixtures(
+  directories = fixtureDirs
+): TemplateFixture[] {
   // Load only once, it's quite expensive
-  if (!_cachedExamples) {
-    _cachedExamples = fixtureDirs.flatMap((fixtureDir) =>
-      fs
-        .readdirSync(fixtureDir, { withFileTypes: true })
-        .filter(isTemplateFile)
-        .map((file) => ({
-          id: path.join(path.basename(fixtureDir), file.name),
-          name: file.name,
-          path: path.join(fixtureDir, file.name),
-        }))
-    );
+  const cacheKey = Buffer.from(JSON.stringify(directories), 'utf8').toString(
+    'base64'
+  );
+
+  if (_cachedExamples.has(cacheKey)) {
+    return _cachedExamples.get(cacheKey)!;
   }
-  return _cachedExamples;
+
+  const fixtures = directories.flatMap((fixtureDir) =>
+    fs
+      .readdirSync(fixtureDir, { withFileTypes: true })
+      .filter(isTemplateFile)
+      .map((file) => ({
+        id: path.join(path.basename(fixtureDir), file.name),
+        name: file.name,
+        path: path.join(fixtureDir, file.name),
+      }))
+  );
+  _cachedExamples.set(cacheKey, fixtures);
+  return fixtures;
 }
 
 export class Testing {
@@ -113,14 +122,19 @@ export class Testing {
   private constructor() {}
 }
 
+export interface TemplateFixturesTestOptions {
+  timeout?: number;
+}
+
 export function testTemplateFixtures(
   testCase: (example: { name: string; path: string }) => any,
-  timeout?: number
+  fixtures = Testing.templateFixtures,
+  options: TemplateFixturesTestOptions = {}
 ) {
-  test.each(Testing.templateFixtures.map((file) => ({ file })))(
+  test.each(fixtures.map((file) => ({ file })))(
     '$file.id',
     ({ file }) => testCase(file),
-    timeout
+    options.timeout
   );
 }
 
