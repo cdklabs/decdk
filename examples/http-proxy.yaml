@@ -1,0 +1,36 @@
+# yaml-language-server: $schema=../cdk.schema.json
+Parameters:
+  ProxyUrl:
+    Type: String
+    Default: https://aws.amazon.com/ko/
+Resources:
+  ProxyApi:
+    Type: aws-cdk-lib.aws_apigateway.RestApi
+    Properties:
+      restApiName: Hello
+      endpointConfiguration:
+        types:
+          - EDGE
+  ProxyResource:
+    Type: aws-cdk-lib.aws_apigateway.ProxyResource
+    Properties:
+      parent:
+        CDK::GetProp: ProxyApi.root
+      anyMethod: false
+  ProxyMethod:
+    Type: aws-cdk-lib.aws_apigateway.Method
+    Properties:
+      httpMethod: GET
+      resource:
+        Ref: ProxyResource
+      integration:
+        aws-cdk-lib.aws_apigateway.HttpIntegration:
+          - Fn::Join: ['/', [!Ref ProxyUrl, '{proxy}']]
+          - proxy: true
+            httpMethod: GET
+            options:
+              requestParameters:
+                integration.request.path.proxy: method.request.path.proxy
+      options:
+        requestParameters:
+          method.request.path.proxy: true

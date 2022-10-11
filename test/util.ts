@@ -190,7 +190,24 @@ export function matchConstruct(props: object) {
   });
 }
 
-export function matchInitializer(fqn: string, args: object[]) {
+export function matchLazyResource(call: any) {
+  return expect.objectContaining({
+    type: 'lazyResource',
+    call,
+  });
+}
+
+export function matchInstanceMethodCall(target: string, args: any[] = []) {
+  return expect.objectContaining({
+    type: 'instanceMethodCall',
+    logicalId: target,
+    args: {
+      type: 'array',
+      array: expect.arrayContaining(args),
+    },
+  });
+}
+export function matchInitializer(fqn: string, args: object[] = []) {
   return expect.objectContaining({
     type: 'initializer',
     fqn,

@@ -1,7 +1,14 @@
 import * as reflect from 'jsii-reflect';
 import { Template } from '../../src/parser/template';
 import { TypedTemplate } from '../../src/type-resolution/template';
-import { matchConstruct, Testing } from '../util';
+import {
+  matchConstruct,
+  matchInitializer,
+  matchInstanceMethodCall,
+  matchLazyResource,
+  matchStringLiteral,
+  Testing,
+} from '../util';
 
 let typeSystem: reflect.TypeSystem;
 
@@ -84,6 +91,114 @@ test('Can provide implementation via static method', async () => {
     })
   );
   expect(template.template).toBeValidTemplate();
+});
+
+test('Can provide implementation if expected type is a class', async () => {
+  // GIVEN
+  const template = await Template.fromObject({
+    Resources: {
+      LibraryApi: {
+        Type: 'aws-cdk-lib.aws_apigateway.RestApi',
+      },
+      BooksResource: {
+        Type: 'aws-cdk-lib.aws_apigateway.Resource',
+        Properties: {
+          parent: {
+            'CDK::GetProp': 'LibraryApi.root',
+          },
+          pathPart: 'books',
+        },
+      },
+      GetBooks: {
+        Type: 'aws-cdk-lib.aws_apigateway.Method',
+        On: 'BooksResource',
+        Call: {
+          addMethod: [
+            'GET',
+            {
+              'aws-cdk-lib.aws_apigateway.HttpIntegration': [
+                'https://amazon.com/{proxy}',
+                {
+                  proxy: true,
+                  httpMethod: 'GET',
+                  options: {
+                    requestParameters: {
+                      'integration.request.path.proxy':
+                        'method.request.path.proxy',
+                    },
+                  },
+                },
+              ],
+            },
+            {
+              requestParameters: {
+                'method.request.path.proxy': true,
+              },
+            },
+          ],
+        },
+      },
+    },
+  });
+
+  const typedTemplate = new TypedTemplate(template, { typeSystem });
+
+  // THEN
+  const books = typedTemplate.resource('GetBooks');
+  expect(books).toEqual(
+    matchLazyResource(
+      matchInstanceMethodCall('BooksResource', [
+        matchStringLiteral('GET'),
+        matchInitializer('aws-cdk-lib.aws_apigateway.HttpIntegration'),
+      ])
+    )
+  );
+  expect(template.template).toBeValidTemplate();
+});
+
+test('Can only provide compatible inline implementations', async () => {
+  // GIVEN
+  const template = await Template.fromObject({
+    Resources: {
+      LibraryApi: {
+        Type: 'aws-cdk-lib.aws_apigateway.RestApi',
+      },
+      BooksResource: {
+        Type: 'aws-cdk-lib.aws_apigateway.Resource',
+        Properties: {
+          parent: {
+            'CDK::GetProp': 'LibraryApi.root',
+          },
+          pathPart: 'books',
+        },
+      },
+      GetBooks: {
+        Type: 'aws-cdk-lib.aws_apigateway.Method',
+        On: 'BooksResource',
+        Call: {
+          addMethod: [
+            'GET',
+            {
+              'aws-cdk-lib.aws_apigateway.ProxyResource': {
+                'CDK::Args': [
+                  { Ref: 'CDK::Scope' },
+                  'test',
+                  {
+                    parent: { 'CDK::GetProp': 'LibraryApi.root' },
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      },
+    },
+  });
+
+  // THEN
+  expect(() => new TypedTemplate(template, { typeSystem })).toThrow(
+    "Expected exactly one of the fields 'aws-cdk-lib.aws_apigateway.AwsIntegration',"
+  );
 });
 
 test('Resources can be created by calling instance methods on constructs', async () => {
