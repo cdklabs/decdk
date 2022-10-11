@@ -1,6 +1,2585 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`examples/apigw.json 1`] = `
+exports[`Cloudformation templates cloudformation/boolean-for-string.json 1`] = `
+Object {
+  "Resources": Object {
+    "Bucket": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "AccessControl": true,
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Cloudformation templates cloudformation/bucket-with-encryption-key.json 1`] = `
+Object {
+  "Resources": Object {
+    "Bucket": Object {
+      "DeletionPolicy": "Retain",
+      "Metadata": Object {
+        "KeyArn": Object {
+          "Fn::GetAtt": Array [
+            "Key",
+            "Arn",
+          ],
+        },
+        "KeyRef": Object {
+          "Ref": "Key",
+        },
+        "Object1": "Location1",
+      },
+      "Properties": Object {
+        "BucketEncryption": Object {
+          "ServerSideEncryptionConfiguration": Array [
+            Object {
+              "ServerSideEncryptionByDefault": Object {
+                "KMSMasterKeyID": Object {
+                  "Fn::GetAtt": Array [
+                    "Key",
+                    "Arn",
+                  ],
+                },
+                "SSEAlgorithm": "aws:kms",
+              },
+            },
+          ],
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "Key": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "KeyPolicy": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "kms:*",
+              ],
+              "Effect": "Allow",
+              "Principal": Object {
+                "AWS": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":root",
+                    ],
+                  ],
+                },
+              },
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::KMS::Key",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Cloudformation templates cloudformation/bucket-with-parameters.json 1`] = `
+Object {
+  "Parameters": Object {
+    "BucketName": Object {
+      "AllowedPattern": "^[a-zA-Z0-9]*$",
+      "ConstraintDescription": "a string consisting only of alphanumeric characters",
+      "Default": "MyS3Bucket",
+      "Description": "The name of your bucket",
+      "MaxLength": 10,
+      "MinLength": 1,
+      "NoEcho": true,
+      "Type": "String",
+    },
+    "CorsMaxAge": Object {
+      "AllowedValues": Array [
+        1,
+        2,
+        3,
+        10,
+        100,
+        300,
+      ],
+      "Default": "3",
+      "Description": "the time in seconds that a browser will cache the preflight response",
+      "MaxValue": 300,
+      "MinValue": 0,
+      "NoEcho": true,
+      "Type": "Number",
+    },
+  },
+  "Resources": Object {
+    "Bucket": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "BucketName": Object {
+          "Ref": "BucketName",
+        },
+        "CorsConfiguration": Object {
+          "CorsRules": Array [
+            Object {
+              "AllowedMethods": Array [
+                "GET",
+                "POST",
+              ],
+              "AllowedOrigins": Array [
+                "origin1",
+                "origin2",
+              ],
+              "MaxAge": Object {
+                "Ref": "CorsMaxAge",
+              },
+            },
+          ],
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Cloudformation templates cloudformation/custom-resource-with-attributes.json 1`] = `
+Object {
+  "Conditions": Object {
+    "AlwaysFalseCond": Object {
+      "Fn::Equals": Array [
+        Object {
+          "Ref": "AWS::Region",
+        },
+        "completely-made-up-region",
+      ],
+    },
+  },
+  "Resources": Object {
+    "CustomBucket": Object {
+      "CreationPolicy": Object {
+        "AutoScalingCreationPolicy": Object {
+          "MinSuccessfulInstancesPercent": 90,
+        },
+      },
+      "DeletionPolicy": "Retain",
+      "DependsOn": Array [
+        "CustomResource",
+      ],
+      "Metadata": Object {
+        "Object1": "Value1",
+        "Object2": "Value2",
+      },
+      "Type": "AWS::MyService::Custom",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "CustomResource": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "CustomFuncProp": Object {
+          "Ref": "AWS::NoValue",
+        },
+        "ServiceToken": "CustomValue",
+      },
+      "Type": "AWS::CloudFormation::CustomResource",
+      "UpdatePolicy": Object {
+        "AutoScalingReplacingUpdate": Object {
+          "WillReplace": false,
+        },
+      },
+      "UpdateReplacePolicy": "Retain",
+    },
+  },
+}
+`;
+
+exports[`Cloudformation templates cloudformation/custom-resource-with-bad-condition.json 1`] = `
+Object {
+  "Resources": Object {
+    "CustomResource": Object {
+      "DeletionPolicy": "Delete",
+      "Type": "AWS::MyService::Custom",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Cloudformation templates cloudformation/fn-select-with-novalue.json 1`] = `
+Object {
+  "Conditions": Object {
+    "MyCondition": Object {
+      "Fn::Equals": Array [
+        Object {
+          "Ref": "DoIt",
+        },
+        "Yes",
+      ],
+    },
+  },
+  "Parameters": Object {
+    "DoIt": Object {
+      "Type": "String",
+    },
+  },
+  "Resources": Object {
+    "Bucket": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "BucketName": Object {
+          "Fn::Select": Array [
+            0,
+            Array [
+              Object {
+                "Fn::If": Array [
+                  "MyCondition",
+                  "doing-it",
+                  Object {
+                    "Ref": "AWS::NoValue",
+                  },
+                ],
+              },
+              "not-doingit",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Cloudformation templates cloudformation/fn-sub-brace-edges.json 1`] = `
+Object {
+  "Resources": Object {
+    "Bucket": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "SymbolsAndResources": Object {
+          "ClosingBrace": Object {
+            "Fn::Sub": "DoesNotExist}DoesNotExist",
+          },
+          "ClosingBraceDollar": Object {
+            "Fn::Sub": "DoesNotExist}$DoesNotExist",
+          },
+          "DollarClosingBrace": Object {
+            "Fn::Sub": "DoesNotExist$}DoesNotExist",
+          },
+          "DollarOpeningBrace": Object {
+            "Fn::Sub": "DoesNotExist\${DoesNotExist",
+          },
+          "DollarSign": Object {
+            "Fn::Sub": "DoesNotExist$DoesNotExist",
+          },
+          "OpeningBrace": Object {
+            "Fn::Sub": "DoesNotExist{DoesNotExist",
+          },
+          "OpeningBraceDollar": Object {
+            "Fn::Sub": "DoesNotExist{$DoesNotExist",
+          },
+        },
+        "SymbolsOnly": Object {
+          "ClosingBrace": Object {
+            "Fn::Sub": "}",
+          },
+          "ClosingBraceDollar": Object {
+            "Fn::Sub": "}$",
+          },
+          "DollarClosingBrace": Object {
+            "Fn::Sub": "$}",
+          },
+          "DollarOpeningBrace": Object {
+            "Fn::Sub": "\${",
+          },
+          "DollarSign": Object {
+            "Fn::Sub": "$",
+          },
+          "OpeningBrace": Object {
+            "Fn::Sub": "{",
+          },
+          "OpeningBraceDollar": Object {
+            "Fn::Sub": "{$",
+          },
+        },
+      },
+      "Type": "Custom::ManyStrings",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Cloudformation templates cloudformation/fn-sub-map-dotted-attributes.json 1`] = `
+Object {
+  "Resources": Object {
+    "Bucket": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "BucketName": Object {
+          "Fn::Sub": Array [
+            "\${ELB.SourceSecurityGroup.GroupName}-\${LoadBalancerName}",
+            Object {
+              "LoadBalancerName": Object {
+                "Ref": "ELB",
+              },
+            },
+          ],
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "ELB": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "AvailabilityZones": Array [
+          "us-east-1a",
+        ],
+        "CrossZone": true,
+        "Listeners": Array [
+          Object {
+            "InstancePort": "80",
+            "LoadBalancerPort": "80",
+            "Protocol": "HTTP",
+          },
+        ],
+      },
+      "Type": "AWS::ElasticLoadBalancing::LoadBalancer",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Cloudformation templates cloudformation/fn-sub-map-empty.json 1`] = `
+Object {
+  "Resources": Object {
+    "Bucket": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "BucketName": Object {
+          "Fn::Sub": "my-bucket",
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Cloudformation templates cloudformation/fn-sub-override.json 1`] = `
+Object {
+  "Resources": Object {
+    "AnotherBucket": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "BucketName": Object {
+          "Fn::Sub": "\${Bucket}-\${!Bucket}-\${Bucket.DomainName}",
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "Bucket": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "BucketName": "bucket",
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Cloudformation templates cloudformation/fn-sub-parameters.json 1`] = `
+Object {
+  "Parameters": Object {
+    "MyParam": Object {
+      "Type": "String",
+    },
+  },
+  "Resources": Object {
+    "Bucket": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "BucketName": Object {
+          "Fn::Sub": "\${MyParam}",
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Cloudformation templates cloudformation/fn-sub-shadow.json 1`] = `
+Object {
+  "Resources": Object {
+    "AnotherBucket": Object {
+      "DeletionPolicy": "Delete",
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "Bucket": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "BucketName": Object {
+          "Fn::Sub": Array [
+            "\${AnotherBucket}",
+            Object {
+              "AnotherBucket": Object {
+                "Ref": "AnotherBucket",
+              },
+            },
+          ],
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Cloudformation templates cloudformation/fn-sub-shadow-parameter.json 1`] = `
+Object {
+  "Parameters": Object {
+    "MyParam": Object {
+      "Type": "String",
+    },
+  },
+  "Resources": Object {
+    "Bucket": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "BucketName": Object {
+          "Fn::Sub": Array [
+            "\${MyParam}",
+            Object {
+              "MyParam": Object {
+                "Ref": "MyParam",
+              },
+            },
+          ],
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Cloudformation templates cloudformation/fn-sub-string.json 1`] = `
+Object {
+  "Resources": Object {
+    "AnotherBucket": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "BucketName": Object {
+          "Fn::Sub": "1-\${AWS::Region}-foo-\${Bucket}-\${!Literal}-\${Bucket.DomainName}-\${AWS::Region}",
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "Bucket": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "BucketName": "bucket",
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Cloudformation templates cloudformation/get-att-string-form.json 1`] = `
+Object {
+  "Resources": Object {
+    "Bucket1": Object {
+      "DeletionPolicy": "Delete",
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "Bucket2": Object {
+      "DeletionPolicy": "Delete",
+      "Metadata": Object {
+        "Bucket1Arn": Object {
+          "Fn::GetAtt": "Bucket1.Arn",
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Cloudformation templates cloudformation/if-complex-property.json 1`] = `
+Object {
+  "Conditions": Object {
+    "AlwaysFalseCond": Object {
+      "Fn::Equals": Array [
+        Object {
+          "Ref": "AWS::Region",
+        },
+        "completely-made-up-region",
+      ],
+    },
+  },
+  "Resources": Object {
+    "Bucket": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "CorsConfiguration": Object {
+          "CorsRules": Array [
+            Object {
+              "Fn::If": Array [
+                "AlwaysFalseCond",
+                Object {
+                  "AllowedMethods": Array [
+                    "GET",
+                  ],
+                  "AllowedOrigins": Array [
+                    "*",
+                  ],
+                  "MaxAge": 10,
+                },
+                Object {
+                  "AllowedMethods": Array [
+                    "POST",
+                  ],
+                  "AllowedOrigins": Array [
+                    "/path/*",
+                  ],
+                  "MaxAge": 20,
+                },
+              ],
+            },
+          ],
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Cloudformation templates cloudformation/if-simple-property.json 1`] = `
+Object {
+  "Conditions": Object {
+    "AlwaysFalseCond": Object {
+      "Fn::Equals": Array [
+        Object {
+          "Ref": "AWS::Region",
+        },
+        "completely-made-up-region",
+      ],
+    },
+  },
+  "Resources": Object {
+    "Bucket": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "BucketName": Object {
+          "Fn::If": Array [
+            "AlwaysFalseCond",
+            "Name1",
+            "Name2",
+          ],
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Cloudformation templates cloudformation/long-form-subnet.yaml 1`] = `
+Object {
+  "Conditions": Object {
+    "AlwaysTrueCond": Object {
+      "Fn::Not": Array [
+        Object {
+          "Fn::Equals": Array [
+            Object {
+              "Ref": "AWS::Region",
+            },
+            "completely-made-up-region",
+          ],
+        },
+      ],
+    },
+  },
+  "Resources": Object {
+    "Bucket1": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "BucketName": "SomeBucketName",
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "Bucket2": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "BucketName": Object {
+          "Fn::GetAtt": Array [
+            "Bucket1",
+            "Arn",
+          ],
+        },
+        "CorsConfiguration": Object {
+          "CorsRules": Array [
+            Object {
+              "AllowedMethods": Array [
+                "GET",
+                "POST",
+              ],
+              "AllowedOrigins": Array [
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Ref": "Bucket1",
+                      },
+                      "1",
+                    ],
+                  ],
+                },
+                "origin2",
+              ],
+              "MaxAge": 2,
+            },
+          ],
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "Subnet": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "AvailabilityZone": Object {
+          "Fn::Select": Array [
+            "0",
+            Object {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        "CidrBlock": "10.0.0.0/24",
+        "VpcId": Object {
+          "Fn::If": Array [
+            "AlwaysTrueCond",
+            Object {
+              "Fn::Select": Array [
+                0,
+                Object {
+                  "Fn::Split": Array [
+                    ",",
+                    Object {
+                      "Fn::ImportValue": "ImportedVpcId",
+                    },
+                  ],
+                },
+              ],
+            },
+            Object {
+              "Fn::Select": Array [
+                0,
+                Object {
+                  "Fn::GetAZs": "eu-west-2",
+                },
+              ],
+            },
+          ],
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Cloudformation templates cloudformation/long-form-vpc.yaml 1`] = `
+Object {
+  "Conditions": Object {
+    "AlwaysTrueCond": Object {
+      "Fn::And": Array [
+        Object {
+          "Fn::Not": Array [
+            Object {
+              "Fn::Equals": Array [
+                Object {
+                  "Ref": "AWS::Region",
+                },
+                "completely-made-up-region",
+              ],
+            },
+          ],
+        },
+        Object {
+          "Fn::Or": Array [
+            Object {
+              "Fn::Equals": Array [
+                Object {
+                  "Ref": "AWS::Region",
+                },
+                "completely-made-up-region",
+              ],
+            },
+            Object {
+              "Fn::Equals": Array [
+                Object {
+                  "Ref": "AWS::Region",
+                },
+                "completely-made-up-region",
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  },
+  "Mappings": Object {
+    "RegionMap": Object {
+      "region-1": Object {
+        "HVM64": "name1",
+        "HVMG2": "name2",
+      },
+    },
+  },
+  "Resources": Object {
+    "Bucket": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "AccessControl": Object {
+          "Fn::ImportValue": Object {
+            "Fn::Sub": Array [
+              "\${Region}-foo-\${!Immediate}-foo-\${Vpc}-\${Vpc.Id}-\${Name}",
+              Object {
+                "Name": Object {
+                  "Ref": "Vpc",
+                },
+                "Region": Object {
+                  "Fn::Base64": "AWS::Region",
+                },
+              },
+            ],
+          },
+        },
+        "BucketName": Object {
+          "Fn::If": Array [
+            "AlwaysTrueCond",
+            Object {
+              "Fn::FindInMap": Array [
+                "RegionMap",
+                "region-1",
+                "HVM64",
+              ],
+            },
+            Object {
+              "Fn::Transform": Object {
+                "Name": "AWS::Include",
+                "Parameters": Object {
+                  "AnotherParameter": Object {
+                    "Fn::Base64": "AnotherValue",
+                  },
+                  "Location": "location,",
+                },
+              },
+            },
+          ],
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "Vpc": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "CidrBlock": Object {
+          "Fn::If": Array [
+            "AlwaysTrueCond",
+            Object {
+              "Fn::Cidr": Array [
+                "192.168.1.1/24",
+                2,
+                5,
+              ],
+            },
+            Object {
+              "Fn::Cidr": Array [
+                "10.0.0.0/24",
+                "6",
+                "5",
+              ],
+            },
+          ],
+        },
+      },
+      "Type": "AWS::EC2::VPC",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Cloudformation templates cloudformation/non-existent-resource-attribute.json 1`] = `
+Object {
+  "Resources": Object {
+    "Bucket2": Object {
+      "DeletionPolicy": "Delete",
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Cloudformation templates cloudformation/number-for-string.json 1`] = `
+Object {
+  "Resources": Object {
+    "Bucket": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "WebsiteConfiguration": Object {
+          "RoutingRules": Array [
+            Object {
+              "RedirectRule": Object {
+                "HttpRedirectCode": 403,
+              },
+            },
+          ],
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Cloudformation templates cloudformation/only-bucket-complex-props.json 1`] = `
+Object {
+  "Resources": Object {
+    "Bucket": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "CorsConfiguration": Object {
+          "CorsRules": Array [
+            Object {
+              "AllowedMethods": Array [
+                "GET",
+              ],
+              "AllowedOrigins": Array [
+                "*",
+              ],
+              "MaxAge": 10,
+            },
+          ],
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Cloudformation templates cloudformation/only-empty-bucket.json 1`] = `
+Object {
+  "Resources": Object {
+    "Bucket": Object {
+      "DeletionPolicy": "Delete",
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Cloudformation templates cloudformation/only-empty-bucket-with-parameters.json 1`] = `
+Object {
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Conditions": Object {
+    "Cond1": Object {
+      "Fn::Equals": Array [
+        "a",
+        "b",
+      ],
+    },
+  },
+  "Description": "My template description",
+  "Mappings": Object {
+    "Mapping01": Object {
+      "Key01": Object {
+        "Name": "Value01",
+      },
+    },
+  },
+  "Metadata": Object {
+    "Instances": Object {
+      "Description": "Information about the instances",
+    },
+  },
+  "Outputs": Object {
+    "Output1": Object {
+      "Value": Object {
+        "Fn::If": Array [
+          "Cond1",
+          Object {
+            "Fn::Base64": "Output1Value",
+          },
+          Object {
+            "Fn::GetAtt": Array [
+              "Bucket",
+              "DualStackDomainName",
+            ],
+          },
+        ],
+      },
+    },
+  },
+  "Parameters": Object {
+    "Param": Object {
+      "Default": "",
+      "Description": "The description of the parameter",
+      "Type": "String",
+    },
+  },
+  "Resources": Object {
+    "Bucket": Object {
+      "DeletionPolicy": "Delete",
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+  "Transform": "AWS::Serverless-2016-10-31",
+}
+`;
+
+exports[`Cloudformation templates cloudformation/only-mapping-and-bucket.json 1`] = `
+Object {
+  "Mappings": Object {
+    "SomeMapping": Object {
+      "region": Object {
+        "key1": "value1",
+      },
+    },
+  },
+  "Resources": Object {
+    "Bucket": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "BucketName": Object {
+          "Fn::FindInMap": Array [
+            "SomeMapping",
+            Object {
+              "Ref": "AWS::Region",
+            },
+            "key1",
+          ],
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Cloudformation templates cloudformation/properties-not-in-cfn-spec.json 1`] = `
+Object {
+  "Resources": Object {
+    "Bucket": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "AccelerateConfiguration": Object {
+          "AccelerationStatus": "Enabled",
+          "PropertyNotInCfnSchema": false,
+        },
+        "CorsConfiguration": Object {
+          "CorsRules": Array [
+            Object {
+              "AllowedMethods": Array [
+                "GET",
+              ],
+              "AllowedOrigins": Array [
+                "origin1",
+              ],
+              "MaxAge": 5,
+              "PropertyNotInCfnSchema": "unmodeled property in array",
+            },
+          ],
+        },
+        "PropertyNotInCfnSchema": 1,
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "Function": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "CodeUri": Object {
+          "Bucket": "bucket",
+          "Key": "key",
+        },
+        "Events": Object {
+          "Api": Object {
+            "Properties": Object {
+              "Method": "GET",
+              "Path": "/",
+            },
+            "PropertyNotInCfnSchema": "unmodeled property in map",
+            "Type": "Api",
+          },
+        },
+        "Handler": "index.handler",
+        "ParentPropertyNotInCfnSchema": Object {
+          "ChildPropertyNotInCfnSchema": Object {
+            "Ref": "Bucket",
+          },
+        },
+        "Runtime": "nodejs14.x",
+      },
+      "Type": "AWS::Serverless::Function",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+  "Transform": "AWS::Serverless-2016-10-31",
+}
+`;
+
+exports[`Cloudformation templates cloudformation/ref-array-property.json 1`] = `
+Object {
+  "Parameters": Object {
+    "Methods": Object {
+      "Default": "GET,PUT",
+      "Description": "The description of the parameter",
+      "Type": "CommaDelimitedList",
+    },
+  },
+  "Resources": Object {
+    "Bucket": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "CorsConfiguration": Object {
+          "CorsRules": Array [
+            Object {
+              "AllowedMethods": Object {
+                "Ref": "Methods",
+              },
+              "AllowedOrigins": Array [
+                "/path/*",
+              ],
+              "MaxAge": 20,
+            },
+          ],
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Cloudformation templates cloudformation/resource-attribute-condition.json 1`] = `
+Object {
+  "Conditions": Object {
+    "AlwaysFalseCond": Object {
+      "Fn::Equals": Array [
+        Object {
+          "Ref": "AWS::Region",
+        },
+        "completely-made-up-region",
+      ],
+    },
+  },
+  "Resources": Object {
+    "Bucket": Object {
+      "DeletionPolicy": "Delete",
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Cloudformation templates cloudformation/resource-attribute-depends-on.json 1`] = `
+Object {
+  "Resources": Object {
+    "Bucket1": Object {
+      "DeletionPolicy": "Delete",
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "Bucket2": Object {
+      "DeletionPolicy": "Delete",
+      "DependsOn": Array [
+        "Bucket1",
+      ],
+      "Properties": Object {
+        "BucketName": "bucket2",
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Cloudformation templates cloudformation/resource-attribute-depends-on-array.json 1`] = `
+Object {
+  "Resources": Object {
+    "Bucket0": Object {
+      "DeletionPolicy": "Delete",
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "Bucket1": Object {
+      "DeletionPolicy": "Delete",
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "Bucket2": Object {
+      "DeletionPolicy": "Delete",
+      "DependsOn": Array [
+        "Bucket0",
+        "Bucket1",
+      ],
+      "Properties": Object {
+        "BucketName": "bucket2",
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Cloudformation templates cloudformation/short-form-base64.yaml 1`] = `
+Object {
+  "Resources": Object {
+    "Base64Bucket": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "BucketName": Object {
+          "Fn::Base64": "NonBase64BucketName",
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Cloudformation templates cloudformation/short-form-cidr.yaml 1`] = `
+Object {
+  "Resources": Object {
+    "CidrVpc1": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "CidrBlock": Object {
+          "Fn::Cidr": Array [
+            "192.168.1.1/24",
+            2,
+            5,
+          ],
+        },
+      },
+      "Type": "AWS::EC2::VPC",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "CidrVpc2": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "CidrBlock": Object {
+          "Fn::Cidr": Array [
+            "192.168.1.1/24",
+            "2",
+            "5",
+          ],
+        },
+      },
+      "Type": "AWS::EC2::VPC",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Cloudformation templates cloudformation/short-form-conditionals.yaml 1`] = `
+Object {
+  "Conditions": Object {
+    "AlwaysTrueCond": Object {
+      "Fn::And": Array [
+        Object {
+          "Fn::Not": Array [
+            Object {
+              "Fn::Equals": Array [
+                Object {
+                  "Ref": "AWS::Region",
+                },
+                "completely-made-up-region",
+              ],
+            },
+          ],
+        },
+        Object {
+          "Fn::Or": Array [
+            Object {
+              "Fn::Equals": Array [
+                Object {
+                  "Ref": "AWS::Region",
+                },
+                "completely-made-up-region",
+              ],
+            },
+            Object {
+              "Fn::Equals": Array [
+                Object {
+                  "Ref": "AWS::Region",
+                },
+                "completely-made-up-region",
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  },
+  "Resources": Object {
+    "Bucket": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "BucketName": Object {
+          "Fn::If": Array [
+            "AlwaysTrueCond",
+            "MyBucketName",
+            Object {
+              "Ref": "AWS::NoValue",
+            },
+          ],
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Cloudformation templates cloudformation/short-form-conditions.yaml 1`] = `
+Object {
+  "Conditions": Object {
+    "AlwaysTrueCond": Object {
+      "Fn::Not": Array [
+        Object {
+          "Fn::Equals": Array [
+            Object {
+              "Ref": "AWS::Region",
+            },
+            "completely-made-up-region1",
+          ],
+        },
+      ],
+    },
+    "AnotherAlwaysTrueCond": Object {
+      "Fn::Not": Array [
+        Object {
+          "Fn::Equals": Array [
+            Object {
+              "Ref": "AWS::Region",
+            },
+            "completely-made-up-region2",
+          ],
+        },
+      ],
+    },
+    "CombinedCond": Object {
+      "Fn::Or": Array [
+        Object {
+          "Condition": "AlwaysTrueCond",
+        },
+        Object {
+          "Condition": "AnotherAlwaysTrueCond",
+        },
+        Object {
+          "Condition": "ThirdAlwaysTrueCond",
+        },
+      ],
+    },
+    "ThirdAlwaysTrueCond": Object {
+      "Fn::Not": Array [
+        Object {
+          "Fn::Equals": Array [
+            Object {
+              "Ref": "AWS::Region",
+            },
+            "completely-made-up-region3",
+          ],
+        },
+      ],
+    },
+  },
+  "Resources": Object {
+    "Bucket": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "BucketName": Object {
+          "Fn::If": Array [
+            "CombinedCond",
+            "MyBucketName",
+            Object {
+              "Ref": "AWS::NoValue",
+            },
+          ],
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Cloudformation templates cloudformation/short-form-find-in-map.yaml 1`] = `
+Object {
+  "Mappings": Object {
+    "RegionMap": Object {
+      "region-1": Object {
+        "HVM64": "name1",
+        "HVMG2": "name2",
+      },
+    },
+  },
+  "Resources": Object {
+    "Bucket1": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "BucketName": Object {
+          "Fn::FindInMap": Array [
+            "RegionMap",
+            "region-1",
+            "HVM64",
+          ],
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "Bucket2": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "BucketName": Object {
+          "Fn::FindInMap": Array [
+            "RegionMap",
+            "region-1",
+            "HVMG2",
+          ],
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Cloudformation templates cloudformation/short-form-get-att.yaml 1`] = `
+Object {
+  "Resources": Object {
+    "Bucket0": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "BucketName": "some-bucket",
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "Bucket1": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "AccessControl": Object {
+          "Fn::GetAtt": Array [
+            "ELB",
+            "SourceSecurityGroup.GroupName",
+          ],
+        },
+        "BucketName": Object {
+          "Fn::GetAtt": Array [
+            "Bucket0",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "Bucket2": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "AccessControl": Object {
+          "Fn::GetAtt": Array [
+            "ELB",
+            "SourceSecurityGroup.GroupName",
+          ],
+        },
+        "BucketName": Object {
+          "Fn::GetAtt": Array [
+            "Bucket1",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "ELB": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "AvailabilityZones": Array [
+          "us-east-1a",
+        ],
+        "Listeners": Array [
+          Object {
+            "InstancePort": "80",
+            "LoadBalancerPort": "80",
+            "Protocol": "HTTP",
+          },
+        ],
+      },
+      "Type": "AWS::ElasticLoadBalancing::LoadBalancer",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Cloudformation templates cloudformation/short-form-import-value.yaml 1`] = `
+Object {
+  "Resources": Object {
+    "Bucket1": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "BucketName": Object {
+          "Fn::ImportValue": "SomeSharedValue",
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Cloudformation templates cloudformation/short-form-join.yaml 1`] = `
+Object {
+  "Resources": Object {
+    "Bucket": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "BucketName": Object {
+          "Fn::Join": Array [
+            " ",
+            Array [
+              "NamePart1 ",
+              Object {
+                "Fn::ImportValue": "SomeSharedValue",
+              },
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Cloudformation templates cloudformation/short-form-select.yaml 1`] = `
+Object {
+  "Resources": Object {
+    "Subnet1": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "AvailabilityZone": Object {
+          "Fn::Select": Array [
+            "0",
+            Object {
+              "Fn::GetAZs": "eu-west-2",
+            },
+          ],
+        },
+        "CidrBlock": "10.0.0.0/24",
+        "VpcId": Object {
+          "Fn::Select": Array [
+            0,
+            Object {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "Subnet2": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "AvailabilityZone": Object {
+          "Fn::Select": Array [
+            0,
+            Object {
+              "Fn::GetAZs": "eu-west-2",
+            },
+          ],
+        },
+        "CidrBlock": "10.0.0.0/24",
+        "VpcId": Object {
+          "Ref": "Subnet1",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Cloudformation templates cloudformation/short-form-split.yaml 1`] = `
+Object {
+  "Resources": Object {
+    "Bucket1": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "BucketName": Object {
+          "Fn::Split": Array [
+            " ",
+            Object {
+              "Fn::ImportValue": "SomeSharedBucketName",
+            },
+          ],
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "Bucket2": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "BucketName": Object {
+          "Fn::Split": Array [
+            " ",
+            Object {
+              "Fn::ImportValue": "SomeSharedBucketName",
+            },
+          ],
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Cloudformation templates cloudformation/short-form-sub-map.yaml 1`] = `
+Object {
+  "Resources": Object {
+    "AnotherBucket": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "BucketName": "another-bucket",
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "Bucket": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "BucketName": Object {
+          "Fn::Sub": Array [
+            "\${Region}-foo-\${!Immediate}-foo-\${AnotherBucket}-\${AnotherBucket.DomainName}-\${Name}",
+            Object {
+              "Name": Object {
+                "Ref": "AnotherBucket",
+              },
+              "Region": Object {
+                "Fn::Base64": "AWS::Region",
+              },
+            },
+          ],
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Cloudformation templates cloudformation/ssm-association.json 1`] = `
+Object {
+  "Resources": Object {
+    "Association": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "Name": "association",
+        "Parameters": Object {
+          "P1": Array [
+            "a",
+            "b",
+          ],
+          "p2": Array [],
+        },
+      },
+      "Type": "AWS::SSM::Association",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Cloudformation templates cloudformation/string-for-number.json 1`] = `
+Object {
+  "Resources": Object {
+    "Bucket": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "CorsConfiguration": Object {
+          "CorsRules": Array [
+            Object {
+              "AllowedMethods": Array [
+                "GET",
+              ],
+              "AllowedOrigins": Array [
+                "*",
+              ],
+              "MaxAge": "10",
+            },
+          ],
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Cloudformation templates cloudformation/user-data.json 1`] = `
+Object {
+  "Resources": Object {
+    "LaunchConfig": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "ImageId": "ami-01e24be29428c15b2",
+        "InstanceType": "t1.micro",
+        "UserData": Object {
+          "Fn::Base64": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "#!/bin/bash -xe
+yum update -y aws-cfn-bootstrap
+/opt/aws/bin/cfn-init -v          --stack ",
+                Object {
+                  "Ref": "AWS::StackName",
+                },
+                "         --resource LaunchConfig          --configsets wordpress_install          --region ",
+                Object {
+                  "Ref": "AWS::Region",
+                },
+                "
+/opt/aws/bin/cfn-signal -e $?          --stack ",
+                Object {
+                  "Ref": "AWS::StackName",
+                },
+                "         --resource WebServerGroup          --region ",
+                Object {
+                  "Ref": "AWS::Region",
+                },
+                "
+",
+              ],
+            ],
+          },
+        },
+      },
+      "Type": "AWS::AutoScaling::LaunchConfiguration",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Nested Stacks templates nested/child-import-stack.expected.json 1`] = `
+Object {
+  "Parameters": Object {
+    "MyBucketParameter": Object {
+      "Default": "default-bucket-param-name",
+      "Type": "String",
+    },
+    "referencetoAssetParameters5dc7d4a99cfe2979687dc74f2db9fd75f253b5505a1912b5ceecf70c9aefba50S3BucketEAA24F0CRef": Object {
+      "Type": "String",
+    },
+    "referencetoAssetParameters5dc7d4a99cfe2979687dc74f2db9fd75f253b5505a1912b5ceecf70c9aefba50S3VersionKey1194CAB2Ref": Object {
+      "Type": "String",
+    },
+  },
+  "Resources": Object {
+    "BucketImport": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "BucketName": Object {
+          "Ref": "MyBucketParameter",
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "GrandChildStack": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "Parameters": Object {
+          "MyBucketParameter": "some-other-bucket-name",
+        },
+        "TemplateURL": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "https://s3.",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ".",
+              Object {
+                "Ref": "AWS::URLSuffix",
+              },
+              "/",
+              Object {
+                "Ref": "referencetoAssetParameters5dc7d4a99cfe2979687dc74f2db9fd75f253b5505a1912b5ceecf70c9aefba50S3BucketEAA24F0CRef",
+              },
+              "/",
+              Object {
+                "Fn::Select": Array [
+                  0,
+                  Object {
+                    "Fn::Split": Array [
+                      "||",
+                      Object {
+                        "Ref": "referencetoAssetParameters5dc7d4a99cfe2979687dc74f2db9fd75f253b5505a1912b5ceecf70c9aefba50S3VersionKey1194CAB2Ref",
+                      },
+                    ],
+                  },
+                ],
+              },
+              Object {
+                "Fn::Select": Array [
+                  1,
+                  Object {
+                    "Fn::Split": Array [
+                      "||",
+                      Object {
+                        "Ref": "referencetoAssetParameters5dc7d4a99cfe2979687dc74f2db9fd75f253b5505a1912b5ceecf70c9aefba50S3VersionKey1194CAB2Ref",
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::CloudFormation::Stack",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Nested Stacks templates nested/child-import-stack.json 1`] = `
+Object {
+  "Parameters": Object {
+    "MyBucketParameter": Object {
+      "Default": "default-bucket-param-name",
+      "Type": "String",
+    },
+  },
+  "Resources": Object {
+    "BucketImport": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "BucketName": Object {
+          "Ref": "MyBucketParameter",
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "GrandChildStack": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "Parameters": Object {
+          "MyBucketParameter": "some-other-bucket-name",
+        },
+        "TemplateURL": "https://cfn-templates-set.s3.amazonaws.com/grandchild-import-stack.json",
+      },
+      "Type": "AWS::CloudFormation::Stack",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Nested Stacks templates nested/child-no-bucket.json 1`] = `
+Object {
+  "Parameters": Object {
+    "MyBucketParameter": Object {
+      "Default": "default-bucket-param-name",
+      "Type": "String",
+    },
+  },
+  "Resources": Object {
+    "GrandChildStack": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "Parameters": Object {
+          "MyBucketParameter": "some-other-bucket-name",
+        },
+        "TemplateURL": "https://cfn-templates-set.s3.amazonaws.com/grandchild-import-stack.json",
+      },
+      "Type": "AWS::CloudFormation::Stack",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Nested Stacks templates nested/child-two-parameters.json 1`] = `
+Object {
+  "Parameters": Object {
+    "FirstParameter": Object {
+      "Type": "String",
+    },
+    "SecondParameter": Object {
+      "Type": "String",
+    },
+  },
+  "Resources": Object {
+    "BucketImport": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "AccessControl": Object {
+          "Ref": "SecondParameter",
+        },
+        "BucketName": Object {
+          "Ref": "FirstParameter",
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "GrandChildStack": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "Parameters": Object {
+          "FirstParameter": Object {
+            "Ref": "FirstParameter",
+          },
+        },
+        "TemplateURL": "https://cfn-templates-set.s3.amazonaws.com/grandchild-import-stack.json",
+      },
+      "Type": "AWS::CloudFormation::Stack",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Nested Stacks templates nested/child-with-number-parameter.yaml 1`] = `
+Object {
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Parameters": Object {
+    "Number": Object {
+      "Type": "Number",
+    },
+  },
+  "Resources": Object {
+    "S3Bucket": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "BucketName": "testbucket1234unique",
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Nested Stacks templates nested/cross-stack-refs.json 1`] = `
+Object {
+  "Parameters": Object {
+    "Param": Object {
+      "Type": "String",
+    },
+  },
+  "Resources": Object {
+    "Bucket": Object {
+      "DeletionPolicy": "Delete",
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "ChildStack": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "Parameters": Object {
+          "Param1": Object {
+            "Ref": "Param",
+          },
+          "Param2": Object {
+            "Fn::GetAtt": Array [
+              "Bucket",
+              "Arn",
+            ],
+          },
+        },
+        "TemplateURL": "https://cfn-templates-set.s3.amazonaws.com/child-import-stack.json",
+      },
+      "Type": "AWS::CloudFormation::Stack",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Nested Stacks templates nested/custom-resource.json 1`] = `
+Object {
+  "Resources": Object {
+    "CustomResource": Object {
+      "DeletionPolicy": "Delete",
+      "Type": "AWS::CustomResource::Type",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Nested Stacks templates nested/grandchild-import-stack.json 1`] = `
+Object {
+  "Parameters": Object {
+    "MyBucketParameter": Object {
+      "Default": "default-bucket-param-name",
+      "Type": "String",
+    },
+  },
+  "Resources": Object {
+    "BucketImport": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "BucketName": Object {
+          "Fn::Join": Array [
+            "-",
+            Array [
+              "bucket-name-prefix",
+              Object {
+                "Ref": "MyBucketParameter",
+              },
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Nested Stacks templates nested/only-nested-stack.expected.json 1`] = `
+Object {
+  "Parameters": Object {
+    "AssetParameters6b884775090ed88cd1a143f64442a92a6c34eaeff3857976d15ef2e3beee05d7ArtifactHash605B2835": Object {
+      "Description": "Artifact hash for asset \\"6b884775090ed88cd1a143f64442a92a6c34eaeff3857976d15ef2e3beee05d7\\"",
+      "Type": "String",
+    },
+    "AssetParameters6b884775090ed88cd1a143f64442a92a6c34eaeff3857976d15ef2e3beee05d7S3BucketC8A1BF52": Object {
+      "Description": "S3 bucket for asset \\"6b884775090ed88cd1a143f64442a92a6c34eaeff3857976d15ef2e3beee05d7\\"",
+      "Type": "String",
+    },
+    "AssetParameters6b884775090ed88cd1a143f64442a92a6c34eaeff3857976d15ef2e3beee05d7S3VersionKeyA9E03E19": Object {
+      "Description": "S3 key for asset version \\"6b884775090ed88cd1a143f64442a92a6c34eaeff3857976d15ef2e3beee05d7\\"",
+      "Type": "String",
+    },
+  },
+  "Resources": Object {
+    "NestedStack": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "TemplateURL": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "https://s3.",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ".",
+              Object {
+                "Ref": "AWS::URLSuffix",
+              },
+              "/",
+              Object {
+                "Ref": "AssetParameters6b884775090ed88cd1a143f64442a92a6c34eaeff3857976d15ef2e3beee05d7S3BucketC8A1BF52",
+              },
+              "/",
+              Object {
+                "Fn::Select": Array [
+                  0,
+                  Object {
+                    "Fn::Split": Array [
+                      "||",
+                      Object {
+                        "Ref": "AssetParameters6b884775090ed88cd1a143f64442a92a6c34eaeff3857976d15ef2e3beee05d7S3VersionKeyA9E03E19",
+                      },
+                    ],
+                  },
+                ],
+              },
+              Object {
+                "Fn::Select": Array [
+                  1,
+                  Object {
+                    "Fn::Split": Array [
+                      "||",
+                      Object {
+                        "Ref": "AssetParameters6b884775090ed88cd1a143f64442a92a6c34eaeff3857976d15ef2e3beee05d7S3VersionKeyA9E03E19",
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::CloudFormation::Stack",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Nested Stacks templates nested/only-nested-stack.json 1`] = `
+Object {
+  "Resources": Object {
+    "NestedStack": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "TemplateURL": "doesnt-matter",
+      },
+      "Type": "AWS::CloudFormation::Stack",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Nested Stacks templates nested/parent-bad-depends-on.json 1`] = `
+Object {
+  "Resources": Object {
+    "ChildStack": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "TemplateURL": "https://cfn-templates-set.s3.amazonaws.com/child-import-stack.json",
+      },
+      "Type": "AWS::CloudFormation::Stack",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Nested Stacks templates nested/parent-creation-policy.json 1`] = `
+Object {
+  "Resources": Object {
+    "ChildStack": Object {
+      "CreationPolicy": Object {},
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "Parameters": Object {
+          "MyBucketParameter": "some-magic-bucket-name",
+        },
+        "TemplateURL": "https://cfn-templates-set.s3.amazonaws.com/grandchild-import-stack.json",
+      },
+      "Type": "AWS::CloudFormation::Stack",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Nested Stacks templates nested/parent-invalid-condition.json 1`] = `
+Object {
+  "Resources": Object {
+    "ChildStack": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "Parameters": Object {
+          "MyBucketParameter": "some-magic-bucket-name",
+        },
+        "TemplateURL": "https://cfn-templates-set.s3.amazonaws.com/grandchild-import-stack.json",
+      },
+      "Type": "AWS::CloudFormation::Stack",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Nested Stacks templates nested/parent-number-in-child-params.yaml 1`] = `
+Object {
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Resources": Object {
+    "NestedStack": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "Parameters": Object {
+          "Number": 60,
+        },
+        "TemplateURL": "https://s3.amazonaws.com/masonme-cdk-test/templates/nested-bucket.yaml",
+      },
+      "Type": "AWS::CloudFormation::Stack",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Nested Stacks templates nested/parent-one-child.json 1`] = `
+Object {
+  "Resources": Object {
+    "ChildStack": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "Parameters": Object {
+          "MyBucketParameter": "some-magic-bucket-name",
+        },
+        "TemplateURL": "https://cfn-templates-set.s3.amazonaws.com/grandchild-import-stack.json",
+      },
+      "Type": "AWS::CloudFormation::Stack",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Nested Stacks templates nested/parent-two-children.json 1`] = `
+Object {
+  "Resources": Object {
+    "AnotherChildStack": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "Parameters": Object {
+          "MyBucketParameter": "another-magic-bucket-name",
+        },
+        "TemplateURL": "https://cfn-templates-set.s3.amazonaws.com/child-import-stack.json",
+      },
+      "Type": "AWS::CloudFormation::Stack",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "ChildStack": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "Parameters": Object {
+          "MyBucketParameter": "some-magic-bucket-name",
+        },
+        "TemplateURL": "https://cfn-templates-set.s3.amazonaws.com/child-import-stack.json",
+      },
+      "Type": "AWS::CloudFormation::Stack",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Nested Stacks templates nested/parent-two-parameters.json 1`] = `
+Object {
+  "Resources": Object {
+    "ChildStack": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "Parameters": Object {
+          "FirstParameter": "first-value",
+          "SecondParameter": "second-value",
+        },
+        "TemplateURL": "https://cfn-templates-set.s3.amazonaws.com/grandchild-import-stack.json",
+      },
+      "Type": "AWS::CloudFormation::Stack",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Nested Stacks templates nested/parent-update-policy.json 1`] = `
+Object {
+  "Resources": Object {
+    "ChildStack": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "Parameters": Object {
+          "MyBucketParameter": "some-magic-bucket-name",
+        },
+        "TemplateURL": "https://cfn-templates-set.s3.amazonaws.com/grandchild-import-stack.json",
+      },
+      "Type": "AWS::CloudFormation::Stack",
+      "UpdatePolicy": Object {},
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Nested Stacks templates nested/parent-valid-condition.json 1`] = `
+Object {
+  "Conditions": Object {
+    "AlwaysFalseCond": Object {
+      "Fn::Equals": Array [
+        Object {
+          "Ref": "AWS::Region",
+        },
+        "completely-made-up-region",
+      ],
+    },
+  },
+  "Resources": Object {
+    "ChildStack": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "Parameters": Object {
+          "MyBucketParameter": "some-magic-bucket-name",
+        },
+        "TemplateURL": "https://cfn-templates-set.s3.amazonaws.com/grandchild-import-stack.json",
+      },
+      "Type": "AWS::CloudFormation::Stack",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Nested Stacks templates nested/parent-with-attributes.json 1`] = `
+Object {
+  "Parameters": Object {
+    "ArrayParam": Object {
+      "Type": "CommaDelimitedList",
+    },
+  },
+  "Resources": Object {
+    "AnotherChildStack": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "NotificationARNs": Array [
+          "arn1",
+        ],
+        "TemplateURL": "https://cfn-templates-set.s3.amazonaws.com/child-import-stack.json",
+        "TimeoutInMinutes": 5,
+      },
+      "Type": "AWS::CloudFormation::Stack",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "ChildStack": Object {
+      "DeletionPolicy": "Retain",
+      "DependsOn": Array [
+        "AnotherChildStack",
+      ],
+      "Metadata": Object {
+        "Property1": "Value1",
+      },
+      "Properties": Object {
+        "NotificationARNs": Object {
+          "Ref": "ArrayParam",
+        },
+        "TemplateURL": "https://cfn-templates-set.s3.amazonaws.com/child-import-stack.json",
+        "TimeoutInMinutes": Object {
+          "Fn::Select": Array [
+            0,
+            Object {
+              "Ref": "ArrayParam",
+            },
+          ],
+        },
+      },
+      "Type": "AWS::CloudFormation::Stack",
+      "UpdateReplacePolicy": "Retain",
+    },
+  },
+}
+`;
+
+exports[`SAM templates sam/api-endpoint-config-object.yaml 1`] = `
+Object {
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Resources": Object {
+    "Api": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "DefinitionBody": Object {
+          "Body": "DefinitionBody",
+        },
+        "EndpointConfiguration": Object {
+          "Type": "GLOBAL",
+        },
+        "StageName": "prod",
+      },
+      "Type": "AWS::Serverless::Api",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+  "Transform": "AWS::Serverless-2016-10-31",
+}
+`;
+
+exports[`SAM templates sam/api-endpoint-config-string.yaml 1`] = `
+Object {
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Resources": Object {
+    "Api": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "DefinitionBody": Object {
+          "Body": "DefinitionBody",
+        },
+        "EndpointConfiguration": "GLOBAL",
+        "StageName": "prod",
+      },
+      "Type": "AWS::Serverless::Api",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+  "Transform": "AWS::Serverless-2016-10-31",
+}
+`;
+
+exports[`SAM templates sam/api-endpoint-config-string-empty.yaml 1`] = `
+Object {
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Resources": Object {
+    "Api": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "DefinitionBody": Object {
+          "Body": "DefinitionBody",
+        },
+        "EndpointConfiguration": "",
+        "StageName": "prod",
+      },
+      "Type": "AWS::Serverless::Api",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+  "Transform": "AWS::Serverless-2016-10-31",
+}
+`;
+
+exports[`SAM templates sam/only-minimal-sam-function-codeuri-as-param.yaml 1`] = `
+Object {
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Parameters": Object {
+    "CodeLocation": Object {
+      "Type": "String",
+    },
+  },
+  "Resources": Object {
+    "MicroserviceHttpEndpoint": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "CodeUri": Object {
+          "Ref": "CodeLocation",
+        },
+        "Handler": "index.handler",
+        "Runtime": "nodejs12.x",
+      },
+      "Type": "AWS::Serverless::Function",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+  "Transform": "AWS::Serverless-2016-10-31",
+}
+`;
+
+exports[`SAM templates sam/only-minimal-sam-function-codeuri-as-s3location.yaml 1`] = `
+Object {
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Resources": Object {
+    "MicroserviceHttpEndpoint": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "CodeUri": Object {
+          "Bucket": "awsserverlessrepo-changesets-1f9ifp952i9h0",
+          "Key": "123456789012/arn:aws:serverlessrepo:us-east-1:077246666028:applications-microservice-http-endpoint-versions-1.0.4/dc38a8c1-d27f-44f3-b545-4cfff4f8b865",
+        },
+        "Handler": "index.handler",
+        "Runtime": "nodejs12.x",
+      },
+      "Type": "AWS::Serverless::Function",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+  "Transform": "AWS::Serverless-2016-10-31",
+}
+`;
+
+exports[`SAM templates sam/only-minimal-sam-function-codeuri-bucket-as-param.yaml 1`] = `
+Object {
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Parameters": Object {
+    "CodeLocation": Object {
+      "Type": "String",
+    },
+  },
+  "Resources": Object {
+    "MicroserviceHttpEndpoint": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "CodeUri": Object {
+          "Bucket": Object {
+            "Ref": "CodeLocation",
+          },
+          "Key": "my-key",
+        },
+        "Handler": "index.handler",
+        "Runtime": "nodejs12.x",
+      },
+      "Type": "AWS::Serverless::Function",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+  "Transform": "AWS::Serverless-2016-10-31",
+}
+`;
+
+exports[`SAM templates sam/only-sam-function-policies-array-ddb-crud.yaml 1`] = `
+Object {
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Parameters": Object {
+    "TableNameParameter": Object {
+      "Type": "String",
+    },
+  },
+  "Resources": Object {
+    "MicroserviceHttpEndpoint": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "CodeUri": "my-code-uri",
+        "Handler": "index.handler",
+        "Policies": Array [
+          Object {
+            "DynamoDBCrudPolicy": Object {
+              "TableName": Object {
+                "Ref": "TableNameParameter",
+              },
+            },
+          },
+        ],
+        "Runtime": "nodejs12.x",
+      },
+      "Type": "AWS::Serverless::Function",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+  "Transform": "AWS::Serverless-2016-10-31",
+}
+`;
+
+exports[`SAM templates sam/only-sam-function-policies-array-ddb-crud-if.yaml 1`] = `
+Object {
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Conditions": Object {
+    "SomeCondition": Object {
+      "Fn::Equals": Array [
+        1,
+        2,
+      ],
+    },
+  },
+  "Parameters": Object {
+    "TableNameParameter": Object {
+      "Type": "String",
+    },
+  },
+  "Resources": Object {
+    "MicroserviceHttpEndpoint": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "CodeUri": Object {
+          "Bucket": "awsserverlessrepo-changesets-1f9ifp952i9h0",
+          "Key": "828671620168/arn:aws:serverlessrepo:us-east-1:077246666028:applications-microservice-http-endpoint-versions-1.0.4/dc38a8c1-d27f-44f3-b545-4cfff4f8b865",
+        },
+        "Handler": "index.handler",
+        "Policies": Array [
+          Object {
+            "Fn::If": Array [
+              "SomeCondition",
+              Object {
+                "DynamoDBCrudPolicy": Object {
+                  "TableName": Object {
+                    "Ref": "TableNameParameter",
+                  },
+                },
+              },
+              Object {
+                "DynamoDBCrudPolicy": Object {
+                  "TableName": Object {
+                    "Ref": "TableNameParameter",
+                  },
+                },
+              },
+            ],
+          },
+        ],
+        "Runtime": "nodejs12.x",
+      },
+      "Type": "AWS::Serverless::Function",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+  "Transform": "AWS::Serverless-2016-10-31",
+}
+`;
+
+exports[`Valid Template Fixtures should synth examples/apigw.json 1`] = `
 Object {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "A template creates a lambda function with an api gateway",
@@ -562,7 +3141,7 @@ Object {
 }
 `;
 
-exports[`examples/application-load-balancer.yaml 1`] = `
+exports[`Valid Template Fixtures should synth examples/application-load-balancer.yaml 1`] = `
 Object {
   "Parameters": Object {
     "SsmParameterValueawsserviceamiamazonlinuxlatestamznamihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter": Object {
@@ -1296,7 +3875,7 @@ Object {
 }
 `;
 
-exports[`examples/ecs.json 1`] = `
+exports[`Valid Template Fixtures should synth examples/ecs.json 1`] = `
 Object {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "A template creates a Fargate service with necessary resources",
@@ -1616,7 +4195,7 @@ Object {
 }
 `;
 
-exports[`examples/fleet.json 1`] = `
+exports[`Valid Template Fixtures should synth examples/fleet.json 1`] = `
 Object {
   "Description": "A template creates an ASG and Vpc",
   "Parameters": Object {
@@ -2143,7 +4722,7 @@ Object {
 }
 `;
 
-exports[`examples/http-proxy.yaml 1`] = `
+exports[`Valid Template Fixtures should synth examples/http-proxy.yaml 1`] = `
 Object {
   "Outputs": Object {
     "ProxyApiEndpoint2177970D": Object {
@@ -2321,7 +4900,7 @@ Object {
 }
 `;
 
-exports[`examples/lambda-dashboard.yaml 1`] = `
+exports[`Valid Template Fixtures should synth examples/lambda-dashboard.yaml 1`] = `
 Object {
   "Parameters": Object {
     "DashboardName": Object {
@@ -2553,7 +5132,7 @@ Object {
 }
 `;
 
-exports[`examples/lambda-events.json 1`] = `
+exports[`Valid Template Fixtures should synth examples/lambda-events.json 1`] = `
 Object {
   "Description": "A template creates a lambda function which can be invoked by an sns topic",
   "Outputs": Object {
@@ -3094,7 +5673,7 @@ Object {
 }
 `;
 
-exports[`examples/lambda-layer.json 1`] = `
+exports[`Valid Template Fixtures should synth examples/lambda-layer.json 1`] = `
 Object {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "A template creates a aws cli lambda layer",
@@ -3170,7 +5749,7 @@ Object {
 }
 `;
 
-exports[`examples/lambda-policy.yaml 1`] = `
+exports[`Valid Template Fixtures should synth examples/lambda-policy.yaml 1`] = `
 Object {
   "Parameters": Object {
     "BucketName": Object {
@@ -3288,7 +5867,7 @@ Object {
 }
 `;
 
-exports[`examples/lambda-topic.json 1`] = `
+exports[`Valid Template Fixtures should synth examples/lambda-topic.json 1`] = `
 Object {
   "Resources": Object {
     "LambdaAllowInvokeTestTopic346FF53781B07C89": Object {
@@ -3382,7 +5961,7 @@ Object {
 }
 `;
 
-exports[`examples/pipeline.json 1`] = `
+exports[`Valid Template Fixtures should synth examples/pipeline.json 1`] = `
 Object {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "A template creates a CodePipeline along with its CodeCommit repository source",
@@ -4569,7 +7148,7 @@ Object {
 }
 `;
 
-exports[`examples/static-site.yaml 1`] = `
+exports[`Valid Template Fixtures should synth examples/static-site.yaml 1`] = `
 Object {
   "Mappings": Object {
     "AWSCloudFrontPartitionHostedZoneIdMap": Object {
@@ -5274,7 +7853,7 @@ Object {
 }
 `;
 
-exports[`examples/vpc.json 1`] = `
+exports[`Valid Template Fixtures should synth examples/vpc.json 1`] = `
 Object {
   "Resources": Object {
     "VPCB9E5F0B4": Object {
@@ -5672,7 +8251,7 @@ Object {
 }
 `;
 
-exports[`templates/cfn-complex-template.json 1`] = `
+exports[`Valid Template Fixtures should synth templates/cfn-complex-template.json 1`] = `
 Object {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Conditions": Object {
@@ -6380,7 +8959,7 @@ yum update -y aws-cfn-bootstrap
 }
 `;
 
-exports[`templates/cfn-conditions.yaml 1`] = `
+exports[`Valid Template Fixtures should synth templates/cfn-conditions.yaml 1`] = `
 Object {
   "Conditions": Object {
     "IsProd": Object {
@@ -6534,7 +9113,7 @@ Object {
 }
 `;
 
-exports[`templates/cfn-mappings.yaml 1`] = `
+exports[`Valid Template Fixtures should synth templates/cfn-mappings.yaml 1`] = `
 Object {
   "Mappings": Object {
     "RegionMap": Object {
@@ -6570,7 +9149,7 @@ Object {
 }
 `;
 
-exports[`templates/cfn-metadata.json 1`] = `
+exports[`Valid Template Fixtures should synth templates/cfn-metadata.json 1`] = `
 Object {
   "Metadata": Object {
     "Databases": Object {
@@ -6634,7 +9213,7 @@ Object {
 }
 `;
 
-exports[`templates/cfn-outputs-complex.json 1`] = `
+exports[`Valid Template Fixtures should synth templates/cfn-outputs-complex.json 1`] = `
 Object {
   "Outputs": Object {
     "FunctionArn": Object {
@@ -6748,7 +9327,7 @@ Object {
 }
 `;
 
-exports[`templates/cfn-outputs-simple.json 1`] = `
+exports[`Valid Template Fixtures should synth templates/cfn-outputs-simple.json 1`] = `
 Object {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "A template creates a lambda function with an api gateway",
@@ -7317,7 +9896,7 @@ Object {
 }
 `;
 
-exports[`templates/cfn-parameters.json 1`] = `
+exports[`Valid Template Fixtures should synth templates/cfn-parameters.json 1`] = `
 Object {
   "Parameters": Object {
     "BucketName": Object {
@@ -7380,7 +9959,7 @@ Object {
 }
 `;
 
-exports[`templates/cfn-policies.yaml 1`] = `
+exports[`Valid Template Fixtures should synth templates/cfn-policies.yaml 1`] = `
 Object {
   "Resources": Object {
     "AutoScalingGroup": Object {
@@ -7460,7 +10039,7 @@ yum update -y aws-cfn-bootstrap
 }
 `;
 
-exports[`templates/cfn-transform.json 1`] = `
+exports[`Valid Template Fixtures should synth templates/cfn-transform.json 1`] = `
 Object {
   "Resources": Object {
     "MyQueueE6CA6235": Object {
@@ -7517,7 +10096,7 @@ Object {
 }
 `;
 
-exports[`templates/overrides-delete-path.json 1`] = `
+exports[`Valid Template Fixtures should synth templates/overrides-delete-path.json 1`] = `
 Object {
   "Metadata": Object {
     "Databases": Object {
@@ -7581,7 +10160,7 @@ Object {
 }
 `;
 
-exports[`templates/overrides-remove-resource.json 1`] = `
+exports[`Valid Template Fixtures should synth templates/overrides-remove-resource.json 1`] = `
 Object {
   "Resources": Object {
     "LambdaD247545B": Object {
@@ -7611,7 +10190,7 @@ Object {
 }
 `;
 
-exports[`templates/overrides-update-path.json 1`] = `
+exports[`Valid Template Fixtures should synth templates/overrides-update-path.json 1`] = `
 Object {
   "Description": "A template creates a lambda function which can be invoked by an sns topic",
   "Outputs": Object {
@@ -8153,7 +10732,7 @@ Object {
 }
 `;
 
-exports[`templates/syntax-lambda-policy-from-constructor.yaml 1`] = `
+exports[`Valid Template Fixtures should synth templates/syntax-lambda-policy-from-constructor.yaml 1`] = `
 Object {
   "Resources": Object {
     "MyBucketF68F3FF0": Object {
@@ -8244,7 +10823,7 @@ Object {
 }
 `;
 
-exports[`templates/syntax-method-calls.json 1`] = `
+exports[`Valid Template Fixtures should synth templates/syntax-method-calls.json 1`] = `
 Object {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Resources": Object {
@@ -8444,7 +11023,7 @@ Object {
 }
 `;
 
-exports[`templates/syntax-short-intrinsics.yaml 1`] = `
+exports[`Valid Template Fixtures should synth templates/syntax-short-intrinsics.yaml 1`] = `
 Object {
   "Parameters": Object {
     "DashboardName": Object {
