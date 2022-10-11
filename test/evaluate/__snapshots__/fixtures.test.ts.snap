@@ -1,5 +1,611 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Nested Stacks templates nested/child-import-stack.expected.json 1`] = `
+Object {
+  "Parameters": Object {
+    "MyBucketParameter": Object {
+      "Default": "default-bucket-param-name",
+      "Type": "String",
+    },
+    "referencetoAssetParameters5dc7d4a99cfe2979687dc74f2db9fd75f253b5505a1912b5ceecf70c9aefba50S3BucketEAA24F0CRef": Object {
+      "Type": "String",
+    },
+    "referencetoAssetParameters5dc7d4a99cfe2979687dc74f2db9fd75f253b5505a1912b5ceecf70c9aefba50S3VersionKey1194CAB2Ref": Object {
+      "Type": "String",
+    },
+  },
+  "Resources": Object {
+    "BucketImport": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "BucketName": Object {
+          "Ref": "MyBucketParameter",
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "GrandChildStack": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "Parameters": Object {
+          "MyBucketParameter": "some-other-bucket-name",
+        },
+        "TemplateURL": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "https://s3.",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ".",
+              Object {
+                "Ref": "AWS::URLSuffix",
+              },
+              "/",
+              Object {
+                "Ref": "referencetoAssetParameters5dc7d4a99cfe2979687dc74f2db9fd75f253b5505a1912b5ceecf70c9aefba50S3BucketEAA24F0CRef",
+              },
+              "/",
+              Object {
+                "Fn::Select": Array [
+                  0,
+                  Object {
+                    "Fn::Split": Array [
+                      "||",
+                      Object {
+                        "Ref": "referencetoAssetParameters5dc7d4a99cfe2979687dc74f2db9fd75f253b5505a1912b5ceecf70c9aefba50S3VersionKey1194CAB2Ref",
+                      },
+                    ],
+                  },
+                ],
+              },
+              Object {
+                "Fn::Select": Array [
+                  1,
+                  Object {
+                    "Fn::Split": Array [
+                      "||",
+                      Object {
+                        "Ref": "referencetoAssetParameters5dc7d4a99cfe2979687dc74f2db9fd75f253b5505a1912b5ceecf70c9aefba50S3VersionKey1194CAB2Ref",
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::CloudFormation::Stack",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Nested Stacks templates nested/child-import-stack.json 1`] = `
+Object {
+  "Parameters": Object {
+    "MyBucketParameter": Object {
+      "Default": "default-bucket-param-name",
+      "Type": "String",
+    },
+  },
+  "Resources": Object {
+    "BucketImport": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "BucketName": Object {
+          "Ref": "MyBucketParameter",
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "GrandChildStack": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "Parameters": Object {
+          "MyBucketParameter": "some-other-bucket-name",
+        },
+        "TemplateURL": "https://cfn-templates-set.s3.amazonaws.com/grandchild-import-stack.json",
+      },
+      "Type": "AWS::CloudFormation::Stack",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Nested Stacks templates nested/child-no-bucket.json 1`] = `
+Object {
+  "Parameters": Object {
+    "MyBucketParameter": Object {
+      "Default": "default-bucket-param-name",
+      "Type": "String",
+    },
+  },
+  "Resources": Object {
+    "GrandChildStack": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "Parameters": Object {
+          "MyBucketParameter": "some-other-bucket-name",
+        },
+        "TemplateURL": "https://cfn-templates-set.s3.amazonaws.com/grandchild-import-stack.json",
+      },
+      "Type": "AWS::CloudFormation::Stack",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Nested Stacks templates nested/child-two-parameters.json 1`] = `
+Object {
+  "Parameters": Object {
+    "FirstParameter": Object {
+      "Type": "String",
+    },
+    "SecondParameter": Object {
+      "Type": "String",
+    },
+  },
+  "Resources": Object {
+    "BucketImport": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "AccessControl": Object {
+          "Ref": "SecondParameter",
+        },
+        "BucketName": Object {
+          "Ref": "FirstParameter",
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "GrandChildStack": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "Parameters": Object {
+          "FirstParameter": Object {
+            "Ref": "FirstParameter",
+          },
+        },
+        "TemplateURL": "https://cfn-templates-set.s3.amazonaws.com/grandchild-import-stack.json",
+      },
+      "Type": "AWS::CloudFormation::Stack",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Nested Stacks templates nested/child-with-number-parameter.yaml 1`] = `
+Object {
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Parameters": Object {
+    "Number": Object {
+      "Type": "Number",
+    },
+  },
+  "Resources": Object {
+    "S3Bucket": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "BucketName": "testbucket1234unique",
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Nested Stacks templates nested/cross-stack-refs.json 1`] = `
+Object {
+  "Parameters": Object {
+    "Param": Object {
+      "Type": "String",
+    },
+  },
+  "Resources": Object {
+    "Bucket": Object {
+      "DeletionPolicy": "Delete",
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "ChildStack": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "Parameters": Object {
+          "Param1": Object {
+            "Ref": "Param",
+          },
+          "Param2": Object {
+            "Fn::GetAtt": Array [
+              "Bucket",
+              "Arn",
+            ],
+          },
+        },
+        "TemplateURL": "https://cfn-templates-set.s3.amazonaws.com/child-import-stack.json",
+      },
+      "Type": "AWS::CloudFormation::Stack",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Nested Stacks templates nested/custom-resource.json 1`] = `
+Object {
+  "Resources": Object {
+    "CustomResource": Object {
+      "DeletionPolicy": "Delete",
+      "Type": "AWS::CustomResource::Type",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Nested Stacks templates nested/grandchild-import-stack.json 1`] = `
+Object {
+  "Parameters": Object {
+    "MyBucketParameter": Object {
+      "Default": "default-bucket-param-name",
+      "Type": "String",
+    },
+  },
+  "Resources": Object {
+    "BucketImport": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "BucketName": Object {
+          "Fn::Join": Array [
+            "-",
+            Array [
+              "bucket-name-prefix",
+              Object {
+                "Ref": "MyBucketParameter",
+              },
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Nested Stacks templates nested/only-nested-stack.expected.json 1`] = `
+Object {
+  "Parameters": Object {
+    "AssetParameters6b884775090ed88cd1a143f64442a92a6c34eaeff3857976d15ef2e3beee05d7ArtifactHash605B2835": Object {
+      "Description": "Artifact hash for asset \\"6b884775090ed88cd1a143f64442a92a6c34eaeff3857976d15ef2e3beee05d7\\"",
+      "Type": "String",
+    },
+    "AssetParameters6b884775090ed88cd1a143f64442a92a6c34eaeff3857976d15ef2e3beee05d7S3BucketC8A1BF52": Object {
+      "Description": "S3 bucket for asset \\"6b884775090ed88cd1a143f64442a92a6c34eaeff3857976d15ef2e3beee05d7\\"",
+      "Type": "String",
+    },
+    "AssetParameters6b884775090ed88cd1a143f64442a92a6c34eaeff3857976d15ef2e3beee05d7S3VersionKeyA9E03E19": Object {
+      "Description": "S3 key for asset version \\"6b884775090ed88cd1a143f64442a92a6c34eaeff3857976d15ef2e3beee05d7\\"",
+      "Type": "String",
+    },
+  },
+  "Resources": Object {
+    "NestedStack": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "TemplateURL": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "https://s3.",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ".",
+              Object {
+                "Ref": "AWS::URLSuffix",
+              },
+              "/",
+              Object {
+                "Ref": "AssetParameters6b884775090ed88cd1a143f64442a92a6c34eaeff3857976d15ef2e3beee05d7S3BucketC8A1BF52",
+              },
+              "/",
+              Object {
+                "Fn::Select": Array [
+                  0,
+                  Object {
+                    "Fn::Split": Array [
+                      "||",
+                      Object {
+                        "Ref": "AssetParameters6b884775090ed88cd1a143f64442a92a6c34eaeff3857976d15ef2e3beee05d7S3VersionKeyA9E03E19",
+                      },
+                    ],
+                  },
+                ],
+              },
+              Object {
+                "Fn::Select": Array [
+                  1,
+                  Object {
+                    "Fn::Split": Array [
+                      "||",
+                      Object {
+                        "Ref": "AssetParameters6b884775090ed88cd1a143f64442a92a6c34eaeff3857976d15ef2e3beee05d7S3VersionKeyA9E03E19",
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::CloudFormation::Stack",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Nested Stacks templates nested/only-nested-stack.json 1`] = `
+Object {
+  "Resources": Object {
+    "NestedStack": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "TemplateURL": "doesnt-matter",
+      },
+      "Type": "AWS::CloudFormation::Stack",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Nested Stacks templates nested/parent-bad-depends-on.json 1`] = `
+Object {
+  "Resources": Object {
+    "ChildStack": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "TemplateURL": "https://cfn-templates-set.s3.amazonaws.com/child-import-stack.json",
+      },
+      "Type": "AWS::CloudFormation::Stack",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Nested Stacks templates nested/parent-creation-policy.json 1`] = `
+Object {
+  "Resources": Object {
+    "ChildStack": Object {
+      "CreationPolicy": Object {},
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "Parameters": Object {
+          "MyBucketParameter": "some-magic-bucket-name",
+        },
+        "TemplateURL": "https://cfn-templates-set.s3.amazonaws.com/grandchild-import-stack.json",
+      },
+      "Type": "AWS::CloudFormation::Stack",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Nested Stacks templates nested/parent-invalid-condition.json 1`] = `
+Object {
+  "Resources": Object {
+    "ChildStack": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "Parameters": Object {
+          "MyBucketParameter": "some-magic-bucket-name",
+        },
+        "TemplateURL": "https://cfn-templates-set.s3.amazonaws.com/grandchild-import-stack.json",
+      },
+      "Type": "AWS::CloudFormation::Stack",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Nested Stacks templates nested/parent-number-in-child-params.yaml 1`] = `
+Object {
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Resources": Object {
+    "NestedStack": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "Parameters": Object {
+          "Number": 60,
+        },
+        "TemplateURL": "https://s3.amazonaws.com/masonme-cdk-test/templates/nested-bucket.yaml",
+      },
+      "Type": "AWS::CloudFormation::Stack",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Nested Stacks templates nested/parent-one-child.json 1`] = `
+Object {
+  "Resources": Object {
+    "ChildStack": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "Parameters": Object {
+          "MyBucketParameter": "some-magic-bucket-name",
+        },
+        "TemplateURL": "https://cfn-templates-set.s3.amazonaws.com/grandchild-import-stack.json",
+      },
+      "Type": "AWS::CloudFormation::Stack",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Nested Stacks templates nested/parent-two-children.json 1`] = `
+Object {
+  "Resources": Object {
+    "AnotherChildStack": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "Parameters": Object {
+          "MyBucketParameter": "another-magic-bucket-name",
+        },
+        "TemplateURL": "https://cfn-templates-set.s3.amazonaws.com/child-import-stack.json",
+      },
+      "Type": "AWS::CloudFormation::Stack",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "ChildStack": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "Parameters": Object {
+          "MyBucketParameter": "some-magic-bucket-name",
+        },
+        "TemplateURL": "https://cfn-templates-set.s3.amazonaws.com/child-import-stack.json",
+      },
+      "Type": "AWS::CloudFormation::Stack",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Nested Stacks templates nested/parent-two-parameters.json 1`] = `
+Object {
+  "Resources": Object {
+    "ChildStack": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "Parameters": Object {
+          "FirstParameter": "first-value",
+          "SecondParameter": "second-value",
+        },
+        "TemplateURL": "https://cfn-templates-set.s3.amazonaws.com/grandchild-import-stack.json",
+      },
+      "Type": "AWS::CloudFormation::Stack",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Nested Stacks templates nested/parent-update-policy.json 1`] = `
+Object {
+  "Resources": Object {
+    "ChildStack": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "Parameters": Object {
+          "MyBucketParameter": "some-magic-bucket-name",
+        },
+        "TemplateURL": "https://cfn-templates-set.s3.amazonaws.com/grandchild-import-stack.json",
+      },
+      "Type": "AWS::CloudFormation::Stack",
+      "UpdatePolicy": Object {},
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Nested Stacks templates nested/parent-valid-condition.json 1`] = `
+Object {
+  "Conditions": Object {
+    "AlwaysFalseCond": Object {
+      "Fn::Equals": Array [
+        Object {
+          "Ref": "AWS::Region",
+        },
+        "completely-made-up-region",
+      ],
+    },
+  },
+  "Resources": Object {
+    "ChildStack": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "Parameters": Object {
+          "MyBucketParameter": "some-magic-bucket-name",
+        },
+        "TemplateURL": "https://cfn-templates-set.s3.amazonaws.com/grandchild-import-stack.json",
+      },
+      "Type": "AWS::CloudFormation::Stack",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Nested Stacks templates nested/parent-with-attributes.json 1`] = `
+Object {
+  "Parameters": Object {
+    "ArrayParam": Object {
+      "Type": "CommaDelimitedList",
+    },
+  },
+  "Resources": Object {
+    "AnotherChildStack": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "NotificationARNs": Array [
+          "arn1",
+        ],
+        "TemplateURL": "https://cfn-templates-set.s3.amazonaws.com/child-import-stack.json",
+        "TimeoutInMinutes": 5,
+      },
+      "Type": "AWS::CloudFormation::Stack",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "ChildStack": Object {
+      "DeletionPolicy": "Retain",
+      "DependsOn": Array [
+        "AnotherChildStack",
+      ],
+      "Metadata": Object {
+        "Property1": "Value1",
+      },
+      "Properties": Object {
+        "NotificationARNs": Object {
+          "Ref": "ArrayParam",
+        },
+        "TemplateURL": "https://cfn-templates-set.s3.amazonaws.com/child-import-stack.json",
+        "TimeoutInMinutes": Object {
+          "Fn::Select": Array [
+            0,
+            Object {
+              "Ref": "ArrayParam",
+            },
+          ],
+        },
+      },
+      "Type": "AWS::CloudFormation::Stack",
+      "UpdateReplacePolicy": "Retain",
+    },
+  },
+}
+`;
+
 exports[`SAM templates sam/api-endpoint-config-object.yaml 1`] = `
 Object {
   "AWSTemplateFormatVersion": "2010-09-09",

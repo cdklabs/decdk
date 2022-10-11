@@ -62,3 +62,16 @@ describe('SAM templates', () => {
     expect(output.template).toMatchSnapshot();
   }, samFixtures);
 });
+
+describe('Nested Stacks templates', () => {
+  const nestedFixtures = loadTemplateFixtures([
+    path.join(__dirname, '..', 'fixtures/templates/nested'),
+  ]);
+
+  testTemplateFixtures(async (templateFile) => {
+    const template = await readTemplate(templateFile.path);
+    const output = await Testing.synth(template);
+    expect(template.template).toBeValidTemplate();
+    expect(output.template).toMatchSnapshot();
+  }, nestedFixtures);
+});
