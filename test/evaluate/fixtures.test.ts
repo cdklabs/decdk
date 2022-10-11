@@ -13,6 +13,43 @@ describe('Valid Template Fixtures should synth', () => {
   });
 });
 
+describe('Cloudformation templates', () => {
+  const cfnFixtures = loadTemplateFixtures([
+    path.join(__dirname, '..', 'fixtures/templates/cloudformation'),
+  ]);
+
+  const ignoreBecauseCurrentlyFailing = [
+    'cloudformation/condition-same-name-as-resource.json',
+    'cloudformation/condition-using-mapping.json',
+    'cloudformation/find-in-map-for-boolean-property.json',
+    'cloudformation/find-in-map-with-dynamic-mapping.json',
+    'cloudformation/fn-sub-escaping.json',
+    'cloudformation/fn-sub-parsing-edges.json',
+    'cloudformation/fn-sub-shadow-attribute.json',
+    'cloudformation/functions-and-conditions.json',
+    'cloudformation/hook-code-deploy-blue-green-ecs.json',
+    'cloudformation/if-in-tags.json',
+    'cloudformation/json-in-fn-sub.yaml',
+    'cloudformation/only-parameters-and-rule.json',
+    'cloudformation/outputs-with-references.json',
+    'cloudformation/parameter-references.json',
+    'cloudformation/resource-attribute-creation-policy.json',
+    'cloudformation/resource-attribute-update-policy.json',
+    'cloudformation/short-form-fnsub-string.yaml',
+    'cloudformation/year-month-date-as-strings.yaml',
+  ];
+
+  testTemplateFixtures(
+    async (templateFile) => {
+      const template = await readTemplate(templateFile.path);
+      const output = await Testing.synth(template);
+      expect(template.template).toBeValidTemplate();
+      expect(output.template).toMatchSnapshot();
+    },
+    cfnFixtures.filter(({ id }) => !ignoreBecauseCurrentlyFailing.includes(id))
+  );
+});
+
 describe('Invalid Template Fixtures should fail', () => {
   const invalidFixtures = loadTemplateFixtures([
     path.join(__dirname, '..', 'fixtures/invalid-templates'),
