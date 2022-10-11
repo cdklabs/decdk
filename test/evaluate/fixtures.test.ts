@@ -49,3 +49,16 @@ describe('Invalid Template Fixtures should fail', () => {
     )
   );
 });
+
+describe('SAM templates', () => {
+  const samFixtures = loadTemplateFixtures([
+    path.join(__dirname, '..', 'fixtures/templates/sam'),
+  ]);
+
+  testTemplateFixtures(async (templateFile) => {
+    const template = await readTemplate(templateFile.path);
+    const output = await Testing.synth(template);
+    expect(template.template).toBeValidTemplate();
+    expect(output.template).toMatchSnapshot();
+  }, samFixtures);
+});

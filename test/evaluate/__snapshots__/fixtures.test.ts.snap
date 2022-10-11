@@ -1,5 +1,236 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`SAM templates sam/api-endpoint-config-object.yaml 1`] = `
+Object {
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Resources": Object {
+    "Api": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "DefinitionBody": Object {
+          "Body": "DefinitionBody",
+        },
+        "EndpointConfiguration": Object {
+          "Type": "GLOBAL",
+        },
+        "StageName": "prod",
+      },
+      "Type": "AWS::Serverless::Api",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+  "Transform": "AWS::Serverless-2016-10-31",
+}
+`;
+
+exports[`SAM templates sam/api-endpoint-config-string.yaml 1`] = `
+Object {
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Resources": Object {
+    "Api": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "DefinitionBody": Object {
+          "Body": "DefinitionBody",
+        },
+        "EndpointConfiguration": "GLOBAL",
+        "StageName": "prod",
+      },
+      "Type": "AWS::Serverless::Api",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+  "Transform": "AWS::Serverless-2016-10-31",
+}
+`;
+
+exports[`SAM templates sam/api-endpoint-config-string-empty.yaml 1`] = `
+Object {
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Resources": Object {
+    "Api": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "DefinitionBody": Object {
+          "Body": "DefinitionBody",
+        },
+        "EndpointConfiguration": "",
+        "StageName": "prod",
+      },
+      "Type": "AWS::Serverless::Api",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+  "Transform": "AWS::Serverless-2016-10-31",
+}
+`;
+
+exports[`SAM templates sam/only-minimal-sam-function-codeuri-as-param.yaml 1`] = `
+Object {
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Parameters": Object {
+    "CodeLocation": Object {
+      "Type": "String",
+    },
+  },
+  "Resources": Object {
+    "MicroserviceHttpEndpoint": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "CodeUri": Object {
+          "Ref": "CodeLocation",
+        },
+        "Handler": "index.handler",
+        "Runtime": "nodejs12.x",
+      },
+      "Type": "AWS::Serverless::Function",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+  "Transform": "AWS::Serverless-2016-10-31",
+}
+`;
+
+exports[`SAM templates sam/only-minimal-sam-function-codeuri-as-s3location.yaml 1`] = `
+Object {
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Resources": Object {
+    "MicroserviceHttpEndpoint": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "CodeUri": Object {
+          "Bucket": "awsserverlessrepo-changesets-1f9ifp952i9h0",
+          "Key": "123456789012/arn:aws:serverlessrepo:us-east-1:077246666028:applications-microservice-http-endpoint-versions-1.0.4/dc38a8c1-d27f-44f3-b545-4cfff4f8b865",
+        },
+        "Handler": "index.handler",
+        "Runtime": "nodejs12.x",
+      },
+      "Type": "AWS::Serverless::Function",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+  "Transform": "AWS::Serverless-2016-10-31",
+}
+`;
+
+exports[`SAM templates sam/only-minimal-sam-function-codeuri-bucket-as-param.yaml 1`] = `
+Object {
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Parameters": Object {
+    "CodeLocation": Object {
+      "Type": "String",
+    },
+  },
+  "Resources": Object {
+    "MicroserviceHttpEndpoint": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "CodeUri": Object {
+          "Bucket": Object {
+            "Ref": "CodeLocation",
+          },
+          "Key": "my-key",
+        },
+        "Handler": "index.handler",
+        "Runtime": "nodejs12.x",
+      },
+      "Type": "AWS::Serverless::Function",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+  "Transform": "AWS::Serverless-2016-10-31",
+}
+`;
+
+exports[`SAM templates sam/only-sam-function-policies-array-ddb-crud.yaml 1`] = `
+Object {
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Parameters": Object {
+    "TableNameParameter": Object {
+      "Type": "String",
+    },
+  },
+  "Resources": Object {
+    "MicroserviceHttpEndpoint": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "CodeUri": "my-code-uri",
+        "Handler": "index.handler",
+        "Policies": Array [
+          Object {
+            "DynamoDBCrudPolicy": Object {
+              "TableName": Object {
+                "Ref": "TableNameParameter",
+              },
+            },
+          },
+        ],
+        "Runtime": "nodejs12.x",
+      },
+      "Type": "AWS::Serverless::Function",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+  "Transform": "AWS::Serverless-2016-10-31",
+}
+`;
+
+exports[`SAM templates sam/only-sam-function-policies-array-ddb-crud-if.yaml 1`] = `
+Object {
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Conditions": Object {
+    "SomeCondition": Object {
+      "Fn::Equals": Array [
+        1,
+        2,
+      ],
+    },
+  },
+  "Parameters": Object {
+    "TableNameParameter": Object {
+      "Type": "String",
+    },
+  },
+  "Resources": Object {
+    "MicroserviceHttpEndpoint": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "CodeUri": Object {
+          "Bucket": "awsserverlessrepo-changesets-1f9ifp952i9h0",
+          "Key": "828671620168/arn:aws:serverlessrepo:us-east-1:077246666028:applications-microservice-http-endpoint-versions-1.0.4/dc38a8c1-d27f-44f3-b545-4cfff4f8b865",
+        },
+        "Handler": "index.handler",
+        "Policies": Array [
+          Object {
+            "Fn::If": Array [
+              "SomeCondition",
+              Object {
+                "DynamoDBCrudPolicy": Object {
+                  "TableName": Object {
+                    "Ref": "TableNameParameter",
+                  },
+                },
+              },
+              Object {
+                "DynamoDBCrudPolicy": Object {
+                  "TableName": Object {
+                    "Ref": "TableNameParameter",
+                  },
+                },
+              },
+            ],
+          },
+        ],
+        "Runtime": "nodejs12.x",
+      },
+      "Type": "AWS::Serverless::Function",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+  "Transform": "AWS::Serverless-2016-10-31",
+}
+`;
+
 exports[`Valid Template Fixtures should synth examples/apigw.json 1`] = `
 Object {
   "AWSTemplateFormatVersion": "2010-09-09",
