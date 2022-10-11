@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=../../../cdk.schema.json
 Resources:
   AutoScalingGroup:
     Type: AWS::AutoScaling::AutoScalingGroup

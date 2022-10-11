@@ -1,5 +1,5 @@
 {
-  "$schema": "../cdk.schema.json",
+  "$schema": "../../../cdk.schema.json",
   "Resources": {
     "Lambda": {
       "Type": "aws-cdk-lib.aws_lambda.Function",

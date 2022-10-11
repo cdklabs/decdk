@@ -29,7 +29,7 @@ Resources:
         hostedZoneId:
           Ref: HostedZoneId
         zoneName:
-          Ref: DomainName # split and join
+          Ref: DomainName
   SiteCertificate:
     Type: aws-cdk-lib.aws_certificatemanager.DnsValidatedCertificate
     Properties:
