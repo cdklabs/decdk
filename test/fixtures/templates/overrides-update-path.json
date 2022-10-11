@@ -1,5 +1,5 @@
 {
-  "$schema": "../cdk.schema.json",
+  "$schema": "../../../cdk.schema.json",
   "Description": "A template creates a lambda function which can be invoked by an sns topic",
   "Resources": {
     "MyTopic": {
@@ -53,7 +53,16 @@
             }
           }
         ]
-      }
+      },
+      "Overrides": [
+        {
+          "ChildConstructPath": "ServiceRole",
+          "Update": {
+            "Path": "Properties.Description",
+            "Value": "This value has been overridden"
+          }
+        }
+      ]
     }
   }
 }

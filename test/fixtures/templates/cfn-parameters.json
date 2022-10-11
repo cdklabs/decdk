@@ -1,4 +1,5 @@
 {
+  "$schema": "../../../cdk.schema.json",
   "Parameters": {
     "BucketName": {
       "Default": "MyS3Bucket",

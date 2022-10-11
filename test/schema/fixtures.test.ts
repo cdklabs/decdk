@@ -1,7 +1,7 @@
 import { readTemplate } from '../../src';
-import { testExamples } from '../util';
+import { testTemplateFixtures } from '../util';
 
-testExamples(async (example) => {
+testTemplateFixtures(async (example) => {
   const template = await readTemplate(example.path);
 
   expect(template.template).toBeValidTemplate();

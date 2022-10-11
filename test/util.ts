@@ -1,6 +1,5 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { join } from 'path';
 import * as cdk from 'aws-cdk-lib';
 import { DefaultStackSynthesizer } from 'aws-cdk-lib';
 import {
@@ -32,17 +31,33 @@ function loadJsonSchemaFromFile() {
   return _cachedSchema;
 }
 
-let _cachedExamples: fs.Dirent[];
-function loadExamples() {
+const isTemplateFile = (dirent: fs.Dirent): boolean =>
+  dirent.isFile() &&
+  (dirent.name.endsWith('.json') || dirent.name.endsWith('.yaml'));
+
+let _cachedExamples: Array<{
+  id: string;
+  name: string;
+  path: string;
+}>;
+function loadTemplateFixtures() {
+  const fixtureDirs = [
+    path.join(__dirname, '..', 'examples'),
+    path.join(__dirname, 'fixtures', 'templates'),
+  ];
+
   // Load only once, it's quite expensive
   if (!_cachedExamples) {
-    const isTemplateFile = (dirent: fs.Dirent): boolean =>
-      dirent.isFile() &&
-      (dirent.name.endsWith('.json') || dirent.name.endsWith('.yaml'));
-
-    _cachedExamples = fs
-      .readdirSync(Testing.examples_dir, { withFileTypes: true })
-      .filter(isTemplateFile);
+    _cachedExamples = fixtureDirs.flatMap((fixtureDir) =>
+      fs
+        .readdirSync(fixtureDir, { withFileTypes: true })
+        .filter(isTemplateFile)
+        .map((file) => ({
+          id: path.join(path.basename(fixtureDir), file.name),
+          name: file.name,
+          path: path.join(fixtureDir, file.name),
+        }))
+    );
   }
   return _cachedExamples;
 }
@@ -52,12 +67,8 @@ export class Testing {
     return obtainTypeSystem();
   }
 
-  public static get examples_dir() {
-    return path.join(__dirname, '..', 'examples');
-  }
-
-  public static get examples() {
-    return loadExamples();
+  public static get templateFixtures() {
+    return loadTemplateFixtures();
   }
 
   public static get schema() {
@@ -102,17 +113,13 @@ export class Testing {
   private constructor() {}
 }
 
-export function testExamples(
+export function testTemplateFixtures(
   testCase: (example: { name: string; path: string }) => any,
   timeout?: number
 ) {
-  test.each(Testing.examples.map((file) => ({ file })))(
-    '$file.name',
-    ({ file }) =>
-      testCase({
-        name: file.name,
-        path: join(Testing.examples_dir, file.name),
-      }),
+  test.each(Testing.templateFixtures.map((file) => ({ file })))(
+    '$file.id',
+    ({ file }) => testCase(file),
     timeout
   );
 }

@@ -1,5 +1,5 @@
 {
-  "$schema": "../cdk.schema.json",
+  "$schema": "../../../cdk.schema.json",
   "AWSTemplateFormatVersion": "2010-09-09",
   "Resources": {
     "SourceBucket": {

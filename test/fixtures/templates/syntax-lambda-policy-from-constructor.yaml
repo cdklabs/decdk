@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=../cdk.schema.json
+# yaml-language-server: $schema=../../../cdk.schema.json
 Resources:
   MyBucket:
     Type: aws-cdk-lib.aws_s3.Bucket

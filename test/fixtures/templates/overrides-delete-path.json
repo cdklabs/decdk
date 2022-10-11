@@ -1,0 +1,28 @@
+{
+  "$schema": "../../../cdk.schema.json",
+  "Transform": "AWS::LanguageExtensions",
+  "Metadata": {
+    "Instances": {
+      "Description": "Information about the instances"
+    },
+    "Databases": {
+      "Description": "Information about the databases"
+    }
+  },
+  "Resources": {
+    "MyQueue": {
+      "Type": "aws-cdk-lib.aws_sqs.Queue",
+      "Properties": {
+        "encryption": "KMS"
+      },
+      "Overrides": [
+        {
+          "ChildConstructPath": "Key",
+          "Delete": {
+            "Path": "Properties.Description"
+          }
+        }
+      ]
+    }
+  }
+}
