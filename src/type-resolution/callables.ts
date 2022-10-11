@@ -233,7 +233,7 @@ export interface InitializerExpression {
 
 export function resolveInstanceExpression(
   x: ObjectLiteral,
-  type: reflect.Type
+  type: reflect.InterfaceType | reflect.ClassType
 ): InitializerExpression | StaticMethodCallExpression {
   const candidateFQN = assertOneField(x.fields);
   const klass = type.system.tryFindFqn(candidateFQN);
@@ -243,7 +243,7 @@ export function resolveInstanceExpression(
     return resolveStaticMethodCallExpression(x, type.system, type);
   }
 
-  const classFqn = selectClassFqn(x, type, candidateFQN);
+  const classFqn = selectClassFqn(x, type);
   const parameters = asArrayLiteral(x.fields[classFqn]);
   const initializer = assertInitializer(klass);
   const args = resolvePositionalCallableParameters(parameters, initializer);
@@ -258,18 +258,13 @@ export function resolveInstanceExpression(
 
 function selectClassFqn(
   x: ObjectLiteral,
-  type: reflect.Type,
-  fqn: string
+  type: reflect.ClassType | reflect.InterfaceType
 ): string {
-  if (type.isClassType()) {
-    return fqn;
-  }
+  const possibleImplementations = type.system.classes
+    .filter((i) => i.extends(type))
+    .map((s) => s.fqn);
 
-  const allSubClasses = type.system.classes.filter((i) => i.extends(type));
-  return assertExactlyOneOfFields(
-    x.fields,
-    allSubClasses.map((s) => s.fqn)
-  );
+  return assertExactlyOneOfFields(x.fields, possibleImplementations);
 }
 
 export function assertInitializer(type: reflect.Type): reflect.Initializer {
