@@ -19,11 +19,13 @@ const project = new typescript.TypeScriptProject({
     'yaml',
     'yargs',
     'chalk@^4',
+    'semver',
   ],
   devDeps: [
     '@types/fs-extra@^8',
     '@types/yaml',
     '@types/yargs',
+    '@types/semver',
     'jsii',
     'fast-check',
   ],

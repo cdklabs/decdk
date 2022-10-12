@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "additionalProperties": false,
+  "type": "object",
+  "definitions": {
+    "resourceProperty": {
+      "additionalProperties": false,
+      "type": "object",
+      "properties": {
+        "Remarks": {
+          "type": "string"
+        },
+        "Summary": {
+          "type": "string"
+        },
+        "Required": {
+          "type": "string",
+          "enum": ["True", "False"]
+        },
+        "Type": {
+          "type": "string"
+        }
+      }
+    },
+    "resource": {
+      "additionalProperties": false,
+      "type": "object",
+      "properties": {
+        "Properties": {
+          "type": "object",
+          "patternProperties": {
+            "^[a-zA-Z0-9]+$": {
+              "$ref": "#/definitions/resourceProperty"
+            }
+          }
+        }
+      }
+    },
+    "module": {
+      "type": "object",
+      "properties": {
+        "ResourceTypes": {
+          "type": "object",
+          "patternProperties": {
+            "^[A-Z][a-zA-Z0-9]+$": {
+              "$ref": "#/definitions/resource"
+            }
+          }
+        }
+      },
+      "required": ["ResourceTypes"]
+    }
+  },
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "ModuleTypes": {
+      "type": "object",
+      "patternProperties": {
+        "^[a-zA-Z0-9-._]+$": {
+          "$ref": "#/definitions/module"
+        }
+      }
+    }
+  },
+  "required": ["ModuleTypes", "schemaVersion"]
+}

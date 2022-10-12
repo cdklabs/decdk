@@ -1,3 +1,5 @@
+import * as fs from 'fs';
+import * as path from 'path';
 import * as reflect from 'jsii-reflect';
 import { Property } from 'jsii-reflect';
 import { hasPropsParam } from '../type-system';
@@ -7,12 +9,23 @@ export function generateDeCDKSpecs(typeSystem: reflect.TypeSystem) {
   const constructs = getConstructs(typeSystem, moduleName);
   const resourcesSpecs = buildSpecsForResources(constructs, typeSystem);
   return {
+    ...currentSchemaVersion(),
     ModuleTypes: {
       [`aws-cdk-lib.${moduleName}`]: {
         ResourceTypes: resourcesSpecs,
       },
     },
   };
+}
+
+function currentSchemaVersion() {
+  return JSON.parse(
+    fs
+      .readFileSync(
+        path.join(__dirname, '../../src/specs', 'specs.version.json')
+      )
+      .toString()
+  );
 }
 
 function getConstructs(typeSystem: reflect.TypeSystem, namespace: string) {
