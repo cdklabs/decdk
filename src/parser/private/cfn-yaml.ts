@@ -23,11 +23,27 @@ const shortForms: yaml_types.Schema.CustomTag[] = [
   .map((name) => intrinsicTag(name, true))
   .concat(intrinsicTag('Ref', false), intrinsicTag('Condition', false));
 
+const unsupportedTags = [
+  'tag:yaml.org,2002:binary',
+  'tag:yaml.org,2002:omap',
+  'tag:yaml.org,2002:pairs',
+  'tag:yaml.org,2002:set',
+  'tag:yaml.org,2002:timestamp',
+];
+
 export function parseCfnYaml(text: string): any {
   return yaml.parse(text, {
-    customTags: shortForms,
+    customTags: supportedTags,
+    version: '1.1',
     schema: 'yaml-1.1',
+    merge: false,
+    prettyErrors: true,
   });
+}
+
+function supportedTags(tags: yaml_types.Schema.Tag[]): yaml_types.Schema.Tag[] {
+  const filteredTags = tags.filter((t) => !unsupportedTags.includes(t.tag));
+  return filteredTags.concat(shortForms);
 }
 
 function intrinsicTag(
