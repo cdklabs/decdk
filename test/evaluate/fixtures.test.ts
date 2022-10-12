@@ -5,10 +5,7 @@ import { testTemplateFixtures, Testing, loadTemplateFixtures } from '../util';
 describe('Valid Template Fixtures should synth', () => {
   testTemplateFixtures(async (templateFile) => {
     const template = await readTemplate(templateFile.path);
-
     const output = await Testing.synth(template);
-
-    expect(template.template).toBeValidTemplate();
     expect(output.template).toMatchSnapshot();
   });
 });
@@ -41,7 +38,6 @@ describe('Cloudformation templates', () => {
     async (templateFile) => {
       const template = await readTemplate(templateFile.path);
       const output = await Testing.synth(template);
-      expect(template.template).toBeValidTemplate();
       expect(output.template).toMatchSnapshot();
     },
     cfnFixtures.filter(({ id }) => !ignoreBecauseCurrentlyFailing.includes(id))
@@ -93,7 +89,6 @@ describe('SAM templates', () => {
   testTemplateFixtures(async (templateFile) => {
     const template = await readTemplate(templateFile.path);
     const output = await Testing.synth(template);
-    expect(template.template).toBeValidTemplate();
     expect(output.template).toMatchSnapshot();
   }, samFixtures);
 });
@@ -106,7 +101,6 @@ describe('Nested Stacks templates', () => {
   testTemplateFixtures(async (templateFile) => {
     const template = await readTemplate(templateFile.path);
     const output = await Testing.synth(template);
-    expect(template.template).toBeValidTemplate();
     expect(output.template).toMatchSnapshot();
   }, nestedFixtures);
 });
