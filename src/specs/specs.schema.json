@@ -19,8 +19,12 @@
         },
         "Type": {
           "type": "string"
+        },
+        "ItemType": {
+          "type": "string"
         }
-      }
+      },
+      "required": ["Remarks", "Summary", "Required", "Type"]
     },
     "resource": {
       "additionalProperties": false,

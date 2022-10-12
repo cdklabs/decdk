@@ -61,22 +61,22 @@ function buildSpecsForResourceProperties(
   if (!hasPropsParam(c, 2)) return;
 
   const propFqn = c.initializer?.parameters?.[2]?.type.fqn;
-  var resourceProperties = {};
   if (propFqn != undefined) {
     const propInterface = typeSystem.findInterface(propFqn);
 
-    resourceProperties = mergeToObject(
+    return mergeToObject(
       propInterface.allProperties.map((p: Property) => ({
         [p.name]: {
           Remarks: p.docs.remarks,
           Summary: p.docs.summary,
-          Required: p.optional == null || p.optional == true ? 'False' : 'True',
+          Required: p.optional ? 'False' : 'True',
           Type: formatSpecsType(p.type),
+          ItemType: formatItemType(p.type),
         },
       }))
     );
   }
-  return resourceProperties;
+  return {};
 }
 
 function formatSpecsType(type: reflect.TypeReference) {
@@ -84,9 +84,23 @@ function formatSpecsType(type: reflect.TypeReference) {
     return type.fqn;
   } else if (type.primitive != null) {
     return type.primitive.charAt(0).toUpperCase() + type.primitive.slice(1);
+  } else if (type.arrayOfType != null) {
+    return 'List';
+  } else if (type.mapOfType != null) {
+    return 'Map';
   } else {
     return `Unhandled Type: ${Object.keys(type)}`;
   }
+}
+
+function formatItemType(type: reflect.TypeReference) {
+  if (type.arrayOfType != null) {
+    return formatSpecsType(type.arrayOfType);
+  }
+  if (type.mapOfType != null) {
+    return formatSpecsType(type.mapOfType);
+  }
+  return undefined;
 }
 
 function mergeToObject(list: any[]) {
