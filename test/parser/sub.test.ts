@@ -9,14 +9,6 @@ const subFormatString = fc.stringOf(
   { maxLength: 10 }
 );
 
-test('test analyzesubpattern', () => {
-  const parts = analyzeSubPattern('${AWS::StackName}-LogBucket');
-  expect(parts).toEqual([
-    { type: 'ref', logicalId: 'AWS::StackName' },
-    { type: 'literal', content: '-LogBucket' },
-  ] as SubFragment[]);
-});
-
 test('parsing and reconstituting are each others inverse', () => {
   fc.assert(
     fc.property(subFormatString, fc.context(), (s, ctx) => {
@@ -25,6 +17,51 @@ test('parsing and reconstituting are each others inverse', () => {
       return s === reconstitutePattern(frags);
     })
   );
+});
+
+test('references are extracted', () => {
+  const parts = analyzeSubPattern('${AWS::StackName}-LogBucket');
+  expect(parts).toEqual([
+    { type: 'ref', logicalId: 'AWS::StackName' },
+    { type: 'literal', content: '-LogBucket' },
+  ] as SubFragment[]);
+});
+
+test('references can have spaces', () => {
+  const parts = analyzeSubPattern('${ AWS::StackName }-LogBucket');
+  expect(parts).toEqual([
+    { type: 'ref', logicalId: 'AWS::StackName' },
+    { type: 'literal', content: '-LogBucket' },
+  ] as SubFragment[]);
+});
+
+test('literals are preserved without !', () => {
+  const parts = analyzeSubPattern('before-${!AWS::Region}-LogBucket');
+  expect(parts).toEqual([
+    { type: 'literal', content: 'before-' },
+    { type: 'literal', content: '${!AWS::Region}' },
+    { type: 'literal', content: '-LogBucket' },
+  ] as SubFragment[]);
+});
+
+test('unclosed ${ is preserved', () => {
+  const parts = analyzeSubPattern('start-${ end');
+  expect(parts).toEqual([
+    { type: 'literal', content: 'start-${ end' },
+  ] as SubFragment[]);
+});
+
+test('literal pattern can contain spaces around !', () => {
+  const parts = analyzeSubPattern(
+    '${!NoSpace}${ ! BothSpace}${! AfterSpace}${ !BeforeSpace}${!EndSpace }'
+  );
+  expect(parts).toEqual([
+    { type: 'literal', content: '${!NoSpace}' },
+    { type: 'literal', content: '${ ! BothSpace}' },
+    { type: 'literal', content: '${! AfterSpace}' },
+    { type: 'literal', content: '${ !BeforeSpace}' },
+    { type: 'literal', content: '${!EndSpace }' },
+  ] as SubFragment[]);
 });
 
 /**
