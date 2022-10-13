@@ -1,7 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as reflect from 'jsii-reflect';
-import { methodFQN } from '../type-resolution/callables';
 import { hasPropsParam } from '../type-system';
 
 interface PropertySpec {
@@ -27,6 +26,7 @@ interface MethodSpec {
 interface ResourceTypeSpec {
   readonly Properties: Record<string, PropertySpec>;
   readonly Methods: Record<string, MethodSpec>;
+  readonly PublicProperties: Record<string, PropertySpec>;
 }
 
 interface ModuleTypeSpec {
@@ -67,6 +67,7 @@ function getConstructs(typeSystem: reflect.TypeSystem, namespace: string) {
     (c) =>
       c.extends(constructType) &&
       !c.extends(cfnResourceType) &&
+      !c.abstract &&
       c.spec.namespace === namespace
   );
 }
@@ -83,6 +84,12 @@ function moduleTypeSpec(
   };
 }
 
+function getPublicProperties(c: reflect.ClassType) {
+  return Object.fromEntries(
+    c.allProperties.filter((p) => !p.protected).map(propertySpec)
+  );
+}
+
 function resourceTypeSpec(
   typeSystem: reflect.TypeSystem,
   c: reflect.ClassType
@@ -90,6 +97,7 @@ function resourceTypeSpec(
   return {
     Properties: getProperties(typeSystem, c),
     Methods: getMethods(c),
+    PublicProperties: getPublicProperties(c),
   };
 }
 
@@ -174,4 +182,8 @@ function formatItemType(type: reflect.TypeReference) {
     return formatSpecsType(type.mapOfType);
   }
   return undefined;
+}
+
+function methodFQN(method: reflect.Method): string {
+  return `${method.parentType.fqn}.${method.name}`;
 }

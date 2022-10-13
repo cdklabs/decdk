@@ -47,7 +47,7 @@ interface InstanceMethodCall extends MethodCall {
   readonly methodPath: string;
 }
 
-export function methodFQN(method: reflect.Method): string {
+function methodFQN(method: reflect.Method): string {
   return `${method.parentType.fqn}.${method.name}`;
 }
 

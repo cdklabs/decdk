@@ -3,6 +3,43 @@
   "additionalProperties": false,
   "type": "object",
   "definitions": {
+    "parameter": {
+      "additionalProperties": false,
+      "type": "object",
+      "properties": {
+        "Summary": {
+          "type": "string"
+        },
+        "Type": {
+          "type": "string"
+        }
+      }
+    },
+    "method": {
+      "additionalProperties": false,
+      "type": "object",
+      "properties": {
+        "Summary": {
+          "type": "string"
+        },
+        "Static": {
+          "type": "boolean"
+        },
+        "Parameters": {
+          "additionalProperties": false,
+          "type": "object",
+          "patternProperties": {
+            "^[a-zA-Z0-9]+$": {
+              "$ref": "#/definitions/parameter"
+            }
+          }
+        },
+        "ReturnType": {
+          "type": "string"
+        }
+      },
+      "required": ["Summary", "Static"]
+    },
     "resourceProperty": {
       "additionalProperties": false,
       "type": "object",
@@ -31,6 +68,23 @@
       "type": "object",
       "properties": {
         "Properties": {
+          "type": "object",
+          "patternProperties": {
+            "^[a-zA-Z0-9]+$": {
+              "$ref": "#/definitions/resourceProperty"
+            }
+          }
+        },
+        "Methods": {
+          "additionalProperties": false,
+          "type": "object",
+          "patternProperties": {
+            "^[a-zA-Z0-9-._]+$": {
+              "$ref": "#/definitions/method"
+            }
+          }
+        },
+        "PublicProperties": {
           "type": "object",
           "patternProperties": {
             "^[a-zA-Z0-9]+$": {
