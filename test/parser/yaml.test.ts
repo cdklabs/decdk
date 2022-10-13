@@ -16,6 +16,14 @@ test("Unquoted 'No' is treated as a boolean", () => {
   });
 });
 
+test("Unquoted '.' is treated as a string", () => {
+  const value = parseCfnYaml('Key: .');
+
+  expect(value).toEqual({
+    Key: '.',
+  });
+});
+
 test("Short-form 'Ref' is deserialized correctly", () => {
   const value = parseCfnYaml('!Ref Resource');
 

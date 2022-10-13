@@ -41,9 +41,25 @@ export function parseCfnYaml(text: string): any {
   });
 }
 
+const unquotedDotTag: yaml_types.Schema.Tag = {
+  identify: (value: any) => typeof value === 'string',
+  default: true,
+  tag: 'tag:yaml.org,2002:str',
+  test: /^\.$/,
+  resolve: (str: string) => str,
+  stringify: () => '.',
+};
+
 function supportedTags(tags: yaml_types.Schema.Tag[]): yaml_types.Schema.Tag[] {
   const filteredTags = tags.filter((t) => !unsupportedTags.includes(t.tag));
-  return filteredTags.concat(shortForms);
+
+  const customTags: yaml_types.Schema.Tag[] = [];
+
+  customTags.push(unquotedDotTag);
+  customTags.push(...filteredTags);
+  customTags.push(...shortForms);
+
+  return customTags;
 }
 
 function intrinsicTag(
