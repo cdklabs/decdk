@@ -17,7 +17,6 @@ describe('Cloudformation templates', () => {
 
   const ignoreBecauseCurrentlyFailing: string[] = [
     'cloudformation/condition-same-name-as-resource.json', // There is already a Construct with name 'AlwaysTrue' in DeclarativeStack [Test]
-    'cloudformation/condition-using-mapping.json', // does not look like a template
     'cloudformation/find-in-map-for-boolean-property.json', // Expected string or list of strings, got: true
     'cloudformation/find-in-map-with-dynamic-mapping.json', // Expected string, got: {"Ref":"Stage"}
     'cloudformation/fn-sub-escaping.json', //  No resource or parameter with name:  ! DoesNotExist
@@ -26,7 +25,6 @@ describe('Cloudformation templates', () => {
     'cloudformation/functions-and-conditions.json', // Expected list of length 3, got 2
     'cloudformation/hook-code-deploy-blue-green-ecs.json', // Expected valid template, got error(s): -  is not allowed to have the additional property "Hooks"
     'cloudformation/if-in-tags.json', // Expected valid template, got error(s): - Conditions.ValcacheServerEnabled is not of a type(s) object
-    'cloudformation/only-parameters-and-rule.json', // does not look like a template
     'cloudformation/outputs-with-references.json', // Expected string, got: {"Ref":"Bucket"}
     'cloudformation/parameter-references.json', // Expected string or list of strings, got: {"Name":"AWS::Include","Parameters":{"Location":{"Ref":"MyParam"}}}
     'cloudformation/resource-attribute-creation-policy.json', // Expected number, got: {"Ref":"CountParameter"}

@@ -155,6 +155,32 @@ Object {
 }
 `;
 
+exports[`Cloudformation templates cloudformation/condition-using-mapping.json 1`] = `
+Object {
+  "Conditions": Object {
+    "AlwaysTrue": Object {
+      "Fn::Equals": Array [
+        Object {
+          "Fn::FindInMap": Array [
+            "Mapping01",
+            "Key01",
+            "Name",
+          ],
+        },
+        "Value01",
+      ],
+    },
+  },
+  "Mappings": Object {
+    "Mapping01": Object {
+      "Key01": Object {
+        "Name": "Value01",
+      },
+    },
+  },
+}
+`;
+
 exports[`Cloudformation templates cloudformation/custom-resource-with-attributes.json 1`] = `
 Object {
   "Conditions": Object {
@@ -1050,6 +1076,69 @@ Object {
       },
       "Type": "AWS::S3::Bucket",
       "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Cloudformation templates cloudformation/only-parameters-and-rule.json 1`] = `
+Object {
+  "Conditions": Object {
+    "IsProduction": Object {
+      "Fn::Equals": Array [
+        Object {
+          "Ref": "Env",
+        },
+        "prod",
+      ],
+    },
+  },
+  "Parameters": Object {
+    "Env": Object {
+      "Type": "String",
+    },
+    "Subnets": Object {
+      "Type": "List<AWS::EC2::Subnet::Id>",
+    },
+  },
+  "Rules": Object {
+    "TestVpcRule": Object {
+      "Assertions": Array [
+        Object {
+          "Fn::EachMemberIn": Array [
+            Object {
+              "Fn::ValueOfAll": Array [
+                "AWS::EC2::Subnet::Id",
+                "VpcId",
+              ],
+            },
+            Object {
+              "Fn::ValueOf": Array [
+                "Subnets",
+                "VpcId",
+              ],
+            },
+          ],
+        },
+      ],
+      "RuleCondition": Object {
+        "Fn::If": Array [
+          "IsProduction",
+          true,
+          Object {
+            "Fn::Contains": Array [
+              Array [
+                "test",
+                "pre-prod",
+                "preprod",
+              ],
+              Object {
+                "Ref": "Env",
+              },
+            ],
+          },
+        ],
+      },
     },
   },
 }
