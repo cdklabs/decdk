@@ -349,6 +349,23 @@ Object {
 }
 `;
 
+exports[`Cloudformation templates cloudformation/fn-sub-escaping.json 1`] = `
+Object {
+  "Resources": Object {
+    "Bucket": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "BucketName": Object {
+          "Fn::Sub": "some-bucket\${!AWS::AccountId}7896\${ ! DoesNotExist}\${!Immediate}234",
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
 exports[`Cloudformation templates cloudformation/fn-sub-map-dotted-attributes.json 1`] = `
 Object {
   "Resources": Object {
@@ -1535,6 +1552,33 @@ Object {
             "region-1",
             "HVMG2",
           ],
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Cloudformation templates cloudformation/short-form-fnsub-string.yaml 1`] = `
+Object {
+  "Resources": Object {
+    "AnotherBucket": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "BucketName": Object {
+          "Fn::Sub": "1-\${AWS::Region}-foo-\${Bucket}-\${!Literal}-\${Bucket.DomainName}-\${AWS::Region}",
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "Bucket": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "BucketName": Object {
+          "Fn::Sub": "some-bucket\${!AWS::AccountId}7896\${ ! AWS::Region}1-1\${!Immediate}234",
         },
       },
       "Type": "AWS::S3::Bucket",
