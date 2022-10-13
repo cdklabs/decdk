@@ -616,6 +616,48 @@ Object {
 }
 `;
 
+exports[`Cloudformation templates cloudformation/json-in-fn-sub.yaml 1`] = `
+Object {
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Parameters": Object {
+    "Stage": Object {
+      "Type": "String",
+    },
+  },
+  "Resources": Object {
+    "Dashboard": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "DashboardBody": Object {
+          "Fn::Sub": "{
+    \\"widgets\\": [
+        {
+            \\"type\\": \\"text\\",
+            \\"properties\\": {
+                \\"markdown\\": \\"\${Stage} \${Stage}\\"
+            }
+        },
+        {
+            \\"type\\": \\"text\\",
+            \\"properties\\": {
+                \\"markdown\\": \\"\${Stage} \${Stage}\\"
+            }
+        }
+    ]
+}
+",
+        },
+        "DashboardName": Object {
+          "Fn::Sub": "\${Stage}-Dashboard",
+        },
+      },
+      "Type": "AWS::CloudWatch::Dashboard",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
 exports[`Cloudformation templates cloudformation/long-form-subnet.yaml 1`] = `
 Object {
   "Conditions": Object {
@@ -1736,6 +1778,37 @@ yum update -y aws-cfn-bootstrap
         },
       },
       "Type": "AWS::AutoScaling::LaunchConfiguration",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Cloudformation templates cloudformation/year-month-date-as-strings.yaml 1`] = `
+Object {
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Resources": Object {
+    "Role": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "sts:AssumeRole",
+              ],
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": Array [
+                  "ec2.amazonaws.com",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
       "UpdateReplacePolicy": "Delete",
     },
   },
