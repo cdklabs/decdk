@@ -171,6 +171,5 @@
       "type": "object"
     }
   },
-  "required": ["Resources"],
   "type": "object"
 }
