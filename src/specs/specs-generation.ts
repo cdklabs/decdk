@@ -1,31 +1,51 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as reflect from 'jsii-reflect';
-import { Property } from 'jsii-reflect';
+import { ClassType, Property, TypeSystem } from 'jsii-reflect';
 import { hasPropsParam } from '../type-system';
 
-export function generateDeCDKSpecs(typeSystem: reflect.TypeSystem) {
+interface ResourceProperty {
+  Remarks: string;
+  Summary: string;
+  Required: 'True' | 'False';
+  Type: string;
+  ItemType?: string;
+}
+
+interface ResourceType {
+  readonly Properties: Record<string, ResourceProperty>;
+}
+
+interface ModuleType {
+  readonly ResourceTypes: Record<string, ResourceType>;
+}
+
+interface Specification {
+  readonly schemaVersion: string;
+  readonly ModuleTypes: Record<string, ModuleType>;
+}
+
+export function generateDeCDKSpecs(
+  typeSystem: reflect.TypeSystem
+): Specification {
   const moduleName = 'aws_lambda';
-  const constructs = getConstructs(typeSystem, moduleName);
-  const resourcesSpecs = buildSpecsForResources(constructs, typeSystem);
+
   return {
-    ...currentSchemaVersion(),
-    ModuleTypes: {
-      [`aws-cdk-lib.${moduleName}`]: {
-        ResourceTypes: resourcesSpecs,
-      },
-    },
+    schemaVersion: currentSchemaVersion(),
+    ModuleTypes: Object.fromEntries([
+      [`aws-cdk-lib.${moduleName}`, toModuleType(typeSystem, moduleName)],
+    ]),
   };
 }
 
-function currentSchemaVersion() {
+function currentSchemaVersion(): string {
   return JSON.parse(
     fs
       .readFileSync(
         path.join(__dirname, '../../src/specs', 'specs.version.json')
       )
       .toString()
-  );
+  ).schemaVersion;
 }
 
 function getConstructs(typeSystem: reflect.TypeSystem, namespace: string) {
@@ -40,43 +60,48 @@ function getConstructs(typeSystem: reflect.TypeSystem, namespace: string) {
   );
 }
 
-function buildSpecsForResources(
-  constructs: reflect.ClassType[],
-  typeSystem: reflect.TypeSystem
-) {
-  const specsList = constructs.map((c: reflect.ClassType) => {
-    return {
-      [c.name]: {
-        Properties: buildSpecsForResourceProperties(c, typeSystem),
-      },
-    };
-  });
-  return mergeToObject(specsList);
+function toModuleType(
+  typeSystem: reflect.TypeSystem,
+  moduleName: string
+): ModuleType {
+  const constructs = getConstructs(typeSystem, moduleName);
+  return {
+    ResourceTypes: Object.fromEntries(
+      constructs.map((c) => [c.name, toResourceType(typeSystem, c)])
+    ),
+  };
 }
 
-function buildSpecsForResourceProperties(
-  c: reflect.ClassType,
-  typeSystem: reflect.TypeSystem
-) {
-  if (!hasPropsParam(c, 2)) return;
+function toResourceType(typeSystem: TypeSystem, c: ClassType): ResourceType {
+  if (!hasPropsParam(c, 2)) {
+    return { Properties: {} };
+  }
 
   const propFqn = c.initializer?.parameters?.[2]?.type.fqn;
   if (propFqn != undefined) {
     const propInterface = typeSystem.findInterface(propFqn);
 
-    return mergeToObject(
-      propInterface.allProperties.map((p: Property) => ({
-        [p.name]: {
-          Remarks: p.docs.remarks,
-          Summary: p.docs.summary,
-          Required: p.optional ? 'False' : 'True',
-          Type: formatSpecsType(p.type),
-          ItemType: formatItemType(p.type),
-        },
-      }))
-    );
+    return {
+      Properties: Object.fromEntries(
+        propInterface.allProperties.map(toResourceProperty)
+      ),
+    };
   }
-  return {};
+
+  return { Properties: {} };
+}
+
+function toResourceProperty(p: Property): [string, ResourceProperty] {
+  return [
+    p.name,
+    {
+      Remarks: p.docs.remarks,
+      Summary: p.docs.summary,
+      Required: p.optional ? 'False' : 'True',
+      Type: formatSpecsType(p.type),
+      ItemType: formatItemType(p.type),
+    },
+  ];
 }
 
 function formatSpecsType(type: reflect.TypeReference) {
@@ -101,8 +126,4 @@ function formatItemType(type: reflect.TypeReference) {
     return formatSpecsType(type.mapOfType);
   }
   return undefined;
-}
-
-function mergeToObject(list: any[]) {
-  return Object.assign({}, ...list);
 }

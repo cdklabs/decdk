@@ -708,7 +708,9 @@
             }
           }
         },
-        "FunctionBase": {},
+        "FunctionBase": {
+          "Properties": {}
+        },
         "FunctionUrl": {
           "Properties": {
             "authType": {
@@ -779,7 +781,9 @@
             }
           }
         },
-        "QualifiedFunctionBase": {},
+        "QualifiedFunctionBase": {
+          "Properties": {}
+        },
         "SingletonFunction": {
           "Properties": {
             "maxEventAge": {
