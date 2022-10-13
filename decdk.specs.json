@@ -60,6 +60,53 @@
               "Required": "True",
               "Type": "aws-cdk-lib.aws_lambda.IVersion"
             }
+          },
+          "Methods": {
+            "aws-cdk-lib.aws_lambda.Alias.fromAliasAttributes": {
+              "Parameters": {
+                "scope": {
+                  "Summary": "",
+                  "Type": "constructs.Construct"
+                },
+                "id": {
+                  "Summary": "",
+                  "Type": "String"
+                },
+                "attrs": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.AliasAttributes"
+                }
+              },
+              "Summary": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.IAlias"
+            },
+            "addAutoScaling": {
+              "Parameters": {
+                "options": {
+                  "Summary": "Autoscaling options.",
+                  "Type": "aws-cdk-lib.aws_lambda.AutoScalingOptions"
+                }
+              },
+              "Summary": "Configure provisioned concurrency autoscaling on a function alias.",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_lambda.IScalableFunctionAttribute"
+            },
+            "metric": {
+              "Parameters": {
+                "metricName": {
+                  "Summary": "",
+                  "Type": "String"
+                },
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "Return the given named metric for this Function.",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            }
           }
         },
         "CodeSigningConfig": {
@@ -82,6 +129,27 @@
               "Summary": "Code signing configuration policy for deployment validation failure.",
               "Required": "False",
               "Type": "aws-cdk-lib.aws_lambda.UntrustedArtifactOnDeployment"
+            }
+          },
+          "Methods": {
+            "aws-cdk-lib.aws_lambda.CodeSigningConfig.fromCodeSigningConfigArn": {
+              "Parameters": {
+                "scope": {
+                  "Summary": "The parent creating construct (usually `this`).",
+                  "Type": "constructs.Construct"
+                },
+                "id": {
+                  "Summary": "The construct's name.",
+                  "Type": "String"
+                },
+                "codeSigningConfigArn": {
+                  "Summary": "The ARN of code signing config.",
+                  "Type": "String"
+                }
+              },
+              "Summary": "Creates a Signing Profile construct that represents an external Signing Profile.",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.ICodeSigningConfig"
             }
           }
         },
@@ -308,7 +376,8 @@
               "Required": "True",
               "Type": "aws-cdk-lib.aws_lambda.DockerImageCode"
             }
-          }
+          },
+          "Methods": {}
         },
         "EventInvokeConfig": {
           "Properties": {
@@ -348,7 +417,8 @@
               "Required": "False",
               "Type": "String"
             }
-          }
+          },
+          "Methods": {}
         },
         "EventSourceMapping": {
           "Properties": {
@@ -468,6 +538,27 @@
               "Summary": "The target AWS Lambda function.",
               "Required": "True",
               "Type": "aws-cdk-lib.aws_lambda.IFunction"
+            }
+          },
+          "Methods": {
+            "aws-cdk-lib.aws_lambda.EventSourceMapping.fromEventSourceMappingId": {
+              "Parameters": {
+                "scope": {
+                  "Summary": "",
+                  "Type": "constructs.Construct"
+                },
+                "id": {
+                  "Summary": "",
+                  "Type": "String"
+                },
+                "eventSourceMappingId": {
+                  "Summary": "",
+                  "Type": "String"
+                }
+              },
+              "Summary": "Import an event source into this stack from its event source id.",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.IEventSourceMapping"
             }
           }
         },
@@ -706,10 +797,385 @@
               "Required": "True",
               "Type": "aws-cdk-lib.aws_lambda.Runtime"
             }
+          },
+          "Methods": {
+            "aws-cdk-lib.aws_lambda.Function.classifyVersionProperty": {
+              "Parameters": {
+                "propertyName": {
+                  "Summary": "The property to classify.",
+                  "Type": "String"
+                },
+                "locked": {
+                  "Summary": "whether the property should be associated to the version or not.",
+                  "Type": "Boolean"
+                }
+              },
+              "Summary": "Record whether specific properties in the `AWS::Lambda::Function` resource should also be associated to the Version resource.",
+              "Static": true
+            },
+            "aws-cdk-lib.aws_lambda.Function.fromFunctionArn": {
+              "Parameters": {
+                "scope": {
+                  "Summary": "",
+                  "Type": "constructs.Construct"
+                },
+                "id": {
+                  "Summary": "",
+                  "Type": "String"
+                },
+                "functionArn": {
+                  "Summary": "",
+                  "Type": "String"
+                }
+              },
+              "Summary": "Import a lambda function into the CDK using its ARN.",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.IFunction"
+            },
+            "aws-cdk-lib.aws_lambda.Function.fromFunctionAttributes": {
+              "Parameters": {
+                "scope": {
+                  "Summary": "The parent construct.",
+                  "Type": "constructs.Construct"
+                },
+                "id": {
+                  "Summary": "The name of the lambda construct.",
+                  "Type": "String"
+                },
+                "attrs": {
+                  "Summary": "the attributes of the function to import.",
+                  "Type": "aws-cdk-lib.aws_lambda.FunctionAttributes"
+                }
+              },
+              "Summary": "Creates a Lambda function object which represents a function not defined within this stack.",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.IFunction"
+            },
+            "aws-cdk-lib.aws_lambda.Function.fromFunctionName": {
+              "Parameters": {
+                "scope": {
+                  "Summary": "",
+                  "Type": "constructs.Construct"
+                },
+                "id": {
+                  "Summary": "",
+                  "Type": "String"
+                },
+                "functionName": {
+                  "Summary": "",
+                  "Type": "String"
+                }
+              },
+              "Summary": "Import a lambda function into the CDK using its name.",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.IFunction"
+            },
+            "aws-cdk-lib.aws_lambda.Function.metricAll": {
+              "Parameters": {
+                "metricName": {
+                  "Summary": "",
+                  "Type": "String"
+                },
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "Return the given named metric for this Lambda.",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "aws-cdk-lib.aws_lambda.Function.metricAllConcurrentExecutions": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "Metric for the number of concurrent executions across all Lambdas.",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "aws-cdk-lib.aws_lambda.Function.metricAllDuration": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "Metric for the Duration executing all Lambdas.",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "aws-cdk-lib.aws_lambda.Function.metricAllErrors": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "Metric for the number of Errors executing all Lambdas.",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "aws-cdk-lib.aws_lambda.Function.metricAllInvocations": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "Metric for the number of invocations of all Lambdas.",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "aws-cdk-lib.aws_lambda.Function.metricAllThrottles": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "Metric for the number of throttled invocations of all Lambdas.",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "aws-cdk-lib.aws_lambda.Function.metricAllUnreservedConcurrentExecutions": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "Metric for the number of unreserved concurrent executions across all Lambdas.",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "addAlias": {
+              "Parameters": {
+                "aliasName": {
+                  "Summary": "The name of the alias.",
+                  "Type": "String"
+                },
+                "options": {
+                  "Summary": "Alias options.",
+                  "Type": "aws-cdk-lib.aws_lambda.AliasOptions"
+                }
+              },
+              "Summary": "Defines an alias for this function.",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_lambda.Alias"
+            },
+            "addEnvironment": {
+              "Parameters": {
+                "key": {
+                  "Summary": "The environment variable key.",
+                  "Type": "String"
+                },
+                "value": {
+                  "Summary": "The environment variable's value.",
+                  "Type": "String"
+                },
+                "options": {
+                  "Summary": "Environment variable options.",
+                  "Type": "aws-cdk-lib.aws_lambda.EnvironmentOptions"
+                }
+              },
+              "Summary": "Adds an environment variable to this Lambda function.",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_lambda.Function"
+            },
+            "addLayers": {
+              "Parameters": {
+                "layers": {
+                  "Summary": "the layers to be added.",
+                  "Type": "aws-cdk-lib.aws_lambda.ILayerVersion"
+                }
+              },
+              "Summary": "Adds one or more Lambda Layers to this Lambda function.",
+              "Static": false
+            }
           }
         },
         "FunctionBase": {
-          "Properties": {}
+          "Properties": {},
+          "Methods": {
+            "addEventSource": {
+              "Parameters": {
+                "source": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.IEventSource"
+                }
+              },
+              "Summary": "Adds an event source to this function.",
+              "Static": false
+            },
+            "addEventSourceMapping": {
+              "Parameters": {
+                "id": {
+                  "Summary": "",
+                  "Type": "String"
+                },
+                "options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.EventSourceMappingOptions"
+                }
+              },
+              "Summary": "Adds an event source that maps to this AWS Lambda function.",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_lambda.EventSourceMapping"
+            },
+            "addFunctionUrl": {
+              "Parameters": {
+                "options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.FunctionUrlOptions"
+                }
+              },
+              "Summary": "Adds a url to this lambda function.",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_lambda.FunctionUrl"
+            },
+            "addPermission": {
+              "Parameters": {
+                "id": {
+                  "Summary": "The id for the permission construct.",
+                  "Type": "String"
+                },
+                "permission": {
+                  "Summary": "The permission to grant to this Lambda function.",
+                  "Type": "aws-cdk-lib.aws_lambda.Permission"
+                }
+              },
+              "Summary": "Adds a permission to the Lambda resource policy.",
+              "Static": false
+            },
+            "addToRolePolicy": {
+              "Parameters": {
+                "statement": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.PolicyStatement"
+                }
+              },
+              "Summary": "Adds a statement to the IAM role assumed by the instance.",
+              "Static": false
+            },
+            "configureAsyncInvoke": {
+              "Parameters": {
+                "options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.EventInvokeConfigOptions"
+                }
+              },
+              "Summary": "Configures options for asynchronous invocation.",
+              "Static": false
+            },
+            "considerWarningOnInvokeFunctionPermissions": {
+              "Parameters": {
+                "scope": {
+                  "Summary": "",
+                  "Type": "constructs.Construct"
+                },
+                "action": {
+                  "Summary": "",
+                  "Type": "String"
+                }
+              },
+              "Summary": "A warning will be added to functions under the following conditions: - permissions that include `lambda:InvokeFunction` are added to the unqualified function.",
+              "Static": false
+            },
+            "grantInvoke": {
+              "Parameters": {
+                "grantee": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.IGrantable"
+                }
+              },
+              "Summary": "Grant the given identity permissions to invoke this Lambda.",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            },
+            "grantInvokeUrl": {
+              "Parameters": {
+                "grantee": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.IGrantable"
+                }
+              },
+              "Summary": "Grant the given identity permissions to invoke this Lambda Function URL.",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            },
+            "metric": {
+              "Parameters": {
+                "metricName": {
+                  "Summary": "",
+                  "Type": "String"
+                },
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "Return the given named metric for this Function.",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "metricDuration": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "How long execution of this Lambda takes.",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "metricErrors": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "How many invocations of this Lambda fail.",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "metricInvocations": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "How often this Lambda is invoked.",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "metricThrottles": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "How often this Lambda is throttled.",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "warnInvokeFunctionPermissions": {
+              "Parameters": {
+                "scope": {
+                  "Summary": "",
+                  "Type": "constructs.Construct"
+                }
+              },
+              "Summary": "",
+              "Static": false
+            }
+          }
         },
         "FunctionUrl": {
           "Properties": {
@@ -730,6 +1196,19 @@
               "Summary": "The function to which this url refers.",
               "Required": "True",
               "Type": "aws-cdk-lib.aws_lambda.IFunction"
+            }
+          },
+          "Methods": {
+            "grantInvokeUrl": {
+              "Parameters": {
+                "grantee": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.IGrantable"
+                }
+              },
+              "Summary": "Grant the given identity permissions to invoke this Lambda Function URL.",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_iam.Grant"
             }
           }
         },
@@ -779,10 +1258,90 @@
               "Type": "List",
               "ItemType": "aws-cdk-lib.aws_lambda.Runtime"
             }
+          },
+          "Methods": {
+            "aws-cdk-lib.aws_lambda.LayerVersion.fromLayerVersionArn": {
+              "Parameters": {
+                "scope": {
+                  "Summary": "",
+                  "Type": "constructs.Construct"
+                },
+                "id": {
+                  "Summary": "",
+                  "Type": "String"
+                },
+                "layerVersionArn": {
+                  "Summary": "",
+                  "Type": "String"
+                }
+              },
+              "Summary": "Imports a layer version by ARN.",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.ILayerVersion"
+            },
+            "aws-cdk-lib.aws_lambda.LayerVersion.fromLayerVersionAttributes": {
+              "Parameters": {
+                "scope": {
+                  "Summary": "the parent Construct that will use the imported layer.",
+                  "Type": "constructs.Construct"
+                },
+                "id": {
+                  "Summary": "the id of the imported layer in the construct tree.",
+                  "Type": "String"
+                },
+                "attrs": {
+                  "Summary": "the properties of the imported layer.",
+                  "Type": "aws-cdk-lib.aws_lambda.LayerVersionAttributes"
+                }
+              },
+              "Summary": "Imports a Layer that has been defined externally.",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.ILayerVersion"
+            },
+            "addPermission": {
+              "Parameters": {
+                "id": {
+                  "Summary": "",
+                  "Type": "String"
+                },
+                "permission": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.LayerVersionPermission"
+                }
+              },
+              "Summary": "Add permission for this layer version to specific entities.",
+              "Static": false
+            }
           }
         },
         "QualifiedFunctionBase": {
-          "Properties": {}
+          "Properties": {},
+          "Methods": {
+            "configureAsyncInvoke": {
+              "Parameters": {
+                "options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.EventInvokeConfigOptions"
+                }
+              },
+              "Summary": "Configures options for asynchronous invocation.",
+              "Static": false
+            },
+            "considerWarningOnInvokeFunctionPermissions": {
+              "Parameters": {
+                "_scope": {
+                  "Summary": "",
+                  "Type": "constructs.Construct"
+                },
+                "_action": {
+                  "Summary": "",
+                  "Type": "String"
+                }
+              },
+              "Summary": "A warning will be added to functions under the following conditions: - permissions that include `lambda:InvokeFunction` are added to the unqualified function.",
+              "Static": false
+            }
+          }
         },
         "SingletonFunction": {
           "Properties": {
@@ -1031,6 +1590,71 @@
               "Required": "False",
               "Type": "String"
             }
+          },
+          "Methods": {
+            "addDependency": {
+              "Parameters": {
+                "up": {
+                  "Summary": "",
+                  "Type": "constructs.IDependable"
+                }
+              },
+              "Summary": "Using node.addDependency() does not work on this method as the underlying lambda function is modeled as a singleton across the stack. Use this method instead to declare dependencies.",
+              "Static": false
+            },
+            "addEnvironment": {
+              "Parameters": {
+                "key": {
+                  "Summary": "The environment variable key.",
+                  "Type": "String"
+                },
+                "value": {
+                  "Summary": "The environment variable's value.",
+                  "Type": "String"
+                },
+                "options": {
+                  "Summary": "Environment variable options.",
+                  "Type": "aws-cdk-lib.aws_lambda.EnvironmentOptions"
+                }
+              },
+              "Summary": "Adds an environment variable to this Lambda function.",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_lambda.Function"
+            },
+            "addLayers": {
+              "Parameters": {
+                "layers": {
+                  "Summary": "the layers to be added.",
+                  "Type": "aws-cdk-lib.aws_lambda.ILayerVersion"
+                }
+              },
+              "Summary": "Adds one or more Lambda Layers to this Lambda function.",
+              "Static": false
+            },
+            "addPermission": {
+              "Parameters": {
+                "name": {
+                  "Summary": "",
+                  "Type": "String"
+                },
+                "permission": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.Permission"
+                }
+              },
+              "Summary": "Adds a permission to the Lambda resource policy.",
+              "Static": false
+            },
+            "dependOn": {
+              "Parameters": {
+                "down": {
+                  "Summary": "",
+                  "Type": "constructs.IConstruct"
+                }
+              },
+              "Summary": "The SingletonFunction construct cannot be added as a dependency of another construct using node.addDependency(). Use this method instead to declare this as a dependency of another construct.",
+              "Static": false
+            }
           }
         },
         "Version": {
@@ -1088,6 +1712,76 @@
               "Summary": "Function to get the value of.",
               "Required": "True",
               "Type": "aws-cdk-lib.aws_lambda.IFunction"
+            }
+          },
+          "Methods": {
+            "aws-cdk-lib.aws_lambda.Version.fromVersionArn": {
+              "Parameters": {
+                "scope": {
+                  "Summary": "The cdk scope creating this resource.",
+                  "Type": "constructs.Construct"
+                },
+                "id": {
+                  "Summary": "The cdk id of this resource.",
+                  "Type": "String"
+                },
+                "versionArn": {
+                  "Summary": "The version ARN to create this version from.",
+                  "Type": "String"
+                }
+              },
+              "Summary": "Construct a Version object from a Version ARN.",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.IVersion"
+            },
+            "aws-cdk-lib.aws_lambda.Version.fromVersionAttributes": {
+              "Parameters": {
+                "scope": {
+                  "Summary": "",
+                  "Type": "constructs.Construct"
+                },
+                "id": {
+                  "Summary": "",
+                  "Type": "String"
+                },
+                "attrs": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.VersionAttributes"
+                }
+              },
+              "Summary": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.IVersion"
+            },
+            "addAlias": {
+              "Parameters": {
+                "aliasName": {
+                  "Summary": "The name of the alias (e.g. \"live\").",
+                  "Type": "String"
+                },
+                "options": {
+                  "Summary": "Alias options.",
+                  "Type": "aws-cdk-lib.aws_lambda.AliasOptions"
+                }
+              },
+              "Summary": "Defines an alias for this version.",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_lambda.Alias"
+            },
+            "metric": {
+              "Parameters": {
+                "metricName": {
+                  "Summary": "",
+                  "Type": "String"
+                },
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "Return the given named metric for this Function.",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
             }
           }
         }

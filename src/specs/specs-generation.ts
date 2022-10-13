@@ -1,10 +1,10 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as reflect from 'jsii-reflect';
-import { ClassType, Property, TypeSystem } from 'jsii-reflect';
+import { methodFQN } from '../type-resolution/callables';
 import { hasPropsParam } from '../type-system';
 
-interface ResourceProperty {
+interface PropertySpec {
   Remarks: string;
   Summary: string;
   Required: 'True' | 'False';
@@ -12,28 +12,39 @@ interface ResourceProperty {
   ItemType?: string;
 }
 
-interface ResourceType {
-  readonly Properties: Record<string, ResourceProperty>;
+interface ParameterSpec {
+  readonly Summary: string;
+  readonly Type: string;
 }
 
-interface ModuleType {
-  readonly ResourceTypes: Record<string, ResourceType>;
+interface MethodSpec {
+  readonly Summary: string;
+  readonly Static: boolean;
+  readonly Parameters: Record<string, ParameterSpec>;
+  readonly ReturnType?: string;
 }
 
-interface Specification {
+interface ResourceTypeSpec {
+  readonly Properties: Record<string, PropertySpec>;
+  readonly Methods: Record<string, MethodSpec>;
+}
+
+interface ModuleTypeSpec {
+  readonly ResourceTypes: Record<string, ResourceTypeSpec>;
+}
+
+interface RootSpec {
   readonly schemaVersion: string;
-  readonly ModuleTypes: Record<string, ModuleType>;
+  readonly ModuleTypes: Record<string, ModuleTypeSpec>;
 }
 
-export function generateDeCDKSpecs(
-  typeSystem: reflect.TypeSystem
-): Specification {
+export function generateDeCDKSpecs(typeSystem: reflect.TypeSystem): RootSpec {
   const moduleName = 'aws_lambda';
 
   return {
     schemaVersion: currentSchemaVersion(),
     ModuleTypes: Object.fromEntries([
-      [`aws-cdk-lib.${moduleName}`, toModuleType(typeSystem, moduleName)],
+      [`aws-cdk-lib.${moduleName}`, moduleTypeSpec(typeSystem, moduleName)],
     ]),
   };
 }
@@ -60,38 +71,75 @@ function getConstructs(typeSystem: reflect.TypeSystem, namespace: string) {
   );
 }
 
-function toModuleType(
+function moduleTypeSpec(
   typeSystem: reflect.TypeSystem,
   moduleName: string
-): ModuleType {
+): ModuleTypeSpec {
   const constructs = getConstructs(typeSystem, moduleName);
   return {
     ResourceTypes: Object.fromEntries(
-      constructs.map((c) => [c.name, toResourceType(typeSystem, c)])
+      constructs.map((c) => [c.name, resourceTypeSpec(typeSystem, c)])
     ),
   };
 }
 
-function toResourceType(typeSystem: TypeSystem, c: ClassType): ResourceType {
+function resourceTypeSpec(
+  typeSystem: reflect.TypeSystem,
+  c: reflect.ClassType
+): ResourceTypeSpec {
+  return {
+    Properties: getProperties(typeSystem, c),
+    Methods: getMethods(c),
+  };
+}
+
+function getProperties(
+  typeSystem: reflect.TypeSystem,
+  c: reflect.ClassType
+): Record<string, PropertySpec> {
   if (!hasPropsParam(c, 2)) {
-    return { Properties: {} };
+    return {};
   }
 
   const propFqn = c.initializer?.parameters?.[2]?.type.fqn;
   if (propFqn != undefined) {
     const propInterface = typeSystem.findInterface(propFqn);
 
-    return {
-      Properties: Object.fromEntries(
-        propInterface.allProperties.map(toResourceProperty)
-      ),
-    };
+    return Object.fromEntries(propInterface.allProperties.map(propertySpec));
   }
 
-  return { Properties: {} };
+  return {};
 }
 
-function toResourceProperty(p: Property): [string, ResourceProperty] {
+function getMethods(c: reflect.ClassType): Record<string, MethodSpec> {
+  return Object.fromEntries(
+    Object.entries(c.getMethods(false)).map(([name, method]) => [
+      method.static ? methodFQN(method) : name,
+      methodSpec(method),
+    ])
+  );
+}
+
+function methodSpec(m: reflect.Method): MethodSpec {
+  const returnType = formatSpecsType(m.returns.type);
+  return {
+    Parameters: Object.fromEntries(
+      m.parameters.map((p) => [p.name, parameterSpec(p)])
+    ),
+    Summary: m.docs.summary,
+    Static: m.static,
+    ReturnType: returnType.length > 0 ? returnType : undefined,
+  };
+}
+
+function parameterSpec(parameter: reflect.Parameter): ParameterSpec {
+  return {
+    Summary: parameter.docs.summary,
+    Type: formatSpecsType(parameter.type),
+  };
+}
+
+function propertySpec(p: reflect.Property): [string, PropertySpec] {
   return [
     p.name,
     {
@@ -104,7 +152,7 @@ function toResourceProperty(p: Property): [string, ResourceProperty] {
   ];
 }
 
-function formatSpecsType(type: reflect.TypeReference) {
+function formatSpecsType(type: reflect.TypeReference): string {
   if (type.fqn != null) {
     return type.fqn;
   } else if (type.primitive != null) {
@@ -114,7 +162,7 @@ function formatSpecsType(type: reflect.TypeReference) {
   } else if (type.mapOfType != null) {
     return 'Map';
   } else {
-    return `Unhandled Type: ${Object.keys(type)}`;
+    return '';
   }
 }
 
