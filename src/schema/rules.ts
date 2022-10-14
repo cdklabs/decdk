@@ -7,49 +7,68 @@ export const schemaForRules = (ctx: SchemaContext) => ({
     'The optional Rules section validates a parameter or a combination of parameters passed to a template during a stack creation or stack update.',
   additionalProperties: false,
   patternProperties: {
-    '^[a-zA-Z0-9]+$': ctx.define('Rule', RuleExpression),
+    '^[a-zA-Z0-9]+$': ctx.define('Rule', () => ({
+      additionalProperties: false,
+      type: 'object',
+      properties: {
+        RuleCondition: ctx.define('RuleExpression', RuleExpression),
+        Assertions: {
+          type: 'array',
+          items: [
+            {
+              type: 'object',
+              additionalProperties: false,
+              properties: {
+                Assert: ctx.define('RuleExpression', RuleExpression),
+                AssertDescription: {
+                  type: 'string',
+                },
+              },
+              required: ['Assert'],
+            },
+          ],
+        },
+      },
+      required: ['Assertions'],
+    })),
   },
   type: 'object',
 });
+
+const LIST_TYPES = [
+  { type: 'array', items: $ref('StringExpression') },
+  $ref('ListExpression'),
+  $ref('FnRefAll'),
+  $ref('FnValueOf'),
+  $ref('FnValueOfAll'),
+];
+
+const BOOLEAN_TYPES = [
+  $ref('FnRuleAnd'),
+  $ref('FnRuleEquals'),
+  $ref('FnRuleNot'),
+  $ref('FnRuleOr'),
+  $ref('FnContains'),
+  $ref('FnEachMemberEquals'),
+  $ref('FnEachMemberIn'),
+];
 
 export const RuleExpression = (ctx: SchemaContext) => ({
-  additionalProperties: false,
   type: 'object',
-  properties: {
-    RuleCondition: ruleSpecificIntrinsic(ctx),
-    Assertions: {
-      type: 'array',
-      items: [
-        {
-          Assert: ruleSpecificIntrinsic(ctx),
-          AssertDescription: {
-            type: 'string',
-          },
-        },
-      ],
-    },
-  },
+  anyOf: [
+    ctx.define('FnContains', FnContains),
+    ctx.define('FnEachMemberEquals', FnEachMemberEquals),
+    ctx.define('FnEachMemberIn', FnEachMemberIn),
+    ctx.define('FnRefAll', FnRefAll),
+    ctx.define('FnValueOf', FnValueOf),
+    ctx.define('FnValueOfAll', FnValueOfAll),
+    ctx.define('FnRuleAnd', FnAnd),
+    ctx.define('FnRuleEquals', FnEquals),
+    ctx.define('FnRuleNot', FnNot),
+    ctx.define('FnRuleOr', FnOr),
+    $ref('FnRef'),
+  ],
 });
-
-const ruleSpecificIntrinsic = (ctx: SchemaContext) =>
-  ctx.define('RuleSpecificIntrinsic', () => ({
-    $comment:
-      'Intrinsic function token expressions that can be used in Rule functions',
-    anyOf: [
-      ctx.define('FnContains', FnContains),
-      ctx.define('FnEachMemberEquals', FnEachMemberEquals),
-      ctx.define('FnEachMemberIn', FnEachMemberIn),
-      ctx.define('FnRefAll', FnRefAll),
-      ctx.define('FnValueOf', FnValueOf),
-      ctx.define('FnValueOfAll', FnValueOfAll),
-      $ref('FnAnd'),
-      $ref('FnEquals'),
-      $ref('FnIf'),
-      $ref('FnNot'),
-      $ref('FnOr'),
-      $ref('FnRef'),
-    ],
-  }));
 
 const FnContains = () =>
   schemaForIntrinsic('Fn::Contains', {
@@ -59,7 +78,7 @@ const FnContains = () =>
       {
         name: 'listOfStrings',
         description: 'A list of strings, such as "A", "B", "C".',
-        types: [{ type: 'array', items: $ref('StringExpression') }],
+        types: LIST_TYPES,
       },
       {
         name: 'string',
@@ -78,7 +97,7 @@ const FnEachMemberEquals = () =>
       {
         name: 'listOfStrings',
         description: 'A list of strings, such as "A", "B", "C".',
-        types: [{ type: 'array', items: $ref('StringExpression') }],
+        types: LIST_TYPES,
       },
       {
         name: 'string',
@@ -98,13 +117,13 @@ const FnEachMemberIn = () =>
         name: 'stringsToCheck',
         description:
           'A list of strings, such as "A", "B", "C". CloudFormation checks whether each member in the strings_to_check parameter is in the strings_to_match parameter',
-        types: [{ type: 'array', items: $ref('StringExpression') }],
+        types: LIST_TYPES,
       },
       {
         name: 'stringsToMatch',
         description:
           'A list of strings, such as "A", "B", "C". Each member in the strings_to_match parameter is compared against the members of the strings_to_check parameter.',
-        types: [{ type: 'array', items: $ref('StringExpression') }],
+        types: LIST_TYPES,
       },
     ],
   });
@@ -133,13 +152,13 @@ const FnValueOf = () =>
         name: 'parameterLogicalId',
         description:
           'The name of a parameter for which you want to retrieve attribute values.',
-        types: [$ref('StringExpression')],
+        types: [$ref('StringLiteral')],
       },
       {
         name: 'attribute',
         description:
           'The name of an attribute from which you want to retrieve a value.',
-        types: [$ref('StringExpression')],
+        types: [$ref('StringLiteral')],
       },
     ],
   });
@@ -160,6 +179,75 @@ const FnValueOfAll = () =>
         description:
           'The name of an attribute from which you want to retrieve a value.',
         types: [$ref('StringExpression')],
+      },
+    ],
+  });
+
+/* We need to redefine the following functions to allow other rule specific
+   functions to be used inside them. For example:
+
+      Fn::And:
+        Fn::Contains: ...
+        Fn::EachMemberIn: ...
+*/
+
+const FnAnd = () =>
+  schemaForIntrinsic('Fn::And', {
+    description:
+      'https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-conditions.html#intrinsic-function-reference-conditions-and',
+    variadic: [2, 10],
+    params: [
+      {
+        name: 'condition',
+        description: 'A condition that evaluates to true or false.',
+        types: BOOLEAN_TYPES,
+      },
+    ],
+  });
+
+const FnEquals = () =>
+  schemaForIntrinsic('Fn::Equals', {
+    description:
+      'https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-conditions.html#intrinsic-function-reference-conditions-equals',
+    params: [
+      {
+        name: 'value1',
+        description: 'The first value of any type that you want to compare.',
+        types: [$ref('PrimitiveLiteral'), $ref('RuleExpression')],
+      },
+      {
+        name: 'value2',
+        description: 'The second value of any type that you want to compare.',
+        types: [$ref('PrimitiveLiteral'), $ref('RuleExpression')],
+      },
+    ],
+  });
+
+const FnNot = () =>
+  schemaForIntrinsic('Fn::Not', {
+    description:
+      'https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-conditions.html#intrinsic-function-reference-conditions-not',
+    params: [
+      {
+        name: 'condition',
+        description:
+          'A condition such as Fn::Equals that evaluates to true or false.',
+        types: BOOLEAN_TYPES,
+      },
+    ],
+    variadic: [1, 1],
+  });
+
+const FnOr = () =>
+  schemaForIntrinsic('Fn::Or', {
+    description:
+      'https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-conditions.html#intrinsic-function-reference-conditions-or',
+    variadic: [2, 10],
+    params: [
+      {
+        name: 'condition',
+        description: 'A condition that evaluates to true or false.',
+        types: BOOLEAN_TYPES,
       },
     ],
   });
