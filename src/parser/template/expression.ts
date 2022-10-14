@@ -109,7 +109,7 @@ export interface CidrIntrinsic {
 export interface FindInMapIntrinsic {
   readonly type: 'intrinsic';
   readonly fn: 'findInMap';
-  readonly mappingName: string;
+  readonly mappingName: TemplateExpression;
   readonly key1: TemplateExpression;
   readonly key2: TemplateExpression;
 }
@@ -319,7 +319,7 @@ export function parseExpression(x: unknown): TemplateExpression {
       return {
         type: 'intrinsic',
         fn: 'findInMap',
-        mappingName: assertString(xs[0]),
+        mappingName: parseExpression(xs[0]),
         key1: parseExpression(xs[1]),
         key2: parseExpression(xs[2]),
       };

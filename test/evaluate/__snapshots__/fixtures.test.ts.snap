@@ -243,6 +243,45 @@ Object {
 }
 `;
 
+exports[`Cloudformation templates cloudformation/find-in-map-with-dynamic-mapping.json 1`] = `
+Object {
+  "Mappings": Object {
+    "beta": Object {
+      "region": Object {
+        "key1": "name",
+      },
+    },
+  },
+  "Parameters": Object {
+    "Stage": Object {
+      "AllowedValues": Array [
+        "beta",
+      ],
+      "Default": "beta",
+      "Type": "String",
+    },
+  },
+  "Resources": Object {
+    "Bucket": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "BucketName": Object {
+          "Fn::FindInMap": Array [
+            Object {
+              "Ref": "Stage",
+            },
+            "region",
+            "key1",
+          ],
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
 exports[`Cloudformation templates cloudformation/fn-select-with-novalue.json 1`] = `
 Object {
   "Conditions": Object {
