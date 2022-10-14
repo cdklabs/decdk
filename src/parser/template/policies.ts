@@ -11,6 +11,7 @@ import { ifField } from './expression';
 export interface CreationPolicy {
   readonly autoScalingCreationPolicy?: AutoScalingCreationPolicy;
   readonly resourceSignal?: ResourceSignal;
+  readonly startFleet?: boolean;
 }
 
 export interface AutoScalingCreationPolicy {
@@ -68,6 +69,7 @@ export function parseCreationPolicy(x: unknown): CreationPolicy | undefined {
       parseAutoScalingCreationPolicy
     ),
     resourceSignal: ifField(policy, 'ResourceSignal', parseResourceSignal),
+    startFleet: ifField(policy, 'StartFleet', assertBoolean),
   };
 }
 
