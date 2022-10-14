@@ -667,6 +667,57 @@ Object {
 }
 `;
 
+exports[`Cloudformation templates cloudformation/if-in-tags.json 1`] = `
+Object {
+  "Conditions": Object {
+    "ValcacheServerEnabled": Object {
+      "Fn::Equals": Array [
+        Object {
+          "Ref": "EnvType",
+        },
+        "prod",
+      ],
+    },
+  },
+  "Parameters": Object {
+    "EnvType": Object {
+      "AllowedValues": Array [
+        "prod",
+        "test",
+      ],
+      "Default": "test",
+      "Type": "String",
+    },
+  },
+  "Resources": Object {
+    "TxAutoScalingGroup": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "MaxSize": "3",
+        "MinSize": "1",
+        "Tags": Array [
+          Object {
+            "Fn::If": Array [
+              "ValcacheServerEnabled",
+              Object {
+                "Key": "datomic:cache-group",
+                "PropagateAtLaunch": true,
+                "Value": "SystemName",
+              },
+              Object {
+                "Ref": "AWS::NoValue",
+              },
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::AutoScaling::AutoScalingGroup",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
 exports[`Cloudformation templates cloudformation/if-simple-property.json 1`] = `
 Object {
   "Conditions": Object {
