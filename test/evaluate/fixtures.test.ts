@@ -16,11 +16,9 @@ describe('Cloudformation templates', () => {
   ]);
 
   const ignoreBecauseCurrentlyFailing: string[] = [
-    'cloudformation/condition-same-name-as-resource.json', // There is already a Construct with name 'AlwaysTrue' in DeclarativeStack [Test]
     'cloudformation/fn-sub-shadow-attribute.json', //  No resource or parameter with name: AnotherBucket
     'cloudformation/functions-and-conditions.json', // Expected list of length 3, got 2
     'cloudformation/hook-code-deploy-blue-green-ecs.json', // Expected valid template, got error(s): -  is not allowed to have the additional property "Hooks"
-    'cloudformation/outputs-with-references.json', // Expected string, got: {"Ref":"Bucket"}
     'cloudformation/parameter-references.json', // Expected string or list of strings, got: {"Name":"AWS::Include","Parameters":{"Location":{"Ref":"MyParam"}}}
     'cloudformation/resource-attribute-creation-policy.json', // Expected number, got: {"Ref":"CountParameter"}
     'cloudformation/resource-attribute-update-policy.json', // Expected boolean, got: {"Fn::Equals":["true",{"Ref":"WaitOnResourceSignals"}]}

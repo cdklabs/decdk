@@ -45,28 +45,32 @@ export class Evaluator {
   constructor(public readonly context: EvaluationContext) {}
 
   public evaluateTemplate() {
+    this.evaluateMetadata();
     this.evaluateParameters();
+    this.evaluateRules();
     this.evaluateMappings();
     this.evaluateConditions();
+    this.evaluateTransform();
     this.evaluateResources();
     this.evaluateOutputs();
-    this.evaluateTransform();
-    this.evaluateMetadata();
-    this.evaluateRules();
   }
 
   private evaluateMappings() {
-    this.context.template.mappings.forEach(
-      (mapping, mapName) =>
-        new cdk.CfnMapping(this.context.stack, mapName, {
-          mapping: mapping.toObject(),
-        })
+    const scope = new Construct(this.context.stack, '$Mappings');
+    this.context.template.mappings.forEach((mapping, mapName) =>
+      new cdk.CfnMapping(scope, mapName, {
+        mapping: mapping.toObject(),
+      }).overrideLogicalId(mapName)
     );
   }
 
   private evaluateParameters() {
     this.context.template.parameters.forEach((param, paramName) => {
-      new cdk.CfnParameter(this.context.stack, paramName, param);
+      new cdk.CfnParameter(
+        this.context.stack,
+        paramName,
+        param
+      ).overrideLogicalId(paramName);
       this.context.addReference(new SimpleReference(paramName));
     });
   }
@@ -78,16 +82,16 @@ export class Evaluator {
   }
 
   private evaluateOutputs() {
+    const scope = new Construct(this.context.stack, '$Outputs');
     this.context.template.outputs.forEach((output, outputId) => {
-      new DeCDKCfnOutput(this.context.stack, outputId, {
+      new DeCDKCfnOutput(scope, outputId, {
         value: this.evaluate(output.value),
         description: output.description,
         exportName: output.exportName
           ? this.evaluate(output.exportName)
           : output.exportName,
         condition: output.conditionName,
-      });
-      this.context.addReference(new SimpleReference(outputId));
+      }).overrideLogicalId(outputId);
     });
   }
 
@@ -116,17 +120,19 @@ export class Evaluator {
   }
 
   private evaluateRules() {
+    const scope = new Construct(this.context.stack, '$Rules');
     this.context.template.rules.forEach((rule, name) => {
-      new CfnRule(this.context.stack, name, rule);
+      new CfnRule(scope, name, rule).overrideLogicalId(name);
     });
   }
 
   private evaluateConditions() {
+    const scope = new Construct(this.context.stack, '$Conditions');
     this.context.template.conditions.forEach((condition, logicalId) => {
       const conditionFn = this.evaluate(condition);
-      new cdk.CfnCondition(this.context.stack, logicalId, {
+      new cdk.CfnCondition(scope, logicalId, {
         expression: conditionFn,
-      });
+      }).overrideLogicalId(logicalId);
     });
   }
 

@@ -155,6 +155,53 @@ Object {
 }
 `;
 
+exports[`Cloudformation templates cloudformation/condition-same-name-as-resource.json 1`] = `
+Object {
+  "Conditions": Object {
+    "AlwaysFalse": Object {
+      "Fn::Equals": Array [
+        Object {
+          "Ref": "Param",
+        },
+        2,
+      ],
+    },
+    "AlwaysTrue": Object {
+      "Fn::Not": Array [
+        Object {
+          "Condition": "AlwaysFalse",
+        },
+      ],
+    },
+  },
+  "Parameters": Object {
+    "Param": Object {
+      "Type": "String",
+    },
+  },
+  "Resources": Object {
+    "AlwaysTrue": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "BucketName": Object {
+          "Fn::If": Array [
+            "AlwaysFalse",
+            Object {
+              "Ref": "Param",
+            },
+            Object {
+              "Ref": "AWS::NoValue",
+            },
+          ],
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
 exports[`Cloudformation templates cloudformation/condition-using-mapping.json 1`] = `
 Object {
   "Conditions": Object {
@@ -243,6 +290,38 @@ Object {
 }
 `;
 
+exports[`Cloudformation templates cloudformation/find-in-map-for-boolean-property.json 1`] = `
+Object {
+  "Mappings": Object {
+    "SomeMapping": Object {
+      "region": Object {
+        "key1": true,
+      },
+    },
+  },
+  "Resources": Object {
+    "Bucket": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "PublicAccessBlockConfiguration": Object {
+          "BlockPublicAcls": Object {
+            "Fn::FindInMap": Array [
+              "SomeMapping",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              "key1",
+            ],
+          },
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
 exports[`Cloudformation templates cloudformation/find-in-map-with-dynamic-mapping.json 1`] = `
 Object {
   "Mappings": Object {
@@ -273,38 +352,6 @@ Object {
             "region",
             "key1",
           ],
-        },
-      },
-      "Type": "AWS::S3::Bucket",
-      "UpdateReplacePolicy": "Delete",
-    },
-  },
-}
-`;
-
-exports[`Cloudformation templates cloudformation/find-in-map-for-boolean-property.json 1`] = `
-Object {
-  "Mappings": Object {
-    "SomeMapping": Object {
-      "region": Object {
-        "key1": true,
-      },
-    },
-  },
-  "Resources": Object {
-    "Bucket": Object {
-      "DeletionPolicy": "Delete",
-      "Properties": Object {
-        "PublicAccessBlockConfiguration": Object {
-          "BlockPublicAcls": Object {
-            "Fn::FindInMap": Array [
-              "SomeMapping",
-              Object {
-                "Ref": "AWS::Region",
-              },
-              "key1",
-            ],
-          },
         },
       },
       "Type": "AWS::S3::Bucket",
@@ -1274,6 +1321,66 @@ Object {
           },
         ],
       },
+    },
+  },
+}
+`;
+
+exports[`Cloudformation templates cloudformation/outputs-with-references.json 1`] = `
+Object {
+  "Conditions": Object {
+    "AlwaysFalseCond": Object {
+      "Fn::Equals": Array [
+        Object {
+          "Ref": "AWS::Region",
+        },
+        "completely-made-up-region",
+      ],
+    },
+  },
+  "Outputs": Object {
+    "Output1": Object {
+      "Condition": "AlwaysFalseCond",
+      "Description": "a description",
+      "Export": Object {
+        "Name": "Bucket",
+      },
+      "Value": Object {
+        "Fn::Join": Array [
+          "",
+          Array [
+            Object {
+              "Ref": "MyParam",
+            },
+            Object {
+              "Fn::GetAtt": Array [
+                "Bucket",
+                "Arn",
+              ],
+            },
+          ],
+        ],
+      },
+    },
+    "OutputWithNoCondition": Object {
+      "Value": "some-value",
+    },
+  },
+  "Parameters": Object {
+    "MyParam": Object {
+      "Type": "String",
+    },
+  },
+  "Resources": Object {
+    "Bucket": Object {
+      "DeletionPolicy": "Delete",
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "Output1": Object {
+      "DeletionPolicy": "Delete",
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
     },
   },
 }
