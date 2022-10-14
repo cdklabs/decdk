@@ -137,3 +137,25 @@ test('Non-constructs can be instantiated inline using constructor args', async (
     },
   });
 });
+
+describe('CreationPolicy', () => {
+  test('can use StartFleet creation policy', async () => {
+    const parsedTemplate = await Template.fromObject({
+      Resources: {
+        MyBucket: {
+          Type: 'AWS::S3::Bucket',
+          CreationPolicy: {
+            StartFleet: true,
+          },
+        },
+      },
+    });
+
+    const template = await Testing.template(parsedTemplate);
+    template.hasResource('AWS::S3::Bucket', {
+      CreationPolicy: {
+        StartFleet: true,
+      },
+    });
+  });
+});

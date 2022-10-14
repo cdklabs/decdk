@@ -182,7 +182,11 @@ function resourceErrors(
 ): jsonschema.ValidationError[] {
   return errors.flatMap((e) => {
     const definitions = schema.definitions || {};
-    if (e.path.length !== 2 || e.path[0] !== 'Resources') {
+    if (
+      e.path.length !== 2 ||
+      e.path[0] !== 'Resources' ||
+      !definitions[e.instance.Type]
+    ) {
       return e;
     }
     const local = jsonschema.validate(e.instance, {
