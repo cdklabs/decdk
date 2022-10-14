@@ -1212,37 +1212,33 @@ Object {
     "TestVpcRule": Object {
       "Assertions": Array [
         Object {
-          "Fn::EachMemberIn": Array [
-            Object {
-              "Fn::ValueOfAll": Array [
-                "AWS::EC2::Subnet::Id",
-                "VpcId",
-              ],
-            },
-            Object {
-              "Fn::ValueOf": Array [
-                "Subnets",
-                "VpcId",
-              ],
-            },
-          ],
+          "Assert": Object {
+            "Fn::EachMemberIn": Array [
+              Object {
+                "Fn::ValueOfAll": Array [
+                  "AWS::EC2::Subnet::Id",
+                  "VpcId",
+                ],
+              },
+              Object {
+                "Fn::ValueOf": Array [
+                  "Subnets",
+                  "VpcId",
+                ],
+              },
+            ],
+          },
         },
       ],
       "RuleCondition": Object {
-        "Fn::If": Array [
-          "IsProduction",
-          true,
+        "Fn::Contains": Array [
+          Array [
+            "test",
+            "pre-prod",
+            "preprod",
+          ],
           Object {
-            "Fn::Contains": Array [
-              Array [
-                "test",
-                "pre-prod",
-                "preprod",
-              ],
-              Object {
-                "Ref": "Env",
-              },
-            ],
+            "Ref": "Env",
           },
         ],
       },

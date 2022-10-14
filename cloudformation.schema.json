@@ -65,32 +65,6 @@
       },
       "required": ["Key", "Value"],
       "type": "object"
-    },
-    "RuleSpecificIntrinsic": {
-      "type": "object",
-      "maxProperties": 1,
-      "minProperties": 1
-    },
-    "Rule": {
-      "additionalProperties": false,
-      "properties": {
-        "RuleCondition": {
-          "$ref": "#/definitions/RuleSpecificIntrinsic"
-        },
-        "Assertions": {
-          "type": "array",
-          "items": [
-            {
-              "Assert": {
-                "$ref": "#/definitions/RuleSpecificIntrinsic"
-              },
-              "AssertDescription": {
-                "type": "string"
-              }
-            }
-          ]
-        }
-      }
     }
   },
   "properties": {
@@ -160,15 +134,6 @@
     },
     "Transform": {
       "type": ["object", "string"]
-    },
-    "Rules": {
-      "additionalProperties": false,
-      "patternProperties": {
-        "^[a-zA-Z0-9]+$": {
-          "$ref": "#/definitions/Rule"
-        }
-      },
-      "type": "object"
     }
   },
   "type": "object"
