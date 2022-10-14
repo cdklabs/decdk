@@ -189,7 +189,7 @@ export class Evaluator {
             return this.fnCidr(ev(x.ipBlock), ev(x.count), maybeEv(x.netMask));
           case 'findInMap':
             return this.fnFindInMap(
-              x.mappingName,
+              assertString(ev(x.mappingName)),
               assertString(ev(x.key1)),
               assertString(ev(x.key2))
             );

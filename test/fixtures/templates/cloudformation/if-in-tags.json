@@ -1,6 +1,21 @@
 {
+  "$schema": "../../../../cdk.schema.json",
+  "Parameters": {
+    "EnvType": {
+      "Default": "test",
+      "Type": "String",
+      "AllowedValues": ["prod", "test"]
+    }
+  },
   "Conditions": {
-    "ValcacheServerEnabled": true
+    "ValcacheServerEnabled": {
+      "Fn::Equals": [
+        {
+          "Ref": "EnvType"
+        },
+        "prod"
+      ]
+    }
   },
   "Resources": {
     "TxAutoScalingGroup": {
