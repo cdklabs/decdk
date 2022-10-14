@@ -7613,6 +7613,7 @@ TypedTemplate {
             "count": undefined,
             "timeout": "PT15M",
           },
+          "startFleet": undefined,
         },
         "deletionPolicy": "Delete",
         "dependsOn": Array [],
@@ -8107,6 +8108,7 @@ TypedTemplate {
             "count": undefined,
             "timeout": "PT15M",
           },
+          "startFleet": undefined,
         },
         "deletionPolicy": "Delete",
         "dependencies": Set {
@@ -11614,6 +11616,7 @@ TypedTemplate {
             "count": 3,
             "timeout": "PT15M",
           },
+          "startFleet": undefined,
         },
         "deletionPolicy": "Delete",
         "dependsOn": Array [],
@@ -11812,6 +11815,7 @@ yum update -y aws-cfn-bootstrap
             "count": 3,
             "timeout": "PT15M",
           },
+          "startFleet": undefined,
         },
         "deletionPolicy": "Delete",
         "dependencies": Set {
