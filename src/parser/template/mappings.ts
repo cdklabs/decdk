@@ -1,8 +1,18 @@
-import { assertStringOrStringList, mapFromObject } from '../private/types';
+import {
+  assertBoolean,
+  assertList,
+  assertNumber,
+  assertOr,
+  assertString,
+  mapFromObject,
+} from '../private/types';
 
 export class TemplateMapping {
   public constructor(
-    readonly mapping: Map<string, Map<string, string | string[]>>
+    readonly mapping: Map<
+      string,
+      Map<string, string | string[] | number | boolean>
+    >
   ) {}
 
   public toObject(): {
@@ -19,7 +29,18 @@ export class TemplateMapping {
   }
 }
 export function parseMapping(xs: unknown): TemplateMapping {
+  const assertValidMappingValue = (xs: unknown) =>
+    assertOr<string | string[] | number | boolean>(
+      xs,
+      (v) =>
+        `Expected one fo the following: string, list of strings, number, boolean. Got: ${v}`,
+      assertString,
+      assertList,
+      assertNumber,
+      assertBoolean
+    );
+
   return new TemplateMapping(
-    mapFromObject(xs, (m) => mapFromObject(m, assertStringOrStringList))
+    mapFromObject(xs, (m) => mapFromObject(m, assertValidMappingValue))
   );
 }
