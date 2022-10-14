@@ -234,6 +234,30 @@ describe('Parameters', () => {
       BucketName: { Ref: 'BucketName' },
     });
   });
+
+  test('cannot have Resource and Parameter of same name', async () => {
+    // GIVEN
+    const template = await Template.fromObject({
+      Parameters: {
+        TopicOne: {
+          Type: 'String',
+          Default: 'test',
+        },
+      },
+      Resources: {
+        TopicOne: {
+          Type: 'aws-cdk-lib.aws_sns.Topic',
+          Properties: {
+            topicName: 'one',
+            fifo: true,
+          },
+        },
+      },
+    });
+
+    // THEN
+    await expect(Testing.synth(template)).rejects.toThrow();
+  });
 });
 
 describe('given a template with unknown top-level properties', () => {
