@@ -7331,7 +7331,10 @@ TypedTemplate {
                       "type": "string",
                       "value": "AMZNLINUXHVM",
                     },
-                    "mappingName": "AWSAMIRegionMap",
+                    "mappingName": Object {
+                      "type": "string",
+                      "value": "AWSAMIRegionMap",
+                    },
                     "type": "intrinsic",
                   },
                 },
@@ -8301,7 +8304,10 @@ TypedTemplate {
               "type": "string",
               "value": "AMZNLINUXHVM",
             },
-            "mappingName": "AWSAMIRegionMap",
+            "mappingName": Object {
+              "type": "string",
+              "value": "AWSAMIRegionMap",
+            },
             "type": "intrinsic",
           },
           "InstanceType": Object {
@@ -10414,7 +10420,10 @@ TypedTemplate {
                       "type": "string",
                       "value": "HVM64",
                     },
-                    "mappingName": "RegionMap",
+                    "mappingName": Object {
+                      "type": "string",
+                      "value": "RegionMap",
+                    },
                     "type": "intrinsic",
                   },
                 },
@@ -10491,7 +10500,10 @@ TypedTemplate {
               "type": "string",
               "value": "HVM64",
             },
-            "mappingName": "RegionMap",
+            "mappingName": Object {
+              "type": "string",
+              "value": "RegionMap",
+            },
             "type": "intrinsic",
           },
           "InstanceType": Object {
