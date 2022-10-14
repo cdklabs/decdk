@@ -7,6 +7,7 @@ import {
   schemaForEnumLikeClass,
   schemaForTypeReference,
 } from './jsii2schema';
+import { schemaForRules } from './rules';
 
 /* eslint-disable no-console */
 
@@ -116,6 +117,7 @@ export function renderFullSchema(
   });
 
   schemaForIntrinsicFunctions(ctx);
+  addRulesSection();
 
   for (const deco of deconstructs) {
     addResource(schemaForResource(deco, ctx));
@@ -142,6 +144,10 @@ export function renderFullSchema(
         '^[a-zA-Z0-9]+$'
       ].anyOf.push(resource);
     }
+  }
+
+  function addRulesSection() {
+    output.properties.Rules = schemaForRules(ctx);
   }
 
   return output;

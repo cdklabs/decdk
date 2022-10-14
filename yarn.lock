@@ -577,9 +577,9 @@
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
 "@jridgewell/trace-mapping@^0.3.9":
-  version "0.3.16"
-  resolved "https://registry.yarnpkg.com/@jridgewell/trace-mapping/-/trace-mapping-0.3.16.tgz#a7982f16c18cae02be36274365433e5b49d7b23f"
-  integrity sha512-LCQ+NeThyJ4k1W2d+vIKdxuSt9R3pQSZ4P92m7EakaYuXcVWbHuT5bjNcqLd4Rdgi6xYWYDvBJZJLZSLanjDcA==
+  version "0.3.17"
+  resolved "https://registry.yarnpkg.com/@jridgewell/trace-mapping/-/trace-mapping-0.3.17.tgz#793041277af9073b0951a7fe0f0d8c4c98c36985"
+  integrity sha512-MCNzAp77qzKca9+W/+I0+sEpaUnZoeasnghNeVc41VZCEKaCH73Vq3BZZ/SzWIgrqE4H4ceI+p+b6C0mHf9T4g==
   dependencies:
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
@@ -4900,10 +4900,10 @@ progress@^2.0.3:
   resolved "https://registry.yarnpkg.com/progress/-/progress-2.0.3.tgz#7e8cf8d8f5b8f239c1bc68beb4eb78567d572ef8"
   integrity sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==
 
-projen@^0.63.19:
-  version "0.63.19"
-  resolved "https://registry.yarnpkg.com/projen/-/projen-0.63.19.tgz#85ee953c7b2c22d8784ffd34aa7afc6eddbf7a7c"
-  integrity sha512-iAOr3vJeska1nn5ZCP9V4eliVRUPojgwyymUO/MIr/VREdgDaTzN/rySiqOEUbUTFS+nKj71QGlmZX8Hjp7B8Q==
+projen@^0.63.20:
+  version "0.63.20"
+  resolved "https://registry.yarnpkg.com/projen/-/projen-0.63.20.tgz#cd05bd496c6b800f8361e7ccd48304d968e9b2f5"
+  integrity sha512-pVv7uus7AFu8U3UBaZVEnK07W+jlIB2xgF2EsrGOHHQQ/6aiDtDIy67rDv4o7cx/oB8vXKN4SoMOJLXiUWSMRg==
   dependencies:
     "@iarna/toml" "^2.2.5"
     case "^1.6.3"
