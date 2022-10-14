@@ -282,6 +282,38 @@ Object {
 }
 `;
 
+exports[`Cloudformation templates cloudformation/find-in-map-for-boolean-property.json 1`] = `
+Object {
+  "Mappings": Object {
+    "SomeMapping": Object {
+      "region": Object {
+        "key1": true,
+      },
+    },
+  },
+  "Resources": Object {
+    "Bucket": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "PublicAccessBlockConfiguration": Object {
+          "BlockPublicAcls": Object {
+            "Fn::FindInMap": Array [
+              "SomeMapping",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              "key1",
+            ],
+          },
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
 exports[`Cloudformation templates cloudformation/fn-select-with-novalue.json 1`] = `
 Object {
   "Conditions": Object {
