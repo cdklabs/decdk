@@ -25,14 +25,12 @@
   "Outputs": {
     "Output1": {
       "Value": {
-        "Fn::Join": [ "", [
-          { "Ref": "MyParam" },
-          { "Fn::GetAtt": [ "Bucket", "Arn" ] } ]
+        "Fn::Join": [
+          "",
+          [{ "Ref": "MyParam" }, { "Fn::GetAtt": ["Bucket", "Arn"] }]
         ]
       },
-      "Description": {
-        "Ref": "Bucket"
-      },
+      "Description": "a description",
       "Condition": "AlwaysFalseCond",
       "Export": {
         "Name": "Bucket"
