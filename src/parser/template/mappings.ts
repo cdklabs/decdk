@@ -29,9 +29,9 @@ export class TemplateMapping {
   }
 }
 export function parseMapping(xs: unknown): TemplateMapping {
-  const assertValidMappingValue = (xs: unknown) =>
+  const assertValidMappingValue = (v: unknown) =>
     assertOr<string | string[] | number | boolean>(
-      xs,
+      v,
       (v) =>
         `Expected one fo the following: string, list of strings, number, boolean. Got: ${v}`,
       assertString,
