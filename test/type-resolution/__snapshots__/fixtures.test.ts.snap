@@ -7611,12 +7611,18 @@ TypedTemplate {
       },
       "WebServerGroup": Object {
         "creationPolicy": Object {
-          "autoScalingCreationPolicy": undefined,
-          "resourceSignal": Object {
-            "count": undefined,
-            "timeout": "PT15M",
+          "fields": Object {
+            "ResourceSignal": Object {
+              "fields": Object {
+                "Timeout": Object {
+                  "type": "string",
+                  "value": "PT15M",
+                },
+              },
+              "type": "object",
+            },
           },
-          "startFleet": undefined,
+          "type": "object",
         },
         "deletionPolicy": "Delete",
         "dependsOn": Array [],
@@ -7684,19 +7690,30 @@ TypedTemplate {
         "tags": Array [],
         "type": "resource",
         "updatePolicy": Object {
-          "autoScalingReplacingUpdate": undefined,
-          "autoScalingRollingUpdate": Object {
-            "maxBatchSize": 1,
-            "minInstancesInService": 1,
-            "minSuccessfulInstancesPercent": undefined,
-            "pauseTime": "PT15M",
-            "suspendProcesses": undefined,
-            "waitOnResourceSignals": true,
+          "fields": Object {
+            "AutoScalingRollingUpdate": Object {
+              "fields": Object {
+                "MaxBatchSize": Object {
+                  "type": "string",
+                  "value": "1",
+                },
+                "MinInstancesInService": Object {
+                  "type": "string",
+                  "value": "1",
+                },
+                "PauseTime": Object {
+                  "type": "string",
+                  "value": "PT15M",
+                },
+                "WaitOnResourceSignals": Object {
+                  "type": "string",
+                  "value": "true",
+                },
+              },
+              "type": "object",
+            },
           },
-          "autoScalingScheduledAction": undefined,
-          "codeDeployLambdaAliasUpdate": undefined,
-          "enableVersionUpgrade": undefined,
-          "useOnlineResharding": undefined,
+          "type": "object",
         },
         "updateReplacePolicy": "Delete",
       },
@@ -8106,12 +8123,18 @@ TypedTemplate {
         },
         "conditionName": undefined,
         "creationPolicy": Object {
-          "autoScalingCreationPolicy": undefined,
-          "resourceSignal": Object {
-            "count": undefined,
-            "timeout": "PT15M",
+          "fields": Object {
+            "ResourceSignal": Object {
+              "fields": Object {
+                "Timeout": Object {
+                  "type": "string",
+                  "value": "PT15M",
+                },
+              },
+              "type": "object",
+            },
           },
-          "startFleet": undefined,
+          "type": "object",
         },
         "deletionPolicy": "Delete",
         "dependencies": Set {
@@ -8156,19 +8179,30 @@ TypedTemplate {
         "tags": Array [],
         "type": "AWS::AutoScaling::AutoScalingGroup",
         "updatePolicy": Object {
-          "autoScalingReplacingUpdate": undefined,
-          "autoScalingRollingUpdate": Object {
-            "maxBatchSize": 1,
-            "minInstancesInService": 1,
-            "minSuccessfulInstancesPercent": undefined,
-            "pauseTime": "PT15M",
-            "suspendProcesses": undefined,
-            "waitOnResourceSignals": true,
+          "fields": Object {
+            "AutoScalingRollingUpdate": Object {
+              "fields": Object {
+                "MaxBatchSize": Object {
+                  "type": "string",
+                  "value": "1",
+                },
+                "MinInstancesInService": Object {
+                  "type": "string",
+                  "value": "1",
+                },
+                "PauseTime": Object {
+                  "type": "string",
+                  "value": "PT15M",
+                },
+                "WaitOnResourceSignals": Object {
+                  "type": "string",
+                  "value": "true",
+                },
+              },
+              "type": "object",
+            },
           },
-          "autoScalingScheduledAction": undefined,
-          "codeDeployLambdaAliasUpdate": undefined,
-          "enableVersionUpgrade": undefined,
-          "useOnlineResharding": undefined,
+          "type": "object",
         },
         "updateReplacePolicy": "Delete",
       },
@@ -11621,14 +11655,31 @@ TypedTemplate {
     "nodes": Object {
       "AutoScalingGroup": Object {
         "creationPolicy": Object {
-          "autoScalingCreationPolicy": Object {
-            "minSuccessfulInstancesPercent": 50,
+          "fields": Object {
+            "AutoScalingCreationPolicy": Object {
+              "fields": Object {
+                "MinSuccessfulInstancesPercent": Object {
+                  "type": "number",
+                  "value": 50,
+                },
+              },
+              "type": "object",
+            },
+            "ResourceSignal": Object {
+              "fields": Object {
+                "Count": Object {
+                  "type": "string",
+                  "value": "3",
+                },
+                "Timeout": Object {
+                  "type": "string",
+                  "value": "PT15M",
+                },
+              },
+              "type": "object",
+            },
           },
-          "resourceSignal": Object {
-            "count": 3,
-            "timeout": "PT15M",
-          },
-          "startFleet": undefined,
+          "type": "object",
         },
         "deletionPolicy": "Delete",
         "dependsOn": Array [],
@@ -11693,31 +11744,94 @@ TypedTemplate {
         "tags": Array [],
         "type": "resource",
         "updatePolicy": Object {
-          "autoScalingReplacingUpdate": Object {
-            "willReplace": false,
+          "fields": Object {
+            "AutoScalingReplacingUpdate": Object {
+              "fields": Object {
+                "WillReplace": Object {
+                  "type": "boolean",
+                  "value": false,
+                },
+              },
+              "type": "object",
+            },
+            "AutoScalingRollingUpdate": Object {
+              "fields": Object {
+                "MaxBatchSize": Object {
+                  "type": "number",
+                  "value": 3,
+                },
+                "MinInstancesInService": Object {
+                  "type": "number",
+                  "value": 5,
+                },
+                "MinSuccessfulInstancesPercent": Object {
+                  "type": "number",
+                  "value": 42,
+                },
+                "PauseTime": Object {
+                  "type": "string",
+                  "value": "PT10M",
+                },
+                "SuspendProcesses": Object {
+                  "array": Array [
+                    Object {
+                      "type": "string",
+                      "value": "Launch",
+                    },
+                    Object {
+                      "type": "string",
+                      "value": "Terminate",
+                    },
+                  ],
+                  "type": "array",
+                },
+                "WaitOnResourceSignals": Object {
+                  "type": "boolean",
+                  "value": true,
+                },
+              },
+              "type": "object",
+            },
+            "AutoScalingScheduledAction": Object {
+              "fields": Object {
+                "IgnoreUnmodifiedGroupSizeProperties": Object {
+                  "type": "boolean",
+                  "value": true,
+                },
+              },
+              "type": "object",
+            },
+            "CodeDeployLambdaAliasUpdate": Object {
+              "fields": Object {
+                "AfterAllowTrafficHook": Object {
+                  "type": "string",
+                  "value": "SomeFunction",
+                },
+                "ApplicationName": Object {
+                  "type": "string",
+                  "value": "SomeApp",
+                },
+                "BeforeAllowTrafficHook": Object {
+                  "type": "string",
+                  "value": "AnotherFunction",
+                },
+                "DeploymentGroupName": Object {
+                  "type": "string",
+                  "value": "SomeGroup",
+                },
+              },
+              "type": "object",
+            },
+            "EnableVersionUpgrade": Object {
+              "type": "boolean",
+              "value": false,
+            },
+            "UseOnlineResharding": Object {
+              "type": "boolean",
+              "value": true,
+            },
           },
-          "autoScalingRollingUpdate": Object {
-            "maxBatchSize": 3,
-            "minInstancesInService": 5,
-            "minSuccessfulInstancesPercent": 42,
-            "pauseTime": "PT10M",
-            "suspendProcesses": Array [
-              "Launch",
-              "Terminate",
-            ],
-            "waitOnResourceSignals": true,
-          },
-          "autoScalingScheduledAction": Object {
-            "ignoreUnmodifiedGroupSizeProperties": true,
-          },
-          "codeDeployLambdaAliasUpdate": Object {
-            "afterAllowTrafficHook": "SomeFunction",
-            "applicationName": "SomeApp",
-            "beforeAllowTrafficHook": "AnotherFunction",
-            "deploymentGroupName": "SomeGroup",
-          },
-          "enableVersionUpgrade": false,
-          "useOnlineResharding": true,
+          "type": "object",
         },
         "updateReplacePolicy": "Retain",
       },
@@ -11820,14 +11934,31 @@ yum update -y aws-cfn-bootstrap
         },
         "conditionName": undefined,
         "creationPolicy": Object {
-          "autoScalingCreationPolicy": Object {
-            "minSuccessfulInstancesPercent": 50,
+          "fields": Object {
+            "AutoScalingCreationPolicy": Object {
+              "fields": Object {
+                "MinSuccessfulInstancesPercent": Object {
+                  "type": "number",
+                  "value": 50,
+                },
+              },
+              "type": "object",
+            },
+            "ResourceSignal": Object {
+              "fields": Object {
+                "Count": Object {
+                  "type": "string",
+                  "value": "3",
+                },
+                "Timeout": Object {
+                  "type": "string",
+                  "value": "PT15M",
+                },
+              },
+              "type": "object",
+            },
           },
-          "resourceSignal": Object {
-            "count": 3,
-            "timeout": "PT15M",
-          },
-          "startFleet": undefined,
+          "type": "object",
         },
         "deletionPolicy": "Delete",
         "dependencies": Set {
@@ -11867,31 +11998,94 @@ yum update -y aws-cfn-bootstrap
         "tags": Array [],
         "type": "AWS::AutoScaling::AutoScalingGroup",
         "updatePolicy": Object {
-          "autoScalingReplacingUpdate": Object {
-            "willReplace": false,
+          "fields": Object {
+            "AutoScalingReplacingUpdate": Object {
+              "fields": Object {
+                "WillReplace": Object {
+                  "type": "boolean",
+                  "value": false,
+                },
+              },
+              "type": "object",
+            },
+            "AutoScalingRollingUpdate": Object {
+              "fields": Object {
+                "MaxBatchSize": Object {
+                  "type": "number",
+                  "value": 3,
+                },
+                "MinInstancesInService": Object {
+                  "type": "number",
+                  "value": 5,
+                },
+                "MinSuccessfulInstancesPercent": Object {
+                  "type": "number",
+                  "value": 42,
+                },
+                "PauseTime": Object {
+                  "type": "string",
+                  "value": "PT10M",
+                },
+                "SuspendProcesses": Object {
+                  "array": Array [
+                    Object {
+                      "type": "string",
+                      "value": "Launch",
+                    },
+                    Object {
+                      "type": "string",
+                      "value": "Terminate",
+                    },
+                  ],
+                  "type": "array",
+                },
+                "WaitOnResourceSignals": Object {
+                  "type": "boolean",
+                  "value": true,
+                },
+              },
+              "type": "object",
+            },
+            "AutoScalingScheduledAction": Object {
+              "fields": Object {
+                "IgnoreUnmodifiedGroupSizeProperties": Object {
+                  "type": "boolean",
+                  "value": true,
+                },
+              },
+              "type": "object",
+            },
+            "CodeDeployLambdaAliasUpdate": Object {
+              "fields": Object {
+                "AfterAllowTrafficHook": Object {
+                  "type": "string",
+                  "value": "SomeFunction",
+                },
+                "ApplicationName": Object {
+                  "type": "string",
+                  "value": "SomeApp",
+                },
+                "BeforeAllowTrafficHook": Object {
+                  "type": "string",
+                  "value": "AnotherFunction",
+                },
+                "DeploymentGroupName": Object {
+                  "type": "string",
+                  "value": "SomeGroup",
+                },
+              },
+              "type": "object",
+            },
+            "EnableVersionUpgrade": Object {
+              "type": "boolean",
+              "value": false,
+            },
+            "UseOnlineResharding": Object {
+              "type": "boolean",
+              "value": true,
+            },
           },
-          "autoScalingRollingUpdate": Object {
-            "maxBatchSize": 3,
-            "minInstancesInService": 5,
-            "minSuccessfulInstancesPercent": 42,
-            "pauseTime": "PT10M",
-            "suspendProcesses": Array [
-              "Launch",
-              "Terminate",
-            ],
-            "waitOnResourceSignals": true,
-          },
-          "autoScalingScheduledAction": Object {
-            "ignoreUnmodifiedGroupSizeProperties": true,
-          },
-          "codeDeployLambdaAliasUpdate": Object {
-            "afterAllowTrafficHook": "SomeFunction",
-            "applicationName": "SomeApp",
-            "beforeAllowTrafficHook": "AnotherFunction",
-            "deploymentGroupName": "SomeGroup",
-          },
-          "enableVersionUpgrade": false,
-          "useOnlineResharding": true,
+          "type": "object",
         },
         "updateReplacePolicy": "Retain",
       },
