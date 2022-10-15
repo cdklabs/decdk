@@ -45,8 +45,8 @@ export class Evaluator {
   constructor(public readonly context: EvaluationContext) {}
 
   public evaluateTemplate() {
-    this.evaluateMetadata();
     this.evaluateParameters();
+    this.evaluateMetadata();
     this.evaluateRules();
     this.evaluateMappings();
     this.evaluateConditions();

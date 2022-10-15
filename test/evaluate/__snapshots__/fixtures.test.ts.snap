@@ -1386,6 +1386,70 @@ Object {
 }
 `;
 
+exports[`Cloudformation templates cloudformation/parameter-references.json 1`] = `
+Object {
+  "Conditions": Object {
+    "AlwaysFalse": Object {
+      "Fn::Equals": Array [
+        Object {
+          "Ref": "MyParam",
+        },
+        "Invalid?BucketName",
+      ],
+    },
+  },
+  "Metadata": Object {
+    "Field": Object {
+      "Fn::If": Array [
+        "AlwaysFalse",
+        "AWS::NoValue",
+        Object {
+          "Ref": "MyParam",
+        },
+      ],
+    },
+  },
+  "Outputs": Object {
+    "MyOutput": Object {
+      "Value": Object {
+        "Ref": "MyParam",
+      },
+    },
+  },
+  "Parameters": Object {
+    "MyParam": Object {
+      "Default": "MyValue",
+      "Type": "String",
+    },
+  },
+  "Resources": Object {
+    "Bucket": Object {
+      "DeletionPolicy": "Delete",
+      "Metadata": Object {
+        "Field": Object {
+          "Ref": "MyParam",
+        },
+      },
+      "Properties": Object {
+        "BucketName": Object {
+          "Ref": "MyParam",
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+  "Transform": Object {
+    "Name": "AWS::Include",
+    "Parameters": Object {
+      "Location": Object {
+        "Ref": "MyParam",
+      },
+    },
+  },
+}
+`;
+
 exports[`Cloudformation templates cloudformation/properties-not-in-cfn-spec.json 1`] = `
 Object {
   "Resources": Object {
