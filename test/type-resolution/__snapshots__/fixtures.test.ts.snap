@@ -285,19 +285,7 @@ TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
   "metadata": Map {},
-  "outputs": Map {
-    "SubnetOneAz" => Object {
-      "conditionName": undefined,
-      "description": undefined,
-      "exportName": undefined,
-      "value": Object {
-        "fn": "getProp",
-        "logicalId": "VPC",
-        "property": "publicSubnets.0.availabilityZone",
-        "type": "intrinsic",
-      },
-    },
-  },
+  "outputs": Map {},
   "parameters": Map {},
   "resources": DependencyGraph {
     "_dependencies": Map {
@@ -568,19 +556,7 @@ TypedTemplate {
     "description": undefined,
     "mappings": Map {},
     "metadata": Map {},
-    "outputs": Map {
-      "SubnetOneAz" => Object {
-        "conditionName": undefined,
-        "description": undefined,
-        "exportName": undefined,
-        "value": Object {
-          "fn": "getProp",
-          "logicalId": "VPC",
-          "property": "publicSubnets.0.availabilityZone",
-          "type": "intrinsic",
-        },
-      },
-    },
+    "outputs": Map {},
     "parameters": Map {},
     "resources": Map {
       "VPC" => Object {
@@ -854,13 +830,6 @@ TypedTemplate {
     },
     "rules": Map {},
     "template": Object {
-      "Outputs": Object {
-        "SubnetOneAz": Object {
-          "Value": Object {
-            "CDK::GetProp": "VPC.publicSubnets.0.availabilityZone",
-          },
-        },
-      },
       "Resources": Object {
         "AModestLoad": Object {
           "Call": Object {
