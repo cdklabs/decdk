@@ -1,3 +1,5 @@
+import { TemplateExpression } from '../template';
+
 export function analyzeSubPattern(pattern: string): SubFragment[] {
   const ret: SubFragment[] = [];
   let start = 0;
@@ -57,4 +59,29 @@ export function isNonLiteral(
   x: SubFragment
 ): x is Extract<SubFragment, { type: 'ref' | 'getatt' }> {
   return x.type !== 'literal';
+}
+
+export function fragmentToExpr(frag: SubFragment): TemplateExpression {
+  if (frag.type === 'ref') {
+    return {
+      type: 'intrinsic',
+      fn: 'ref',
+      logicalId: frag.logicalId,
+    };
+  }
+  if (frag.type === 'getatt') {
+    return {
+      type: 'intrinsic',
+      fn: 'getAtt',
+      logicalId: frag.logicalId,
+      attribute: {
+        type: 'string',
+        value: frag.attr,
+      },
+    };
+  }
+  return {
+    type: 'string',
+    value: frag.content,
+  };
 }
