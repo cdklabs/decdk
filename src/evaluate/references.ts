@@ -18,6 +18,16 @@ function isPropertyOf(
 
 export function getPropDot(instance: unknown, path: string): unknown {
   return path.split('.').reduce((o, p) => {
+    if (Array.isArray(o)) {
+      const index = parseInt(p);
+      if (isNaN(index) || !(0 <= index && index < o.length)) {
+        throw new ParserError(
+          `Expected an integer between 0 and ${o.length - 1}, got ${index}`
+        );
+      }
+      return o[index];
+    }
+
     const obj = assertObject(o);
     if (!isPropertyOf(obj, p)) {
       throw new ParserError(`Expected Construct property path, got: ${path}`);
