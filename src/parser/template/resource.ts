@@ -1,3 +1,4 @@
+import { fragmentToExpr } from '../private/sub';
 import {
   assertAtMostOneOfFields,
   assertObject,
@@ -145,6 +146,7 @@ function findReferencedLogicalIds(
             recurse(x.value);
             break;
           case 'sub':
+            x.fragments.map(fragmentToExpr).forEach(recurse);
             Object.values(x.additionalContext).forEach(recurse);
             break;
           case 'transform':
