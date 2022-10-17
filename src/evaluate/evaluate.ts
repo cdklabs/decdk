@@ -281,8 +281,12 @@ export class Evaluator {
       ev(x.props),
     ]) as CfnResource;
 
-    resource.cfnOptions.creationPolicy = x.creationPolicy;
-    resource.cfnOptions.updatePolicy = x.updatePolicy;
+    resource.cfnOptions.creationPolicy = x.creationPolicy
+      ? ev(x.creationPolicy)
+      : undefined;
+    resource.cfnOptions.updatePolicy = x.updatePolicy
+      ? ev(x.updatePolicy)
+      : undefined;
     resource.cfnOptions.metadata = x.metadata;
     resource.cfnOptions.updateReplacePolicy =
       x.updateReplacePolicy as CfnDeletionPolicy;

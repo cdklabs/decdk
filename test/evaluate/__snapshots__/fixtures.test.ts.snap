@@ -269,7 +269,7 @@ Object {
       "Type": "AWS::CloudFormation::CustomResource",
       "UpdatePolicy": Object {
         "AutoScalingReplacingUpdate": Object {
-          "WillReplace": false,
+          "WillReplace": "false",
         },
       },
       "UpdateReplacePolicy": "Retain",
@@ -1595,6 +1595,35 @@ Object {
 }
 `;
 
+exports[`Cloudformation templates cloudformation/resource-attribute-creation-policy.json 1`] = `
+Object {
+  "Parameters": Object {
+    "CountParameter": Object {
+      "Default": 3,
+      "Type": "Number",
+    },
+  },
+  "Resources": Object {
+    "Bucket": Object {
+      "CreationPolicy": Object {
+        "AutoScalingCreationPolicy": Object {
+          "MinSuccessfulInstancesPercent": 50,
+        },
+        "ResourceSignal": Object {
+          "Count": Object {
+            "Ref": "CountParameter",
+          },
+          "Timeout": "PT5H4M3S",
+        },
+      },
+      "DeletionPolicy": "Delete",
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
 exports[`Cloudformation templates cloudformation/resource-attribute-depends-on.json 1`] = `
 Object {
   "Resources": Object {
@@ -1641,6 +1670,84 @@ Object {
         "BucketName": "bucket2",
       },
       "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
+exports[`Cloudformation templates cloudformation/resource-attribute-update-policy.json 1`] = `
+Object {
+  "Parameters": Object {
+    "WaitOnResourceSignals": Object {
+      "Default": "true",
+      "Type": "String",
+    },
+  },
+  "Resources": Object {
+    "Bucket": Object {
+      "DeletionPolicy": "Delete",
+      "Type": "AWS::S3::Bucket",
+      "UpdatePolicy": Object {
+        "AutoScalingReplacingUpdate": Object {
+          "WillReplace": false,
+        },
+        "AutoScalingRollingUpdate": Object {
+          "MaxBatchSize": 1,
+          "MinInstancesInService": 2,
+          "MinSuccessfulInstancesPercent": 3,
+          "PauseTime": "PT4M3S",
+          "SuspendProcesses": Array [
+            "Launch",
+            "Terminate",
+            "HealthCheck",
+            "ReplaceUnhealthy",
+            "AZRebalance",
+            "AlarmNotification",
+            "ScheduledActions",
+            "AddToLoadBalancer",
+          ],
+          "WaitOnResourceSignals": Object {
+            "Fn::Equals": Array [
+              "true",
+              Object {
+                "Ref": "WaitOnResourceSignals",
+              },
+            ],
+          },
+        },
+        "AutoScalingScheduledAction": Object {
+          "IgnoreUnmodifiedGroupSizeProperties": true,
+        },
+        "CodeDeployLambdaAliasUpdate": Object {
+          "AfterAllowTrafficHook": "Lambda1",
+          "ApplicationName": Object {
+            "Ref": "CodeDeployApp",
+          },
+          "BeforeAllowTrafficHook": "Lambda2",
+          "DeploymentGroupName": Object {
+            "Ref": "CodeDeployDg",
+          },
+        },
+        "EnableVersionUpgrade": true,
+        "UseOnlineResharding": false,
+      },
+      "UpdateReplacePolicy": "Delete",
+    },
+    "CodeDeployApp": Object {
+      "DeletionPolicy": "Delete",
+      "Type": "AWS::CodeDeploy::Application",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "CodeDeployDg": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "ApplicationName": Object {
+          "Ref": "CodeDeployApp",
+        },
+        "ServiceRoleArn": "my-role-arn",
+      },
+      "Type": "AWS::CodeDeploy::DeploymentGroup",
       "UpdateReplacePolicy": "Delete",
     },
   },
@@ -9430,10 +9537,10 @@ yum update -y aws-cfn-bootstrap
       "Type": "AWS::AutoScaling::AutoScalingGroup",
       "UpdatePolicy": Object {
         "AutoScalingRollingUpdate": Object {
-          "MaxBatchSize": 1,
-          "MinInstancesInService": 1,
+          "MaxBatchSize": "1",
+          "MinInstancesInService": "1",
           "PauseTime": "PT15M",
-          "WaitOnResourceSignals": true,
+          "WaitOnResourceSignals": "true",
         },
       },
       "UpdateReplacePolicy": "Delete",
@@ -10515,7 +10622,7 @@ Object {
           "MinSuccessfulInstancesPercent": 50,
         },
         "ResourceSignal": Object {
-          "Count": 3,
+          "Count": "3",
           "Timeout": "PT15M",
         },
       },

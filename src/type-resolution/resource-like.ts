@@ -5,7 +5,6 @@ import {
   Template,
   TemplateResource,
 } from '../parser/template';
-import { CreationPolicy, UpdatePolicy } from '../parser/template/policies';
 import { ResourceTag } from '../parser/template/tags';
 import {
   InstanceMethodCallExpression,
@@ -32,10 +31,10 @@ export interface CfnResource extends BaseResourceLike {
   readonly fqn: string;
   readonly type: 'resource';
   readonly props: TypedTemplateExpression;
-  readonly creationPolicy?: CreationPolicy;
+  readonly creationPolicy?: TypedTemplateExpression;
   readonly deletionPolicy?: RetentionPolicy;
   readonly updateReplacePolicy?: RetentionPolicy;
-  readonly updatePolicy?: UpdatePolicy;
+  readonly updatePolicy?: TypedTemplateExpression;
   readonly metadata?: Record<string, unknown>;
 }
 

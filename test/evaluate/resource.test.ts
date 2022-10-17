@@ -158,4 +158,51 @@ describe('CreationPolicy', () => {
       },
     });
   });
+
+  test('creation policies can reference CDK constructs', async () => {
+    const withWebsite = await Template.fromObject({
+      Resources: {
+        Bucket1: {
+          Type: 'aws-cdk-lib.aws_s3.Bucket',
+          Properties: {
+            websiteErrorDocument: '404.html',
+            websiteIndexDocument: 'index.html',
+          },
+        },
+        Bucket2: {
+          Type: 'AWS::S3::Bucket',
+          CreationPolicy: {
+            StartFleet: { 'CDK::GetProp': 'Bucket1.isWebsite' },
+          },
+        },
+      },
+    });
+
+    (await Testing.template(withWebsite)).hasResource('AWS::S3::Bucket', {
+      CreationPolicy: {
+        StartFleet: true,
+      },
+    });
+
+    const withoutWebsite = await Template.fromObject({
+      Resources: {
+        Bucket1: {
+          Type: 'aws-cdk-lib.aws_s3.Bucket',
+          Properties: {},
+        },
+        Bucket2: {
+          Type: 'AWS::S3::Bucket',
+          CreationPolicy: {
+            StartFleet: { 'CDK::GetProp': 'Bucket1.isWebsite' },
+          },
+        },
+      },
+    });
+
+    (await Testing.template(withoutWebsite)).hasResource('AWS::S3::Bucket', {
+      CreationPolicy: {
+        StartFleet: false,
+      },
+    });
+  });
 });

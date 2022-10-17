@@ -18,8 +18,6 @@ describe('Cloudformation templates', () => {
   const ignoreBecauseCurrentlyFailing: string[] = [
     'cloudformation/functions-and-conditions.json', // Expected list of length 3, got 2
     'cloudformation/hook-code-deploy-blue-green-ecs.json', // Expected valid template, got error(s): -  is not allowed to have the additional property "Hooks"
-    'cloudformation/resource-attribute-creation-policy.json', // Expected number, got: {"Ref":"CountParameter"}
-    'cloudformation/resource-attribute-update-policy.json', // Expected boolean, got: {"Fn::Equals":["true",{"Ref":"WaitOnResourceSignals"}]}
   ];
 
   testTemplateFixtures(
