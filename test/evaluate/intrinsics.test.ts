@@ -475,6 +475,59 @@ describe('FnGetProp', () => {
       'CDK::GetProp: Expected Construct Property, got: MyLambda.stack.stackId'
     );
   });
+
+  test('can use FnGetProp to get array elements by index', async () => {
+    const source = {
+      Resources: {
+        MyVpc: {
+          Type: 'aws-cdk-lib.aws_ec2.Vpc',
+        },
+      },
+      Outputs: {
+        SubnetOneAz: {
+          Value: {
+            'CDK::GetProp': 'MyVpc.publicSubnets.0.availabilityZone',
+          },
+        },
+      },
+    };
+
+    const template = await Testing.template(Template.fromObject(source));
+
+    // THEN
+    template.hasOutput('SubnetOneAz', {
+      Value: {
+        'Fn::Select': [
+          0,
+          {
+            'Fn::GetAZs': '',
+          },
+        ],
+      },
+    });
+  });
+
+  test('cannot use array index out of bounds', async () => {
+    const template = Template.fromObject({
+      Resources: {
+        MyVpc: {
+          Type: 'aws-cdk-lib.aws_ec2.Vpc',
+        },
+      },
+      Outputs: {
+        SubnetOneAz: {
+          Value: {
+            'CDK::GetProp': 'MyVpc.publicSubnets.999.availabilityZone',
+          },
+        },
+      },
+    });
+
+    // THEN
+    await expect(Testing.synth(template, false)).rejects.toThrow(
+      'CDK::GetProp: Expected Construct Property, got: MyVpc.publicSubnets.999.availabilityZone'
+    );
+  });
 });
 
 test.each(['', 'us-east-1', { Ref: 'AWS::Region' }])(

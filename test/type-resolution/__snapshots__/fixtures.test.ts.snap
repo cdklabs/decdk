@@ -12097,7 +12097,10 @@ yum update -y aws-cfn-bootstrap
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
-        "dependencies": Set {},
+        "dependencies": Set {
+          "AWS::StackName",
+          "AWS::Region",
+        },
         "dependsOn": Set {},
         "metadata": Object {
           "Object1": "Location1",

@@ -500,6 +500,18 @@ Outputs:
         - runtime.name # nested properties are also allowed
 ```
 
+`CDK::GetProp` also allows you to reference an element of an array, by its index:
+
+```yaml
+Resources:
+  MyVpc:
+    Type: aws-cdk-lib.aws_ec2.Vpc
+Outputs:
+  SubnetOneAz:
+    Value:
+      CDK::GetProp: MyVpc.publicSubnets.0.availabilityZone
+```
+
 `CDK::GetProp` cannot be used with a CloudFormation resource as a target. This will always result in an error.
 
 To sum up, the behavior is:
