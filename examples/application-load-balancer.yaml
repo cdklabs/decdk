@@ -49,3 +49,7 @@ Resources:
     Call:
       connections.allowDefaultPortFromAnyIpv4:
         - Open to the world
+Outputs:
+  SubnetOneAz:
+    Value:
+      CDK::GetProp: VPC.publicSubnets.0.availabilityZone

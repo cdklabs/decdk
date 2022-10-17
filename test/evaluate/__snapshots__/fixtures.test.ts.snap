@@ -3574,6 +3574,18 @@ Object {
 
 exports[`Valid Template Fixtures should synth examples/application-load-balancer.yaml 1`] = `
 Object {
+  "Outputs": Object {
+    "SubnetOneAz": Object {
+      "Value": Object {
+        "Fn::Select": Array [
+          0,
+          Object {
+            "Fn::GetAZs": "",
+          },
+        ],
+      },
+    },
+  },
   "Parameters": Object {
     "SsmParameterValueawsserviceamiamazonlinuxlatestamznamihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter": Object {
       "Default": "/aws/service/ami-amazon-linux-latest/amzn-ami-hvm-x86_64-gp2",
