@@ -720,3 +720,51 @@ describe('Conditions', () => {
     });
   });
 });
+
+describe('Metadata', () => {
+  test('Metadata referencing parameters', async () => {
+    const template = await Testing.template(
+      await Template.fromObject({
+        Parameters: {
+          MyParam: {
+            Type: 'String',
+            Default: 'MyValue',
+          },
+        },
+        Metadata: {
+          Field: {
+            'Fn::If': [
+              'AlwaysFalse',
+              'AWS::NoValue',
+              {
+                Ref: 'MyParam',
+              },
+            ],
+          },
+        },
+        Resources: {
+          Bucket: {
+            Type: 'AWS::S3::Bucket',
+          },
+        },
+      }),
+      false
+    );
+
+    expect(template.toJSON()).toEqual(
+      expect.objectContaining({
+        Metadata: {
+          Field: {
+            'Fn::If': [
+              'AlwaysFalse',
+              'AWS::NoValue',
+              {
+                Ref: 'MyParam',
+              },
+            ],
+          },
+        },
+      })
+    );
+  });
+});
