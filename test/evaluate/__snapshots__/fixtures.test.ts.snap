@@ -619,6 +619,33 @@ Object {
 }
 `;
 
+exports[`Cloudformation templates cloudformation/fn-sub-shadow-attribute.json 1`] = `
+Object {
+  "Resources": Object {
+    "AnotherBucket": Object {
+      "DeletionPolicy": "Delete",
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "Bucket": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "BucketName": Object {
+          "Fn::Sub": Array [
+            "\${AnotherBucket.DomainName}",
+            Object {
+              "AnotherBucket": "whatever",
+            },
+          ],
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
 exports[`Cloudformation templates cloudformation/fn-sub-shadow-parameter.json 1`] = `
 Object {
   "Parameters": Object {
