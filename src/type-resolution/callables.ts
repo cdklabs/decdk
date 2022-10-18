@@ -48,7 +48,7 @@ interface InstanceMethodCall extends MethodCall {
   readonly target: ResolveReferenceExpression;
 }
 
-function methodFQN(method: reflect.Method): string {
+export function methodFQN(method: reflect.Method): string {
   return `${method.parentType.fqn}.${method.name}`;
 }
 

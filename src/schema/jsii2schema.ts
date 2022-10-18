@@ -1,13 +1,17 @@
 import * as util from 'util';
 import * as reflect from 'jsii-reflect';
-import { Initializer } from 'jsii-reflect';
+import { Initializer, TypeReference } from 'jsii-reflect';
+import { methodFQN } from '../type-resolution/callables';
 import {
   allImplementationsOfType,
   enumLikeClassMethods,
   enumLikeClassProperties,
   isConstruct,
 } from '../type-system';
-import { allStaticFactoryMethods } from '../type-system/factories';
+import {
+  allStaticFactoryMethods,
+  allStaticMethods,
+} from '../type-system/factories';
 import { $ref } from './expression';
 
 /* eslint-disable no-console */
@@ -312,16 +316,30 @@ function schemaForUnion(type: reflect.TypeReference, ctx: SchemaContext): any {
   return { anyOf };
 }
 
-function schemaForConstructRef(type: reflect.TypeReference) {
+function schemaForConstructRef(type: TypeReference) {
   if (!isConstruct(type)) {
     return undefined;
   }
 
-  return schemaForReferences();
+  return schemaForReferences(type.type);
 }
 
-function schemaForReferences() {
-  return { anyOf: [$ref('FnRef'), $ref('FnGetProp')] };
+function schemaForReferences(type?: reflect.Type) {
+  const anyOf = [];
+  if (type) {
+    const methods = allStaticMethods(type.system).filter((m) =>
+      m.returns.type.type?.extends(type)
+    );
+
+    anyOf.push(
+      ...methods.map((m) => ({
+        [methodFQN(m)]: {},
+      }))
+    );
+  }
+  anyOf.push($ref('FnRef'));
+  anyOf.push($ref('FnGetProp'));
+  return { anyOf };
 }
 
 function schemaForInterface(
