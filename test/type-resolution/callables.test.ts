@@ -790,9 +790,9 @@ test('Calls to static factory methods with implicit arguments can be inlined ins
 
         // Just to make the API happy:
         AddMockMethod: {
-          On: 'Api',
+          On: 'Api.root',
           Call: {
-            'root.addMethod': [
+            addMethod: [
               'GET',
               {
                 'aws-cdk-lib.aws_apigateway.MockIntegration': [],
