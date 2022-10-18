@@ -76,6 +76,15 @@
           "retryAttempts": 2
         }
       }
+    },
+    "User": {
+      "Type": "aws-cdk-lib.aws_iam.User"
+    },
+    "GrantLogGroupAccess": {
+      "On": "MyFunction.logGroup",
+      "Call": {
+        "grantWrite": { "Ref": "User" }
+      }
     }
   }
 }

@@ -223,9 +223,14 @@ export function matchLazyResource(call: any) {
 }
 
 export function matchInstanceMethodCall(target: string, args: any[] = []) {
+  const [ref, ...propPath] = target.split('.');
+  const targetResolve = propPath.length
+    ? matchResolveFnGetProp(ref, propPath.join('.'))
+    : matchResolveFnRef(ref);
+
   return expect.objectContaining({
     type: 'instanceMethodCall',
-    logicalId: target,
+    target: targetResolve,
     args: {
       type: 'array',
       array: expect.arrayContaining(args),
@@ -279,7 +284,14 @@ export function matchFnRef(logicalId: string) {
 export function matchResolveFnRef(logicalId: string) {
   return {
     type: 'resolve-reference',
-    reference: { type: 'intrinsic', fn: 'ref', logicalId },
+    reference: matchFnRef(logicalId),
+  };
+}
+
+export function matchResolveFnGetProp(logicalId: string, property?: string) {
+  return {
+    type: 'resolve-reference',
+    reference: matchFnGetProp(logicalId, property),
   };
 }
 
@@ -289,6 +301,15 @@ export function matchFnGetAtt(logicalId: string, attribute?: object) {
     fn: 'getAtt',
     logicalId,
     ...(attribute ? { attribute } : {}),
+  });
+}
+
+export function matchFnGetProp(logicalId: string, property?: string) {
+  return expect.objectContaining({
+    type: 'intrinsic',
+    fn: 'getProp',
+    logicalId,
+    ...(property ? { property } : {}),
   });
 }
 

@@ -65,7 +65,9 @@ export function parseTemplateResource(
     metadata: assertObject(resource.Metadata ?? {}),
     dependencies: new Set([
       ...(ifField(resource, 'DependsOn', assertStringOrListIntoList) ?? []),
-      ...singletonList(ifField(resource, 'On', assertString)),
+      ...singletonList(
+        ifField(resource, 'On', (target) => assertString(target.split('.')[0]))
+      ),
       ...findReferencedLogicalIds(properties),
       ...findReferencedLogicalIds({ _: call }),
       ...(creationPolicy

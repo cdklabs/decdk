@@ -94,8 +94,6 @@ using method calls.
 
 #### Static factory methods
 
-[//]: # (TODO Talk about nested properties)
-
 The CDK construct library offers many static factory methods to create constructs. Usually these are import methods, to
 incorporate existing constructs into your CDK application (e.g., `aws-cdk-lib.aws_efs.AccessPoint.fromAccessPointId`)
 . The declarative version of these methods uses the property `Call`:
@@ -164,7 +162,7 @@ the argument passed directly.
 
 #### Instance factory methods
 
-In addition to the static factory methods, there are also _instance_ factory methods that produce constructs. For
+In addition to the static factory methods, there are also *instance* factory methods that produce constructs. For
 example, you can create a Lambda `Alias` by calling the method `addAlias` on an instance of a `Function` construct.
 The declarative way to call this method is:
 
@@ -188,14 +186,14 @@ is the method's simple name, rather than its FQN.
 > ⚠️ **Experimental feature**: the string `On` is a keyword in YAML, equivalent to `true`. So you have to wrap it in
 > quotes to use it as a property name. Since this is a bit cumbersome, expect this name to change in the near future.
 
-You can also call instance method in _nested properties_:
+You can also call instance method in *nested properties*:
 
 ```yaml
 Resources:
   AllowFromEverywhere:
-    'On': Listener # of type aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationListener
+    'On': Listener.connections # of type aws-cdk-lib.aws_ec2.Connections
     Call:
-      connections.allowDefaultPortFromAnyIpv4:
+      allowDefaultPortFromAnyIpv4:
         - Open to the world
 ```
 
@@ -434,12 +432,12 @@ enum-like experience. The following example shows how this approach can be used 
 ```
 
 The keys in the "events" array are all fully qualified names of classes in the AWS Construct Library. The declaration is
-"Array<IEventSource>". When deCDK deconstructs the objects in this array, it will create objects of these types and pass
+`Array<IEventSource>`. When deCDK deconstructs the objects in this array, it will create objects of these types and pass
 them in as IEventSource objects.
 
 ### `Fn::GetAtt` and `CDK::GetProp`
 
-CloudFormation provides the `Fn::GetAtt` intrinsic function to access the value of resource attributes. With deCDK, 
+CloudFormation provides the `Fn::GetAtt` intrinsic function to access the value of resource attributes. With deCDK,
 this function works the same way, whether it's being referenced from a CloudFormation resource
 or from a CDK construct:
 
@@ -465,8 +463,8 @@ Resources:
                   - WebsiteUrl
 ```
 
-CDK constructs can also be the _target_ of `Fn::GetAtt`, in which case the attribute being referenced belongs to the
-construct's default child. For example, suppose you want to export the `WebsiteUrl` property of the 
+CDK constructs can also be the *target* of `Fn::GetAtt`, in which case the attribute being referenced belongs to the
+construct's default child. For example, suppose you want to export the `WebsiteUrl` property of the
 `DestinationBucket` construct defined in the example above:
 
 ```yaml
@@ -517,6 +515,6 @@ Outputs:
 To sum up, the behavior is:
 
 | Intrinsic function | Target is a CDK construct                                                                                     | Target is a CFN resource           |
-|--------------------|---------------------------------------------------------------------------------------------------------------|------------------------------------|
+| ------------------ | ------------------------------------------------------------------------------------------------------------- | ---------------------------------- |
 | `CDK::GetProp`     | Returns the value of the property                                                                             | **Error!**                         |
 | `Fn::GetAtt`       | Returns the value of the attribute of the underlying CFN resource (inferred from the `defaultChild` property) | Returns the value of the attribute |
