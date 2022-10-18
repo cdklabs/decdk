@@ -341,8 +341,15 @@ TypedTemplate {
             ],
             "type": "array",
           },
-          "logicalId": "ASG",
           "method": "scaleOnRequestCount",
+          "target": Object {
+            "reference": Object {
+              "fn": "ref",
+              "logicalId": "ASG",
+              "type": "intrinsic",
+            },
+            "type": "resolve-reference",
+          },
           "type": "instanceMethodCall",
         },
         "dependsOn": Array [
@@ -423,8 +430,16 @@ TypedTemplate {
             ],
             "type": "array",
           },
-          "logicalId": "Listener",
-          "method": "connections.allowDefaultPortFromAnyIpv4",
+          "method": "allowDefaultPortFromAnyIpv4",
+          "target": Object {
+            "reference": Object {
+              "fn": "getProp",
+              "logicalId": "Listener",
+              "property": "connections",
+              "type": "intrinsic",
+            },
+            "type": "resolve-reference",
+          },
           "type": "instanceMethodCall",
         },
         "dependsOn": Array [],
@@ -480,8 +495,15 @@ TypedTemplate {
             ],
             "type": "array",
           },
-          "logicalId": "LB",
           "method": "addListener",
+          "target": Object {
+            "reference": Object {
+              "fn": "ref",
+              "logicalId": "LB",
+              "type": "intrinsic",
+            },
+            "type": "resolve-reference",
+          },
           "type": "instanceMethodCall",
         },
         "dependsOn": Array [],
@@ -524,8 +546,15 @@ TypedTemplate {
             ],
             "type": "array",
           },
-          "logicalId": "Listener",
           "method": "addTargets",
+          "target": Object {
+            "reference": Object {
+              "fn": "ref",
+              "logicalId": "Listener",
+              "type": "intrinsic",
+            },
+            "type": "resolve-reference",
+          },
           "type": "instanceMethodCall",
         },
         "dependsOn": Array [],
@@ -799,7 +828,7 @@ TypedTemplate {
       "AllowFromEverywhere" => Object {
         "call": Object {
           "fields": Object {
-            "connections.allowDefaultPortFromAnyIpv4": Object {
+            "allowDefaultPortFromAnyIpv4": Object {
               "array": Array [
                 Object {
                   "type": "string",
@@ -819,7 +848,7 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": "Listener",
+        "on": "Listener.connections",
         "overrides": Array [],
         "properties": Object {},
         "tags": Array [],
@@ -865,11 +894,11 @@ TypedTemplate {
         },
         "AllowFromEverywhere": Object {
           "Call": Object {
-            "connections.allowDefaultPortFromAnyIpv4": Array [
+            "allowDefaultPortFromAnyIpv4": Array [
               "Open to the world",
             ],
           },
-          "On": "Listener",
+          "On": "Listener.connections",
         },
         "LB": Object {
           "Properties": Object {
@@ -2121,8 +2150,15 @@ TypedTemplate {
             ],
             "type": "array",
           },
-          "logicalId": "SampleLambda",
           "method": "metricDuration",
+          "target": Object {
+            "reference": Object {
+              "fn": "ref",
+              "logicalId": "SampleLambda",
+              "type": "intrinsic",
+            },
+            "type": "resolve-reference",
+          },
           "type": "instanceMethodCall",
         },
         "dependsOn": Array [],
@@ -2142,8 +2178,15 @@ TypedTemplate {
             ],
             "type": "array",
           },
-          "logicalId": "SampleLambda",
           "method": "metricErrors",
+          "target": Object {
+            "reference": Object {
+              "fn": "ref",
+              "logicalId": "SampleLambda",
+              "type": "intrinsic",
+            },
+            "type": "resolve-reference",
+          },
           "type": "instanceMethodCall",
         },
         "dependsOn": Array [],
@@ -2163,8 +2206,15 @@ TypedTemplate {
             ],
             "type": "array",
           },
-          "logicalId": "SampleLambda",
           "method": "metricInvocations",
+          "target": Object {
+            "reference": Object {
+              "fn": "ref",
+              "logicalId": "SampleLambda",
+              "type": "intrinsic",
+            },
+            "type": "resolve-reference",
+          },
           "type": "instanceMethodCall",
         },
         "dependsOn": Array [],
@@ -2457,8 +2507,15 @@ TypedTemplate {
             ],
             "type": "array",
           },
-          "logicalId": "SampleLambda",
           "method": "metricThrottles",
+          "target": Object {
+            "reference": Object {
+              "fn": "ref",
+              "logicalId": "SampleLambda",
+              "type": "intrinsic",
+            },
+            "type": "resolve-reference",
+          },
           "type": "instanceMethodCall",
         },
         "dependsOn": Array [],
@@ -5309,8 +5366,15 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
             ],
             "type": "array",
           },
-          "logicalId": "SiteBucket",
           "method": "grantRead",
+          "target": Object {
+            "reference": Object {
+              "fn": "ref",
+              "logicalId": "SiteBucket",
+              "type": "intrinsic",
+            },
+            "type": "resolve-reference",
+          },
           "type": "instanceMethodCall",
         },
         "dependsOn": Array [],
@@ -13488,16 +13552,23 @@ TypedTemplate {
       "ConfigureAsyncInvokeStatement" => Set {
         "Alias",
       },
+      "User" => Set {},
+      "GrantLogGroupAccess" => Set {
+        "MyFunction",
+        "User",
+      },
     },
     "keys": Set {
       "SourceBucket",
       "ReadBucket",
       "WriteBucket",
+      "User",
       "BusinessLogic",
       "MyFunction",
       "GrantRead",
       "GrantWrite",
       "Alias",
+      "GrantLogGroupAccess",
       "ConfigureAsyncInvokeStatement",
     },
     "nodes": Object {
@@ -13515,8 +13586,15 @@ TypedTemplate {
             ],
             "type": "array",
           },
-          "logicalId": "MyFunction",
           "method": "addAlias",
+          "target": Object {
+            "reference": Object {
+              "fn": "ref",
+              "logicalId": "MyFunction",
+              "type": "intrinsic",
+            },
+            "type": "resolve-reference",
+          },
           "type": "instanceMethodCall",
         },
         "dependsOn": Array [],
@@ -13576,12 +13654,53 @@ TypedTemplate {
             ],
             "type": "array",
           },
-          "logicalId": "Alias",
           "method": "configureAsyncInvoke",
+          "target": Object {
+            "reference": Object {
+              "fn": "ref",
+              "logicalId": "Alias",
+              "type": "intrinsic",
+            },
+            "type": "resolve-reference",
+          },
           "type": "instanceMethodCall",
         },
         "dependsOn": Array [],
         "logicalId": "ConfigureAsyncInvokeStatement",
+        "namespace": undefined,
+        "overrides": Array [],
+        "tags": Array [],
+        "type": "lazyResource",
+      },
+      "GrantLogGroupAccess": Object {
+        "call": Object {
+          "args": Object {
+            "array": Array [
+              Object {
+                "reference": Object {
+                  "fn": "ref",
+                  "logicalId": "User",
+                  "type": "intrinsic",
+                },
+                "type": "resolve-reference",
+              },
+            ],
+            "type": "array",
+          },
+          "method": "grantWrite",
+          "target": Object {
+            "reference": Object {
+              "fn": "getProp",
+              "logicalId": "MyFunction",
+              "property": "logGroup",
+              "type": "intrinsic",
+            },
+            "type": "resolve-reference",
+          },
+          "type": "instanceMethodCall",
+        },
+        "dependsOn": Array [],
+        "logicalId": "GrantLogGroupAccess",
         "namespace": undefined,
         "overrides": Array [],
         "tags": Array [],
@@ -13605,8 +13724,15 @@ TypedTemplate {
             ],
             "type": "array",
           },
-          "logicalId": "ReadBucket",
           "method": "grantRead",
+          "target": Object {
+            "reference": Object {
+              "fn": "ref",
+              "logicalId": "ReadBucket",
+              "type": "intrinsic",
+            },
+            "type": "resolve-reference",
+          },
           "type": "instanceMethodCall",
         },
         "dependsOn": Array [],
@@ -13634,8 +13760,15 @@ TypedTemplate {
             ],
             "type": "array",
           },
-          "logicalId": "WriteBucket",
           "method": "grantWrite",
+          "target": Object {
+            "reference": Object {
+              "fn": "ref",
+              "logicalId": "WriteBucket",
+              "type": "intrinsic",
+            },
+            "type": "resolve-reference",
+          },
           "type": "instanceMethodCall",
         },
         "dependsOn": Array [],
@@ -13723,6 +13856,19 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
         "fqn": "aws-cdk-lib.aws_s3.Bucket",
         "logicalId": "SourceBucket",
         "namespace": "aws_s3",
+        "overrides": Array [],
+        "props": Object {
+          "fields": Object {},
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "construct",
+      },
+      "User": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_iam.User",
+        "logicalId": "User",
+        "namespace": "aws_iam",
         "overrides": Array [],
         "props": Object {
           "fields": Object {},
@@ -14050,6 +14196,53 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
         "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
+      "User" => Object {
+        "call": Object {
+          "fields": Object {},
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "creationPolicy": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {},
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "on": undefined,
+        "overrides": Array [],
+        "properties": Object {},
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_iam.User",
+        "updatePolicy": undefined,
+        "updateReplacePolicy": "Delete",
+      },
+      "GrantLogGroupAccess" => Object {
+        "call": Object {
+          "fields": Object {
+            "grantWrite": Object {
+              "fn": "ref",
+              "logicalId": "User",
+              "type": "intrinsic",
+            },
+          },
+          "type": "object",
+        },
+        "conditionName": undefined,
+        "creationPolicy": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "MyFunction",
+          "User",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "on": "MyFunction.logGroup",
+        "overrides": Array [],
+        "properties": Object {},
+        "tags": Array [],
+        "type": undefined,
+        "updatePolicy": undefined,
+        "updateReplacePolicy": "Delete",
+      },
     },
     "rules": Map {},
     "template": Object {
@@ -14083,6 +14276,14 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
             },
           },
           "On": "Alias",
+        },
+        "GrantLogGroupAccess": Object {
+          "Call": Object {
+            "grantWrite": Object {
+              "Ref": "User",
+            },
+          },
+          "On": "MyFunction.logGroup",
         },
         "GrantRead": Object {
           "Call": Object {
@@ -14119,6 +14320,9 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
         },
         "SourceBucket": Object {
           "Type": "aws-cdk-lib.aws_s3.Bucket",
+        },
+        "User": Object {
+          "Type": "aws-cdk-lib.aws_iam.User",
         },
         "WriteBucket": Object {
           "Call": Object {
@@ -14210,8 +14414,15 @@ TypedTemplate {
             ],
             "type": "array",
           },
-          "logicalId": "SampleLambda",
           "method": "metricDuration",
+          "target": Object {
+            "reference": Object {
+              "fn": "ref",
+              "logicalId": "SampleLambda",
+              "type": "intrinsic",
+            },
+            "type": "resolve-reference",
+          },
           "type": "instanceMethodCall",
         },
         "dependsOn": Array [],
@@ -14231,8 +14442,15 @@ TypedTemplate {
             ],
             "type": "array",
           },
-          "logicalId": "SampleLambda",
           "method": "metricErrors",
+          "target": Object {
+            "reference": Object {
+              "fn": "ref",
+              "logicalId": "SampleLambda",
+              "type": "intrinsic",
+            },
+            "type": "resolve-reference",
+          },
           "type": "instanceMethodCall",
         },
         "dependsOn": Array [],
@@ -14252,8 +14470,15 @@ TypedTemplate {
             ],
             "type": "array",
           },
-          "logicalId": "SampleLambda",
           "method": "metricInvocations",
+          "target": Object {
+            "reference": Object {
+              "fn": "ref",
+              "logicalId": "SampleLambda",
+              "type": "intrinsic",
+            },
+            "type": "resolve-reference",
+          },
           "type": "instanceMethodCall",
         },
         "dependsOn": Array [],
@@ -14546,8 +14771,15 @@ TypedTemplate {
             ],
             "type": "array",
           },
-          "logicalId": "SampleLambda",
           "method": "metricThrottles",
+          "target": Object {
+            "reference": Object {
+              "fn": "ref",
+              "logicalId": "SampleLambda",
+              "type": "intrinsic",
+            },
+            "type": "resolve-reference",
+          },
           "type": "instanceMethodCall",
         },
         "dependsOn": Array [],

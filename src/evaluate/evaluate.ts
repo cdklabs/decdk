@@ -17,7 +17,6 @@ import {
 } from '../parser/template';
 import { ResourceOverride } from '../parser/template/overrides';
 import { ResourceTag } from '../parser/template/tags';
-import { splitPath } from '../strings';
 import {
   CdkConstruct,
   CdkObject,
@@ -30,6 +29,7 @@ import {
   StaticMethodCallExpression,
 } from '../type-resolution/callables';
 import { TypedTemplateExpression } from '../type-resolution/expression';
+import { ResolveReferenceExpression } from '../type-resolution/references';
 import { EvaluationContext } from './context';
 import { DeCDKCfnOutput } from './outputs';
 import { applyOverride } from './overrides';
@@ -186,7 +186,7 @@ export class Evaluator {
       case 'object':
         return this.evaluateObject(x.fields);
       case 'resolve-reference':
-        return this.resolveReferences(x.reference);
+        return this.resolveReference(x.reference);
       case 'intrinsic':
         switch (x.fn) {
           case 'base64':
@@ -358,22 +358,16 @@ export class Evaluator {
 
     return call.type === 'staticMethodCall'
       ? this.invokeStaticMethod(call.fqn, call.method, parameters)
-      : this.invokeInstanceMethod(call.logicalId, call.method, parameters);
+      : this.invokeInstanceMethod(call.target, call.method, parameters);
   }
 
   private invokeInstanceMethod(
-    logicalId: string,
+    target: ResolveReferenceExpression,
     method: string,
     parameters: any[]
   ) {
-    const instance = this.context.reference(logicalId).instance;
-    const [constructPath, methodName] = splitPath(method);
-    const construct = resolveTargetFromPath(instance, constructPath);
-    return construct[methodName](...parameters);
-
-    function resolveTargetFromPath(root: unknown, path: string[]): any {
-      return path.length > 0 ? getPropDot(root, path.join('.')) : root;
-    }
+    const instance = this.resolveReference(target.reference);
+    return instance[method](...parameters);
   }
 
   protected invokeStaticMethod(
@@ -455,7 +449,7 @@ export class Evaluator {
     return cdk.Fn.join(separator, array);
   }
 
-  protected resolveReferences(intrinsic: RefIntrinsic | GetPropIntrinsic) {
+  protected resolveReference(intrinsic: RefIntrinsic | GetPropIntrinsic) {
     const { logicalId, fn } = intrinsic;
 
     const c = this.context.reference(logicalId);

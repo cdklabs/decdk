@@ -45,7 +45,7 @@ Resources:
           targets:
             - Ref: ASG
   AllowFromEverywhere:
-    'On': Listener
+    'On': Listener.connections
     Call:
-      connections.allowDefaultPortFromAnyIpv4:
+      allowDefaultPortFromAnyIpv4:
         - Open to the world

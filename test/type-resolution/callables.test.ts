@@ -6,6 +6,8 @@ import {
   matchInitializer,
   matchInstanceMethodCall,
   matchLazyResource,
+  matchResolveFnGetProp,
+  matchResolveFnRef,
   matchStringLiteral,
   Testing,
 } from '../util';
@@ -237,7 +239,7 @@ test('Resources can be created by calling instance methods on constructs', async
     overrides: [],
     call: {
       type: 'instanceMethodCall',
-      logicalId: 'MyFunction',
+      target: matchResolveFnRef('MyFunction'),
       method: 'addAlias',
       args: {
         type: 'array',
@@ -425,7 +427,7 @@ test('Resources created by method calls can have the type omitted', () => {
     overrides: [],
     call: {
       type: 'instanceMethodCall',
-      logicalId: 'MyLambda',
+      target: matchResolveFnRef('MyLambda'),
       method: 'configureAsyncInvoke',
       args: {
         type: 'array',
@@ -482,7 +484,7 @@ test('Types can be inferred transitively', () => {
     overrides: [],
     call: {
       type: 'instanceMethodCall',
-      logicalId: 'Alias',
+      target: matchResolveFnRef('Alias'),
       method: 'configureAsyncInvoke',
       args: {
         type: 'array',
@@ -515,9 +517,9 @@ test('Resources can be created by calling instance methods on nested construct',
         Type: 'aws-cdk-lib.aws_iam.User',
       },
       Grant: {
-        On: 'Function',
+        On: 'Function.logGroup',
         Call: {
-          'logGroup.grantWrite': { Ref: 'User' },
+          grantWrite: { Ref: 'User' },
         },
       },
     },
@@ -534,8 +536,8 @@ test('Resources can be created by calling instance methods on nested construct',
     overrides: [],
     call: {
       type: 'instanceMethodCall',
-      logicalId: 'Function',
-      method: 'logGroup.grantWrite',
+      target: matchResolveFnGetProp('Function', 'logGroup'),
+      method: 'grantWrite',
       args: {
         type: 'array',
         array: [
@@ -571,9 +573,9 @@ test('Nested construct paths must be valid', () => {
         Type: 'aws-cdk-lib.aws_iam.User',
       },
       Grant: {
-        On: 'Function',
+        On: 'Function.foo',
         Call: {
-          'foo.grantWrite': { Ref: 'User' },
+          grantWrite: { Ref: 'User' },
         },
       },
     },
@@ -614,7 +616,7 @@ test('Single arguments are interpreted as the first argument of a call', async (
     expect.objectContaining({
       call: {
         type: 'instanceMethodCall',
-        logicalId: 'MyFunction',
+        target: matchResolveFnRef('MyFunction'),
         method: 'addAlias',
         args: {
           type: 'array',

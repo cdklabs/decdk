@@ -474,9 +474,9 @@ describe('can evaluate cyclic types', () => {
           },
           MockMethod: {
             Type: 'aws-cdk-lib.aws_apigateway.Method',
-            On: 'Api',
+            On: 'Api.root',
             Call: {
-              'root.addMethod': [
+              addMethod: [
                 'GET',
                 {
                   Ref: 'MockIntegration',
