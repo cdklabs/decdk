@@ -76,11 +76,13 @@ export function resolveResourceLike(
 
   const type = resource.type ? typeSystem.findFqn(resource.type) : undefined;
   if (Object.keys(resource.call.fields).length > 0) {
-    return resolveLazyResource(template, resource, logicalId, typeSystem, type);
+    return replaceLogicalIds(
+      resolveLazyResource(template, resource, logicalId, typeSystem, type)
+    );
   }
 
   if (isConstruct(type)) {
-    return resolveCdkConstruct(resource, logicalId, type);
+    return replaceLogicalIds(resolveCdkConstruct(resource, logicalId, type));
   }
 
   if (isCdkObject(type)) {
@@ -92,6 +94,75 @@ export function resolveResourceLike(
   );
 }
 
+/**
+ * Replaces the values of 'lazyLogicalId' occurrences (if any) with the path to
+ * the attribute that contains it. For instance:
+ *
+ * Resources:
+ *   Function:
+ *     Type: aws-cdk-lib.aws_lambda.Function
+ *     Properties:
+ *       runtime: NODEJS_16_X
+ *       handler: 'index.handler'
+ *       code:
+ *         'aws-cdk-lib.aws_lambda.Code.fromInline': 'foo'
+ *       deadLetterQueue:
+ *         'aws-cdk-lib.aws_sqs.Queue.fromQueueArn': 'arn:aws:sqs:us-east-2:444455556666:queue1'
+ *
+ * fromQueueArn has three parameters: scope, id and arn. Only the third argument
+ * to this call is being passed explicitly. The other two are injected into the
+ * AST, since they can be inferred from the context. In particular, the second
+ * argument is a lazyLogicalId. This function will replace its value with the
+ * string 'Function.deadLetterQueue'.
+ *
+ * @param x the template expression.
+ * @param path the path prefix.
+ */
+function replaceLogicalIds<X extends TypedTemplateExpression>(
+  x: X,
+  path: string[] = []
+): X {
+  switch (x.type) {
+    case 'lazyResource':
+      return {
+        ...x,
+        call: replaceLogicalIds(x.call, [x.logicalId]),
+      };
+    case 'construct':
+      return {
+        ...x,
+        props: replaceLogicalIds(x.props, [x.logicalId]),
+      };
+    case 'object':
+    case 'struct':
+      return {
+        ...x,
+        fields: Object.fromEntries(
+          Object.entries(x.fields).map(([k, v]) => [
+            k,
+            replaceLogicalIds(v, path.concat(k)),
+          ])
+        ),
+      };
+    case 'array':
+      return {
+        ...x,
+        array: x.array.map((v, idx) =>
+          replaceLogicalIds(v, path.concat(String(idx)))
+        ),
+      };
+    case 'staticMethodCall':
+      const array = x.args.array.map((expr) =>
+        expr.type === 'intrinsic' && expr.fn === 'lazyLogicalId'
+          ? { ...expr, value: path.join('.') }
+          : expr
+      );
+      return { ...x, args: { ...x.args, array } };
+    default:
+      return x;
+  }
+}
+
 function resolveLazyResource(
   template: Template,
   resource: TemplateResource,
@@ -101,10 +172,7 @@ function resolveLazyResource(
 ): LazyResource {
   const call = resource.on
     ? resolveInstanceMethodCallExpression(template, resource, typeSystem, type)
-    : replaceLogicalId(
-        resolveStaticMethodCallExpression(resource.call, typeSystem, type),
-        logicalId
-      );
+    : resolveStaticMethodCallExpression(resource.call, typeSystem, type);
 
   return {
     type: 'lazyResource',
@@ -115,18 +183,6 @@ function resolveLazyResource(
     overrides: resource.overrides,
     call,
   };
-}
-
-function replaceLogicalId(
-  call: StaticMethodCallExpression,
-  id: string
-): StaticMethodCallExpression {
-  const array = call.args.array.map((expr) =>
-    expr.type === 'intrinsic' && expr.fn === 'lazyLogicalId'
-      ? { ...expr, value: id }
-      : expr
-  );
-  return { ...call, args: { ...call.args, array } };
 }
 
 function resolveCfnResource(

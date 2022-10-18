@@ -726,24 +726,85 @@ test('Scope and id are unwrapped when passed through CDK::Args', async () => {
   );
 });
 
-test('Calls to fromXxx methods cannot be inlined', async () => {
-  await expect(
-    Testing.template(
-      Template.fromObject({
-        Resources: {
-          Bucket: {
-            Type: 'aws-cdk-lib.aws_s3.Bucket',
-            Properties: {
-              encryptionKey: {
-                'aws-cdk-lib.aws_kms.Key.fromKeyArn': 'some-key',
-              },
+test('Calls to static factory methods with implicit arguments can be inlined', async () => {
+  const template = await Testing.template(
+    Template.fromObject({
+      Resources: {
+        Bucket: {
+          Type: 'aws-cdk-lib.aws_s3.Bucket',
+          Properties: {
+            encryptionKey: {
+              'aws-cdk-lib.aws_kms.Key.fromKeyArn':
+                'arn:aws:kms:us-east-1:11112222333344444:key/629e8e76-58da-4c0c-9b81-13683a7308ed',
             },
           },
         },
-      }),
-      false
-    )
-  ).rejects.toThrow(/failed because the id could not be inferred/);
+      },
+    }),
+    false
+  );
+
+  template.hasResourceProperties('AWS::S3::Bucket', {
+    BucketEncryption: {
+      ServerSideEncryptionConfiguration: [
+        {
+          ServerSideEncryptionByDefault: {
+            KMSMasterKeyID:
+              'arn:aws:kms:us-east-1:11112222333344444:key/629e8e76-58da-4c0c-9b81-13683a7308ed',
+            SSEAlgorithm: 'aws:kms',
+          },
+        },
+      ],
+    },
+  });
+});
+
+test('Calls to static factory methods with implicit arguments can be inlined inside arrays', async () => {
+  const template = await Testing.template(
+    Template.fromObject({
+      Resources: {
+        Api: {
+          Type: 'aws-cdk-lib.aws_apigateway.RestApi',
+          Properties: {
+            endpointConfiguration: {
+              types: ['EDGE'],
+              vpcEndpoints: [
+                {
+                  'aws-cdk-lib.aws_ec2.GatewayVpcEndpoint.fromGatewayVpcEndpointId':
+                    'larry',
+                },
+                {
+                  'aws-cdk-lib.aws_ec2.GatewayVpcEndpoint.fromGatewayVpcEndpointId':
+                    'curly',
+                },
+                {
+                  'aws-cdk-lib.aws_ec2.GatewayVpcEndpoint.fromGatewayVpcEndpointId':
+                    'moe',
+                },
+              ],
+            },
+          },
+        },
+
+        // Just to make the API happy:
+        AddMockMethod: {
+          On: 'Api',
+          Call: {
+            'root.addMethod': [
+              'GET',
+              {
+                'aws-cdk-lib.aws_apigateway.MockIntegration': [],
+              },
+            ],
+          },
+        },
+      },
+    })
+  );
+
+  template.hasResourceProperties('AWS::ApiGateway::RestApi', {
+    EndpointConfiguration: { VpcEndpointIds: ['larry', 'curly', 'moe'] },
+  });
 });
 
 test('Calls to fromXxx() wrapped in CDK::Args work for property values', async () => {
