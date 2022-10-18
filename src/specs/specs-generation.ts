@@ -6,7 +6,7 @@ import { hasPropsParam } from '../type-system';
 interface PropertySpec {
   Remarks: string;
   Summary: string;
-  Required: 'True' | 'False';
+  Required: boolean;
   Type: string;
   ItemType?: string;
 }
@@ -153,7 +153,7 @@ function propertySpec(p: reflect.Property): [string, PropertySpec] {
     {
       Remarks: p.docs.remarks,
       Summary: p.docs.summary,
-      Required: p.optional ? 'False' : 'True',
+      Required: !p.optional,
       Type: formatSpecsType(p.type),
       ItemType: formatItemType(p.type),
     },

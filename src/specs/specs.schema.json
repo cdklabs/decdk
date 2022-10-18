@@ -51,8 +51,7 @@
           "type": "string"
         },
         "Required": {
-          "type": "string",
-          "enum": ["True", "False"]
+          "type": "boolean"
         },
         "Type": {
           "type": "string"
