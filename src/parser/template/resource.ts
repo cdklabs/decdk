@@ -5,14 +5,12 @@ import {
   assertString,
   assertStringOrListIntoList,
   parseRetentionPolicy,
-  singletonList,
 } from '../private/types';
 import { schema } from '../schema';
-import { parseCall } from './calls';
+import { FactoryMethodCall, parseCall } from './calls';
 import { RetentionPolicy } from './enums';
 import {
   ifField,
-  ObjectLiteral,
   parseExpression,
   parseObject,
   TemplateExpression,
@@ -31,8 +29,7 @@ export interface TemplateResource {
   readonly metadata: Record<string, unknown>;
   readonly tags: ResourceTag[];
   readonly overrides: ResourceOverride[];
-  readonly on?: string;
-  readonly call: ObjectLiteral;
+  readonly call?: FactoryMethodCall;
   readonly creationPolicy?: TemplateExpression;
   readonly updatePolicy?: TemplateExpression;
 }
@@ -41,12 +38,6 @@ export function parseTemplateResource(
   logicalId: string,
   resource: schema.Resource
 ): TemplateResource {
-  if (resource.On != null && resource.Call == null) {
-    throw new Error(
-      `In resource '${logicalId}': expected to find a 'Call' property, to a method of '${resource.On}'.`
-    );
-  }
-
   assertAtMostOneOfFields(resource, ['Properties', 'Call']);
 
   if (resource.Properties != null && resource.Type == null) {
@@ -65,11 +56,8 @@ export function parseTemplateResource(
     metadata: assertObject(resource.Metadata ?? {}),
     dependencies: new Set([
       ...(ifField(resource, 'DependsOn', assertStringOrListIntoList) ?? []),
-      ...singletonList(
-        ifField(resource, 'On', (target) => assertString(target.split('.')[0]))
-      ),
       ...findReferencedLogicalIds(properties),
-      ...findReferencedLogicalIds({ _: call }),
+      ...findReferencedLogicalIdsInCall(call),
       ...(creationPolicy
         ? findReferencedLogicalIds({ _: creationPolicy })
         : []),
@@ -85,11 +73,27 @@ export function parseTemplateResource(
       'Delete',
     tags: parseTags(resource.Tags),
     overrides: parseOverrides(resource.Overrides),
-    on: ifField(resource, 'On', assertString),
     call,
     creationPolicy,
     updatePolicy,
   };
+}
+
+function findReferencedLogicalIdsInCall(
+  call: FactoryMethodCall | undefined
+): string[] {
+  if (call == null) {
+    return [];
+  }
+
+  const result = findReferencedLogicalIds({ _: call.arguments });
+
+  if (call.target != null) {
+    const target = assertString(call.target.split('.')[0]);
+    result.push(target);
+  }
+
+  return result;
 }
 
 function findReferencedLogicalIds(

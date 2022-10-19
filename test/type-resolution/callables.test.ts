@@ -113,32 +113,34 @@ test('Can provide implementation if expected type is a class', async () => {
       },
       GetBooks: {
         Type: 'aws-cdk-lib.aws_apigateway.Method',
-        On: 'BooksResource',
-        Call: {
-          addMethod: [
-            'GET',
-            {
-              'aws-cdk-lib.aws_apigateway.HttpIntegration': [
-                'https://amazon.com/{proxy}',
-                {
-                  proxy: true,
-                  httpMethod: 'GET',
-                  options: {
-                    requestParameters: {
-                      'integration.request.path.proxy':
-                        'method.request.path.proxy',
+        Call: [
+          'BooksResource',
+          {
+            addMethod: [
+              'GET',
+              {
+                'aws-cdk-lib.aws_apigateway.HttpIntegration': [
+                  'https://amazon.com/{proxy}',
+                  {
+                    proxy: true,
+                    httpMethod: 'GET',
+                    options: {
+                      requestParameters: {
+                        'integration.request.path.proxy':
+                          'method.request.path.proxy',
+                      },
                     },
                   },
-                },
-              ],
-            },
-            {
-              requestParameters: {
-                'method.request.path.proxy': true,
+                ],
               },
-            },
-          ],
-        },
+              {
+                requestParameters: {
+                  'method.request.path.proxy': true,
+                },
+              },
+            ],
+          },
+        ],
       },
     },
   });
@@ -176,23 +178,25 @@ test('Can only provide compatible inline implementations', async () => {
       },
       GetBooks: {
         Type: 'aws-cdk-lib.aws_apigateway.Method',
-        On: 'BooksResource',
-        Call: {
-          addMethod: [
-            'GET',
-            {
-              'aws-cdk-lib.aws_apigateway.ProxyResource': {
-                'CDK::Args': [
-                  { Ref: 'CDK::Scope' },
-                  'test',
-                  {
-                    parent: { 'CDK::GetProp': 'LibraryApi.root' },
-                  },
-                ],
+        Call: [
+          'BooksResource',
+          {
+            addMethod: [
+              'GET',
+              {
+                'aws-cdk-lib.aws_apigateway.ProxyResource': {
+                  'CDK::Args': [
+                    { Ref: 'CDK::Scope' },
+                    'test',
+                    {
+                      parent: { 'CDK::GetProp': 'LibraryApi.root' },
+                    },
+                  ],
+                },
               },
-            },
-          ],
-        },
+            ],
+          },
+        ],
       },
     },
   });
@@ -209,10 +213,12 @@ test('Resources can be created by calling instance methods on constructs', async
     Resources: {
       Alias: {
         Type: 'aws-cdk-lib.aws_lambda.Alias',
-        On: 'MyFunction',
-        Call: {
-          addAlias: 'live',
-        },
+        Call: [
+          'MyFunction',
+          {
+            addAlias: 'live',
+          },
+        ],
       },
       MyFunction: {
         Type: 'aws-cdk-lib.aws_lambda.Function',
@@ -282,23 +288,6 @@ test("Resources must not have a 'Properties' property if a 'Call' property exist
   ).toThrow("Expected at most one of the fields 'Properties', 'Call'");
 });
 
-test("Resources must have a 'Call' property if a 'On' property exists", async () => {
-  // GIVEN
-  expect(() =>
-    Template.fromObject({
-      Resources: {
-        Alias: {
-          Type: 'aws-cdk-lib.aws_lambda.Alias',
-          On: 'MyFunction',
-          // no 'Call'
-        },
-      },
-    })
-  ).toThrow(
-    "In resource 'Alias': expected to find a 'Call' property, to a method of 'MyFunction'."
-  );
-});
-
 test('Calls to raw CloudFormation resources are not allowed', async () => {
   // GIVEN
   const template = Template.fromObject({
@@ -311,8 +300,7 @@ test('Calls to raw CloudFormation resources are not allowed', async () => {
       },
       Alias: {
         Type: 'aws-cdk-lib.aws_lambda.Alias',
-        On: 'MyLogGroup',
-        Call: { foo: 'bar' },
+        Call: ['MyLogGroup', { foo: 'bar' }],
       },
     },
   });
@@ -338,8 +326,7 @@ test('Calls to methods that do not exist are not allowed', async () => {
       },
       Alias: {
         Type: 'aws-cdk-lib.aws_lambda.Alias',
-        On: 'MyLambda',
-        Call: { foo: 'bar' }, // wrong method
+        Call: ['MyLambda', { foo: 'bar' }], // wrong method
       },
     },
   });
@@ -365,10 +352,12 @@ test('Declared type must match returned type', async () => {
       },
       Alias: {
         Type: 'aws-cdk-lib.aws_apigateway.RestApi', // wrong type
-        On: 'MyLambda',
-        Call: {
-          addAlias: 'live',
-        },
+        Call: [
+          'MyLambda',
+          {
+            addAlias: 'live',
+          },
+        ],
       },
     },
   });
@@ -406,12 +395,14 @@ test('Resources created by method calls can have the type omitted', () => {
         },
       },
       ConfigureAsyncInvokeStatement: {
-        On: 'MyLambda',
-        Call: {
-          configureAsyncInvoke: {
-            retryAttempts: 2,
+        Call: [
+          'MyLambda',
+          {
+            configureAsyncInvoke: {
+              retryAttempts: 2,
+            },
           },
-        },
+        ],
       },
     },
   });
@@ -457,18 +448,22 @@ test('Types can be inferred transitively', () => {
         },
       },
       Alias: {
-        On: 'MyFunction',
-        Call: {
-          addAlias: 'live',
-        },
+        Call: [
+          'MyFunction',
+          {
+            addAlias: 'live',
+          },
+        ],
       },
       ConfigureAsyncInvokeStatement: {
-        On: 'Alias',
-        Call: {
-          configureAsyncInvoke: {
-            retryAttempts: 2,
+        Call: [
+          'Alias',
+          {
+            configureAsyncInvoke: {
+              retryAttempts: 2,
+            },
           },
-        },
+        ],
       },
     },
   });
@@ -517,10 +512,12 @@ test('Resources can be created by calling instance methods on nested construct',
         Type: 'aws-cdk-lib.aws_iam.User',
       },
       Grant: {
-        On: 'Function.logGroup',
-        Call: {
-          grantWrite: { Ref: 'User' },
-        },
+        Call: [
+          'Function.logGroup',
+          {
+            grantWrite: { Ref: 'User' },
+          },
+        ],
       },
     },
   });
@@ -573,10 +570,12 @@ test('Nested construct paths must be valid', () => {
         Type: 'aws-cdk-lib.aws_iam.User',
       },
       Grant: {
-        On: 'Function.foo',
-        Call: {
-          grantWrite: { Ref: 'User' },
-        },
+        Call: [
+          'Function.foo',
+          {
+            grantWrite: { Ref: 'User' },
+          },
+        ],
       },
     },
   });
@@ -591,10 +590,12 @@ test('Single arguments are interpreted as the first argument of a call', async (
     Resources: {
       Alias: {
         Type: 'aws-cdk-lib.aws_lambda.Alias',
-        On: 'MyFunction',
-        Call: {
-          addAlias: 'live',
-        },
+        Call: [
+          'MyFunction',
+          {
+            addAlias: 'live',
+          },
+        ],
       },
       MyFunction: {
         Type: 'aws-cdk-lib.aws_lambda.Function',
@@ -790,15 +791,17 @@ test('Calls to static factory methods with implicit arguments can be inlined ins
 
         // Just to make the API happy:
         AddMockMethod: {
-          On: 'Api.root',
-          Call: {
-            addMethod: [
-              'GET',
-              {
-                'aws-cdk-lib.aws_apigateway.MockIntegration': [],
-              },
-            ],
-          },
+          Call: [
+            'Api.root',
+            {
+              addMethod: [
+                'GET',
+                {
+                  'aws-cdk-lib.aws_apigateway.MockIntegration': [],
+                },
+              ],
+            },
+          ],
         },
       },
     })

@@ -19,10 +19,10 @@ Resources:
       removalPolicy: DESTROY
       autoDeleteObjects: true
   SiteBucketAccess:
-    'On': SiteBucket
     Call:
-      grantRead:
-        Ref: CloudFrontOAI
+      - SiteBucket
+      - grantRead:
+          Ref: CloudFrontOAI
   HostedZone:
     Call:
       aws-cdk-lib.aws_route53.HostedZone.fromHostedZoneAttributes:

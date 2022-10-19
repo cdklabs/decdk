@@ -109,14 +109,11 @@ describe('interface', () => {
             additionalProperties: false,
             properties: {
               Call: {
-                type: 'object',
+                $ref: '#/definitions/Call',
               },
               Type: {
                 type: 'string',
                 enum: ['fixture.FeatureFactory'],
-              },
-              On: {
-                type: 'string',
               },
             },
             type: 'object',

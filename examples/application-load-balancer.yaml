@@ -15,11 +15,11 @@ Resources:
         aws-cdk-lib.aws_ec2.AmazonLinuxImage: # parameters may be omitted when there are no mandatory arguments
   AModestLoad:
     Type: aws-cdk-lib.aws_autoscaling.TargetTrackingScalingPolicy
-    'On': ASG
     Call:
-      scaleOnRequestCount:
-        - AModestLoad
-        - targetRequestsPerMinute: 60
+      - ASG
+      - scaleOnRequestCount:
+          - AModestLoad
+          - targetRequestsPerMinute: 60
     DependsOn:
       - 'Target'
   LB:
@@ -30,22 +30,22 @@ Resources:
       internetFacing: true
   Listener:
     Type: aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationListener
-    'On': LB
     Call:
-      addListener:
-        - 'Listener'
-        - port: 80
+      - LB
+      - addListener:
+          - 'Listener'
+          - port: 80
   Target:
     Type: aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationTargetGroup
-    'On': Listener
     Call:
-      addTargets:
-        - 'Target'
-        - port: 80
-          targets:
-            - Ref: ASG
+      - Listener
+      - addTargets:
+          - 'Target'
+          - port: 80
+            targets:
+              - Ref: ASG
   AllowFromEverywhere:
-    'On': Listener.connections
     Call:
-      allowDefaultPortFromAnyIpv4:
-        - Open to the world
+      - Listener.connections
+      - allowDefaultPortFromAnyIpv4:
+          - Open to the world

@@ -8,11 +8,13 @@ beforeAll(async () => {
   typeSystem = await Testing.typeSystem;
 });
 
-testTemplateFixtures(async (example) => {
-  const template = await readTemplate(example.path);
+describe('Fixtures', () => {
+  testTemplateFixtures(async (example) => {
+    const template = await readTemplate(example.path);
 
-  const typedTemplate = new TypedTemplate(template, { typeSystem });
+    const typedTemplate = new TypedTemplate(template, { typeSystem });
 
-  expect(template.template).toBeValidTemplate();
-  expect(typedTemplate).toMatchSnapshot();
+    expect(template.template).toBeValidTemplate();
+    expect(typedTemplate).toMatchSnapshot();
+  });
 });

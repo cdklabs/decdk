@@ -449,40 +449,44 @@ describe('can evaluate cyclic types', () => {
             Type: 'aws-cdk-lib.aws_apigateway.RestApi',
           },
           ResponseModel: {
-            On: 'Api',
-            Call: {
-              addModel: [
-                'ResponseModel',
-                {
-                  contentType: 'application/json',
-                  modelName: 'ResponseModel',
-                  schema: {
-                    schema: 'DRAFT4',
-                    title: 'pollResponse',
-                    type: 'OBJECT',
-                    properties: {
-                      state: { type: 'STRING' },
-                      greeting: { type: 'STRING' },
+            Call: [
+              'Api',
+              {
+                addModel: [
+                  'ResponseModel',
+                  {
+                    contentType: 'application/json',
+                    modelName: 'ResponseModel',
+                    schema: {
+                      schema: 'DRAFT4',
+                      title: 'pollResponse',
+                      type: 'OBJECT',
+                      properties: {
+                        state: { type: 'STRING' },
+                        greeting: { type: 'STRING' },
+                      },
                     },
                   },
-                },
-              ],
-            },
+                ],
+              },
+            ],
           },
           MockIntegration: {
             Type: 'aws-cdk-lib.aws_apigateway.MockIntegration',
           },
           MockMethod: {
             Type: 'aws-cdk-lib.aws_apigateway.Method',
-            On: 'Api.root',
-            Call: {
-              addMethod: [
-                'GET',
-                {
-                  Ref: 'MockIntegration',
-                },
-              ],
-            },
+            Call: [
+              'Api.root',
+              {
+                addMethod: [
+                  'GET',
+                  {
+                    Ref: 'MockIntegration',
+                  },
+                ],
+              },
+            ],
           },
         },
       })

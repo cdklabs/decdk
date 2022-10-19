@@ -33,12 +33,14 @@
     },
     "GrantRead": {
       "Type": "aws-cdk-lib.aws_iam.Grant",
-      "On": "ReadBucket",
-      "Call": {
-        "grantRead": {
-          "Ref": "MyFunction"
+      "Call": [
+        "ReadBucket",
+        {
+          "grantRead": {
+            "Ref": "MyFunction"
+          }
         }
-      }
+      ]
     },
     "WriteBucket": {
       "Call": {
@@ -55,36 +57,44 @@
     },
     "GrantWrite": {
       "Type": "aws-cdk-lib.aws_iam.Grant",
-      "On": "WriteBucket",
-      "Call": {
-        "grantWrite": {
-          "Ref": "MyFunction"
+      "Call": [
+        "WriteBucket",
+        {
+          "grantWrite": {
+            "Ref": "MyFunction"
+          }
         }
-      }
+      ]
     },
     "Alias": {
       "Type": "aws-cdk-lib.aws_lambda.Alias",
-      "On": "MyFunction",
-      "Call": {
-        "addAlias": ["live"]
-      }
+      "Call": [
+        "MyFunction",
+        {
+          "addAlias": ["live"]
+        }
+      ]
     },
     "ConfigureAsyncInvokeStatement": {
-      "On": "Alias",
-      "Call": {
-        "configureAsyncInvoke": {
-          "retryAttempts": 2
+      "Call": [
+        "Alias",
+        {
+          "configureAsyncInvoke": {
+            "retryAttempts": 2
+          }
         }
-      }
+      ]
     },
     "User": {
       "Type": "aws-cdk-lib.aws_iam.User"
     },
     "GrantLogGroupAccess": {
-      "On": "MyFunction.logGroup",
-      "Call": {
-        "grantWrite": { "Ref": "User" }
-      }
+      "Call": [
+        "MyFunction.logGroup",
+        {
+          "grantWrite": { "Ref": "User" }
+        }
+      ]
     }
   }
 }
