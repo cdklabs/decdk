@@ -2282,6 +2282,2169 @@
             }
           }
         }
+      },
+      "PropertyTypes": {
+        "Architecture": {
+          "Properties": {},
+          "Methods": {
+            "aws-cdk-lib.aws_lambda.Architecture.custom": {
+              "Parameters": {
+                "name": {
+                  "Summary": "the architecture name as recognized by AWS Lambda.",
+                  "Type": "String"
+                },
+                "dockerPlatform": {
+                  "Summary": "the platform to use for this architecture when building with Docker.",
+                  "Type": "String"
+                }
+              },
+              "Summary": "Used to specify a custom architecture name.",
+              "Remarks": "Use this if the architecture name is not yet supported by the CDK.",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.Architecture"
+            }
+          },
+          "PublicProperties": {
+            "ARM_64": {
+              "Remarks": "",
+              "Summary": "64 bit architecture with the ARM instruction set.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Architecture",
+              "Static": true
+            },
+            "X86_64": {
+              "Remarks": "",
+              "Summary": "64 bit architecture with x86 instruction set.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Architecture",
+              "Static": true
+            },
+            "dockerPlatform": {
+              "Remarks": "",
+              "Summary": "The platform to use for this architecture when building with Docker.",
+              "Required": true,
+              "Type": "String"
+            },
+            "name": {
+              "Remarks": "",
+              "Summary": "The name of the architecture as recognized by the AWS Lambda service APIs.",
+              "Required": true,
+              "Type": "String"
+            }
+          }
+        },
+        "AssetCode": {
+          "Properties": {},
+          "Methods": {
+            "bind": {
+              "Parameters": {
+                "scope": {
+                  "Summary": "",
+                  "Type": "constructs.Construct"
+                }
+              },
+              "Summary": "Called when the lambda or layer is initialized to allow this object to bind to the stack, add resources and have fun.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_lambda.CodeConfig"
+            },
+            "bindToResource": {
+              "Parameters": {
+                "resource": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.CfnResource"
+                },
+                "options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.ResourceBindOptions"
+                }
+              },
+              "Summary": "Called after the CFN function resource has been created to allow the code class to bind to it.",
+              "Remarks": "Specifically it's required to allow assets to add\nmetadata for tooling like SAM CLI to be able to find their origins.",
+              "Static": false
+            }
+          },
+          "PublicProperties": {
+            "isInline": {
+              "Remarks": "",
+              "Summary": "Determines whether this Code is inline code or not.",
+              "Required": true,
+              "Type": "Boolean"
+            },
+            "path": {
+              "Remarks": "",
+              "Summary": "The path to the asset file or directory.",
+              "Required": true,
+              "Type": "String"
+            }
+          }
+        },
+        "AssetImageCode": {
+          "Properties": {},
+          "Methods": {
+            "bind": {
+              "Parameters": {
+                "scope": {
+                  "Summary": "",
+                  "Type": "constructs.Construct"
+                }
+              },
+              "Summary": "Called when the lambda or layer is initialized to allow this object to bind to the stack, add resources and have fun.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_lambda.CodeConfig"
+            },
+            "bindToResource": {
+              "Parameters": {
+                "resource": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.CfnResource"
+                },
+                "options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.ResourceBindOptions"
+                }
+              },
+              "Summary": "Called after the CFN function resource has been created to allow the code class to bind to it.",
+              "Remarks": "Specifically it's required to allow assets to add\nmetadata for tooling like SAM CLI to be able to find their origins.",
+              "Static": false
+            }
+          },
+          "PublicProperties": {
+            "isInline": {
+              "Remarks": "",
+              "Summary": "Determines whether this Code is inline code or not.",
+              "Required": true,
+              "Type": "Boolean"
+            }
+          }
+        },
+        "CfnParametersCode": {
+          "Properties": {},
+          "Methods": {
+            "assign": {
+              "Parameters": {
+                "location": {
+                  "Summary": "the location of the object in S3 that represents the Lambda code.",
+                  "Type": "aws-cdk-lib.aws_s3.Location"
+                }
+              },
+              "Summary": "Create a parameters map from this instance's CloudFormation parameters.",
+              "Remarks": "It returns a map with 2 keys that correspond to the names of the parameters defined in this Lambda code,\nand as values it contains the appropriate expressions pointing at the provided S3 location\n(most likely, obtained from a CodePipeline Artifact by calling the `artifact.s3Location` method).\nThe result should be provided to the CloudFormation Action\nthat is deploying the Stack that the Lambda with this code is part of,\nin the `parameterOverrides` property.",
+              "Static": false,
+              "ReturnType": "Map"
+            },
+            "bind": {
+              "Parameters": {
+                "scope": {
+                  "Summary": "",
+                  "Type": "constructs.Construct"
+                }
+              },
+              "Summary": "Called when the lambda or layer is initialized to allow this object to bind to the stack, add resources and have fun.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_lambda.CodeConfig"
+            }
+          },
+          "PublicProperties": {
+            "bucketNameParam": {
+              "Remarks": "",
+              "Summary": "",
+              "Required": true,
+              "Type": "String"
+            },
+            "isInline": {
+              "Remarks": "",
+              "Summary": "Determines whether this Code is inline code or not.",
+              "Required": true,
+              "Type": "Boolean"
+            },
+            "objectKeyParam": {
+              "Remarks": "",
+              "Summary": "",
+              "Required": true,
+              "Type": "String"
+            }
+          }
+        },
+        "Code": {
+          "Properties": {},
+          "Methods": {
+            "aws-cdk-lib.aws_lambda.Code.fromAsset": {
+              "Parameters": {
+                "path": {
+                  "Summary": "Either a directory with the Lambda code bundle or a .zip file.",
+                  "Type": "String"
+                },
+                "options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_s3_assets.AssetOptions"
+                }
+              },
+              "Summary": "Loads the function code from a local disk path.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.AssetCode"
+            },
+            "aws-cdk-lib.aws_lambda.Code.fromAssetImage": {
+              "Parameters": {
+                "directory": {
+                  "Summary": "the directory from which the asset must be created.",
+                  "Type": "String"
+                },
+                "props": {
+                  "Summary": "properties to further configure the selected image.",
+                  "Type": "aws-cdk-lib.aws_lambda.AssetImageCodeProps"
+                }
+              },
+              "Summary": "Create an ECR image from the specified asset and bind it as the Lambda code.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.AssetImageCode"
+            },
+            "aws-cdk-lib.aws_lambda.Code.fromBucket": {
+              "Parameters": {
+                "bucket": {
+                  "Summary": "The S3 bucket.",
+                  "Type": "aws-cdk-lib.aws_s3.IBucket"
+                },
+                "key": {
+                  "Summary": "The object key.",
+                  "Type": "String"
+                },
+                "objectVersion": {
+                  "Summary": "Optional S3 object version.",
+                  "Type": "String"
+                }
+              },
+              "Summary": "Lambda handler code as an S3 object.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.S3Code"
+            },
+            "aws-cdk-lib.aws_lambda.Code.fromCfnParameters": {
+              "Parameters": {
+                "props": {
+                  "Summary": "optional construction properties of {@link CfnParametersCode}.",
+                  "Type": "aws-cdk-lib.aws_lambda.CfnParametersCodeProps"
+                }
+              },
+              "Summary": "Creates a new Lambda source defined using CloudFormation parameters.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.CfnParametersCode"
+            },
+            "aws-cdk-lib.aws_lambda.Code.fromDockerBuild": {
+              "Parameters": {
+                "path": {
+                  "Summary": "The path to the directory containing the Docker file.",
+                  "Type": "String"
+                },
+                "options": {
+                  "Summary": "Docker build options.",
+                  "Type": "aws-cdk-lib.aws_lambda.DockerBuildAssetOptions"
+                }
+              },
+              "Summary": "Loads the function code from an asset created by a Docker build.",
+              "Remarks": "By default, the asset is expected to be located at `/asset` in the\nimage.",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.AssetCode"
+            },
+            "aws-cdk-lib.aws_lambda.Code.fromEcrImage": {
+              "Parameters": {
+                "repository": {
+                  "Summary": "the ECR repository that the image is in.",
+                  "Type": "aws-cdk-lib.aws_ecr.IRepository"
+                },
+                "props": {
+                  "Summary": "properties to further configure the selected image.",
+                  "Type": "aws-cdk-lib.aws_lambda.EcrImageCodeProps"
+                }
+              },
+              "Summary": "Use an existing ECR image as the Lambda code.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.EcrImageCode"
+            },
+            "aws-cdk-lib.aws_lambda.Code.fromInline": {
+              "Parameters": {
+                "code": {
+                  "Summary": "The actual handler code (limited to 4KiB).",
+                  "Type": "String"
+                }
+              },
+              "Summary": "Inline code for Lambda handler.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.InlineCode"
+            },
+            "bind": {
+              "Parameters": {
+                "scope": {
+                  "Summary": "The binding scope.",
+                  "Type": "constructs.Construct"
+                }
+              },
+              "Summary": "Called when the lambda or layer is initialized to allow this object to bind to the stack, add resources and have fun.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_lambda.CodeConfig"
+            },
+            "bindToResource": {
+              "Parameters": {
+                "_resource": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.CfnResource"
+                },
+                "_options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.ResourceBindOptions"
+                }
+              },
+              "Summary": "Called after the CFN function resource has been created to allow the code class to bind to it.",
+              "Remarks": "Specifically it's required to allow assets to add\nmetadata for tooling like SAM CLI to be able to find their origins.",
+              "Static": false
+            }
+          },
+          "PublicProperties": {}
+        },
+        "DockerImageCode": {
+          "Properties": {},
+          "Methods": {
+            "aws-cdk-lib.aws_lambda.DockerImageCode.fromEcr": {
+              "Parameters": {
+                "repository": {
+                  "Summary": "the ECR repository that the image is in.",
+                  "Type": "aws-cdk-lib.aws_ecr.IRepository"
+                },
+                "props": {
+                  "Summary": "properties to further configure the selected image.",
+                  "Type": "aws-cdk-lib.aws_lambda.EcrImageCodeProps"
+                }
+              },
+              "Summary": "Use an existing ECR image as the Lambda code.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.DockerImageCode"
+            },
+            "aws-cdk-lib.aws_lambda.DockerImageCode.fromImageAsset": {
+              "Parameters": {
+                "directory": {
+                  "Summary": "the directory from which the asset must be created.",
+                  "Type": "String"
+                },
+                "props": {
+                  "Summary": "properties to further configure the selected image.",
+                  "Type": "aws-cdk-lib.aws_lambda.AssetImageCodeProps"
+                }
+              },
+              "Summary": "Create an ECR image from the specified asset and bind it as the Lambda code.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.DockerImageCode"
+            }
+          },
+          "PublicProperties": {}
+        },
+        "EcrImageCode": {
+          "Properties": {},
+          "Methods": {
+            "bind": {
+              "Parameters": {
+                "_": {
+                  "Summary": "",
+                  "Type": "constructs.Construct"
+                }
+              },
+              "Summary": "Called when the lambda or layer is initialized to allow this object to bind to the stack, add resources and have fun.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_lambda.CodeConfig"
+            }
+          },
+          "PublicProperties": {
+            "isInline": {
+              "Remarks": "",
+              "Summary": "Determines whether this Code is inline code or not.",
+              "Required": true,
+              "Type": "Boolean"
+            }
+          }
+        },
+        "FileSystem": {
+          "Properties": {},
+          "Methods": {
+            "aws-cdk-lib.aws_lambda.FileSystem.fromEfsAccessPoint": {
+              "Parameters": {
+                "ap": {
+                  "Summary": "the Amazon EFS access point.",
+                  "Type": "aws-cdk-lib.aws_efs.IAccessPoint"
+                },
+                "mountPath": {
+                  "Summary": "the target path in the lambda runtime environment.",
+                  "Type": "String"
+                }
+              },
+              "Summary": "mount the filesystem from Amazon EFS.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.FileSystem"
+            }
+          },
+          "PublicProperties": {
+            "config": {
+              "Remarks": "",
+              "Summary": "the FileSystem configurations for the Lambda function.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.FileSystemConfig"
+            }
+          }
+        },
+        "FilterCriteria": {
+          "Properties": {},
+          "Methods": {
+            "aws-cdk-lib.aws_lambda.FilterCriteria.filter": {
+              "Parameters": {
+                "filter": {
+                  "Summary": "",
+                  "Type": "Map"
+                }
+              },
+              "Summary": "Filter for event source.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "Map"
+            }
+          },
+          "PublicProperties": {}
+        },
+        "FilterRule": {
+          "Properties": {},
+          "Methods": {
+            "aws-cdk-lib.aws_lambda.FilterRule.beginsWith": {
+              "Parameters": {
+                "elem": {
+                  "Summary": "",
+                  "Type": "String"
+                }
+              },
+              "Summary": "Begins with comparison operator.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "List"
+            },
+            "aws-cdk-lib.aws_lambda.FilterRule.between": {
+              "Parameters": {
+                "first": {
+                  "Summary": "",
+                  "Type": "Number"
+                },
+                "second": {
+                  "Summary": "",
+                  "Type": "Number"
+                }
+              },
+              "Summary": "Numeric range comparison operator.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "List"
+            },
+            "aws-cdk-lib.aws_lambda.FilterRule.empty": {
+              "Parameters": {},
+              "Summary": "Empty comparison operator.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "List"
+            },
+            "aws-cdk-lib.aws_lambda.FilterRule.exists": {
+              "Parameters": {},
+              "Summary": "Exists comparison operator.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "List"
+            },
+            "aws-cdk-lib.aws_lambda.FilterRule.isEqual": {
+              "Parameters": {
+                "item": {
+                  "Summary": "",
+                  "Type": ""
+                }
+              },
+              "Summary": "Equals comparison operator.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "Any"
+            },
+            "aws-cdk-lib.aws_lambda.FilterRule.notEquals": {
+              "Parameters": {
+                "elem": {
+                  "Summary": "",
+                  "Type": "String"
+                }
+              },
+              "Summary": "Not equals comparison operator.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "List"
+            },
+            "aws-cdk-lib.aws_lambda.FilterRule.notExists": {
+              "Parameters": {},
+              "Summary": "Not exists comparison operator.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "List"
+            },
+            "aws-cdk-lib.aws_lambda.FilterRule.null": {
+              "Parameters": {},
+              "Summary": "Null comparison operator.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "List"
+            },
+            "aws-cdk-lib.aws_lambda.FilterRule.or": {
+              "Parameters": {
+                "elem": {
+                  "Summary": "",
+                  "Type": "String"
+                }
+              },
+              "Summary": "Or comparison operator.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "List"
+            }
+          },
+          "PublicProperties": {}
+        },
+        "FunctionBase": {
+          "Properties": {},
+          "Methods": {
+            "addEventSource": {
+              "Parameters": {
+                "source": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.IEventSource"
+                }
+              },
+              "Summary": "Adds an event source to this function.",
+              "Remarks": "Event sources are implemented in the @aws-cdk/aws-lambda-event-sources module.\n\nThe following example adds an SQS Queue as an event source:\n```\nimport { SqsEventSource } from '@aws-cdk/aws-lambda-event-sources';\nmyFunction.addEventSource(new SqsEventSource(myQueue));\n```",
+              "Static": false
+            },
+            "addEventSourceMapping": {
+              "Parameters": {
+                "id": {
+                  "Summary": "",
+                  "Type": "String"
+                },
+                "options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.EventSourceMappingOptions"
+                }
+              },
+              "Summary": "Adds an event source that maps to this AWS Lambda function.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_lambda.EventSourceMapping"
+            },
+            "addFunctionUrl": {
+              "Parameters": {
+                "options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.FunctionUrlOptions"
+                }
+              },
+              "Summary": "Adds a url to this lambda function.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_lambda.FunctionUrl"
+            },
+            "addPermission": {
+              "Parameters": {
+                "id": {
+                  "Summary": "The id for the permission construct.",
+                  "Type": "String"
+                },
+                "permission": {
+                  "Summary": "The permission to grant to this Lambda function.",
+                  "Type": "aws-cdk-lib.aws_lambda.Permission"
+                }
+              },
+              "Summary": "Adds a permission to the Lambda resource policy.",
+              "Remarks": "",
+              "Static": false
+            },
+            "addToRolePolicy": {
+              "Parameters": {
+                "statement": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.PolicyStatement"
+                }
+              },
+              "Summary": "Adds a statement to the IAM role assumed by the instance.",
+              "Remarks": "",
+              "Static": false
+            },
+            "configureAsyncInvoke": {
+              "Parameters": {
+                "options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.EventInvokeConfigOptions"
+                }
+              },
+              "Summary": "Configures options for asynchronous invocation.",
+              "Remarks": "",
+              "Static": false
+            },
+            "considerWarningOnInvokeFunctionPermissions": {
+              "Parameters": {
+                "scope": {
+                  "Summary": "",
+                  "Type": "constructs.Construct"
+                },
+                "action": {
+                  "Summary": "",
+                  "Type": "String"
+                }
+              },
+              "Summary": "A warning will be added to functions under the following conditions: - permissions that include `lambda:InvokeFunction` are added to the unqualified function.",
+              "Remarks": "- function.currentVersion is invoked before or after the permission is created.\n\nThis applies only to permissions on Lambda functions, not versions or aliases.\nThis function is overridden as a noOp for QualifiedFunctionBase.",
+              "Static": false
+            },
+            "grantInvoke": {
+              "Parameters": {
+                "grantee": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.IGrantable"
+                }
+              },
+              "Summary": "Grant the given identity permissions to invoke this Lambda.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            },
+            "grantInvokeUrl": {
+              "Parameters": {
+                "grantee": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.IGrantable"
+                }
+              },
+              "Summary": "Grant the given identity permissions to invoke this Lambda Function URL.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            },
+            "metric": {
+              "Parameters": {
+                "metricName": {
+                  "Summary": "",
+                  "Type": "String"
+                },
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "Return the given named metric for this Function.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "metricDuration": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "How long execution of this Lambda takes.",
+              "Remarks": "Average over 5 minutes",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "metricErrors": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "How many invocations of this Lambda fail.",
+              "Remarks": "Sum over 5 minutes",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "metricInvocations": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "How often this Lambda is invoked.",
+              "Remarks": "Sum over 5 minutes",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "metricThrottles": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "How often this Lambda is throttled.",
+              "Remarks": "Sum over 5 minutes",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "warnInvokeFunctionPermissions": {
+              "Parameters": {
+                "scope": {
+                  "Summary": "",
+                  "Type": "constructs.Construct"
+                }
+              },
+              "Summary": "",
+              "Remarks": "",
+              "Static": false
+            }
+          },
+          "PublicProperties": {
+            "node": {
+              "Remarks": "",
+              "Summary": "The tree node.",
+              "Required": true,
+              "Type": "constructs.Node"
+            },
+            "env": {
+              "Remarks": "For resources that are created and managed by the CDK\n(generally, those created by creating new class instances like Role, Bucket, etc.),\nthis is always the same as the environment of the stack they belong to;\nhowever, for imported resources\n(those obtained from static methods like fromRoleArn, fromBucketName, etc.),\nthat might be different than the stack they were imported into.",
+              "Summary": "The environment this resource belongs to.",
+              "Required": true,
+              "Type": "aws-cdk-lib.ResourceEnvironment"
+            },
+            "stack": {
+              "Remarks": "",
+              "Summary": "The stack in which this resource is defined.",
+              "Required": true,
+              "Type": "aws-cdk-lib.Stack"
+            },
+            "architecture": {
+              "Remarks": "",
+              "Summary": "The architecture of this Lambda Function.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Architecture"
+            },
+            "connections": {
+              "Remarks": "Will fail if not a VPC-enabled Lambda Function",
+              "Summary": "Access the Connections object.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_ec2.Connections"
+            },
+            "functionArn": {
+              "Remarks": "",
+              "Summary": "The ARN fo the function.",
+              "Required": true,
+              "Type": "String"
+            },
+            "functionName": {
+              "Remarks": "",
+              "Summary": "The name of the function.",
+              "Required": true,
+              "Type": "String"
+            },
+            "grantPrincipal": {
+              "Remarks": "",
+              "Summary": "The principal this Lambda Function is running as.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_iam.IPrincipal"
+            },
+            "isBoundToVpc": {
+              "Remarks": "If this is is `false`, trying to access the `connections` object will fail.",
+              "Summary": "Whether or not this Lambda function was bound to a VPC.",
+              "Required": true,
+              "Type": "Boolean"
+            },
+            "latestVersion": {
+              "Remarks": "Note that this is reference to a non-specific AWS Lambda version, which\nmeans the function this version refers to can return different results in\ndifferent invocations.\n\nTo obtain a reference to an explicit version which references the current\nfunction configuration, use `lambdaFunction.currentVersion` instead.",
+              "Summary": "The `$LATEST` version of this function.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.IVersion"
+            },
+            "permissionsNode": {
+              "Remarks": "",
+              "Summary": "The construct node where permissions are attached.",
+              "Required": true,
+              "Type": "constructs.Node"
+            },
+            "resourceArnsForGrantInvoke": {
+              "Remarks": "",
+              "Summary": "The ARN(s) to put into the resource field of the generated IAM policy for grantInvoke().",
+              "Required": true,
+              "Type": "List",
+              "ItemType": "String"
+            },
+            "role": {
+              "Remarks": "Undefined if the function was imported without a role.",
+              "Summary": "The IAM role associated with this function.",
+              "Required": false,
+              "Type": "aws-cdk-lib.aws_iam.IRole"
+            }
+          }
+        },
+        "FunctionVersionUpgrade": {
+          "Properties": {},
+          "Methods": {
+            "visit": {
+              "Parameters": {
+                "node": {
+                  "Summary": "",
+                  "Type": "constructs.IConstruct"
+                }
+              },
+              "Summary": "All aspects can visit an IConstruct.",
+              "Remarks": "",
+              "Static": false
+            }
+          },
+          "PublicProperties": {}
+        },
+        "Handler": {
+          "Properties": {},
+          "Methods": {},
+          "PublicProperties": {
+            "FROM_IMAGE": {
+              "Remarks": "",
+              "Summary": "A special handler when the function handler is part of a Docker image.",
+              "Required": true,
+              "Type": "String",
+              "Static": true
+            }
+          }
+        },
+        "InlineCode": {
+          "Properties": {},
+          "Methods": {
+            "bind": {
+              "Parameters": {
+                "_scope": {
+                  "Summary": "",
+                  "Type": "constructs.Construct"
+                }
+              },
+              "Summary": "Called when the lambda or layer is initialized to allow this object to bind to the stack, add resources and have fun.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_lambda.CodeConfig"
+            }
+          },
+          "PublicProperties": {
+            "isInline": {
+              "Remarks": "",
+              "Summary": "Determines whether this Code is inline code or not.",
+              "Required": true,
+              "Type": "Boolean"
+            }
+          }
+        },
+        "LambdaInsightsVersion": {
+          "Properties": {},
+          "Methods": {
+            "aws-cdk-lib.aws_lambda.LambdaInsightsVersion.fromInsightVersionArn": {
+              "Parameters": {
+                "arn": {
+                  "Summary": "",
+                  "Type": "String"
+                }
+              },
+              "Summary": "Use the insights extension associated with the provided ARN.",
+              "Remarks": "Make sure the ARN is associated\nwith same region as your function",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.LambdaInsightsVersion"
+            }
+          },
+          "PublicProperties": {
+            "VERSION_1_0_119_0": {
+              "Remarks": "",
+              "Summary": "Version 1.0.119.0.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.LambdaInsightsVersion",
+              "Static": true
+            },
+            "VERSION_1_0_135_0": {
+              "Remarks": "",
+              "Summary": "Version 1.0.135.0.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.LambdaInsightsVersion",
+              "Static": true
+            },
+            "VERSION_1_0_54_0": {
+              "Remarks": "",
+              "Summary": "Version 1.0.54.0.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.LambdaInsightsVersion",
+              "Static": true
+            },
+            "VERSION_1_0_86_0": {
+              "Remarks": "",
+              "Summary": "Version 1.0.86.0.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.LambdaInsightsVersion",
+              "Static": true
+            },
+            "VERSION_1_0_89_0": {
+              "Remarks": "",
+              "Summary": "Version 1.0.89.0.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.LambdaInsightsVersion",
+              "Static": true
+            },
+            "VERSION_1_0_98_0": {
+              "Remarks": "",
+              "Summary": "Version 1.0.98.0.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.LambdaInsightsVersion",
+              "Static": true
+            },
+            "layerVersionArn": {
+              "Remarks": "",
+              "Summary": "The arn of the Lambda Insights extension.",
+              "Required": true,
+              "Type": "String"
+            }
+          }
+        },
+        "QualifiedFunctionBase": {
+          "Properties": {},
+          "Methods": {
+            "configureAsyncInvoke": {
+              "Parameters": {
+                "options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.EventInvokeConfigOptions"
+                }
+              },
+              "Summary": "Configures options for asynchronous invocation.",
+              "Remarks": "",
+              "Static": false
+            },
+            "considerWarningOnInvokeFunctionPermissions": {
+              "Parameters": {
+                "_scope": {
+                  "Summary": "",
+                  "Type": "constructs.Construct"
+                },
+                "_action": {
+                  "Summary": "",
+                  "Type": "String"
+                }
+              },
+              "Summary": "A warning will be added to functions under the following conditions: - permissions that include `lambda:InvokeFunction` are added to the unqualified function.",
+              "Remarks": "- function.currentVersion is invoked before or after the permission is created.\n\nThis applies only to permissions on Lambda functions, not versions or aliases.\nThis function is overridden as a noOp for QualifiedFunctionBase.",
+              "Static": false
+            }
+          },
+          "PublicProperties": {
+            "node": {
+              "Remarks": "",
+              "Summary": "The tree node.",
+              "Required": true,
+              "Type": "constructs.Node"
+            },
+            "env": {
+              "Remarks": "For resources that are created and managed by the CDK\n(generally, those created by creating new class instances like Role, Bucket, etc.),\nthis is always the same as the environment of the stack they belong to;\nhowever, for imported resources\n(those obtained from static methods like fromRoleArn, fromBucketName, etc.),\nthat might be different than the stack they were imported into.",
+              "Summary": "The environment this resource belongs to.",
+              "Required": true,
+              "Type": "aws-cdk-lib.ResourceEnvironment"
+            },
+            "stack": {
+              "Remarks": "",
+              "Summary": "The stack in which this resource is defined.",
+              "Required": true,
+              "Type": "aws-cdk-lib.Stack"
+            },
+            "architecture": {
+              "Remarks": "",
+              "Summary": "The architecture of this Lambda Function.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Architecture"
+            },
+            "connections": {
+              "Remarks": "Will fail if not a VPC-enabled Lambda Function",
+              "Summary": "Access the Connections object.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_ec2.Connections"
+            },
+            "functionArn": {
+              "Remarks": "",
+              "Summary": "The ARN fo the function.",
+              "Required": true,
+              "Type": "String"
+            },
+            "functionName": {
+              "Remarks": "",
+              "Summary": "The name of the function.",
+              "Required": true,
+              "Type": "String"
+            },
+            "grantPrincipal": {
+              "Remarks": "",
+              "Summary": "The principal this Lambda Function is running as.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_iam.IPrincipal"
+            },
+            "isBoundToVpc": {
+              "Remarks": "If this is is `false`, trying to access the `connections` object will fail.",
+              "Summary": "Whether or not this Lambda function was bound to a VPC.",
+              "Required": true,
+              "Type": "Boolean"
+            },
+            "latestVersion": {
+              "Remarks": "Note that this is reference to a non-specific AWS Lambda version, which\nmeans the function this version refers to can return different results in\ndifferent invocations.\n\nTo obtain a reference to an explicit version which references the current\nfunction configuration, use `lambdaFunction.currentVersion` instead.",
+              "Summary": "The `$LATEST` version of this function.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.IVersion"
+            },
+            "permissionsNode": {
+              "Remarks": "",
+              "Summary": "The construct node where permissions are attached.",
+              "Required": true,
+              "Type": "constructs.Node"
+            },
+            "resourceArnsForGrantInvoke": {
+              "Remarks": "",
+              "Summary": "The ARN(s) to put into the resource field of the generated IAM policy for grantInvoke().",
+              "Required": true,
+              "Type": "List",
+              "ItemType": "String"
+            },
+            "role": {
+              "Remarks": "Undefined if the function was imported without a role.",
+              "Summary": "The IAM role associated with this function.",
+              "Required": false,
+              "Type": "aws-cdk-lib.aws_iam.IRole"
+            },
+            "lambda": {
+              "Remarks": "",
+              "Summary": "",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.IFunction"
+            }
+          }
+        },
+        "Runtime": {
+          "Properties": {
+            "bundlingDockerImage": {
+              "Remarks": "",
+              "Summary": "The Docker image name to be used for bundling in this runtime.",
+              "Required": false,
+              "Type": "String"
+            },
+            "supportsCodeGuruProfiling": {
+              "Remarks": "",
+              "Summary": "Whether this runtime is integrated with and supported for profiling using Amazon CodeGuru Profiler.",
+              "Required": false,
+              "Type": "Boolean"
+            },
+            "supportsInlineCode": {
+              "Remarks": "",
+              "Summary": "Whether the ``ZipFile`` (aka inline code) property can be used with this runtime.",
+              "Required": false,
+              "Type": "Boolean"
+            }
+          },
+          "Methods": {
+            "runtimeEquals": {
+              "Parameters": {
+                "other": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.Runtime"
+                }
+              },
+              "Summary": "",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "Boolean"
+            },
+            "toString": {
+              "Parameters": {},
+              "Summary": "",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "String"
+            }
+          },
+          "PublicProperties": {
+            "ALL": {
+              "Remarks": "",
+              "Summary": "A list of all known `Runtime`'s.",
+              "Required": true,
+              "Type": "List",
+              "ItemType": "aws-cdk-lib.aws_lambda.Runtime",
+              "Static": true
+            },
+            "DOTNET_6": {
+              "Remarks": "",
+              "Summary": "The .NET 6 runtime (dotnet6).",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Runtime",
+              "Static": true
+            },
+            "DOTNET_CORE_1": {
+              "Remarks": "",
+              "Summary": "The .NET Core 1.0 runtime (dotnetcore1.0) Legacy runtime no longer supported by AWS Lambda. Migrate to the latest .NET Core runtime.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Runtime",
+              "Static": true
+            },
+            "DOTNET_CORE_2": {
+              "Remarks": "",
+              "Summary": "The .NET Core 2.0 runtime (dotnetcore2.0) Legacy runtime no longer supported by AWS Lambda. Migrate to the latest .NET Core runtime.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Runtime",
+              "Static": true
+            },
+            "DOTNET_CORE_2_1": {
+              "Remarks": "",
+              "Summary": "The .NET Core 2.1 runtime (dotnetcore2.1) Legacy runtime no longer supported by AWS Lambda. Migrate to the latest .NET Core runtime.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Runtime",
+              "Static": true
+            },
+            "DOTNET_CORE_3_1": {
+              "Remarks": "",
+              "Summary": "The .NET Core 3.1 runtime (dotnetcore3.1).",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Runtime",
+              "Static": true
+            },
+            "FROM_IMAGE": {
+              "Remarks": "",
+              "Summary": "A special runtime entry to be used when function is using a docker image.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Runtime",
+              "Static": true
+            },
+            "GO_1_X": {
+              "Remarks": "",
+              "Summary": "The Go 1.x runtime (go1.x).",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Runtime",
+              "Static": true
+            },
+            "JAVA_11": {
+              "Remarks": "",
+              "Summary": "The Java 11 runtime (java11).",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Runtime",
+              "Static": true
+            },
+            "JAVA_8": {
+              "Remarks": "",
+              "Summary": "The Java 8 runtime (java8).",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Runtime",
+              "Static": true
+            },
+            "JAVA_8_CORRETTO": {
+              "Remarks": "",
+              "Summary": "The Java 8 Corretto runtime (java8.al2).",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Runtime",
+              "Static": true
+            },
+            "NODEJS": {
+              "Remarks": "",
+              "Summary": "The NodeJS runtime (nodejs).",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Runtime",
+              "Static": true
+            },
+            "NODEJS_10_X": {
+              "Remarks": "",
+              "Summary": "The NodeJS 10.x runtime (nodejs10.x).",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Runtime",
+              "Static": true
+            },
+            "NODEJS_12_X": {
+              "Remarks": "",
+              "Summary": "The NodeJS 12.x runtime (nodejs12.x).",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Runtime",
+              "Static": true
+            },
+            "NODEJS_14_X": {
+              "Remarks": "",
+              "Summary": "The NodeJS 14.x runtime (nodejs14.x).",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Runtime",
+              "Static": true
+            },
+            "NODEJS_16_X": {
+              "Remarks": "",
+              "Summary": "The NodeJS 16.x runtime (nodejs16.x).",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Runtime",
+              "Static": true
+            },
+            "NODEJS_4_3": {
+              "Remarks": "",
+              "Summary": "The NodeJS 4.3 runtime (nodejs4.3).",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Runtime",
+              "Static": true
+            },
+            "NODEJS_6_10": {
+              "Remarks": "",
+              "Summary": "The NodeJS 6.10 runtime (nodejs6.10).",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Runtime",
+              "Static": true
+            },
+            "NODEJS_8_10": {
+              "Remarks": "",
+              "Summary": "The NodeJS 8.10 runtime (nodejs8.10).",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Runtime",
+              "Static": true
+            },
+            "PROVIDED": {
+              "Remarks": "",
+              "Summary": "The custom provided runtime (provided).",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Runtime",
+              "Static": true
+            },
+            "PROVIDED_AL2": {
+              "Remarks": "",
+              "Summary": "The custom provided runtime (provided).",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Runtime",
+              "Static": true
+            },
+            "PYTHON_2_7": {
+              "Remarks": "",
+              "Summary": "The Python 2.7 runtime (python2.7).",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Runtime",
+              "Static": true
+            },
+            "PYTHON_3_6": {
+              "Remarks": "The Python 3.6 runtime is deprecated as of July 2022.",
+              "Summary": "The Python 3.6 runtime (python3.6) (not recommended).",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Runtime",
+              "Static": true
+            },
+            "PYTHON_3_7": {
+              "Remarks": "",
+              "Summary": "The Python 3.7 runtime (python3.7).",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Runtime",
+              "Static": true
+            },
+            "PYTHON_3_8": {
+              "Remarks": "",
+              "Summary": "The Python 3.8 runtime (python3.8).",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Runtime",
+              "Static": true
+            },
+            "PYTHON_3_9": {
+              "Remarks": "",
+              "Summary": "The Python 3.9 runtime (python3.9).",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Runtime",
+              "Static": true
+            },
+            "RUBY_2_5": {
+              "Remarks": "",
+              "Summary": "The Ruby 2.5 runtime (ruby2.5) Legacy runtime no longer supported by AWS Lambda. Migrate to the latest Ruby runtime.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Runtime",
+              "Static": true
+            },
+            "RUBY_2_7": {
+              "Remarks": "",
+              "Summary": "The Ruby 2.7 runtime (ruby2.7).",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Runtime",
+              "Static": true
+            },
+            "bundlingImage": {
+              "Remarks": "",
+              "Summary": "The bundling Docker image for this runtime.",
+              "Required": true,
+              "Type": "aws-cdk-lib.DockerImage"
+            },
+            "name": {
+              "Remarks": "",
+              "Summary": "The name of this runtime, as expected by the Lambda resource.",
+              "Required": true,
+              "Type": "String"
+            },
+            "supportsCodeGuruProfiling": {
+              "Remarks": "",
+              "Summary": "Whether this runtime is integrated with and supported for profiling using Amazon CodeGuru Profiler.",
+              "Required": true,
+              "Type": "Boolean"
+            },
+            "supportsInlineCode": {
+              "Remarks": "",
+              "Summary": "Whether the ``ZipFile`` (aka inline code) property can be used with this runtime.",
+              "Required": true,
+              "Type": "Boolean"
+            },
+            "family": {
+              "Remarks": "",
+              "Summary": "The runtime family.",
+              "Required": false,
+              "Type": "aws-cdk-lib.aws_lambda.RuntimeFamily"
+            }
+          }
+        },
+        "S3Code": {
+          "Properties": {},
+          "Methods": {
+            "bind": {
+              "Parameters": {
+                "_scope": {
+                  "Summary": "",
+                  "Type": "constructs.Construct"
+                }
+              },
+              "Summary": "Called when the lambda or layer is initialized to allow this object to bind to the stack, add resources and have fun.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_lambda.CodeConfig"
+            }
+          },
+          "PublicProperties": {
+            "isInline": {
+              "Remarks": "",
+              "Summary": "Determines whether this Code is inline code or not.",
+              "Required": true,
+              "Type": "Boolean"
+            }
+          }
+        },
+        "SourceAccessConfigurationType": {
+          "Properties": {},
+          "Methods": {
+            "aws-cdk-lib.aws_lambda.SourceAccessConfigurationType.of": {
+              "Parameters": {
+                "name": {
+                  "Summary": "",
+                  "Type": "String"
+                }
+              },
+              "Summary": "A custom source access configuration property.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.SourceAccessConfigurationType"
+            }
+          },
+          "PublicProperties": {
+            "BASIC_AUTH": {
+              "Remarks": "",
+              "Summary": "(MQ) The Secrets Manager secret that stores your broker credentials.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.SourceAccessConfigurationType",
+              "Static": true
+            },
+            "CLIENT_CERTIFICATE_TLS_AUTH": {
+              "Remarks": "",
+              "Summary": "The Secrets Manager ARN of your secret key containing the certificate chain (X.509 PEM), private key (PKCS#8 PEM), and private key password (optional) used for mutual TLS authentication of your MSK/Apache Kafka brokers.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.SourceAccessConfigurationType",
+              "Static": true
+            },
+            "SASL_SCRAM_256_AUTH": {
+              "Remarks": "",
+              "Summary": "The Secrets Manager ARN of your secret key used for SASL SCRAM-256 authentication of your Self-Managed Apache Kafka brokers.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.SourceAccessConfigurationType",
+              "Static": true
+            },
+            "SASL_SCRAM_512_AUTH": {
+              "Remarks": "",
+              "Summary": "The Secrets Manager ARN of your secret key used for SASL SCRAM-512 authentication of your Self-Managed Apache Kafka brokers.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.SourceAccessConfigurationType",
+              "Static": true
+            },
+            "SERVER_ROOT_CA_CERTIFICATE": {
+              "Remarks": "",
+              "Summary": "The Secrets Manager ARN of your secret key containing the root CA certificate (X.509 PEM) used for TLS encryption of your Apache Kafka brokers.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.SourceAccessConfigurationType",
+              "Static": true
+            },
+            "VPC_SECURITY_GROUP": {
+              "Remarks": "",
+              "Summary": "The VPC security group used to manage access to your Self-Managed Apache Kafka brokers.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.SourceAccessConfigurationType",
+              "Static": true
+            },
+            "VPC_SUBNET": {
+              "Remarks": "Lambda connects to these subnets to fetch data from your Self-Managed Apache Kafka cluster.",
+              "Summary": "The subnets associated with your VPC.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.SourceAccessConfigurationType",
+              "Static": true
+            },
+            "type": {
+              "Remarks": "",
+              "Summary": "The key to use in `SourceAccessConfigurationProperty.Type` property in CloudFormation.",
+              "Required": true,
+              "Type": "String"
+            }
+          }
+        }
+      },
+      "InterfaceTypes": {
+        "IAlias": {
+          "Properties": {},
+          "Methods": {},
+          "PublicProperties": {
+            "node": {
+              "Remarks": "",
+              "Summary": "The tree node.",
+              "Required": true,
+              "Type": "constructs.Node"
+            },
+            "env": {
+              "Remarks": "For resources that are created and managed by the CDK\n(generally, those created by creating new class instances like Role, Bucket, etc.),\nthis is always the same as the environment of the stack they belong to;\nhowever, for imported resources\n(those obtained from static methods like fromRoleArn, fromBucketName, etc.),\nthat might be different than the stack they were imported into.",
+              "Summary": "The environment this resource belongs to.",
+              "Required": true,
+              "Type": "aws-cdk-lib.ResourceEnvironment"
+            },
+            "stack": {
+              "Remarks": "",
+              "Summary": "The stack in which this resource is defined.",
+              "Required": true,
+              "Type": "aws-cdk-lib.Stack"
+            },
+            "connections": {
+              "Remarks": "",
+              "Summary": "The network connections associated with this resource.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_ec2.Connections"
+            },
+            "grantPrincipal": {
+              "Remarks": "",
+              "Summary": "The principal to grant permissions to.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_iam.IPrincipal"
+            },
+            "architecture": {
+              "Remarks": "",
+              "Summary": "The system architectures compatible with this lambda function.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Architecture"
+            },
+            "functionArn": {
+              "Remarks": "",
+              "Summary": "The ARN of the function.",
+              "Required": true,
+              "Type": "String"
+            },
+            "functionName": {
+              "Remarks": "",
+              "Summary": "The name of the function.",
+              "Required": true,
+              "Type": "String"
+            },
+            "isBoundToVpc": {
+              "Remarks": "If this is is `false`, trying to access the `connections` object will fail.",
+              "Summary": "Whether or not this Lambda function was bound to a VPC.",
+              "Required": true,
+              "Type": "Boolean"
+            },
+            "latestVersion": {
+              "Remarks": "Note that this is reference to a non-specific AWS Lambda version, which\nmeans the function this version refers to can return different results in\ndifferent invocations.\n\nTo obtain a reference to an explicit version which references the current\nfunction configuration, use `lambdaFunction.currentVersion` instead.",
+              "Summary": "The `$LATEST` version of this function.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.IVersion"
+            },
+            "permissionsNode": {
+              "Remarks": "",
+              "Summary": "The construct node where permissions are attached.",
+              "Required": true,
+              "Type": "constructs.Node"
+            },
+            "resourceArnsForGrantInvoke": {
+              "Remarks": "This property is for cdk modules to consume only. You should not need to use this property.\nInstead, use grantInvoke() directly.",
+              "Summary": "The ARN(s) to put into the resource field of the generated IAM policy for grantInvoke().",
+              "Required": true,
+              "Type": "List",
+              "ItemType": "String"
+            },
+            "role": {
+              "Remarks": "",
+              "Summary": "The IAM role associated with this function.",
+              "Required": false,
+              "Type": "aws-cdk-lib.aws_iam.IRole"
+            },
+            "aliasName": {
+              "Remarks": "",
+              "Summary": "Name of this alias.",
+              "Required": true,
+              "Type": "String"
+            },
+            "version": {
+              "Remarks": "",
+              "Summary": "The underlying Lambda function version.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.IVersion"
+            }
+          }
+        },
+        "ICodeSigningConfig": {
+          "Properties": {},
+          "Methods": {},
+          "PublicProperties": {
+            "node": {
+              "Remarks": "",
+              "Summary": "The tree node.",
+              "Required": true,
+              "Type": "constructs.Node"
+            },
+            "env": {
+              "Remarks": "For resources that are created and managed by the CDK\n(generally, those created by creating new class instances like Role, Bucket, etc.),\nthis is always the same as the environment of the stack they belong to;\nhowever, for imported resources\n(those obtained from static methods like fromRoleArn, fromBucketName, etc.),\nthat might be different than the stack they were imported into.",
+              "Summary": "The environment this resource belongs to.",
+              "Required": true,
+              "Type": "aws-cdk-lib.ResourceEnvironment"
+            },
+            "stack": {
+              "Remarks": "",
+              "Summary": "The stack in which this resource is defined.",
+              "Required": true,
+              "Type": "aws-cdk-lib.Stack"
+            },
+            "codeSigningConfigArn": {
+              "Remarks": "",
+              "Summary": "The ARN of Code Signing Config.",
+              "Required": true,
+              "Type": "String"
+            },
+            "codeSigningConfigId": {
+              "Remarks": "",
+              "Summary": "The id of Code Signing Config.",
+              "Required": true,
+              "Type": "String"
+            }
+          }
+        },
+        "IDestination": {
+          "Properties": {},
+          "Methods": {
+            "bind": {
+              "Parameters": {
+                "scope": {
+                  "Summary": "",
+                  "Type": "constructs.Construct"
+                },
+                "fn": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.IFunction"
+                },
+                "options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.DestinationOptions"
+                }
+              },
+              "Summary": "Binds this destination to the Lambda function.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_lambda.DestinationConfig"
+            }
+          },
+          "PublicProperties": {}
+        },
+        "IEventSource": {
+          "Properties": {},
+          "Methods": {
+            "bind": {
+              "Parameters": {
+                "target": {
+                  "Summary": "That lambda function to bind to.",
+                  "Type": "aws-cdk-lib.aws_lambda.IFunction"
+                }
+              },
+              "Summary": "Called by `lambda.addEventSource` to allow the event source to bind to this function.",
+              "Remarks": "",
+              "Static": false
+            }
+          },
+          "PublicProperties": {}
+        },
+        "IEventSourceDlq": {
+          "Properties": {},
+          "Methods": {
+            "bind": {
+              "Parameters": {
+                "target": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.IEventSourceMapping"
+                },
+                "targetHandler": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.IFunction"
+                }
+              },
+              "Summary": "Returns the DLQ destination config of the DLQ.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_lambda.DlqDestinationConfig"
+            }
+          },
+          "PublicProperties": {}
+        },
+        "IEventSourceMapping": {
+          "Properties": {},
+          "Methods": {},
+          "PublicProperties": {
+            "node": {
+              "Remarks": "",
+              "Summary": "The tree node.",
+              "Required": true,
+              "Type": "constructs.Node"
+            },
+            "env": {
+              "Remarks": "For resources that are created and managed by the CDK\n(generally, those created by creating new class instances like Role, Bucket, etc.),\nthis is always the same as the environment of the stack they belong to;\nhowever, for imported resources\n(those obtained from static methods like fromRoleArn, fromBucketName, etc.),\nthat might be different than the stack they were imported into.",
+              "Summary": "The environment this resource belongs to.",
+              "Required": true,
+              "Type": "aws-cdk-lib.ResourceEnvironment"
+            },
+            "stack": {
+              "Remarks": "",
+              "Summary": "The stack in which this resource is defined.",
+              "Required": true,
+              "Type": "aws-cdk-lib.Stack"
+            },
+            "eventSourceMappingId": {
+              "Remarks": "",
+              "Summary": "The identifier for this EventSourceMapping.",
+              "Required": true,
+              "Type": "String"
+            }
+          }
+        },
+        "IFunction": {
+          "Properties": {},
+          "Methods": {
+            "addEventSource": {
+              "Parameters": {
+                "source": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.IEventSource"
+                }
+              },
+              "Summary": "Adds an event source to this function.",
+              "Remarks": "Event sources are implemented in the @aws-cdk/aws-lambda-event-sources module.\n\nThe following example adds an SQS Queue as an event source:\n```\nimport { SqsEventSource } from '@aws-cdk/aws-lambda-event-sources';\nmyFunction.addEventSource(new SqsEventSource(myQueue));\n```",
+              "Static": false
+            },
+            "addEventSourceMapping": {
+              "Parameters": {
+                "id": {
+                  "Summary": "construct ID.",
+                  "Type": "String"
+                },
+                "options": {
+                  "Summary": "mapping options.",
+                  "Type": "aws-cdk-lib.aws_lambda.EventSourceMappingOptions"
+                }
+              },
+              "Summary": "Adds an event source that maps to this AWS Lambda function.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_lambda.EventSourceMapping"
+            },
+            "addFunctionUrl": {
+              "Parameters": {
+                "options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.FunctionUrlOptions"
+                }
+              },
+              "Summary": "Adds a url to this lambda function.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_lambda.FunctionUrl"
+            },
+            "addPermission": {
+              "Parameters": {
+                "id": {
+                  "Summary": "The id for the permission construct.",
+                  "Type": "String"
+                },
+                "permission": {
+                  "Summary": "The permission to grant to this Lambda function.",
+                  "Type": "aws-cdk-lib.aws_lambda.Permission"
+                }
+              },
+              "Summary": "Adds a permission to the Lambda resource policy.",
+              "Remarks": "",
+              "Static": false
+            },
+            "addToRolePolicy": {
+              "Parameters": {
+                "statement": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.PolicyStatement"
+                }
+              },
+              "Summary": "Adds a statement to the IAM role assumed by the instance.",
+              "Remarks": "",
+              "Static": false
+            },
+            "configureAsyncInvoke": {
+              "Parameters": {
+                "options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.EventInvokeConfigOptions"
+                }
+              },
+              "Summary": "Configures options for asynchronous invocation.",
+              "Remarks": "",
+              "Static": false
+            },
+            "grantInvoke": {
+              "Parameters": {
+                "identity": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.IGrantable"
+                }
+              },
+              "Summary": "Grant the given identity permissions to invoke this Lambda.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            },
+            "grantInvokeUrl": {
+              "Parameters": {
+                "identity": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.IGrantable"
+                }
+              },
+              "Summary": "Grant the given identity permissions to invoke this Lambda Function URL.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            },
+            "metric": {
+              "Parameters": {
+                "metricName": {
+                  "Summary": "",
+                  "Type": "String"
+                },
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "Return the given named metric for this Lambda Return the given named metric for this Function.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "metricDuration": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "Metric for the Duration of this Lambda How long execution of this Lambda takes.",
+              "Remarks": "Average over 5 minutes",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "metricErrors": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "How many invocations of this Lambda fail.",
+              "Remarks": "Sum over 5 minutes",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "metricInvocations": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "Metric for the number of invocations of this Lambda How often this Lambda is invoked.",
+              "Remarks": "Sum over 5 minutes",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "metricThrottles": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "Metric for the number of throttled invocations of this Lambda How often this Lambda is throttled.",
+              "Remarks": "Sum over 5 minutes",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            }
+          },
+          "PublicProperties": {
+            "node": {
+              "Remarks": "",
+              "Summary": "The tree node.",
+              "Required": true,
+              "Type": "constructs.Node"
+            },
+            "env": {
+              "Remarks": "For resources that are created and managed by the CDK\n(generally, those created by creating new class instances like Role, Bucket, etc.),\nthis is always the same as the environment of the stack they belong to;\nhowever, for imported resources\n(those obtained from static methods like fromRoleArn, fromBucketName, etc.),\nthat might be different than the stack they were imported into.",
+              "Summary": "The environment this resource belongs to.",
+              "Required": true,
+              "Type": "aws-cdk-lib.ResourceEnvironment"
+            },
+            "stack": {
+              "Remarks": "",
+              "Summary": "The stack in which this resource is defined.",
+              "Required": true,
+              "Type": "aws-cdk-lib.Stack"
+            },
+            "connections": {
+              "Remarks": "",
+              "Summary": "The network connections associated with this resource.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_ec2.Connections"
+            },
+            "grantPrincipal": {
+              "Remarks": "",
+              "Summary": "The principal to grant permissions to.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_iam.IPrincipal"
+            },
+            "architecture": {
+              "Remarks": "",
+              "Summary": "The system architectures compatible with this lambda function.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Architecture"
+            },
+            "functionArn": {
+              "Remarks": "",
+              "Summary": "The ARN of the function.",
+              "Required": true,
+              "Type": "String"
+            },
+            "functionName": {
+              "Remarks": "",
+              "Summary": "The name of the function.",
+              "Required": true,
+              "Type": "String"
+            },
+            "isBoundToVpc": {
+              "Remarks": "If this is is `false`, trying to access the `connections` object will fail.",
+              "Summary": "Whether or not this Lambda function was bound to a VPC.",
+              "Required": true,
+              "Type": "Boolean"
+            },
+            "latestVersion": {
+              "Remarks": "Note that this is reference to a non-specific AWS Lambda version, which\nmeans the function this version refers to can return different results in\ndifferent invocations.\n\nTo obtain a reference to an explicit version which references the current\nfunction configuration, use `lambdaFunction.currentVersion` instead.",
+              "Summary": "The `$LATEST` version of this function.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.IVersion"
+            },
+            "permissionsNode": {
+              "Remarks": "",
+              "Summary": "The construct node where permissions are attached.",
+              "Required": true,
+              "Type": "constructs.Node"
+            },
+            "resourceArnsForGrantInvoke": {
+              "Remarks": "This property is for cdk modules to consume only. You should not need to use this property.\nInstead, use grantInvoke() directly.",
+              "Summary": "The ARN(s) to put into the resource field of the generated IAM policy for grantInvoke().",
+              "Required": true,
+              "Type": "List",
+              "ItemType": "String"
+            },
+            "role": {
+              "Remarks": "",
+              "Summary": "The IAM role associated with this function.",
+              "Required": false,
+              "Type": "aws-cdk-lib.aws_iam.IRole"
+            }
+          }
+        },
+        "IFunctionUrl": {
+          "Properties": {},
+          "Methods": {
+            "grantInvokeUrl": {
+              "Parameters": {
+                "identity": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.IGrantable"
+                }
+              },
+              "Summary": "Grant the given identity permissions to invoke this Lambda Function URL.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            }
+          },
+          "PublicProperties": {
+            "node": {
+              "Remarks": "",
+              "Summary": "The tree node.",
+              "Required": true,
+              "Type": "constructs.Node"
+            },
+            "env": {
+              "Remarks": "For resources that are created and managed by the CDK\n(generally, those created by creating new class instances like Role, Bucket, etc.),\nthis is always the same as the environment of the stack they belong to;\nhowever, for imported resources\n(those obtained from static methods like fromRoleArn, fromBucketName, etc.),\nthat might be different than the stack they were imported into.",
+              "Summary": "The environment this resource belongs to.",
+              "Required": true,
+              "Type": "aws-cdk-lib.ResourceEnvironment"
+            },
+            "stack": {
+              "Remarks": "",
+              "Summary": "The stack in which this resource is defined.",
+              "Required": true,
+              "Type": "aws-cdk-lib.Stack"
+            },
+            "functionArn": {
+              "Remarks": "",
+              "Summary": "The ARN of the function this URL refers to.",
+              "Required": true,
+              "Type": "String"
+            },
+            "url": {
+              "Remarks": "",
+              "Summary": "The url of the Lambda function.",
+              "Required": true,
+              "Type": "String"
+            }
+          }
+        },
+        "ILayerVersion": {
+          "Properties": {},
+          "Methods": {
+            "addPermission": {
+              "Parameters": {
+                "id": {
+                  "Summary": "the ID of the grant in the construct tree.",
+                  "Type": "String"
+                },
+                "permission": {
+                  "Summary": "the identification of the grantee.",
+                  "Type": "aws-cdk-lib.aws_lambda.LayerVersionPermission"
+                }
+              },
+              "Summary": "Add permission for this layer version to specific entities.",
+              "Remarks": "Usage within\nthe same account where the layer is defined is always allowed and does not\nrequire calling this method. Note that the principal that creates the\nLambda function using the layer (for example, a CloudFormation changeset\nexecution role) also needs to have the ``lambda:GetLayerVersion``\npermission on the layer version.",
+              "Static": false
+            }
+          },
+          "PublicProperties": {
+            "node": {
+              "Remarks": "",
+              "Summary": "The tree node.",
+              "Required": true,
+              "Type": "constructs.Node"
+            },
+            "env": {
+              "Remarks": "For resources that are created and managed by the CDK\n(generally, those created by creating new class instances like Role, Bucket, etc.),\nthis is always the same as the environment of the stack they belong to;\nhowever, for imported resources\n(those obtained from static methods like fromRoleArn, fromBucketName, etc.),\nthat might be different than the stack they were imported into.",
+              "Summary": "The environment this resource belongs to.",
+              "Required": true,
+              "Type": "aws-cdk-lib.ResourceEnvironment"
+            },
+            "stack": {
+              "Remarks": "",
+              "Summary": "The stack in which this resource is defined.",
+              "Required": true,
+              "Type": "aws-cdk-lib.Stack"
+            },
+            "layerVersionArn": {
+              "Remarks": "",
+              "Summary": "The ARN of the Lambda Layer version that this Layer defines.",
+              "Required": true,
+              "Type": "String"
+            },
+            "compatibleRuntimes": {
+              "Remarks": "",
+              "Summary": "The runtimes compatible with this Layer.",
+              "Required": false,
+              "Type": "List",
+              "ItemType": "aws-cdk-lib.aws_lambda.Runtime"
+            }
+          }
+        },
+        "IScalableFunctionAttribute": {
+          "Properties": {},
+          "Methods": {
+            "scaleOnSchedule": {
+              "Parameters": {
+                "id": {
+                  "Summary": "",
+                  "Type": "String"
+                },
+                "actions": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_applicationautoscaling.ScalingSchedule"
+                }
+              },
+              "Summary": "Scale out or in based on schedule.",
+              "Remarks": "",
+              "Static": false
+            },
+            "scaleOnUtilization": {
+              "Parameters": {
+                "options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.UtilizationScalingOptions"
+                }
+              },
+              "Summary": "Scale out or in to keep utilization at a given level.",
+              "Remarks": "The utilization is tracked by the\nLambdaProvisionedConcurrencyUtilization metric, emitted by lambda. See:\nhttps://docs.aws.amazon.com/lambda/latest/dg/monitoring-metrics.html#monitoring-metrics-concurrency",
+              "Static": false
+            }
+          },
+          "PublicProperties": {
+            "node": {
+              "Remarks": "",
+              "Summary": "The tree node.",
+              "Required": true,
+              "Type": "constructs.Node"
+            }
+          }
+        },
+        "IVersion": {
+          "Properties": {},
+          "Methods": {
+            "addAlias": {
+              "Parameters": {
+                "aliasName": {
+                  "Summary": "The name of the alias.",
+                  "Type": "String"
+                },
+                "options": {
+                  "Summary": "Alias options.",
+                  "Type": "aws-cdk-lib.aws_lambda.AliasOptions"
+                }
+              },
+              "Summary": "Defines an alias for this version.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_lambda.Alias"
+            }
+          },
+          "PublicProperties": {
+            "node": {
+              "Remarks": "",
+              "Summary": "The tree node.",
+              "Required": true,
+              "Type": "constructs.Node"
+            },
+            "env": {
+              "Remarks": "For resources that are created and managed by the CDK\n(generally, those created by creating new class instances like Role, Bucket, etc.),\nthis is always the same as the environment of the stack they belong to;\nhowever, for imported resources\n(those obtained from static methods like fromRoleArn, fromBucketName, etc.),\nthat might be different than the stack they were imported into.",
+              "Summary": "The environment this resource belongs to.",
+              "Required": true,
+              "Type": "aws-cdk-lib.ResourceEnvironment"
+            },
+            "stack": {
+              "Remarks": "",
+              "Summary": "The stack in which this resource is defined.",
+              "Required": true,
+              "Type": "aws-cdk-lib.Stack"
+            },
+            "connections": {
+              "Remarks": "",
+              "Summary": "The network connections associated with this resource.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_ec2.Connections"
+            },
+            "grantPrincipal": {
+              "Remarks": "",
+              "Summary": "The principal to grant permissions to.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_iam.IPrincipal"
+            },
+            "architecture": {
+              "Remarks": "",
+              "Summary": "The system architectures compatible with this lambda function.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Architecture"
+            },
+            "functionArn": {
+              "Remarks": "",
+              "Summary": "The ARN of the function.",
+              "Required": true,
+              "Type": "String"
+            },
+            "functionName": {
+              "Remarks": "",
+              "Summary": "The name of the function.",
+              "Required": true,
+              "Type": "String"
+            },
+            "isBoundToVpc": {
+              "Remarks": "If this is is `false`, trying to access the `connections` object will fail.",
+              "Summary": "Whether or not this Lambda function was bound to a VPC.",
+              "Required": true,
+              "Type": "Boolean"
+            },
+            "latestVersion": {
+              "Remarks": "Note that this is reference to a non-specific AWS Lambda version, which\nmeans the function this version refers to can return different results in\ndifferent invocations.\n\nTo obtain a reference to an explicit version which references the current\nfunction configuration, use `lambdaFunction.currentVersion` instead.",
+              "Summary": "The `$LATEST` version of this function.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.IVersion"
+            },
+            "permissionsNode": {
+              "Remarks": "",
+              "Summary": "The construct node where permissions are attached.",
+              "Required": true,
+              "Type": "constructs.Node"
+            },
+            "resourceArnsForGrantInvoke": {
+              "Remarks": "This property is for cdk modules to consume only. You should not need to use this property.\nInstead, use grantInvoke() directly.",
+              "Summary": "The ARN(s) to put into the resource field of the generated IAM policy for grantInvoke().",
+              "Required": true,
+              "Type": "List",
+              "ItemType": "String"
+            },
+            "role": {
+              "Remarks": "",
+              "Summary": "The IAM role associated with this function.",
+              "Required": false,
+              "Type": "aws-cdk-lib.aws_iam.IRole"
+            },
+            "edgeArn": {
+              "Remarks": "",
+              "Summary": "The ARN of the version for Lambda@Edge.",
+              "Required": true,
+              "Type": "String"
+            },
+            "lambda": {
+              "Remarks": "",
+              "Summary": "The underlying AWS Lambda function.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.IFunction"
+            },
+            "version": {
+              "Remarks": "",
+              "Summary": "The most recently deployed version of this function.",
+              "Required": true,
+              "Type": "String"
+            }
+          }
+        }
       }
     }
   }

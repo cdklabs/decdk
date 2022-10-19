@@ -9,6 +9,7 @@ interface PropertySpec {
   Required: boolean;
   Type: string;
   ItemType?: string;
+  Static?: boolean;
 }
 
 interface ParameterSpec {
@@ -32,6 +33,8 @@ interface ResourceTypeSpec {
 
 interface ModuleTypeSpec {
   readonly ResourceTypes: Record<string, ResourceTypeSpec>;
+  readonly PropertyTypes: Record<string, ResourceTypeSpec>;
+  readonly InterfaceTypes: Record<string, ResourceTypeSpec>;
 }
 
 interface RootSpec {
@@ -73,19 +76,45 @@ function getConstructs(typeSystem: reflect.TypeSystem, namespace: string) {
   );
 }
 
+function getClasses(typeSystem: reflect.TypeSystem, namespace: string) {
+  const constructType = typeSystem.findClass('constructs.Construct');
+  const cfnResourceType = typeSystem.findClass('aws-cdk-lib.CfnResource');
+
+  return typeSystem.classes.filter(
+    (c) =>
+      (!c.extends(constructType) || c.abstract) &&
+      !c.extends(cfnResourceType) &&
+      c.spec.namespace === namespace
+  );
+}
+
+function getInterfaces(typeSystem: reflect.TypeSystem, namespace: string) {
+  return typeSystem.interfaces.filter(
+    (c) => c.spec.namespace === namespace && !c.spec.datatype
+  );
+}
+
 function moduleTypeSpec(
   typeSystem: reflect.TypeSystem,
   moduleName: string
 ): ModuleTypeSpec {
   const constructs = getConstructs(typeSystem, moduleName);
+  const classes = getClasses(typeSystem, moduleName);
+  const interfaces = getInterfaces(typeSystem, moduleName);
   return {
     ResourceTypes: Object.fromEntries(
       constructs.map((c) => [c.name, resourceTypeSpec(typeSystem, c)])
     ),
+    PropertyTypes: Object.fromEntries(
+      classes.map((c) => [c.name, resourceTypeSpec(typeSystem, c)])
+    ),
+    InterfaceTypes: Object.fromEntries(
+      interfaces.map((c) => [c.name, resourceTypeSpec(typeSystem, c)])
+    ),
   };
 }
 
-function getPublicProperties(c: reflect.ClassType) {
+function getPublicProperties(c: reflect.ReferenceType) {
   return Object.fromEntries(
     c.allProperties.filter((p) => !p.protected).map(propertySpec)
   );
@@ -93,7 +122,7 @@ function getPublicProperties(c: reflect.ClassType) {
 
 function resourceTypeSpec(
   typeSystem: reflect.TypeSystem,
-  c: reflect.ClassType
+  c: reflect.ReferenceType
 ): ResourceTypeSpec {
   return {
     Properties: getProperties(typeSystem, c),
@@ -104,7 +133,7 @@ function resourceTypeSpec(
 
 function getProperties(
   typeSystem: reflect.TypeSystem,
-  c: reflect.ClassType
+  c: reflect.ReferenceType
 ): Record<string, PropertySpec> {
   if (!hasPropsParam(c, 2)) {
     return {};
@@ -120,7 +149,7 @@ function getProperties(
   return {};
 }
 
-function getMethods(c: reflect.ClassType): Record<string, MethodSpec> {
+function getMethods(c: reflect.ReferenceType): Record<string, MethodSpec> {
   return Object.fromEntries(
     Object.entries(c.getMethods(false)).map(([name, method]) => [
       method.static ? methodFQN(method) : name,
@@ -158,6 +187,7 @@ function propertySpec(p: reflect.Property): [string, PropertySpec] {
       Required: !p.optional,
       Type: formatSpecsType(p.type),
       ItemType: formatItemType(p.type),
+      Static: p.static || undefined,
     },
   ];
 }
