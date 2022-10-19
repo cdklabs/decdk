@@ -15,6 +15,10 @@
       "type": "build"
     },
     {
+      "name": "@types/semver",
+      "type": "build"
+    },
+    {
       "name": "@types/yaml",
       "type": "build"
     },
@@ -143,6 +147,10 @@
     },
     {
       "name": "jsonschema",
+      "type": "runtime"
+    },
+    {
+      "name": "semver",
       "type": "runtime"
     },
     {
