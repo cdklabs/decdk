@@ -124,10 +124,12 @@ test('can use FnRef on result of Member Method Call', async () => {
       },
       Alias: {
         Type: 'aws-cdk-lib.aws_lambda.Alias',
-        On: 'MyLambda',
-        Call: {
-          addAlias: 'live',
-        },
+        Call: [
+          'MyLambda',
+          {
+            addAlias: 'live',
+          },
+        ],
       },
       Topic: {
         Type: 'aws-cdk-lib.aws_sns.Topic',

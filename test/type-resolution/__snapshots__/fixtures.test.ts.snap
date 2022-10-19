@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`examples/apigw.json 1`] = `
+exports[`Fixtures examples/apigw.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
@@ -131,17 +131,13 @@ TypedTemplate {
     "parameters": Map {},
     "resources": Map {
       "HelloLambda" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {},
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "code": Object {
@@ -173,10 +169,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
       "MyApi" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
@@ -185,7 +178,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "handler": Object {
@@ -200,10 +192,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
       "GetRoot" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
@@ -212,7 +201,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "httpMethod": Object {
@@ -280,7 +268,7 @@ TypedTemplate {
 }
 `;
 
-exports[`examples/application-load-balancer.yaml 1`] = `
+exports[`Fixtures examples/application-load-balancer.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
@@ -304,8 +292,8 @@ TypedTemplate {
         "LB",
       },
       "Target" => Set {
-        "Listener",
         "ASG",
+        "Listener",
       },
       "AllowFromEverywhere" => Set {
         "Listener",
@@ -589,17 +577,13 @@ TypedTemplate {
     "parameters": Map {},
     "resources": Map {
       "VPC" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {},
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {},
         "tags": Array [],
@@ -608,10 +592,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
       "ASG" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
@@ -620,7 +601,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "instanceType": Object {
@@ -662,27 +642,26 @@ TypedTemplate {
       },
       "AModestLoad" => Object {
         "call": Object {
-          "fields": Object {
-            "scaleOnRequestCount": Object {
-              "array": Array [
-                Object {
-                  "type": "string",
-                  "value": "AModestLoad",
-                },
-                Object {
-                  "fields": Object {
-                    "targetRequestsPerMinute": Object {
-                      "type": "number",
-                      "value": 60,
-                    },
+          "arguments": Object {
+            "array": Array [
+              Object {
+                "type": "string",
+                "value": "AModestLoad",
+              },
+              Object {
+                "fields": Object {
+                  "targetRequestsPerMinute": Object {
+                    "type": "number",
+                    "value": 60,
                   },
-                  "type": "object",
                 },
-              ],
-              "type": "array",
-            },
+                "type": "object",
+              },
+            ],
+            "type": "array",
           },
-          "type": "object",
+          "methodName": "scaleOnRequestCount",
+          "target": "ASG",
         },
         "conditionName": undefined,
         "creationPolicy": undefined,
@@ -695,7 +674,6 @@ TypedTemplate {
           "Target",
         },
         "metadata": Object {},
-        "on": "ASG",
         "overrides": Array [],
         "properties": Object {},
         "tags": Array [],
@@ -704,10 +682,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
       "LB" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
@@ -716,7 +691,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "internetFacing": Object {
@@ -736,27 +710,26 @@ TypedTemplate {
       },
       "Listener" => Object {
         "call": Object {
-          "fields": Object {
-            "addListener": Object {
-              "array": Array [
-                Object {
-                  "type": "string",
-                  "value": "Listener",
-                },
-                Object {
-                  "fields": Object {
-                    "port": Object {
-                      "type": "number",
-                      "value": 80,
-                    },
+          "arguments": Object {
+            "array": Array [
+              Object {
+                "type": "string",
+                "value": "Listener",
+              },
+              Object {
+                "fields": Object {
+                  "port": Object {
+                    "type": "number",
+                    "value": 80,
                   },
-                  "type": "object",
                 },
-              ],
-              "type": "array",
-            },
+                "type": "object",
+              },
+            ],
+            "type": "array",
           },
-          "type": "object",
+          "methodName": "addListener",
+          "target": "LB",
         },
         "conditionName": undefined,
         "creationPolicy": undefined,
@@ -766,7 +739,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": "LB",
         "overrides": Array [],
         "properties": Object {},
         "tags": Array [],
@@ -776,48 +748,46 @@ TypedTemplate {
       },
       "Target" => Object {
         "call": Object {
-          "fields": Object {
-            "addTargets": Object {
-              "array": Array [
-                Object {
-                  "type": "string",
-                  "value": "Target",
-                },
-                Object {
-                  "fields": Object {
-                    "port": Object {
-                      "type": "number",
-                      "value": 80,
-                    },
-                    "targets": Object {
-                      "array": Array [
-                        Object {
-                          "fn": "ref",
-                          "logicalId": "ASG",
-                          "type": "intrinsic",
-                        },
-                      ],
-                      "type": "array",
-                    },
+          "arguments": Object {
+            "array": Array [
+              Object {
+                "type": "string",
+                "value": "Target",
+              },
+              Object {
+                "fields": Object {
+                  "port": Object {
+                    "type": "number",
+                    "value": 80,
                   },
-                  "type": "object",
+                  "targets": Object {
+                    "array": Array [
+                      Object {
+                        "fn": "ref",
+                        "logicalId": "ASG",
+                        "type": "intrinsic",
+                      },
+                    ],
+                    "type": "array",
+                  },
                 },
-              ],
-              "type": "array",
-            },
+                "type": "object",
+              },
+            ],
+            "type": "array",
           },
-          "type": "object",
+          "methodName": "addTargets",
+          "target": "Listener",
         },
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {
-          "Listener",
           "ASG",
+          "Listener",
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": "Listener",
         "overrides": Array [],
         "properties": Object {},
         "tags": Array [],
@@ -827,18 +797,17 @@ TypedTemplate {
       },
       "AllowFromEverywhere" => Object {
         "call": Object {
-          "fields": Object {
-            "allowDefaultPortFromAnyIpv4": Object {
-              "array": Array [
-                Object {
-                  "type": "string",
-                  "value": "Open to the world",
-                },
-              ],
-              "type": "array",
-            },
+          "arguments": Object {
+            "array": Array [
+              Object {
+                "type": "string",
+                "value": "Open to the world",
+              },
+            ],
+            "type": "array",
           },
-          "type": "object",
+          "methodName": "allowDefaultPortFromAnyIpv4",
+          "target": "Listener.connections",
         },
         "conditionName": undefined,
         "creationPolicy": undefined,
@@ -848,7 +817,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": "Listener.connections",
         "overrides": Array [],
         "properties": Object {},
         "tags": Array [],
@@ -861,18 +829,20 @@ TypedTemplate {
     "template": Object {
       "Resources": Object {
         "AModestLoad": Object {
-          "Call": Object {
-            "scaleOnRequestCount": Array [
-              "AModestLoad",
-              Object {
-                "targetRequestsPerMinute": 60,
-              },
-            ],
-          },
+          "Call": Array [
+            "ASG",
+            Object {
+              "scaleOnRequestCount": Array [
+                "AModestLoad",
+                Object {
+                  "targetRequestsPerMinute": 60,
+                },
+              ],
+            },
+          ],
           "DependsOn": Array [
             "Target",
           ],
-          "On": "ASG",
           "Type": "aws-cdk-lib.aws_autoscaling.TargetTrackingScalingPolicy",
         },
         "ASG": Object {
@@ -893,12 +863,14 @@ TypedTemplate {
           "Type": "aws-cdk-lib.aws_autoscaling.AutoScalingGroup",
         },
         "AllowFromEverywhere": Object {
-          "Call": Object {
-            "allowDefaultPortFromAnyIpv4": Array [
-              "Open to the world",
-            ],
-          },
-          "On": "Listener.connections",
+          "Call": Array [
+            "Listener.connections",
+            Object {
+              "allowDefaultPortFromAnyIpv4": Array [
+                "Open to the world",
+              ],
+            },
+          ],
         },
         "LB": Object {
           "Properties": Object {
@@ -910,32 +882,36 @@ TypedTemplate {
           "Type": "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationLoadBalancer",
         },
         "Listener": Object {
-          "Call": Object {
-            "addListener": Array [
-              "Listener",
-              Object {
-                "port": 80,
-              },
-            ],
-          },
-          "On": "LB",
+          "Call": Array [
+            "LB",
+            Object {
+              "addListener": Array [
+                "Listener",
+                Object {
+                  "port": 80,
+                },
+              ],
+            },
+          ],
           "Type": "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationListener",
         },
         "Target": Object {
-          "Call": Object {
-            "addTargets": Array [
-              "Target",
-              Object {
-                "port": 80,
-                "targets": Array [
-                  Object {
-                    "Ref": "ASG",
-                  },
-                ],
-              },
-            ],
-          },
-          "On": "Listener",
+          "Call": Array [
+            "Listener",
+            Object {
+              "addTargets": Array [
+                "Target",
+                Object {
+                  "port": 80,
+                  "targets": Array [
+                    Object {
+                      "Ref": "ASG",
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
           "Type": "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationTargetGroup",
         },
         "VPC": Object {
@@ -950,7 +926,7 @@ TypedTemplate {
 }
 `;
 
-exports[`examples/ecs.json 1`] = `
+exports[`Fixtures examples/ecs.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
@@ -1148,17 +1124,13 @@ TypedTemplate {
     "parameters": Map {},
     "resources": Map {
       "VPC" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {},
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "maxAzs": Object {
@@ -1172,10 +1144,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
       "Cluster" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
@@ -1184,7 +1153,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "vpc": Object {
@@ -1199,17 +1167,13 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
       "MyTaskDef" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {},
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "compatibility": Object {
@@ -1239,10 +1203,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
       "ContainerDef" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
@@ -1251,7 +1212,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "essential": Object {
@@ -1283,10 +1243,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
       "Service" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
@@ -1296,7 +1253,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "cluster": Object {
@@ -1379,7 +1335,7 @@ TypedTemplate {
 }
 `;
 
-exports[`examples/fleet.json 1`] = `
+exports[`Fixtures examples/fleet.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
@@ -1494,17 +1450,13 @@ TypedTemplate {
     "parameters": Map {},
     "resources": Map {
       "MyVpc" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {},
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "maxAzs": Object {
@@ -1518,10 +1470,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
       "MyFleet" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
@@ -1530,7 +1479,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "desiredCapacity": Object {
@@ -1614,7 +1562,7 @@ TypedTemplate {
 }
 `;
 
-exports[`examples/http-proxy.yaml 1`] = `
+exports[`Fixtures examples/http-proxy.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
@@ -1834,17 +1782,13 @@ TypedTemplate {
     },
     "resources": Map {
       "ProxyApi" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {},
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "endpointConfiguration": Object {
@@ -1872,10 +1816,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
       "ProxyResource" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
@@ -1884,7 +1825,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "anyMethod": Object {
@@ -1904,10 +1844,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
       "ProxyMethod" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
@@ -1917,7 +1854,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "httpMethod": Object {
@@ -2082,7 +2018,7 @@ TypedTemplate {
 }
 `;
 
-exports[`examples/lambda-dashboard.yaml 1`] = `
+exports[`Fixtures examples/lambda-dashboard.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
@@ -2583,17 +2519,13 @@ TypedTemplate {
     },
     "resources": Map {
       "SampleLambda" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {},
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "code": Object {
@@ -2634,12 +2566,16 @@ TypedTemplate {
       },
       "Invocations" => Object {
         "call": Object {
-          "fields": Object {
-            "metricInvocations": Object {
-              "type": "null",
-            },
+          "arguments": Object {
+            "array": Array [
+              Object {
+                "type": "null",
+              },
+            ],
+            "type": "array",
           },
-          "type": "object",
+          "methodName": "metricInvocations",
+          "target": "SampleLambda",
         },
         "conditionName": undefined,
         "creationPolicy": undefined,
@@ -2649,7 +2585,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": "SampleLambda",
         "overrides": Array [],
         "properties": Object {},
         "tags": Array [],
@@ -2659,12 +2594,16 @@ TypedTemplate {
       },
       "Errors" => Object {
         "call": Object {
-          "fields": Object {
-            "metricErrors": Object {
-              "type": "null",
-            },
+          "arguments": Object {
+            "array": Array [
+              Object {
+                "type": "null",
+              },
+            ],
+            "type": "array",
           },
-          "type": "object",
+          "methodName": "metricErrors",
+          "target": "SampleLambda",
         },
         "conditionName": undefined,
         "creationPolicy": undefined,
@@ -2674,7 +2613,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": "SampleLambda",
         "overrides": Array [],
         "properties": Object {},
         "tags": Array [],
@@ -2684,12 +2622,16 @@ TypedTemplate {
       },
       "Duration" => Object {
         "call": Object {
-          "fields": Object {
-            "metricDuration": Object {
-              "type": "null",
-            },
+          "arguments": Object {
+            "array": Array [
+              Object {
+                "type": "null",
+              },
+            ],
+            "type": "array",
           },
-          "type": "object",
+          "methodName": "metricDuration",
+          "target": "SampleLambda",
         },
         "conditionName": undefined,
         "creationPolicy": undefined,
@@ -2699,7 +2641,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": "SampleLambda",
         "overrides": Array [],
         "properties": Object {},
         "tags": Array [],
@@ -2709,12 +2650,16 @@ TypedTemplate {
       },
       "Throttles" => Object {
         "call": Object {
-          "fields": Object {
-            "metricThrottles": Object {
-              "type": "null",
-            },
+          "arguments": Object {
+            "array": Array [
+              Object {
+                "type": "null",
+              },
+            ],
+            "type": "array",
           },
-          "type": "object",
+          "methodName": "metricThrottles",
+          "target": "SampleLambda",
         },
         "conditionName": undefined,
         "creationPolicy": undefined,
@@ -2724,7 +2669,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": "SampleLambda",
         "overrides": Array [],
         "properties": Object {},
         "tags": Array [],
@@ -2733,10 +2677,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
       "TitleWidget" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
@@ -2745,7 +2686,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "markdown": Object {
@@ -2774,10 +2714,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
       "ServiceDashboard" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
@@ -2792,7 +2729,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "dashboardName": Object {
@@ -2971,24 +2907,30 @@ TypedTemplate {
       },
       "Resources": Object {
         "Duration": Object {
-          "Call": Object {
-            "metricDuration": null,
-          },
-          "On": "SampleLambda",
+          "Call": Array [
+            "SampleLambda",
+            Object {
+              "metricDuration": null,
+            },
+          ],
           "Type": "aws-cdk-lib.aws_cloudwatch.Metric",
         },
         "Errors": Object {
-          "Call": Object {
-            "metricErrors": null,
-          },
-          "On": "SampleLambda",
+          "Call": Array [
+            "SampleLambda",
+            Object {
+              "metricErrors": null,
+            },
+          ],
           "Type": "aws-cdk-lib.aws_cloudwatch.Metric",
         },
         "Invocations": Object {
-          "Call": Object {
-            "metricInvocations": null,
-          },
-          "On": "SampleLambda",
+          "Call": Array [
+            "SampleLambda",
+            Object {
+              "metricInvocations": null,
+            },
+          ],
           "Type": "aws-cdk-lib.aws_cloudwatch.Metric",
         },
         "SampleLambda": Object {
@@ -3076,10 +3018,12 @@ TypedTemplate {
           "Type": "aws-cdk-lib.aws_cloudwatch.Dashboard",
         },
         "Throttles": Object {
-          "Call": Object {
-            "metricThrottles": null,
-          },
-          "On": "SampleLambda",
+          "Call": Array [
+            "SampleLambda",
+            Object {
+              "metricThrottles": null,
+            },
+          ],
           "Type": "aws-cdk-lib.aws_cloudwatch.Metric",
         },
         "TitleWidget": Object {
@@ -3107,7 +3051,7 @@ TypedTemplate {
 }
 `;
 
-exports[`examples/lambda-events.json 1`] = `
+exports[`Fixtures examples/lambda-events.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
@@ -3337,17 +3281,13 @@ TypedTemplate {
     "parameters": Map {},
     "resources": Map {
       "MyTopic" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {},
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {},
         "tags": Array [],
@@ -3356,17 +3296,13 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
       "Table" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {},
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "partitionKey": Object {
@@ -3393,10 +3329,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
       "HelloWorldFunction" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
@@ -3406,7 +3339,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "code": Object {
@@ -3586,7 +3518,7 @@ TypedTemplate {
 }
 `;
 
-exports[`examples/lambda-layer.json 1`] = `
+exports[`Fixtures examples/lambda-layer.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
@@ -3681,17 +3613,13 @@ TypedTemplate {
     "parameters": Map {},
     "resources": Map {
       "AwsCliLayer" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {},
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {},
         "tags": Array [],
@@ -3700,10 +3628,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
       "Lambda" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
@@ -3712,7 +3637,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "code": Object {
@@ -3782,7 +3706,7 @@ TypedTemplate {
 }
 `;
 
-exports[`examples/lambda-policy.yaml 1`] = `
+exports[`Fixtures examples/lambda-policy.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
@@ -4008,10 +3932,7 @@ TypedTemplate {
     },
     "resources": Map {
       "MyLambda" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
@@ -4020,7 +3941,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "code": Object {
@@ -4131,17 +4051,13 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
       "MyBucket" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {},
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {},
         "tags": Array [],
@@ -4219,7 +4135,7 @@ TypedTemplate {
 }
 `;
 
-exports[`examples/lambda-topic.json 1`] = `
+exports[`Fixtures examples/lambda-topic.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
@@ -4331,17 +4247,13 @@ TypedTemplate {
     "parameters": Map {},
     "resources": Map {
       "Topic" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {},
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {},
         "tags": Array [],
@@ -4350,10 +4262,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
       "Lambda" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
@@ -4362,7 +4271,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "code": Object {
@@ -4437,7 +4345,7 @@ TypedTemplate {
 }
 `;
 
-exports[`examples/pipeline.json 1`] = `
+exports[`Fixtures examples/pipeline.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
@@ -4745,10 +4653,7 @@ TypedTemplate {
     "parameters": Map {},
     "resources": Map {
       "Repo" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
@@ -4761,7 +4666,6 @@ TypedTemplate {
           "BuildProject",
         },
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "repositoryName": Object {
@@ -4775,10 +4679,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
       "BuildProject" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
@@ -4787,7 +4688,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "encryptionKey": Object {
@@ -4802,17 +4702,13 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
       "Key" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {},
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {},
         "tags": Array [],
@@ -4821,10 +4717,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
       "Pipeline" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
@@ -4834,7 +4727,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "stages": Object {
@@ -5099,7 +4991,7 @@ TypedTemplate {
 }
 `;
 
-exports[`examples/static-site.yaml 1`] = `
+exports[`Fixtures examples/static-site.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
@@ -5138,8 +5030,8 @@ TypedTemplate {
       "CloudFrontOAI" => Set {},
       "SiteBucket" => Set {},
       "SiteBucketAccess" => Set {
-        "SiteBucket",
         "CloudFrontOAI",
+        "SiteBucket",
       },
       "HostedZone" => Set {},
       "SiteCertificate" => Set {
@@ -5667,10 +5559,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
     },
     "resources": Map {
       "CloudFrontOAI" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
@@ -5679,7 +5568,6 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "comment": Object {
@@ -5712,17 +5600,13 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
         "updateReplacePolicy": "Delete",
       },
       "SiteBucket" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {},
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "autoDeleteObjects": Object {
@@ -5749,25 +5633,28 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
       },
       "SiteBucketAccess" => Object {
         "call": Object {
-          "fields": Object {
-            "grantRead": Object {
-              "fn": "ref",
-              "logicalId": "CloudFrontOAI",
-              "type": "intrinsic",
-            },
+          "arguments": Object {
+            "array": Array [
+              Object {
+                "fn": "ref",
+                "logicalId": "CloudFrontOAI",
+                "type": "intrinsic",
+              },
+            ],
+            "type": "array",
           },
-          "type": "object",
+          "methodName": "grantRead",
+          "target": "SiteBucket",
         },
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {
-          "SiteBucket",
           "CloudFrontOAI",
+          "SiteBucket",
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": "SiteBucket",
         "overrides": Array [],
         "properties": Object {},
         "tags": Array [],
@@ -5777,24 +5664,27 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
       },
       "HostedZone" => Object {
         "call": Object {
-          "fields": Object {
-            "aws-cdk-lib.aws_route53.HostedZone.fromHostedZoneAttributes": Object {
-              "fields": Object {
-                "hostedZoneId": Object {
-                  "fn": "ref",
-                  "logicalId": "HostedZoneId",
-                  "type": "intrinsic",
+          "arguments": Object {
+            "array": Array [
+              Object {
+                "fields": Object {
+                  "hostedZoneId": Object {
+                    "fn": "ref",
+                    "logicalId": "HostedZoneId",
+                    "type": "intrinsic",
+                  },
+                  "zoneName": Object {
+                    "fn": "ref",
+                    "logicalId": "DomainName",
+                    "type": "intrinsic",
+                  },
                 },
-                "zoneName": Object {
-                  "fn": "ref",
-                  "logicalId": "DomainName",
-                  "type": "intrinsic",
-                },
+                "type": "object",
               },
-              "type": "object",
-            },
+            ],
+            "type": "array",
           },
-          "type": "object",
+          "methodName": "aws-cdk-lib.aws_route53.HostedZone.fromHostedZoneAttributes",
         },
         "conditionName": undefined,
         "creationPolicy": undefined,
@@ -5805,7 +5695,6 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {},
         "tags": Array [],
@@ -5814,10 +5703,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
         "updateReplacePolicy": "Delete",
       },
       "SiteCertificate" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
@@ -5828,7 +5714,6 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "domainName": Object {
@@ -5853,10 +5738,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
         "updateReplacePolicy": "Delete",
       },
       "SiteDistribution" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
@@ -5868,7 +5750,6 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "certificate": Object {
@@ -5962,10 +5843,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
         "updateReplacePolicy": "Delete",
       },
       "SiteAliasRecord" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
@@ -5975,7 +5853,6 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "recordName": Object {
@@ -6009,10 +5886,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
         "updateReplacePolicy": "Delete",
       },
       "SiteDeployment" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
@@ -6023,7 +5897,6 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "destinationBucket": Object {
@@ -6175,12 +6048,14 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
           "Type": "aws-cdk-lib.aws_s3.Bucket",
         },
         "SiteBucketAccess": Object {
-          "Call": Object {
-            "grantRead": Object {
-              "Ref": "CloudFrontOAI",
+          "Call": Array [
+            "SiteBucket",
+            Object {
+              "grantRead": Object {
+                "Ref": "CloudFrontOAI",
+              },
             },
-          },
-          "On": "SiteBucket",
+          ],
         },
         "SiteCertificate": Object {
           "Properties": Object {
@@ -6282,7 +6157,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
 }
 `;
 
-exports[`examples/vpc.json 1`] = `
+exports[`Fixtures examples/vpc.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
@@ -6322,17 +6197,13 @@ TypedTemplate {
     "parameters": Map {},
     "resources": Map {
       "VPC" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {},
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {},
         "tags": Array [],
@@ -6357,7 +6228,7 @@ TypedTemplate {
 }
 `;
 
-exports[`templates/cfn-complex-template.json 1`] = `
+exports[`Fixtures templates/cfn-complex-template.json 1`] = `
 TypedTemplate {
   "conditions": Map {
     "UseALBSSL" => Object {
@@ -8181,10 +8052,7 @@ TypedTemplate {
     },
     "resources": Map {
       "WebServerGroup" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": Object {
           "fields": Object {
@@ -8208,7 +8076,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "LaunchConfigurationName": Object {
@@ -8271,10 +8138,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
       "LaunchConfig" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
@@ -8388,7 +8252,6 @@ TypedTemplate {
           },
           "Comment": "Install a simple application",
         },
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "ImageId": Object {
@@ -8521,10 +8384,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
       "ELBSecurityGroup" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
@@ -8533,7 +8393,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "GroupDescription": Object {
@@ -8604,10 +8463,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
       "ApplicationLoadBalancer" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
@@ -8617,7 +8473,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "SecurityGroups": Object {
@@ -8642,10 +8497,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
       "ALBListener" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
@@ -8657,7 +8509,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "Certificates": Object {
@@ -8742,10 +8593,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
       "ALBTargetGroup" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
@@ -8754,7 +8602,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "HealthCheckIntervalSeconds": Object {
@@ -8793,10 +8640,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
       "InstanceSecurityGroup" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
@@ -8807,7 +8651,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "GroupDescription": Object {
@@ -8887,10 +8730,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
       "RecordSet" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": "UseALBSSL",
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
@@ -8900,7 +8740,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "HostedZoneName": Object {
@@ -9015,10 +8854,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
       "Dashboard" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
@@ -9027,7 +8863,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "DashboardBody": Object {
@@ -9887,7 +9722,7 @@ TypedTemplate {
 }
 `;
 
-exports[`templates/cfn-conditions.yaml 1`] = `
+exports[`Fixtures templates/cfn-conditions.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {
     "IsProd" => Object {
@@ -10177,10 +10012,7 @@ TypedTemplate {
     },
     "resources": Map {
       "MyLambda" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
@@ -10189,7 +10021,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "code": Object {
@@ -10300,10 +10131,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
       "MyBucket" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
@@ -10315,7 +10143,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "bucketName": Object {
@@ -10465,7 +10292,7 @@ TypedTemplate {
 }
 `;
 
-exports[`templates/cfn-mappings.yaml 1`] = `
+exports[`Fixtures templates/cfn-mappings.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {
@@ -10572,10 +10399,7 @@ TypedTemplate {
     "parameters": Map {},
     "resources": Map {
       "myEC2Instance" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
@@ -10584,7 +10408,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "ImageId": Object {
@@ -10654,7 +10477,7 @@ TypedTemplate {
 }
 `;
 
-exports[`templates/cfn-metadata.json 1`] = `
+exports[`Fixtures templates/cfn-metadata.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
@@ -10739,17 +10562,13 @@ TypedTemplate {
     "parameters": Map {},
     "resources": Map {
       "MyQueue" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {},
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "encryption": Object {
@@ -10790,7 +10609,7 @@ TypedTemplate {
 }
 `;
 
-exports[`templates/cfn-outputs-complex.json 1`] = `
+exports[`Fixtures templates/cfn-outputs-complex.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
@@ -10962,17 +10781,13 @@ TypedTemplate {
     "parameters": Map {},
     "resources": Map {
       "Topic" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {},
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {},
         "tags": Array [],
@@ -10981,10 +10796,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
       "Lambda" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
@@ -10993,7 +10805,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "code": Object {
@@ -11088,7 +10899,7 @@ TypedTemplate {
 }
 `;
 
-exports[`templates/cfn-outputs-simple.json 1`] = `
+exports[`Fixtures templates/cfn-outputs-simple.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
@@ -11245,17 +11056,13 @@ TypedTemplate {
     "parameters": Map {},
     "resources": Map {
       "HelloLambda" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {},
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "code": Object {
@@ -11287,10 +11094,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
       "MyApi" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
@@ -11299,7 +11103,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "handler": Object {
@@ -11314,10 +11117,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
       "GetRoot" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
@@ -11326,7 +11126,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "httpMethod": Object {
@@ -11403,7 +11202,7 @@ TypedTemplate {
 }
 `;
 
-exports[`templates/cfn-parameters.json 1`] = `
+exports[`Fixtures templates/cfn-parameters.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
@@ -11564,10 +11363,7 @@ TypedTemplate {
     },
     "resources": Map {
       "Bucket" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
@@ -11577,7 +11373,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "bucketName": Object {
@@ -11698,7 +11493,7 @@ TypedTemplate {
 }
 `;
 
-exports[`templates/cfn-policies.yaml 1`] = `
+exports[`Fixtures templates/cfn-policies.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
@@ -11992,10 +11787,7 @@ yum update -y aws-cfn-bootstrap
     "parameters": Map {},
     "resources": Map {
       "AutoScalingGroup" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": Object {
           "fields": Object {
@@ -12030,7 +11822,6 @@ yum update -y aws-cfn-bootstrap
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "AvailabilityZones": Object {
@@ -12154,10 +11945,7 @@ yum update -y aws-cfn-bootstrap
         "updateReplacePolicy": "Retain",
       },
       "LaunchConfig" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
@@ -12170,7 +11958,6 @@ yum update -y aws-cfn-bootstrap
           "Object1": "Location1",
           "Object2": "Location2",
         },
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "ImageId": Object {
@@ -12305,7 +12092,7 @@ yum update -y aws-cfn-bootstrap
 }
 `;
 
-exports[`templates/cfn-transform.json 1`] = `
+exports[`Fixtures templates/cfn-transform.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
@@ -12352,17 +12139,13 @@ TypedTemplate {
     "parameters": Map {},
     "resources": Map {
       "MyQueue" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {},
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "encryption": Object {
@@ -12400,7 +12183,7 @@ TypedTemplate {
 }
 `;
 
-exports[`templates/overrides-delete-path.json 1`] = `
+exports[`Fixtures templates/overrides-delete-path.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
@@ -12492,17 +12275,13 @@ TypedTemplate {
     "parameters": Map {},
     "resources": Map {
       "MyQueue" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {},
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [
           Object {
             "childConstructPath": "Key",
@@ -12563,7 +12342,7 @@ TypedTemplate {
 }
 `;
 
-exports[`templates/overrides-remove-resource.json 1`] = `
+exports[`Fixtures templates/overrides-remove-resource.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
@@ -12641,17 +12420,13 @@ TypedTemplate {
     "parameters": Map {},
     "resources": Map {
       "Lambda" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {},
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [
           Object {
             "childConstructPath": "ServiceRole",
@@ -12717,7 +12492,7 @@ TypedTemplate {
 }
 `;
 
-exports[`templates/overrides-update-path.json 1`] = `
+exports[`Fixtures templates/overrides-update-path.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
@@ -12958,17 +12733,13 @@ TypedTemplate {
     "parameters": Map {},
     "resources": Map {
       "MyTopic" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {},
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {},
         "tags": Array [],
@@ -12977,17 +12748,13 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
       "Table" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {},
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "partitionKey": Object {
@@ -13014,10 +12781,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
       "HelloWorldFunction" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
@@ -13027,7 +12791,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [
           Object {
             "childConstructPath": "ServiceRole",
@@ -13227,7 +12990,7 @@ TypedTemplate {
 }
 `;
 
-exports[`templates/syntax-lambda-policy-from-constructor.yaml 1`] = `
+exports[`Fixtures templates/syntax-lambda-policy-from-constructor.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
@@ -13367,17 +13130,13 @@ TypedTemplate {
     "parameters": Map {},
     "resources": Map {
       "MyBucket" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {},
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {},
         "tags": Array [],
@@ -13386,10 +13145,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
       "MyLambda" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
@@ -13398,7 +13154,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "code": Object {
@@ -13520,7 +13275,7 @@ TypedTemplate {
 }
 `;
 
-exports[`templates/syntax-method-calls.json 1`] = `
+exports[`Fixtures templates/syntax-method-calls.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
@@ -13538,13 +13293,13 @@ TypedTemplate {
       },
       "ReadBucket" => Set {},
       "GrantRead" => Set {
-        "ReadBucket",
         "MyFunction",
+        "ReadBucket",
       },
       "WriteBucket" => Set {},
       "GrantWrite" => Set {
-        "WriteBucket",
         "MyFunction",
+        "WriteBucket",
       },
       "Alias" => Set {
         "MyFunction",
@@ -13554,8 +13309,8 @@ TypedTemplate {
       },
       "User" => Set {},
       "GrantLogGroupAccess" => Set {
-        "MyFunction",
         "User",
+        "MyFunction",
       },
     },
     "keys": Set {
@@ -13924,17 +13679,13 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
     "parameters": Map {},
     "resources": Map {
       "SourceBucket" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {},
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {},
         "tags": Array [],
@@ -13944,23 +13695,21 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
       },
       "BusinessLogic" => Object {
         "call": Object {
-          "fields": Object {
-            "aws-cdk-lib.aws_lambda.Code.fromBucket": Object {
-              "array": Array [
-                Object {
-                  "fn": "ref",
-                  "logicalId": "SourceBucket",
-                  "type": "intrinsic",
-                },
-                Object {
-                  "type": "string",
-                  "value": "foo-bar",
-                },
-              ],
-              "type": "array",
-            },
+          "arguments": Object {
+            "array": Array [
+              Object {
+                "fn": "ref",
+                "logicalId": "SourceBucket",
+                "type": "intrinsic",
+              },
+              Object {
+                "type": "string",
+                "value": "foo-bar",
+              },
+            ],
+            "type": "array",
           },
-          "type": "object",
+          "methodName": "aws-cdk-lib.aws_lambda.Code.fromBucket",
         },
         "conditionName": undefined,
         "creationPolicy": undefined,
@@ -13970,7 +13719,6 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {},
         "tags": Array [],
@@ -13979,10 +13727,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
         "updateReplacePolicy": "Delete",
       },
       "MyFunction" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
@@ -13991,7 +13736,6 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "code": Object {
@@ -14015,13 +13759,16 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
       },
       "ReadBucket" => Object {
         "call": Object {
-          "fields": Object {
-            "aws-cdk-lib.aws_s3.Bucket.fromBucketName": Object {
-              "type": "string",
-              "value": "read-bucket",
-            },
+          "arguments": Object {
+            "array": Array [
+              Object {
+                "type": "string",
+                "value": "read-bucket",
+              },
+            ],
+            "type": "array",
           },
-          "type": "object",
+          "methodName": "aws-cdk-lib.aws_s3.Bucket.fromBucketName",
         },
         "conditionName": undefined,
         "creationPolicy": undefined,
@@ -14029,7 +13776,6 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
         "dependencies": Set {},
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {},
         "tags": Array [],
@@ -14039,25 +13785,28 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
       },
       "GrantRead" => Object {
         "call": Object {
-          "fields": Object {
-            "grantRead": Object {
-              "fn": "ref",
-              "logicalId": "MyFunction",
-              "type": "intrinsic",
-            },
+          "arguments": Object {
+            "array": Array [
+              Object {
+                "fn": "ref",
+                "logicalId": "MyFunction",
+                "type": "intrinsic",
+              },
+            ],
+            "type": "array",
           },
-          "type": "object",
+          "methodName": "grantRead",
+          "target": "ReadBucket",
         },
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {
-          "ReadBucket",
           "MyFunction",
+          "ReadBucket",
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": "ReadBucket",
         "overrides": Array [],
         "properties": Object {},
         "tags": Array [],
@@ -14067,28 +13816,31 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
       },
       "WriteBucket" => Object {
         "call": Object {
-          "fields": Object {
-            "aws-cdk-lib.aws_s3.Bucket.fromBucketName": Object {
-              "array": Array [
-                Object {
-                  "fn": "ref",
-                  "logicalId": "CDK::Scope",
-                  "type": "intrinsic",
-                },
-                Object {
-                  "type": "string",
-                  "value": "WriteBucket",
-                },
-                Object {
-                  "type": "string",
-                  "value": "write-bucket",
-                },
-              ],
-              "fn": "args",
-              "type": "intrinsic",
-            },
+          "arguments": Object {
+            "array": Array [
+              Object {
+                "array": Array [
+                  Object {
+                    "fn": "ref",
+                    "logicalId": "CDK::Scope",
+                    "type": "intrinsic",
+                  },
+                  Object {
+                    "type": "string",
+                    "value": "WriteBucket",
+                  },
+                  Object {
+                    "type": "string",
+                    "value": "write-bucket",
+                  },
+                ],
+                "fn": "args",
+                "type": "intrinsic",
+              },
+            ],
+            "type": "array",
           },
-          "type": "object",
+          "methodName": "aws-cdk-lib.aws_s3.Bucket.fromBucketName",
         },
         "conditionName": undefined,
         "creationPolicy": undefined,
@@ -14098,7 +13850,6 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {},
         "tags": Array [],
@@ -14108,25 +13859,28 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
       },
       "GrantWrite" => Object {
         "call": Object {
-          "fields": Object {
-            "grantWrite": Object {
-              "fn": "ref",
-              "logicalId": "MyFunction",
-              "type": "intrinsic",
-            },
+          "arguments": Object {
+            "array": Array [
+              Object {
+                "fn": "ref",
+                "logicalId": "MyFunction",
+                "type": "intrinsic",
+              },
+            ],
+            "type": "array",
           },
-          "type": "object",
+          "methodName": "grantWrite",
+          "target": "WriteBucket",
         },
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {
-          "WriteBucket",
           "MyFunction",
+          "WriteBucket",
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": "WriteBucket",
         "overrides": Array [],
         "properties": Object {},
         "tags": Array [],
@@ -14136,18 +13890,17 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
       },
       "Alias" => Object {
         "call": Object {
-          "fields": Object {
-            "addAlias": Object {
-              "array": Array [
-                Object {
-                  "type": "string",
-                  "value": "live",
-                },
-              ],
-              "type": "array",
-            },
+          "arguments": Object {
+            "array": Array [
+              Object {
+                "type": "string",
+                "value": "live",
+              },
+            ],
+            "type": "array",
           },
-          "type": "object",
+          "methodName": "addAlias",
+          "target": "MyFunction",
         },
         "conditionName": undefined,
         "creationPolicy": undefined,
@@ -14157,7 +13910,6 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": "MyFunction",
         "overrides": Array [],
         "properties": Object {},
         "tags": Array [],
@@ -14167,18 +13919,22 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
       },
       "ConfigureAsyncInvokeStatement" => Object {
         "call": Object {
-          "fields": Object {
-            "configureAsyncInvoke": Object {
-              "fields": Object {
-                "retryAttempts": Object {
-                  "type": "number",
-                  "value": 2,
+          "arguments": Object {
+            "array": Array [
+              Object {
+                "fields": Object {
+                  "retryAttempts": Object {
+                    "type": "number",
+                    "value": 2,
+                  },
                 },
+                "type": "object",
               },
-              "type": "object",
-            },
+            ],
+            "type": "array",
           },
-          "type": "object",
+          "methodName": "configureAsyncInvoke",
+          "target": "Alias",
         },
         "conditionName": undefined,
         "creationPolicy": undefined,
@@ -14188,7 +13944,6 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": "Alias",
         "overrides": Array [],
         "properties": Object {},
         "tags": Array [],
@@ -14197,17 +13952,13 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
         "updateReplacePolicy": "Delete",
       },
       "User" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {},
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {},
         "tags": Array [],
@@ -14217,25 +13968,28 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
       },
       "GrantLogGroupAccess" => Object {
         "call": Object {
-          "fields": Object {
-            "grantWrite": Object {
-              "fn": "ref",
-              "logicalId": "User",
-              "type": "intrinsic",
-            },
+          "arguments": Object {
+            "array": Array [
+              Object {
+                "fn": "ref",
+                "logicalId": "User",
+                "type": "intrinsic",
+              },
+            ],
+            "type": "array",
           },
-          "type": "object",
+          "methodName": "grantWrite",
+          "target": "MyFunction.logGroup",
         },
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {
-          "MyFunction",
           "User",
+          "MyFunction",
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": "MyFunction.logGroup",
         "overrides": Array [],
         "properties": Object {},
         "tags": Array [],
@@ -14250,12 +14004,14 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
       "AWSTemplateFormatVersion": "2010-09-09",
       "Resources": Object {
         "Alias": Object {
-          "Call": Object {
-            "addAlias": Array [
-              "live",
-            ],
-          },
-          "On": "MyFunction",
+          "Call": Array [
+            "MyFunction",
+            Object {
+              "addAlias": Array [
+                "live",
+              ],
+            },
+          ],
           "Type": "aws-cdk-lib.aws_lambda.Alias",
         },
         "BusinessLogic": Object {
@@ -14270,37 +14026,45 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
           "Type": "aws-cdk-lib.aws_lambda.Code",
         },
         "ConfigureAsyncInvokeStatement": Object {
-          "Call": Object {
-            "configureAsyncInvoke": Object {
-              "retryAttempts": 2,
+          "Call": Array [
+            "Alias",
+            Object {
+              "configureAsyncInvoke": Object {
+                "retryAttempts": 2,
+              },
             },
-          },
-          "On": "Alias",
+          ],
         },
         "GrantLogGroupAccess": Object {
-          "Call": Object {
-            "grantWrite": Object {
-              "Ref": "User",
+          "Call": Array [
+            "MyFunction.logGroup",
+            Object {
+              "grantWrite": Object {
+                "Ref": "User",
+              },
             },
-          },
-          "On": "MyFunction.logGroup",
+          ],
         },
         "GrantRead": Object {
-          "Call": Object {
-            "grantRead": Object {
-              "Ref": "MyFunction",
+          "Call": Array [
+            "ReadBucket",
+            Object {
+              "grantRead": Object {
+                "Ref": "MyFunction",
+              },
             },
-          },
-          "On": "ReadBucket",
+          ],
           "Type": "aws-cdk-lib.aws_iam.Grant",
         },
         "GrantWrite": Object {
-          "Call": Object {
-            "grantWrite": Object {
-              "Ref": "MyFunction",
+          "Call": Array [
+            "WriteBucket",
+            Object {
+              "grantWrite": Object {
+                "Ref": "MyFunction",
+              },
             },
-          },
-          "On": "WriteBucket",
+          ],
           "Type": "aws-cdk-lib.aws_iam.Grant",
         },
         "MyFunction": Object {
@@ -14346,7 +14110,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
 }
 `;
 
-exports[`templates/syntax-short-intrinsics.yaml 1`] = `
+exports[`Fixtures templates/syntax-short-intrinsics.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "mappings": Map {},
@@ -14847,17 +14611,13 @@ TypedTemplate {
     },
     "resources": Map {
       "SampleLambda" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependencies": Set {},
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "code": Object {
@@ -14898,12 +14658,16 @@ TypedTemplate {
       },
       "Invocations" => Object {
         "call": Object {
-          "fields": Object {
-            "metricInvocations": Object {
-              "type": "null",
-            },
+          "arguments": Object {
+            "array": Array [
+              Object {
+                "type": "null",
+              },
+            ],
+            "type": "array",
           },
-          "type": "object",
+          "methodName": "metricInvocations",
+          "target": "SampleLambda",
         },
         "conditionName": undefined,
         "creationPolicy": undefined,
@@ -14913,7 +14677,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": "SampleLambda",
         "overrides": Array [],
         "properties": Object {},
         "tags": Array [],
@@ -14923,12 +14686,16 @@ TypedTemplate {
       },
       "Errors" => Object {
         "call": Object {
-          "fields": Object {
-            "metricErrors": Object {
-              "type": "null",
-            },
+          "arguments": Object {
+            "array": Array [
+              Object {
+                "type": "null",
+              },
+            ],
+            "type": "array",
           },
-          "type": "object",
+          "methodName": "metricErrors",
+          "target": "SampleLambda",
         },
         "conditionName": undefined,
         "creationPolicy": undefined,
@@ -14938,7 +14705,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": "SampleLambda",
         "overrides": Array [],
         "properties": Object {},
         "tags": Array [],
@@ -14948,12 +14714,16 @@ TypedTemplate {
       },
       "Duration" => Object {
         "call": Object {
-          "fields": Object {
-            "metricDuration": Object {
-              "type": "null",
-            },
+          "arguments": Object {
+            "array": Array [
+              Object {
+                "type": "null",
+              },
+            ],
+            "type": "array",
           },
-          "type": "object",
+          "methodName": "metricDuration",
+          "target": "SampleLambda",
         },
         "conditionName": undefined,
         "creationPolicy": undefined,
@@ -14963,7 +14733,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": "SampleLambda",
         "overrides": Array [],
         "properties": Object {},
         "tags": Array [],
@@ -14973,12 +14742,16 @@ TypedTemplate {
       },
       "Throttles" => Object {
         "call": Object {
-          "fields": Object {
-            "metricThrottles": Object {
-              "type": "null",
-            },
+          "arguments": Object {
+            "array": Array [
+              Object {
+                "type": "null",
+              },
+            ],
+            "type": "array",
           },
-          "type": "object",
+          "methodName": "metricThrottles",
+          "target": "SampleLambda",
         },
         "conditionName": undefined,
         "creationPolicy": undefined,
@@ -14988,7 +14761,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": "SampleLambda",
         "overrides": Array [],
         "properties": Object {},
         "tags": Array [],
@@ -14997,10 +14769,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
       "TitleWidget" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
@@ -15009,7 +14778,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "markdown": Object {
@@ -15038,10 +14806,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
       "ServiceDashboard" => Object {
-        "call": Object {
-          "fields": Object {},
-          "type": "object",
-        },
+        "call": undefined,
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
@@ -15056,7 +14821,6 @@ TypedTemplate {
         },
         "dependsOn": Set {},
         "metadata": Object {},
-        "on": undefined,
         "overrides": Array [],
         "properties": Object {
           "dashboardName": Object {
@@ -15235,24 +14999,30 @@ TypedTemplate {
       },
       "Resources": Object {
         "Duration": Object {
-          "Call": Object {
-            "metricDuration": null,
-          },
-          "On": "SampleLambda",
+          "Call": Array [
+            "SampleLambda",
+            Object {
+              "metricDuration": null,
+            },
+          ],
           "Type": "aws-cdk-lib.aws_cloudwatch.Metric",
         },
         "Errors": Object {
-          "Call": Object {
-            "metricErrors": null,
-          },
-          "On": "SampleLambda",
+          "Call": Array [
+            "SampleLambda",
+            Object {
+              "metricErrors": null,
+            },
+          ],
           "Type": "aws-cdk-lib.aws_cloudwatch.Metric",
         },
         "Invocations": Object {
-          "Call": Object {
-            "metricInvocations": null,
-          },
-          "On": "SampleLambda",
+          "Call": Array [
+            "SampleLambda",
+            Object {
+              "metricInvocations": null,
+            },
+          ],
           "Type": "aws-cdk-lib.aws_cloudwatch.Metric",
         },
         "SampleLambda": Object {
@@ -15340,10 +15110,12 @@ TypedTemplate {
           "Type": "aws-cdk-lib.aws_cloudwatch.Dashboard",
         },
         "Throttles": Object {
-          "Call": Object {
-            "metricThrottles": null,
-          },
-          "On": "SampleLambda",
+          "Call": Array [
+            "SampleLambda",
+            Object {
+              "metricThrottles": null,
+            },
+          ],
           "Type": "aws-cdk-lib.aws_cloudwatch.Metric",
         },
         "TitleWidget": Object {

@@ -188,10 +188,7 @@ export function schemaForResource(
       additionalProperties: false,
       properties: {
         Properties: schemaForProps(construct.propsTypeRef, ctx),
-        Call: schemaForCall(construct.class, ctx),
-        On: {
-          type: 'string',
-        },
+        Call: ctx.define('Call', schemaForCall),
         Type: {
           enum: [construct.class.fqn],
           type: 'string',
@@ -222,9 +219,14 @@ function schemaForProps(
   return schemaForTypeReference(propsTypeRef, ctx);
 }
 
-function schemaForCall(_classType: reflect.ClassType, _ctx: SchemaContext) {
+export function schemaForCall() {
   return {
-    type: 'object',
+    anyOf: [
+      {
+        type: 'object',
+      },
+      { type: 'array', minItems: 1, maxItems: 2 },
+    ],
   };
 }
 

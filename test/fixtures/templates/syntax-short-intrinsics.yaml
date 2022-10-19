@@ -17,24 +17,24 @@ Resources:
         aws-cdk-lib.Duration.seconds: 10
   Invocations:
     Type: aws-cdk-lib.aws_cloudwatch.Metric
-    'On': SampleLambda
     Call:
-      metricInvocations: ~
+      - SampleLambda
+      - metricInvocations: ~
   Errors:
     Type: aws-cdk-lib.aws_cloudwatch.Metric
-    'On': SampleLambda
     Call:
-      metricErrors: ~
+      - SampleLambda
+      - metricErrors: ~
   Duration:
     Type: aws-cdk-lib.aws_cloudwatch.Metric
-    'On': SampleLambda
     Call:
-      metricDuration: ~
+      - SampleLambda
+      - metricDuration: ~
   Throttles:
     Type: aws-cdk-lib.aws_cloudwatch.Metric
-    'On': SampleLambda
     Call:
-      metricThrottles: ~
+      - SampleLambda
+      - metricThrottles: ~
   TitleWidget:
     Type: aws-cdk-lib.aws_cloudwatch.TextWidget
     Properties:

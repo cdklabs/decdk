@@ -169,9 +169,9 @@ The declarative way to call this method is:
 ```yaml
 Resources:
   Alias:
-    'On': MyFunction
     Call:
-      addAlias: live
+      - MyFunction
+      - addAlias: live
 
   MyFunction:
     Type: aws-cdk-lib.aws_lambda.Function
@@ -179,22 +179,20 @@ Resources:
     # ... List of properties
 ```
 
-The syntax is very similar to the static method case, with two differences: you have to specify the logical ID
-of the construct that is receiving this call (the value of the `On` property), and the method name (inside `Call`)
-is the method's simple name, rather than its FQN.
+The syntax is very similar to the static method case, with two differences:
 
-> ⚠️ **Experimental feature**: the string `On` is a keyword in YAML, equivalent to `true`. So you have to wrap it in
-> quotes to use it as a property name. Since this is a bit cumbersome, expect this name to change in the near future.
+1. The value of `Call` must be an array, whose first element is the logical ID of the construct that is receiving this
+   call
+2. You use the method's simple name, rather than its FQN.
 
-You can also call instance method in *nested properties*:
+You can also call instance methods in *nested properties*:
 
 ```yaml
 Resources:
   AllowFromEverywhere:
-    'On': Listener.connections # of type aws-cdk-lib.aws_ec2.Connections
     Call:
-      allowDefaultPortFromAnyIpv4:
-        - Open to the world
+      - Listener.connections # of type aws-cdk-lib.aws_ec2.Connections
+      - allowDefaultPortFromAnyIpv4: Open to the world
 ```
 
 ### CDK classes that are not constructs
@@ -206,7 +204,8 @@ directly to a stack, and they don't correspond to a CloudFormation resource. For
 These classes abstract
 certain concepts and improve the ergonomics of the API.
 
-If the class has a public constructor with one required parameter that is a props interface (e.g., `TextWidget`), you can pass them via `Properties`:
+If the class has a public constructor with one required parameter that is a props interface (e.g., `TextWidget`), you
+can pass them via `Properties`:
 
 ```json
 {
@@ -289,10 +288,10 @@ Resources:
     # ... List of properties
 
   FunctionUrl:
-    'On': MyFunction
     Call:
-      addFunctionUrl:
-        authType: AWS_IAM # from enum FunctionUrlAuthType
+      - MyFunction
+      - addFunctionUrl:
+          authType: AWS_IAM # from enum FunctionUrlAuthType
 ```
 
 ### References
@@ -307,10 +306,10 @@ exceptions:
 ```yaml
 Resources:
   ConfigureAsyncInvokeStatement:
-    'On': Alias # of type aws-cdk-lib.aws_lambda.Alias
     Call:
-      configureAsyncInvoke:
-        retryAttempts: 2
+      - Alias # of type aws-cdk-lib.aws_lambda.Alias
+      - configureAsyncInvoke:
+          retryAttempts: 2
 ```
 
 In this case, `ConfigureAsyncInvokeStatement` doesn't refer to anything. It is only necessary to keep the syntax for
@@ -469,7 +468,7 @@ construct's default child. For example, suppose you want to export the `WebsiteU
 
 ```yaml
 Resources:
-  # ... Same resources as in the previous example
+# ... Same resources as in the previous example
 
 Outputs:
   BucketUrl:
@@ -487,7 +486,7 @@ Resources:
   MyHandler:
     Type: aws-cdk-lib.aws_lambda.Function
     Properties:
-      # ... List of properties
+    # ... List of properties
 
 Outputs:
   HelloWorldApi:

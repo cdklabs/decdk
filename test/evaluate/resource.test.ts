@@ -34,13 +34,15 @@ describe('depending on a ResourceLike that is not a Construct', () => {
         },
         AModestLoad: {
           Type: 'aws-cdk-lib.aws_autoscaling.TargetTrackingScalingPolicy',
-          On: 'MyASG',
-          Call: {
-            scaleOnRequestCount: [
-              'AModestLoad',
-              { targetRequestsPerMinute: 60 },
-            ],
-          },
+          Call: [
+            'MyASG',
+            {
+              scaleOnRequestCount: [
+                'AModestLoad',
+                { targetRequestsPerMinute: 60 },
+              ],
+            },
+          ],
           DependsOn: ['MyTarget'],
         },
         MyLB: {
@@ -54,27 +56,31 @@ describe('depending on a ResourceLike that is not a Construct', () => {
         },
         MyListener: {
           Type: 'aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationListener',
-          On: 'MyLB',
-          Call: {
-            addListener: ['MyListener', { port: 80 }],
-          },
+          Call: [
+            'MyLB',
+            {
+              addListener: ['MyListener', { port: 80 }],
+            },
+          ],
         },
         MyTarget: {
           Type: 'aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationTargetGroup',
-          On: 'MyListener',
-          Call: {
-            addTargets: [
-              'MyTarget',
-              {
-                port: 80,
-                targets: [
-                  {
-                    Ref: 'MyASG',
-                  },
-                ],
-              },
-            ],
-          },
+          Call: [
+            'MyListener',
+            {
+              addTargets: [
+                'MyTarget',
+                {
+                  port: 80,
+                  targets: [
+                    {
+                      Ref: 'MyASG',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
         },
       },
     });

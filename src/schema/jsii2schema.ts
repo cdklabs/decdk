@@ -12,6 +12,7 @@ import {
   allStaticFactoryMethods,
   allStaticMethods,
 } from '../type-system/factories';
+import { schemaForCall } from './cdk-schema';
 import { $ref } from './expression';
 
 /* eslint-disable no-console */
@@ -459,12 +460,7 @@ export function schemaForEnumLikeClass(
         type: 'string',
         enum: [type.fqn],
       },
-      Call: {
-        type: 'object',
-      },
-      On: {
-        type: 'string',
-      },
+      Call: ctx.define('Call', schemaForCall),
     },
   });
 

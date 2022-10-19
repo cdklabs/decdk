@@ -5,6 +5,7 @@ import {
   Template,
   TemplateResource,
 } from '../parser/template';
+import { FactoryMethodCall } from '../parser/template/calls';
 import { ResourceTag } from '../parser/template/tags';
 import {
   InstanceMethodCallExpression,
@@ -75,7 +76,7 @@ export function resolveResourceLike(
   }
 
   const type = resource.type ? typeSystem.findFqn(resource.type) : undefined;
-  if (Object.keys(resource.call.fields).length > 0) {
+  if (isLazyResource(resource)) {
     return replaceLogicalIds(
       resolveLazyResource(template, resource, logicalId, typeSystem, type)
     );
@@ -92,6 +93,12 @@ export function resolveResourceLike(
   throw new TypeError(
     `Expected Cloudformation resource or CDK type, got ${resource.type}`
   );
+}
+
+function isLazyResource(
+  resource: TemplateResource
+): resource is TemplateResource & Required<Pick<TemplateResource, 'call'>> {
+  return resource.call != null;
 }
 
 /**
@@ -165,13 +172,18 @@ function replaceLogicalIds<X extends TypedTemplateExpression>(
 
 function resolveLazyResource(
   template: Template,
-  resource: TemplateResource,
+  resource: TemplateResource & Required<Pick<TemplateResource, 'call'>>,
   logicalId: string,
   typeSystem: reflect.TypeSystem,
   type?: reflect.Type
 ): LazyResource {
-  const call = resource.on
-    ? resolveInstanceMethodCallExpression(template, resource, typeSystem, type)
+  const call = isInstanceMethodCall(resource.call)
+    ? resolveInstanceMethodCallExpression(
+        template,
+        resource.call,
+        typeSystem,
+        type
+      )
     : resolveStaticMethodCallExpression(resource.call, typeSystem, type);
 
   return {
@@ -183,6 +195,12 @@ function resolveLazyResource(
     overrides: resource.overrides,
     call,
   };
+}
+
+function isInstanceMethodCall(
+  c: FactoryMethodCall
+): c is Required<FactoryMethodCall> {
+  return c.target != null;
 }
 
 function resolveCfnResource(

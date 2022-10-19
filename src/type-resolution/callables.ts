@@ -3,6 +3,7 @@ import { TypeReference, TypeSystem } from 'jsii-reflect';
 import {
   assertExactlyOneOfFields,
   assertOneField,
+  assertOneOf,
 } from '../parser/private/types';
 import {
   ArrayLiteral,
@@ -14,11 +15,8 @@ import {
   TemplateExpression,
   TemplateResource,
 } from '../parser/template';
-import {
-  assertExpressionType,
-  TypedArrayExpression,
-  TypedTemplateExpression,
-} from './expression';
+import { FactoryMethodCall, toArrayLiteral } from '../parser/template/calls';
+import { TypedArrayExpression, TypedTemplateExpression } from './expression';
 import { ResolveReferenceExpression } from './references';
 import { resolveExpressionType } from './resolve';
 import { isCfnResource } from './resource-like';
@@ -53,7 +51,7 @@ export function methodFQN(method: reflect.Method): string {
 }
 
 export function resolveStaticMethodCallExpression(
-  call: ObjectLiteral,
+  call: FactoryMethodCall,
   typeSystem: reflect.TypeSystem,
   resultType?: reflect.Type
 ): StaticMethodCallExpression {
@@ -74,14 +72,14 @@ export function resolveStaticMethodCallExpression(
 
 export function resolveInstanceMethodCallExpression(
   template: Template,
-  resource: TemplateResource,
+  call: Required<FactoryMethodCall>,
   typeSystem: reflect.TypeSystem,
   resultType?: reflect.Type
 ): InstanceMethodCallExpression {
   const { target, method, args } = inferInstanceMethodCall(
     typeSystem,
     template,
-    resource
+    call
   );
 
   if (resultType) {
@@ -98,36 +96,35 @@ export function resolveInstanceMethodCallExpression(
 
 function inferMethodCall(
   typeSystem: reflect.TypeSystem,
-  call: ObjectLiteral
+  call: FactoryMethodCall
 ): MethodCall {
-  const candidateFQN = assertFullyQualifiedStaticMethodCall(call);
-  const candidateClass = typeSystem.findClass(candidateFQN);
+  const candidateFqn = enclosingClassFqn(call.methodName);
+  const candidateClass = typeSystem.findClass(candidateFqn);
+
   const methods = staticNonVoidMethods(candidateClass);
   const methodNames = methods.map(methodFQN);
-  const methodName = assertExactlyOneOfFields(call.fields, methodNames);
+  const methodName = assertOneOf(call.methodName, methodNames);
   const method = methods.find((m) => methodFQN(m) === methodName)!;
 
   return {
     method,
-    args: argsFromCall(method, methodName, call.fields),
+    args: resolveArguments(call.arguments, method),
   };
 }
 
 function inferInstanceMethodCall(
   typeSystem: TypeSystem,
   template: Template,
-  resource: TemplateResource
+  call: Required<FactoryMethodCall>
 ): InstanceMethodCall {
-  const referencePath = resource.on!;
-  const factory = inferType(referencePath);
-
-  const method = inferMethod(factory, resource.call);
-  const args = argsFromCall(method, method.name, resource.call.fields);
+  const factory = inferType(call.target);
+  const method = inferMethod(factory, call.methodName);
+  const args = resolveArguments(call.arguments, method);
 
   return {
     target: {
       type: 'resolve-reference',
-      reference: makeRefOrGetPropIntrinsic(referencePath),
+      reference: makeRefOrGetPropIntrinsic(call.target),
     },
     method,
     args,
@@ -147,17 +144,18 @@ function inferInstanceMethodCall(
         return typeSystem.findFqn(res.type).reference;
       }
 
-      if (res.on) {
-        return inferMethod(inferType(res.on), res.call).returns.type;
+      if (res.call?.target) {
+        return inferMethod(inferType(res.call.target), res.call.methodName)
+          .returns.type;
       }
 
-      if (Object.keys(res.call.fields).length > 0) {
+      if (res.call != null) {
         const methodCall = inferMethodCall(typeSystem, res.call);
         return methodCall.method.returns.type;
       }
 
       throw new Error(
-        `The type of ${referencePath} could not be inferred. Please provide the type explicitly.`
+        `The type of ${refPath} could not be inferred. Please provide the type explicitly.`
       );
     } else {
       const [logicalId, ...propPath] = refPath.split('.');
@@ -168,9 +166,8 @@ function inferInstanceMethodCall(
 
 function inferMethod(
   typeRef: reflect.TypeReference,
-  call: ObjectLiteral
+  methodName: string
 ): reflect.Method {
-  const methodName = assertOneField(call.fields);
   const candidateType = resolveTypeFromPath(typeRef.type, []);
   const methods = candidateType?.allMethods.filter((m) => !m.static);
   const methodNames = methods.map((m) => m.name);
@@ -182,24 +179,6 @@ function inferMethod(
   }
 
   return methods.find((m) => m.name === methodName)!;
-}
-
-function argsFromCall(
-  method: reflect.Method,
-  methodName: string,
-  fields: Record<string, TemplateExpression>
-): TypedArrayExpression {
-  const value = fields[methodName];
-  if (value.type === 'array') {
-    const parameters = assertExpressionType(fields[methodName], 'array');
-    return resolvePositionalCallableParameters(parameters, method);
-  } else {
-    const parameters: ArrayLiteral = {
-      type: 'array',
-      array: [value],
-    };
-    return resolvePositionalCallableParameters(parameters, method);
-  }
 }
 
 function resolveTypeFromPath(
@@ -219,14 +198,9 @@ function resolveTypeFromPath(
   return assertReferenceType(result);
 }
 
-function assertFullyQualifiedStaticMethodCall(x: ObjectLiteral): string {
-  const fqn = assertOneField(x.fields);
-  const lastIndex = fqn.lastIndexOf('.');
-  if (lastIndex <= 0 || lastIndex >= fqn.length) {
-    throw new TypeError(`Expected static method call FQN, got: ${fqn}`);
-  }
-
-  return fqn.slice(0, lastIndex);
+function enclosingClassFqn(methodFqn: string): string {
+  const parts = methodFqn.split('.');
+  return parts.slice(0, parts.length - 1).join('.');
 }
 
 export interface InitializerExpression {
@@ -245,13 +219,17 @@ export function resolveInstanceExpression(
 
   // Cannot find a class for the fqn, try a static method call instead
   if (!klass) {
-    return resolveStaticMethodCallExpression(x, type.system, type);
+    const call: FactoryMethodCall = {
+      methodName: candidateFQN,
+      arguments: toArrayLiteral(x.fields[candidateFQN]),
+    };
+    return resolveStaticMethodCallExpression(call, type.system, type);
   }
 
   const classFqn = selectClassFqn(x, type);
   const parameters = asArrayLiteral(x.fields[classFqn]);
   const initializer = assertInitializer(klass);
-  const args = resolvePositionalCallableParameters(parameters, initializer);
+  const args = resolveArguments(parameters, initializer);
 
   return {
     type: 'initializer',
@@ -280,7 +258,7 @@ export function assertInitializer(type: reflect.Type): reflect.Initializer {
   return type.initializer;
 }
 
-export function resolvePositionalCallableParameters(
+export function resolveArguments(
   x: ArrayLiteral,
   callable: reflect.Callable
 ): TypedArrayExpression {
