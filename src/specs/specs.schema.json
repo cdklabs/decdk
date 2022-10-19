@@ -1,0 +1,128 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "additionalProperties": false,
+  "type": "object",
+  "definitions": {
+    "parameter": {
+      "additionalProperties": false,
+      "type": "object",
+      "properties": {
+        "Summary": {
+          "type": "string"
+        },
+        "Type": {
+          "type": "string"
+        }
+      }
+    },
+    "method": {
+      "additionalProperties": false,
+      "type": "object",
+      "properties": {
+        "Summary": {
+          "type": "string"
+        },
+        "Static": {
+          "type": "boolean"
+        },
+        "Parameters": {
+          "additionalProperties": false,
+          "type": "object",
+          "patternProperties": {
+            "^[a-zA-Z0-9]+$": {
+              "$ref": "#/definitions/parameter"
+            }
+          }
+        },
+        "ReturnType": {
+          "type": "string"
+        }
+      },
+      "required": ["Summary", "Static"]
+    },
+    "resourceProperty": {
+      "additionalProperties": false,
+      "type": "object",
+      "properties": {
+        "Remarks": {
+          "type": "string"
+        },
+        "Summary": {
+          "type": "string"
+        },
+        "Required": {
+          "type": "boolean"
+        },
+        "Type": {
+          "type": "string"
+        },
+        "ItemType": {
+          "type": "string"
+        }
+      },
+      "required": ["Remarks", "Summary", "Required", "Type"]
+    },
+    "resource": {
+      "additionalProperties": false,
+      "type": "object",
+      "properties": {
+        "Properties": {
+          "type": "object",
+          "patternProperties": {
+            "^[a-zA-Z0-9]+$": {
+              "$ref": "#/definitions/resourceProperty"
+            }
+          }
+        },
+        "Methods": {
+          "additionalProperties": false,
+          "type": "object",
+          "patternProperties": {
+            "^[a-zA-Z0-9-._]+$": {
+              "$ref": "#/definitions/method"
+            }
+          }
+        },
+        "PublicProperties": {
+          "type": "object",
+          "patternProperties": {
+            "^[a-zA-Z0-9]+$": {
+              "$ref": "#/definitions/resourceProperty"
+            }
+          }
+        }
+      }
+    },
+    "module": {
+      "type": "object",
+      "properties": {
+        "ResourceTypes": {
+          "type": "object",
+          "patternProperties": {
+            "^[A-Z][a-zA-Z0-9]+$": {
+              "$ref": "#/definitions/resource"
+            }
+          }
+        }
+      },
+      "required": ["ResourceTypes"]
+    }
+  },
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "ModuleTypes": {
+      "type": "object",
+      "patternProperties": {
+        "^[a-zA-Z0-9-._]+$": {
+          "$ref": "#/definitions/module"
+        }
+      }
+    }
+  },
+  "required": ["ModuleTypes", "schemaVersion"]
+}
