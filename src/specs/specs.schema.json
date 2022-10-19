@@ -22,6 +22,9 @@
         "Summary": {
           "type": "string"
         },
+        "Remarks": {
+          "type": "string"
+        },
         "Static": {
           "type": "boolean"
         },

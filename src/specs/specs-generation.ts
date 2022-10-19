@@ -18,6 +18,7 @@ interface ParameterSpec {
 
 interface MethodSpec {
   readonly Summary: string;
+  readonly Remarks: string;
   readonly Static: boolean;
   readonly Parameters: Record<string, ParameterSpec>;
   readonly ReturnType?: string;
@@ -135,6 +136,7 @@ function methodSpec(m: reflect.Method): MethodSpec {
       m.parameters.map((p) => [p.name, parameterSpec(p)])
     ),
     Summary: m.docs.summary,
+    Remarks: m.docs.remarks,
     Static: m.static,
     ReturnType: returnType.length > 0 ? returnType : undefined,
   };

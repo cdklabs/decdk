@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "2.0.0",
+  "schemaVersion": "3.0.0",
   "ModuleTypes": {
     "aws-cdk-lib.aws_lambda": {
       "ResourceTypes": {
@@ -78,6 +78,7 @@
                 }
               },
               "Summary": "",
+              "Remarks": "",
               "Static": true,
               "ReturnType": "aws-cdk-lib.aws_lambda.IAlias"
             },
@@ -89,6 +90,7 @@
                 }
               },
               "Summary": "Configure provisioned concurrency autoscaling on a function alias.",
+              "Remarks": "Returns a scalable attribute that can call\n`scaleOnUtilization()` and `scaleOnSchedule()`.",
               "Static": false,
               "ReturnType": "aws-cdk-lib.aws_lambda.IScalableFunctionAttribute"
             },
@@ -104,6 +106,7 @@
                 }
               },
               "Summary": "Return the given named metric for this Function.",
+              "Remarks": "",
               "Static": false,
               "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
             }
@@ -247,6 +250,7 @@
                 }
               },
               "Summary": "Creates a Signing Profile construct that represents an external Signing Profile.",
+              "Remarks": "",
               "Static": true,
               "ReturnType": "aws-cdk-lib.aws_lambda.ICodeSigningConfig"
             }
@@ -825,6 +829,7 @@
                 }
               },
               "Summary": "Import an event source into this stack from its event source id.",
+              "Remarks": "",
               "Static": true,
               "ReturnType": "aws-cdk-lib.aws_lambda.IEventSourceMapping"
             }
@@ -1105,6 +1110,7 @@
                 }
               },
               "Summary": "Record whether specific properties in the `AWS::Lambda::Function` resource should also be associated to the Version resource.",
+              "Remarks": "See 'currentVersion' section in the module README for more details.",
               "Static": true
             },
             "aws-cdk-lib.aws_lambda.Function.fromFunctionArn": {
@@ -1123,6 +1129,7 @@
                 }
               },
               "Summary": "Import a lambda function into the CDK using its ARN.",
+              "Remarks": "",
               "Static": true,
               "ReturnType": "aws-cdk-lib.aws_lambda.IFunction"
             },
@@ -1142,6 +1149,7 @@
                 }
               },
               "Summary": "Creates a Lambda function object which represents a function not defined within this stack.",
+              "Remarks": "",
               "Static": true,
               "ReturnType": "aws-cdk-lib.aws_lambda.IFunction"
             },
@@ -1161,6 +1169,7 @@
                 }
               },
               "Summary": "Import a lambda function into the CDK using its name.",
+              "Remarks": "",
               "Static": true,
               "ReturnType": "aws-cdk-lib.aws_lambda.IFunction"
             },
@@ -1176,6 +1185,7 @@
                 }
               },
               "Summary": "Return the given named metric for this Lambda.",
+              "Remarks": "",
               "Static": true,
               "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
             },
@@ -1187,6 +1197,7 @@
                 }
               },
               "Summary": "Metric for the number of concurrent executions across all Lambdas.",
+              "Remarks": "",
               "Static": true,
               "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
             },
@@ -1198,6 +1209,7 @@
                 }
               },
               "Summary": "Metric for the Duration executing all Lambdas.",
+              "Remarks": "",
               "Static": true,
               "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
             },
@@ -1209,6 +1221,7 @@
                 }
               },
               "Summary": "Metric for the number of Errors executing all Lambdas.",
+              "Remarks": "",
               "Static": true,
               "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
             },
@@ -1220,6 +1233,7 @@
                 }
               },
               "Summary": "Metric for the number of invocations of all Lambdas.",
+              "Remarks": "",
               "Static": true,
               "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
             },
@@ -1231,6 +1245,7 @@
                 }
               },
               "Summary": "Metric for the number of throttled invocations of all Lambdas.",
+              "Remarks": "",
               "Static": true,
               "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
             },
@@ -1242,6 +1257,7 @@
                 }
               },
               "Summary": "Metric for the number of unreserved concurrent executions across all Lambdas.",
+              "Remarks": "",
               "Static": true,
               "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
             },
@@ -1257,6 +1273,7 @@
                 }
               },
               "Summary": "Defines an alias for this function.",
+              "Remarks": "The alias will automatically be updated to point to the latest version of\nthe function as it is being updated during a deployment.\n\n```ts\ndeclare const fn: lambda.Function;\n\nfn.addAlias('Live');\n\n// Is equivalent to\n\nnew lambda.Alias(this, 'AliasLive', {\n   aliasName: 'Live',\n   version: fn.currentVersion,\n});\n```",
               "Static": false,
               "ReturnType": "aws-cdk-lib.aws_lambda.Alias"
             },
@@ -1276,6 +1293,7 @@
                 }
               },
               "Summary": "Adds an environment variable to this Lambda function.",
+              "Remarks": "If this is a ref to a Lambda function, this operation results in a no-op.",
               "Static": false,
               "ReturnType": "aws-cdk-lib.aws_lambda.Function"
             },
@@ -1287,6 +1305,7 @@
                 }
               },
               "Summary": "Adds one or more Lambda Layers to this Lambda function.",
+              "Remarks": "",
               "Static": false
             }
           },
@@ -1438,6 +1457,7 @@
                 }
               },
               "Summary": "Grant the given identity permissions to invoke this Lambda Function URL.",
+              "Remarks": "",
               "Static": false,
               "ReturnType": "aws-cdk-lib.aws_iam.Grant"
             }
@@ -1539,6 +1559,7 @@
                 }
               },
               "Summary": "Imports a layer version by ARN.",
+              "Remarks": "Assumes it is compatible with all Lambda runtimes.",
               "Static": true,
               "ReturnType": "aws-cdk-lib.aws_lambda.ILayerVersion"
             },
@@ -1558,6 +1579,7 @@
                 }
               },
               "Summary": "Imports a Layer that has been defined externally.",
+              "Remarks": "",
               "Static": true,
               "ReturnType": "aws-cdk-lib.aws_lambda.ILayerVersion"
             },
@@ -1573,6 +1595,7 @@
                 }
               },
               "Summary": "Add permission for this layer version to specific entities.",
+              "Remarks": "Usage within\nthe same account where the layer is defined is always allowed and does not\nrequire calling this method. Note that the principal that creates the\nLambda function using the layer (for example, a CloudFormation changeset\nexecution role) also needs to have the ``lambda:GetLayerVersion``\npermission on the layer version.",
               "Static": false
             }
           },
@@ -1867,6 +1890,7 @@
                 }
               },
               "Summary": "Using node.addDependency() does not work on this method as the underlying lambda function is modeled as a singleton across the stack. Use this method instead to declare dependencies.",
+              "Remarks": "",
               "Static": false
             },
             "addEnvironment": {
@@ -1885,6 +1909,7 @@
                 }
               },
               "Summary": "Adds an environment variable to this Lambda function.",
+              "Remarks": "If this is a ref to a Lambda function, this operation results in a no-op.",
               "Static": false,
               "ReturnType": "aws-cdk-lib.aws_lambda.Function"
             },
@@ -1896,6 +1921,7 @@
                 }
               },
               "Summary": "Adds one or more Lambda Layers to this Lambda function.",
+              "Remarks": "",
               "Static": false
             },
             "addPermission": {
@@ -1910,6 +1936,7 @@
                 }
               },
               "Summary": "Adds a permission to the Lambda resource policy.",
+              "Remarks": "",
               "Static": false
             },
             "dependOn": {
@@ -1920,6 +1947,7 @@
                 }
               },
               "Summary": "The SingletonFunction construct cannot be added as a dependency of another construct using node.addDependency(). Use this method instead to declare this as a dependency of another construct.",
+              "Remarks": "",
               "Static": false
             }
           },
@@ -2097,6 +2125,7 @@
                 }
               },
               "Summary": "Construct a Version object from a Version ARN.",
+              "Remarks": "",
               "Static": true,
               "ReturnType": "aws-cdk-lib.aws_lambda.IVersion"
             },
@@ -2116,6 +2145,7 @@
                 }
               },
               "Summary": "",
+              "Remarks": "",
               "Static": true,
               "ReturnType": "aws-cdk-lib.aws_lambda.IVersion"
             },
@@ -2131,6 +2161,7 @@
                 }
               },
               "Summary": "Defines an alias for this version.",
+              "Remarks": "",
               "Static": false,
               "ReturnType": "aws-cdk-lib.aws_lambda.Alias"
             },
@@ -2146,6 +2177,7 @@
                 }
               },
               "Summary": "Return the given named metric for this Function.",
+              "Remarks": "",
               "Static": false,
               "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
             }
