@@ -17,7 +17,6 @@ import {
 } from '../parser/template';
 import { ResourceOverride } from '../parser/template/overrides';
 import { ResourceTag } from '../parser/template/tags';
-import { splitPath } from '../strings';
 import {
   CdkConstruct,
   CdkObject,
@@ -30,6 +29,7 @@ import {
   StaticMethodCallExpression,
 } from '../type-resolution/callables';
 import { TypedTemplateExpression } from '../type-resolution/expression';
+import { ResolveReferenceExpression } from '../type-resolution/references';
 import { EvaluationContext } from './context';
 import { DeCDKCfnOutput } from './outputs';
 import { applyOverride } from './overrides';
@@ -46,27 +46,31 @@ export class Evaluator {
 
   public evaluateTemplate() {
     this.evaluateParameters();
-    this.evaluateMappings();
-    this.evaluateConditions();
-    this.evaluateResources();
-    this.evaluateOutputs();
-    this.evaluateTransform();
     this.evaluateMetadata();
     this.evaluateRules();
+    this.evaluateMappings();
+    this.evaluateConditions();
+    this.evaluateTransform();
+    this.evaluateResources();
+    this.evaluateOutputs();
   }
 
   private evaluateMappings() {
-    this.context.template.mappings.forEach(
-      (mapping, mapName) =>
-        new cdk.CfnMapping(this.context.stack, mapName, {
-          mapping: mapping.toObject(),
-        })
+    const scope = new Construct(this.context.stack, '$Mappings');
+    this.context.template.mappings.forEach((mapping, mapName) =>
+      new cdk.CfnMapping(scope, mapName, {
+        mapping: mapping.toObject(),
+      }).overrideLogicalId(mapName)
     );
   }
 
   private evaluateParameters() {
     this.context.template.parameters.forEach((param, paramName) => {
-      new cdk.CfnParameter(this.context.stack, paramName, param);
+      new cdk.CfnParameter(
+        this.context.stack,
+        paramName,
+        param
+      ).overrideLogicalId(paramName);
       this.context.addReference(new SimpleReference(paramName));
     });
   }
@@ -78,16 +82,16 @@ export class Evaluator {
   }
 
   private evaluateOutputs() {
+    const scope = new Construct(this.context.stack, '$Outputs');
     this.context.template.outputs.forEach((output, outputId) => {
-      new DeCDKCfnOutput(this.context.stack, outputId, {
+      new DeCDKCfnOutput(scope, outputId, {
         value: this.evaluate(output.value),
         description: output.description,
         exportName: output.exportName
           ? this.evaluate(output.exportName)
           : output.exportName,
         condition: output.conditionName,
-      });
-      this.context.addReference(new SimpleReference(outputId));
+      }).overrideLogicalId(outputId);
     });
   }
 
@@ -116,17 +120,19 @@ export class Evaluator {
   }
 
   private evaluateRules() {
+    const scope = new Construct(this.context.stack, '$Rules');
     this.context.template.rules.forEach((rule, name) => {
-      new CfnRule(this.context.stack, name, rule);
+      new CfnRule(scope, name, rule).overrideLogicalId(name);
     });
   }
 
   private evaluateConditions() {
+    const scope = new Construct(this.context.stack, '$Conditions');
     this.context.template.conditions.forEach((condition, logicalId) => {
       const conditionFn = this.evaluate(condition);
-      new cdk.CfnCondition(this.context.stack, logicalId, {
+      new cdk.CfnCondition(scope, logicalId, {
         expression: conditionFn,
-      });
+      }).overrideLogicalId(logicalId);
     });
   }
 
@@ -180,7 +186,7 @@ export class Evaluator {
       case 'object':
         return this.evaluateObject(x.fields);
       case 'resolve-reference':
-        return this.resolveReferences(x.reference);
+        return this.resolveReference(x.reference);
       case 'intrinsic':
         switch (x.fn) {
           case 'base64':
@@ -189,7 +195,7 @@ export class Evaluator {
             return this.fnCidr(ev(x.ipBlock), ev(x.count), maybeEv(x.netMask));
           case 'findInMap':
             return this.fnFindInMap(
-              x.mappingName,
+              assertString(ev(x.mappingName)),
               assertString(ev(x.key1)),
               assertString(ev(x.key2))
             );
@@ -233,6 +239,10 @@ export class Evaluator {
             return this.evaluateArray(x.array);
           case 'lazyLogicalId':
             return this.lazyLogicalId(x);
+          case 'length':
+            return this.fnLength(ev(x.list));
+          case 'toJsonString':
+            return this.toJsonString(ev(x.value));
         }
       case 'enum':
         return this.enum(x.fqn, x.choice);
@@ -271,8 +281,12 @@ export class Evaluator {
       ev(x.props),
     ]) as CfnResource;
 
-    resource.cfnOptions.creationPolicy = x.creationPolicy;
-    resource.cfnOptions.updatePolicy = x.updatePolicy;
+    resource.cfnOptions.creationPolicy = x.creationPolicy
+      ? ev(x.creationPolicy)
+      : undefined;
+    resource.cfnOptions.updatePolicy = x.updatePolicy
+      ? ev(x.updatePolicy)
+      : undefined;
     resource.cfnOptions.metadata = x.metadata;
     resource.cfnOptions.updateReplacePolicy =
       x.updateReplacePolicy as CfnDeletionPolicy;
@@ -306,6 +320,14 @@ export class Evaluator {
     throw new Error(x.errorMessage);
   }
 
+  protected fnLength(x: unknown) {
+    return cdk.Fn.len(x);
+  }
+
+  protected toJsonString(x: unknown) {
+    return cdk.Fn.toJsonString(x);
+  }
+
   public evaluateObject(
     xs: Record<string, TypedTemplateExpression>
   ): Record<string, unknown> {
@@ -336,22 +358,16 @@ export class Evaluator {
 
     return call.type === 'staticMethodCall'
       ? this.invokeStaticMethod(call.fqn, call.method, parameters)
-      : this.invokeInstanceMethod(call.logicalId, call.method, parameters);
+      : this.invokeInstanceMethod(call.target, call.method, parameters);
   }
 
   private invokeInstanceMethod(
-    logicalId: string,
+    target: ResolveReferenceExpression,
     method: string,
     parameters: any[]
   ) {
-    const instance = this.context.reference(logicalId).instance;
-    const [constructPath, methodName] = splitPath(method);
-    const construct = resolveTargetFromPath(instance, constructPath);
-    return construct[methodName](...parameters);
-
-    function resolveTargetFromPath(root: unknown, path: string[]): any {
-      return path.length > 0 ? getPropDot(root, path.join('.')) : root;
-    }
+    const instance = this.resolveReference(target.reference);
+    return instance[method](...parameters);
   }
 
   protected invokeStaticMethod(
@@ -433,7 +449,7 @@ export class Evaluator {
     return cdk.Fn.join(separator, array);
   }
 
-  protected resolveReferences(intrinsic: RefIntrinsic | GetPropIntrinsic) {
+  protected resolveReference(intrinsic: RefIntrinsic | GetPropIntrinsic) {
     const { logicalId, fn } = intrinsic;
 
     const c = this.context.reference(logicalId);

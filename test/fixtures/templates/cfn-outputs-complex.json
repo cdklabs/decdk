@@ -1,0 +1,37 @@
+{
+  "$schema": "../../../cdk.schema.json",
+  "Resources": {
+    "Topic": {
+      "Type": "aws-cdk-lib.aws_sns.Topic"
+    },
+    "Lambda": {
+      "Type": "aws-cdk-lib.aws_lambda.Function",
+      "Properties": {
+        "code": {
+          "aws-cdk-lib.aws_lambda.Code.fromAsset": "examples/lambda-handler"
+        },
+        "runtime": "NODEJS",
+        "handler": "index.handler",
+        "events": [
+          {
+            "aws-cdk-lib.aws_lambda_event_sources.SnsEventSource": {
+              "Ref": "Topic"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "Outputs": {
+    "FunctionArn": {
+      "Value": {
+        "CDK::GetProp": "Lambda.functionName"
+      },
+      "Export": {
+        "Name": {
+          "Fn::Join": ["-", [{ "Ref": "AWS::StackName" }, "FunctionName"]]
+        }
+      }
+    }
+  }
+}

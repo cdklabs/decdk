@@ -21,17 +21,5 @@
         ]
       }
     }
-  },
-  "Outputs": {
-    "FunctionArn": {
-      "Value": {
-        "CDK::GetProp": "Lambda.functionName"
-      },
-      "Export": {
-        "Name": {
-          "Fn::Join": ["-", [{"Ref": "AWS::StackName"}, "FunctionName"]]
-        }
-      }
-    }
   }
 }

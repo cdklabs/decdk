@@ -9,7 +9,11 @@ import {
   StringLiteral,
   TemplateExpression,
 } from '../parser/template';
-import { InitializerExpression, StaticMethodCallExpression } from './callables';
+import {
+  InitializerExpression,
+  InstanceMethodCallExpression,
+  StaticMethodCallExpression,
+} from './callables';
 import { EnumExpression, StaticPropertyExpression } from './enums';
 import { DateLiteral } from './literals';
 import { AnyTemplateExpression, VoidExpression } from './primitives';
@@ -31,6 +35,7 @@ export type TypedTemplateExpression =
   | StructExpression
   | StaticPropertyExpression
   | StaticMethodCallExpression
+  | InstanceMethodCallExpression
   | InitializerExpression
   | VoidExpression
   | AnyTemplateExpression

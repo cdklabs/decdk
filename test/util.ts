@@ -1,6 +1,5 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { join } from 'path';
 import * as cdk from 'aws-cdk-lib';
 import { DefaultStackSynthesizer } from 'aws-cdk-lib';
 import {
@@ -32,19 +31,44 @@ function loadJsonSchemaFromFile() {
   return _cachedSchema;
 }
 
-let _cachedExamples: fs.Dirent[];
-function loadExamples() {
-  // Load only once, it's quite expensive
-  if (!_cachedExamples) {
-    const isTemplateFile = (dirent: fs.Dirent): boolean =>
-      dirent.isFile() &&
-      (dirent.name.endsWith('.json') || dirent.name.endsWith('.yaml'));
+const isTemplateFile = (dirent: fs.Dirent): boolean =>
+  dirent.isFile() &&
+  (dirent.name.endsWith('.json') || dirent.name.endsWith('.yaml'));
 
-    _cachedExamples = fs
-      .readdirSync(Testing.examples_dir, { withFileTypes: true })
-      .filter(isTemplateFile);
+interface TemplateFixture {
+  id: string;
+  name: string;
+  path: string;
+}
+let _cachedExamples: Map<string, TemplateFixture[]> = new Map();
+const fixtureDirs = [
+  path.join(__dirname, '..', 'examples'),
+  path.join(__dirname, 'fixtures', 'templates'),
+];
+export function loadTemplateFixtures(
+  directories = fixtureDirs
+): TemplateFixture[] {
+  // Load only once, it's quite expensive
+  const cacheKey = Buffer.from(JSON.stringify(directories), 'utf8').toString(
+    'base64'
+  );
+
+  if (_cachedExamples.has(cacheKey)) {
+    return _cachedExamples.get(cacheKey)!;
   }
-  return _cachedExamples;
+
+  const fixtures = directories.flatMap((fixtureDir) =>
+    fs
+      .readdirSync(fixtureDir, { withFileTypes: true })
+      .filter(isTemplateFile)
+      .map((file) => ({
+        id: path.join(path.basename(fixtureDir), file.name),
+        name: file.name,
+        path: path.join(fixtureDir, file.name),
+      }))
+  );
+  _cachedExamples.set(cacheKey, fixtures);
+  return fixtures;
 }
 
 export class Testing {
@@ -52,12 +76,8 @@ export class Testing {
     return obtainTypeSystem();
   }
 
-  public static get examples_dir() {
-    return path.join(__dirname, '..', 'examples');
-  }
-
-  public static get examples() {
-    return loadExamples();
+  public static get templateFixtures() {
+    return loadTemplateFixtures();
   }
 
   public static get schema() {
@@ -102,18 +122,19 @@ export class Testing {
   private constructor() {}
 }
 
-export function testExamples(
+export interface TemplateFixturesTestOptions {
+  timeout?: number;
+}
+
+export function testTemplateFixtures(
   testCase: (example: { name: string; path: string }) => any,
-  timeout?: number
+  fixtures = Testing.templateFixtures,
+  options: TemplateFixturesTestOptions = {}
 ) {
-  test.each(Testing.examples.map((file) => ({ file })))(
-    '$file.name',
-    ({ file }) =>
-      testCase({
-        name: file.name,
-        path: join(Testing.examples_dir, file.name),
-      }),
-    timeout
+  test.each(fixtures.map((file) => ({ file })))(
+    '$file.id',
+    ({ file }) => testCase(file),
+    options.timeout
   );
 }
 
@@ -161,7 +182,11 @@ function resourceErrors(
 ): jsonschema.ValidationError[] {
   return errors.flatMap((e) => {
     const definitions = schema.definitions || {};
-    if (e.path.length !== 2 || e.path[0] !== 'Resources') {
+    if (
+      e.path.length !== 2 ||
+      e.path[0] !== 'Resources' ||
+      !definitions[e.instance.Type]
+    ) {
       return e;
     }
     const local = jsonschema.validate(e.instance, {
@@ -190,7 +215,29 @@ export function matchConstruct(props: object) {
   });
 }
 
-export function matchInitializer(fqn: string, args: object[]) {
+export function matchLazyResource(call: any) {
+  return expect.objectContaining({
+    type: 'lazyResource',
+    call,
+  });
+}
+
+export function matchInstanceMethodCall(target: string, args: any[] = []) {
+  const [ref, ...propPath] = target.split('.');
+  const targetResolve = propPath.length
+    ? matchResolveFnGetProp(ref, propPath.join('.'))
+    : matchResolveFnRef(ref);
+
+  return expect.objectContaining({
+    type: 'instanceMethodCall',
+    target: targetResolve,
+    args: {
+      type: 'array',
+      array: expect.arrayContaining(args),
+    },
+  });
+}
+export function matchInitializer(fqn: string, args: object[] = []) {
   return expect.objectContaining({
     type: 'initializer',
     fqn,
@@ -237,7 +284,14 @@ export function matchFnRef(logicalId: string) {
 export function matchResolveFnRef(logicalId: string) {
   return {
     type: 'resolve-reference',
-    reference: { type: 'intrinsic', fn: 'ref', logicalId },
+    reference: matchFnRef(logicalId),
+  };
+}
+
+export function matchResolveFnGetProp(logicalId: string, property?: string) {
+  return {
+    type: 'resolve-reference',
+    reference: matchFnGetProp(logicalId, property),
   };
 }
 
@@ -247,6 +301,15 @@ export function matchFnGetAtt(logicalId: string, attribute?: object) {
     fn: 'getAtt',
     logicalId,
     ...(attribute ? { attribute } : {}),
+  });
+}
+
+export function matchFnGetProp(logicalId: string, property?: string) {
+  return expect.objectContaining({
+    type: 'intrinsic',
+    fn: 'getProp',
+    logicalId,
+    ...(property ? { property } : {}),
   });
 }
 

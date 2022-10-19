@@ -137,3 +137,72 @@ test('Non-constructs can be instantiated inline using constructor args', async (
     },
   });
 });
+
+describe('CreationPolicy', () => {
+  test('can use StartFleet creation policy', async () => {
+    const parsedTemplate = await Template.fromObject({
+      Resources: {
+        MyBucket: {
+          Type: 'AWS::S3::Bucket',
+          CreationPolicy: {
+            StartFleet: true,
+          },
+        },
+      },
+    });
+
+    const template = await Testing.template(parsedTemplate);
+    template.hasResource('AWS::S3::Bucket', {
+      CreationPolicy: {
+        StartFleet: true,
+      },
+    });
+  });
+
+  test('creation policies can reference CDK constructs', async () => {
+    const withWebsite = await Template.fromObject({
+      Resources: {
+        Bucket1: {
+          Type: 'aws-cdk-lib.aws_s3.Bucket',
+          Properties: {
+            websiteErrorDocument: '404.html',
+            websiteIndexDocument: 'index.html',
+          },
+        },
+        Bucket2: {
+          Type: 'AWS::S3::Bucket',
+          CreationPolicy: {
+            StartFleet: { 'CDK::GetProp': 'Bucket1.isWebsite' },
+          },
+        },
+      },
+    });
+
+    (await Testing.template(withWebsite)).hasResource('AWS::S3::Bucket', {
+      CreationPolicy: {
+        StartFleet: true,
+      },
+    });
+
+    const withoutWebsite = await Template.fromObject({
+      Resources: {
+        Bucket1: {
+          Type: 'aws-cdk-lib.aws_s3.Bucket',
+          Properties: {},
+        },
+        Bucket2: {
+          Type: 'AWS::S3::Bucket',
+          CreationPolicy: {
+            StartFleet: { 'CDK::GetProp': 'Bucket1.isWebsite' },
+          },
+        },
+      },
+    });
+
+    (await Testing.template(withoutWebsite)).hasResource('AWS::S3::Bucket', {
+      CreationPolicy: {
+        StartFleet: false,
+      },
+    });
+  });
+});

@@ -1,0 +1,45 @@
+{
+  "$schema": "../cdk.schema.json",
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "A template creates a lambda function with an api gateway",
+  "Resources": {
+    "HelloLambda": {
+      "Type": "aws-cdk-lib.aws_lambda.Function",
+      "Properties": {
+        "code": {
+          "aws-cdk-lib.aws_lambda.Code.fromAsset": "examples/lambda-handler"
+        },
+        "runtime": "PYTHON_3_6",
+        "handler": "index.handler"
+      },
+      "Tags": [
+        {
+          "Key": "category",
+          "Value": "ecommerce"
+        }
+      ]
+    },
+    "MyApi": {
+      "Type": "aws-cdk-lib.aws_apigateway.LambdaRestApi",
+      "Properties": {
+        "handler": { "Ref": "HelloLambda" }
+      }
+    },
+    "GetRoot": {
+      "Type": "aws-cdk-lib.aws_apigateway.Method",
+      "Properties": {
+        "resource": { "CDK::GetProp": "MyApi.root" },
+        "httpMethod": "GET"
+      }
+    }
+  },
+  "Outputs": {
+    "SimpleValue": {
+      "Value": "SimpleValue",
+      "Description": "Sample primitive output value",
+      "Export": {
+        "Name": "SimpleValueExportName"
+      }
+    }
+  }
+}

@@ -18,9 +18,7 @@ export class Template {
     const tpl = parseCfnYaml(
       await fs.readFile(fileName, { encoding: 'utf-8' })
     );
-    if (!tpl.Resources) {
-      throw new Error(`${fileName}: does not look like a template`);
-    }
+
     return new Template(tpl);
   }
 

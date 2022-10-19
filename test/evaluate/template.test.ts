@@ -234,6 +234,30 @@ describe('Parameters', () => {
       BucketName: { Ref: 'BucketName' },
     });
   });
+
+  test('cannot have Resource and Parameter of same name', async () => {
+    // GIVEN
+    const template = await Template.fromObject({
+      Parameters: {
+        TopicOne: {
+          Type: 'String',
+          Default: 'test',
+        },
+      },
+      Resources: {
+        TopicOne: {
+          Type: 'aws-cdk-lib.aws_sns.Topic',
+          Properties: {
+            topicName: 'one',
+            fifo: true,
+          },
+        },
+      },
+    });
+
+    // THEN
+    await expect(Testing.synth(template)).rejects.toThrow();
+  });
 });
 
 describe('given a template with unknown top-level properties', () => {
@@ -450,9 +474,9 @@ describe('can evaluate cyclic types', () => {
           },
           MockMethod: {
             Type: 'aws-cdk-lib.aws_apigateway.Method',
-            On: 'Api',
+            On: 'Api.root',
             Call: {
-              'root.addMethod': [
+              addMethod: [
                 'GET',
                 {
                   Ref: 'MockIntegration',
@@ -694,5 +718,53 @@ describe('Conditions', () => {
         },
       ],
     });
+  });
+});
+
+describe('Metadata', () => {
+  test('Metadata referencing parameters', async () => {
+    const template = await Testing.template(
+      await Template.fromObject({
+        Parameters: {
+          MyParam: {
+            Type: 'String',
+            Default: 'MyValue',
+          },
+        },
+        Metadata: {
+          Field: {
+            'Fn::If': [
+              'AlwaysFalse',
+              'AWS::NoValue',
+              {
+                Ref: 'MyParam',
+              },
+            ],
+          },
+        },
+        Resources: {
+          Bucket: {
+            Type: 'AWS::S3::Bucket',
+          },
+        },
+      }),
+      false
+    );
+
+    expect(template.toJSON()).toEqual(
+      expect.objectContaining({
+        Metadata: {
+          Field: {
+            'Fn::If': [
+              'AlwaysFalse',
+              'AWS::NoValue',
+              {
+                Ref: 'MyParam',
+              },
+            ],
+          },
+        },
+      })
+    );
   });
 });

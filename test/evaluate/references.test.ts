@@ -148,3 +148,47 @@ test('can use FnRef on result of Member Method Call', async () => {
     TopicName: 'live',
   });
 });
+
+test('can use FnGetProp on a construct with the same logical Id as a Mapping or Output', async () => {
+  // GIVEN
+  const template = await Testing.template(
+    await Template.fromObject({
+      Mappings: {
+        TopicOne: {
+          'ap-southeast-1': {
+            Name: 'Value01',
+          },
+        },
+      },
+      Resources: {
+        TopicOne: {
+          Type: 'aws-cdk-lib.aws_sns.Topic',
+          Properties: {
+            topicName: 'one',
+            fifo: true,
+          },
+        },
+        TopicTwo: {
+          Type: 'aws-cdk-lib.aws_sns.Topic',
+          Properties: {
+            topicName: 'two',
+            fifo: { 'CDK::GetProp': 'TopicOne.fifo' },
+          },
+        },
+      },
+      Outputs: {
+        TopicOne: {
+          Value: {
+            Ref: 'TopicOne',
+          },
+        },
+      },
+    })
+  );
+
+  // THEN
+  template.hasResourceProperties('AWS::SNS::Topic', {
+    TopicName: 'two.fifo', // .fifo is added automatically for fifo topics
+    FifoTopic: true,
+  });
+});

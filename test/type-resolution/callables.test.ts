@@ -1,7 +1,16 @@
 import * as reflect from 'jsii-reflect';
 import { Template } from '../../src/parser/template';
 import { TypedTemplate } from '../../src/type-resolution/template';
-import { matchConstruct, Testing } from '../util';
+import {
+  matchConstruct,
+  matchInitializer,
+  matchInstanceMethodCall,
+  matchLazyResource,
+  matchResolveFnGetProp,
+  matchResolveFnRef,
+  matchStringLiteral,
+  Testing,
+} from '../util';
 
 let typeSystem: reflect.TypeSystem;
 
@@ -86,6 +95,114 @@ test('Can provide implementation via static method', async () => {
   expect(template.template).toBeValidTemplate();
 });
 
+test('Can provide implementation if expected type is a class', async () => {
+  // GIVEN
+  const template = await Template.fromObject({
+    Resources: {
+      LibraryApi: {
+        Type: 'aws-cdk-lib.aws_apigateway.RestApi',
+      },
+      BooksResource: {
+        Type: 'aws-cdk-lib.aws_apigateway.Resource',
+        Properties: {
+          parent: {
+            'CDK::GetProp': 'LibraryApi.root',
+          },
+          pathPart: 'books',
+        },
+      },
+      GetBooks: {
+        Type: 'aws-cdk-lib.aws_apigateway.Method',
+        On: 'BooksResource',
+        Call: {
+          addMethod: [
+            'GET',
+            {
+              'aws-cdk-lib.aws_apigateway.HttpIntegration': [
+                'https://amazon.com/{proxy}',
+                {
+                  proxy: true,
+                  httpMethod: 'GET',
+                  options: {
+                    requestParameters: {
+                      'integration.request.path.proxy':
+                        'method.request.path.proxy',
+                    },
+                  },
+                },
+              ],
+            },
+            {
+              requestParameters: {
+                'method.request.path.proxy': true,
+              },
+            },
+          ],
+        },
+      },
+    },
+  });
+
+  const typedTemplate = new TypedTemplate(template, { typeSystem });
+
+  // THEN
+  const books = typedTemplate.resource('GetBooks');
+  expect(books).toEqual(
+    matchLazyResource(
+      matchInstanceMethodCall('BooksResource', [
+        matchStringLiteral('GET'),
+        matchInitializer('aws-cdk-lib.aws_apigateway.HttpIntegration'),
+      ])
+    )
+  );
+  expect(template.template).toBeValidTemplate();
+});
+
+test('Can only provide compatible inline implementations', async () => {
+  // GIVEN
+  const template = await Template.fromObject({
+    Resources: {
+      LibraryApi: {
+        Type: 'aws-cdk-lib.aws_apigateway.RestApi',
+      },
+      BooksResource: {
+        Type: 'aws-cdk-lib.aws_apigateway.Resource',
+        Properties: {
+          parent: {
+            'CDK::GetProp': 'LibraryApi.root',
+          },
+          pathPart: 'books',
+        },
+      },
+      GetBooks: {
+        Type: 'aws-cdk-lib.aws_apigateway.Method',
+        On: 'BooksResource',
+        Call: {
+          addMethod: [
+            'GET',
+            {
+              'aws-cdk-lib.aws_apigateway.ProxyResource': {
+                'CDK::Args': [
+                  { Ref: 'CDK::Scope' },
+                  'test',
+                  {
+                    parent: { 'CDK::GetProp': 'LibraryApi.root' },
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      },
+    },
+  });
+
+  // THEN
+  expect(() => new TypedTemplate(template, { typeSystem })).toThrow(
+    "Expected exactly one of the fields 'aws-cdk-lib.aws_apigateway.AwsIntegration',"
+  );
+});
+
 test('Resources can be created by calling instance methods on constructs', async () => {
   // GIVEN
   const template = await Template.fromObject({
@@ -122,7 +239,7 @@ test('Resources can be created by calling instance methods on constructs', async
     overrides: [],
     call: {
       type: 'instanceMethodCall',
-      logicalId: 'MyFunction',
+      target: matchResolveFnRef('MyFunction'),
       method: 'addAlias',
       args: {
         type: 'array',
@@ -310,7 +427,7 @@ test('Resources created by method calls can have the type omitted', () => {
     overrides: [],
     call: {
       type: 'instanceMethodCall',
-      logicalId: 'MyLambda',
+      target: matchResolveFnRef('MyLambda'),
       method: 'configureAsyncInvoke',
       args: {
         type: 'array',
@@ -367,7 +484,7 @@ test('Types can be inferred transitively', () => {
     overrides: [],
     call: {
       type: 'instanceMethodCall',
-      logicalId: 'Alias',
+      target: matchResolveFnRef('Alias'),
       method: 'configureAsyncInvoke',
       args: {
         type: 'array',
@@ -400,9 +517,9 @@ test('Resources can be created by calling instance methods on nested construct',
         Type: 'aws-cdk-lib.aws_iam.User',
       },
       Grant: {
-        On: 'Function',
+        On: 'Function.logGroup',
         Call: {
-          'logGroup.grantWrite': { Ref: 'User' },
+          grantWrite: { Ref: 'User' },
         },
       },
     },
@@ -419,8 +536,8 @@ test('Resources can be created by calling instance methods on nested construct',
     overrides: [],
     call: {
       type: 'instanceMethodCall',
-      logicalId: 'Function',
-      method: 'logGroup.grantWrite',
+      target: matchResolveFnGetProp('Function', 'logGroup'),
+      method: 'grantWrite',
       args: {
         type: 'array',
         array: [
@@ -456,9 +573,9 @@ test('Nested construct paths must be valid', () => {
         Type: 'aws-cdk-lib.aws_iam.User',
       },
       Grant: {
-        On: 'Function',
+        On: 'Function.foo',
         Call: {
-          'foo.grantWrite': { Ref: 'User' },
+          grantWrite: { Ref: 'User' },
         },
       },
     },
@@ -499,7 +616,7 @@ test('Single arguments are interpreted as the first argument of a call', async (
     expect.objectContaining({
       call: {
         type: 'instanceMethodCall',
-        logicalId: 'MyFunction',
+        target: matchResolveFnRef('MyFunction'),
         method: 'addAlias',
         args: {
           type: 'array',
@@ -611,24 +728,85 @@ test('Scope and id are unwrapped when passed through CDK::Args', async () => {
   );
 });
 
-test('Calls to fromXxx methods cannot be inlined', async () => {
-  await expect(
-    Testing.template(
-      Template.fromObject({
-        Resources: {
-          Bucket: {
-            Type: 'aws-cdk-lib.aws_s3.Bucket',
-            Properties: {
-              encryptionKey: {
-                'aws-cdk-lib.aws_kms.Key.fromKeyArn': 'some-key',
-              },
+test('Calls to static factory methods with implicit arguments can be inlined', async () => {
+  const template = await Testing.template(
+    Template.fromObject({
+      Resources: {
+        Bucket: {
+          Type: 'aws-cdk-lib.aws_s3.Bucket',
+          Properties: {
+            encryptionKey: {
+              'aws-cdk-lib.aws_kms.Key.fromKeyArn':
+                'arn:aws:kms:us-east-1:11112222333344444:key/629e8e76-58da-4c0c-9b81-13683a7308ed',
             },
           },
         },
-      }),
-      false
-    )
-  ).rejects.toThrow(/failed because the id could not be inferred/);
+      },
+    }),
+    false
+  );
+
+  template.hasResourceProperties('AWS::S3::Bucket', {
+    BucketEncryption: {
+      ServerSideEncryptionConfiguration: [
+        {
+          ServerSideEncryptionByDefault: {
+            KMSMasterKeyID:
+              'arn:aws:kms:us-east-1:11112222333344444:key/629e8e76-58da-4c0c-9b81-13683a7308ed',
+            SSEAlgorithm: 'aws:kms',
+          },
+        },
+      ],
+    },
+  });
+});
+
+test('Calls to static factory methods with implicit arguments can be inlined inside arrays', async () => {
+  const template = await Testing.template(
+    Template.fromObject({
+      Resources: {
+        Api: {
+          Type: 'aws-cdk-lib.aws_apigateway.RestApi',
+          Properties: {
+            endpointConfiguration: {
+              types: ['EDGE'],
+              vpcEndpoints: [
+                {
+                  'aws-cdk-lib.aws_ec2.GatewayVpcEndpoint.fromGatewayVpcEndpointId':
+                    'larry',
+                },
+                {
+                  'aws-cdk-lib.aws_ec2.GatewayVpcEndpoint.fromGatewayVpcEndpointId':
+                    'curly',
+                },
+                {
+                  'aws-cdk-lib.aws_ec2.GatewayVpcEndpoint.fromGatewayVpcEndpointId':
+                    'moe',
+                },
+              ],
+            },
+          },
+        },
+
+        // Just to make the API happy:
+        AddMockMethod: {
+          On: 'Api.root',
+          Call: {
+            addMethod: [
+              'GET',
+              {
+                'aws-cdk-lib.aws_apigateway.MockIntegration': [],
+              },
+            ],
+          },
+        },
+      },
+    })
+  );
+
+  template.hasResourceProperties('AWS::ApiGateway::RestApi', {
+    EndpointConfiguration: { VpcEndpointIds: ['larry', 'curly', 'moe'] },
+  });
 });
 
 test('Calls to fromXxx() wrapped in CDK::Args work for property values', async () => {

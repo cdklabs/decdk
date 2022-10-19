@@ -38,28 +38,29 @@ Resources:
   TitleWidget:
     Type: aws-cdk-lib.aws_cloudwatch.TextWidget
     Properties:
-      markdown: !Join
-        - ''
-        - - '# Operational Metrics: '
-          - !Ref SampleLambda
+      markdown:
+        Fn::Join:
+          - ''
+          - - '# Operational Metrics: '
+            - !Ref SampleLambda
   ServiceDashboard:
     Type: aws-cdk-lib.aws_cloudwatch.Dashboard
     Properties:
       dashboardName: !Ref DashboardName
       widgets:
-        - - !Ref TitleWidget
+        - - Ref: TitleWidget
           - aws-cdk-lib.aws_cloudwatch.GraphWidget:
               title: Invocations
-              left: [!Ref Invocations]
+              left: [Ref: Invocations]
           - aws-cdk-lib.aws_cloudwatch.GraphWidget:
               title: Errors
-              left: [!Ref Errors]
+              left: [Ref: Errors]
           - aws-cdk-lib.aws_cloudwatch.GraphWidget:
               title: Duration
-              left: [!Ref Duration]
+              left: [Ref: Duration]
           - aws-cdk-lib.aws_cloudwatch.GraphWidget:
               title: Throttles
-              left: [!Ref Throttles]
+              left: [Ref: Throttles]
           - aws-cdk-lib.aws_cloudwatch.LogQueryWidget:
               logGroupNames:
                 - CDK::GetProp: SampleLambda.logGroup.logGroupName

@@ -7,17 +7,19 @@ import {
 import {
   ArrayLiteral,
   asArrayLiteral,
+  GetPropIntrinsic,
   ObjectLiteral,
+  RefIntrinsic,
   Template,
   TemplateExpression,
   TemplateResource,
 } from '../parser/template';
-import { splitPath } from '../strings';
 import {
   assertExpressionType,
   TypedArrayExpression,
   TypedTemplateExpression,
 } from './expression';
+import { ResolveReferenceExpression } from './references';
 import { resolveExpressionType } from './resolve';
 import { isCfnResource } from './resource-like';
 import { assertImplements } from './types';
@@ -32,7 +34,7 @@ export interface StaticMethodCallExpression {
 
 export interface InstanceMethodCallExpression {
   readonly type: 'instanceMethodCall';
-  readonly logicalId: string;
+  readonly target: ResolveReferenceExpression;
   readonly method: string;
   readonly args: TypedArrayExpression;
 }
@@ -43,11 +45,10 @@ interface MethodCall {
 }
 
 interface InstanceMethodCall extends MethodCall {
-  readonly logicalId: string;
-  readonly methodPath: string;
+  readonly target: ResolveReferenceExpression;
 }
 
-function methodFQN(method: reflect.Method): string {
+export function methodFQN(method: reflect.Method): string {
   return `${method.parentType.fqn}.${method.name}`;
 }
 
@@ -77,7 +78,7 @@ export function resolveInstanceMethodCallExpression(
   typeSystem: reflect.TypeSystem,
   resultType?: reflect.Type
 ): InstanceMethodCallExpression {
-  const { logicalId, method, methodPath, args } = inferInstanceMethodCall(
+  const { target, method, args } = inferInstanceMethodCall(
     typeSystem,
     template,
     resource
@@ -89,8 +90,8 @@ export function resolveInstanceMethodCallExpression(
 
   return {
     type: 'instanceMethodCall',
-    logicalId,
-    method: methodPath,
+    target,
+    method: method.name,
     args,
   };
 }
@@ -117,66 +118,70 @@ function inferInstanceMethodCall(
   template: Template,
   resource: TemplateResource
 ): InstanceMethodCall {
-  const logicalId = resource.on!;
-  const factory = template.resource(logicalId);
-  if (isCfnResource(factory)) {
-    throw new Error(
-      `${factory.type} is a CloudFormation resource. Method calls are not allowed.`
-    );
-  }
+  const referencePath = resource.on!;
+  const factory = inferType(referencePath);
 
-  const { method, methodPath } = inferMethod(inferType(factory), resource.call);
-  const args = argsFromCall(method, methodPath, resource.call.fields);
+  const method = inferMethod(factory, resource.call);
+  const args = argsFromCall(method, method.name, resource.call.fields);
 
   return {
-    logicalId,
-    methodPath,
+    target: {
+      type: 'resolve-reference',
+      reference: makeRefOrGetPropIntrinsic(referencePath),
+    },
     method,
     args,
   };
 
-  function inferType(res: TemplateResource): TypeReference {
-    if (res.type) {
-      return typeSystem.findFqn(res.type).reference;
-    }
+  function inferType(refPath: string): TypeReference {
+    let res: TemplateResource;
+    if (!refPath.includes('.')) {
+      res = template.resource(refPath);
+      if (isCfnResource(res)) {
+        throw new Error(
+          `${res.type} is a CloudFormation resource. Method calls are not allowed.`
+        );
+      }
 
-    if (res.on) {
-      const typeReference = inferType(template.resource(res.on));
-      const m = inferMethod(typeReference, res.call);
-      return m.method.returns.type;
-    }
+      if (res.type) {
+        return typeSystem.findFqn(res.type).reference;
+      }
 
-    if (Object.keys(res.call.fields).length > 0) {
-      const methodCall = inferMethodCall(typeSystem, res.call);
-      return methodCall.method.returns.type;
-    }
+      if (res.on) {
+        return inferMethod(inferType(res.on), res.call).returns.type;
+      }
 
-    throw new Error(
-      `The type of ${logicalId} could not be inferred. Please provide the type explicitly.`
-    );
+      if (Object.keys(res.call.fields).length > 0) {
+        const methodCall = inferMethodCall(typeSystem, res.call);
+        return methodCall.method.returns.type;
+      }
+
+      throw new Error(
+        `The type of ${referencePath} could not be inferred. Please provide the type explicitly.`
+      );
+    } else {
+      const [logicalId, ...propPath] = refPath.split('.');
+      return resolveTypeFromPath(inferType(logicalId).type, propPath).reference;
+    }
   }
 }
 
 function inferMethod(
   typeRef: reflect.TypeReference,
   call: ObjectLiteral
-): { method: reflect.Method; methodPath: string } {
-  const methodPath = assertOneField(call.fields);
-  const [constructPath, methodName] = splitPath(methodPath);
-  const candidateType = resolveTypeFromPath(typeRef.type, constructPath);
-  const methods = candidateType.allMethods.filter((m) => !m.static);
+): reflect.Method {
+  const methodName = assertOneField(call.fields);
+  const candidateType = resolveTypeFromPath(typeRef.type, []);
+  const methods = candidateType?.allMethods.filter((m) => !m.static);
   const methodNames = methods.map((m) => m.name);
 
   if (!methodNames.includes(methodName)) {
     throw new Error(
-      `'${candidateType.fqn}' has no method called '${methodPath}'`
+      `'${candidateType.fqn}' has no method called '${methodName}'`
     );
   }
 
-  return {
-    method: methods.find((m) => m.name === methodName)!,
-    methodPath,
-  };
+  return methods.find((m) => m.name === methodName)!;
 }
 
 function argsFromCall(
@@ -233,7 +238,7 @@ export interface InitializerExpression {
 
 export function resolveInstanceExpression(
   x: ObjectLiteral,
-  type: reflect.Type
+  type: reflect.InterfaceType | reflect.ClassType
 ): InitializerExpression | StaticMethodCallExpression {
   const candidateFQN = assertOneField(x.fields);
   const klass = type.system.tryFindFqn(candidateFQN);
@@ -243,7 +248,7 @@ export function resolveInstanceExpression(
     return resolveStaticMethodCallExpression(x, type.system, type);
   }
 
-  const classFqn = selectClassFqn(x, type, candidateFQN);
+  const classFqn = selectClassFqn(x, type);
   const parameters = asArrayLiteral(x.fields[classFqn]);
   const initializer = assertInitializer(klass);
   const args = resolvePositionalCallableParameters(parameters, initializer);
@@ -258,18 +263,13 @@ export function resolveInstanceExpression(
 
 function selectClassFqn(
   x: ObjectLiteral,
-  type: reflect.Type,
-  fqn: string
+  type: reflect.ClassType | reflect.InterfaceType
 ): string {
-  if (type.isClassType()) {
-    return fqn;
-  }
+  const possibleImplementations = type.system.classes
+    .filter((i) => i.extends(type))
+    .map((s) => s.fqn);
 
-  const allSubClasses = type.system.classes.filter((i) => i.extends(type));
-  return assertExactlyOneOfFields(
-    x.fields,
-    allSubClasses.map((s) => s.fqn)
-  );
+  return assertExactlyOneOfFields(x.fields, possibleImplementations);
 }
 
 export function assertInitializer(type: reflect.Type): reflect.Initializer {
@@ -321,7 +321,7 @@ function prepareParameters(
       return x.array[0].array;
     } else {
       return [
-        { type: 'intrinsic', fn: 'ref', logicalId: 'CDK::Scope' },
+        makeRefIntrinsic('CDK::Scope'),
         {
           type: 'intrinsic',
           fn: 'lazyLogicalId',
@@ -380,4 +380,33 @@ function staticNonVoidMethods(cls: reflect.ClassType) {
   return cls.allMethods.filter(
     (m) => m.static && m.returns && m.returns.type.type
   );
+}
+
+function makeRefOrGetPropIntrinsic(
+  referencePath: string
+): RefIntrinsic | GetPropIntrinsic {
+  if (referencePath.includes('.')) {
+    return makeGetPropIntrinsic(referencePath);
+  }
+
+  return makeRefIntrinsic(referencePath);
+}
+
+function makeRefIntrinsic(logicalId: string): RefIntrinsic {
+  return {
+    type: 'intrinsic',
+    fn: 'ref',
+    logicalId,
+  };
+}
+
+function makeGetPropIntrinsic(path: string): GetPropIntrinsic {
+  const [logicalId, ...propPath] = path.split('.');
+
+  return {
+    type: 'intrinsic',
+    fn: 'getProp',
+    logicalId,
+    property: propPath.join('.'),
+  };
 }

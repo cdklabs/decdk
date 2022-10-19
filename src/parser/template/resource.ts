@@ -1,3 +1,4 @@
+import { fragmentToExpr } from '../private/sub';
 import {
   assertAtMostOneOfFields,
   assertObject,
@@ -12,16 +13,11 @@ import { RetentionPolicy } from './enums';
 import {
   ifField,
   ObjectLiteral,
+  parseExpression,
   parseObject,
   TemplateExpression,
 } from './expression';
 import { parseOverrides, ResourceOverride } from './overrides';
-import {
-  CreationPolicy,
-  parseCreationPolicy,
-  parseUpdatePolicy,
-  UpdatePolicy,
-} from './policies';
 import { parseTags, ResourceTag } from './tags';
 
 export interface TemplateResource {
@@ -37,8 +33,8 @@ export interface TemplateResource {
   readonly overrides: ResourceOverride[];
   readonly on?: string;
   readonly call: ObjectLiteral;
-  readonly creationPolicy?: CreationPolicy;
-  readonly updatePolicy?: UpdatePolicy;
+  readonly creationPolicy?: TemplateExpression;
+  readonly updatePolicy?: TemplateExpression;
 }
 
 export function parseTemplateResource(
@@ -59,6 +55,8 @@ export function parseTemplateResource(
 
   const properties = parseObject(resource.Properties);
   const call = parseCall(resource.Call);
+  const creationPolicy = ifField(resource, 'CreationPolicy', parseExpression);
+  const updatePolicy = ifField(resource, 'UpdatePolicy', parseExpression);
 
   return {
     type: ifField(resource, 'Type', assertString),
@@ -67,9 +65,15 @@ export function parseTemplateResource(
     metadata: assertObject(resource.Metadata ?? {}),
     dependencies: new Set([
       ...(ifField(resource, 'DependsOn', assertStringOrListIntoList) ?? []),
-      ...singletonList(ifField(resource, 'On', assertString)),
+      ...singletonList(
+        ifField(resource, 'On', (target) => assertString(target.split('.')[0]))
+      ),
       ...findReferencedLogicalIds(properties),
       ...findReferencedLogicalIds({ _: call }),
+      ...(creationPolicy
+        ? findReferencedLogicalIds({ _: creationPolicy })
+        : []),
+      ...(updatePolicy ? findReferencedLogicalIds({ _: updatePolicy }) : []),
     ]),
     dependsOn: new Set([
       ...(ifField(resource, 'DependsOn', assertStringOrListIntoList) ?? []),
@@ -83,8 +87,8 @@ export function parseTemplateResource(
     overrides: parseOverrides(resource.Overrides),
     on: ifField(resource, 'On', assertString),
     call,
-    creationPolicy: parseCreationPolicy(resource.CreationPolicy),
-    updatePolicy: parseUpdatePolicy(resource.UpdatePolicy),
+    creationPolicy,
+    updatePolicy,
   };
 }
 
@@ -145,6 +149,7 @@ function findReferencedLogicalIds(
             recurse(x.value);
             break;
           case 'sub':
+            x.fragments.map(fragmentToExpr).forEach(recurse);
             Object.values(x.additionalContext).forEach(recurse);
             break;
           case 'transform':
@@ -152,6 +157,10 @@ function findReferencedLogicalIds(
             break;
           case 'args':
             x.array.forEach(recurse);
+            break;
+          case 'equals':
+            recurse(x.value1);
+            recurse(x.value2);
             break;
           default:
             throw new Error(`Unrecognized intrinsic for evaluation: ${x.fn}`);

@@ -1,0 +1,70 @@
+# yaml-language-server: $schema=../../../cdk.schema.json
+Parameters:
+  DashboardName:
+    Type: String
+    Default: SampleDashboard
+    AllowedPattern: ^[a-zA-Z0-9-_]*$
+Resources:
+  SampleLambda:
+    Type: aws-cdk-lib.aws_lambda.Function
+    Properties:
+      runtime: NODEJS_16_X
+      handler: index.handler
+      code:
+        aws-cdk-lib.aws_lambda.Code.fromAsset: examples/lambda-handler
+      memorySize: 512
+      timeout:
+        aws-cdk-lib.Duration.seconds: 10
+  Invocations:
+    Type: aws-cdk-lib.aws_cloudwatch.Metric
+    'On': SampleLambda
+    Call:
+      metricInvocations: ~
+  Errors:
+    Type: aws-cdk-lib.aws_cloudwatch.Metric
+    'On': SampleLambda
+    Call:
+      metricErrors: ~
+  Duration:
+    Type: aws-cdk-lib.aws_cloudwatch.Metric
+    'On': SampleLambda
+    Call:
+      metricDuration: ~
+  Throttles:
+    Type: aws-cdk-lib.aws_cloudwatch.Metric
+    'On': SampleLambda
+    Call:
+      metricThrottles: ~
+  TitleWidget:
+    Type: aws-cdk-lib.aws_cloudwatch.TextWidget
+    Properties:
+      markdown: !Join
+        - ''
+        - - '# Operational Metrics: '
+          - !Ref SampleLambda
+  ServiceDashboard:
+    Type: aws-cdk-lib.aws_cloudwatch.Dashboard
+    Properties:
+      dashboardName: !Ref DashboardName
+      widgets:
+        - - !Ref TitleWidget
+          - aws-cdk-lib.aws_cloudwatch.GraphWidget:
+              title: Invocations
+              left: [!Ref Invocations]
+          - aws-cdk-lib.aws_cloudwatch.GraphWidget:
+              title: Errors
+              left: [!Ref Errors]
+          - aws-cdk-lib.aws_cloudwatch.GraphWidget:
+              title: Duration
+              left: [!Ref Duration]
+          - aws-cdk-lib.aws_cloudwatch.GraphWidget:
+              title: Throttles
+              left: [!Ref Throttles]
+          - aws-cdk-lib.aws_cloudwatch.LogQueryWidget:
+              logGroupNames:
+                - CDK::GetProp: SampleLambda.logGroup.logGroupName
+              queryLines:
+                - 'fields @timestamp, @message'
+                - 'sort @timestamp desc'
+                - 'limit 20'
+              width: 24

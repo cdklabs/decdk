@@ -5,10 +5,6 @@ Parameters:
   Stage:
     Type: String
     Default: 'Gamma'
-Conditions:
-  IsProd: !Equals
-    - !Ref Stage
-    - Prod
 Resources:
   MyLambda:
     Type: aws-cdk-lib.aws_lambda.Function
@@ -29,15 +25,5 @@ Resources:
               Resource:
                 - !Ref MyBucket
                 - !Join ['', [!GetAtt MyBucket.Arn, '/*']]
-
   MyBucket:
     Type: aws-cdk-lib.aws_s3.Bucket
-    Properties:
-      bucketName: !Join
-        - '-'
-        - - !Ref 'AWS::Region'
-          - !Ref BucketName
-          - !If
-            - IsProd
-            - !Ref 'AWS::NoValue'
-            - !Ref Stage
