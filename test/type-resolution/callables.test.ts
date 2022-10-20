@@ -778,7 +778,7 @@ test('Calls to static factory methods with implicit arguments can be inlined', a
         },
       },
     }),
-    false
+    { validateTemplate: false }
   );
 
   template.hasResourceProperties('AWS::S3::Bucket', {

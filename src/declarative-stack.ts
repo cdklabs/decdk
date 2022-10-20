@@ -1,8 +1,13 @@
 import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
 import * as reflect from 'jsii-reflect';
 import { EvaluationContext, Evaluator } from './evaluate';
 import { Template } from './parser/template';
 import { TypedTemplate } from './type-resolution/template';
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const { version } = require('../package.json');
+
+const JSII_RTTI_SYMBOL = Symbol.for('jsii.rtti');
 
 export interface DeclarativeStackProps extends cdk.StackProps {
   typeSystem: reflect.TypeSystem;
@@ -19,6 +24,14 @@ export class DeclarativeStack extends cdk.Stack {
 
     const typeSystem = props.typeSystem;
     const template = new TypedTemplate(props.template, { typeSystem });
+
+    new (class extends Construct {
+      //@ts-ignore
+      private static readonly [JSII_RTTI_SYMBOL] = {
+        fqn: '@cdklabs/decdk',
+        version,
+      };
+    })(this, '$decdkAnalytics');
 
     const context = new EvaluationContext({
       stack: this,
