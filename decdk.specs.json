@@ -62,6 +62,285 @@
             }
           },
           "Methods": {
+            "aws-cdk-lib.aws_lambda.Alias.isConstruct": {
+              "Parameters": {
+                "x": {
+                  "Summary": "Any object.",
+                  "Type": "Any"
+                }
+              },
+              "Summary": "Checks if `x` is a construct.",
+              "Remarks": "Use this method instead of `instanceof` to properly detect `Construct`\ninstances, even when the construct library is symlinked.\n\nExplanation: in JavaScript, multiple copies of the `constructs` library on\ndisk are seen as independent, completely different libraries. As a\nconsequence, the class `Construct` in each copy of the `constructs` library\nis seen as a different class, and an instance of one class will not test as\n`instanceof` the other class. `npm install` will not create installations\nlike this, but users may manually symlink construct libraries together or\nuse a monorepo tool: in those cases, multiple copies of the `constructs`\nlibrary can be accidentally installed, and `instanceof` will behave\nunpredictably. It is safest to avoid using `instanceof`, and using\nthis type-testing method instead.",
+              "Static": true,
+              "ReturnType": "Boolean"
+            },
+            "toString": {
+              "Parameters": {},
+              "Summary": "Returns a string representation of this construct.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "String"
+            },
+            "aws-cdk-lib.aws_lambda.Alias.isOwnedResource": {
+              "Parameters": {
+                "construct": {
+                  "Summary": "",
+                  "Type": "constructs.IConstruct"
+                }
+              },
+              "Summary": "Returns true if the construct was created by CDK, and false otherwise.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "Boolean"
+            },
+            "aws-cdk-lib.aws_lambda.Alias.isResource": {
+              "Parameters": {
+                "construct": {
+                  "Summary": "",
+                  "Type": "constructs.IConstruct"
+                }
+              },
+              "Summary": "Check whether the given construct is a Resource.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "Boolean"
+            },
+            "applyRemovalPolicy": {
+              "Parameters": {
+                "policy": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.RemovalPolicy"
+                }
+              },
+              "Summary": "Apply the given removal policy to this resource.",
+              "Remarks": "The Removal Policy controls what happens to this resource when it stops\nbeing managed by CloudFormation, either because you've removed it from the\nCDK application or because you've made a change that requires the resource\nto be replaced.\n\nThe resource can be deleted (`RemovalPolicy.DESTROY`), or left in your AWS\naccount for data recovery and cleanup later (`RemovalPolicy.RETAIN`).",
+              "Static": false
+            },
+            "generatePhysicalName": {
+              "Parameters": {},
+              "Summary": "",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "String"
+            },
+            "getResourceArnAttribute": {
+              "Parameters": {
+                "arnAttr": {
+                  "Summary": "The CFN attribute which resolves to the ARN of the resource.",
+                  "Type": "String"
+                },
+                "arnComponents": {
+                  "Summary": "The format of the ARN of this resource.",
+                  "Type": "aws-cdk-lib.ArnComponents"
+                }
+              },
+              "Summary": "Returns an environment-sensitive token that should be used for the resource's \"ARN\" attribute (e.g. `bucket.bucketArn`).",
+              "Remarks": "Normally, this token will resolve to `arnAttr`, but if the resource is\nreferenced across environments, `arnComponents` will be used to synthesize\na concrete ARN with the resource's physical name. Make sure to reference\n`this.physicalName` in `arnComponents`.",
+              "Static": false,
+              "ReturnType": "String"
+            },
+            "getResourceNameAttribute": {
+              "Parameters": {
+                "nameAttr": {
+                  "Summary": "The CFN attribute which resolves to the resource's name.",
+                  "Type": "String"
+                }
+              },
+              "Summary": "Returns an environment-sensitive token that should be used for the resource's \"name\" attribute (e.g. `bucket.bucketName`).",
+              "Remarks": "Normally, this token will resolve to `nameAttr`, but if the resource is\nreferenced across environments, it will be resolved to `this.physicalName`,\nwhich will be a concrete name.",
+              "Static": false,
+              "ReturnType": "String"
+            },
+            "addEventSource": {
+              "Parameters": {
+                "source": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.IEventSource"
+                }
+              },
+              "Summary": "Adds an event source to this function.",
+              "Remarks": "Event sources are implemented in the @aws-cdk/aws-lambda-event-sources module.\n\nThe following example adds an SQS Queue as an event source:\n```\nimport { SqsEventSource } from '@aws-cdk/aws-lambda-event-sources';\nmyFunction.addEventSource(new SqsEventSource(myQueue));\n```",
+              "Static": false
+            },
+            "addEventSourceMapping": {
+              "Parameters": {
+                "id": {
+                  "Summary": "",
+                  "Type": "String"
+                },
+                "options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.EventSourceMappingOptions"
+                }
+              },
+              "Summary": "Adds an event source that maps to this AWS Lambda function.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_lambda.EventSourceMapping"
+            },
+            "addFunctionUrl": {
+              "Parameters": {
+                "options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.FunctionUrlOptions"
+                }
+              },
+              "Summary": "Adds a url to this lambda function.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_lambda.FunctionUrl"
+            },
+            "addPermission": {
+              "Parameters": {
+                "id": {
+                  "Summary": "The id for the permission construct.",
+                  "Type": "String"
+                },
+                "permission": {
+                  "Summary": "The permission to grant to this Lambda function.",
+                  "Type": "aws-cdk-lib.aws_lambda.Permission"
+                }
+              },
+              "Summary": "Adds a permission to the Lambda resource policy.",
+              "Remarks": "",
+              "Static": false
+            },
+            "addToRolePolicy": {
+              "Parameters": {
+                "statement": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.PolicyStatement"
+                }
+              },
+              "Summary": "Adds a statement to the IAM role assumed by the instance.",
+              "Remarks": "",
+              "Static": false
+            },
+            "configureAsyncInvoke": {
+              "Parameters": {
+                "options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.EventInvokeConfigOptions"
+                }
+              },
+              "Summary": "Configures options for asynchronous invocation.",
+              "Remarks": "",
+              "Static": false
+            },
+            "considerWarningOnInvokeFunctionPermissions": {
+              "Parameters": {
+                "_scope": {
+                  "Summary": "",
+                  "Type": "constructs.Construct"
+                },
+                "_action": {
+                  "Summary": "",
+                  "Type": "String"
+                }
+              },
+              "Summary": "A warning will be added to functions under the following conditions: - permissions that include `lambda:InvokeFunction` are added to the unqualified function.",
+              "Remarks": "- function.currentVersion is invoked before or after the permission is created.\n\nThis applies only to permissions on Lambda functions, not versions or aliases.\nThis function is overridden as a noOp for QualifiedFunctionBase.",
+              "Static": false
+            },
+            "grantInvoke": {
+              "Parameters": {
+                "grantee": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.IGrantable"
+                }
+              },
+              "Summary": "Grant the given identity permissions to invoke this Lambda.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            },
+            "grantInvokeUrl": {
+              "Parameters": {
+                "grantee": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.IGrantable"
+                }
+              },
+              "Summary": "Grant the given identity permissions to invoke this Lambda Function URL.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            },
+            "metric": {
+              "Parameters": {
+                "metricName": {
+                  "Summary": "",
+                  "Type": "String"
+                },
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "Return the given named metric for this Function.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "metricDuration": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "How long execution of this Lambda takes.",
+              "Remarks": "Average over 5 minutes",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "metricErrors": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "How many invocations of this Lambda fail.",
+              "Remarks": "Sum over 5 minutes",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "metricInvocations": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "How often this Lambda is invoked.",
+              "Remarks": "Sum over 5 minutes",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "metricThrottles": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "How often this Lambda is throttled.",
+              "Remarks": "Sum over 5 minutes",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "warnInvokeFunctionPermissions": {
+              "Parameters": {
+                "scope": {
+                  "Summary": "",
+                  "Type": "constructs.Construct"
+                }
+              },
+              "Summary": "",
+              "Remarks": "",
+              "Static": false
+            },
             "aws-cdk-lib.aws_lambda.Alias.fromAliasAttributes": {
               "Parameters": {
                 "scope": {
@@ -93,22 +372,6 @@
               "Remarks": "Returns a scalable attribute that can call\n`scaleOnUtilization()` and `scaleOnSchedule()`.",
               "Static": false,
               "ReturnType": "aws-cdk-lib.aws_lambda.IScalableFunctionAttribute"
-            },
-            "metric": {
-              "Parameters": {
-                "metricName": {
-                  "Summary": "",
-                  "Type": "String"
-                },
-                "props": {
-                  "Summary": "",
-                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
-                }
-              },
-              "Summary": "Return the given named metric for this Function.",
-              "Remarks": "",
-              "Static": false,
-              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
             }
           },
           "PublicProperties": {
@@ -234,6 +497,95 @@
             }
           },
           "Methods": {
+            "aws-cdk-lib.aws_lambda.CodeSigningConfig.isConstruct": {
+              "Parameters": {
+                "x": {
+                  "Summary": "Any object.",
+                  "Type": "Any"
+                }
+              },
+              "Summary": "Checks if `x` is a construct.",
+              "Remarks": "Use this method instead of `instanceof` to properly detect `Construct`\ninstances, even when the construct library is symlinked.\n\nExplanation: in JavaScript, multiple copies of the `constructs` library on\ndisk are seen as independent, completely different libraries. As a\nconsequence, the class `Construct` in each copy of the `constructs` library\nis seen as a different class, and an instance of one class will not test as\n`instanceof` the other class. `npm install` will not create installations\nlike this, but users may manually symlink construct libraries together or\nuse a monorepo tool: in those cases, multiple copies of the `constructs`\nlibrary can be accidentally installed, and `instanceof` will behave\nunpredictably. It is safest to avoid using `instanceof`, and using\nthis type-testing method instead.",
+              "Static": true,
+              "ReturnType": "Boolean"
+            },
+            "toString": {
+              "Parameters": {},
+              "Summary": "Returns a string representation of this construct.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "String"
+            },
+            "aws-cdk-lib.aws_lambda.CodeSigningConfig.isOwnedResource": {
+              "Parameters": {
+                "construct": {
+                  "Summary": "",
+                  "Type": "constructs.IConstruct"
+                }
+              },
+              "Summary": "Returns true if the construct was created by CDK, and false otherwise.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "Boolean"
+            },
+            "aws-cdk-lib.aws_lambda.CodeSigningConfig.isResource": {
+              "Parameters": {
+                "construct": {
+                  "Summary": "",
+                  "Type": "constructs.IConstruct"
+                }
+              },
+              "Summary": "Check whether the given construct is a Resource.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "Boolean"
+            },
+            "applyRemovalPolicy": {
+              "Parameters": {
+                "policy": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.RemovalPolicy"
+                }
+              },
+              "Summary": "Apply the given removal policy to this resource.",
+              "Remarks": "The Removal Policy controls what happens to this resource when it stops\nbeing managed by CloudFormation, either because you've removed it from the\nCDK application or because you've made a change that requires the resource\nto be replaced.\n\nThe resource can be deleted (`RemovalPolicy.DESTROY`), or left in your AWS\naccount for data recovery and cleanup later (`RemovalPolicy.RETAIN`).",
+              "Static": false
+            },
+            "generatePhysicalName": {
+              "Parameters": {},
+              "Summary": "",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "String"
+            },
+            "getResourceArnAttribute": {
+              "Parameters": {
+                "arnAttr": {
+                  "Summary": "The CFN attribute which resolves to the ARN of the resource.",
+                  "Type": "String"
+                },
+                "arnComponents": {
+                  "Summary": "The format of the ARN of this resource.",
+                  "Type": "aws-cdk-lib.ArnComponents"
+                }
+              },
+              "Summary": "Returns an environment-sensitive token that should be used for the resource's \"ARN\" attribute (e.g. `bucket.bucketArn`).",
+              "Remarks": "Normally, this token will resolve to `arnAttr`, but if the resource is\nreferenced across environments, `arnComponents` will be used to synthesize\na concrete ARN with the resource's physical name. Make sure to reference\n`this.physicalName` in `arnComponents`.",
+              "Static": false,
+              "ReturnType": "String"
+            },
+            "getResourceNameAttribute": {
+              "Parameters": {
+                "nameAttr": {
+                  "Summary": "The CFN attribute which resolves to the resource's name.",
+                  "Type": "String"
+                }
+              },
+              "Summary": "Returns an environment-sensitive token that should be used for the resource's \"name\" attribute (e.g. `bucket.bucketName`).",
+              "Remarks": "Normally, this token will resolve to `nameAttr`, but if the resource is\nreferenced across environments, it will be resolved to `this.physicalName`,\nwhich will be a concrete name.",
+              "Static": false,
+              "ReturnType": "String"
+            },
             "aws-cdk-lib.aws_lambda.CodeSigningConfig.fromCodeSigningConfigArn": {
               "Parameters": {
                 "scope": {
@@ -512,7 +864,497 @@
               "Type": "aws-cdk-lib.aws_lambda.DockerImageCode"
             }
           },
-          "Methods": {},
+          "Methods": {
+            "aws-cdk-lib.aws_lambda.DockerImageFunction.isConstruct": {
+              "Parameters": {
+                "x": {
+                  "Summary": "Any object.",
+                  "Type": "Any"
+                }
+              },
+              "Summary": "Checks if `x` is a construct.",
+              "Remarks": "Use this method instead of `instanceof` to properly detect `Construct`\ninstances, even when the construct library is symlinked.\n\nExplanation: in JavaScript, multiple copies of the `constructs` library on\ndisk are seen as independent, completely different libraries. As a\nconsequence, the class `Construct` in each copy of the `constructs` library\nis seen as a different class, and an instance of one class will not test as\n`instanceof` the other class. `npm install` will not create installations\nlike this, but users may manually symlink construct libraries together or\nuse a monorepo tool: in those cases, multiple copies of the `constructs`\nlibrary can be accidentally installed, and `instanceof` will behave\nunpredictably. It is safest to avoid using `instanceof`, and using\nthis type-testing method instead.",
+              "Static": true,
+              "ReturnType": "Boolean"
+            },
+            "toString": {
+              "Parameters": {},
+              "Summary": "Returns a string representation of this construct.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "String"
+            },
+            "aws-cdk-lib.aws_lambda.DockerImageFunction.isOwnedResource": {
+              "Parameters": {
+                "construct": {
+                  "Summary": "",
+                  "Type": "constructs.IConstruct"
+                }
+              },
+              "Summary": "Returns true if the construct was created by CDK, and false otherwise.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "Boolean"
+            },
+            "aws-cdk-lib.aws_lambda.DockerImageFunction.isResource": {
+              "Parameters": {
+                "construct": {
+                  "Summary": "",
+                  "Type": "constructs.IConstruct"
+                }
+              },
+              "Summary": "Check whether the given construct is a Resource.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "Boolean"
+            },
+            "applyRemovalPolicy": {
+              "Parameters": {
+                "policy": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.RemovalPolicy"
+                }
+              },
+              "Summary": "Apply the given removal policy to this resource.",
+              "Remarks": "The Removal Policy controls what happens to this resource when it stops\nbeing managed by CloudFormation, either because you've removed it from the\nCDK application or because you've made a change that requires the resource\nto be replaced.\n\nThe resource can be deleted (`RemovalPolicy.DESTROY`), or left in your AWS\naccount for data recovery and cleanup later (`RemovalPolicy.RETAIN`).",
+              "Static": false
+            },
+            "generatePhysicalName": {
+              "Parameters": {},
+              "Summary": "",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "String"
+            },
+            "getResourceArnAttribute": {
+              "Parameters": {
+                "arnAttr": {
+                  "Summary": "The CFN attribute which resolves to the ARN of the resource.",
+                  "Type": "String"
+                },
+                "arnComponents": {
+                  "Summary": "The format of the ARN of this resource.",
+                  "Type": "aws-cdk-lib.ArnComponents"
+                }
+              },
+              "Summary": "Returns an environment-sensitive token that should be used for the resource's \"ARN\" attribute (e.g. `bucket.bucketArn`).",
+              "Remarks": "Normally, this token will resolve to `arnAttr`, but if the resource is\nreferenced across environments, `arnComponents` will be used to synthesize\na concrete ARN with the resource's physical name. Make sure to reference\n`this.physicalName` in `arnComponents`.",
+              "Static": false,
+              "ReturnType": "String"
+            },
+            "getResourceNameAttribute": {
+              "Parameters": {
+                "nameAttr": {
+                  "Summary": "The CFN attribute which resolves to the resource's name.",
+                  "Type": "String"
+                }
+              },
+              "Summary": "Returns an environment-sensitive token that should be used for the resource's \"name\" attribute (e.g. `bucket.bucketName`).",
+              "Remarks": "Normally, this token will resolve to `nameAttr`, but if the resource is\nreferenced across environments, it will be resolved to `this.physicalName`,\nwhich will be a concrete name.",
+              "Static": false,
+              "ReturnType": "String"
+            },
+            "addEventSource": {
+              "Parameters": {
+                "source": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.IEventSource"
+                }
+              },
+              "Summary": "Adds an event source to this function.",
+              "Remarks": "Event sources are implemented in the @aws-cdk/aws-lambda-event-sources module.\n\nThe following example adds an SQS Queue as an event source:\n```\nimport { SqsEventSource } from '@aws-cdk/aws-lambda-event-sources';\nmyFunction.addEventSource(new SqsEventSource(myQueue));\n```",
+              "Static": false
+            },
+            "addEventSourceMapping": {
+              "Parameters": {
+                "id": {
+                  "Summary": "",
+                  "Type": "String"
+                },
+                "options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.EventSourceMappingOptions"
+                }
+              },
+              "Summary": "Adds an event source that maps to this AWS Lambda function.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_lambda.EventSourceMapping"
+            },
+            "addFunctionUrl": {
+              "Parameters": {
+                "options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.FunctionUrlOptions"
+                }
+              },
+              "Summary": "Adds a url to this lambda function.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_lambda.FunctionUrl"
+            },
+            "addPermission": {
+              "Parameters": {
+                "id": {
+                  "Summary": "The id for the permission construct.",
+                  "Type": "String"
+                },
+                "permission": {
+                  "Summary": "The permission to grant to this Lambda function.",
+                  "Type": "aws-cdk-lib.aws_lambda.Permission"
+                }
+              },
+              "Summary": "Adds a permission to the Lambda resource policy.",
+              "Remarks": "",
+              "Static": false
+            },
+            "addToRolePolicy": {
+              "Parameters": {
+                "statement": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.PolicyStatement"
+                }
+              },
+              "Summary": "Adds a statement to the IAM role assumed by the instance.",
+              "Remarks": "",
+              "Static": false
+            },
+            "configureAsyncInvoke": {
+              "Parameters": {
+                "options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.EventInvokeConfigOptions"
+                }
+              },
+              "Summary": "Configures options for asynchronous invocation.",
+              "Remarks": "",
+              "Static": false
+            },
+            "considerWarningOnInvokeFunctionPermissions": {
+              "Parameters": {
+                "scope": {
+                  "Summary": "",
+                  "Type": "constructs.Construct"
+                },
+                "action": {
+                  "Summary": "",
+                  "Type": "String"
+                }
+              },
+              "Summary": "A warning will be added to functions under the following conditions: - permissions that include `lambda:InvokeFunction` are added to the unqualified function.",
+              "Remarks": "- function.currentVersion is invoked before or after the permission is created.\n\nThis applies only to permissions on Lambda functions, not versions or aliases.\nThis function is overridden as a noOp for QualifiedFunctionBase.",
+              "Static": false
+            },
+            "grantInvoke": {
+              "Parameters": {
+                "grantee": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.IGrantable"
+                }
+              },
+              "Summary": "Grant the given identity permissions to invoke this Lambda.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            },
+            "grantInvokeUrl": {
+              "Parameters": {
+                "grantee": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.IGrantable"
+                }
+              },
+              "Summary": "Grant the given identity permissions to invoke this Lambda Function URL.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            },
+            "metric": {
+              "Parameters": {
+                "metricName": {
+                  "Summary": "",
+                  "Type": "String"
+                },
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "Return the given named metric for this Function.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "metricDuration": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "How long execution of this Lambda takes.",
+              "Remarks": "Average over 5 minutes",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "metricErrors": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "How many invocations of this Lambda fail.",
+              "Remarks": "Sum over 5 minutes",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "metricInvocations": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "How often this Lambda is invoked.",
+              "Remarks": "Sum over 5 minutes",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "metricThrottles": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "How often this Lambda is throttled.",
+              "Remarks": "Sum over 5 minutes",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "warnInvokeFunctionPermissions": {
+              "Parameters": {
+                "scope": {
+                  "Summary": "",
+                  "Type": "constructs.Construct"
+                }
+              },
+              "Summary": "",
+              "Remarks": "",
+              "Static": false
+            },
+            "aws-cdk-lib.aws_lambda.DockerImageFunction.classifyVersionProperty": {
+              "Parameters": {
+                "propertyName": {
+                  "Summary": "The property to classify.",
+                  "Type": "String"
+                },
+                "locked": {
+                  "Summary": "whether the property should be associated to the version or not.",
+                  "Type": "Boolean"
+                }
+              },
+              "Summary": "Record whether specific properties in the `AWS::Lambda::Function` resource should also be associated to the Version resource.",
+              "Remarks": "See 'currentVersion' section in the module README for more details.",
+              "Static": true
+            },
+            "aws-cdk-lib.aws_lambda.DockerImageFunction.fromFunctionArn": {
+              "Parameters": {
+                "scope": {
+                  "Summary": "",
+                  "Type": "constructs.Construct"
+                },
+                "id": {
+                  "Summary": "",
+                  "Type": "String"
+                },
+                "functionArn": {
+                  "Summary": "",
+                  "Type": "String"
+                }
+              },
+              "Summary": "Import a lambda function into the CDK using its ARN.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.IFunction"
+            },
+            "aws-cdk-lib.aws_lambda.DockerImageFunction.fromFunctionAttributes": {
+              "Parameters": {
+                "scope": {
+                  "Summary": "The parent construct.",
+                  "Type": "constructs.Construct"
+                },
+                "id": {
+                  "Summary": "The name of the lambda construct.",
+                  "Type": "String"
+                },
+                "attrs": {
+                  "Summary": "the attributes of the function to import.",
+                  "Type": "aws-cdk-lib.aws_lambda.FunctionAttributes"
+                }
+              },
+              "Summary": "Creates a Lambda function object which represents a function not defined within this stack.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.IFunction"
+            },
+            "aws-cdk-lib.aws_lambda.DockerImageFunction.fromFunctionName": {
+              "Parameters": {
+                "scope": {
+                  "Summary": "",
+                  "Type": "constructs.Construct"
+                },
+                "id": {
+                  "Summary": "",
+                  "Type": "String"
+                },
+                "functionName": {
+                  "Summary": "",
+                  "Type": "String"
+                }
+              },
+              "Summary": "Import a lambda function into the CDK using its name.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.IFunction"
+            },
+            "aws-cdk-lib.aws_lambda.DockerImageFunction.metricAll": {
+              "Parameters": {
+                "metricName": {
+                  "Summary": "",
+                  "Type": "String"
+                },
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "Return the given named metric for this Lambda.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "aws-cdk-lib.aws_lambda.DockerImageFunction.metricAllConcurrentExecutions": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "Metric for the number of concurrent executions across all Lambdas.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "aws-cdk-lib.aws_lambda.DockerImageFunction.metricAllDuration": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "Metric for the Duration executing all Lambdas.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "aws-cdk-lib.aws_lambda.DockerImageFunction.metricAllErrors": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "Metric for the number of Errors executing all Lambdas.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "aws-cdk-lib.aws_lambda.DockerImageFunction.metricAllInvocations": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "Metric for the number of invocations of all Lambdas.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "aws-cdk-lib.aws_lambda.DockerImageFunction.metricAllThrottles": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "Metric for the number of throttled invocations of all Lambdas.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "aws-cdk-lib.aws_lambda.DockerImageFunction.metricAllUnreservedConcurrentExecutions": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "Metric for the number of unreserved concurrent executions across all Lambdas.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "addAlias": {
+              "Parameters": {
+                "aliasName": {
+                  "Summary": "The name of the alias.",
+                  "Type": "String"
+                },
+                "options": {
+                  "Summary": "Alias options.",
+                  "Type": "aws-cdk-lib.aws_lambda.AliasOptions"
+                }
+              },
+              "Summary": "Defines an alias for this function.",
+              "Remarks": "The alias will automatically be updated to point to the latest version of\nthe function as it is being updated during a deployment.\n\n```ts\ndeclare const fn: lambda.Function;\n\nfn.addAlias('Live');\n\n// Is equivalent to\n\nnew lambda.Alias(this, 'AliasLive', {\n   aliasName: 'Live',\n   version: fn.currentVersion,\n});\n```",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_lambda.Alias"
+            },
+            "addEnvironment": {
+              "Parameters": {
+                "key": {
+                  "Summary": "The environment variable key.",
+                  "Type": "String"
+                },
+                "value": {
+                  "Summary": "The environment variable's value.",
+                  "Type": "String"
+                },
+                "options": {
+                  "Summary": "Environment variable options.",
+                  "Type": "aws-cdk-lib.aws_lambda.EnvironmentOptions"
+                }
+              },
+              "Summary": "Adds an environment variable to this Lambda function.",
+              "Remarks": "If this is a ref to a Lambda function, this operation results in a no-op.",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_lambda.Function"
+            },
+            "addLayers": {
+              "Parameters": {
+                "layers": {
+                  "Summary": "the layers to be added.",
+                  "Type": "aws-cdk-lib.aws_lambda.ILayerVersion"
+                }
+              },
+              "Summary": "Adds one or more Lambda Layers to this Lambda function.",
+              "Remarks": "",
+              "Static": false
+            }
+          },
           "PublicProperties": {
             "node": {
               "Remarks": "",
@@ -670,7 +1512,97 @@
               "Type": "String"
             }
           },
-          "Methods": {},
+          "Methods": {
+            "aws-cdk-lib.aws_lambda.EventInvokeConfig.isConstruct": {
+              "Parameters": {
+                "x": {
+                  "Summary": "Any object.",
+                  "Type": "Any"
+                }
+              },
+              "Summary": "Checks if `x` is a construct.",
+              "Remarks": "Use this method instead of `instanceof` to properly detect `Construct`\ninstances, even when the construct library is symlinked.\n\nExplanation: in JavaScript, multiple copies of the `constructs` library on\ndisk are seen as independent, completely different libraries. As a\nconsequence, the class `Construct` in each copy of the `constructs` library\nis seen as a different class, and an instance of one class will not test as\n`instanceof` the other class. `npm install` will not create installations\nlike this, but users may manually symlink construct libraries together or\nuse a monorepo tool: in those cases, multiple copies of the `constructs`\nlibrary can be accidentally installed, and `instanceof` will behave\nunpredictably. It is safest to avoid using `instanceof`, and using\nthis type-testing method instead.",
+              "Static": true,
+              "ReturnType": "Boolean"
+            },
+            "toString": {
+              "Parameters": {},
+              "Summary": "Returns a string representation of this construct.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "String"
+            },
+            "aws-cdk-lib.aws_lambda.EventInvokeConfig.isOwnedResource": {
+              "Parameters": {
+                "construct": {
+                  "Summary": "",
+                  "Type": "constructs.IConstruct"
+                }
+              },
+              "Summary": "Returns true if the construct was created by CDK, and false otherwise.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "Boolean"
+            },
+            "aws-cdk-lib.aws_lambda.EventInvokeConfig.isResource": {
+              "Parameters": {
+                "construct": {
+                  "Summary": "",
+                  "Type": "constructs.IConstruct"
+                }
+              },
+              "Summary": "Check whether the given construct is a Resource.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "Boolean"
+            },
+            "applyRemovalPolicy": {
+              "Parameters": {
+                "policy": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.RemovalPolicy"
+                }
+              },
+              "Summary": "Apply the given removal policy to this resource.",
+              "Remarks": "The Removal Policy controls what happens to this resource when it stops\nbeing managed by CloudFormation, either because you've removed it from the\nCDK application or because you've made a change that requires the resource\nto be replaced.\n\nThe resource can be deleted (`RemovalPolicy.DESTROY`), or left in your AWS\naccount for data recovery and cleanup later (`RemovalPolicy.RETAIN`).",
+              "Static": false
+            },
+            "generatePhysicalName": {
+              "Parameters": {},
+              "Summary": "",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "String"
+            },
+            "getResourceArnAttribute": {
+              "Parameters": {
+                "arnAttr": {
+                  "Summary": "The CFN attribute which resolves to the ARN of the resource.",
+                  "Type": "String"
+                },
+                "arnComponents": {
+                  "Summary": "The format of the ARN of this resource.",
+                  "Type": "aws-cdk-lib.ArnComponents"
+                }
+              },
+              "Summary": "Returns an environment-sensitive token that should be used for the resource's \"ARN\" attribute (e.g. `bucket.bucketArn`).",
+              "Remarks": "Normally, this token will resolve to `arnAttr`, but if the resource is\nreferenced across environments, `arnComponents` will be used to synthesize\na concrete ARN with the resource's physical name. Make sure to reference\n`this.physicalName` in `arnComponents`.",
+              "Static": false,
+              "ReturnType": "String"
+            },
+            "getResourceNameAttribute": {
+              "Parameters": {
+                "nameAttr": {
+                  "Summary": "The CFN attribute which resolves to the resource's name.",
+                  "Type": "String"
+                }
+              },
+              "Summary": "Returns an environment-sensitive token that should be used for the resource's \"name\" attribute (e.g. `bucket.bucketName`).",
+              "Remarks": "Normally, this token will resolve to `nameAttr`, but if the resource is\nreferenced across environments, it will be resolved to `this.physicalName`,\nwhich will be a concrete name.",
+              "Static": false,
+              "ReturnType": "String"
+            }
+          },
           "PublicProperties": {
             "node": {
               "Remarks": "",
@@ -813,6 +1745,95 @@
             }
           },
           "Methods": {
+            "aws-cdk-lib.aws_lambda.EventSourceMapping.isConstruct": {
+              "Parameters": {
+                "x": {
+                  "Summary": "Any object.",
+                  "Type": "Any"
+                }
+              },
+              "Summary": "Checks if `x` is a construct.",
+              "Remarks": "Use this method instead of `instanceof` to properly detect `Construct`\ninstances, even when the construct library is symlinked.\n\nExplanation: in JavaScript, multiple copies of the `constructs` library on\ndisk are seen as independent, completely different libraries. As a\nconsequence, the class `Construct` in each copy of the `constructs` library\nis seen as a different class, and an instance of one class will not test as\n`instanceof` the other class. `npm install` will not create installations\nlike this, but users may manually symlink construct libraries together or\nuse a monorepo tool: in those cases, multiple copies of the `constructs`\nlibrary can be accidentally installed, and `instanceof` will behave\nunpredictably. It is safest to avoid using `instanceof`, and using\nthis type-testing method instead.",
+              "Static": true,
+              "ReturnType": "Boolean"
+            },
+            "toString": {
+              "Parameters": {},
+              "Summary": "Returns a string representation of this construct.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "String"
+            },
+            "aws-cdk-lib.aws_lambda.EventSourceMapping.isOwnedResource": {
+              "Parameters": {
+                "construct": {
+                  "Summary": "",
+                  "Type": "constructs.IConstruct"
+                }
+              },
+              "Summary": "Returns true if the construct was created by CDK, and false otherwise.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "Boolean"
+            },
+            "aws-cdk-lib.aws_lambda.EventSourceMapping.isResource": {
+              "Parameters": {
+                "construct": {
+                  "Summary": "",
+                  "Type": "constructs.IConstruct"
+                }
+              },
+              "Summary": "Check whether the given construct is a Resource.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "Boolean"
+            },
+            "applyRemovalPolicy": {
+              "Parameters": {
+                "policy": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.RemovalPolicy"
+                }
+              },
+              "Summary": "Apply the given removal policy to this resource.",
+              "Remarks": "The Removal Policy controls what happens to this resource when it stops\nbeing managed by CloudFormation, either because you've removed it from the\nCDK application or because you've made a change that requires the resource\nto be replaced.\n\nThe resource can be deleted (`RemovalPolicy.DESTROY`), or left in your AWS\naccount for data recovery and cleanup later (`RemovalPolicy.RETAIN`).",
+              "Static": false
+            },
+            "generatePhysicalName": {
+              "Parameters": {},
+              "Summary": "",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "String"
+            },
+            "getResourceArnAttribute": {
+              "Parameters": {
+                "arnAttr": {
+                  "Summary": "The CFN attribute which resolves to the ARN of the resource.",
+                  "Type": "String"
+                },
+                "arnComponents": {
+                  "Summary": "The format of the ARN of this resource.",
+                  "Type": "aws-cdk-lib.ArnComponents"
+                }
+              },
+              "Summary": "Returns an environment-sensitive token that should be used for the resource's \"ARN\" attribute (e.g. `bucket.bucketArn`).",
+              "Remarks": "Normally, this token will resolve to `arnAttr`, but if the resource is\nreferenced across environments, `arnComponents` will be used to synthesize\na concrete ARN with the resource's physical name. Make sure to reference\n`this.physicalName` in `arnComponents`.",
+              "Static": false,
+              "ReturnType": "String"
+            },
+            "getResourceNameAttribute": {
+              "Parameters": {
+                "nameAttr": {
+                  "Summary": "The CFN attribute which resolves to the resource's name.",
+                  "Type": "String"
+                }
+              },
+              "Summary": "Returns an environment-sensitive token that should be used for the resource's \"name\" attribute (e.g. `bucket.bucketName`).",
+              "Remarks": "Normally, this token will resolve to `nameAttr`, but if the resource is\nreferenced across environments, it will be resolved to `this.physicalName`,\nwhich will be a concrete name.",
+              "Static": false,
+              "ReturnType": "String"
+            },
             "aws-cdk-lib.aws_lambda.EventSourceMapping.fromEventSourceMappingId": {
               "Parameters": {
                 "scope": {
@@ -1098,6 +2119,285 @@
             }
           },
           "Methods": {
+            "aws-cdk-lib.aws_lambda.Function.isConstruct": {
+              "Parameters": {
+                "x": {
+                  "Summary": "Any object.",
+                  "Type": "Any"
+                }
+              },
+              "Summary": "Checks if `x` is a construct.",
+              "Remarks": "Use this method instead of `instanceof` to properly detect `Construct`\ninstances, even when the construct library is symlinked.\n\nExplanation: in JavaScript, multiple copies of the `constructs` library on\ndisk are seen as independent, completely different libraries. As a\nconsequence, the class `Construct` in each copy of the `constructs` library\nis seen as a different class, and an instance of one class will not test as\n`instanceof` the other class. `npm install` will not create installations\nlike this, but users may manually symlink construct libraries together or\nuse a monorepo tool: in those cases, multiple copies of the `constructs`\nlibrary can be accidentally installed, and `instanceof` will behave\nunpredictably. It is safest to avoid using `instanceof`, and using\nthis type-testing method instead.",
+              "Static": true,
+              "ReturnType": "Boolean"
+            },
+            "toString": {
+              "Parameters": {},
+              "Summary": "Returns a string representation of this construct.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "String"
+            },
+            "aws-cdk-lib.aws_lambda.Function.isOwnedResource": {
+              "Parameters": {
+                "construct": {
+                  "Summary": "",
+                  "Type": "constructs.IConstruct"
+                }
+              },
+              "Summary": "Returns true if the construct was created by CDK, and false otherwise.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "Boolean"
+            },
+            "aws-cdk-lib.aws_lambda.Function.isResource": {
+              "Parameters": {
+                "construct": {
+                  "Summary": "",
+                  "Type": "constructs.IConstruct"
+                }
+              },
+              "Summary": "Check whether the given construct is a Resource.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "Boolean"
+            },
+            "applyRemovalPolicy": {
+              "Parameters": {
+                "policy": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.RemovalPolicy"
+                }
+              },
+              "Summary": "Apply the given removal policy to this resource.",
+              "Remarks": "The Removal Policy controls what happens to this resource when it stops\nbeing managed by CloudFormation, either because you've removed it from the\nCDK application or because you've made a change that requires the resource\nto be replaced.\n\nThe resource can be deleted (`RemovalPolicy.DESTROY`), or left in your AWS\naccount for data recovery and cleanup later (`RemovalPolicy.RETAIN`).",
+              "Static": false
+            },
+            "generatePhysicalName": {
+              "Parameters": {},
+              "Summary": "",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "String"
+            },
+            "getResourceArnAttribute": {
+              "Parameters": {
+                "arnAttr": {
+                  "Summary": "The CFN attribute which resolves to the ARN of the resource.",
+                  "Type": "String"
+                },
+                "arnComponents": {
+                  "Summary": "The format of the ARN of this resource.",
+                  "Type": "aws-cdk-lib.ArnComponents"
+                }
+              },
+              "Summary": "Returns an environment-sensitive token that should be used for the resource's \"ARN\" attribute (e.g. `bucket.bucketArn`).",
+              "Remarks": "Normally, this token will resolve to `arnAttr`, but if the resource is\nreferenced across environments, `arnComponents` will be used to synthesize\na concrete ARN with the resource's physical name. Make sure to reference\n`this.physicalName` in `arnComponents`.",
+              "Static": false,
+              "ReturnType": "String"
+            },
+            "getResourceNameAttribute": {
+              "Parameters": {
+                "nameAttr": {
+                  "Summary": "The CFN attribute which resolves to the resource's name.",
+                  "Type": "String"
+                }
+              },
+              "Summary": "Returns an environment-sensitive token that should be used for the resource's \"name\" attribute (e.g. `bucket.bucketName`).",
+              "Remarks": "Normally, this token will resolve to `nameAttr`, but if the resource is\nreferenced across environments, it will be resolved to `this.physicalName`,\nwhich will be a concrete name.",
+              "Static": false,
+              "ReturnType": "String"
+            },
+            "addEventSource": {
+              "Parameters": {
+                "source": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.IEventSource"
+                }
+              },
+              "Summary": "Adds an event source to this function.",
+              "Remarks": "Event sources are implemented in the @aws-cdk/aws-lambda-event-sources module.\n\nThe following example adds an SQS Queue as an event source:\n```\nimport { SqsEventSource } from '@aws-cdk/aws-lambda-event-sources';\nmyFunction.addEventSource(new SqsEventSource(myQueue));\n```",
+              "Static": false
+            },
+            "addEventSourceMapping": {
+              "Parameters": {
+                "id": {
+                  "Summary": "",
+                  "Type": "String"
+                },
+                "options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.EventSourceMappingOptions"
+                }
+              },
+              "Summary": "Adds an event source that maps to this AWS Lambda function.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_lambda.EventSourceMapping"
+            },
+            "addFunctionUrl": {
+              "Parameters": {
+                "options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.FunctionUrlOptions"
+                }
+              },
+              "Summary": "Adds a url to this lambda function.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_lambda.FunctionUrl"
+            },
+            "addPermission": {
+              "Parameters": {
+                "id": {
+                  "Summary": "The id for the permission construct.",
+                  "Type": "String"
+                },
+                "permission": {
+                  "Summary": "The permission to grant to this Lambda function.",
+                  "Type": "aws-cdk-lib.aws_lambda.Permission"
+                }
+              },
+              "Summary": "Adds a permission to the Lambda resource policy.",
+              "Remarks": "",
+              "Static": false
+            },
+            "addToRolePolicy": {
+              "Parameters": {
+                "statement": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.PolicyStatement"
+                }
+              },
+              "Summary": "Adds a statement to the IAM role assumed by the instance.",
+              "Remarks": "",
+              "Static": false
+            },
+            "configureAsyncInvoke": {
+              "Parameters": {
+                "options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.EventInvokeConfigOptions"
+                }
+              },
+              "Summary": "Configures options for asynchronous invocation.",
+              "Remarks": "",
+              "Static": false
+            },
+            "considerWarningOnInvokeFunctionPermissions": {
+              "Parameters": {
+                "scope": {
+                  "Summary": "",
+                  "Type": "constructs.Construct"
+                },
+                "action": {
+                  "Summary": "",
+                  "Type": "String"
+                }
+              },
+              "Summary": "A warning will be added to functions under the following conditions: - permissions that include `lambda:InvokeFunction` are added to the unqualified function.",
+              "Remarks": "- function.currentVersion is invoked before or after the permission is created.\n\nThis applies only to permissions on Lambda functions, not versions or aliases.\nThis function is overridden as a noOp for QualifiedFunctionBase.",
+              "Static": false
+            },
+            "grantInvoke": {
+              "Parameters": {
+                "grantee": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.IGrantable"
+                }
+              },
+              "Summary": "Grant the given identity permissions to invoke this Lambda.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            },
+            "grantInvokeUrl": {
+              "Parameters": {
+                "grantee": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.IGrantable"
+                }
+              },
+              "Summary": "Grant the given identity permissions to invoke this Lambda Function URL.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            },
+            "metric": {
+              "Parameters": {
+                "metricName": {
+                  "Summary": "",
+                  "Type": "String"
+                },
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "Return the given named metric for this Function.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "metricDuration": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "How long execution of this Lambda takes.",
+              "Remarks": "Average over 5 minutes",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "metricErrors": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "How many invocations of this Lambda fail.",
+              "Remarks": "Sum over 5 minutes",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "metricInvocations": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "How often this Lambda is invoked.",
+              "Remarks": "Sum over 5 minutes",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "metricThrottles": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "How often this Lambda is throttled.",
+              "Remarks": "Sum over 5 minutes",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "warnInvokeFunctionPermissions": {
+              "Parameters": {
+                "scope": {
+                  "Summary": "",
+                  "Type": "constructs.Construct"
+                }
+              },
+              "Summary": "",
+              "Remarks": "",
+              "Static": false
+            },
             "aws-cdk-lib.aws_lambda.Function.classifyVersionProperty": {
               "Parameters": {
                 "propertyName": {
@@ -1449,6 +2749,95 @@
             }
           },
           "Methods": {
+            "aws-cdk-lib.aws_lambda.FunctionUrl.isConstruct": {
+              "Parameters": {
+                "x": {
+                  "Summary": "Any object.",
+                  "Type": "Any"
+                }
+              },
+              "Summary": "Checks if `x` is a construct.",
+              "Remarks": "Use this method instead of `instanceof` to properly detect `Construct`\ninstances, even when the construct library is symlinked.\n\nExplanation: in JavaScript, multiple copies of the `constructs` library on\ndisk are seen as independent, completely different libraries. As a\nconsequence, the class `Construct` in each copy of the `constructs` library\nis seen as a different class, and an instance of one class will not test as\n`instanceof` the other class. `npm install` will not create installations\nlike this, but users may manually symlink construct libraries together or\nuse a monorepo tool: in those cases, multiple copies of the `constructs`\nlibrary can be accidentally installed, and `instanceof` will behave\nunpredictably. It is safest to avoid using `instanceof`, and using\nthis type-testing method instead.",
+              "Static": true,
+              "ReturnType": "Boolean"
+            },
+            "toString": {
+              "Parameters": {},
+              "Summary": "Returns a string representation of this construct.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "String"
+            },
+            "aws-cdk-lib.aws_lambda.FunctionUrl.isOwnedResource": {
+              "Parameters": {
+                "construct": {
+                  "Summary": "",
+                  "Type": "constructs.IConstruct"
+                }
+              },
+              "Summary": "Returns true if the construct was created by CDK, and false otherwise.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "Boolean"
+            },
+            "aws-cdk-lib.aws_lambda.FunctionUrl.isResource": {
+              "Parameters": {
+                "construct": {
+                  "Summary": "",
+                  "Type": "constructs.IConstruct"
+                }
+              },
+              "Summary": "Check whether the given construct is a Resource.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "Boolean"
+            },
+            "applyRemovalPolicy": {
+              "Parameters": {
+                "policy": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.RemovalPolicy"
+                }
+              },
+              "Summary": "Apply the given removal policy to this resource.",
+              "Remarks": "The Removal Policy controls what happens to this resource when it stops\nbeing managed by CloudFormation, either because you've removed it from the\nCDK application or because you've made a change that requires the resource\nto be replaced.\n\nThe resource can be deleted (`RemovalPolicy.DESTROY`), or left in your AWS\naccount for data recovery and cleanup later (`RemovalPolicy.RETAIN`).",
+              "Static": false
+            },
+            "generatePhysicalName": {
+              "Parameters": {},
+              "Summary": "",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "String"
+            },
+            "getResourceArnAttribute": {
+              "Parameters": {
+                "arnAttr": {
+                  "Summary": "The CFN attribute which resolves to the ARN of the resource.",
+                  "Type": "String"
+                },
+                "arnComponents": {
+                  "Summary": "The format of the ARN of this resource.",
+                  "Type": "aws-cdk-lib.ArnComponents"
+                }
+              },
+              "Summary": "Returns an environment-sensitive token that should be used for the resource's \"ARN\" attribute (e.g. `bucket.bucketArn`).",
+              "Remarks": "Normally, this token will resolve to `arnAttr`, but if the resource is\nreferenced across environments, `arnComponents` will be used to synthesize\na concrete ARN with the resource's physical name. Make sure to reference\n`this.physicalName` in `arnComponents`.",
+              "Static": false,
+              "ReturnType": "String"
+            },
+            "getResourceNameAttribute": {
+              "Parameters": {
+                "nameAttr": {
+                  "Summary": "The CFN attribute which resolves to the resource's name.",
+                  "Type": "String"
+                }
+              },
+              "Summary": "Returns an environment-sensitive token that should be used for the resource's \"name\" attribute (e.g. `bucket.bucketName`).",
+              "Remarks": "Normally, this token will resolve to `nameAttr`, but if the resource is\nreferenced across environments, it will be resolved to `this.physicalName`,\nwhich will be a concrete name.",
+              "Static": false,
+              "ReturnType": "String"
+            },
             "grantInvokeUrl": {
               "Parameters": {
                 "grantee": {
@@ -1543,6 +2932,95 @@
             }
           },
           "Methods": {
+            "aws-cdk-lib.aws_lambda.LayerVersion.isConstruct": {
+              "Parameters": {
+                "x": {
+                  "Summary": "Any object.",
+                  "Type": "Any"
+                }
+              },
+              "Summary": "Checks if `x` is a construct.",
+              "Remarks": "Use this method instead of `instanceof` to properly detect `Construct`\ninstances, even when the construct library is symlinked.\n\nExplanation: in JavaScript, multiple copies of the `constructs` library on\ndisk are seen as independent, completely different libraries. As a\nconsequence, the class `Construct` in each copy of the `constructs` library\nis seen as a different class, and an instance of one class will not test as\n`instanceof` the other class. `npm install` will not create installations\nlike this, but users may manually symlink construct libraries together or\nuse a monorepo tool: in those cases, multiple copies of the `constructs`\nlibrary can be accidentally installed, and `instanceof` will behave\nunpredictably. It is safest to avoid using `instanceof`, and using\nthis type-testing method instead.",
+              "Static": true,
+              "ReturnType": "Boolean"
+            },
+            "toString": {
+              "Parameters": {},
+              "Summary": "Returns a string representation of this construct.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "String"
+            },
+            "aws-cdk-lib.aws_lambda.LayerVersion.isOwnedResource": {
+              "Parameters": {
+                "construct": {
+                  "Summary": "",
+                  "Type": "constructs.IConstruct"
+                }
+              },
+              "Summary": "Returns true if the construct was created by CDK, and false otherwise.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "Boolean"
+            },
+            "aws-cdk-lib.aws_lambda.LayerVersion.isResource": {
+              "Parameters": {
+                "construct": {
+                  "Summary": "",
+                  "Type": "constructs.IConstruct"
+                }
+              },
+              "Summary": "Check whether the given construct is a Resource.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "Boolean"
+            },
+            "applyRemovalPolicy": {
+              "Parameters": {
+                "policy": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.RemovalPolicy"
+                }
+              },
+              "Summary": "Apply the given removal policy to this resource.",
+              "Remarks": "The Removal Policy controls what happens to this resource when it stops\nbeing managed by CloudFormation, either because you've removed it from the\nCDK application or because you've made a change that requires the resource\nto be replaced.\n\nThe resource can be deleted (`RemovalPolicy.DESTROY`), or left in your AWS\naccount for data recovery and cleanup later (`RemovalPolicy.RETAIN`).",
+              "Static": false
+            },
+            "generatePhysicalName": {
+              "Parameters": {},
+              "Summary": "",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "String"
+            },
+            "getResourceArnAttribute": {
+              "Parameters": {
+                "arnAttr": {
+                  "Summary": "The CFN attribute which resolves to the ARN of the resource.",
+                  "Type": "String"
+                },
+                "arnComponents": {
+                  "Summary": "The format of the ARN of this resource.",
+                  "Type": "aws-cdk-lib.ArnComponents"
+                }
+              },
+              "Summary": "Returns an environment-sensitive token that should be used for the resource's \"ARN\" attribute (e.g. `bucket.bucketArn`).",
+              "Remarks": "Normally, this token will resolve to `arnAttr`, but if the resource is\nreferenced across environments, `arnComponents` will be used to synthesize\na concrete ARN with the resource's physical name. Make sure to reference\n`this.physicalName` in `arnComponents`.",
+              "Static": false,
+              "ReturnType": "String"
+            },
+            "getResourceNameAttribute": {
+              "Parameters": {
+                "nameAttr": {
+                  "Summary": "The CFN attribute which resolves to the resource's name.",
+                  "Type": "String"
+                }
+              },
+              "Summary": "Returns an environment-sensitive token that should be used for the resource's \"name\" attribute (e.g. `bucket.bucketName`).",
+              "Remarks": "Normally, this token will resolve to `nameAttr`, but if the resource is\nreferenced across environments, it will be resolved to `this.physicalName`,\nwhich will be a concrete name.",
+              "Static": false,
+              "ReturnType": "String"
+            },
             "aws-cdk-lib.aws_lambda.LayerVersion.fromLayerVersionArn": {
               "Parameters": {
                 "scope": {
@@ -1882,6 +3360,285 @@
             }
           },
           "Methods": {
+            "aws-cdk-lib.aws_lambda.SingletonFunction.isConstruct": {
+              "Parameters": {
+                "x": {
+                  "Summary": "Any object.",
+                  "Type": "Any"
+                }
+              },
+              "Summary": "Checks if `x` is a construct.",
+              "Remarks": "Use this method instead of `instanceof` to properly detect `Construct`\ninstances, even when the construct library is symlinked.\n\nExplanation: in JavaScript, multiple copies of the `constructs` library on\ndisk are seen as independent, completely different libraries. As a\nconsequence, the class `Construct` in each copy of the `constructs` library\nis seen as a different class, and an instance of one class will not test as\n`instanceof` the other class. `npm install` will not create installations\nlike this, but users may manually symlink construct libraries together or\nuse a monorepo tool: in those cases, multiple copies of the `constructs`\nlibrary can be accidentally installed, and `instanceof` will behave\nunpredictably. It is safest to avoid using `instanceof`, and using\nthis type-testing method instead.",
+              "Static": true,
+              "ReturnType": "Boolean"
+            },
+            "toString": {
+              "Parameters": {},
+              "Summary": "Returns a string representation of this construct.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "String"
+            },
+            "aws-cdk-lib.aws_lambda.SingletonFunction.isOwnedResource": {
+              "Parameters": {
+                "construct": {
+                  "Summary": "",
+                  "Type": "constructs.IConstruct"
+                }
+              },
+              "Summary": "Returns true if the construct was created by CDK, and false otherwise.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "Boolean"
+            },
+            "aws-cdk-lib.aws_lambda.SingletonFunction.isResource": {
+              "Parameters": {
+                "construct": {
+                  "Summary": "",
+                  "Type": "constructs.IConstruct"
+                }
+              },
+              "Summary": "Check whether the given construct is a Resource.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "Boolean"
+            },
+            "applyRemovalPolicy": {
+              "Parameters": {
+                "policy": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.RemovalPolicy"
+                }
+              },
+              "Summary": "Apply the given removal policy to this resource.",
+              "Remarks": "The Removal Policy controls what happens to this resource when it stops\nbeing managed by CloudFormation, either because you've removed it from the\nCDK application or because you've made a change that requires the resource\nto be replaced.\n\nThe resource can be deleted (`RemovalPolicy.DESTROY`), or left in your AWS\naccount for data recovery and cleanup later (`RemovalPolicy.RETAIN`).",
+              "Static": false
+            },
+            "generatePhysicalName": {
+              "Parameters": {},
+              "Summary": "",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "String"
+            },
+            "getResourceArnAttribute": {
+              "Parameters": {
+                "arnAttr": {
+                  "Summary": "The CFN attribute which resolves to the ARN of the resource.",
+                  "Type": "String"
+                },
+                "arnComponents": {
+                  "Summary": "The format of the ARN of this resource.",
+                  "Type": "aws-cdk-lib.ArnComponents"
+                }
+              },
+              "Summary": "Returns an environment-sensitive token that should be used for the resource's \"ARN\" attribute (e.g. `bucket.bucketArn`).",
+              "Remarks": "Normally, this token will resolve to `arnAttr`, but if the resource is\nreferenced across environments, `arnComponents` will be used to synthesize\na concrete ARN with the resource's physical name. Make sure to reference\n`this.physicalName` in `arnComponents`.",
+              "Static": false,
+              "ReturnType": "String"
+            },
+            "getResourceNameAttribute": {
+              "Parameters": {
+                "nameAttr": {
+                  "Summary": "The CFN attribute which resolves to the resource's name.",
+                  "Type": "String"
+                }
+              },
+              "Summary": "Returns an environment-sensitive token that should be used for the resource's \"name\" attribute (e.g. `bucket.bucketName`).",
+              "Remarks": "Normally, this token will resolve to `nameAttr`, but if the resource is\nreferenced across environments, it will be resolved to `this.physicalName`,\nwhich will be a concrete name.",
+              "Static": false,
+              "ReturnType": "String"
+            },
+            "addEventSource": {
+              "Parameters": {
+                "source": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.IEventSource"
+                }
+              },
+              "Summary": "Adds an event source to this function.",
+              "Remarks": "Event sources are implemented in the @aws-cdk/aws-lambda-event-sources module.\n\nThe following example adds an SQS Queue as an event source:\n```\nimport { SqsEventSource } from '@aws-cdk/aws-lambda-event-sources';\nmyFunction.addEventSource(new SqsEventSource(myQueue));\n```",
+              "Static": false
+            },
+            "addEventSourceMapping": {
+              "Parameters": {
+                "id": {
+                  "Summary": "",
+                  "Type": "String"
+                },
+                "options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.EventSourceMappingOptions"
+                }
+              },
+              "Summary": "Adds an event source that maps to this AWS Lambda function.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_lambda.EventSourceMapping"
+            },
+            "addFunctionUrl": {
+              "Parameters": {
+                "options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.FunctionUrlOptions"
+                }
+              },
+              "Summary": "Adds a url to this lambda function.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_lambda.FunctionUrl"
+            },
+            "addPermission": {
+              "Parameters": {
+                "name": {
+                  "Summary": "",
+                  "Type": "String"
+                },
+                "permission": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.Permission"
+                }
+              },
+              "Summary": "Adds a permission to the Lambda resource policy.",
+              "Remarks": "",
+              "Static": false
+            },
+            "addToRolePolicy": {
+              "Parameters": {
+                "statement": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.PolicyStatement"
+                }
+              },
+              "Summary": "Adds a statement to the IAM role assumed by the instance.",
+              "Remarks": "",
+              "Static": false
+            },
+            "configureAsyncInvoke": {
+              "Parameters": {
+                "options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.EventInvokeConfigOptions"
+                }
+              },
+              "Summary": "Configures options for asynchronous invocation.",
+              "Remarks": "",
+              "Static": false
+            },
+            "considerWarningOnInvokeFunctionPermissions": {
+              "Parameters": {
+                "scope": {
+                  "Summary": "",
+                  "Type": "constructs.Construct"
+                },
+                "action": {
+                  "Summary": "",
+                  "Type": "String"
+                }
+              },
+              "Summary": "A warning will be added to functions under the following conditions: - permissions that include `lambda:InvokeFunction` are added to the unqualified function.",
+              "Remarks": "- function.currentVersion is invoked before or after the permission is created.\n\nThis applies only to permissions on Lambda functions, not versions or aliases.\nThis function is overridden as a noOp for QualifiedFunctionBase.",
+              "Static": false
+            },
+            "grantInvoke": {
+              "Parameters": {
+                "grantee": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.IGrantable"
+                }
+              },
+              "Summary": "Grant the given identity permissions to invoke this Lambda.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            },
+            "grantInvokeUrl": {
+              "Parameters": {
+                "grantee": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.IGrantable"
+                }
+              },
+              "Summary": "Grant the given identity permissions to invoke this Lambda Function URL.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            },
+            "metric": {
+              "Parameters": {
+                "metricName": {
+                  "Summary": "",
+                  "Type": "String"
+                },
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "Return the given named metric for this Function.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "metricDuration": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "How long execution of this Lambda takes.",
+              "Remarks": "Average over 5 minutes",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "metricErrors": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "How many invocations of this Lambda fail.",
+              "Remarks": "Sum over 5 minutes",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "metricInvocations": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "How often this Lambda is invoked.",
+              "Remarks": "Sum over 5 minutes",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "metricThrottles": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "How often this Lambda is throttled.",
+              "Remarks": "Sum over 5 minutes",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "warnInvokeFunctionPermissions": {
+              "Parameters": {
+                "scope": {
+                  "Summary": "",
+                  "Type": "constructs.Construct"
+                }
+              },
+              "Summary": "",
+              "Remarks": "",
+              "Static": false
+            },
             "addDependency": {
               "Parameters": {
                 "up": {
@@ -1921,21 +3678,6 @@
                 }
               },
               "Summary": "Adds one or more Lambda Layers to this Lambda function.",
-              "Remarks": "",
-              "Static": false
-            },
-            "addPermission": {
-              "Parameters": {
-                "name": {
-                  "Summary": "",
-                  "Type": "String"
-                },
-                "permission": {
-                  "Summary": "",
-                  "Type": "aws-cdk-lib.aws_lambda.Permission"
-                }
-              },
-              "Summary": "Adds a permission to the Lambda resource policy.",
               "Remarks": "",
               "Static": false
             },
@@ -2109,6 +3851,285 @@
             }
           },
           "Methods": {
+            "aws-cdk-lib.aws_lambda.Version.isConstruct": {
+              "Parameters": {
+                "x": {
+                  "Summary": "Any object.",
+                  "Type": "Any"
+                }
+              },
+              "Summary": "Checks if `x` is a construct.",
+              "Remarks": "Use this method instead of `instanceof` to properly detect `Construct`\ninstances, even when the construct library is symlinked.\n\nExplanation: in JavaScript, multiple copies of the `constructs` library on\ndisk are seen as independent, completely different libraries. As a\nconsequence, the class `Construct` in each copy of the `constructs` library\nis seen as a different class, and an instance of one class will not test as\n`instanceof` the other class. `npm install` will not create installations\nlike this, but users may manually symlink construct libraries together or\nuse a monorepo tool: in those cases, multiple copies of the `constructs`\nlibrary can be accidentally installed, and `instanceof` will behave\nunpredictably. It is safest to avoid using `instanceof`, and using\nthis type-testing method instead.",
+              "Static": true,
+              "ReturnType": "Boolean"
+            },
+            "toString": {
+              "Parameters": {},
+              "Summary": "Returns a string representation of this construct.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "String"
+            },
+            "aws-cdk-lib.aws_lambda.Version.isOwnedResource": {
+              "Parameters": {
+                "construct": {
+                  "Summary": "",
+                  "Type": "constructs.IConstruct"
+                }
+              },
+              "Summary": "Returns true if the construct was created by CDK, and false otherwise.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "Boolean"
+            },
+            "aws-cdk-lib.aws_lambda.Version.isResource": {
+              "Parameters": {
+                "construct": {
+                  "Summary": "",
+                  "Type": "constructs.IConstruct"
+                }
+              },
+              "Summary": "Check whether the given construct is a Resource.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "Boolean"
+            },
+            "applyRemovalPolicy": {
+              "Parameters": {
+                "policy": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.RemovalPolicy"
+                }
+              },
+              "Summary": "Apply the given removal policy to this resource.",
+              "Remarks": "The Removal Policy controls what happens to this resource when it stops\nbeing managed by CloudFormation, either because you've removed it from the\nCDK application or because you've made a change that requires the resource\nto be replaced.\n\nThe resource can be deleted (`RemovalPolicy.DESTROY`), or left in your AWS\naccount for data recovery and cleanup later (`RemovalPolicy.RETAIN`).",
+              "Static": false
+            },
+            "generatePhysicalName": {
+              "Parameters": {},
+              "Summary": "",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "String"
+            },
+            "getResourceArnAttribute": {
+              "Parameters": {
+                "arnAttr": {
+                  "Summary": "The CFN attribute which resolves to the ARN of the resource.",
+                  "Type": "String"
+                },
+                "arnComponents": {
+                  "Summary": "The format of the ARN of this resource.",
+                  "Type": "aws-cdk-lib.ArnComponents"
+                }
+              },
+              "Summary": "Returns an environment-sensitive token that should be used for the resource's \"ARN\" attribute (e.g. `bucket.bucketArn`).",
+              "Remarks": "Normally, this token will resolve to `arnAttr`, but if the resource is\nreferenced across environments, `arnComponents` will be used to synthesize\na concrete ARN with the resource's physical name. Make sure to reference\n`this.physicalName` in `arnComponents`.",
+              "Static": false,
+              "ReturnType": "String"
+            },
+            "getResourceNameAttribute": {
+              "Parameters": {
+                "nameAttr": {
+                  "Summary": "The CFN attribute which resolves to the resource's name.",
+                  "Type": "String"
+                }
+              },
+              "Summary": "Returns an environment-sensitive token that should be used for the resource's \"name\" attribute (e.g. `bucket.bucketName`).",
+              "Remarks": "Normally, this token will resolve to `nameAttr`, but if the resource is\nreferenced across environments, it will be resolved to `this.physicalName`,\nwhich will be a concrete name.",
+              "Static": false,
+              "ReturnType": "String"
+            },
+            "addEventSource": {
+              "Parameters": {
+                "source": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.IEventSource"
+                }
+              },
+              "Summary": "Adds an event source to this function.",
+              "Remarks": "Event sources are implemented in the @aws-cdk/aws-lambda-event-sources module.\n\nThe following example adds an SQS Queue as an event source:\n```\nimport { SqsEventSource } from '@aws-cdk/aws-lambda-event-sources';\nmyFunction.addEventSource(new SqsEventSource(myQueue));\n```",
+              "Static": false
+            },
+            "addEventSourceMapping": {
+              "Parameters": {
+                "id": {
+                  "Summary": "",
+                  "Type": "String"
+                },
+                "options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.EventSourceMappingOptions"
+                }
+              },
+              "Summary": "Adds an event source that maps to this AWS Lambda function.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_lambda.EventSourceMapping"
+            },
+            "addFunctionUrl": {
+              "Parameters": {
+                "options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.FunctionUrlOptions"
+                }
+              },
+              "Summary": "Adds a url to this lambda function.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_lambda.FunctionUrl"
+            },
+            "addPermission": {
+              "Parameters": {
+                "id": {
+                  "Summary": "The id for the permission construct.",
+                  "Type": "String"
+                },
+                "permission": {
+                  "Summary": "The permission to grant to this Lambda function.",
+                  "Type": "aws-cdk-lib.aws_lambda.Permission"
+                }
+              },
+              "Summary": "Adds a permission to the Lambda resource policy.",
+              "Remarks": "",
+              "Static": false
+            },
+            "addToRolePolicy": {
+              "Parameters": {
+                "statement": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.PolicyStatement"
+                }
+              },
+              "Summary": "Adds a statement to the IAM role assumed by the instance.",
+              "Remarks": "",
+              "Static": false
+            },
+            "configureAsyncInvoke": {
+              "Parameters": {
+                "options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.EventInvokeConfigOptions"
+                }
+              },
+              "Summary": "Configures options for asynchronous invocation.",
+              "Remarks": "",
+              "Static": false
+            },
+            "considerWarningOnInvokeFunctionPermissions": {
+              "Parameters": {
+                "_scope": {
+                  "Summary": "",
+                  "Type": "constructs.Construct"
+                },
+                "_action": {
+                  "Summary": "",
+                  "Type": "String"
+                }
+              },
+              "Summary": "A warning will be added to functions under the following conditions: - permissions that include `lambda:InvokeFunction` are added to the unqualified function.",
+              "Remarks": "- function.currentVersion is invoked before or after the permission is created.\n\nThis applies only to permissions on Lambda functions, not versions or aliases.\nThis function is overridden as a noOp for QualifiedFunctionBase.",
+              "Static": false
+            },
+            "grantInvoke": {
+              "Parameters": {
+                "grantee": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.IGrantable"
+                }
+              },
+              "Summary": "Grant the given identity permissions to invoke this Lambda.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            },
+            "grantInvokeUrl": {
+              "Parameters": {
+                "grantee": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.IGrantable"
+                }
+              },
+              "Summary": "Grant the given identity permissions to invoke this Lambda Function URL.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            },
+            "metric": {
+              "Parameters": {
+                "metricName": {
+                  "Summary": "",
+                  "Type": "String"
+                },
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "Return the given named metric for this Function.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "metricDuration": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "How long execution of this Lambda takes.",
+              "Remarks": "Average over 5 minutes",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "metricErrors": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "How many invocations of this Lambda fail.",
+              "Remarks": "Sum over 5 minutes",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "metricInvocations": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "How often this Lambda is invoked.",
+              "Remarks": "Sum over 5 minutes",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "metricThrottles": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "How often this Lambda is throttled.",
+              "Remarks": "Sum over 5 minutes",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "warnInvokeFunctionPermissions": {
+              "Parameters": {
+                "scope": {
+                  "Summary": "",
+                  "Type": "constructs.Construct"
+                }
+              },
+              "Summary": "",
+              "Remarks": "",
+              "Static": false
+            },
             "aws-cdk-lib.aws_lambda.Version.fromVersionArn": {
               "Parameters": {
                 "scope": {
@@ -2164,22 +4185,6 @@
               "Remarks": "",
               "Static": false,
               "ReturnType": "aws-cdk-lib.aws_lambda.Alias"
-            },
-            "metric": {
-              "Parameters": {
-                "metricName": {
-                  "Summary": "",
-                  "Type": "String"
-                },
-                "props": {
-                  "Summary": "",
-                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
-                }
-              },
-              "Summary": "Return the given named metric for this Function.",
-              "Remarks": "",
-              "Static": false,
-              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
             }
           },
           "PublicProperties": {
@@ -2336,6 +4341,114 @@
         "AssetCode": {
           "Properties": {},
           "Methods": {
+            "aws-cdk-lib.aws_lambda.AssetCode.fromAsset": {
+              "Parameters": {
+                "path": {
+                  "Summary": "Either a directory with the Lambda code bundle or a .zip file.",
+                  "Type": "String"
+                },
+                "options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_s3_assets.AssetOptions"
+                }
+              },
+              "Summary": "Loads the function code from a local disk path.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.AssetCode"
+            },
+            "aws-cdk-lib.aws_lambda.AssetCode.fromAssetImage": {
+              "Parameters": {
+                "directory": {
+                  "Summary": "the directory from which the asset must be created.",
+                  "Type": "String"
+                },
+                "props": {
+                  "Summary": "properties to further configure the selected image.",
+                  "Type": "aws-cdk-lib.aws_lambda.AssetImageCodeProps"
+                }
+              },
+              "Summary": "Create an ECR image from the specified asset and bind it as the Lambda code.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.AssetImageCode"
+            },
+            "aws-cdk-lib.aws_lambda.AssetCode.fromBucket": {
+              "Parameters": {
+                "bucket": {
+                  "Summary": "The S3 bucket.",
+                  "Type": "aws-cdk-lib.aws_s3.IBucket"
+                },
+                "key": {
+                  "Summary": "The object key.",
+                  "Type": "String"
+                },
+                "objectVersion": {
+                  "Summary": "Optional S3 object version.",
+                  "Type": "String"
+                }
+              },
+              "Summary": "Lambda handler code as an S3 object.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.S3Code"
+            },
+            "aws-cdk-lib.aws_lambda.AssetCode.fromCfnParameters": {
+              "Parameters": {
+                "props": {
+                  "Summary": "optional construction properties of {@link CfnParametersCode}.",
+                  "Type": "aws-cdk-lib.aws_lambda.CfnParametersCodeProps"
+                }
+              },
+              "Summary": "Creates a new Lambda source defined using CloudFormation parameters.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.CfnParametersCode"
+            },
+            "aws-cdk-lib.aws_lambda.AssetCode.fromDockerBuild": {
+              "Parameters": {
+                "path": {
+                  "Summary": "The path to the directory containing the Docker file.",
+                  "Type": "String"
+                },
+                "options": {
+                  "Summary": "Docker build options.",
+                  "Type": "aws-cdk-lib.aws_lambda.DockerBuildAssetOptions"
+                }
+              },
+              "Summary": "Loads the function code from an asset created by a Docker build.",
+              "Remarks": "By default, the asset is expected to be located at `/asset` in the\nimage.",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.AssetCode"
+            },
+            "aws-cdk-lib.aws_lambda.AssetCode.fromEcrImage": {
+              "Parameters": {
+                "repository": {
+                  "Summary": "the ECR repository that the image is in.",
+                  "Type": "aws-cdk-lib.aws_ecr.IRepository"
+                },
+                "props": {
+                  "Summary": "properties to further configure the selected image.",
+                  "Type": "aws-cdk-lib.aws_lambda.EcrImageCodeProps"
+                }
+              },
+              "Summary": "Use an existing ECR image as the Lambda code.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.EcrImageCode"
+            },
+            "aws-cdk-lib.aws_lambda.AssetCode.fromInline": {
+              "Parameters": {
+                "code": {
+                  "Summary": "The actual handler code (limited to 4KiB).",
+                  "Type": "String"
+                }
+              },
+              "Summary": "Inline code for Lambda handler.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.InlineCode"
+            },
             "bind": {
               "Parameters": {
                 "scope": {
@@ -2382,6 +4495,114 @@
         "AssetImageCode": {
           "Properties": {},
           "Methods": {
+            "aws-cdk-lib.aws_lambda.AssetImageCode.fromAsset": {
+              "Parameters": {
+                "path": {
+                  "Summary": "Either a directory with the Lambda code bundle or a .zip file.",
+                  "Type": "String"
+                },
+                "options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_s3_assets.AssetOptions"
+                }
+              },
+              "Summary": "Loads the function code from a local disk path.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.AssetCode"
+            },
+            "aws-cdk-lib.aws_lambda.AssetImageCode.fromAssetImage": {
+              "Parameters": {
+                "directory": {
+                  "Summary": "the directory from which the asset must be created.",
+                  "Type": "String"
+                },
+                "props": {
+                  "Summary": "properties to further configure the selected image.",
+                  "Type": "aws-cdk-lib.aws_lambda.AssetImageCodeProps"
+                }
+              },
+              "Summary": "Create an ECR image from the specified asset and bind it as the Lambda code.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.AssetImageCode"
+            },
+            "aws-cdk-lib.aws_lambda.AssetImageCode.fromBucket": {
+              "Parameters": {
+                "bucket": {
+                  "Summary": "The S3 bucket.",
+                  "Type": "aws-cdk-lib.aws_s3.IBucket"
+                },
+                "key": {
+                  "Summary": "The object key.",
+                  "Type": "String"
+                },
+                "objectVersion": {
+                  "Summary": "Optional S3 object version.",
+                  "Type": "String"
+                }
+              },
+              "Summary": "Lambda handler code as an S3 object.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.S3Code"
+            },
+            "aws-cdk-lib.aws_lambda.AssetImageCode.fromCfnParameters": {
+              "Parameters": {
+                "props": {
+                  "Summary": "optional construction properties of {@link CfnParametersCode}.",
+                  "Type": "aws-cdk-lib.aws_lambda.CfnParametersCodeProps"
+                }
+              },
+              "Summary": "Creates a new Lambda source defined using CloudFormation parameters.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.CfnParametersCode"
+            },
+            "aws-cdk-lib.aws_lambda.AssetImageCode.fromDockerBuild": {
+              "Parameters": {
+                "path": {
+                  "Summary": "The path to the directory containing the Docker file.",
+                  "Type": "String"
+                },
+                "options": {
+                  "Summary": "Docker build options.",
+                  "Type": "aws-cdk-lib.aws_lambda.DockerBuildAssetOptions"
+                }
+              },
+              "Summary": "Loads the function code from an asset created by a Docker build.",
+              "Remarks": "By default, the asset is expected to be located at `/asset` in the\nimage.",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.AssetCode"
+            },
+            "aws-cdk-lib.aws_lambda.AssetImageCode.fromEcrImage": {
+              "Parameters": {
+                "repository": {
+                  "Summary": "the ECR repository that the image is in.",
+                  "Type": "aws-cdk-lib.aws_ecr.IRepository"
+                },
+                "props": {
+                  "Summary": "properties to further configure the selected image.",
+                  "Type": "aws-cdk-lib.aws_lambda.EcrImageCodeProps"
+                }
+              },
+              "Summary": "Use an existing ECR image as the Lambda code.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.EcrImageCode"
+            },
+            "aws-cdk-lib.aws_lambda.AssetImageCode.fromInline": {
+              "Parameters": {
+                "code": {
+                  "Summary": "The actual handler code (limited to 4KiB).",
+                  "Type": "String"
+                }
+              },
+              "Summary": "Inline code for Lambda handler.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.InlineCode"
+            },
             "bind": {
               "Parameters": {
                 "scope": {
@@ -2422,17 +4643,113 @@
         "CfnParametersCode": {
           "Properties": {},
           "Methods": {
-            "assign": {
+            "aws-cdk-lib.aws_lambda.CfnParametersCode.fromAsset": {
               "Parameters": {
-                "location": {
-                  "Summary": "the location of the object in S3 that represents the Lambda code.",
-                  "Type": "aws-cdk-lib.aws_s3.Location"
+                "path": {
+                  "Summary": "Either a directory with the Lambda code bundle or a .zip file.",
+                  "Type": "String"
+                },
+                "options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_s3_assets.AssetOptions"
                 }
               },
-              "Summary": "Create a parameters map from this instance's CloudFormation parameters.",
-              "Remarks": "It returns a map with 2 keys that correspond to the names of the parameters defined in this Lambda code,\nand as values it contains the appropriate expressions pointing at the provided S3 location\n(most likely, obtained from a CodePipeline Artifact by calling the `artifact.s3Location` method).\nThe result should be provided to the CloudFormation Action\nthat is deploying the Stack that the Lambda with this code is part of,\nin the `parameterOverrides` property.",
-              "Static": false,
-              "ReturnType": "Map"
+              "Summary": "Loads the function code from a local disk path.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.AssetCode"
+            },
+            "aws-cdk-lib.aws_lambda.CfnParametersCode.fromAssetImage": {
+              "Parameters": {
+                "directory": {
+                  "Summary": "the directory from which the asset must be created.",
+                  "Type": "String"
+                },
+                "props": {
+                  "Summary": "properties to further configure the selected image.",
+                  "Type": "aws-cdk-lib.aws_lambda.AssetImageCodeProps"
+                }
+              },
+              "Summary": "Create an ECR image from the specified asset and bind it as the Lambda code.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.AssetImageCode"
+            },
+            "aws-cdk-lib.aws_lambda.CfnParametersCode.fromBucket": {
+              "Parameters": {
+                "bucket": {
+                  "Summary": "The S3 bucket.",
+                  "Type": "aws-cdk-lib.aws_s3.IBucket"
+                },
+                "key": {
+                  "Summary": "The object key.",
+                  "Type": "String"
+                },
+                "objectVersion": {
+                  "Summary": "Optional S3 object version.",
+                  "Type": "String"
+                }
+              },
+              "Summary": "Lambda handler code as an S3 object.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.S3Code"
+            },
+            "aws-cdk-lib.aws_lambda.CfnParametersCode.fromCfnParameters": {
+              "Parameters": {
+                "props": {
+                  "Summary": "optional construction properties of {@link CfnParametersCode}.",
+                  "Type": "aws-cdk-lib.aws_lambda.CfnParametersCodeProps"
+                }
+              },
+              "Summary": "Creates a new Lambda source defined using CloudFormation parameters.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.CfnParametersCode"
+            },
+            "aws-cdk-lib.aws_lambda.CfnParametersCode.fromDockerBuild": {
+              "Parameters": {
+                "path": {
+                  "Summary": "The path to the directory containing the Docker file.",
+                  "Type": "String"
+                },
+                "options": {
+                  "Summary": "Docker build options.",
+                  "Type": "aws-cdk-lib.aws_lambda.DockerBuildAssetOptions"
+                }
+              },
+              "Summary": "Loads the function code from an asset created by a Docker build.",
+              "Remarks": "By default, the asset is expected to be located at `/asset` in the\nimage.",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.AssetCode"
+            },
+            "aws-cdk-lib.aws_lambda.CfnParametersCode.fromEcrImage": {
+              "Parameters": {
+                "repository": {
+                  "Summary": "the ECR repository that the image is in.",
+                  "Type": "aws-cdk-lib.aws_ecr.IRepository"
+                },
+                "props": {
+                  "Summary": "properties to further configure the selected image.",
+                  "Type": "aws-cdk-lib.aws_lambda.EcrImageCodeProps"
+                }
+              },
+              "Summary": "Use an existing ECR image as the Lambda code.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.EcrImageCode"
+            },
+            "aws-cdk-lib.aws_lambda.CfnParametersCode.fromInline": {
+              "Parameters": {
+                "code": {
+                  "Summary": "The actual handler code (limited to 4KiB).",
+                  "Type": "String"
+                }
+              },
+              "Summary": "Inline code for Lambda handler.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.InlineCode"
             },
             "bind": {
               "Parameters": {
@@ -2445,6 +4762,33 @@
               "Remarks": "",
               "Static": false,
               "ReturnType": "aws-cdk-lib.aws_lambda.CodeConfig"
+            },
+            "bindToResource": {
+              "Parameters": {
+                "_resource": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.CfnResource"
+                },
+                "_options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.ResourceBindOptions"
+                }
+              },
+              "Summary": "Called after the CFN function resource has been created to allow the code class to bind to it.",
+              "Remarks": "Specifically it's required to allow assets to add\nmetadata for tooling like SAM CLI to be able to find their origins.",
+              "Static": false
+            },
+            "assign": {
+              "Parameters": {
+                "location": {
+                  "Summary": "the location of the object in S3 that represents the Lambda code.",
+                  "Type": "aws-cdk-lib.aws_s3.Location"
+                }
+              },
+              "Summary": "Create a parameters map from this instance's CloudFormation parameters.",
+              "Remarks": "It returns a map with 2 keys that correspond to the names of the parameters defined in this Lambda code,\nand as values it contains the appropriate expressions pointing at the provided S3 location\n(most likely, obtained from a CodePipeline Artifact by calling the `artifact.s3Location` method).\nThe result should be provided to the CloudFormation Action\nthat is deploying the Stack that the Lambda with this code is part of,\nin the `parameterOverrides` property.",
+              "Static": false,
+              "ReturnType": "Map"
             }
           },
           "PublicProperties": {
@@ -2650,6 +4994,114 @@
         "EcrImageCode": {
           "Properties": {},
           "Methods": {
+            "aws-cdk-lib.aws_lambda.EcrImageCode.fromAsset": {
+              "Parameters": {
+                "path": {
+                  "Summary": "Either a directory with the Lambda code bundle or a .zip file.",
+                  "Type": "String"
+                },
+                "options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_s3_assets.AssetOptions"
+                }
+              },
+              "Summary": "Loads the function code from a local disk path.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.AssetCode"
+            },
+            "aws-cdk-lib.aws_lambda.EcrImageCode.fromAssetImage": {
+              "Parameters": {
+                "directory": {
+                  "Summary": "the directory from which the asset must be created.",
+                  "Type": "String"
+                },
+                "props": {
+                  "Summary": "properties to further configure the selected image.",
+                  "Type": "aws-cdk-lib.aws_lambda.AssetImageCodeProps"
+                }
+              },
+              "Summary": "Create an ECR image from the specified asset and bind it as the Lambda code.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.AssetImageCode"
+            },
+            "aws-cdk-lib.aws_lambda.EcrImageCode.fromBucket": {
+              "Parameters": {
+                "bucket": {
+                  "Summary": "The S3 bucket.",
+                  "Type": "aws-cdk-lib.aws_s3.IBucket"
+                },
+                "key": {
+                  "Summary": "The object key.",
+                  "Type": "String"
+                },
+                "objectVersion": {
+                  "Summary": "Optional S3 object version.",
+                  "Type": "String"
+                }
+              },
+              "Summary": "Lambda handler code as an S3 object.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.S3Code"
+            },
+            "aws-cdk-lib.aws_lambda.EcrImageCode.fromCfnParameters": {
+              "Parameters": {
+                "props": {
+                  "Summary": "optional construction properties of {@link CfnParametersCode}.",
+                  "Type": "aws-cdk-lib.aws_lambda.CfnParametersCodeProps"
+                }
+              },
+              "Summary": "Creates a new Lambda source defined using CloudFormation parameters.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.CfnParametersCode"
+            },
+            "aws-cdk-lib.aws_lambda.EcrImageCode.fromDockerBuild": {
+              "Parameters": {
+                "path": {
+                  "Summary": "The path to the directory containing the Docker file.",
+                  "Type": "String"
+                },
+                "options": {
+                  "Summary": "Docker build options.",
+                  "Type": "aws-cdk-lib.aws_lambda.DockerBuildAssetOptions"
+                }
+              },
+              "Summary": "Loads the function code from an asset created by a Docker build.",
+              "Remarks": "By default, the asset is expected to be located at `/asset` in the\nimage.",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.AssetCode"
+            },
+            "aws-cdk-lib.aws_lambda.EcrImageCode.fromEcrImage": {
+              "Parameters": {
+                "repository": {
+                  "Summary": "the ECR repository that the image is in.",
+                  "Type": "aws-cdk-lib.aws_ecr.IRepository"
+                },
+                "props": {
+                  "Summary": "properties to further configure the selected image.",
+                  "Type": "aws-cdk-lib.aws_lambda.EcrImageCodeProps"
+                }
+              },
+              "Summary": "Use an existing ECR image as the Lambda code.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.EcrImageCode"
+            },
+            "aws-cdk-lib.aws_lambda.EcrImageCode.fromInline": {
+              "Parameters": {
+                "code": {
+                  "Summary": "The actual handler code (limited to 4KiB).",
+                  "Type": "String"
+                }
+              },
+              "Summary": "Inline code for Lambda handler.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.InlineCode"
+            },
             "bind": {
               "Parameters": {
                 "_": {
@@ -2661,6 +5113,21 @@
               "Remarks": "",
               "Static": false,
               "ReturnType": "aws-cdk-lib.aws_lambda.CodeConfig"
+            },
+            "bindToResource": {
+              "Parameters": {
+                "_resource": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.CfnResource"
+                },
+                "_options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.ResourceBindOptions"
+                }
+              },
+              "Summary": "Called after the CFN function resource has been created to allow the code class to bind to it.",
+              "Remarks": "Specifically it's required to allow assets to add\nmetadata for tooling like SAM CLI to be able to find their origins.",
+              "Static": false
             }
           },
           "PublicProperties": {
@@ -2820,6 +5287,95 @@
         "FunctionBase": {
           "Properties": {},
           "Methods": {
+            "aws-cdk-lib.aws_lambda.FunctionBase.isConstruct": {
+              "Parameters": {
+                "x": {
+                  "Summary": "Any object.",
+                  "Type": "Any"
+                }
+              },
+              "Summary": "Checks if `x` is a construct.",
+              "Remarks": "Use this method instead of `instanceof` to properly detect `Construct`\ninstances, even when the construct library is symlinked.\n\nExplanation: in JavaScript, multiple copies of the `constructs` library on\ndisk are seen as independent, completely different libraries. As a\nconsequence, the class `Construct` in each copy of the `constructs` library\nis seen as a different class, and an instance of one class will not test as\n`instanceof` the other class. `npm install` will not create installations\nlike this, but users may manually symlink construct libraries together or\nuse a monorepo tool: in those cases, multiple copies of the `constructs`\nlibrary can be accidentally installed, and `instanceof` will behave\nunpredictably. It is safest to avoid using `instanceof`, and using\nthis type-testing method instead.",
+              "Static": true,
+              "ReturnType": "Boolean"
+            },
+            "toString": {
+              "Parameters": {},
+              "Summary": "Returns a string representation of this construct.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "String"
+            },
+            "aws-cdk-lib.aws_lambda.FunctionBase.isOwnedResource": {
+              "Parameters": {
+                "construct": {
+                  "Summary": "",
+                  "Type": "constructs.IConstruct"
+                }
+              },
+              "Summary": "Returns true if the construct was created by CDK, and false otherwise.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "Boolean"
+            },
+            "aws-cdk-lib.aws_lambda.FunctionBase.isResource": {
+              "Parameters": {
+                "construct": {
+                  "Summary": "",
+                  "Type": "constructs.IConstruct"
+                }
+              },
+              "Summary": "Check whether the given construct is a Resource.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "Boolean"
+            },
+            "applyRemovalPolicy": {
+              "Parameters": {
+                "policy": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.RemovalPolicy"
+                }
+              },
+              "Summary": "Apply the given removal policy to this resource.",
+              "Remarks": "The Removal Policy controls what happens to this resource when it stops\nbeing managed by CloudFormation, either because you've removed it from the\nCDK application or because you've made a change that requires the resource\nto be replaced.\n\nThe resource can be deleted (`RemovalPolicy.DESTROY`), or left in your AWS\naccount for data recovery and cleanup later (`RemovalPolicy.RETAIN`).",
+              "Static": false
+            },
+            "generatePhysicalName": {
+              "Parameters": {},
+              "Summary": "",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "String"
+            },
+            "getResourceArnAttribute": {
+              "Parameters": {
+                "arnAttr": {
+                  "Summary": "The CFN attribute which resolves to the ARN of the resource.",
+                  "Type": "String"
+                },
+                "arnComponents": {
+                  "Summary": "The format of the ARN of this resource.",
+                  "Type": "aws-cdk-lib.ArnComponents"
+                }
+              },
+              "Summary": "Returns an environment-sensitive token that should be used for the resource's \"ARN\" attribute (e.g. `bucket.bucketArn`).",
+              "Remarks": "Normally, this token will resolve to `arnAttr`, but if the resource is\nreferenced across environments, `arnComponents` will be used to synthesize\na concrete ARN with the resource's physical name. Make sure to reference\n`this.physicalName` in `arnComponents`.",
+              "Static": false,
+              "ReturnType": "String"
+            },
+            "getResourceNameAttribute": {
+              "Parameters": {
+                "nameAttr": {
+                  "Summary": "The CFN attribute which resolves to the resource's name.",
+                  "Type": "String"
+                }
+              },
+              "Summary": "Returns an environment-sensitive token that should be used for the resource's \"name\" attribute (e.g. `bucket.bucketName`).",
+              "Remarks": "Normally, this token will resolve to `nameAttr`, but if the resource is\nreferenced across environments, it will be resolved to `this.physicalName`,\nwhich will be a concrete name.",
+              "Static": false,
+              "ReturnType": "String"
+            },
             "addEventSource": {
               "Parameters": {
                 "source": {
@@ -3126,6 +5682,114 @@
         "InlineCode": {
           "Properties": {},
           "Methods": {
+            "aws-cdk-lib.aws_lambda.InlineCode.fromAsset": {
+              "Parameters": {
+                "path": {
+                  "Summary": "Either a directory with the Lambda code bundle or a .zip file.",
+                  "Type": "String"
+                },
+                "options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_s3_assets.AssetOptions"
+                }
+              },
+              "Summary": "Loads the function code from a local disk path.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.AssetCode"
+            },
+            "aws-cdk-lib.aws_lambda.InlineCode.fromAssetImage": {
+              "Parameters": {
+                "directory": {
+                  "Summary": "the directory from which the asset must be created.",
+                  "Type": "String"
+                },
+                "props": {
+                  "Summary": "properties to further configure the selected image.",
+                  "Type": "aws-cdk-lib.aws_lambda.AssetImageCodeProps"
+                }
+              },
+              "Summary": "Create an ECR image from the specified asset and bind it as the Lambda code.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.AssetImageCode"
+            },
+            "aws-cdk-lib.aws_lambda.InlineCode.fromBucket": {
+              "Parameters": {
+                "bucket": {
+                  "Summary": "The S3 bucket.",
+                  "Type": "aws-cdk-lib.aws_s3.IBucket"
+                },
+                "key": {
+                  "Summary": "The object key.",
+                  "Type": "String"
+                },
+                "objectVersion": {
+                  "Summary": "Optional S3 object version.",
+                  "Type": "String"
+                }
+              },
+              "Summary": "Lambda handler code as an S3 object.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.S3Code"
+            },
+            "aws-cdk-lib.aws_lambda.InlineCode.fromCfnParameters": {
+              "Parameters": {
+                "props": {
+                  "Summary": "optional construction properties of {@link CfnParametersCode}.",
+                  "Type": "aws-cdk-lib.aws_lambda.CfnParametersCodeProps"
+                }
+              },
+              "Summary": "Creates a new Lambda source defined using CloudFormation parameters.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.CfnParametersCode"
+            },
+            "aws-cdk-lib.aws_lambda.InlineCode.fromDockerBuild": {
+              "Parameters": {
+                "path": {
+                  "Summary": "The path to the directory containing the Docker file.",
+                  "Type": "String"
+                },
+                "options": {
+                  "Summary": "Docker build options.",
+                  "Type": "aws-cdk-lib.aws_lambda.DockerBuildAssetOptions"
+                }
+              },
+              "Summary": "Loads the function code from an asset created by a Docker build.",
+              "Remarks": "By default, the asset is expected to be located at `/asset` in the\nimage.",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.AssetCode"
+            },
+            "aws-cdk-lib.aws_lambda.InlineCode.fromEcrImage": {
+              "Parameters": {
+                "repository": {
+                  "Summary": "the ECR repository that the image is in.",
+                  "Type": "aws-cdk-lib.aws_ecr.IRepository"
+                },
+                "props": {
+                  "Summary": "properties to further configure the selected image.",
+                  "Type": "aws-cdk-lib.aws_lambda.EcrImageCodeProps"
+                }
+              },
+              "Summary": "Use an existing ECR image as the Lambda code.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.EcrImageCode"
+            },
+            "aws-cdk-lib.aws_lambda.InlineCode.fromInline": {
+              "Parameters": {
+                "code": {
+                  "Summary": "The actual handler code (limited to 4KiB).",
+                  "Type": "String"
+                }
+              },
+              "Summary": "Inline code for Lambda handler.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.InlineCode"
+            },
             "bind": {
               "Parameters": {
                 "_scope": {
@@ -3137,6 +5801,21 @@
               "Remarks": "",
               "Static": false,
               "ReturnType": "aws-cdk-lib.aws_lambda.CodeConfig"
+            },
+            "bindToResource": {
+              "Parameters": {
+                "_resource": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.CfnResource"
+                },
+                "_options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.ResourceBindOptions"
+                }
+              },
+              "Summary": "Called after the CFN function resource has been created to allow the code class to bind to it.",
+              "Remarks": "Specifically it's required to allow assets to add\nmetadata for tooling like SAM CLI to be able to find their origins.",
+              "Static": false
             }
           },
           "PublicProperties": {
@@ -3218,6 +5897,160 @@
         "QualifiedFunctionBase": {
           "Properties": {},
           "Methods": {
+            "aws-cdk-lib.aws_lambda.QualifiedFunctionBase.isConstruct": {
+              "Parameters": {
+                "x": {
+                  "Summary": "Any object.",
+                  "Type": "Any"
+                }
+              },
+              "Summary": "Checks if `x` is a construct.",
+              "Remarks": "Use this method instead of `instanceof` to properly detect `Construct`\ninstances, even when the construct library is symlinked.\n\nExplanation: in JavaScript, multiple copies of the `constructs` library on\ndisk are seen as independent, completely different libraries. As a\nconsequence, the class `Construct` in each copy of the `constructs` library\nis seen as a different class, and an instance of one class will not test as\n`instanceof` the other class. `npm install` will not create installations\nlike this, but users may manually symlink construct libraries together or\nuse a monorepo tool: in those cases, multiple copies of the `constructs`\nlibrary can be accidentally installed, and `instanceof` will behave\nunpredictably. It is safest to avoid using `instanceof`, and using\nthis type-testing method instead.",
+              "Static": true,
+              "ReturnType": "Boolean"
+            },
+            "toString": {
+              "Parameters": {},
+              "Summary": "Returns a string representation of this construct.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "String"
+            },
+            "aws-cdk-lib.aws_lambda.QualifiedFunctionBase.isOwnedResource": {
+              "Parameters": {
+                "construct": {
+                  "Summary": "",
+                  "Type": "constructs.IConstruct"
+                }
+              },
+              "Summary": "Returns true if the construct was created by CDK, and false otherwise.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "Boolean"
+            },
+            "aws-cdk-lib.aws_lambda.QualifiedFunctionBase.isResource": {
+              "Parameters": {
+                "construct": {
+                  "Summary": "",
+                  "Type": "constructs.IConstruct"
+                }
+              },
+              "Summary": "Check whether the given construct is a Resource.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "Boolean"
+            },
+            "applyRemovalPolicy": {
+              "Parameters": {
+                "policy": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.RemovalPolicy"
+                }
+              },
+              "Summary": "Apply the given removal policy to this resource.",
+              "Remarks": "The Removal Policy controls what happens to this resource when it stops\nbeing managed by CloudFormation, either because you've removed it from the\nCDK application or because you've made a change that requires the resource\nto be replaced.\n\nThe resource can be deleted (`RemovalPolicy.DESTROY`), or left in your AWS\naccount for data recovery and cleanup later (`RemovalPolicy.RETAIN`).",
+              "Static": false
+            },
+            "generatePhysicalName": {
+              "Parameters": {},
+              "Summary": "",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "String"
+            },
+            "getResourceArnAttribute": {
+              "Parameters": {
+                "arnAttr": {
+                  "Summary": "The CFN attribute which resolves to the ARN of the resource.",
+                  "Type": "String"
+                },
+                "arnComponents": {
+                  "Summary": "The format of the ARN of this resource.",
+                  "Type": "aws-cdk-lib.ArnComponents"
+                }
+              },
+              "Summary": "Returns an environment-sensitive token that should be used for the resource's \"ARN\" attribute (e.g. `bucket.bucketArn`).",
+              "Remarks": "Normally, this token will resolve to `arnAttr`, but if the resource is\nreferenced across environments, `arnComponents` will be used to synthesize\na concrete ARN with the resource's physical name. Make sure to reference\n`this.physicalName` in `arnComponents`.",
+              "Static": false,
+              "ReturnType": "String"
+            },
+            "getResourceNameAttribute": {
+              "Parameters": {
+                "nameAttr": {
+                  "Summary": "The CFN attribute which resolves to the resource's name.",
+                  "Type": "String"
+                }
+              },
+              "Summary": "Returns an environment-sensitive token that should be used for the resource's \"name\" attribute (e.g. `bucket.bucketName`).",
+              "Remarks": "Normally, this token will resolve to `nameAttr`, but if the resource is\nreferenced across environments, it will be resolved to `this.physicalName`,\nwhich will be a concrete name.",
+              "Static": false,
+              "ReturnType": "String"
+            },
+            "addEventSource": {
+              "Parameters": {
+                "source": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.IEventSource"
+                }
+              },
+              "Summary": "Adds an event source to this function.",
+              "Remarks": "Event sources are implemented in the @aws-cdk/aws-lambda-event-sources module.\n\nThe following example adds an SQS Queue as an event source:\n```\nimport { SqsEventSource } from '@aws-cdk/aws-lambda-event-sources';\nmyFunction.addEventSource(new SqsEventSource(myQueue));\n```",
+              "Static": false
+            },
+            "addEventSourceMapping": {
+              "Parameters": {
+                "id": {
+                  "Summary": "",
+                  "Type": "String"
+                },
+                "options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.EventSourceMappingOptions"
+                }
+              },
+              "Summary": "Adds an event source that maps to this AWS Lambda function.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_lambda.EventSourceMapping"
+            },
+            "addFunctionUrl": {
+              "Parameters": {
+                "options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.FunctionUrlOptions"
+                }
+              },
+              "Summary": "Adds a url to this lambda function.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_lambda.FunctionUrl"
+            },
+            "addPermission": {
+              "Parameters": {
+                "id": {
+                  "Summary": "The id for the permission construct.",
+                  "Type": "String"
+                },
+                "permission": {
+                  "Summary": "The permission to grant to this Lambda function.",
+                  "Type": "aws-cdk-lib.aws_lambda.Permission"
+                }
+              },
+              "Summary": "Adds a permission to the Lambda resource policy.",
+              "Remarks": "",
+              "Static": false
+            },
+            "addToRolePolicy": {
+              "Parameters": {
+                "statement": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.PolicyStatement"
+                }
+              },
+              "Summary": "Adds a statement to the IAM role assumed by the instance.",
+              "Remarks": "",
+              "Static": false
+            },
             "configureAsyncInvoke": {
               "Parameters": {
                 "options": {
@@ -3242,6 +6075,105 @@
               },
               "Summary": "A warning will be added to functions under the following conditions: - permissions that include `lambda:InvokeFunction` are added to the unqualified function.",
               "Remarks": "- function.currentVersion is invoked before or after the permission is created.\n\nThis applies only to permissions on Lambda functions, not versions or aliases.\nThis function is overridden as a noOp for QualifiedFunctionBase.",
+              "Static": false
+            },
+            "grantInvoke": {
+              "Parameters": {
+                "grantee": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.IGrantable"
+                }
+              },
+              "Summary": "Grant the given identity permissions to invoke this Lambda.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            },
+            "grantInvokeUrl": {
+              "Parameters": {
+                "grantee": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.IGrantable"
+                }
+              },
+              "Summary": "Grant the given identity permissions to invoke this Lambda Function URL.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            },
+            "metric": {
+              "Parameters": {
+                "metricName": {
+                  "Summary": "",
+                  "Type": "String"
+                },
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "Return the given named metric for this Function.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "metricDuration": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "How long execution of this Lambda takes.",
+              "Remarks": "Average over 5 minutes",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "metricErrors": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "How many invocations of this Lambda fail.",
+              "Remarks": "Sum over 5 minutes",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "metricInvocations": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "How often this Lambda is invoked.",
+              "Remarks": "Sum over 5 minutes",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "metricThrottles": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "How often this Lambda is throttled.",
+              "Remarks": "Sum over 5 minutes",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "warnInvokeFunctionPermissions": {
+              "Parameters": {
+                "scope": {
+                  "Summary": "",
+                  "Type": "constructs.Construct"
+                }
+              },
+              "Summary": "",
+              "Remarks": "",
               "Static": false
             }
           },
@@ -3608,6 +6540,114 @@
         "S3Code": {
           "Properties": {},
           "Methods": {
+            "aws-cdk-lib.aws_lambda.S3Code.fromAsset": {
+              "Parameters": {
+                "path": {
+                  "Summary": "Either a directory with the Lambda code bundle or a .zip file.",
+                  "Type": "String"
+                },
+                "options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_s3_assets.AssetOptions"
+                }
+              },
+              "Summary": "Loads the function code from a local disk path.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.AssetCode"
+            },
+            "aws-cdk-lib.aws_lambda.S3Code.fromAssetImage": {
+              "Parameters": {
+                "directory": {
+                  "Summary": "the directory from which the asset must be created.",
+                  "Type": "String"
+                },
+                "props": {
+                  "Summary": "properties to further configure the selected image.",
+                  "Type": "aws-cdk-lib.aws_lambda.AssetImageCodeProps"
+                }
+              },
+              "Summary": "Create an ECR image from the specified asset and bind it as the Lambda code.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.AssetImageCode"
+            },
+            "aws-cdk-lib.aws_lambda.S3Code.fromBucket": {
+              "Parameters": {
+                "bucket": {
+                  "Summary": "The S3 bucket.",
+                  "Type": "aws-cdk-lib.aws_s3.IBucket"
+                },
+                "key": {
+                  "Summary": "The object key.",
+                  "Type": "String"
+                },
+                "objectVersion": {
+                  "Summary": "Optional S3 object version.",
+                  "Type": "String"
+                }
+              },
+              "Summary": "Lambda handler code as an S3 object.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.S3Code"
+            },
+            "aws-cdk-lib.aws_lambda.S3Code.fromCfnParameters": {
+              "Parameters": {
+                "props": {
+                  "Summary": "optional construction properties of {@link CfnParametersCode}.",
+                  "Type": "aws-cdk-lib.aws_lambda.CfnParametersCodeProps"
+                }
+              },
+              "Summary": "Creates a new Lambda source defined using CloudFormation parameters.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.CfnParametersCode"
+            },
+            "aws-cdk-lib.aws_lambda.S3Code.fromDockerBuild": {
+              "Parameters": {
+                "path": {
+                  "Summary": "The path to the directory containing the Docker file.",
+                  "Type": "String"
+                },
+                "options": {
+                  "Summary": "Docker build options.",
+                  "Type": "aws-cdk-lib.aws_lambda.DockerBuildAssetOptions"
+                }
+              },
+              "Summary": "Loads the function code from an asset created by a Docker build.",
+              "Remarks": "By default, the asset is expected to be located at `/asset` in the\nimage.",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.AssetCode"
+            },
+            "aws-cdk-lib.aws_lambda.S3Code.fromEcrImage": {
+              "Parameters": {
+                "repository": {
+                  "Summary": "the ECR repository that the image is in.",
+                  "Type": "aws-cdk-lib.aws_ecr.IRepository"
+                },
+                "props": {
+                  "Summary": "properties to further configure the selected image.",
+                  "Type": "aws-cdk-lib.aws_lambda.EcrImageCodeProps"
+                }
+              },
+              "Summary": "Use an existing ECR image as the Lambda code.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.EcrImageCode"
+            },
+            "aws-cdk-lib.aws_lambda.S3Code.fromInline": {
+              "Parameters": {
+                "code": {
+                  "Summary": "The actual handler code (limited to 4KiB).",
+                  "Type": "String"
+                }
+              },
+              "Summary": "Inline code for Lambda handler.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.InlineCode"
+            },
             "bind": {
               "Parameters": {
                 "_scope": {
@@ -3619,6 +6659,21 @@
               "Remarks": "",
               "Static": false,
               "ReturnType": "aws-cdk-lib.aws_lambda.CodeConfig"
+            },
+            "bindToResource": {
+              "Parameters": {
+                "_resource": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.CfnResource"
+                },
+                "_options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.ResourceBindOptions"
+                }
+              },
+              "Summary": "Called after the CFN function resource has been created to allow the code class to bind to it.",
+              "Remarks": "Specifically it's required to allow assets to add\nmetadata for tooling like SAM CLI to be able to find their origins.",
+              "Static": false
             }
           },
           "PublicProperties": {
@@ -3708,7 +6763,183 @@
       "InterfaceTypes": {
         "IAlias": {
           "Properties": {},
-          "Methods": {},
+          "Methods": {
+            "applyRemovalPolicy": {
+              "Parameters": {
+                "policy": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.RemovalPolicy"
+                }
+              },
+              "Summary": "Apply the given removal policy to this resource.",
+              "Remarks": "The Removal Policy controls what happens to this resource when it stops\nbeing managed by CloudFormation, either because you've removed it from the\nCDK application or because you've made a change that requires the resource\nto be replaced.\n\nThe resource can be deleted (`RemovalPolicy.DESTROY`), or left in your AWS\naccount for data recovery and cleanup later (`RemovalPolicy.RETAIN`).",
+              "Static": false
+            },
+            "addEventSource": {
+              "Parameters": {
+                "source": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.IEventSource"
+                }
+              },
+              "Summary": "Adds an event source to this function.",
+              "Remarks": "Event sources are implemented in the @aws-cdk/aws-lambda-event-sources module.\n\nThe following example adds an SQS Queue as an event source:\n```\nimport { SqsEventSource } from '@aws-cdk/aws-lambda-event-sources';\nmyFunction.addEventSource(new SqsEventSource(myQueue));\n```",
+              "Static": false
+            },
+            "addEventSourceMapping": {
+              "Parameters": {
+                "id": {
+                  "Summary": "construct ID.",
+                  "Type": "String"
+                },
+                "options": {
+                  "Summary": "mapping options.",
+                  "Type": "aws-cdk-lib.aws_lambda.EventSourceMappingOptions"
+                }
+              },
+              "Summary": "Adds an event source that maps to this AWS Lambda function.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_lambda.EventSourceMapping"
+            },
+            "addFunctionUrl": {
+              "Parameters": {
+                "options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.FunctionUrlOptions"
+                }
+              },
+              "Summary": "Adds a url to this lambda function.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_lambda.FunctionUrl"
+            },
+            "addPermission": {
+              "Parameters": {
+                "id": {
+                  "Summary": "The id for the permission construct.",
+                  "Type": "String"
+                },
+                "permission": {
+                  "Summary": "The permission to grant to this Lambda function.",
+                  "Type": "aws-cdk-lib.aws_lambda.Permission"
+                }
+              },
+              "Summary": "Adds a permission to the Lambda resource policy.",
+              "Remarks": "",
+              "Static": false
+            },
+            "addToRolePolicy": {
+              "Parameters": {
+                "statement": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.PolicyStatement"
+                }
+              },
+              "Summary": "Adds a statement to the IAM role assumed by the instance.",
+              "Remarks": "",
+              "Static": false
+            },
+            "configureAsyncInvoke": {
+              "Parameters": {
+                "options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.EventInvokeConfigOptions"
+                }
+              },
+              "Summary": "Configures options for asynchronous invocation.",
+              "Remarks": "",
+              "Static": false
+            },
+            "grantInvoke": {
+              "Parameters": {
+                "identity": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.IGrantable"
+                }
+              },
+              "Summary": "Grant the given identity permissions to invoke this Lambda.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            },
+            "grantInvokeUrl": {
+              "Parameters": {
+                "identity": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.IGrantable"
+                }
+              },
+              "Summary": "Grant the given identity permissions to invoke this Lambda Function URL.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            },
+            "metric": {
+              "Parameters": {
+                "metricName": {
+                  "Summary": "",
+                  "Type": "String"
+                },
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "Return the given named metric for this Lambda Return the given named metric for this Function.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "metricDuration": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "Metric for the Duration of this Lambda How long execution of this Lambda takes.",
+              "Remarks": "Average over 5 minutes",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "metricErrors": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "How many invocations of this Lambda fail.",
+              "Remarks": "Sum over 5 minutes",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "metricInvocations": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "Metric for the number of invocations of this Lambda How often this Lambda is invoked.",
+              "Remarks": "Sum over 5 minutes",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "metricThrottles": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "Metric for the number of throttled invocations of this Lambda How often this Lambda is throttled.",
+              "Remarks": "Sum over 5 minutes",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            }
+          },
           "PublicProperties": {
             "node": {
               "Remarks": "",
@@ -3805,7 +7036,19 @@
         },
         "ICodeSigningConfig": {
           "Properties": {},
-          "Methods": {},
+          "Methods": {
+            "applyRemovalPolicy": {
+              "Parameters": {
+                "policy": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.RemovalPolicy"
+                }
+              },
+              "Summary": "Apply the given removal policy to this resource.",
+              "Remarks": "The Removal Policy controls what happens to this resource when it stops\nbeing managed by CloudFormation, either because you've removed it from the\nCDK application or because you've made a change that requires the resource\nto be replaced.\n\nThe resource can be deleted (`RemovalPolicy.DESTROY`), or left in your AWS\naccount for data recovery and cleanup later (`RemovalPolicy.RETAIN`).",
+              "Static": false
+            }
+          },
           "PublicProperties": {
             "node": {
               "Remarks": "",
@@ -3906,7 +7149,19 @@
         },
         "IEventSourceMapping": {
           "Properties": {},
-          "Methods": {},
+          "Methods": {
+            "applyRemovalPolicy": {
+              "Parameters": {
+                "policy": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.RemovalPolicy"
+                }
+              },
+              "Summary": "Apply the given removal policy to this resource.",
+              "Remarks": "The Removal Policy controls what happens to this resource when it stops\nbeing managed by CloudFormation, either because you've removed it from the\nCDK application or because you've made a change that requires the resource\nto be replaced.\n\nThe resource can be deleted (`RemovalPolicy.DESTROY`), or left in your AWS\naccount for data recovery and cleanup later (`RemovalPolicy.RETAIN`).",
+              "Static": false
+            }
+          },
           "PublicProperties": {
             "node": {
               "Remarks": "",
@@ -3937,6 +7192,17 @@
         "IFunction": {
           "Properties": {},
           "Methods": {
+            "applyRemovalPolicy": {
+              "Parameters": {
+                "policy": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.RemovalPolicy"
+                }
+              },
+              "Summary": "Apply the given removal policy to this resource.",
+              "Remarks": "The Removal Policy controls what happens to this resource when it stops\nbeing managed by CloudFormation, either because you've removed it from the\nCDK application or because you've made a change that requires the resource\nto be replaced.\n\nThe resource can be deleted (`RemovalPolicy.DESTROY`), or left in your AWS\naccount for data recovery and cleanup later (`RemovalPolicy.RETAIN`).",
+              "Static": false
+            },
             "addEventSource": {
               "Parameters": {
                 "source": {
@@ -4187,6 +7453,17 @@
         "IFunctionUrl": {
           "Properties": {},
           "Methods": {
+            "applyRemovalPolicy": {
+              "Parameters": {
+                "policy": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.RemovalPolicy"
+                }
+              },
+              "Summary": "Apply the given removal policy to this resource.",
+              "Remarks": "The Removal Policy controls what happens to this resource when it stops\nbeing managed by CloudFormation, either because you've removed it from the\nCDK application or because you've made a change that requires the resource\nto be replaced.\n\nThe resource can be deleted (`RemovalPolicy.DESTROY`), or left in your AWS\naccount for data recovery and cleanup later (`RemovalPolicy.RETAIN`).",
+              "Static": false
+            },
             "grantInvokeUrl": {
               "Parameters": {
                 "identity": {
@@ -4236,6 +7513,17 @@
         "ILayerVersion": {
           "Properties": {},
           "Methods": {
+            "applyRemovalPolicy": {
+              "Parameters": {
+                "policy": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.RemovalPolicy"
+                }
+              },
+              "Summary": "Apply the given removal policy to this resource.",
+              "Remarks": "The Removal Policy controls what happens to this resource when it stops\nbeing managed by CloudFormation, either because you've removed it from the\nCDK application or because you've made a change that requires the resource\nto be replaced.\n\nThe resource can be deleted (`RemovalPolicy.DESTROY`), or left in your AWS\naccount for data recovery and cleanup later (`RemovalPolicy.RETAIN`).",
+              "Static": false
+            },
             "addPermission": {
               "Parameters": {
                 "id": {
@@ -4328,6 +7616,181 @@
         "IVersion": {
           "Properties": {},
           "Methods": {
+            "applyRemovalPolicy": {
+              "Parameters": {
+                "policy": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.RemovalPolicy"
+                }
+              },
+              "Summary": "Apply the given removal policy to this resource.",
+              "Remarks": "The Removal Policy controls what happens to this resource when it stops\nbeing managed by CloudFormation, either because you've removed it from the\nCDK application or because you've made a change that requires the resource\nto be replaced.\n\nThe resource can be deleted (`RemovalPolicy.DESTROY`), or left in your AWS\naccount for data recovery and cleanup later (`RemovalPolicy.RETAIN`).",
+              "Static": false
+            },
+            "addEventSource": {
+              "Parameters": {
+                "source": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.IEventSource"
+                }
+              },
+              "Summary": "Adds an event source to this function.",
+              "Remarks": "Event sources are implemented in the @aws-cdk/aws-lambda-event-sources module.\n\nThe following example adds an SQS Queue as an event source:\n```\nimport { SqsEventSource } from '@aws-cdk/aws-lambda-event-sources';\nmyFunction.addEventSource(new SqsEventSource(myQueue));\n```",
+              "Static": false
+            },
+            "addEventSourceMapping": {
+              "Parameters": {
+                "id": {
+                  "Summary": "construct ID.",
+                  "Type": "String"
+                },
+                "options": {
+                  "Summary": "mapping options.",
+                  "Type": "aws-cdk-lib.aws_lambda.EventSourceMappingOptions"
+                }
+              },
+              "Summary": "Adds an event source that maps to this AWS Lambda function.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_lambda.EventSourceMapping"
+            },
+            "addFunctionUrl": {
+              "Parameters": {
+                "options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.FunctionUrlOptions"
+                }
+              },
+              "Summary": "Adds a url to this lambda function.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_lambda.FunctionUrl"
+            },
+            "addPermission": {
+              "Parameters": {
+                "id": {
+                  "Summary": "The id for the permission construct.",
+                  "Type": "String"
+                },
+                "permission": {
+                  "Summary": "The permission to grant to this Lambda function.",
+                  "Type": "aws-cdk-lib.aws_lambda.Permission"
+                }
+              },
+              "Summary": "Adds a permission to the Lambda resource policy.",
+              "Remarks": "",
+              "Static": false
+            },
+            "addToRolePolicy": {
+              "Parameters": {
+                "statement": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.PolicyStatement"
+                }
+              },
+              "Summary": "Adds a statement to the IAM role assumed by the instance.",
+              "Remarks": "",
+              "Static": false
+            },
+            "configureAsyncInvoke": {
+              "Parameters": {
+                "options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.EventInvokeConfigOptions"
+                }
+              },
+              "Summary": "Configures options for asynchronous invocation.",
+              "Remarks": "",
+              "Static": false
+            },
+            "grantInvoke": {
+              "Parameters": {
+                "identity": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.IGrantable"
+                }
+              },
+              "Summary": "Grant the given identity permissions to invoke this Lambda.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            },
+            "grantInvokeUrl": {
+              "Parameters": {
+                "identity": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.IGrantable"
+                }
+              },
+              "Summary": "Grant the given identity permissions to invoke this Lambda Function URL.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            },
+            "metric": {
+              "Parameters": {
+                "metricName": {
+                  "Summary": "",
+                  "Type": "String"
+                },
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "Return the given named metric for this Lambda Return the given named metric for this Function.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "metricDuration": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "Metric for the Duration of this Lambda How long execution of this Lambda takes.",
+              "Remarks": "Average over 5 minutes",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "metricErrors": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "How many invocations of this Lambda fail.",
+              "Remarks": "Sum over 5 minutes",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "metricInvocations": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "Metric for the number of invocations of this Lambda How often this Lambda is invoked.",
+              "Remarks": "Sum over 5 minutes",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
+            "metricThrottles": {
+              "Parameters": {
+                "props": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_cloudwatch.MetricOptions"
+                }
+              },
+              "Summary": "Metric for the number of throttled invocations of this Lambda How often this Lambda is throttled.",
+              "Remarks": "Sum over 5 minutes",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_cloudwatch.Metric"
+            },
             "addAlias": {
               "Parameters": {
                 "aliasName": {
