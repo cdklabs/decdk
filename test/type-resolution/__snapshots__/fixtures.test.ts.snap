@@ -3,6 +3,7 @@
 exports[`Fixtures examples/apigw.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
   "outputs": Map {},
@@ -125,6 +126,7 @@ TypedTemplate {
   "template": Template {
     "conditions": Map {},
     "description": "A template creates a lambda function with an api gateway",
+    "hooks": Map {},
     "mappings": Map {},
     "metadata": Map {},
     "outputs": Map {},
@@ -271,6 +273,7 @@ TypedTemplate {
 exports[`Fixtures examples/application-load-balancer.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
   "outputs": Map {},
@@ -571,6 +574,7 @@ TypedTemplate {
   "template": Template {
     "conditions": Map {},
     "description": undefined,
+    "hooks": Map {},
     "mappings": Map {},
     "metadata": Map {},
     "outputs": Map {},
@@ -929,6 +933,7 @@ TypedTemplate {
 exports[`Fixtures examples/ecs.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
   "outputs": Map {},
@@ -1118,6 +1123,7 @@ TypedTemplate {
   "template": Template {
     "conditions": Map {},
     "description": "A template creates a Fargate service with necessary resources",
+    "hooks": Map {},
     "mappings": Map {},
     "metadata": Map {},
     "outputs": Map {},
@@ -1338,6 +1344,7 @@ TypedTemplate {
 exports[`Fixtures examples/fleet.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
   "outputs": Map {},
@@ -1444,6 +1451,7 @@ TypedTemplate {
   "template": Template {
     "conditions": Map {},
     "description": "A template creates an ASG and Vpc",
+    "hooks": Map {},
     "mappings": Map {},
     "metadata": Map {},
     "outputs": Map {},
@@ -1565,6 +1573,7 @@ TypedTemplate {
 exports[`Fixtures examples/http-proxy.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
   "outputs": Map {},
@@ -1762,6 +1771,7 @@ TypedTemplate {
   "template": Template {
     "conditions": Map {},
     "description": undefined,
+    "hooks": Map {},
     "mappings": Map {},
     "metadata": Map {},
     "outputs": Map {},
@@ -2021,6 +2031,7 @@ TypedTemplate {
 exports[`Fixtures examples/lambda-dashboard.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
   "outputs": Map {},
@@ -2499,6 +2510,7 @@ TypedTemplate {
   "template": Template {
     "conditions": Map {},
     "description": undefined,
+    "hooks": Map {},
     "mappings": Map {},
     "metadata": Map {},
     "outputs": Map {},
@@ -3054,6 +3066,7 @@ TypedTemplate {
 exports[`Fixtures examples/lambda-events.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
   "outputs": Map {},
@@ -3275,6 +3288,7 @@ TypedTemplate {
   "template": Template {
     "conditions": Map {},
     "description": "A template creates a lambda function which can be invoked by an sns topic",
+    "hooks": Map {},
     "mappings": Map {},
     "metadata": Map {},
     "outputs": Map {},
@@ -3521,6 +3535,7 @@ TypedTemplate {
 exports[`Fixtures examples/lambda-layer.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
   "outputs": Map {},
@@ -3607,6 +3622,7 @@ TypedTemplate {
   "template": Template {
     "conditions": Map {},
     "description": "A template creates a aws cli lambda layer",
+    "hooks": Map {},
     "mappings": Map {},
     "metadata": Map {},
     "outputs": Map {},
@@ -3709,6 +3725,7 @@ TypedTemplate {
 exports[`Fixtures examples/lambda-policy.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
   "outputs": Map {},
@@ -3899,6 +3916,7 @@ TypedTemplate {
   "template": Template {
     "conditions": Map {},
     "description": undefined,
+    "hooks": Map {},
     "mappings": Map {},
     "metadata": Map {},
     "outputs": Map {},
@@ -4138,6 +4156,7 @@ TypedTemplate {
 exports[`Fixtures examples/lambda-topic.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
   "outputs": Map {},
@@ -4241,6 +4260,7 @@ TypedTemplate {
   "template": Template {
     "conditions": Map {},
     "description": undefined,
+    "hooks": Map {},
     "mappings": Map {},
     "metadata": Map {},
     "outputs": Map {},
@@ -4348,6 +4368,7 @@ TypedTemplate {
 exports[`Fixtures examples/pipeline.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
   "outputs": Map {},
@@ -4647,6 +4668,7 @@ TypedTemplate {
   "template": Template {
     "conditions": Map {},
     "description": "A template creates a CodePipeline along with its CodeCommit repository source",
+    "hooks": Map {},
     "mappings": Map {},
     "metadata": Map {},
     "outputs": Map {},
@@ -4994,6 +5016,7 @@ TypedTemplate {
 exports[`Fixtures examples/static-site.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
   "outputs": Map {},
@@ -5526,6 +5549,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
   "template": Template {
     "conditions": Map {},
     "description": undefined,
+    "hooks": Map {},
     "mappings": Map {},
     "metadata": Map {},
     "outputs": Map {},
@@ -6160,6 +6184,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
 exports[`Fixtures examples/vpc.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
   "outputs": Map {},
@@ -6191,6 +6216,7 @@ TypedTemplate {
   "template": Template {
     "conditions": Map {},
     "description": undefined,
+    "hooks": Map {},
     "mappings": Map {},
     "metadata": Map {},
     "outputs": Map {},
@@ -6254,6 +6280,7 @@ TypedTemplate {
       "type": "intrinsic",
     },
   },
+  "hooks": Map {},
   "mappings": Map {
     "AWSAMIRegionMap" => TemplateMapping {
       "mapping": Map {
@@ -7745,6 +7772,7 @@ TypedTemplate {
       },
     },
     "description": "AWS CloudFormation Sample Template for using Assertions: Create a load balanced, Auto Scaled sample website where the instances are locked down to only accept traffic from the load balancer. This example creates an Auto Scaling group behind a load balancer with a health check. The web site is available on port 80 or 443 based on the input.",
+    "hooks": Map {},
     "mappings": Map {
       "AWSAMIRegionMap" => TemplateMapping {
         "mapping": Map {
@@ -9739,6 +9767,7 @@ TypedTemplate {
       },
     },
   },
+  "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
   "outputs": Map {},
@@ -9979,6 +10008,7 @@ TypedTemplate {
       },
     },
     "description": undefined,
+    "hooks": Map {},
     "mappings": Map {},
     "metadata": Map {},
     "outputs": Map {},
@@ -10295,6 +10325,7 @@ TypedTemplate {
 exports[`Fixtures templates/cfn-mappings.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "hooks": Map {},
   "mappings": Map {
     "RegionMap" => TemplateMapping {
       "mapping": Map {
@@ -10380,6 +10411,7 @@ TypedTemplate {
   "template": Template {
     "conditions": Map {},
     "description": undefined,
+    "hooks": Map {},
     "mappings": Map {
       "RegionMap" => TemplateMapping {
         "mapping": Map {
@@ -10480,6 +10512,7 @@ TypedTemplate {
 exports[`Fixtures templates/cfn-metadata.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {
     "Instances" => Object {
@@ -10537,6 +10570,7 @@ TypedTemplate {
   "template": Template {
     "conditions": Map {},
     "description": undefined,
+    "hooks": Map {},
     "mappings": Map {},
     "metadata": Map {
       "Instances" => Object {
@@ -10612,6 +10646,7 @@ TypedTemplate {
 exports[`Fixtures templates/cfn-outputs-complex.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
   "outputs": Map {
@@ -10745,6 +10780,7 @@ TypedTemplate {
   "template": Template {
     "conditions": Map {},
     "description": undefined,
+    "hooks": Map {},
     "mappings": Map {},
     "metadata": Map {},
     "outputs": Map {
@@ -10902,6 +10938,7 @@ TypedTemplate {
 exports[`Fixtures templates/cfn-outputs-simple.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
   "outputs": Map {
@@ -11037,6 +11074,7 @@ TypedTemplate {
   "template": Template {
     "conditions": Map {},
     "description": "A template creates a lambda function with an api gateway",
+    "hooks": Map {},
     "mappings": Map {},
     "metadata": Map {},
     "outputs": Map {
@@ -11205,6 +11243,7 @@ TypedTemplate {
 exports[`Fixtures templates/cfn-parameters.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
   "outputs": Map {},
@@ -11322,6 +11361,7 @@ TypedTemplate {
   "template": Template {
     "conditions": Map {},
     "description": undefined,
+    "hooks": Map {},
     "mappings": Map {},
     "metadata": Map {},
     "outputs": Map {},
@@ -11496,6 +11536,7 @@ TypedTemplate {
 exports[`Fixtures templates/cfn-policies.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
   "outputs": Map {},
@@ -11781,6 +11822,7 @@ yum update -y aws-cfn-bootstrap
   "template": Template {
     "conditions": Map {},
     "description": undefined,
+    "hooks": Map {},
     "mappings": Map {},
     "metadata": Map {},
     "outputs": Map {},
@@ -12095,6 +12137,7 @@ yum update -y aws-cfn-bootstrap
 exports[`Fixtures templates/cfn-transform.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
   "outputs": Map {},
@@ -12133,6 +12176,7 @@ TypedTemplate {
   "template": Template {
     "conditions": Map {},
     "description": undefined,
+    "hooks": Map {},
     "mappings": Map {},
     "metadata": Map {},
     "outputs": Map {},
@@ -12186,6 +12230,7 @@ TypedTemplate {
 exports[`Fixtures templates/overrides-delete-path.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {
     "Instances" => Object {
@@ -12250,6 +12295,7 @@ TypedTemplate {
   "template": Template {
     "conditions": Map {},
     "description": undefined,
+    "hooks": Map {},
     "mappings": Map {},
     "metadata": Map {
       "Instances" => Object {
@@ -12345,6 +12391,7 @@ TypedTemplate {
 exports[`Fixtures templates/overrides-remove-resource.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
   "outputs": Map {},
@@ -12414,6 +12461,7 @@ TypedTemplate {
   "template": Template {
     "conditions": Map {},
     "description": undefined,
+    "hooks": Map {},
     "mappings": Map {},
     "metadata": Map {},
     "outputs": Map {},
@@ -12495,6 +12543,7 @@ TypedTemplate {
 exports[`Fixtures templates/overrides-update-path.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
   "outputs": Map {},
@@ -12727,6 +12776,7 @@ TypedTemplate {
   "template": Template {
     "conditions": Map {},
     "description": "A template creates a lambda function which can be invoked by an sns topic",
+    "hooks": Map {},
     "mappings": Map {},
     "metadata": Map {},
     "outputs": Map {},
@@ -12993,6 +13043,7 @@ TypedTemplate {
 exports[`Fixtures templates/syntax-lambda-policy-from-constructor.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
   "outputs": Map {},
@@ -13124,6 +13175,7 @@ TypedTemplate {
   "template": Template {
     "conditions": Map {},
     "description": undefined,
+    "hooks": Map {},
     "mappings": Map {},
     "metadata": Map {},
     "outputs": Map {},
@@ -13278,6 +13330,7 @@ TypedTemplate {
 exports[`Fixtures templates/syntax-method-calls.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
   "outputs": Map {},
@@ -13673,6 +13726,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
   "template": Template {
     "conditions": Map {},
     "description": undefined,
+    "hooks": Map {},
     "mappings": Map {},
     "metadata": Map {},
     "outputs": Map {},
@@ -14113,6 +14167,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
 exports[`Fixtures templates/syntax-short-intrinsics.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
   "outputs": Map {},
@@ -14591,6 +14646,7 @@ TypedTemplate {
   "template": Template {
     "conditions": Map {},
     "description": undefined,
+    "hooks": Map {},
     "mappings": Map {},
     "metadata": Map {},
     "outputs": Map {},

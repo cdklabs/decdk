@@ -5,6 +5,7 @@ import {
   TemplateExpression,
   TemplateParameter,
 } from '../parser/template';
+import { TemplateHook } from '../parser/template/hooks';
 import { TemplateMapping } from '../parser/template/mappings';
 import { TemplateRule } from '../parser/template/rules';
 import {
@@ -30,6 +31,7 @@ export class TypedTemplate {
   public readonly transform: string[];
   public readonly metadata: Map<string, TemplateExpression>;
   public readonly rules: Map<string, TemplateRule>;
+  public readonly hooks: Map<string, TemplateHook>;
 
   constructor(public template: Template, props: TypedTemplateProps) {
     this.resources = template
@@ -48,6 +50,7 @@ export class TypedTemplate {
     this.transform = template.transform;
     this.metadata = template.metadata;
     this.rules = template.rules;
+    this.hooks = template.hooks;
     this.outputs = new Map();
     for (let [logicalId, output] of template.outputs) {
       const typedOutput = {
