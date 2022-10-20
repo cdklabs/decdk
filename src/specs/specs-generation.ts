@@ -151,7 +151,7 @@ function getProperties(
 
 function getMethods(c: reflect.ReferenceType): Record<string, MethodSpec> {
   return Object.fromEntries(
-    Object.entries(c.getMethods(false)).map(([name, method]) => [
+    Object.entries(c.getMethods(true)).map(([name, method]) => [
       method.static ? methodFQN(method) : name,
       methodSpec(method),
     ])
