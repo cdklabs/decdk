@@ -1,6 +1,7 @@
 import * as cdk from 'aws-cdk-lib';
 import {
   CfnDeletionPolicy,
+  CfnHook,
   CfnResource,
   CfnRule,
   ICfnConditionExpression,
@@ -53,6 +54,7 @@ export class Evaluator {
     this.evaluateTransform();
     this.evaluateResources();
     this.evaluateOutputs();
+    this.evaluateHooks();
   }
 
   private evaluateMappings() {
@@ -123,6 +125,13 @@ export class Evaluator {
     const scope = new Construct(this.context.stack, '$Rules');
     this.context.template.rules.forEach((rule, name) => {
       new CfnRule(scope, name, rule).overrideLogicalId(name);
+    });
+  }
+
+  private evaluateHooks() {
+    const scope = new Construct(this.context.stack, '$Hooks');
+    this.context.template.hooks.forEach((hook, name) => {
+      new CfnHook(scope, name, hook).overrideLogicalId(name);
     });
   }
 
