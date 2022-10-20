@@ -3,10 +3,18 @@ declare module 'mocha-expect-snapshot' {
 }
 
 import { setSnapshotStateOptions } from 'mocha-expect-snapshot';
-import './util';
+import { Testing } from './util';
 
 setSnapshotStateOptions({
   snapshotFormat: {
     printBasicPrototype: true,
   },
 });
+
+export async function mochaGlobalSetup() {
+  await Promise.all([
+    Testing.typeSystem,
+    Testing.schema,
+    Testing.templateFixtures,
+  ]);
+}
