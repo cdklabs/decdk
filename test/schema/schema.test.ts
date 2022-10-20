@@ -10,7 +10,7 @@ const fixturedir = path.join(__dirname, 'fixture');
 
 let typesys: reflect.TypeSystem;
 
-setup(async () => {
+suiteSetup(async () => {
   typesys = new reflect.TypeSystem();
 
   // jsii-compile the fixtures module

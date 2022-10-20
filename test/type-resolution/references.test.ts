@@ -6,7 +6,7 @@ import { matchConstruct, matchResolveFnRef, Testing } from '../util';
 
 let typeSystem: reflect.TypeSystem;
 
-setup(async () => {
+suiteSetup(async () => {
   typeSystem = await Testing.typeSystem;
 });
 

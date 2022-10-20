@@ -5,7 +5,7 @@ import { TypedTemplate } from '../../src/type-resolution/template';
 import { testTemplateFixtures, Testing } from '../util';
 
 let typeSystem: reflect.TypeSystem;
-setup(async () => {
+suiteSetup(async () => {
   typeSystem = await Testing.typeSystem;
 });
 

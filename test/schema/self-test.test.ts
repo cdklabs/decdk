@@ -18,4 +18,4 @@ test('generated schema is valid JSON Schema draft-04', async () => {
   // THEN
   expect(result.errors).toEqual([]);
   expect(result.valid).toStrictEqual(true);
-});
+}).timeout(30_000);

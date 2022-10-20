@@ -74,6 +74,8 @@ new YamlFile(project, '.mocharc.yaml', {
     ui: 'tdd',
     spec: ['test/**/*.test.ts'],
     require: ['mocha-expect-snapshot', 'test/setup.ts'],
+    timeout: 10_000,
+    slow: 500,
   },
 });
 project.annotateGenerated('*.snap');

@@ -18,6 +18,9 @@
     }
   },
   "name": "fixture",
+  "readme": {
+    "markdown": "# test\n"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/aws/aws-cdk"
@@ -359,5 +362,5 @@
     }
   },
   "version": "0.0.0",
-  "fingerprint": "2UcdL2oET0EksjJPbcGCTboCg9B9RXlpqCJ0oRulSMM="
+  "fingerprint": "1gZmgORsjhFnvbeTWjK0uDXOv6nm1OQlFKSjr3EokFc="
 }

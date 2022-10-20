@@ -15,7 +15,7 @@ import {
 
 let typeSystem: reflect.TypeSystem;
 
-setup(async () => {
+suiteSetup(async () => {
   typeSystem = await Testing.typeSystem;
 });
 
