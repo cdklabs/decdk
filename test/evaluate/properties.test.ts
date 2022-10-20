@@ -18,7 +18,6 @@ test('can define boolean property as "false"', async () => {
   );
 
   // THEN
-  expect(rawTemplate).toBeValidTemplate();
   template.hasResourceProperties('AWS::SNS::Topic', {
     FifoTopic: false,
   });

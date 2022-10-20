@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as cdk from 'aws-cdk-lib';
-import { DefaultStackSynthesizer } from 'aws-cdk-lib';
+import { AppProps, DefaultStackSynthesizer } from 'aws-cdk-lib';
 import {
   Match as BaseMatch,
   Template as AssertionTemplate,
@@ -71,6 +71,21 @@ export function loadTemplateFixtures(
   return fixtures;
 }
 
+export interface TestingOptions {
+  /**
+   * Should the template be validated against the JSON Schema
+   * @default true
+   */
+  validateTemplate?: boolean;
+
+  /**
+   * Additional props passed to the app
+   *
+   * @default {}
+   */
+  appProps?: AppProps;
+}
+
 export class Testing {
   public static get typeSystem() {
     return obtainTypeSystem();
@@ -84,19 +99,24 @@ export class Testing {
     return loadJsonSchemaFromFile();
   }
 
-  public static async synth(template: Template, validateTemplate = true) {
-    const { app, stack } = await this.prepare(template, validateTemplate);
+  public static async synth(template: Template, options?: TestingOptions) {
+    const { app, stack } = await this.prepare(template, options);
 
     return app.synth().getStackByName(stack.stackName);
   }
 
-  public static async template(template: Template, validateTemplate = true) {
-    const { stack } = await this.prepare(template, validateTemplate);
+  public static async template(template: Template, options?: TestingOptions) {
+    const { stack } = await this.prepare(template, options);
 
     return AssertionTemplate.fromStack(stack);
   }
 
-  private static async prepare(template: Template, validateTemplate: boolean) {
+  private static async prepare(
+    template: Template,
+    options: TestingOptions = {}
+  ) {
+    const { validateTemplate = true, appProps = {} } = options;
+
     if (validateTemplate) {
       expect(template.template).toBeValidTemplate();
     }
@@ -106,6 +126,7 @@ export class Testing {
 
     const app = new cdk.App({
       analyticsReporting: false,
+      ...appProps,
     });
 
     const stack = new DeclarativeStack(app, stackName, {

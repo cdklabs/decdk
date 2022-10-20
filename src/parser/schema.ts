@@ -10,6 +10,7 @@ export namespace schema {
     readonly Conditions?: Record<string, Condition>;
     readonly Transform?: string | string[];
     readonly Outputs?: Record<string, Output>;
+    readonly Hooks?: Record<string, Hook>;
   }
 
   export interface Resource {
@@ -69,6 +70,11 @@ export namespace schema {
       readonly Name: CfnValue<string>;
     };
     readonly Condition?: string;
+  }
+
+  export interface Hook {
+    readonly Type: string;
+    readonly Properties?: Record<string, CfnValue<any>>;
   }
 
   export interface Tag {

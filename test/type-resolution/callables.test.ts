@@ -207,6 +207,40 @@ test('Can only provide compatible inline implementations', async () => {
   );
 });
 
+test('All required parameters must be passed', async () => {
+  // GIVEN
+  const template = await Template.fromObject({
+    Resources: {
+      LibraryApi: {
+        Type: 'aws-cdk-lib.aws_apigateway.RestApi',
+      },
+      BooksResource: {
+        Type: 'aws-cdk-lib.aws_apigateway.Resource',
+        Properties: {
+          parent: {
+            'CDK::GetProp': 'LibraryApi.root',
+          },
+          pathPart: 'books',
+        },
+      },
+      GetBooks: {
+        Type: 'aws-cdk-lib.aws_apigateway.Method',
+        Call: [
+          'BooksResource',
+          {
+            addMethod: [],
+          },
+        ],
+      },
+    },
+  });
+
+  // THEN
+  expect(() => new TypedTemplate(template, { typeSystem })).toThrow(
+    "Expected required parameter 'httpMethod' for aws-cdk-lib.aws_apigateway.Resource.addMethod"
+  );
+});
+
 test('Resources can be created by calling instance methods on constructs', async () => {
   // GIVEN
   const template = await Template.fromObject({
@@ -744,7 +778,7 @@ test('Calls to static factory methods with implicit arguments can be inlined', a
         },
       },
     }),
-    false
+    { validateTemplate: false }
   );
 
   template.hasResourceProperties('AWS::S3::Bucket', {
