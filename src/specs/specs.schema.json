@@ -22,11 +22,13 @@
         "Summary": {
           "type": "string"
         },
+        "Remarks": {
+          "type": "string"
+        },
         "Static": {
           "type": "boolean"
         },
         "Parameters": {
-          "additionalProperties": false,
           "type": "object",
           "patternProperties": {
             "^[a-zA-Z0-9]+$": {
@@ -58,6 +60,9 @@
         },
         "ItemType": {
           "type": "string"
+        },
+        "Static": {
+          "type": "boolean"
         }
       },
       "required": ["Remarks", "Summary", "Required", "Type"]
@@ -97,6 +102,22 @@
       "type": "object",
       "properties": {
         "ResourceTypes": {
+          "type": "object",
+          "patternProperties": {
+            "^[A-Z][a-zA-Z0-9]+$": {
+              "$ref": "#/definitions/resource"
+            }
+          }
+        },
+        "PropertyTypes": {
+          "type": "object",
+          "patternProperties": {
+            "^[A-Z][a-zA-Z0-9]+$": {
+              "$ref": "#/definitions/resource"
+            }
+          }
+        },
+        "InterfaceTypes": {
           "type": "object",
           "patternProperties": {
             "^[A-Z][a-zA-Z0-9]+$": {
