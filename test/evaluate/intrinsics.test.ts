@@ -291,7 +291,9 @@ describe('FnGetAtt', () => {
     });
 
     // THEN
-    await expect(Testing.synth(template, false)).rejects.toThrow(
+    await expect(
+      Testing.synth(template, { validateTemplate: false })
+    ).rejects.toThrow(
       'Fn::GetAtt: Expected Cloudformation Attribute, got: VPC.DOES_NOT_EXIST'
     );
   });
@@ -401,7 +403,9 @@ describe('FnGetProp', () => {
     });
 
     // THEN
-    await expect(Testing.synth(template, false)).rejects.toThrow(
+    await expect(
+      Testing.synth(template, { validateTemplate: false })
+    ).rejects.toThrow(
       'CDK::GetProp: Expected Construct Property, got: TopicOne.masterKey'
     );
   });
@@ -471,7 +475,9 @@ describe('FnGetProp', () => {
     const template = await Template.fromObject(source);
 
     // THEN
-    await expect(Testing.synth(template, false)).rejects.toThrow(
+    await expect(
+      Testing.synth(template, { validateTemplate: false })
+    ).rejects.toThrow(
       'CDK::GetProp: Expected Construct Property, got: MyLambda.stack.stackId'
     );
   });
@@ -524,7 +530,9 @@ describe('FnGetProp', () => {
     });
 
     // THEN
-    await expect(Testing.synth(template, false)).rejects.toThrow(
+    await expect(
+      Testing.synth(template, { validateTemplate: false })
+    ).rejects.toThrow(
       'CDK::GetProp: Expected Construct Property, got: MyVpc.publicSubnets.999.availabilityZone'
     );
   });

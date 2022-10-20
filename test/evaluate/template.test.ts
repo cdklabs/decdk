@@ -278,7 +278,7 @@ describe('given a template with unknown top-level properties', () => {
         AWSTemplateFormatVersion: '2010-09-09',
         Whatever: {},
       }),
-      false
+      { validateTemplate: false }
     );
 
     // THEN
@@ -309,7 +309,7 @@ describe('Outputs', () => {
           },
         },
       }),
-      false
+      { validateTemplate: false }
     );
 
     template.hasOutput('SimpleOutput', {
@@ -354,7 +354,7 @@ describe('Outputs', () => {
           },
         },
       }),
-      false
+      { validateTemplate: false }
     );
 
     template.hasOutput('SimpleOutput', {
@@ -390,7 +390,7 @@ describe('Outputs', () => {
           },
         },
       }),
-      false
+      { validateTemplate: false }
     );
 
     template.hasOutput('SimpleOutput', {
@@ -425,7 +425,7 @@ describe('Outputs', () => {
           },
         },
       }),
-      false
+      { validateTemplate: false }
     );
 
     template.hasOutput('SimpleOutput', {
@@ -515,7 +515,7 @@ describe('Conditions', () => {
           },
         },
       }),
-      false
+      { validateTemplate: false }
     );
     template.hasCondition('createHandler', { 'Fn::Equals': ['true', 'true'] });
   });
@@ -542,7 +542,7 @@ describe('Conditions', () => {
           },
         },
       }),
-      false
+      { validateTemplate: false }
     );
     template.hasCondition('createHandler', {
       'Fn::And': [
@@ -573,7 +573,7 @@ describe('Conditions', () => {
           },
         },
       }),
-      false
+      { validateTemplate: false }
     );
 
     template.hasCondition('createHandler', {
@@ -603,7 +603,7 @@ describe('Conditions', () => {
           },
         },
       }),
-      false
+      { validateTemplate: false }
     );
     template.hasCondition('createHandler', {
       'Fn::Or': [
@@ -641,7 +641,7 @@ describe('Conditions', () => {
           },
         },
       }),
-      false
+      { validateTemplate: false }
     );
 
     template.hasCondition('createHandler', {
@@ -675,7 +675,7 @@ describe('Conditions', () => {
           },
         },
       }),
-      false
+      { validateTemplate: false }
     );
 
     template.hasCondition('createHandler', {
@@ -712,7 +712,7 @@ describe('Conditions', () => {
           },
         },
       }),
-      false
+      { validateTemplate: false }
     );
 
     template.hasCondition('createHandler', {
@@ -752,7 +752,7 @@ describe('Metadata', () => {
           },
         },
       }),
-      false
+      { validateTemplate: false }
     );
 
     expect(template.toJSON()).toEqual(

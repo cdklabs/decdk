@@ -17,7 +17,9 @@ test('invalid enum option raises an error', async () => {
   // THEN
   expect(template).not.toBeValidTemplate();
   await expect(
-    Testing.synth(await Template.fromObject(template), false)
+    Testing.synth(await Template.fromObject(template), {
+      validateTemplate: false,
+    })
   ).rejects.toThrow(
     'Expected choice for enum type aws-cdk-lib.aws_sqs.QueueEncryption to be one of UNENCRYPTED|KMS_MANAGED|KMS|SQS_MANAGED, got: boom'
   );
