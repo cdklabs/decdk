@@ -1,8 +1,9 @@
-import path from 'path';
+import * as path from 'path';
+import { expect } from 'expect';
 import { readTemplate } from '../../src';
 import { testTemplateFixtures, Testing, loadTemplateFixtures } from '../util';
 
-describe('Valid Template Fixtures should synth', () => {
+suite('Valid Template Fixtures should synth', () => {
   testTemplateFixtures(async (templateFile) => {
     const template = await readTemplate(templateFile.path);
     const output = await Testing.synth(template);
@@ -10,7 +11,7 @@ describe('Valid Template Fixtures should synth', () => {
   });
 });
 
-describe('Cloudformation templates', () => {
+suite('Cloudformation templates', () => {
   const cfnFixtures = loadTemplateFixtures([
     path.join(__dirname, '..', 'fixtures/templates/cloudformation'),
   ]);
@@ -29,7 +30,7 @@ describe('Cloudformation templates', () => {
   );
 });
 
-describe('Invalid Template Fixtures should fail', () => {
+suite('Invalid Template Fixtures should fail', () => {
   const invalidFixtures = loadTemplateFixtures([
     path.join(__dirname, '..', 'fixtures/invalid-templates'),
   ]);
@@ -66,7 +67,7 @@ describe('Invalid Template Fixtures should fail', () => {
   );
 });
 
-describe('SAM templates', () => {
+suite('SAM templates', () => {
   const samFixtures = loadTemplateFixtures([
     path.join(__dirname, '..', 'fixtures/templates/sam'),
   ]);
@@ -78,7 +79,7 @@ describe('SAM templates', () => {
   }, samFixtures);
 });
 
-describe('Nested Stacks templates', () => {
+suite('Nested Stacks templates', () => {
   const nestedFixtures = loadTemplateFixtures([
     path.join(__dirname, '..', 'fixtures/templates/nested'),
   ]);

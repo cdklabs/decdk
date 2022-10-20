@@ -1,4 +1,5 @@
 import { Match } from 'aws-cdk-lib/assertions';
+import { expect } from 'expect';
 import * as reflect from 'jsii-reflect';
 import { Template } from '../../src/parser/template';
 import { TypedTemplate } from '../../src/type-resolution/template';
@@ -6,12 +7,12 @@ import { Testing } from '../util';
 
 let typeSystem: reflect.TypeSystem;
 
-beforeAll(async () => {
+setup(async () => {
   typeSystem = await Testing.typeSystem;
 });
 
-describe('depending on a ResourceLike that is not a Construct', () => {
-  it('will honour the execution order, but not apply DependsOn in the resulting template', async () => {
+suite('depending on a ResourceLike that is not a Construct', () => {
+  test('will honour the execution order, but not apply DependsOn in the resulting template', async () => {
     // GIVEN
     const parsedTemplate = await Template.fromObject({
       Resources: {
@@ -144,7 +145,7 @@ test('Non-constructs can be instantiated inline using constructor args', async (
   });
 });
 
-describe('CreationPolicy', () => {
+suite('CreationPolicy', () => {
   test('can use StartFleet creation policy', async () => {
     const parsedTemplate = await Template.fromObject({
       Resources: {

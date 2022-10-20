@@ -1,3 +1,4 @@
+import { expect } from 'expect';
 import { readTemplate } from '../../src';
 import { testTemplateFixtures } from '../util';
 

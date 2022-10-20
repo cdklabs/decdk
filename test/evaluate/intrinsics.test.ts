@@ -1,3 +1,4 @@
+import { expect } from 'expect';
 import { Template } from '../../src/parser/template';
 import { Match, Testing } from '../util';
 
@@ -134,7 +135,7 @@ test('FnCidr', async () => {
   });
 });
 
-describe('FnFindInMap', () => {
+suite('FnFindInMap', () => {
   test('can use FnRef in FnFindInMap', async () => {
     // GIVEN
     const template = await Testing.template(
@@ -242,7 +243,7 @@ describe('FnFindInMap', () => {
   });
 });
 
-describe('FnGetAtt', () => {
+suite('FnGetAtt', () => {
   test('can get attributes from the underlying resource', async () => {
     // GIVEN
     const template = await Testing.template(
@@ -347,7 +348,7 @@ describe('FnGetAtt', () => {
   // @see https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_elasticloadbalancing.CfnLoadBalancer.html
 });
 
-describe('FnGetProp', () => {
+suite('FnGetProp', () => {
   test('can get properties from a construct', async () => {
     // GIVEN
     const template = await Testing.template(
@@ -538,9 +539,8 @@ describe('FnGetProp', () => {
   });
 });
 
-test.each(['', 'us-east-1', { Ref: 'AWS::Region' }])(
-  'FnGetAZs with: %j',
-  async (azsValue) => {
+['', 'us-east-1', { Ref: 'AWS::Region' }].forEach((azsValue) => {
+  test(`FnGetAZs with: ${JSON.stringify(azsValue)}`, async () => {
     // GIVEN
     const template = await Testing.template(
       await Template.fromObject({
@@ -568,8 +568,8 @@ test.each(['', 'us-east-1', { Ref: 'AWS::Region' }])(
         'Fn::Select': ['0', { 'Fn::GetAZs': azsValue }],
       },
     });
-  }
-);
+  });
+});
 
 test('FnImportValue', async () => {
   // GIVEN
@@ -644,7 +644,7 @@ test('FnJoin', async () => {
   });
 });
 
-describe('FnSelect', () => {
+suite('FnSelect', () => {
   test('can select from different types of values', async () => {
     // GIVEN
     const template = await Testing.template(

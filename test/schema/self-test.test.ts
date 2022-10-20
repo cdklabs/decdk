@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import { expect } from 'expect';
 import * as jsonschema from 'jsonschema';
 import { Testing } from '../util';
 

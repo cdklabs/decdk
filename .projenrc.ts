@@ -1,4 +1,4 @@
-import { typescript, vscode } from 'projen';
+import { typescript, vscode, YamlFile } from 'projen';
 
 const project = new typescript.TypeScriptProject({
   projenrcTs: true,
@@ -69,6 +69,14 @@ project.package.addDevDeps(
 project.testTask.prependExec(
   'ts-mocha --project tsconfig.dev.json --updateSnapshot'
 );
+new YamlFile(project, '.mocharc.yaml', {
+  obj: {
+    ui: 'tdd',
+    spec: ['test/**/*.test.ts'],
+    require: ['mocha-expect-snapshot', 'test/setup.ts'],
+  },
+});
+project.annotateGenerated('*.snap');
 
 // Build schema after compilation
 project.tasks

@@ -3,6 +3,7 @@ declare module 'mocha-expect-snapshot' {
 }
 
 import { setSnapshotStateOptions } from 'mocha-expect-snapshot';
+import './util';
 
 setSnapshotStateOptions({
   snapshotFormat: {

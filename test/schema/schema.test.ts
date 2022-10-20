@@ -1,5 +1,6 @@
 import { spawn as spawnAsync, SpawnOptions } from 'child_process';
 import * as path from 'path';
+import { expect } from 'expect';
 import * as reflect from 'jsii-reflect';
 import { SchemaContext, schemaForTypeReference } from '../../src/schema';
 
@@ -7,12 +8,9 @@ const fixturedir = path.join(__dirname, 'fixture');
 
 /* eslint-disable no-console */
 
-// building the decdk schema often does not complete in the default 5 second Jest timeout
-jest.setTimeout(60_000);
-
 let typesys: reflect.TypeSystem;
 
-beforeAll(async () => {
+setup(async () => {
   typesys = new reflect.TypeSystem();
 
   // jsii-compile the fixtures module
@@ -23,7 +21,7 @@ beforeAll(async () => {
   await typesys.load(path.dirname(require.resolve('aws-cdk-lib/.jsii')));
 });
 
-describe('interface', () => {
+suite('interface', () => {
   test('with primitives', async () => {
     // GIVEN
     const defs = {};
@@ -168,7 +166,7 @@ describe('interface', () => {
       },
     });
   });
-});
+}).timeout(60_000);
 
 /**
  * Version of spawn() that returns a promise

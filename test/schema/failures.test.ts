@@ -1,4 +1,6 @@
 import '../util';
+import { expect } from 'expect';
+
 test('invalid schema will fail', () => {
   // GIVEN
   const template = {

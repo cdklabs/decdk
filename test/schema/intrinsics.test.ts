@@ -1,4 +1,6 @@
+import { expect } from 'expect';
 import '../util';
+
 test('can use intrinsic where primitive string is expected', () => {
   // GIVEN
   const template = {
@@ -162,7 +164,7 @@ test('FnFindInMap', () => {
   expect(template).toBeValidTemplate();
 });
 
-describe('FnSplit', () => {
+suite('FnSplit', () => {
   test('cannot use FnGetAZs as second parameter', () => {
     // GIVEN
     const template = {

@@ -1,5 +1,6 @@
 import * as zlib from 'zlib';
 import { Capture } from 'aws-cdk-lib/assertions';
+import { expect } from 'expect';
 import { Template } from '../../src/parser/template';
 import { Testing } from '../util';
 
