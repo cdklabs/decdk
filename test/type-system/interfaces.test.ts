@@ -1,7 +1,8 @@
+import { expect } from 'expect';
 import { isBehavioralInterface } from '../../src/type-system';
 import { Testing } from '../util';
 
-describe('isBehavioralInterface', () => {
+suite('isBehavioralInterface', () => {
   test('IntegrationOptions', async () => {
     const type = (await Testing.typeSystem).findFqn(
       'aws-cdk-lib.aws_apigateway.IntegrationOptions'

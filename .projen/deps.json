@@ -6,7 +6,7 @@
       "type": "build"
     },
     {
-      "name": "@types/jest",
+      "name": "@types/mocha",
       "type": "build"
     },
     {
@@ -62,16 +62,11 @@
       "type": "build"
     },
     {
+      "name": "expect",
+      "type": "build"
+    },
+    {
       "name": "fast-check",
-      "type": "build"
-    },
-    {
-      "name": "jest",
-      "type": "build"
-    },
-    {
-      "name": "jest-junit",
-      "version": "^13",
       "type": "build"
     },
     {
@@ -80,6 +75,14 @@
     },
     {
       "name": "json-schema",
+      "type": "build"
+    },
+    {
+      "name": "mocha",
+      "type": "build"
+    },
+    {
+      "name": "mocha-expect-snapshot",
       "type": "build"
     },
     {
@@ -101,7 +104,7 @@
       "type": "build"
     },
     {
-      "name": "ts-jest",
+      "name": "ts-mocha",
       "type": "build"
     },
     {

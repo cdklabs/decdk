@@ -1,3 +1,4 @@
+import { expect } from 'expect';
 import { parseCfnYaml } from '../../src/parser/private/cfn-yaml';
 
 test('Unquoted year-month-day is treated as a string, not a Date', () => {

@@ -1,3 +1,4 @@
+import { expect } from 'expect';
 import * as reflect from 'jsii-reflect';
 import {
   analyzeTypeReference,
@@ -7,7 +8,7 @@ import { Testing } from '../util';
 
 let typeSystem: reflect.TypeSystem;
 
-beforeAll(async () => {
+setup(async () => {
   typeSystem = await Testing.typeSystem;
 });
 

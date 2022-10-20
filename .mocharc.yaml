@@ -1,0 +1,12 @@
+spec:
+  - 'test/*.test.ts'
+  - 'test/parser/*.test.ts'
+  - 'test/type-resolution/*.test.ts'
+  - 'test/type-system/*.test.ts'
+  # - 'test/**/*.test.ts'
+
+ui: 'tdd'
+
+require:
+  - 'mocha-expect-snapshot'
+  - 'test/setup.ts'

@@ -1,3 +1,4 @@
+import { expect } from 'expect';
 import * as reflect from 'jsii-reflect';
 import { Template } from '../../src/parser/template';
 import { TypedTemplate } from '../../src/type-resolution/template';
@@ -16,7 +17,7 @@ import {
 
 let typeSystem: reflect.TypeSystem;
 
-beforeAll(async () => {
+setup(async () => {
   typeSystem = await Testing.typeSystem;
 });
 

@@ -1,14 +1,15 @@
 import * as reflect from 'jsii-reflect';
+import { jestExpect as expect } from 'mocha-expect-snapshot';
 import { readTemplate } from '../../src';
 import { TypedTemplate } from '../../src/type-resolution/template';
 import { testTemplateFixtures, Testing } from '../util';
 
 let typeSystem: reflect.TypeSystem;
-beforeAll(async () => {
+setup(async () => {
   typeSystem = await Testing.typeSystem;
 });
 
-describe('Fixtures', () => {
+suite('Fixtures', async () => {
   testTemplateFixtures(async (example) => {
     const template = await readTemplate(example.path);
 

@@ -6,6 +6,7 @@ import {
   Match as BaseMatch,
   Template as AssertionTemplate,
 } from 'aws-cdk-lib/assertions';
+import { expect } from 'expect';
 import * as reflect from 'jsii-reflect';
 import * as jsonschema from 'jsonschema';
 import { DeclarativeStack, loadTypeSystem } from '../src';
@@ -152,11 +153,11 @@ export function testTemplateFixtures(
   fixtures = Testing.templateFixtures,
   options: TemplateFixturesTestOptions = {}
 ) {
-  test.each(fixtures.map((file) => ({ file })))(
-    '$file.id',
-    ({ file }) => testCase(file),
-    options.timeout
-  );
+  fixtures.forEach((file) => {
+    test(file.id, async () => {
+      await testCase(file);
+    }).timeout(options.timeout ?? 5000);
+  });
 }
 
 export class Match extends BaseMatch {
@@ -165,11 +166,9 @@ export class Match extends BaseMatch {
   }
 }
 
-declare global {
-  namespace jest {
-    interface Matchers<R> {
-      toBeValidTemplate: () => CustomMatcherResult;
-    }
+declare module 'expect' {
+  export interface Matchers<R> {
+    toBeValidTemplate: () => R;
   }
 }
 
@@ -229,7 +228,7 @@ export function matchStringLiteral(value: string) {
   return { type: 'string', value };
 }
 
-export function matchConstruct(props: object) {
+export function matchConstruct(props: Record<string, unknown>) {
   return expect.objectContaining({
     type: 'construct',
     props: matchStruct(props),
@@ -291,7 +290,7 @@ export function matchStaticMethodCall(fqn: string, args: object[]) {
   });
 }
 
-export function matchStruct(fields: object) {
+export function matchStruct(fields: Record<string, unknown>) {
   return {
     type: 'struct',
     fields: expect.objectContaining(fields),
@@ -334,7 +333,10 @@ export function matchFnGetProp(logicalId: string, property?: string) {
   });
 }
 
-export function matchFnSub(fragments: object[], additionalContext: object) {
+export function matchFnSub(
+  fragments: object[],
+  additionalContext: Record<string, unknown>
+) {
   return {
     type: 'intrinsic',
     fn: 'sub',

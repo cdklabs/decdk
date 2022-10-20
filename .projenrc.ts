@@ -23,9 +23,9 @@ const project = new typescript.TypeScriptProject({
   ],
   devDeps: [
     '@types/fs-extra@^8',
+    '@types/semver',
     '@types/yaml',
     '@types/yargs',
-    '@types/semver',
     'jsii',
     'fast-check',
   ],
@@ -38,13 +38,8 @@ const project = new typescript.TypeScriptProject({
   },
   autoApproveUpgrades: true,
 
-  jestOptions: {
-    extraCliOptions: ['--runInBand'],
-    jestConfig: {
-      testTimeout: 10000,
-      setupFilesAfterEnv: ['<rootDir>/test/util.ts'],
-    },
-  },
+  // Disable jest in favor of mocha
+  jest: false,
 
   prettier: true,
   prettierOptions: {
@@ -62,6 +57,18 @@ const project = new typescript.TypeScriptProject({
 
   gitignore: ['cdk.out', '/.idea'],
 });
+
+// Setup Mocha
+project.package.addDevDeps(
+  '@types/mocha',
+  'expect',
+  'mocha',
+  'mocha-expect-snapshot',
+  'ts-mocha'
+);
+project.testTask.prependExec(
+  'ts-mocha --project tsconfig.dev.json --updateSnapshot'
+);
 
 // Build schema after compilation
 project.tasks

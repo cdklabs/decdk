@@ -1,4 +1,5 @@
 import * as path from 'path';
+import { expect } from 'expect';
 
 test('path.resolve is sane', async () => {
   // Reasons why this might not be true:

@@ -1,3 +1,4 @@
+import { expect } from 'expect';
 import { Template } from '../../src/parser/template';
 
 test('Resource properties must be object', async () => {

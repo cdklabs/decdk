@@ -1,3 +1,4 @@
+import { expect } from 'expect';
 import { schema } from '../../src/parser/schema';
 import { Template } from '../../src/parser/template';
 import '../util';
@@ -23,7 +24,7 @@ test('invalid tags raises an error', async () => {
   );
 });
 
-describe('overrides', () => {
+suite('overrides', () => {
   test('RemoveResource requires ChildConstructPath', async () => {
     // GIVEN
     const template: schema.Template = {
