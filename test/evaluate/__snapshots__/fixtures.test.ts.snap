@@ -722,6 +722,238 @@ Object {
 }
 `;
 
+exports[`Cloudformation templates cloudformation/hook-code-deploy-blue-green-ecs.json 1`] = `
+Object {
+  "Hooks": Object {
+    "EcsBlueGreenCodeDeployHook": Object {
+      "Properties": Object {
+        "AdditionalOptions": Object {
+          "fields": Object {
+            "TerminationWaitTimeInMinutes": Object {
+              "type": "number",
+              "value": 5,
+            },
+          },
+          "type": "object",
+        },
+        "Applications": Object {
+          "array": Array [
+            Object {
+              "fields": Object {
+                "ECSAttributes": Object {
+                  "fields": Object {
+                    "TaskDefinitions": Object {
+                      "array": Array [
+                        Object {
+                          "type": "string",
+                          "value": "MyTaskDefinition",
+                        },
+                        Object {
+                          "type": "string",
+                          "value": "MyTaskDefinition",
+                        },
+                      ],
+                      "type": "array",
+                    },
+                    "TaskSets": Object {
+                      "array": Array [
+                        Object {
+                          "type": "string",
+                          "value": "MyTaskSet",
+                        },
+                        Object {
+                          "type": "string",
+                          "value": "MyTaskSet",
+                        },
+                      ],
+                      "type": "array",
+                    },
+                    "TrafficRouting": Object {
+                      "fields": Object {
+                        "ProdTrafficRoute": Object {
+                          "fields": Object {
+                            "LogicalID": Object {
+                              "type": "string",
+                              "value": "AlbListener",
+                            },
+                            "Type": Object {
+                              "type": "string",
+                              "value": "AWS::ElasticLoadBalancingV2::Listener",
+                            },
+                          },
+                          "type": "object",
+                        },
+                        "TargetGroups": Object {
+                          "array": Array [
+                            Object {
+                              "type": "string",
+                              "value": "AlbTargetGroup",
+                            },
+                            Object {
+                              "type": "string",
+                              "value": "AlbTargetGroup",
+                            },
+                          ],
+                          "type": "array",
+                        },
+                        "TestTrafficRoute": Object {
+                          "fields": Object {
+                            "LogicalID": Object {
+                              "type": "string",
+                              "value": "AlbListener",
+                            },
+                            "Type": Object {
+                              "type": "string",
+                              "value": "AWS::ElasticLoadBalancingV2::Listener",
+                            },
+                          },
+                          "type": "object",
+                        },
+                      },
+                      "type": "object",
+                    },
+                  },
+                  "type": "object",
+                },
+                "Target": Object {
+                  "fields": Object {
+                    "LogicalID": Object {
+                      "type": "string",
+                      "value": "MyService",
+                    },
+                    "Type": Object {
+                      "type": "string",
+                      "value": "AWS::ECS::Service",
+                    },
+                  },
+                  "type": "object",
+                },
+              },
+              "type": "object",
+            },
+          ],
+          "type": "array",
+        },
+        "LifecycleEventHooks": Object {
+          "fields": Object {
+            "AfterAllowTestTraffic": Object {
+              "type": "string",
+              "value": "f3",
+            },
+            "AfterAllowTraffic": Object {
+              "type": "string",
+              "value": "f5",
+            },
+            "AfterInstall": Object {
+              "type": "string",
+              "value": "f2",
+            },
+            "BeforeAllowTraffic": Object {
+              "type": "string",
+              "value": "f4",
+            },
+            "BeforeInstall": Object {
+              "type": "string",
+              "value": "f1",
+            },
+          },
+          "type": "object",
+        },
+        "ServiceRole": Object {
+          "type": "string",
+          "value": "CodeDeployServiceRoleName",
+        },
+        "TrafficRoutingConfig": Object {
+          "fields": Object {
+            "TimeBasedCanary": Object {
+              "fields": Object {
+                "BakeTimeMins": Object {
+                  "type": "string",
+                  "value": "2",
+                },
+                "StepPercentage": Object {
+                  "type": "number",
+                  "value": 1,
+                },
+              },
+              "type": "object",
+            },
+            "TimeBasedLinear": Object {
+              "fields": Object {
+                "BakeTimeMins": Object {
+                  "type": "number",
+                  "value": 4,
+                },
+                "StepPercentage": Object {
+                  "type": "string",
+                  "value": "3",
+                },
+              },
+              "type": "object",
+            },
+            "Type": Object {
+              "type": "string",
+              "value": "AllAtOnce",
+            },
+          },
+          "type": "object",
+        },
+      },
+      "Type": "AWS::CodeDeploy::BlueGreen",
+    },
+    "RandomHook": Object {
+      "Type": "UnknownToday",
+    },
+  },
+  "Resources": Object {
+    "AlbListener": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "DefaultActions": Array [
+          Object {
+            "Type": "forward",
+          },
+        ],
+        "LoadBalancerArn": "my-lb",
+        "Port": 80,
+        "Protocol": "HTTP",
+      },
+      "Type": "AWS::ElasticLoadBalancingV2::Listener",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "AlbTargetGroup": Object {
+      "DeletionPolicy": "Delete",
+      "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "MyService": Object {
+      "DeletionPolicy": "Delete",
+      "Type": "AWS::ECS::Service",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "MyTaskDefinition": Object {
+      "DeletionPolicy": "Delete",
+      "Type": "AWS::ECS::TaskDefinition",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "MyTaskSet": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "Cluster": "my-cluster",
+        "Service": Object {
+          "Ref": "MyService",
+        },
+        "TaskDefinition": Object {
+          "Fn::Sub": "\${MyTaskDefinition}",
+        },
+      },
+      "Type": "AWS::ECS::TaskSet",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
 exports[`Cloudformation templates cloudformation/if-complex-property.json 1`] = `
 Object {
   "Conditions": Object {

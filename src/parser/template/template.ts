@@ -3,6 +3,7 @@ import { parseCfnYaml } from '../private/cfn-yaml';
 import { DependencyGraph } from '../private/toposort';
 import { schema } from '../schema';
 import { parseExpression, TemplateExpression } from './expression';
+import { parseHook, TemplateHook } from './hooks';
 import { parseMapping, TemplateMapping } from './mappings';
 import { parseOutput, TemplateOutput } from './output';
 import { parseParameter, TemplateParameter } from './parameters';
@@ -42,6 +43,7 @@ export class Template {
   public readonly transform: string[];
   public readonly metadata: Map<string, TemplateExpression>;
   public readonly rules: Map<string, TemplateRule>;
+  public readonly hooks: Map<string, TemplateHook>;
 
   constructor(public template: schema.Template) {
     this.templateFormatVersion = template.AWSTemplateFormatVersion;
@@ -54,6 +56,7 @@ export class Template {
     this.transform = parseTransform(template.Transform);
     this.metadata = mapValues(template.Metadata, parseExpression);
     this.rules = mapValues(template.Rules, parseRule);
+    this.hooks = mapValues(template.Hooks, parseHook);
   }
 
   public resource(logicalId: string) {

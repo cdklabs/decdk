@@ -65,6 +65,21 @@
       },
       "required": ["Key", "Value"],
       "type": "object"
+    },
+    "Hook": {
+      "additionalProperties": false,
+      "properties": {
+        "Type": {
+          "type": "string"
+        },
+        "Properties": {
+          "additionalProperties": false,
+          "type": "object",
+          "patternProperties": {
+            "^[a-zA-Z0-9]+$": {}
+          }
+        }
+      }
     }
   },
   "properties": {
@@ -134,6 +149,19 @@
     },
     "Transform": {
       "type": ["object", "string"]
+    },
+    "Hooks": {
+      "additionalProperties": false,
+      "type": "object",
+      "patternProperties": {
+        "^[a-zA-Z0-9]+$": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Hook"
+            }
+          ]
+        }
+      }
     }
   },
   "type": "object"
