@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`can use FnRef where it is expected to be evaluated to FnRef (not an object) 1`] = `
+exports[`Evaluate References can use FnRef where it is expected to be evaluated to FnRef (not an object) 1`] = `
 Object {
   "Resources": Object {
     "MyBucketF68F3FF0": Object {

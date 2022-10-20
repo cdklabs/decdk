@@ -1,22 +1,24 @@
 import * as path from 'path';
 import { expect } from 'expect';
 
-test('path.resolve is sane', async () => {
-  // Reasons why this might not be true:
-  // graceful-fs, which is used by Jest, hooks into process.cwd() and
-  // process.chdir() and caches the values. Because... profit?
+suite('Sense checks', () => {
+  test('path.resolve is sane', async () => {
+    // Reasons why this might not be true:
+    // graceful-fs, which is used by Jest, hooks into process.cwd() and
+    // process.chdir() and caches the values. Because... profit?
 
-  const targetDir = path.join(__dirname, 'schema', 'fixture');
+    const targetDir = path.join(__dirname, 'schema', 'fixture');
 
-  const cwd = process.cwd();
+    const cwd = process.cwd();
 
-  try {
-    process.chdir(targetDir);
-    expect(process.cwd()).toEqual(targetDir);
+    try {
+      process.chdir(targetDir);
+      expect(process.cwd()).toEqual(targetDir);
 
-    const resolved = path.resolve('.');
-    expect(resolved).toEqual(targetDir);
-  } finally {
-    process.chdir(cwd);
-  }
+      const resolved = path.resolve('.');
+      expect(resolved).toEqual(targetDir);
+    } finally {
+      process.chdir(cwd);
+    }
+  });
 });

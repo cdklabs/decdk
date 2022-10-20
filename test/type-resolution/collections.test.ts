@@ -4,54 +4,57 @@ import { Template } from '../../src/parser/template';
 import { TypedTemplate } from '../../src/type-resolution/template';
 import { matchConstruct, Testing } from '../util';
 
-let typeSystem: reflect.TypeSystem;
+suite('Type Resolution: Collections', () => {
+  let typeSystem: reflect.TypeSystem;
 
-suiteSetup(async () => {
-  typeSystem = await Testing.typeSystem;
-});
-
-test('Array of Types are resolved correctly', async () => {
-  // GIVEN
-  const template = await Template.fromObject({
-    Resources: {
-      MyFunction: {
-        Type: 'aws-cdk-lib.aws_lambda.Function',
-        Properties: {
-          handler: 'app.hello_handler',
-          runtime: 'PYTHON_3_6',
-          code: {
-            'aws-cdk-lib.aws_lambda.Code.fromAsset': 'examples/lambda-handler',
-          },
-          events: [
-            {
-              'aws-cdk-lib.aws_lambda_event_sources.ApiEventSource': [
-                'GET',
-                '/hello',
-              ],
-            },
-          ],
-        },
-      },
-    },
+  suiteSetup(async () => {
+    typeSystem = await Testing.typeSystem;
   });
 
-  const typedTemplate = new TypedTemplate(template, { typeSystem });
+  test('Array of Types are resolved correctly', async () => {
+    // GIVEN
+    const template = await Template.fromObject({
+      Resources: {
+        MyFunction: {
+          Type: 'aws-cdk-lib.aws_lambda.Function',
+          Properties: {
+            handler: 'app.hello_handler',
+            runtime: 'PYTHON_3_6',
+            code: {
+              'aws-cdk-lib.aws_lambda.Code.fromAsset':
+                'examples/lambda-handler',
+            },
+            events: [
+              {
+                'aws-cdk-lib.aws_lambda_event_sources.ApiEventSource': [
+                  'GET',
+                  '/hello',
+                ],
+              },
+            ],
+          },
+        },
+      },
+    });
 
-  // THEN
-  const resource = typedTemplate.resource('MyFunction');
+    const typedTemplate = new TypedTemplate(template, { typeSystem });
 
-  expect(resource).toEqual(
-    matchConstruct({
-      events: expect.objectContaining({
-        type: 'array',
-        array: expect.arrayContaining([
-          expect.objectContaining({
-            type: 'initializer',
-            fqn: 'aws-cdk-lib.aws_lambda_event_sources.ApiEventSource',
-          }),
-        ]),
-      }),
-    })
-  );
-  expect(template.template).toBeValidTemplate();
+    // THEN
+    const resource = typedTemplate.resource('MyFunction');
+
+    expect(resource).toEqual(
+      matchConstruct({
+        events: expect.objectContaining({
+          type: 'array',
+          array: expect.arrayContaining([
+            expect.objectContaining({
+              type: 'initializer',
+              fqn: 'aws-cdk-lib.aws_lambda_event_sources.ApiEventSource',
+            }),
+          ]),
+        }),
+      })
+    );
+    expect(template.template).toBeValidTemplate();
+  });
 });

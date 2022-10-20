@@ -4,12 +4,12 @@ import { readTemplate } from '../../src';
 import { TypedTemplate } from '../../src/type-resolution/template';
 import { testTemplateFixtures, Testing } from '../util';
 
-let typeSystem: reflect.TypeSystem;
-suiteSetup(async () => {
-  typeSystem = await Testing.typeSystem;
-});
+suite('Type Resolution: Fixtures', () => {
+  let typeSystem: reflect.TypeSystem;
+  suiteSetup(async () => {
+    typeSystem = await Testing.typeSystem;
+  });
 
-suite('Fixtures', async () => {
   testTemplateFixtures(async (example) => {
     const template = await readTemplate(example.path);
 
