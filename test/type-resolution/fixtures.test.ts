@@ -1,5 +1,5 @@
+import { expect } from 'expect';
 import * as reflect from 'jsii-reflect';
-import { jestExpect as expect } from 'mocha-expect-snapshot';
 import { readTemplate } from '../../src';
 import { TypedTemplate } from '../../src/type-resolution/template';
 import { testTemplateFixtures, Testing } from '../util';

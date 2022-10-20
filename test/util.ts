@@ -7,6 +7,7 @@ import {
   Template as AssertionTemplate,
 } from 'aws-cdk-lib/assertions';
 import { expect } from 'expect';
+import type { SnapshotMatchers } from 'jest-snapshot';
 import * as reflect from 'jsii-reflect';
 import * as jsonschema from 'jsonschema';
 import { DeclarativeStack, loadTypeSystem } from '../src';
@@ -167,7 +168,7 @@ export class Match extends BaseMatch {
 }
 
 declare module 'expect' {
-  export interface Matchers<R> {
+  export interface Matchers<R> extends SnapshotMatchers<R, string> {
     toBeValidTemplate: () => R;
   }
 }
