@@ -91,6 +91,10 @@
       "type": "build"
     },
     {
+      "name": "nyc",
+      "type": "build"
+    },
+    {
       "name": "prettier",
       "type": "build"
     },

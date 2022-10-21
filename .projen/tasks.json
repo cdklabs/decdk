@@ -174,7 +174,7 @@
       "description": "Run tests",
       "steps": [
         {
-          "exec": "ts-mocha --project tsconfig.dev.json --updateSnapshot"
+          "exec": "nyc --reporter=html --reporter=text ts-mocha --project tsconfig.dev.json --updateSnapshot"
         },
         {
           "spawn": "eslint"

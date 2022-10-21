@@ -99,10 +99,11 @@ project.package.addDevDeps(
   'expect',
   'mocha',
   'mocha-expect-snapshot',
+  'nyc',
   'ts-mocha'
 );
 project.testTask.prependExec(
-  'ts-mocha --project tsconfig.dev.json --updateSnapshot'
+  'nyc --reporter=html --reporter=text ts-mocha --project tsconfig.dev.json --updateSnapshot'
 );
 new YamlFile(project, '.mocharc.yaml', {
   obj: {
