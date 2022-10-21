@@ -1,8 +1,9 @@
 {
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "eslint.format.enable": true,
-  "jest.autoRun": "off",
-  "jest.jestCommandLine": "./node_modules/.bin/jest",
+  "mochaExplorer.files": "test/**/*.test.ts",
+  "mochaExplorer.require": "ts-node/register",
+  "testExplorer.useNativeTesting": true,
   "[javascript]": {
     "editor.defaultFormatter": "dbaeumer.vscode-eslint"
   },

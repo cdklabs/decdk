@@ -103,36 +103,19 @@ const vsCode = new vscode.VsCode(project);
 vsCode.extensions.addRecommendations(
   'dbaeumer.vscode-eslint',
   'esbenp.prettier-vscode',
-  'orta.vscode-jest',
+  'hbenl.vscode-mocha-test-adapter',
   'redhat.vscode-yaml'
 );
 vsCode.settings.addSettings({
   'editor.defaultFormatter': 'esbenp.prettier-vscode',
   'eslint.format.enable': true,
-  'jest.autoRun': 'off',
-  'jest.jestCommandLine': './node_modules/.bin/jest',
+  'mochaExplorer.files': 'test/**/*.test.ts',
+  'mochaExplorer.require': 'ts-node/register',
+  'testExplorer.useNativeTesting': true,
 });
 vsCode.settings.addSettings(
   { 'editor.defaultFormatter': 'dbaeumer.vscode-eslint' },
   ['javascript', 'typescript']
 );
-vsCode.launchConfiguration.addConfiguration({
-  type: 'node',
-  name: 'vscode-jest-tests.v2',
-  request: 'launch',
-  internalConsoleOptions: vscode.InternalConsoleOptions.NEVER_OPEN,
-  program: '${workspaceFolder}/node_modules/.bin/jest',
-  args: [
-    '--runInBand',
-    '--watchAll=false',
-    '--testNamePattern',
-    '${jest.testNamePattern}',
-    '--runTestsByPath',
-    '${jest.testFile}',
-  ],
-  console: vscode.Console.INTEGRATED_TERMINAL,
-  disableOptimisticBPs: true,
-  cwd: '${workspaceFolder}',
-});
 
 project.synth();

@@ -20,7 +20,6 @@
 /.projen/files.json linguist-generated
 /.projen/tasks.json linguist-generated
 /.vscode/extensions.json linguist-generated
-/.vscode/launch.json linguist-generated
 /.vscode/settings.json linguist-generated
 /LICENSE linguist-generated
 /package.json linguist-generated
