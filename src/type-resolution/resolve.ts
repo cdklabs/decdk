@@ -21,7 +21,7 @@ import {
 } from './enums';
 import {
   assertExpressionShaped,
-  assertExpressionType,
+  assertExpressionForType,
   TypedTemplateExpression,
 } from './expression';
 import { resolveDateLiteral } from './literals';
@@ -52,15 +52,15 @@ export function resolveExpressionType(
     case ResolvableExpressionType.STRING:
       return assertLiteralOrIntrinsic(x, 'string');
     case ResolvableExpressionType.DATE:
-      return resolveDateLiteral(assertExpressionType(x, 'string'));
+      return resolveDateLiteral(assertExpressionForType(x, 'string', typeRef));
     case ResolvableExpressionType.ARRAY_OF_TYPE:
       return resolveArrayOfTypeExpression(
-        assertExpressionType(x, 'array'),
+        assertExpressionForType(x, 'array', typeRef),
         assertArrayOfType(typeRef)
       );
     case ResolvableExpressionType.MAP_OF_TYPE:
       return resolveMapOfTypeExpression(
-        assertExpressionType(x, 'object'),
+        assertExpressionForType(x, 'object', typeRef),
         assertMapOfType(typeRef)
       );
     case ResolvableExpressionType.UNION_OF_TYPES:
@@ -68,13 +68,13 @@ export function resolveExpressionType(
     case ResolvableExpressionType.STRUCT:
       return refOrResolve(x, (y) =>
         resolveStructExpression(
-          assertExpressionType(y, 'object'),
+          assertExpressionForType(y, 'object', typeRef),
           assertInterface(typeRef)
         )
       );
     case ResolvableExpressionType.ENUM:
       return resolveEnumExpression(
-        assertExpressionType(x, 'string'),
+        assertExpressionForType(x, 'string', typeRef),
         assertEnum(typeRef)
       );
     case ResolvableExpressionType.ENUM_LIKE_CLASS:
@@ -85,14 +85,14 @@ export function resolveExpressionType(
     case ResolvableExpressionType.BEHAVIORAL_INTERFACE:
       return refOrResolve(x, (y) =>
         resolveInstanceExpression(
-          assertExpressionType(y, 'object'),
+          assertExpressionForType(y, 'object', typeRef),
           assertInterface(typeRef)
         )
       );
     case ResolvableExpressionType.OTHER_CLASS:
       return refOrResolve(x, (y) =>
         resolveInstanceExpression(
-          assertExpressionType(y, 'object'),
+          assertExpressionForType(y, 'object', typeRef),
           assertClass(typeRef)
         )
       );

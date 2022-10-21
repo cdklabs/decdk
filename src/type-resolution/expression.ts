@@ -1,3 +1,4 @@
+import * as reflect from 'jsii-reflect';
 import { ParserError } from '../parser/private/types';
 import {
   ArrayExpression,
@@ -8,6 +9,7 @@ import {
   ObjectExpression,
   StringLiteral,
   TemplateExpression,
+  unparseExpression,
 } from '../parser/template';
 import {
   InitializerExpression,
@@ -46,12 +48,15 @@ export interface TypedArrayExpression
 export interface TypedObjectExpression
   extends ObjectExpression<TypedTemplateExpression> {}
 
-export function assertExpressionType<T extends TemplateExpression['type']>(
+export function assertExpressionForType<T extends TemplateExpression['type']>(
   x: TemplateExpression,
-  type: T
+  type: T,
+  typeRef: reflect.TypeReference
 ): TemplateExpression & { type: T } {
   if (x.type !== type) {
-    throw new ParserError(`Expected ${type}, got: ${JSON.stringify(x)}`);
+    throw new ParserError(
+      `Expected ${typeRef.fqn}, got: ${JSON.stringify(unparseExpression(x))}`
+    );
   }
 
   return x as TemplateExpression & { type: T };
