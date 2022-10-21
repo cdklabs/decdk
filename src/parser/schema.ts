@@ -11,6 +11,7 @@ export namespace schema {
     readonly Transform?: string | string[];
     readonly Outputs?: Record<string, Output>;
     readonly Hooks?: Record<string, Hook>;
+    readonly Context?: Record<string, any>;
   }
 
   export interface Resource {

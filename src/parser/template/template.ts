@@ -44,6 +44,7 @@ export class Template {
   public readonly metadata: Map<string, TemplateExpression>;
   public readonly rules: Map<string, TemplateRule>;
   public readonly hooks: Map<string, TemplateHook>;
+  public readonly context: Map<string, any>;
 
   constructor(public template: schema.Template) {
     this.templateFormatVersion = template.AWSTemplateFormatVersion;
@@ -57,6 +58,7 @@ export class Template {
     this.metadata = mapValues(template.Metadata, parseExpression);
     this.rules = mapValues(template.Rules, parseRule);
     this.hooks = mapValues(template.Hooks, parseHook);
+    this.context = mapEntries(template.Context, (_, v) => v);
   }
 
   public resource(logicalId: string) {

@@ -18,6 +18,9 @@ export interface DeclarativeStackProps extends cdk.StackProps {
 export class DeclarativeStack extends cdk.Stack {
   constructor(scope: cdk.App, id: string, props: DeclarativeStackProps) {
     super(scope, id, props);
+
+    props.template.context.forEach((v, k) => this.node.setContext(k, v));
+
     this.templateOptions.templateFormatVersion =
       props.template.templateFormatVersion;
     this.templateOptions.description = props.template.description;
