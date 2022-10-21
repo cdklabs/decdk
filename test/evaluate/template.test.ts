@@ -773,3 +773,81 @@ suite('Metadata', () => {
     );
   });
 });
+
+suite('Context', () => {
+  test('Feature flags are applied', async () => {
+    expect(
+      await resourceNames({
+        '@aws-cdk/aws-apigateway:usagePlanKeyOrderInsensitiveId': true,
+      })
+    ).toContain(
+      'ApiUsagePlanUsagePlanKeyResourceTestApiApiKeyB8A9B490D8F8A61F'
+    );
+
+    expect(
+      await resourceNames({
+        '@aws-cdk/aws-apigateway:usagePlanKeyOrderInsensitiveId': false,
+      })
+    ).toContain('ApiUsagePlanUsagePlanKeyResource7792961C');
+
+    async function resourceNames(context: Record<string, any>) {
+      const template = await Testing.template(
+        await Template.fromObject({
+          Resources: {
+            Api: {
+              Type: 'aws-cdk-lib.aws_apigateway.RestApi',
+            },
+            V1: {
+              Call: ['Api.root', { addResource: 'v1' }],
+            },
+            Echo: {
+              Call: ['V1', { addResource: 'echo' }],
+            },
+            MockIntegration: {
+              Type: 'aws-cdk-lib.aws_apigateway.MockIntegration',
+            },
+            GetEcho: {
+              Call: [
+                'Echo',
+                {
+                  addMethod: [
+                    'GET',
+                    { Ref: 'MockIntegration' },
+                    { apiKeyRequired: true },
+                  ],
+                },
+              ],
+            },
+            Plan: {
+              Call: [
+                'Api',
+                {
+                  addUsagePlan: [
+                    'UsagePlan',
+                    {
+                      name: 'Easy',
+                      throttle: {
+                        rateLimit: 10,
+                        burstLimit: 2,
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+            Key: {
+              Call: ['Api', { addApiKey: 'ApiKey' }],
+            },
+            AddToPlan: {
+              Call: ['Plan', { addApiKey: { Ref: 'Key' } }],
+            },
+          },
+          Context: context,
+        }),
+        { validateTemplate: false }
+      );
+
+      return Object.keys(template.toJSON().Resources);
+    }
+  });
+});
