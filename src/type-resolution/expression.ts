@@ -1,5 +1,4 @@
 import * as reflect from 'jsii-reflect';
-import { ParserError } from '../parser/private/types';
 import {
   ArrayExpression,
   BooleanLiteral,
