@@ -57,6 +57,11 @@ const project = new typescript.TypeScriptProject({
 
   gitignore: ['cdk.out', '/.idea'],
 });
+project.addPackageIgnore('/cdk.out/');
+project.addPackageIgnore('/docs/');
+project.addPackageIgnore('/examples/');
+project.addPackageIgnore('/*.schema.json');
+project.addPackageIgnore('/*.specs.json');
 
 // Build schema after compilation
 project.tasks
@@ -114,6 +119,7 @@ new YamlFile(project, '.mocharc.yaml', {
     slow: 500,
   },
 });
+project.addPackageIgnore('.mocharc.yaml');
 project.annotateGenerated('*.snap');
 project.addPackageIgnore('/coverage/');
 project.addPackageIgnore('/.nyc_output/');

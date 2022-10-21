@@ -18,5 +18,11 @@ dist
 /.projenrc.js
 tsconfig.tsbuildinfo
 /.eslintrc.json
+/cdk.out/
+/docs/
+/examples/
+/*.schema.json
+/*.specs.json
+.mocharc.yaml
 /coverage/
 /.nyc_output/
