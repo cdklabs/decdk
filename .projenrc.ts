@@ -115,6 +115,8 @@ new YamlFile(project, '.mocharc.yaml', {
   },
 });
 project.annotateGenerated('*.snap');
+project.addPackageIgnore('/coverage/');
+project.addPackageIgnore('/.nyc_output/');
 vsCode.settings.addSettings({
   'mochaExplorer.files': 'test/**/*.test.ts',
   'mochaExplorer.require': 'ts-node/register',

@@ -18,3 +18,5 @@ dist
 /.projenrc.js
 tsconfig.tsbuildinfo
 /.eslintrc.json
+/coverage/
+/.nyc_output/
