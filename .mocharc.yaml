@@ -4,6 +4,7 @@ ui: tdd
 spec:
   - test/**/*.test.ts
 require:
+  - ts-node/register
   - mocha-expect-snapshot
   - test/setup.ts
 timeout: 10000

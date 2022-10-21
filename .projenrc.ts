@@ -63,6 +63,10 @@ project.addPackageIgnore('/examples/');
 project.addPackageIgnore('/*.schema.json');
 project.addPackageIgnore('/*.specs.json');
 
+project.tryFindObjectFile('tsconfig.dev.json')?.addOverride('ts-node', {
+  transpileOnly: true,
+});
+
 // Build schema after compilation
 project.tasks
   .tryFind('post-compile')
@@ -104,17 +108,17 @@ project.package.addDevDeps(
   'expect',
   'mocha',
   'mocha-expect-snapshot',
-  'nyc',
-  'ts-mocha'
+  'nyc'
 );
 project.testTask.prependExec(
-  'nyc --reporter=html --reporter=text ts-mocha --project tsconfig.dev.json --updateSnapshot'
+  'TS_NODE_PROJECT="tsconfig.dev.json" nyc --reporter=html --reporter=text mocha --updateSnapshot'
 );
+
 new YamlFile(project, '.mocharc.yaml', {
   obj: {
     ui: 'tdd',
     spec: ['test/**/*.test.ts'],
-    require: ['mocha-expect-snapshot', 'test/setup.ts'],
+    require: ['ts-node/register', 'mocha-expect-snapshot', 'test/setup.ts'],
     timeout: 10_000,
     slow: 500,
   },
@@ -124,8 +128,9 @@ project.annotateGenerated('*.snap');
 project.addPackageIgnore('/coverage/');
 project.addPackageIgnore('/.nyc_output/');
 vsCode.settings.addSettings({
-  'mochaExplorer.files': 'test/**/*.test.ts',
-  'mochaExplorer.require': 'ts-node/register',
+  'mochaExplorer.env': {
+    TS_NODE_PROJECT: 'tsconfig.dev.json',
+  },
   'testExplorer.useNativeTesting': true,
 });
 

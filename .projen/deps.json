@@ -108,10 +108,6 @@
       "type": "build"
     },
     {
-      "name": "ts-mocha",
-      "type": "build"
-    },
-    {
       "name": "ts-node",
       "type": "build"
     },
