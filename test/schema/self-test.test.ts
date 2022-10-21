@@ -19,5 +19,5 @@ suite('Generated Schema is valid', () => {
     // THEN
     expect(result.errors).toEqual([]);
     expect(result.valid).toStrictEqual(true);
-  }).timeout(30_000);
+  }).timeout(60_000);
 });
