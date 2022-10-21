@@ -1,4 +1,4 @@
-import { typescript, vscode } from 'projen';
+import { typescript, vscode, YamlFile } from 'projen';
 
 const project = new typescript.TypeScriptProject({
   projenrcTs: true,
@@ -23,9 +23,9 @@ const project = new typescript.TypeScriptProject({
   ],
   devDeps: [
     '@types/fs-extra@^8',
+    '@types/semver',
     '@types/yaml',
     '@types/yargs',
-    '@types/semver',
     'jsii',
     'fast-check',
   ],
@@ -38,13 +38,8 @@ const project = new typescript.TypeScriptProject({
   },
   autoApproveUpgrades: true,
 
-  jestOptions: {
-    extraCliOptions: ['--runInBand'],
-    jestConfig: {
-      testTimeout: 10000,
-      setupFilesAfterEnv: ['<rootDir>/test/util.ts'],
-    },
-  },
+  // Disable jest in favor of mocha
+  jest: false,
 
   prettier: true,
   prettierOptions: {
@@ -61,6 +56,15 @@ const project = new typescript.TypeScriptProject({
   },
 
   gitignore: ['cdk.out', '/.idea'],
+});
+project.addPackageIgnore('/cdk.out/');
+project.addPackageIgnore('/docs/');
+project.addPackageIgnore('/examples/');
+project.addPackageIgnore('/*.schema.json');
+project.addPackageIgnore('/*.specs.json');
+
+project.tryFindObjectFile('tsconfig.dev.json')?.addOverride('ts-node', {
+  transpileOnly: true,
 });
 
 // Build schema after compilation
@@ -86,36 +90,48 @@ const vsCode = new vscode.VsCode(project);
 vsCode.extensions.addRecommendations(
   'dbaeumer.vscode-eslint',
   'esbenp.prettier-vscode',
-  'orta.vscode-jest',
+  'hbenl.vscode-mocha-test-adapter',
   'redhat.vscode-yaml'
 );
 vsCode.settings.addSettings({
   'editor.defaultFormatter': 'esbenp.prettier-vscode',
   'eslint.format.enable': true,
-  'jest.autoRun': 'off',
-  'jest.jestCommandLine': './node_modules/.bin/jest',
 });
 vsCode.settings.addSettings(
   { 'editor.defaultFormatter': 'dbaeumer.vscode-eslint' },
   ['javascript', 'typescript']
 );
-vsCode.launchConfiguration.addConfiguration({
-  type: 'node',
-  name: 'vscode-jest-tests.v2',
-  request: 'launch',
-  internalConsoleOptions: vscode.InternalConsoleOptions.NEVER_OPEN,
-  program: '${workspaceFolder}/node_modules/.bin/jest',
-  args: [
-    '--runInBand',
-    '--watchAll=false',
-    '--testNamePattern',
-    '${jest.testNamePattern}',
-    '--runTestsByPath',
-    '${jest.testFile}',
-  ],
-  console: vscode.Console.INTEGRATED_TERMINAL,
-  disableOptimisticBPs: true,
-  cwd: '${workspaceFolder}',
+
+// Setup Mocha
+project.package.addDevDeps(
+  '@types/mocha',
+  'expect',
+  'mocha',
+  'mocha-expect-snapshot',
+  'nyc'
+);
+project.testTask.prependExec(
+  'TS_NODE_PROJECT="tsconfig.dev.json" nyc --reporter=html --reporter=text mocha --updateSnapshot'
+);
+
+new YamlFile(project, '.mocharc.yaml', {
+  obj: {
+    ui: 'tdd',
+    spec: ['test/**/*.test.ts'],
+    require: ['ts-node/register', 'mocha-expect-snapshot', 'test/setup.ts'],
+    timeout: 10_000,
+    slow: 500,
+  },
+});
+project.addPackageIgnore('.mocharc.yaml');
+project.annotateGenerated('*.snap');
+project.addPackageIgnore('/coverage/');
+project.addPackageIgnore('/.nyc_output/');
+vsCode.settings.addSettings({
+  'mochaExplorer.env': {
+    TS_NODE_PROJECT: 'tsconfig.dev.json',
+  },
+  'testExplorer.useNativeTesting': true,
 });
 
 project.synth();

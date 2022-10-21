@@ -1,3 +1,4 @@
+import { expect } from 'expect';
 import * as reflect from 'jsii-reflect';
 import {
   analyzeTypeReference,
@@ -5,48 +6,50 @@ import {
 } from '../../src/type-resolution/resolve';
 import { Testing } from '../util';
 
-let typeSystem: reflect.TypeSystem;
+suite('Type Resolution: Resolve Types', () => {
+  let typeSystem: reflect.TypeSystem;
 
-beforeAll(async () => {
-  typeSystem = await Testing.typeSystem;
-});
+  suiteSetup(async () => {
+    typeSystem = await Testing.typeSystem;
+  });
 
-test('aws-cdk-lib.aws_ecs.TaskDefinition is a Construct', async () => {
-  // GIVEN
-  const type = typeSystem.findFqn('aws-cdk-lib.aws_ecs.TaskDefinition');
+  test('aws-cdk-lib.aws_ecs.TaskDefinition is a Construct', async () => {
+    // GIVEN
+    const type = typeSystem.findFqn('aws-cdk-lib.aws_ecs.TaskDefinition');
 
-  // THEN
-  expect(analyzeTypeReference(type.reference)).toBe(
-    ResolvableExpressionType.CONSTRUCT
-  );
-});
+    // THEN
+    expect(analyzeTypeReference(type.reference)).toBe(
+      ResolvableExpressionType.CONSTRUCT
+    );
+  });
 
-test('aws-cdk-lib.aws_ecs.TaskDefinitionProps is a data structure', async () => {
-  // GIVEN
-  const type = typeSystem.findFqn('aws-cdk-lib.aws_ecs.TaskDefinitionProps');
+  test('aws-cdk-lib.aws_ecs.TaskDefinitionProps is a data structure', async () => {
+    // GIVEN
+    const type = typeSystem.findFqn('aws-cdk-lib.aws_ecs.TaskDefinitionProps');
 
-  // THEN
-  expect(analyzeTypeReference(type.reference)).toBe(
-    ResolvableExpressionType.STRUCT
-  );
-});
+    // THEN
+    expect(analyzeTypeReference(type.reference)).toBe(
+      ResolvableExpressionType.STRUCT
+    );
+  });
 
-test('aws-cdk-lib.aws_iam.IGrantable is a behavioral interface', async () => {
-  // GIVEN
-  const type = typeSystem.findFqn('aws-cdk-lib.aws_iam.IGrantable');
+  test('aws-cdk-lib.aws_iam.IGrantable is a behavioral interface', async () => {
+    // GIVEN
+    const type = typeSystem.findFqn('aws-cdk-lib.aws_iam.IGrantable');
 
-  // THEN
-  expect(analyzeTypeReference(type.reference)).toBe(
-    ResolvableExpressionType.BEHAVIORAL_INTERFACE
-  );
-});
+    // THEN
+    expect(analyzeTypeReference(type.reference)).toBe(
+      ResolvableExpressionType.BEHAVIORAL_INTERFACE
+    );
+  });
 
-test('aws-cdk-lib.aws_ec2.InstanceType is a behavioral interface', async () => {
-  // GIVEN
-  const type = typeSystem.findFqn('aws-cdk-lib.aws_ec2.InstanceType');
+  test('aws-cdk-lib.aws_ec2.InstanceType is a behavioral interface', async () => {
+    // GIVEN
+    const type = typeSystem.findFqn('aws-cdk-lib.aws_ec2.InstanceType');
 
-  // THEN
-  expect(analyzeTypeReference(type.reference)).toBe(
-    ResolvableExpressionType.ENUM_LIKE_CLASS
-  );
+    // THEN
+    expect(analyzeTypeReference(type.reference)).toBe(
+      ResolvableExpressionType.ENUM_LIKE_CLASS
+    );
+  });
 });

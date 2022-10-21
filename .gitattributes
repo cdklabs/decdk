@@ -11,6 +11,7 @@
 /.github/workflows/upgrade-main.yml linguist-generated
 /.gitignore linguist-generated
 /.mergify.yml linguist-generated
+/.mocharc.yaml linguist-generated
 /.npmignore linguist-generated
 /.prettierignore linguist-generated
 /.prettierrc.json linguist-generated
@@ -19,7 +20,6 @@
 /.projen/files.json linguist-generated
 /.projen/tasks.json linguist-generated
 /.vscode/extensions.json linguist-generated
-/.vscode/launch.json linguist-generated
 /.vscode/settings.json linguist-generated
 /LICENSE linguist-generated
 /package.json linguist-generated

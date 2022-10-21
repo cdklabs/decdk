@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Fixtures examples/apigw.json 1`] = `
+exports[`Type Resolution: Fixtures examples/apigw.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "hooks": Map {},
@@ -270,7 +270,7 @@ TypedTemplate {
 }
 `;
 
-exports[`Fixtures examples/application-load-balancer.yaml 1`] = `
+exports[`Type Resolution: Fixtures examples/application-load-balancer.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "hooks": Map {},
@@ -930,7 +930,7 @@ TypedTemplate {
 }
 `;
 
-exports[`Fixtures examples/ecs.json 1`] = `
+exports[`Type Resolution: Fixtures examples/ecs.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "hooks": Map {},
@@ -1341,7 +1341,7 @@ TypedTemplate {
 }
 `;
 
-exports[`Fixtures examples/fleet.json 1`] = `
+exports[`Type Resolution: Fixtures examples/fleet.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "hooks": Map {},
@@ -1570,7 +1570,7 @@ TypedTemplate {
 }
 `;
 
-exports[`Fixtures examples/http-proxy.yaml 1`] = `
+exports[`Type Resolution: Fixtures examples/http-proxy.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "hooks": Map {},
@@ -2028,7 +2028,7 @@ TypedTemplate {
 }
 `;
 
-exports[`Fixtures examples/lambda-dashboard.yaml 1`] = `
+exports[`Type Resolution: Fixtures examples/lambda-dashboard.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "hooks": Map {},
@@ -3063,7 +3063,7 @@ TypedTemplate {
 }
 `;
 
-exports[`Fixtures examples/lambda-events.json 1`] = `
+exports[`Type Resolution: Fixtures examples/lambda-events.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "hooks": Map {},
@@ -3532,7 +3532,7 @@ TypedTemplate {
 }
 `;
 
-exports[`Fixtures examples/lambda-layer.json 1`] = `
+exports[`Type Resolution: Fixtures examples/lambda-layer.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "hooks": Map {},
@@ -3722,7 +3722,7 @@ TypedTemplate {
 }
 `;
 
-exports[`Fixtures examples/lambda-policy.yaml 1`] = `
+exports[`Type Resolution: Fixtures examples/lambda-policy.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "hooks": Map {},
@@ -4153,7 +4153,7 @@ TypedTemplate {
 }
 `;
 
-exports[`Fixtures examples/lambda-topic.json 1`] = `
+exports[`Type Resolution: Fixtures examples/lambda-topic.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "hooks": Map {},
@@ -4365,7 +4365,7 @@ TypedTemplate {
 }
 `;
 
-exports[`Fixtures examples/pipeline.json 1`] = `
+exports[`Type Resolution: Fixtures examples/pipeline.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "hooks": Map {},
@@ -5013,7 +5013,7 @@ TypedTemplate {
 }
 `;
 
-exports[`Fixtures examples/static-site.yaml 1`] = `
+exports[`Type Resolution: Fixtures examples/static-site.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "hooks": Map {},
@@ -6181,7 +6181,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
 }
 `;
 
-exports[`Fixtures examples/vpc.json 1`] = `
+exports[`Type Resolution: Fixtures examples/vpc.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "hooks": Map {},
@@ -6254,7 +6254,7 @@ TypedTemplate {
 }
 `;
 
-exports[`Fixtures templates/cfn-complex-template.json 1`] = `
+exports[`Type Resolution: Fixtures templates/cfn-complex-template.json 1`] = `
 TypedTemplate {
   "conditions": Map {
     "UseALBSSL" => Object {
@@ -9750,7 +9750,7 @@ TypedTemplate {
 }
 `;
 
-exports[`Fixtures templates/cfn-conditions.yaml 1`] = `
+exports[`Type Resolution: Fixtures templates/cfn-conditions.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {
     "IsProd" => Object {
@@ -10322,7 +10322,7 @@ TypedTemplate {
 }
 `;
 
-exports[`Fixtures templates/cfn-mappings.yaml 1`] = `
+exports[`Type Resolution: Fixtures templates/cfn-mappings.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "hooks": Map {},
@@ -10509,7 +10509,7 @@ TypedTemplate {
 }
 `;
 
-exports[`Fixtures templates/cfn-metadata.json 1`] = `
+exports[`Type Resolution: Fixtures templates/cfn-metadata.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "hooks": Map {},
@@ -10643,7 +10643,7 @@ TypedTemplate {
 }
 `;
 
-exports[`Fixtures templates/cfn-outputs-complex.json 1`] = `
+exports[`Type Resolution: Fixtures templates/cfn-outputs-complex.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "hooks": Map {},
@@ -10935,7 +10935,7 @@ TypedTemplate {
 }
 `;
 
-exports[`Fixtures templates/cfn-outputs-simple.json 1`] = `
+exports[`Type Resolution: Fixtures templates/cfn-outputs-simple.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "hooks": Map {},
@@ -11240,7 +11240,7 @@ TypedTemplate {
 }
 `;
 
-exports[`Fixtures templates/cfn-parameters.json 1`] = `
+exports[`Type Resolution: Fixtures templates/cfn-parameters.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "hooks": Map {},
@@ -11533,7 +11533,7 @@ TypedTemplate {
 }
 `;
 
-exports[`Fixtures templates/cfn-policies.yaml 1`] = `
+exports[`Type Resolution: Fixtures templates/cfn-policies.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "hooks": Map {},
@@ -12134,7 +12134,7 @@ yum update -y aws-cfn-bootstrap
 }
 `;
 
-exports[`Fixtures templates/cfn-transform.json 1`] = `
+exports[`Type Resolution: Fixtures templates/cfn-transform.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "hooks": Map {},
@@ -12227,7 +12227,7 @@ TypedTemplate {
 }
 `;
 
-exports[`Fixtures templates/overrides-delete-path.json 1`] = `
+exports[`Type Resolution: Fixtures templates/overrides-delete-path.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "hooks": Map {},
@@ -12388,7 +12388,7 @@ TypedTemplate {
 }
 `;
 
-exports[`Fixtures templates/overrides-remove-resource.json 1`] = `
+exports[`Type Resolution: Fixtures templates/overrides-remove-resource.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "hooks": Map {},
@@ -12540,7 +12540,7 @@ TypedTemplate {
 }
 `;
 
-exports[`Fixtures templates/overrides-update-path.json 1`] = `
+exports[`Type Resolution: Fixtures templates/overrides-update-path.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "hooks": Map {},
@@ -13040,7 +13040,7 @@ TypedTemplate {
 }
 `;
 
-exports[`Fixtures templates/syntax-lambda-policy-from-constructor.yaml 1`] = `
+exports[`Type Resolution: Fixtures templates/syntax-lambda-policy-from-constructor.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "hooks": Map {},
@@ -13327,7 +13327,7 @@ TypedTemplate {
 }
 `;
 
-exports[`Fixtures templates/syntax-method-calls.json 1`] = `
+exports[`Type Resolution: Fixtures templates/syntax-method-calls.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "hooks": Map {},
@@ -14164,7 +14164,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
 }
 `;
 
-exports[`Fixtures templates/syntax-short-intrinsics.yaml 1`] = `
+exports[`Type Resolution: Fixtures templates/syntax-short-intrinsics.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
   "hooks": Map {},

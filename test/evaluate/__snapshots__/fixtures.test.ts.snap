@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Cloudformation templates cloudformation/boolean-for-string.json 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/boolean-for-string.json 1`] = `
 Object {
   "Resources": Object {
     "Bucket": Object {
@@ -15,7 +15,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/bucket-with-encryption-key.json 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/bucket-with-encryption-key.json 1`] = `
 Object {
   "Resources": Object {
     "Bucket": Object {
@@ -93,7 +93,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/bucket-with-parameters.json 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/bucket-with-parameters.json 1`] = `
 Object {
   "Parameters": Object {
     "BucketName": Object {
@@ -155,7 +155,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/condition-same-name-as-resource.json 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/condition-same-name-as-resource.json 1`] = `
 Object {
   "Conditions": Object {
     "AlwaysFalse": Object {
@@ -202,7 +202,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/condition-using-mapping.json 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/condition-using-mapping.json 1`] = `
 Object {
   "Conditions": Object {
     "AlwaysTrue": Object {
@@ -228,7 +228,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/custom-resource-with-attributes.json 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/custom-resource-with-attributes.json 1`] = `
 Object {
   "Conditions": Object {
     "AlwaysFalseCond": Object {
@@ -278,7 +278,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/custom-resource-with-bad-condition.json 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/custom-resource-with-bad-condition.json 1`] = `
 Object {
   "Resources": Object {
     "CustomResource": Object {
@@ -290,7 +290,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/find-in-map-for-boolean-property.json 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/find-in-map-for-boolean-property.json 1`] = `
 Object {
   "Mappings": Object {
     "SomeMapping": Object {
@@ -322,7 +322,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/find-in-map-with-dynamic-mapping.json 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/find-in-map-with-dynamic-mapping.json 1`] = `
 Object {
   "Mappings": Object {
     "beta": Object {
@@ -361,7 +361,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/fn-select-with-novalue.json 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/fn-select-with-novalue.json 1`] = `
 Object {
   "Conditions": Object {
     "MyCondition": Object {
@@ -407,7 +407,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/fn-sub-brace-edges.json 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/fn-sub-brace-edges.json 1`] = `
 Object {
   "Resources": Object {
     "Bucket": Object {
@@ -467,7 +467,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/fn-sub-escaping.json 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/fn-sub-escaping.json 1`] = `
 Object {
   "Resources": Object {
     "Bucket": Object {
@@ -484,7 +484,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/fn-sub-map-dotted-attributes.json 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/fn-sub-map-dotted-attributes.json 1`] = `
 Object {
   "Resources": Object {
     "Bucket": Object {
@@ -526,7 +526,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/fn-sub-map-empty.json 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/fn-sub-map-empty.json 1`] = `
 Object {
   "Resources": Object {
     "Bucket": Object {
@@ -543,7 +543,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/fn-sub-override.json 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/fn-sub-override.json 1`] = `
 Object {
   "Resources": Object {
     "AnotherBucket": Object {
@@ -568,7 +568,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/fn-sub-parameters.json 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/fn-sub-parameters.json 1`] = `
 Object {
   "Parameters": Object {
     "MyParam": Object {
@@ -590,7 +590,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/fn-sub-shadow.json 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/fn-sub-shadow.json 1`] = `
 Object {
   "Resources": Object {
     "AnotherBucket": Object {
@@ -619,7 +619,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/fn-sub-shadow-attribute.json 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/fn-sub-shadow-attribute.json 1`] = `
 Object {
   "Resources": Object {
     "AnotherBucket": Object {
@@ -646,7 +646,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/fn-sub-shadow-parameter.json 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/fn-sub-shadow-parameter.json 1`] = `
 Object {
   "Parameters": Object {
     "MyParam": Object {
@@ -675,7 +675,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/fn-sub-string.json 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/fn-sub-string.json 1`] = `
 Object {
   "Resources": Object {
     "AnotherBucket": Object {
@@ -700,7 +700,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/get-att-string-form.json 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/get-att-string-form.json 1`] = `
 Object {
   "Resources": Object {
     "Bucket1": Object {
@@ -722,7 +722,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/hook-code-deploy-blue-green-ecs.json 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/hook-code-deploy-blue-green-ecs.json 1`] = `
 Object {
   "Hooks": Object {
     "EcsBlueGreenCodeDeployHook": Object {
@@ -954,7 +954,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/if-complex-property.json 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/if-complex-property.json 1`] = `
 Object {
   "Conditions": Object {
     "AlwaysFalseCond": Object {
@@ -1005,7 +1005,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/if-in-tags.json 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/if-in-tags.json 1`] = `
 Object {
   "Conditions": Object {
     "ValcacheServerEnabled": Object {
@@ -1056,7 +1056,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/if-simple-property.json 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/if-simple-property.json 1`] = `
 Object {
   "Conditions": Object {
     "AlwaysFalseCond": Object {
@@ -1087,7 +1087,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/json-in-fn-sub.yaml 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/json-in-fn-sub.yaml 1`] = `
 Object {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Parameters": Object {
@@ -1129,7 +1129,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/long-form-subnet.yaml 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/long-form-subnet.yaml 1`] = `
 Object {
   "Conditions": Object {
     "AlwaysTrueCond": Object {
@@ -1238,7 +1238,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/long-form-vpc.yaml 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/long-form-vpc.yaml 1`] = `
 Object {
   "Conditions": Object {
     "AlwaysTrueCond": Object {
@@ -1362,7 +1362,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/non-existent-resource-attribute.json 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/non-existent-resource-attribute.json 1`] = `
 Object {
   "Resources": Object {
     "Bucket2": Object {
@@ -1374,7 +1374,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/number-for-string.json 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/number-for-string.json 1`] = `
 Object {
   "Resources": Object {
     "Bucket": Object {
@@ -1397,7 +1397,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/only-bucket-complex-props.json 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/only-bucket-complex-props.json 1`] = `
 Object {
   "Resources": Object {
     "Bucket": Object {
@@ -1424,7 +1424,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/only-empty-bucket.json 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/only-empty-bucket.json 1`] = `
 Object {
   "Resources": Object {
     "Bucket": Object {
@@ -1436,7 +1436,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/only-empty-bucket-with-parameters.json 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/only-empty-bucket-with-parameters.json 1`] = `
 Object {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Conditions": Object {
@@ -1496,7 +1496,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/only-mapping-and-bucket.json 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/only-mapping-and-bucket.json 1`] = `
 Object {
   "Mappings": Object {
     "SomeMapping": Object {
@@ -1526,7 +1526,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/only-parameters-and-rule.json 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/only-parameters-and-rule.json 1`] = `
 Object {
   "Conditions": Object {
     "IsProduction": Object {
@@ -1585,7 +1585,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/outputs-with-references.json 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/outputs-with-references.json 1`] = `
 Object {
   "Conditions": Object {
     "AlwaysFalseCond": Object {
@@ -1645,7 +1645,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/parameter-references.json 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/parameter-references.json 1`] = `
 Object {
   "Conditions": Object {
     "AlwaysFalse": Object {
@@ -1709,7 +1709,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/properties-not-in-cfn-spec.json 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/properties-not-in-cfn-spec.json 1`] = `
 Object {
   "Resources": Object {
     "Bucket": Object {
@@ -1771,7 +1771,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/ref-array-property.json 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/ref-array-property.json 1`] = `
 Object {
   "Parameters": Object {
     "Methods": Object {
@@ -1805,7 +1805,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/resource-attribute-condition.json 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/resource-attribute-condition.json 1`] = `
 Object {
   "Conditions": Object {
     "AlwaysFalseCond": Object {
@@ -1827,7 +1827,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/resource-attribute-creation-policy.json 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/resource-attribute-creation-policy.json 1`] = `
 Object {
   "Parameters": Object {
     "CountParameter": Object {
@@ -1856,7 +1856,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/resource-attribute-depends-on.json 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/resource-attribute-depends-on.json 1`] = `
 Object {
   "Resources": Object {
     "Bucket1": Object {
@@ -1879,7 +1879,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/resource-attribute-depends-on-array.json 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/resource-attribute-depends-on-array.json 1`] = `
 Object {
   "Resources": Object {
     "Bucket0": Object {
@@ -1908,7 +1908,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/resource-attribute-update-policy.json 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/resource-attribute-update-policy.json 1`] = `
 Object {
   "Parameters": Object {
     "WaitOnResourceSignals": Object {
@@ -1986,7 +1986,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/short-form-base64.yaml 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/short-form-base64.yaml 1`] = `
 Object {
   "Resources": Object {
     "Base64Bucket": Object {
@@ -2003,7 +2003,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/short-form-cidr.yaml 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/short-form-cidr.yaml 1`] = `
 Object {
   "Resources": Object {
     "CidrVpc1": Object {
@@ -2038,7 +2038,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/short-form-conditionals.yaml 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/short-form-conditionals.yaml 1`] = `
 Object {
   "Conditions": Object {
     "AlwaysTrueCond": Object {
@@ -2099,7 +2099,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/short-form-conditions.yaml 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/short-form-conditions.yaml 1`] = `
 Object {
   "Conditions": Object {
     "AlwaysTrueCond": Object {
@@ -2173,7 +2173,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/short-form-find-in-map.yaml 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/short-form-find-in-map.yaml 1`] = `
 Object {
   "Mappings": Object {
     "RegionMap": Object {
@@ -2216,7 +2216,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/short-form-fnsub-string.yaml 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/short-form-fnsub-string.yaml 1`] = `
 Object {
   "Resources": Object {
     "AnotherBucket": Object {
@@ -2243,7 +2243,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/short-form-get-att.yaml 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/short-form-get-att.yaml 1`] = `
 Object {
   "Resources": Object {
     "Bucket0": Object {
@@ -2313,7 +2313,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/short-form-import-value.yaml 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/short-form-import-value.yaml 1`] = `
 Object {
   "Resources": Object {
     "Bucket1": Object {
@@ -2330,7 +2330,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/short-form-join.yaml 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/short-form-join.yaml 1`] = `
 Object {
   "Resources": Object {
     "Bucket": Object {
@@ -2355,7 +2355,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/short-form-select.yaml 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/short-form-select.yaml 1`] = `
 Object {
   "Resources": Object {
     "Subnet1": Object {
@@ -2405,7 +2405,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/short-form-split.yaml 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/short-form-split.yaml 1`] = `
 Object {
   "Resources": Object {
     "Bucket1": Object {
@@ -2442,7 +2442,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/short-form-sub-map.yaml 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/short-form-sub-map.yaml 1`] = `
 Object {
   "Resources": Object {
     "AnotherBucket": Object {
@@ -2477,7 +2477,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/ssm-association.json 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/ssm-association.json 1`] = `
 Object {
   "Resources": Object {
     "Association": Object {
@@ -2499,7 +2499,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/string-for-number.json 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/string-for-number.json 1`] = `
 Object {
   "Resources": Object {
     "Bucket": Object {
@@ -2526,7 +2526,7 @@ Object {
 }
 `;
 
-exports[`Cloudformation templates cloudformation/user-data.json 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/user-data.json 1`] = `
 Object {
   "Resources": Object {
     "LaunchConfig": Object {
@@ -2572,7 +2572,7 @@ yum update -y aws-cfn-bootstrap
 }
 `;
 
-exports[`Cloudformation templates cloudformation/year-month-date-as-strings.yaml 1`] = `
+exports[`Evaluation Valid templates Cloudformation templates cloudformation/year-month-date-as-strings.yaml 1`] = `
 Object {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Resources": Object {
@@ -2603,7 +2603,7 @@ Object {
 }
 `;
 
-exports[`Nested Stacks templates nested/child-import-stack.expected.json 1`] = `
+exports[`Evaluation Valid templates Nested Stacks templates nested/child-import-stack.expected.json 1`] = `
 Object {
   "Parameters": Object {
     "MyBucketParameter": Object {
@@ -2688,7 +2688,7 @@ Object {
 }
 `;
 
-exports[`Nested Stacks templates nested/child-import-stack.json 1`] = `
+exports[`Evaluation Valid templates Nested Stacks templates nested/child-import-stack.json 1`] = `
 Object {
   "Parameters": Object {
     "MyBucketParameter": Object {
@@ -2722,7 +2722,7 @@ Object {
 }
 `;
 
-exports[`Nested Stacks templates nested/child-no-bucket.json 1`] = `
+exports[`Evaluation Valid templates Nested Stacks templates nested/child-no-bucket.json 1`] = `
 Object {
   "Parameters": Object {
     "MyBucketParameter": Object {
@@ -2746,7 +2746,7 @@ Object {
 }
 `;
 
-exports[`Nested Stacks templates nested/child-two-parameters.json 1`] = `
+exports[`Evaluation Valid templates Nested Stacks templates nested/child-two-parameters.json 1`] = `
 Object {
   "Parameters": Object {
     "FirstParameter": Object {
@@ -2787,7 +2787,7 @@ Object {
 }
 `;
 
-exports[`Nested Stacks templates nested/child-with-number-parameter.yaml 1`] = `
+exports[`Evaluation Valid templates Nested Stacks templates nested/child-with-number-parameter.yaml 1`] = `
 Object {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Parameters": Object {
@@ -2808,7 +2808,7 @@ Object {
 }
 `;
 
-exports[`Nested Stacks templates nested/cross-stack-refs.json 1`] = `
+exports[`Evaluation Valid templates Nested Stacks templates nested/cross-stack-refs.json 1`] = `
 Object {
   "Parameters": Object {
     "Param": Object {
@@ -2844,7 +2844,7 @@ Object {
 }
 `;
 
-exports[`Nested Stacks templates nested/custom-resource.json 1`] = `
+exports[`Evaluation Valid templates Nested Stacks templates nested/custom-resource.json 1`] = `
 Object {
   "Resources": Object {
     "CustomResource": Object {
@@ -2856,7 +2856,7 @@ Object {
 }
 `;
 
-exports[`Nested Stacks templates nested/grandchild-import-stack.json 1`] = `
+exports[`Evaluation Valid templates Nested Stacks templates nested/grandchild-import-stack.json 1`] = `
 Object {
   "Parameters": Object {
     "MyBucketParameter": Object {
@@ -2887,7 +2887,7 @@ Object {
 }
 `;
 
-exports[`Nested Stacks templates nested/only-nested-stack.expected.json 1`] = `
+exports[`Evaluation Valid templates Nested Stacks templates nested/only-nested-stack.expected.json 1`] = `
 Object {
   "Parameters": Object {
     "AssetParameters6b884775090ed88cd1a143f64442a92a6c34eaeff3857976d15ef2e3beee05d7ArtifactHash605B2835": Object {
@@ -2961,7 +2961,7 @@ Object {
 }
 `;
 
-exports[`Nested Stacks templates nested/only-nested-stack.json 1`] = `
+exports[`Evaluation Valid templates Nested Stacks templates nested/only-nested-stack.json 1`] = `
 Object {
   "Resources": Object {
     "NestedStack": Object {
@@ -2976,7 +2976,7 @@ Object {
 }
 `;
 
-exports[`Nested Stacks templates nested/parent-bad-depends-on.json 1`] = `
+exports[`Evaluation Valid templates Nested Stacks templates nested/parent-bad-depends-on.json 1`] = `
 Object {
   "Resources": Object {
     "ChildStack": Object {
@@ -2991,7 +2991,7 @@ Object {
 }
 `;
 
-exports[`Nested Stacks templates nested/parent-creation-policy.json 1`] = `
+exports[`Evaluation Valid templates Nested Stacks templates nested/parent-creation-policy.json 1`] = `
 Object {
   "Resources": Object {
     "ChildStack": Object {
@@ -3010,7 +3010,7 @@ Object {
 }
 `;
 
-exports[`Nested Stacks templates nested/parent-invalid-condition.json 1`] = `
+exports[`Evaluation Valid templates Nested Stacks templates nested/parent-invalid-condition.json 1`] = `
 Object {
   "Resources": Object {
     "ChildStack": Object {
@@ -3028,7 +3028,7 @@ Object {
 }
 `;
 
-exports[`Nested Stacks templates nested/parent-number-in-child-params.yaml 1`] = `
+exports[`Evaluation Valid templates Nested Stacks templates nested/parent-number-in-child-params.yaml 1`] = `
 Object {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Resources": Object {
@@ -3047,7 +3047,7 @@ Object {
 }
 `;
 
-exports[`Nested Stacks templates nested/parent-one-child.json 1`] = `
+exports[`Evaluation Valid templates Nested Stacks templates nested/parent-one-child.json 1`] = `
 Object {
   "Resources": Object {
     "ChildStack": Object {
@@ -3065,7 +3065,7 @@ Object {
 }
 `;
 
-exports[`Nested Stacks templates nested/parent-two-children.json 1`] = `
+exports[`Evaluation Valid templates Nested Stacks templates nested/parent-two-children.json 1`] = `
 Object {
   "Resources": Object {
     "AnotherChildStack": Object {
@@ -3094,7 +3094,7 @@ Object {
 }
 `;
 
-exports[`Nested Stacks templates nested/parent-two-parameters.json 1`] = `
+exports[`Evaluation Valid templates Nested Stacks templates nested/parent-two-parameters.json 1`] = `
 Object {
   "Resources": Object {
     "ChildStack": Object {
@@ -3113,7 +3113,7 @@ Object {
 }
 `;
 
-exports[`Nested Stacks templates nested/parent-update-policy.json 1`] = `
+exports[`Evaluation Valid templates Nested Stacks templates nested/parent-update-policy.json 1`] = `
 Object {
   "Resources": Object {
     "ChildStack": Object {
@@ -3132,7 +3132,7 @@ Object {
 }
 `;
 
-exports[`Nested Stacks templates nested/parent-valid-condition.json 1`] = `
+exports[`Evaluation Valid templates Nested Stacks templates nested/parent-valid-condition.json 1`] = `
 Object {
   "Conditions": Object {
     "AlwaysFalseCond": Object {
@@ -3160,7 +3160,7 @@ Object {
 }
 `;
 
-exports[`Nested Stacks templates nested/parent-with-attributes.json 1`] = `
+exports[`Evaluation Valid templates Nested Stacks templates nested/parent-with-attributes.json 1`] = `
 Object {
   "Parameters": Object {
     "ArrayParam": Object {
@@ -3209,7 +3209,7 @@ Object {
 }
 `;
 
-exports[`SAM templates sam/api-endpoint-config-object.yaml 1`] = `
+exports[`Evaluation Valid templates SAM templates sam/api-endpoint-config-object.yaml 1`] = `
 Object {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Resources": Object {
@@ -3232,7 +3232,7 @@ Object {
 }
 `;
 
-exports[`SAM templates sam/api-endpoint-config-string.yaml 1`] = `
+exports[`Evaluation Valid templates SAM templates sam/api-endpoint-config-string.yaml 1`] = `
 Object {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Resources": Object {
@@ -3253,7 +3253,7 @@ Object {
 }
 `;
 
-exports[`SAM templates sam/api-endpoint-config-string-empty.yaml 1`] = `
+exports[`Evaluation Valid templates SAM templates sam/api-endpoint-config-string-empty.yaml 1`] = `
 Object {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Resources": Object {
@@ -3274,7 +3274,7 @@ Object {
 }
 `;
 
-exports[`SAM templates sam/only-minimal-sam-function-codeuri-as-param.yaml 1`] = `
+exports[`Evaluation Valid templates SAM templates sam/only-minimal-sam-function-codeuri-as-param.yaml 1`] = `
 Object {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Parameters": Object {
@@ -3300,7 +3300,7 @@ Object {
 }
 `;
 
-exports[`SAM templates sam/only-minimal-sam-function-codeuri-as-s3location.yaml 1`] = `
+exports[`Evaluation Valid templates SAM templates sam/only-minimal-sam-function-codeuri-as-s3location.yaml 1`] = `
 Object {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Resources": Object {
@@ -3322,7 +3322,7 @@ Object {
 }
 `;
 
-exports[`SAM templates sam/only-minimal-sam-function-codeuri-bucket-as-param.yaml 1`] = `
+exports[`Evaluation Valid templates SAM templates sam/only-minimal-sam-function-codeuri-bucket-as-param.yaml 1`] = `
 Object {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Parameters": Object {
@@ -3351,7 +3351,7 @@ Object {
 }
 `;
 
-exports[`SAM templates sam/only-sam-function-policies-array-ddb-crud.yaml 1`] = `
+exports[`Evaluation Valid templates SAM templates sam/only-sam-function-policies-array-ddb-crud.yaml 1`] = `
 Object {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Parameters": Object {
@@ -3384,7 +3384,7 @@ Object {
 }
 `;
 
-exports[`SAM templates sam/only-sam-function-policies-array-ddb-crud-if.yaml 1`] = `
+exports[`Evaluation Valid templates SAM templates sam/only-sam-function-policies-array-ddb-crud-if.yaml 1`] = `
 Object {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Conditions": Object {
@@ -3440,7 +3440,7 @@ Object {
 }
 `;
 
-exports[`Valid Template Fixtures should synth examples/apigw.json 1`] = `
+exports[`Evaluation Valid templates examples/apigw.json 1`] = `
 Object {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "A template creates a lambda function with an api gateway",
@@ -4002,7 +4002,7 @@ Object {
 }
 `;
 
-exports[`Valid Template Fixtures should synth examples/application-load-balancer.yaml 1`] = `
+exports[`Evaluation Valid templates examples/application-load-balancer.yaml 1`] = `
 Object {
   "Parameters": Object {
     "SsmParameterValueawsserviceamiamazonlinuxlatestamznamihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter": Object {
@@ -4736,7 +4736,7 @@ Object {
 }
 `;
 
-exports[`Valid Template Fixtures should synth examples/ecs.json 1`] = `
+exports[`Evaluation Valid templates examples/ecs.json 1`] = `
 Object {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "A template creates a Fargate service with necessary resources",
@@ -5056,7 +5056,7 @@ Object {
 }
 `;
 
-exports[`Valid Template Fixtures should synth examples/fleet.json 1`] = `
+exports[`Evaluation Valid templates examples/fleet.json 1`] = `
 Object {
   "Description": "A template creates an ASG and Vpc",
   "Parameters": Object {
@@ -5583,7 +5583,7 @@ Object {
 }
 `;
 
-exports[`Valid Template Fixtures should synth examples/http-proxy.yaml 1`] = `
+exports[`Evaluation Valid templates examples/http-proxy.yaml 1`] = `
 Object {
   "Outputs": Object {
     "ProxyApiEndpoint2177970D": Object {
@@ -5761,7 +5761,7 @@ Object {
 }
 `;
 
-exports[`Valid Template Fixtures should synth examples/lambda-dashboard.yaml 1`] = `
+exports[`Evaluation Valid templates examples/lambda-dashboard.yaml 1`] = `
 Object {
   "Parameters": Object {
     "DashboardName": Object {
@@ -5993,7 +5993,7 @@ Object {
 }
 `;
 
-exports[`Valid Template Fixtures should synth examples/lambda-events.json 1`] = `
+exports[`Evaluation Valid templates examples/lambda-events.json 1`] = `
 Object {
   "Description": "A template creates a lambda function which can be invoked by an sns topic",
   "Outputs": Object {
@@ -6534,7 +6534,7 @@ Object {
 }
 `;
 
-exports[`Valid Template Fixtures should synth examples/lambda-layer.json 1`] = `
+exports[`Evaluation Valid templates examples/lambda-layer.json 1`] = `
 Object {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "A template creates a aws cli lambda layer",
@@ -6610,7 +6610,7 @@ Object {
 }
 `;
 
-exports[`Valid Template Fixtures should synth examples/lambda-policy.yaml 1`] = `
+exports[`Evaluation Valid templates examples/lambda-policy.yaml 1`] = `
 Object {
   "Parameters": Object {
     "BucketName": Object {
@@ -6728,7 +6728,7 @@ Object {
 }
 `;
 
-exports[`Valid Template Fixtures should synth examples/lambda-topic.json 1`] = `
+exports[`Evaluation Valid templates examples/lambda-topic.json 1`] = `
 Object {
   "Resources": Object {
     "LambdaAllowInvokeTestTopic346FF53781B07C89": Object {
@@ -6822,7 +6822,7 @@ Object {
 }
 `;
 
-exports[`Valid Template Fixtures should synth examples/pipeline.json 1`] = `
+exports[`Evaluation Valid templates examples/pipeline.json 1`] = `
 Object {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "A template creates a CodePipeline along with its CodeCommit repository source",
@@ -8009,7 +8009,7 @@ Object {
 }
 `;
 
-exports[`Valid Template Fixtures should synth examples/static-site.yaml 1`] = `
+exports[`Evaluation Valid templates examples/static-site.yaml 1`] = `
 Object {
   "Mappings": Object {
     "AWSCloudFrontPartitionHostedZoneIdMap": Object {
@@ -8739,7 +8739,7 @@ Object {
 }
 `;
 
-exports[`Valid Template Fixtures should synth examples/vpc.json 1`] = `
+exports[`Evaluation Valid templates examples/vpc.json 1`] = `
 Object {
   "Resources": Object {
     "VPCB9E5F0B4": Object {
@@ -9137,7 +9137,7 @@ Object {
 }
 `;
 
-exports[`Valid Template Fixtures should synth templates/cfn-complex-template.json 1`] = `
+exports[`Evaluation Valid templates templates/cfn-complex-template.json 1`] = `
 Object {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Conditions": Object {
@@ -9845,7 +9845,7 @@ yum update -y aws-cfn-bootstrap
 }
 `;
 
-exports[`Valid Template Fixtures should synth templates/cfn-conditions.yaml 1`] = `
+exports[`Evaluation Valid templates templates/cfn-conditions.yaml 1`] = `
 Object {
   "Conditions": Object {
     "IsProd": Object {
@@ -9999,7 +9999,7 @@ Object {
 }
 `;
 
-exports[`Valid Template Fixtures should synth templates/cfn-mappings.yaml 1`] = `
+exports[`Evaluation Valid templates templates/cfn-mappings.yaml 1`] = `
 Object {
   "Mappings": Object {
     "RegionMap": Object {
@@ -10035,7 +10035,7 @@ Object {
 }
 `;
 
-exports[`Valid Template Fixtures should synth templates/cfn-metadata.json 1`] = `
+exports[`Evaluation Valid templates templates/cfn-metadata.json 1`] = `
 Object {
   "Metadata": Object {
     "Databases": Object {
@@ -10099,7 +10099,7 @@ Object {
 }
 `;
 
-exports[`Valid Template Fixtures should synth templates/cfn-outputs-complex.json 1`] = `
+exports[`Evaluation Valid templates templates/cfn-outputs-complex.json 1`] = `
 Object {
   "Outputs": Object {
     "FunctionArn": Object {
@@ -10213,7 +10213,7 @@ Object {
 }
 `;
 
-exports[`Valid Template Fixtures should synth templates/cfn-outputs-simple.json 1`] = `
+exports[`Evaluation Valid templates templates/cfn-outputs-simple.json 1`] = `
 Object {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "A template creates a lambda function with an api gateway",
@@ -10782,7 +10782,7 @@ Object {
 }
 `;
 
-exports[`Valid Template Fixtures should synth templates/cfn-parameters.json 1`] = `
+exports[`Evaluation Valid templates templates/cfn-parameters.json 1`] = `
 Object {
   "Parameters": Object {
     "BucketName": Object {
@@ -10845,7 +10845,7 @@ Object {
 }
 `;
 
-exports[`Valid Template Fixtures should synth templates/cfn-policies.yaml 1`] = `
+exports[`Evaluation Valid templates templates/cfn-policies.yaml 1`] = `
 Object {
   "Resources": Object {
     "AutoScalingGroup": Object {
@@ -10925,7 +10925,7 @@ yum update -y aws-cfn-bootstrap
 }
 `;
 
-exports[`Valid Template Fixtures should synth templates/cfn-transform.json 1`] = `
+exports[`Evaluation Valid templates templates/cfn-transform.json 1`] = `
 Object {
   "Resources": Object {
     "MyQueueE6CA6235": Object {
@@ -10982,7 +10982,7 @@ Object {
 }
 `;
 
-exports[`Valid Template Fixtures should synth templates/overrides-delete-path.json 1`] = `
+exports[`Evaluation Valid templates templates/overrides-delete-path.json 1`] = `
 Object {
   "Metadata": Object {
     "Databases": Object {
@@ -11046,7 +11046,7 @@ Object {
 }
 `;
 
-exports[`Valid Template Fixtures should synth templates/overrides-remove-resource.json 1`] = `
+exports[`Evaluation Valid templates templates/overrides-remove-resource.json 1`] = `
 Object {
   "Resources": Object {
     "LambdaD247545B": Object {
@@ -11076,7 +11076,7 @@ Object {
 }
 `;
 
-exports[`Valid Template Fixtures should synth templates/overrides-update-path.json 1`] = `
+exports[`Evaluation Valid templates templates/overrides-update-path.json 1`] = `
 Object {
   "Description": "A template creates a lambda function which can be invoked by an sns topic",
   "Outputs": Object {
@@ -11618,7 +11618,7 @@ Object {
 }
 `;
 
-exports[`Valid Template Fixtures should synth templates/syntax-lambda-policy-from-constructor.yaml 1`] = `
+exports[`Evaluation Valid templates templates/syntax-lambda-policy-from-constructor.yaml 1`] = `
 Object {
   "Resources": Object {
     "MyBucketF68F3FF0": Object {
@@ -11709,7 +11709,7 @@ Object {
 }
 `;
 
-exports[`Valid Template Fixtures should synth templates/syntax-method-calls.json 1`] = `
+exports[`Evaluation Valid templates templates/syntax-method-calls.json 1`] = `
 Object {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Resources": Object {
@@ -12062,7 +12062,7 @@ Object {
 }
 `;
 
-exports[`Valid Template Fixtures should synth templates/syntax-short-intrinsics.yaml 1`] = `
+exports[`Evaluation Valid templates templates/syntax-short-intrinsics.yaml 1`] = `
 Object {
   "Parameters": Object {
     "DashboardName": Object {

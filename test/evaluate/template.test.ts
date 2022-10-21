@@ -1,8 +1,9 @@
 import { Match } from 'aws-cdk-lib/assertions';
+import { expect } from 'expect';
 import { Template } from '../../src/parser/template';
 import { Testing } from '../util';
 
-describe('Mappings', () => {
+suite('Mappings', () => {
   test('can use Mapping with string value', async () => {
     // GIVEN
     const template = await Testing.template(
@@ -106,7 +107,7 @@ describe('Mappings', () => {
   });
 });
 
-describe('Parameters', () => {
+suite('Parameters', () => {
   test('String parameter', async () => {
     // GIVEN
     const stringParam = {
@@ -260,8 +261,8 @@ describe('Parameters', () => {
   });
 });
 
-describe('given a template with unknown top-level properties', () => {
-  it('can synth the template and will ignore unknown properties', async () => {
+suite('given a template with unknown top-level properties', () => {
+  test('can synth the template and will ignore unknown properties', async () => {
     // GIVEN
     const template = await Testing.template(
       await Template.fromObject({
@@ -290,7 +291,7 @@ describe('given a template with unknown top-level properties', () => {
   });
 });
 
-describe('Outputs', () => {
+suite('Outputs', () => {
   test('Simple value output', async () => {
     const template = await Testing.template(
       await Template.fromObject({
@@ -439,7 +440,7 @@ describe('Outputs', () => {
   });
 });
 
-describe('can evaluate cyclic types', () => {
+suite('can evaluate cyclic types', () => {
   test('JsonSchema', async () => {
     // GIVEN
     const template = await Testing.template(
@@ -499,7 +500,7 @@ describe('can evaluate cyclic types', () => {
   });
 });
 
-describe('Conditions', () => {
+suite('Conditions', () => {
   test('simple equal condition should be support', async () => {
     const template = await Testing.template(
       await Template.fromObject({
@@ -725,7 +726,7 @@ describe('Conditions', () => {
   });
 });
 
-describe('Metadata', () => {
+suite('Metadata', () => {
   test('Metadata referencing parameters', async () => {
     const template = await Testing.template(
       await Template.fromObject({
