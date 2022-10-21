@@ -50,8 +50,12 @@ test('has deCDK Metadata', async () => {
 
   const analytics = extractAnalytics(analyticsData.asString());
 
-  // THEN
-  expect(analytics).toContain('0.0.0!@cdklabs/decdk');
+  /**
+   * For a real release the data might look something like this:
+   * "2.{46.0!aws-cdk-lib.{Stack,CfnResource},0.0-pre.304!@cdklabs/decdk},node.js/v16.18.0!jsii-runtime.Runtime"
+   * To save space, the version number might be collated, so the only safe string to check for is the following test
+   */
+  expect(analytics).toContain('!@cdklabs/decdk');
 });
 
 function extractAnalytics(analytics: string): any {

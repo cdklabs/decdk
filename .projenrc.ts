@@ -29,6 +29,7 @@ const project = new typescript.TypeScriptProject({
     'jsii',
     'fast-check',
   ],
+  releaseFailureIssue: true,
   releaseToNpm: true,
 
   autoApproveOptions: {
