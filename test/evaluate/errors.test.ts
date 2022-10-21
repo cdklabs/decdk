@@ -58,7 +58,7 @@ suite('Evaluation errors', () => {
       });
       await expect(synth).rejects.toThrow(TypeError);
       await expect(synth).rejects.toThrow(
-        'Expected static method not found, got: "bucket"'
+        'Expected static method, got: "bucket"'
       );
     });
   });
