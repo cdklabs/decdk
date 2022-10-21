@@ -58,7 +58,7 @@ export class Template {
     this.metadata = mapValues(template.Metadata, parseExpression);
     this.rules = mapValues(template.Rules, parseRule);
     this.hooks = mapValues(template.Hooks, parseHook);
-    this.context = mapEntries(template.Context, (_, v) => v);
+    this.context = mapValues(template.Context, (v) => v);
   }
 
   public resource(logicalId: string) {
