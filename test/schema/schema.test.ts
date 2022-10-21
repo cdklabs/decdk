@@ -139,6 +139,7 @@ suite('Schema from jsii', () => {
       expect(ctx.definitions).toMatchObject({
         'fixture.IFeature': {
           anyOf: expect.arrayContaining([
+            { anyOf: expect.anything() },
             { $ref: '#/definitions/fixture.NonImplementingFactory.factoryOne' },
             { $ref: '#/definitions/fixture.NonImplementingFactory.factoryTwo' },
           ]),
@@ -165,7 +166,7 @@ suite('Schema from jsii', () => {
         },
       });
     });
-  }).timeout(60_000);
+  });
 
   /**
    * Version of spawn() that returns a promise
