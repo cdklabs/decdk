@@ -205,7 +205,7 @@ function enclosingClassFqn(methodFqn: string): string {
   const enclosingFqn = parts.slice(0, parts.length - 1).join('.');
   if (!enclosingFqn) {
     throw new TypeError(
-      `Expected static method expression, but provided method was not found. Got: ${methodFqn}`
+      `Expected static method not found, got: ${JSON.stringify(methodFqn)}`
     );
   }
   return enclosingFqn;

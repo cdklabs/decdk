@@ -53,12 +53,12 @@ suite('Evaluation errors', () => {
       };
 
       // THEN
-      await expect(
-        Testing.synth(await Template.fromObject(template), {
-          validateTemplate: false,
-        })
-      ).rejects.toThrow(
-        'Expected static method expression, but provided method was not found. Got: bucket'
+      const synth = Testing.synth(await Template.fromObject(template), {
+        validateTemplate: false,
+      });
+      await expect(synth).rejects.toThrow(TypeError);
+      await expect(synth).rejects.toThrow(
+        'Expected static method not found, got: "bucket"'
       );
     });
   });
@@ -85,11 +85,13 @@ suite('Evaluation errors', () => {
       };
 
       // THEN
-      await expect(
-        Testing.synth(await Template.fromObject(template), {
-          validateTemplate: false,
-        })
-      ).rejects.toThrow('Expected aws-cdk-lib.aws_s3.IBucket, got: "MyBucket');
+      const synth = Testing.synth(await Template.fromObject(template), {
+        validateTemplate: false,
+      });
+      await expect(synth).rejects.toThrow(TypeError);
+      await expect(synth).rejects.toThrow(
+        'Expected aws-cdk-lib.aws_s3.IBucket, got: "MyBucket'
+      );
     });
   });
 });

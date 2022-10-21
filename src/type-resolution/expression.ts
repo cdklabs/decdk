@@ -54,7 +54,7 @@ export function assertExpressionForType<T extends TemplateExpression['type']>(
   typeRef: reflect.TypeReference
 ): TemplateExpression & { type: T } {
   if (x.type !== type) {
-    throw new ParserError(
+    throw new TypeError(
       `Expected ${typeRef.fqn}, got: ${JSON.stringify(unparseExpression(x))}`
     );
   }
