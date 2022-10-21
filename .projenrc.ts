@@ -58,28 +58,6 @@ const project = new typescript.TypeScriptProject({
   gitignore: ['cdk.out', '/.idea'],
 });
 
-// Setup Mocha
-project.package.addDevDeps(
-  '@types/mocha',
-  'expect',
-  'mocha',
-  'mocha-expect-snapshot',
-  'ts-mocha'
-);
-project.testTask.prependExec(
-  'ts-mocha --project tsconfig.dev.json --updateSnapshot'
-);
-new YamlFile(project, '.mocharc.yaml', {
-  obj: {
-    ui: 'tdd',
-    spec: ['test/**/*.test.ts'],
-    require: ['mocha-expect-snapshot', 'test/setup.ts'],
-    timeout: 10_000,
-    slow: 500,
-  },
-});
-project.annotateGenerated('*.snap');
-
 // Build schema after compilation
 project.tasks
   .tryFind('post-compile')
@@ -109,13 +87,37 @@ vsCode.extensions.addRecommendations(
 vsCode.settings.addSettings({
   'editor.defaultFormatter': 'esbenp.prettier-vscode',
   'eslint.format.enable': true,
-  'mochaExplorer.files': 'test/**/*.test.ts',
-  'mochaExplorer.require': 'ts-node/register',
-  'testExplorer.useNativeTesting': true,
 });
 vsCode.settings.addSettings(
   { 'editor.defaultFormatter': 'dbaeumer.vscode-eslint' },
   ['javascript', 'typescript']
 );
+
+// Setup Mocha
+project.package.addDevDeps(
+  '@types/mocha',
+  'expect',
+  'mocha',
+  'mocha-expect-snapshot',
+  'ts-mocha'
+);
+project.testTask.prependExec(
+  'ts-mocha --project tsconfig.dev.json --updateSnapshot'
+);
+new YamlFile(project, '.mocharc.yaml', {
+  obj: {
+    ui: 'tdd',
+    spec: ['test/**/*.test.ts'],
+    require: ['mocha-expect-snapshot', 'test/setup.ts'],
+    timeout: 10_000,
+    slow: 500,
+  },
+});
+project.annotateGenerated('*.snap');
+vsCode.settings.addSettings({
+  'mochaExplorer.files': 'test/**/*.test.ts',
+  'mochaExplorer.require': 'ts-node/register',
+  'testExplorer.useNativeTesting': true,
+});
 
 project.synth();
