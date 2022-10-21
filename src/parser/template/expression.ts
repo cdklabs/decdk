@@ -249,6 +249,25 @@ export function assertExpression(x: unknown): TemplateExpression {
   return x as TemplateExpression;
 }
 
+export function unparseExpression(x: TemplateExpression): any {
+  switch (x.type) {
+    case 'string':
+    case 'number':
+    case 'boolean':
+      return x.value;
+    case 'null':
+      return null;
+    case 'array':
+      return x.array.map(unparseExpression);
+    case 'object':
+      return Object.fromEntries(
+        Object.entries(x.fields).map(([k, v]) => [k, unparseExpression(v)])
+      );
+    default:
+      return x;
+  }
+}
+
 export function parseExpression(x: unknown): TemplateExpression {
   if (x == null) {
     return { type: 'null' };

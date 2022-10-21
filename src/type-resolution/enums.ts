@@ -6,7 +6,7 @@ import {
   resolveInstanceExpression,
   StaticMethodCallExpression,
 } from './callables';
-import { assertExpressionType } from './expression';
+import { assertExpressionForType } from './expression';
 
 export interface StaticPropertyExpression {
   readonly type: 'staticProperty';
@@ -31,7 +31,10 @@ export function resolveEnumLikeExpression(
     };
   }
 
-  return resolveInstanceExpression(assertExpressionType(x, 'object'), type);
+  return resolveInstanceExpression(
+    assertExpressionForType(x, 'object', type.reference),
+    type
+  );
 }
 
 export function assertClass(typeRef: reflect.TypeReference): reflect.ClassType {

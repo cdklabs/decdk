@@ -55,7 +55,7 @@ export function resolveStaticMethodCallExpression(
   typeSystem: reflect.TypeSystem,
   resultType?: reflect.Type
 ): StaticMethodCallExpression {
-  const { method, args } = inferMethodCall(typeSystem, call);
+  const { method, args } = inferStaticMethodCall(typeSystem, call);
 
   if (resultType) {
     assertImplements(method.returns.type, resultType);
@@ -94,7 +94,7 @@ export function resolveInstanceMethodCallExpression(
   };
 }
 
-function inferMethodCall(
+function inferStaticMethodCall(
   typeSystem: reflect.TypeSystem,
   call: FactoryMethodCall
 ): MethodCall {
@@ -118,7 +118,7 @@ function inferInstanceMethodCall(
   call: Required<FactoryMethodCall>
 ): InstanceMethodCall {
   const factory = inferType(call.target);
-  const method = inferMethod(factory, call.methodName);
+  const method = inferInstanceMethod(factory, call.methodName);
   const args = resolveArguments(call.arguments, method);
 
   return {
@@ -145,12 +145,14 @@ function inferInstanceMethodCall(
       }
 
       if (res.call?.target) {
-        return inferMethod(inferType(res.call.target), res.call.methodName)
-          .returns.type;
+        return inferInstanceMethod(
+          inferType(res.call.target),
+          res.call.methodName
+        ).returns.type;
       }
 
       if (res.call != null) {
-        const methodCall = inferMethodCall(typeSystem, res.call);
+        const methodCall = inferStaticMethodCall(typeSystem, res.call);
         return methodCall.method.returns.type;
       }
 
@@ -164,7 +166,7 @@ function inferInstanceMethodCall(
   }
 }
 
-function inferMethod(
+function inferInstanceMethod(
   typeRef: reflect.TypeReference,
   methodName: string
 ): reflect.Method {
@@ -173,7 +175,7 @@ function inferMethod(
   const methodNames = methods.map((m) => m.name);
 
   if (!methodNames.includes(methodName)) {
-    throw new Error(
+    throw new TypeError(
       `'${candidateType.fqn}' has no method called '${methodName}'`
     );
   }
@@ -200,7 +202,13 @@ function resolveTypeFromPath(
 
 function enclosingClassFqn(methodFqn: string): string {
   const parts = methodFqn.split('.');
-  return parts.slice(0, parts.length - 1).join('.');
+  const enclosingFqn = parts.slice(0, parts.length - 1).join('.');
+  if (!enclosingFqn) {
+    throw new TypeError(
+      `Expected static method, got: ${JSON.stringify(methodFqn)}`
+    );
+  }
+  return enclosingFqn;
 }
 
 export interface InitializerExpression {
