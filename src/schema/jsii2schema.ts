@@ -22,13 +22,20 @@ export class SchemaContext {
     definitions?: { [fqn: string]: any },
     primitives?: { [type: string]: string }
   ): SchemaContext {
-    return new SchemaContext(undefined, undefined, definitions, primitives);
+    return new SchemaContext(
+      undefined,
+      undefined,
+      undefined,
+      definitions,
+      primitives
+    );
   }
 
   public readonly definitions: { [fqn: string]: any };
   public readonly primitives: { [type: string]: any };
   public readonly path: string;
   public readonly children = new Array<SchemaContext>();
+  public readonly fqn: string;
   public readonly name: string;
   public readonly root: boolean;
   public readonly warnings = new Array<string>();
@@ -37,11 +44,13 @@ export class SchemaContext {
   private readonly definitionStack: string[];
 
   private constructor(
+    fqn?: string,
     name?: string,
     parent?: SchemaContext,
     definitions?: { [fqn: string]: any },
     primitives?: { [type: string]: string }
   ) {
+    this.fqn = fqn || '';
     this.name = name || '';
     if (parent) {
       this.root = false;
@@ -59,15 +68,17 @@ export class SchemaContext {
     }
   }
 
-  public child(type: string, name: string): SchemaContext {
-    return new SchemaContext(`[${type} "${name}"]`, this);
+  public child(type: string, fqn: string, shortName?: string): SchemaContext {
+    return new SchemaContext(fqn, `[${type} "${shortName ?? fqn}"]`, this);
   }
 
-  public get hasWarningsOrErrors(): boolean {
+  public hasWarningsOrErrors(ignore: string[] = []): boolean {
     return (
       this.warnings.length > 0 ||
       this.errors.length > 0 ||
-      this.children.some((child) => child.hasWarningsOrErrors)
+      this.children
+        .filter((child) => !ignore.includes(child.fqn))
+        .some((child) => child.hasWarningsOrErrors(ignore))
     );
   }
 
@@ -167,7 +178,7 @@ export function schemaForTypeReference(
     return cls;
   }
 
-  if (!ctx.hasWarningsOrErrors) {
+  if (!ctx.hasWarningsOrErrors()) {
     ctx.error("didn't match any schematizable shape");
   }
 
@@ -366,6 +377,7 @@ function schemaForInterface(
     for (const prop of type.allProperties) {
       ctx = ifctx.child(
         prop.optional ? 'optional' : 'required' + ' property',
+        [prop.parentType.fqn, prop.name].join('.'),
         prop.name
       );
 
@@ -502,9 +514,13 @@ export function schemaForEnumLikeClass(
 }
 
 function methodSchema(method: reflect.Callable, ctx: SchemaContext) {
-  ctx = ctx.child('method', method.name);
-
   const fqn = `${method.parentType.fqn}.${method.name}`;
+
+  ctx = ctx.child(
+    'method',
+    fqn,
+    ctx.fqn === method.parentType.fqn ? method.name : undefined
+  );
 
   const methodctx = ctx;
 
@@ -512,12 +528,15 @@ function methodSchema(method: reflect.Callable, ctx: SchemaContext) {
     const properties: any[] = [];
     const required = new Array<string>();
 
-    const addProperty = (prop: reflect.Property | reflect.Parameter): void => {
-      const param = schemaForTypeReference(prop.type, ctx);
+    const addProperty = (
+      prop: reflect.Property | reflect.Parameter,
+      propCtx: SchemaContext
+    ): void => {
+      const param = schemaForTypeReference(prop.type, propCtx);
 
       // bail out - can't serialize a required parameter, so we can't serialize the method
       if (!param && !prop.optional) {
-        ctx.error(
+        propCtx.error(
           'cannot schematize method because parameter cannot be schematized'
         );
         return undefined;
@@ -532,9 +551,19 @@ function methodSchema(method: reflect.Callable, ctx: SchemaContext) {
 
     for (let i = 0; i < method.parameters.length; ++i) {
       const p = method.parameters[i];
-      methodctx.child('param', p.name);
+      const propCtx = methodctx.child('param', p.name);
 
-      addProperty(p);
+      addProperty(p, propCtx);
+    }
+
+    const requiredParams = method.parameters.filter((p) => !p.optional);
+    if (
+      requiredParams.length > 0 &&
+      requiredParams.length !== required.length
+    ) {
+      // If at least one required parameter cannot be schematized,
+      // the whole method cannot be schematized.
+      return;
     }
 
     const basicSchema =
