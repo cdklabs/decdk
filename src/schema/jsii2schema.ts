@@ -528,12 +528,15 @@ function methodSchema(method: reflect.Callable, ctx: SchemaContext) {
     const properties: any[] = [];
     const required = new Array<string>();
 
-    const addProperty = (prop: reflect.Property | reflect.Parameter): void => {
-      const param = schemaForTypeReference(prop.type, ctx);
+    const addProperty = (
+      prop: reflect.Property | reflect.Parameter,
+      propCtx: SchemaContext
+    ): void => {
+      const param = schemaForTypeReference(prop.type, propCtx);
 
       // bail out - can't serialize a required parameter, so we can't serialize the method
       if (!param && !prop.optional) {
-        ctx.error(
+        propCtx.error(
           'cannot schematize method because parameter cannot be schematized'
         );
         return undefined;
@@ -548,9 +551,9 @@ function methodSchema(method: reflect.Callable, ctx: SchemaContext) {
 
     for (let i = 0; i < method.parameters.length; ++i) {
       const p = method.parameters[i];
-      methodctx.child('param', p.name);
+      const propCtx = methodctx.child('param', p.name);
 
-      addProperty(p);
+      addProperty(p, propCtx);
     }
 
     const basicSchema =
