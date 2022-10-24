@@ -166,6 +166,12 @@ function findReferencedLogicalIds(
             recurse(x.value1);
             recurse(x.value2);
             break;
+          case 'length':
+            recurse(x.list);
+            break;
+          case 'toJsonString':
+            Object.values(x.value).forEach(recurse);
+            break;
           default:
             throw new Error(`Unrecognized intrinsic for evaluation: ${x.fn}`);
         }

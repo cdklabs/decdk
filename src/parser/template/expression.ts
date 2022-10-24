@@ -216,7 +216,7 @@ export interface LengthIntrinsic {
 export interface ToJsonStringIntrinsic {
   readonly type: 'intrinsic';
   readonly fn: 'toJsonString';
-  readonly value: ObjectLiteral;
+  readonly value: Record<string, TemplateExpression>;
 }
 
 export function isExpression(x: unknown): x is TemplateExpression {
@@ -458,6 +458,20 @@ export function parseExpression(x: unknown): TemplateExpression {
         type: 'intrinsic',
         fn: 'args',
         array: assertList(value).map(parseExpression),
+      };
+    },
+    'Fn::Length': (value) => {
+      return {
+        type: 'intrinsic',
+        fn: 'length',
+        list: parseListIntrinsic(value),
+      };
+    },
+    'Fn::ToJsonString': (value) => {
+      return {
+        type: 'intrinsic',
+        fn: 'toJsonString',
+        value: parseObject(value),
       };
     },
   };
