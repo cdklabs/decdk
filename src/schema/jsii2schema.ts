@@ -514,9 +514,13 @@ export function schemaForEnumLikeClass(
 }
 
 function methodSchema(method: reflect.Callable, ctx: SchemaContext) {
-  ctx = ctx.child('method', method.name);
-
   const fqn = `${method.parentType.fqn}.${method.name}`;
+
+  ctx = ctx.child(
+    'method',
+    fqn,
+    ctx.fqn === method.parentType.fqn ? method.name : undefined
+  );
 
   const methodctx = ctx;
 
