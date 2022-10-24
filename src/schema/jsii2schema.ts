@@ -22,13 +22,20 @@ export class SchemaContext {
     definitions?: { [fqn: string]: any },
     primitives?: { [type: string]: string }
   ): SchemaContext {
-    return new SchemaContext(undefined, undefined, definitions, primitives);
+    return new SchemaContext(
+      undefined,
+      undefined,
+      undefined,
+      definitions,
+      primitives
+    );
   }
 
   public readonly definitions: { [fqn: string]: any };
   public readonly primitives: { [type: string]: any };
   public readonly path: string;
   public readonly children = new Array<SchemaContext>();
+  public readonly fqn: string;
   public readonly name: string;
   public readonly root: boolean;
   public readonly warnings = new Array<string>();
@@ -37,11 +44,13 @@ export class SchemaContext {
   private readonly definitionStack: string[];
 
   private constructor(
+    fqn?: string,
     name?: string,
     parent?: SchemaContext,
     definitions?: { [fqn: string]: any },
     primitives?: { [type: string]: string }
   ) {
+    this.fqn = fqn || '';
     this.name = name || '';
     if (parent) {
       this.root = false;
@@ -59,15 +68,17 @@ export class SchemaContext {
     }
   }
 
-  public child(type: string, name: string): SchemaContext {
-    return new SchemaContext(`[${type} "${name}"]`, this);
+  public child(type: string, fqn: string, shortName?: string): SchemaContext {
+    return new SchemaContext(fqn, `[${type} "${shortName ?? fqn}"]`, this);
   }
 
-  public get hasWarningsOrErrors(): boolean {
+  public hasWarningsOrErrors(ignore: string[] = []): boolean {
     return (
       this.warnings.length > 0 ||
       this.errors.length > 0 ||
-      this.children.some((child) => child.hasWarningsOrErrors)
+      this.children
+        .filter((child) => !ignore.includes(child.fqn))
+        .some((child) => child.hasWarningsOrErrors(ignore))
     );
   }
 
@@ -167,7 +178,7 @@ export function schemaForTypeReference(
     return cls;
   }
 
-  if (!ctx.hasWarningsOrErrors) {
+  if (!ctx.hasWarningsOrErrors()) {
     ctx.error("didn't match any schematizable shape");
   }
 
@@ -366,6 +377,7 @@ function schemaForInterface(
     for (const prop of type.allProperties) {
       ctx = ifctx.child(
         prop.optional ? 'optional' : 'required' + ' property',
+        [prop.parentType.fqn, prop.name].join('.'),
         prop.name
       );
 

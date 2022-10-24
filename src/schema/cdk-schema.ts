@@ -12,10 +12,21 @@ import { schemaForRules } from './rules';
 /* eslint-disable no-console */
 
 export interface RenderSchemaOptions {
+  /**
+   * Show warnings for the generated schema.
+   * @default false
+   */
   warnings?: boolean;
 
   /**
-   * Use colors when printing ouput.
+   * Suppress specific warnings in the warnings output.
+   * Should only be used for known issues that are expected to create a warning due to their incompatibility with declarative style.
+   * @default []
+   */
+  suppressWarnings?: string[];
+
+  /**
+   * Use colors when printing output.
    * @default true if tty is enabled
    */
   colors?: boolean;
@@ -135,7 +146,7 @@ export function renderFullSchema(
   };
 
   if (options.warnings) {
-    printWarnings(ctx);
+    printWarnings(ctx, options.suppressWarnings ?? []);
   }
 
   function addResource(resource?: { $ref: string }) {
@@ -153,8 +164,8 @@ export function renderFullSchema(
   return output;
 }
 
-function printWarnings(node: SchemaContext, indent = '') {
-  if (!node.hasWarningsOrErrors) {
+function printWarnings(node: SchemaContext, suppress: string[], indent = '') {
+  if (!node.hasWarningsOrErrors(suppress)) {
     return;
   }
 
@@ -173,7 +184,7 @@ function printWarnings(node: SchemaContext, indent = '') {
   }
 
   for (const child of node.children) {
-    printWarnings(child, indent);
+    printWarnings(child, suppress, indent);
   }
 }
 

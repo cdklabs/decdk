@@ -16,6 +16,12 @@ async function main() {
   const schema = await renderFullSchema(typeSystem, {
     colors: true,
     warnings: argv.warnings,
+    suppressWarnings: [
+      // Only an object with methods can satisfy this interface and no built-in class is provided since the feature is intended as an escape hatch
+      'aws-cdk-lib.aws_lambda_nodejs.BundlingOptions.commandHooks',
+      // Only an object with methods can satisfy this and no built-in class is provided since the feature is intended for user land functionality
+      'aws-cdk-lib.BundlingOptions.local',
+    ],
   });
   console.log(JSON.stringify(schema, undefined, 2));
 }
