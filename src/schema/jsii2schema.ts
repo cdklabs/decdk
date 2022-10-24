@@ -556,6 +556,16 @@ function methodSchema(method: reflect.Callable, ctx: SchemaContext) {
       addProperty(p, propCtx);
     }
 
+    const requiredParams = method.parameters.filter((p) => !p.optional);
+    if (
+      requiredParams.length > 0 &&
+      requiredParams.length !== required.length
+    ) {
+      // If at least one required parameter cannot be schematized,
+      // the whole method cannot be schematized.
+      return;
+    }
+
     const basicSchema =
       required.length > 0
         ? {
