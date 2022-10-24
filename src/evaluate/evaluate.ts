@@ -251,7 +251,7 @@ export class Evaluator {
           case 'length':
             return this.fnLength(ev(x.list));
           case 'toJsonString':
-            return this.toJsonString(ev(x.value));
+            return this.toJsonString(this.evaluateObject(x.value));
         }
       case 'enum':
         return this.enum(x.fqn, x.choice);
