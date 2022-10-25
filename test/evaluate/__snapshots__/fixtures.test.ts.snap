@@ -9425,28 +9425,18 @@ Object {
       "DeletionPolicy": "Delete",
       "Properties": Object {
         "DashboardBody": Object {
-          "Fn::ToJsonString": Object {
-            "periodOverride": "inherit",
-            "start": "-PT6H",
-            "widgets": Array [
+          "Fn::Join": Array [
+            "",
+            Array [
+              "{\\"start\\":\\"-PT6H\\",\\"periodOverride\\":\\"inherit\\",\\"widgets\\":[{\\"type\\":\\"text\\",\\"x\\":0,\\"y\\":7,\\"width\\":3,\\"height\\":",
               Object {
-                "height": Object {
-                  "Fn::Length": Object {
-                    "Ref": "Subnets",
-                  },
+                "Fn::Length": Object {
+                  "Ref": "Subnets",
                 },
-                "properties": Object {
-                  "markdown": Object {
-                    "Fn::Ref": "MarkdownText",
-                  },
-                },
-                "type": "text",
-                "width": 3,
-                "x": 0,
-                "y": 7,
               },
+              ",\\"properties\\":{\\"markdown\\":{\\"Fn::Ref\\":\\"MarkdownText\\"}}}]}",
             ],
-          },
+          ],
         },
       },
       "Type": "AWS::CloudWatch::Dashboard",
@@ -9842,6 +9832,7 @@ yum update -y aws-cfn-bootstrap
       },
     },
   },
+  "Transform": "AWS::LanguageExtensions",
 }
 `;
 

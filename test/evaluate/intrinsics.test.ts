@@ -848,4 +848,54 @@ suite('Evaluate Intrinsic Functions', () => {
       },
     });
   });
+
+  test('FnLength', async () => {
+    const template = await Testing.template(
+      await Template.fromObject({
+        Parameters: { QueueList: { Type: 'CommaDelimitedList' } },
+        Resources: {
+          Bucket: {
+            Type: 'aws-cdk-lib.aws_sqs.Queue',
+            Properties: {
+              maxMessageSizeBytes: { 'Fn::Length': { Ref: 'QueueList' } },
+            },
+          },
+        },
+      })
+    );
+
+    template.hasResourceProperties('AWS::SQS::Queue', {
+      MaximumMessageSize: {
+        'Fn::Length': {
+          Ref: 'QueueList',
+        },
+      },
+    });
+  });
+
+  test('FnToJsonString', async () => {
+    const template = await Testing.template(
+      await Template.fromObject({
+        Resources: {
+          TextWidget: {
+            Type: 'aws-cdk-lib.aws_cloudwatch.TextWidget',
+            Properties: {
+              markdown: { 'Fn::ToJsonString': { foo: 'bar' } },
+            },
+          },
+          Dashboard: {
+            Type: 'aws-cdk-lib.aws_cloudwatch.Dashboard',
+            Properties: {
+              widgets: [[{ Ref: 'TextWidget' }]],
+            },
+          },
+        },
+      })
+    );
+
+    template.hasResourceProperties('AWS::CloudWatch::Dashboard', {
+      DashboardBody:
+        '{"widgets":[{"type":"text","width":6,"height":2,"x":0,"y":0,"properties":{"markdown":"{\\"foo\\":\\"bar\\"}"}}]}',
+    });
+  });
 });

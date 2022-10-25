@@ -263,6 +263,37 @@ const FnSelect = () => {
   });
 };
 
+const FnLength = () => {
+  const description =
+    'https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-length.html';
+  return {
+    anyOf: [
+      schemaForIntrinsic('Fn::Length', {
+        description,
+        params: [
+          {
+            name: 'intrinsicFunction',
+            description:
+              'The intrinsic function that returns an array that you want to return a number of elements from.',
+            types: [$ref('ListExpression')],
+          },
+        ],
+      }),
+      schemaForIntrinsic('Fn::Length', {
+        description,
+        params: [
+          {
+            name: 'array',
+            description:
+              'The array you want to return the number of elements from.',
+            types: [{ type: 'array' }],
+          },
+        ],
+      }),
+    ],
+  };
+};
+
 const FnSplit = () =>
   schemaForIntrinsic('Fn::Split', {
     description:
@@ -327,6 +358,35 @@ const FnSub = () => {
   };
 };
 
+const FnToJsonString = () => {
+  const description =
+    'https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-ToJsonString.html';
+  return {
+    anyOf: [
+      schemaForIntrinsic('Fn::ToJsonString', {
+        description,
+        params: [
+          {
+            name: 'objectToConvert',
+            description: 'The object you want to convert to a JSON string.',
+            types: [{ type: 'object' }],
+          },
+        ],
+      }),
+      schemaForIntrinsic('Fn::ToJsonString', {
+        description,
+        params: [
+          {
+            name: 'arrayToConvert',
+            description: 'The array you want to convert to a JSON string.',
+            types: [{ type: 'array' }],
+          },
+        ],
+      }),
+    ],
+  };
+};
+
 const FnTransform = () =>
   schemaForIntrinsic('Fn::Transform', {
     description:
@@ -378,11 +438,13 @@ const STRINGS = {
   FnJoin,
   FnSelect,
   FnSub,
+  FnToJsonString,
 };
 
 const NUMBERS = {
   FnImportValue,
   FnSelect,
+  FnLength,
 };
 
 const BOOLEANS = {
@@ -420,6 +482,8 @@ export function schemaForIntrinsicFunctions(ctx: SchemaContext) {
     FnTransform,
     FnRef,
     FnIf,
+    FnToJsonString,
+    FnLength,
   };
   ctx.define('IntrinsicExpression', () => ({
     $comment: 'Intrinsic function token expression',

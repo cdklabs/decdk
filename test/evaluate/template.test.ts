@@ -776,6 +776,10 @@ suite('Metadata', () => {
 
 suite('Context', () => {
   test('Feature flags are applied', async () => {
+    expect(await resourceNames()).toContain(
+      'ApiUsagePlanUsagePlanKeyResourceTestApiApiKeyB8A9B490D8F8A61F'
+    );
+
     expect(
       await resourceNames({
         '@aws-cdk/aws-apigateway:usagePlanKeyOrderInsensitiveId': true,
@@ -790,9 +794,10 @@ suite('Context', () => {
       })
     ).toContain('ApiUsagePlanUsagePlanKeyResource7792961C');
 
-    async function resourceNames(context: Record<string, any>) {
+    async function resourceNames(context?: unknown) {
       const template = await Testing.template(
         await Template.fromObject({
+          Metadata: { 'AWS::CDK::Context': context },
           Resources: {
             Api: {
               Type: 'aws-cdk-lib.aws_apigateway.RestApi',
@@ -842,7 +847,6 @@ suite('Context', () => {
               Call: ['Plan', { addApiKey: { Ref: 'Key' } }],
             },
           },
-          Context: context,
         }),
         { validateTemplate: false }
       );

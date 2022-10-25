@@ -104,21 +104,9 @@ export class Evaluator {
   }
 
   private evaluateMetadata() {
-    const metadata = this.context.template.metadata;
-    if (metadata.size > 0) {
-      // Just in case some construct has already added metadata
-      const existingMetadata =
-        this.context.stack.templateOptions.metadata ?? {};
-
-      const newMetadata = Object.fromEntries(
-        [...metadata.entries()].map(([k, v]) => [k, this.evaluate(v)])
-      );
-
-      this.context.stack.templateOptions.metadata = {
-        ...existingMetadata,
-        ...newMetadata,
-      };
-    }
+    this.context.template.metadata.forEach((v, k) => {
+      this.context.stack.addMetadata(k, v);
+    });
   }
 
   private evaluateRules() {
@@ -251,7 +239,7 @@ export class Evaluator {
           case 'length':
             return this.fnLength(ev(x.list));
           case 'toJsonString':
-            return this.toJsonString(ev(x.value));
+            return this.toJsonString(this.evaluateObject(x.value));
         }
       case 'enum':
         return this.enum(x.fqn, x.choice);
