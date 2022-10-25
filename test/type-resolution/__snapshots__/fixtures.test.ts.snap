@@ -125,7 +125,6 @@ TypedTemplate {
   "rules": Map {},
   "template": Template {
     "conditions": Map {},
-    "context": Map {},
     "description": "A template creates a lambda function with an api gateway",
     "hooks": Map {},
     "mappings": Map {},
@@ -574,7 +573,6 @@ TypedTemplate {
   "rules": Map {},
   "template": Template {
     "conditions": Map {},
-    "context": Map {},
     "description": undefined,
     "hooks": Map {},
     "mappings": Map {},
@@ -1124,7 +1122,6 @@ TypedTemplate {
   "rules": Map {},
   "template": Template {
     "conditions": Map {},
-    "context": Map {},
     "description": "A template creates a Fargate service with necessary resources",
     "hooks": Map {},
     "mappings": Map {},
@@ -1453,7 +1450,6 @@ TypedTemplate {
   "rules": Map {},
   "template": Template {
     "conditions": Map {},
-    "context": Map {},
     "description": "A template creates an ASG and Vpc",
     "hooks": Map {},
     "mappings": Map {},
@@ -1774,7 +1770,6 @@ TypedTemplate {
   "rules": Map {},
   "template": Template {
     "conditions": Map {},
-    "context": Map {},
     "description": undefined,
     "hooks": Map {},
     "mappings": Map {},
@@ -2514,7 +2509,6 @@ TypedTemplate {
   "rules": Map {},
   "template": Template {
     "conditions": Map {},
-    "context": Map {},
     "description": undefined,
     "hooks": Map {},
     "mappings": Map {},
@@ -3293,7 +3287,6 @@ TypedTemplate {
   "rules": Map {},
   "template": Template {
     "conditions": Map {},
-    "context": Map {},
     "description": "A template creates a lambda function which can be invoked by an sns topic",
     "hooks": Map {},
     "mappings": Map {},
@@ -3628,7 +3621,6 @@ TypedTemplate {
   "rules": Map {},
   "template": Template {
     "conditions": Map {},
-    "context": Map {},
     "description": "A template creates a aws cli lambda layer",
     "hooks": Map {},
     "mappings": Map {},
@@ -3923,7 +3915,6 @@ TypedTemplate {
   "rules": Map {},
   "template": Template {
     "conditions": Map {},
-    "context": Map {},
     "description": undefined,
     "hooks": Map {},
     "mappings": Map {},
@@ -4268,7 +4259,6 @@ TypedTemplate {
   "rules": Map {},
   "template": Template {
     "conditions": Map {},
-    "context": Map {},
     "description": undefined,
     "hooks": Map {},
     "mappings": Map {},
@@ -4677,7 +4667,6 @@ TypedTemplate {
   "rules": Map {},
   "template": Template {
     "conditions": Map {},
-    "context": Map {},
     "description": "A template creates a CodePipeline along with its CodeCommit repository source",
     "hooks": Map {},
     "mappings": Map {},
@@ -5559,7 +5548,6 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
   "rules": Map {},
   "template": Template {
     "conditions": Map {},
-    "context": Map {},
     "description": undefined,
     "hooks": Map {},
     "mappings": Map {},
@@ -6227,7 +6215,6 @@ TypedTemplate {
   "rules": Map {},
   "template": Template {
     "conditions": Map {},
-    "context": Map {},
     "description": undefined,
     "hooks": Map {},
     "mappings": Map {},
@@ -7779,7 +7766,6 @@ TypedTemplate {
         "type": "intrinsic",
       },
     },
-    "context": Map {},
     "description": "AWS CloudFormation Sample Template for using Assertions: Create a load balanced, Auto Scaled sample website where the instances are locked down to only accept traffic from the load balancer. This example creates an Auto Scaling group behind a load balancer with a health check. The web site is available on port 80 or 443 based on the input.",
     "hooks": Map {},
     "mappings": Map {
@@ -10011,7 +9997,6 @@ TypedTemplate {
         },
       },
     },
-    "context": Map {},
     "description": undefined,
     "hooks": Map {},
     "mappings": Map {},
@@ -10415,7 +10400,6 @@ TypedTemplate {
   "rules": Map {},
   "template": Template {
     "conditions": Map {},
-    "context": Map {},
     "description": undefined,
     "hooks": Map {},
     "mappings": Map {
@@ -10522,22 +10506,10 @@ TypedTemplate {
   "mappings": Map {},
   "metadata": Map {
     "Instances" => Object {
-      "fields": Object {
-        "Description": Object {
-          "type": "string",
-          "value": "Information about the instances",
-        },
-      },
-      "type": "object",
+      "Description": "Information about the instances",
     },
     "Databases" => Object {
-      "fields": Object {
-        "Description": Object {
-          "type": "string",
-          "value": "Information about the databases",
-        },
-      },
-      "type": "object",
+      "Description": "Information about the databases",
     },
   },
   "outputs": Map {},
@@ -10575,28 +10547,15 @@ TypedTemplate {
   "rules": Map {},
   "template": Template {
     "conditions": Map {},
-    "context": Map {},
     "description": undefined,
     "hooks": Map {},
     "mappings": Map {},
     "metadata": Map {
       "Instances" => Object {
-        "fields": Object {
-          "Description": Object {
-            "type": "string",
-            "value": "Information about the instances",
-          },
-        },
-        "type": "object",
+        "Description": "Information about the instances",
       },
       "Databases" => Object {
-        "fields": Object {
-          "Description": Object {
-            "type": "string",
-            "value": "Information about the databases",
-          },
-        },
-        "type": "object",
+        "Description": "Information about the databases",
       },
     },
     "outputs": Map {},
@@ -10786,7 +10745,6 @@ TypedTemplate {
   "rules": Map {},
   "template": Template {
     "conditions": Map {},
-    "context": Map {},
     "description": undefined,
     "hooks": Map {},
     "mappings": Map {},
@@ -11081,7 +11039,6 @@ TypedTemplate {
   "rules": Map {},
   "template": Template {
     "conditions": Map {},
-    "context": Map {},
     "description": "A template creates a lambda function with an api gateway",
     "hooks": Map {},
     "mappings": Map {},
@@ -11369,7 +11326,6 @@ TypedTemplate {
   "rules": Map {},
   "template": Template {
     "conditions": Map {},
-    "context": Map {},
     "description": undefined,
     "hooks": Map {},
     "mappings": Map {},
@@ -11831,7 +11787,6 @@ yum update -y aws-cfn-bootstrap
   "rules": Map {},
   "template": Template {
     "conditions": Map {},
-    "context": Map {},
     "description": undefined,
     "hooks": Map {},
     "mappings": Map {},
@@ -12186,7 +12141,6 @@ TypedTemplate {
   "rules": Map {},
   "template": Template {
     "conditions": Map {},
-    "context": Map {},
     "description": undefined,
     "hooks": Map {},
     "mappings": Map {},
@@ -12246,22 +12200,10 @@ TypedTemplate {
   "mappings": Map {},
   "metadata": Map {
     "Instances" => Object {
-      "fields": Object {
-        "Description": Object {
-          "type": "string",
-          "value": "Information about the instances",
-        },
-      },
-      "type": "object",
+      "Description": "Information about the instances",
     },
     "Databases" => Object {
-      "fields": Object {
-        "Description": Object {
-          "type": "string",
-          "value": "Information about the databases",
-        },
-      },
-      "type": "object",
+      "Description": "Information about the databases",
     },
   },
   "outputs": Map {},
@@ -12306,28 +12248,15 @@ TypedTemplate {
   "rules": Map {},
   "template": Template {
     "conditions": Map {},
-    "context": Map {},
     "description": undefined,
     "hooks": Map {},
     "mappings": Map {},
     "metadata": Map {
       "Instances" => Object {
-        "fields": Object {
-          "Description": Object {
-            "type": "string",
-            "value": "Information about the instances",
-          },
-        },
-        "type": "object",
+        "Description": "Information about the instances",
       },
       "Databases" => Object {
-        "fields": Object {
-          "Description": Object {
-            "type": "string",
-            "value": "Information about the databases",
-          },
-        },
-        "type": "object",
+        "Description": "Information about the databases",
       },
     },
     "outputs": Map {},
@@ -12473,7 +12402,6 @@ TypedTemplate {
   "rules": Map {},
   "template": Template {
     "conditions": Map {},
-    "context": Map {},
     "description": undefined,
     "hooks": Map {},
     "mappings": Map {},
@@ -12789,7 +12717,6 @@ TypedTemplate {
   "rules": Map {},
   "template": Template {
     "conditions": Map {},
-    "context": Map {},
     "description": "A template creates a lambda function which can be invoked by an sns topic",
     "hooks": Map {},
     "mappings": Map {},
@@ -13189,7 +13116,6 @@ TypedTemplate {
   "rules": Map {},
   "template": Template {
     "conditions": Map {},
-    "context": Map {},
     "description": undefined,
     "hooks": Map {},
     "mappings": Map {},
@@ -13741,7 +13667,6 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
   "rules": Map {},
   "template": Template {
     "conditions": Map {},
-    "context": Map {},
     "description": undefined,
     "hooks": Map {},
     "mappings": Map {},
@@ -14662,7 +14587,6 @@ TypedTemplate {
   "rules": Map {},
   "template": Template {
     "conditions": Map {},
-    "context": Map {},
     "description": undefined,
     "hooks": Map {},
     "mappings": Map {},

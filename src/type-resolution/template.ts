@@ -1,10 +1,6 @@
 import * as reflect from 'jsii-reflect';
 import { DependencyGraph } from '../parser/private/toposort';
-import {
-  Template,
-  TemplateExpression,
-  TemplateParameter,
-} from '../parser/template';
+import { Template, TemplateParameter } from '../parser/template';
 import { TemplateHook } from '../parser/template/hooks';
 import { TemplateMapping } from '../parser/template/mappings';
 import { TemplateRule } from '../parser/template/rules';
@@ -29,7 +25,7 @@ export class TypedTemplate {
   public readonly mappings: Map<string, TemplateMapping>;
   public readonly outputs: Map<string, TypedTemplateOutput>;
   public readonly transform: string[];
-  public readonly metadata: Map<string, TemplateExpression>;
+  public readonly metadata: Map<string, unknown>;
   public readonly rules: Map<string, TemplateRule>;
   public readonly hooks: Map<string, TemplateHook>;
 

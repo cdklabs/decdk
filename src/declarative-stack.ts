@@ -19,7 +19,8 @@ export class DeclarativeStack extends cdk.Stack {
   constructor(scope: cdk.App, id: string, props: DeclarativeStackProps) {
     super(scope, id, props);
 
-    props.template.context.forEach((v, k) => this.node.setContext(k, v));
+    const ctx = props.template.metadata.get('AWS::CDK::Context') ?? {};
+    Object.entries(ctx).forEach(([k, v]) => this.node.setContext(k, v));
 
     this.templateOptions.templateFormatVersion =
       props.template.templateFormatVersion;

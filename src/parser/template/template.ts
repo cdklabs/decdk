@@ -41,10 +41,9 @@ export class Template {
   public readonly mappings: Map<string, TemplateMapping>;
   public readonly outputs: Map<string, TemplateOutput>;
   public readonly transform: string[];
-  public readonly metadata: Map<string, TemplateExpression>;
+  public readonly metadata: Map<string, unknown>;
   public readonly rules: Map<string, TemplateRule>;
   public readonly hooks: Map<string, TemplateHook>;
-  public readonly context: Map<string, any>;
 
   constructor(public template: schema.Template) {
     this.templateFormatVersion = template.AWSTemplateFormatVersion;
@@ -55,10 +54,9 @@ export class Template {
     this.mappings = mapValues(template.Mappings, parseMapping);
     this.outputs = mapValues(template.Outputs, parseOutput);
     this.transform = parseTransform(template.Transform);
-    this.metadata = mapValues(template.Metadata, parseExpression);
+    this.metadata = mapValues(template.Metadata, identity);
     this.rules = mapValues(template.Rules, parseRule);
     this.hooks = mapValues(template.Hooks, parseHook);
-    this.context = mapValues(template.Context, (v) => v);
   }
 
   public resource(logicalId: string) {
@@ -108,4 +106,8 @@ function mapEntries<T, U>(
   fn: (key: string, t: T) => U
 ): Map<string, U> {
   return new Map(Object.entries(record ?? {}).map(([k, v]) => [k, fn(k, v)]));
+}
+
+function identity<T>(v: T): T {
+  return v;
 }
