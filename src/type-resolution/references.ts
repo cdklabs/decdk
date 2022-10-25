@@ -1,4 +1,4 @@
-import { ParserError } from '../parser/private/types';
+import { SyntaxError } from '../parser/private/types';
 import {
   GetPropIntrinsic,
   RefIntrinsic,
@@ -20,7 +20,7 @@ export function resolveRefToValue(x: RefIntrinsic): ResolveReferenceExpression {
 
 export function assertRef(x: TemplateExpression): RefIntrinsic {
   if (x.type !== 'intrinsic' || x.fn !== 'ref') {
-    throw new ParserError(`Expected Ref, got: ${JSON.stringify(x)}`);
+    throw new SyntaxError(`Expected Ref, got: ${JSON.stringify(x)}`);
   }
 
   return x;

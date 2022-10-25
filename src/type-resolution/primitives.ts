@@ -1,5 +1,5 @@
 import * as reflect from 'jsii-reflect';
-import { ParserError } from '../parser/private/types';
+import { SyntaxError } from '../parser/private/types';
 import { IntrinsicExpression, TemplateExpression } from '../parser/template';
 
 export interface AnyTemplateExpression {
@@ -28,7 +28,7 @@ export interface VoidExpression {
 
 export function assertVoid(x: unknown): void {
   if (x !== undefined || x !== null) {
-    throw new ParserError(`Expected nothing, got: ${JSON.stringify(x)}`);
+    throw new SyntaxError(`Expected nothing, got: ${JSON.stringify(x)}`);
   }
 }
 
@@ -45,7 +45,7 @@ export function assertLiteralOrIntrinsic<
   type: T
 ): (TemplateExpression & { type: T }) | IntrinsicExpression {
   if (![type, 'intrinsic'].includes(x.type)) {
-    throw new ParserError(`Expected ${type}, got: ${JSON.stringify(x)}`);
+    throw new SyntaxError(`Expected ${type}, got: ${JSON.stringify(x)}`);
   }
 
   return x as TemplateExpression & { type: T };

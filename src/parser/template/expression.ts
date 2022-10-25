@@ -4,7 +4,7 @@ import {
   assertList,
   assertObject,
   assertString,
-  ParserError,
+  SyntaxError,
 } from '../private/types';
 
 export type TemplateExpression =
@@ -239,7 +239,7 @@ export function assertExpression(x: unknown): TemplateExpression {
     'intrinsic',
   ];
   if (!expressionTypes.includes(expressionType)) {
-    throw new ParserError(
+    throw new SyntaxError(
       `Expected ${expressionTypes.join('|')}, got: '${JSON.stringify(
         expressionType
       )}'`
@@ -547,7 +547,7 @@ export function assertIntrinsic<T extends IntrinsicExpression['fn']>(
     }
   }
 
-  throw new ParserError(
+  throw new SyntaxError(
     `Expected one of Intrinsic Functions [${fns.join(
       '|'
     )}], got: ${JSON.stringify(x)}`
