@@ -36,8 +36,8 @@ Resources:
         Ref: WebsiteBucket
       sources:
         - aws-cdk-lib.aws_s3_deployment.Source.data:
-            - 'single_wait_condition.yaml'
-            - 'KmsDataKeyReusePeriodSeconds: 666'
+            - 'README.md'
+            - 'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
   WebsiteBucket:
     Type: aws-cdk-lib.aws_s3.Bucket
   Queue:
