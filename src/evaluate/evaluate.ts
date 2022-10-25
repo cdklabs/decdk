@@ -32,6 +32,7 @@ import {
 import { TypedTemplateExpression } from '../type-resolution/expression';
 import { ResolveReferenceExpression } from '../type-resolution/references';
 import { EvaluationContext } from './context';
+import { AnnotationsContext, RuntimeError } from './errors';
 import { DeCDKCfnOutput } from './outputs';
 import { applyOverride } from './overrides';
 import {
@@ -45,14 +46,14 @@ import {
 export class Evaluator {
   constructor(public readonly context: EvaluationContext) {}
 
-  public evaluateTemplate() {
-    this.evaluateParameters();
+  public evaluateTemplate(ctx: AnnotationsContext) {
+    this.evaluateParameters(ctx.child('Parameters'));
     this.evaluateMetadata();
     this.evaluateRules();
     this.evaluateMappings();
     this.evaluateConditions();
     this.evaluateTransform();
-    this.evaluateResources();
+    this.evaluateResources(ctx.child('Resources'));
     this.evaluateOutputs();
     this.evaluateHooks();
   }
@@ -66,20 +67,22 @@ export class Evaluator {
     );
   }
 
-  private evaluateParameters() {
-    this.context.template.parameters.forEach((param, paramName) => {
-      new cdk.CfnParameter(
-        this.context.stack,
-        paramName,
-        param
-      ).overrideLogicalId(paramName);
-      this.context.addReference(new SimpleReference(paramName));
+  private evaluateParameters(ctx: AnnotationsContext) {
+    ctx.wrap(() => {
+      this.context.template.parameters.forEach((param, paramName) => {
+        new cdk.CfnParameter(
+          this.context.stack,
+          paramName,
+          param
+        ).overrideLogicalId(paramName);
+        this.context.addReference(new SimpleReference(paramName));
+      });
     });
   }
 
-  private evaluateResources() {
-    this.context.template.resources.forEach((_logicalId, resource) =>
-      this.evaluateResource(resource)
+  private evaluateResources(ctx: AnnotationsContext) {
+    this.context.template.resources.forEach((logicalId, resource) =>
+      ctx.child(logicalId).wrap((c) => this.evaluateResource(resource, c))
     );
   }
 
@@ -133,8 +136,8 @@ export class Evaluator {
     });
   }
 
-  public evaluateResource(resource: ResourceLike) {
-    const construct = this.evaluate(resource);
+  public evaluateResource(resource: ResourceLike, ctx: AnnotationsContext) {
+    const construct = this.evaluate(resource, ctx);
 
     // If this is the result of a call to a method with no
     // return type (void), then there is nothing else to do here.
@@ -163,119 +166,131 @@ export class Evaluator {
     return new ConstructReference(logicalId, value as Construct);
   }
 
-  public evaluate(x: TypedTemplateExpression): any {
-    const ev = this.evaluate.bind(this);
-    const maybeEv = (y?: TypedTemplateExpression): any =>
-      y ? ev(y) : undefined;
+  public evaluate(
+    x: TypedTemplateExpression,
+    ctx: AnnotationsContext = this.context.annotations
+  ): any {
+    const ev = (y: TypedTemplateExpression, scope?: string) =>
+      this.evaluate.call(this, y, scope ? ctx.child(scope) : ctx);
+    const maybeEv = (y?: TypedTemplateExpression, scope?: string): any =>
+      y ? ev(y, scope) : undefined;
 
-    switch (x.type) {
-      case 'null':
-        return undefined;
-      case 'string':
-      case 'number':
-      case 'boolean':
-        return x.value;
-      case 'date':
-        return x.date;
-      case 'array':
-        return this.evaluateArray(x.array);
-      case 'struct':
-      case 'object':
-        return this.evaluateObject(x.fields);
-      case 'resolve-reference':
-        return this.resolveReference(x.reference);
-      case 'intrinsic':
-        switch (x.fn) {
-          case 'base64':
-            return this.fnBase64(assertString(ev(x.expression)));
-          case 'cidr':
-            return this.fnCidr(ev(x.ipBlock), ev(x.count), maybeEv(x.netMask));
-          case 'findInMap':
-            return this.fnFindInMap(
-              assertString(ev(x.mappingName)),
-              assertString(ev(x.key1)),
-              assertString(ev(x.key2))
-            );
-          case 'getAtt':
-            return this.fnGetAtt(x.logicalId, assertString(ev(x.attribute)));
-          case 'getProp':
-            return this.fnGetProp(x.logicalId, assertString(x.property));
-          case 'getAzs':
-            return this.fnGetAzs(assertString(ev(x.region)));
-          case 'if':
-            return this.fnIf(x.conditionName, x.then, x.else);
-          case 'importValue':
-            return this.fnImportValue(assertString(ev(x.export)));
-          case 'join':
-            return this.fnJoin(assertString(x.separator), ev(x.list));
-          case 'ref':
-            return this.cfnRef(x.logicalId);
-          case 'select':
-            return this.fnSelect(ev(x.index), ev(x.objects));
-          case 'split':
-            return this.fnSplit(x.separator, assertString(ev(x.value)));
-          case 'sub':
-            return this.fnSub(
-              x.fragments,
-              this.evaluateObject(x.additionalContext)
-            );
-          case 'transform':
-            return this.fnTransform(
-              x.transformName,
-              this.evaluateObject(x.parameters)
-            );
-          case 'and':
-            return this.fnAnd(x.operands.map(ev));
-          case 'or':
-            return this.fnOr(x.operands.map(ev));
-          case 'not':
-            return this.fnNot(ev(x.operand));
-          case 'equals':
-            return this.fnEquals(ev(x.value1), ev(x.value2));
-          case 'args':
-            return this.evaluateArray(x.array);
-          case 'lazyLogicalId':
-            return this.lazyLogicalId(x);
-          case 'length':
-            return this.fnLength(ev(x.list));
-          case 'toJsonString':
-            return this.toJsonString(this.evaluateObject(x.value));
-        }
-      case 'enum':
-        return this.enum(x.fqn, x.choice);
-      case 'staticProperty':
-        return this.enum(x.fqn, x.property);
-      case 'any':
-        return ev(x.value);
-      case 'void':
-        return;
-      case 'lazyResource':
-        return this.invoke(x.call);
-      case 'construct':
-        return this.initializeConstruct(x, ev);
-      case 'cdkObject':
-        return this.initializeCdkObject(x, ev);
-      case 'resource':
-        return this.initializeCfnResource(x, ev);
-      case 'initializer':
-        return this.initializer(x.fqn, this.evaluateArray(x.args.array));
-      case 'staticMethodCall':
-        return this.invokeStaticMethod(
-          x.fqn,
-          x.method,
-          this.evaluateArray(x.args.array)
-        );
+    try {
+      switch (x.type) {
+        case 'null':
+          return undefined;
+        case 'string':
+        case 'number':
+        case 'boolean':
+          return x.value;
+        case 'date':
+          return x.date;
+        case 'array':
+          return this.evaluateArray(x.array, ctx);
+        case 'struct':
+        case 'object':
+          return this.evaluateObject(x.fields, ctx);
+        case 'resolve-reference':
+          return this.resolveReference(x.reference);
+        case 'intrinsic':
+          switch (x.fn) {
+            case 'base64':
+              return this.fnBase64(assertString(ev(x.expression)));
+            case 'cidr':
+              return this.fnCidr(
+                ev(x.ipBlock),
+                ev(x.count),
+                maybeEv(x.netMask)
+              );
+            case 'findInMap':
+              return this.fnFindInMap(
+                assertString(ev(x.mappingName)),
+                assertString(ev(x.key1)),
+                assertString(ev(x.key2))
+              );
+            case 'getAtt':
+              return this.fnGetAtt(x.logicalId, assertString(ev(x.attribute)));
+            case 'getProp':
+              return this.fnGetProp(x.logicalId, assertString(x.property));
+            case 'getAzs':
+              return this.fnGetAzs(assertString(ev(x.region)));
+            case 'if':
+              return this.fnIf(x.conditionName, x.then, x.else);
+            case 'importValue':
+              return this.fnImportValue(assertString(ev(x.export)));
+            case 'join':
+              return this.fnJoin(assertString(x.separator), ev(x.list));
+            case 'ref':
+              return this.cfnRef(x.logicalId);
+            case 'select':
+              return this.fnSelect(ev(x.index), ev(x.objects));
+            case 'split':
+              return this.fnSplit(x.separator, assertString(ev(x.value)));
+            case 'sub':
+              return this.fnSub(
+                x.fragments,
+                this.evaluateObject(x.additionalContext, ctx)
+              );
+            case 'transform':
+              return this.fnTransform(
+                x.transformName,
+                this.evaluateObject(x.parameters, ctx)
+              );
+            case 'and':
+              return this.fnAnd(x.operands.map((o) => ev(o)));
+            case 'or':
+              return this.fnOr(x.operands.map((o) => ev(o)));
+            case 'not':
+              return this.fnNot(ev(x.operand));
+            case 'equals':
+              return this.fnEquals(ev(x.value1), ev(x.value2));
+            case 'args':
+              return this.evaluateArray(x.array, ctx);
+            case 'lazyLogicalId':
+              return this.lazyLogicalId(x);
+            case 'length':
+              return this.fnLength(ev(x.list));
+            case 'toJsonString':
+              return this.toJsonString(this.evaluateObject(x.value, ctx));
+          }
+        case 'enum':
+          return this.enum(x.fqn, x.choice);
+        case 'staticProperty':
+          return this.enum(x.fqn, x.property);
+        case 'any':
+          return ev(x.value);
+        case 'void':
+          return;
+        case 'lazyResource':
+          return this.invoke(x.call, ctx);
+        case 'construct':
+          return this.initializeConstruct(x, ev);
+        case 'cdkObject':
+          return this.initializeCdkObject(x, ev);
+        case 'resource':
+          return this.initializeCfnResource(x, ev);
+        case 'initializer':
+          return this.initializer(x.fqn, this.evaluateArray(x.args.array, ctx));
+        case 'staticMethodCall':
+          return this.invokeStaticMethod(
+            x.fqn,
+            x.method,
+            this.evaluateArray(x.args.array, ctx)
+          );
+      }
+    } catch (error) {
+      ctx.error(new RuntimeError((error as any).message));
     }
   }
 
   protected initializeCfnResource(
     x: CfnResourceNode,
-    ev: (x: TypedTemplateExpression) => any
+    ev: (x: TypedTemplateExpression, scope?: string) => any
   ) {
     const resource = this.initializer(x.fqn, [
       this.context.stack,
       x.logicalId,
-      ev(x.props),
+      ev(x.props, 'Properties'),
     ]) as CfnResource;
 
     resource.cfnOptions.creationPolicy = x.creationPolicy
@@ -294,12 +309,12 @@ export class Evaluator {
 
   protected initializeConstruct(
     x: CdkConstruct,
-    ev: (x: TypedTemplateExpression) => any
+    ev: (x: TypedTemplateExpression, scope?: string) => any
   ) {
     return this.initializer(x.fqn, [
       this.context.stack,
       x.logicalId,
-      ev(x.props),
+      ev(x.props, 'Properties'),
     ]);
   }
 
@@ -326,15 +341,16 @@ export class Evaluator {
   }
 
   public evaluateObject(
-    xs: Record<string, TypedTemplateExpression>
+    xs: Record<string, TypedTemplateExpression>,
+    ctx: AnnotationsContext
   ): Record<string, unknown> {
     return Object.fromEntries(
-      Object.entries(xs).map(([k, v]) => [k, this.evaluate(v)])
+      Object.entries(xs).map(([k, v]) => [k, this.evaluate(v, ctx.child(k))])
     );
   }
 
-  public evaluateArray(xs: TypedTemplateExpression[]) {
-    return xs.map(this.evaluate.bind(this));
+  public evaluateArray(xs: TypedTemplateExpression[], ctx: AnnotationsContext) {
+    return xs.map((x) => this.evaluate(x, ctx));
   }
 
   public evaluateCondition(conditionName: string) {
@@ -349,9 +365,10 @@ export class Evaluator {
   }
 
   protected invoke(
-    call: StaticMethodCallExpression | InstanceMethodCallExpression
+    call: StaticMethodCallExpression | InstanceMethodCallExpression,
+    ctx: AnnotationsContext
   ) {
-    const parameters = this.evaluateArray(call.args.array);
+    const parameters = this.evaluateArray(call.args.array, ctx);
 
     return call.type === 'staticMethodCall'
       ? this.invokeStaticMethod(call.fqn, call.method, parameters)

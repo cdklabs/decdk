@@ -1,16 +1,19 @@
 import * as cdk from 'aws-cdk-lib';
 import * as reflect from 'jsii-reflect';
 import { TypedTemplate } from '../type-resolution/template';
+import { AnnotationsContext } from './errors';
 import { InstanceReference, Reference, References } from './references';
 
 export interface EvaluationContextOptions {
   readonly stack: cdk.Stack;
   readonly template: TypedTemplate;
   readonly typeSystem: reflect.TypeSystem;
+  readonly annotations?: AnnotationsContext;
 }
 class PseudoParamRef extends InstanceReference {}
 
 export class EvaluationContext {
+  public readonly annotations: AnnotationsContext;
   public readonly stack: cdk.Stack;
   public readonly typeSystem: reflect.TypeSystem;
   public readonly template: TypedTemplate;
@@ -20,6 +23,7 @@ export class EvaluationContext {
     this.stack = opts.stack;
     this.template = opts.template;
     this.typeSystem = opts.typeSystem;
+    this.annotations = opts.annotations ?? AnnotationsContext.root();
 
     this.addReferences(
       new PseudoParamRef('AWS::AccountId', cdk.Aws.ACCOUNT_ID),
