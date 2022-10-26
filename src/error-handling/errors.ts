@@ -1,9 +1,18 @@
 import { AnnotationsContext } from './annotations';
 
+function indent(text: string, spaces = 4) {
+  const TAB = ' '.repeat(spaces);
+  return text
+    .split('\n')
+    .map((l) => TAB + l)
+    .join('\n');
+}
+
 export class DeclarativeStackError extends Error {
   constructor(public readonly annotations: AnnotationsContext) {
     super();
-    this.name = 'Declarative CDK Errors';
+    this.name = 'DeclarativeStackError';
+    this.message = this.toString();
     Object.setPrototypeOf(this, DeclarativeStackError.prototype);
   }
 
@@ -37,12 +46,18 @@ export class AnnotatedError {
   constructor(public readonly stack: string[], public readonly error: Error) {}
 
   public toString(printStackStrace = false) {
-    return `[${this.error.name} at ${this.renderStack()}]\n    ${
-      printStackStrace ? this.error.stack : this.error.message
-    }`;
+    const details = this.renderErrorDetails(printStackStrace);
+    return `[${this.error.name} at ${this.renderStack()}]\n${indent(details)}`;
   }
 
-  protected renderStack() {
+  protected renderErrorDetails(printStackStrace = false): string {
+    if (printStackStrace) {
+      return this.error.stack ?? this.error.message;
+    }
+    return this.error.message;
+  }
+
+  protected renderStack(): string {
     return this.stack.map((s) => (s.includes('.') ? `"${s}"` : s)).join('.');
   }
 }
