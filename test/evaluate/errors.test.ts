@@ -95,30 +95,11 @@ suite('Evaluation errors', () => {
     });
   });
 
-  suite('Call wrong method', () => {
-    test('string in place of reference raised an error', async () => {
+  suite('Multiple errors', () => {
+    test('Evaluation errors are collected', async () => {
       // GIVEN
       const template = {
-        Parameters: {
-          DomainName: {
-            Type: 'String',
-            Default: 'www.example.com',
-          },
-          HostedZone: { Type: 'String' },
-          CloudFrontOAI: { Type: 'String' },
-        },
         Resources: {
-          SiteBucket: {
-            Type: 'aws-cdk-lib.aws_s3.Bucket',
-          },
-          SiteCertificate: {
-            Type: 'aws-cdk-lib.aws_certificatemanager.DnsValidatedCertificate',
-            Properties: {
-              domainName: { Ref: 'DomainName' },
-              hostedZone: { Ref: 'HostedZone' },
-              region: { Ref: 'AWS::Region' },
-            },
-          },
           SiteDistribution: {
             Type: 'aws-cdk-lib.aws_cloudfront.Distribution',
             Properties: {
@@ -153,7 +134,6 @@ suite('Evaluation errors', () => {
       const synth = Testing.synth(await Template.fromObject(template), {
         validateTemplate: false,
       });
-      await expect(synth).rejects.toThrow(TypeError);
       await expect(synth).rejects.toThrow(
         'Expected aws-cdk-lib.aws_s3.IBucket, got: "MyBucket'
       );
