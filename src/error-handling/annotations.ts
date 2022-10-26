@@ -6,18 +6,18 @@ export class AnnotationsContext {
   }
 
   public readonly children = new Array<AnnotationsContext>();
-  public readonly path: string[] = [];
+  public readonly path: Array<string | number> = [];
   public readonly parent?: AnnotationsContext;
   private readonly _errorsStack: AnnotatedError[] = [];
 
-  private constructor(parent?: AnnotationsContext, path?: string) {
+  private constructor(parent?: AnnotationsContext, path?: string | number) {
     if (parent) {
       this.path.push(...parent.path);
       this.parent = parent;
       parent.children.push(this);
     }
 
-    if (path) {
+    if (path !== undefined) {
       this.path.push(path);
     }
   }
@@ -34,7 +34,7 @@ export class AnnotationsContext {
     return [...this._errorsStack, ...this.children.flatMap((c) => c.errors)];
   }
 
-  public child(path: string): AnnotationsContext {
+  public child(path: string | number): AnnotationsContext {
     return new AnnotationsContext(this, path);
   }
 

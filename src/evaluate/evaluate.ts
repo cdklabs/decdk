@@ -229,7 +229,14 @@ export class Evaluator {
         case 'resource':
           return this.initializeCfnResource(x, ctx);
         case 'initializer':
-          return this.initializer(x.fqn, this.evaluateArray(x.args.array, ctx));
+          return ctx
+            .child(x.fqn)
+            .wrap((innerCtx) =>
+              this.initializer(
+                x.fqn,
+                this.evaluateArray(x.args.array, innerCtx)
+              )
+            );
         case 'staticMethodCall':
           return this.invoke(x, ctx);
       }
@@ -298,7 +305,7 @@ export class Evaluator {
   }
 
   public evaluateArray(xs: TypedTemplateExpression[], ctx: AnnotationsContext) {
-    return xs.map((x) => this.evaluate(x, ctx));
+    return xs.map((x, idx) => this.evaluate(x, ctx.child(idx)));
   }
 
   public evaluateIntrinsic(x: IntrinsicExpression, ctx: AnnotationsContext) {

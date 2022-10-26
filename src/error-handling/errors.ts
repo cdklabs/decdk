@@ -43,7 +43,10 @@ export class RuntimeError extends Error {
  * Annotation any Error with additional info
  */
 export class AnnotatedError {
-  constructor(public readonly stack: string[], public readonly error: Error) {}
+  constructor(
+    public readonly stack: Array<string | number>,
+    public readonly error: Error
+  ) {}
 
   public toString(printStackStrace = false) {
     const details = this.renderErrorDetails(printStackStrace);
@@ -58,6 +61,8 @@ export class AnnotatedError {
   }
 
   protected renderStack(): string {
-    return this.stack.map((s) => (s.includes('.') ? `"${s}"` : s)).join('.');
+    return this.stack
+      .map((s) => (s.toString().includes('.') ? `"${s}"` : s))
+      .join('.');
   }
 }
