@@ -1,4 +1,4 @@
-import { assertOneField, assertString, SyntaxError } from '../private/types';
+import { assertOneField, assertString } from '../private/types';
 import {
   ArrayLiteral,
   parseExpression,

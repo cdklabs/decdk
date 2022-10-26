@@ -1,4 +1,3 @@
-import { SyntaxError } from '../parser/private/types';
 import {
   GetPropIntrinsic,
   RefIntrinsic,

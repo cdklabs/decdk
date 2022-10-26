@@ -4,7 +4,6 @@ import {
   assertList,
   assertObject,
   assertString,
-  SyntaxError,
 } from '../private/types';
 
 export type TemplateExpression =
@@ -48,7 +47,9 @@ export interface ArrayExpression<T> {
 export interface ArrayLiteral extends ArrayExpression<TemplateExpression> {}
 export interface ObjectLiteral extends ObjectExpression<TemplateExpression> {}
 
-export type IntrinsicExpression =
+export type IntrinsicExpression = UserIntrinsicExpression | LazyLogicalId;
+
+export type UserIntrinsicExpression =
   | RefIntrinsic
   | GetAttIntrinsic
   | GetPropIntrinsic
@@ -68,7 +69,6 @@ export type IntrinsicExpression =
   | NotIntrinsic
   | EqualsIntrinsic
   | ArgsIntrinsic
-  | LazyLogicalId
   | LengthIntrinsic
   | ToJsonStringIntrinsic;
 
@@ -219,6 +219,33 @@ export interface ToJsonStringIntrinsic {
   readonly value: Record<string, TemplateExpression>;
 }
 
+export const INTRINSIC_NAME_MAP: Record<
+  Exclude<IntrinsicExpression['fn'], 'lazyLogicalId'>,
+  string
+> = {
+  ref: 'Ref',
+  getAtt: 'Fn::GetAtt',
+  getProp: 'CDK::GetProp',
+  base64: 'Fn::Base64',
+  cidr: 'Fn::Cidr',
+  findInMap: 'Fn::FindInMap',
+  getAzs: 'Fn::GetAZs',
+  if: 'Fn::If',
+  importValue: 'Fn::ImportValue',
+  join: 'Fn::Join',
+  select: 'Fn::Select',
+  split: 'Fn::Split',
+  sub: 'Fn::Sub',
+  transform: 'Fn::Transform',
+  and: 'Fn::And',
+  or: 'Fn::Or',
+  not: 'Fn::Not',
+  equals: 'Fn::Equals',
+  args: 'CDK::Args',
+  length: 'Fn::Length',
+  toJsonString: 'Fn::ToJsonString',
+};
+
 export function isExpression(x: unknown): x is TemplateExpression {
   try {
     assertExpression(x);
@@ -249,25 +276,6 @@ export function assertExpression(x: unknown): TemplateExpression {
   return x as TemplateExpression;
 }
 
-export function unparseExpression(x: TemplateExpression): any {
-  switch (x.type) {
-    case 'string':
-    case 'number':
-    case 'boolean':
-      return x.value;
-    case 'null':
-      return null;
-    case 'array':
-      return x.array.map(unparseExpression);
-    case 'object':
-      return Object.fromEntries(
-        Object.entries(x.fields).map(([k, v]) => [k, unparseExpression(v)])
-      );
-    default:
-      return x;
-  }
-}
-
 export function parseExpression(x: unknown): TemplateExpression {
   if (x == null) {
     return { type: 'null' };
@@ -287,12 +295,12 @@ export function parseExpression(x: unknown): TemplateExpression {
   }
 
   const INTRINSIC_TABLE: Record<string, (x: unknown) => IntrinsicExpression> = {
-    Ref: (value) => ({
+    [INTRINSIC_NAME_MAP.ref]: (value) => ({
       type: 'intrinsic',
       fn: 'ref',
       logicalId: assertString(value),
     }),
-    'Fn::GetAtt': (value) => {
+    [INTRINSIC_NAME_MAP.getAtt]: (value) => {
       if (typeof value == 'string') {
         const [id, ...attrs] = value.split('.');
         value = [id, attrs.join('.')];
@@ -305,7 +313,7 @@ export function parseExpression(x: unknown): TemplateExpression {
         attribute: parseExpression(xs[1]),
       };
     },
-    'CDK::GetProp': (value) => {
+    [INTRINSIC_NAME_MAP.getProp]: (value) => {
       if (typeof value == 'string') {
         const [id, ...attrs] = value.split('.');
         value = [id, attrs.join('.')];
@@ -318,12 +326,12 @@ export function parseExpression(x: unknown): TemplateExpression {
         property: assertString(xs[1]),
       };
     },
-    'Fn::Base64': (value) => ({
+    [INTRINSIC_NAME_MAP.base64]: (value) => ({
       type: 'intrinsic',
       fn: 'base64',
       expression: parseExpression(value),
     }),
-    'Fn::Cidr': (value) => {
+    [INTRINSIC_NAME_MAP.cidr]: (value) => {
       const xs = assertList(value, [2, 3]);
       return {
         type: 'intrinsic',
@@ -333,7 +341,7 @@ export function parseExpression(x: unknown): TemplateExpression {
         netMask: xs[2] ? parseExpression(xs[2]) : undefined,
       };
     },
-    'Fn::FindInMap': (value) => {
+    [INTRINSIC_NAME_MAP.findInMap]: (value) => {
       const xs = assertList(value, [3]);
       return {
         type: 'intrinsic',
@@ -343,12 +351,12 @@ export function parseExpression(x: unknown): TemplateExpression {
         key2: parseExpression(xs[2]),
       };
     },
-    'Fn::GetAZs': (value) => ({
+    [INTRINSIC_NAME_MAP.getAzs]: (value) => ({
       type: 'intrinsic',
       fn: 'getAzs',
       region: parseExpression(value),
     }),
-    'Fn::If': (value) => {
+    [INTRINSIC_NAME_MAP.if]: (value) => {
       const xs = assertList(value, [3]);
       return {
         type: 'intrinsic',
@@ -358,12 +366,12 @@ export function parseExpression(x: unknown): TemplateExpression {
         else: parseExpression(xs[2]),
       };
     },
-    'Fn::ImportValue': (value) => ({
+    [INTRINSIC_NAME_MAP.importValue]: (value) => ({
       type: 'intrinsic',
       fn: 'importValue',
       export: parseExpression(value),
     }),
-    'Fn::Join': (value) => {
+    [INTRINSIC_NAME_MAP.join]: (value) => {
       const xs = assertList(value, [2]);
       return {
         type: 'intrinsic',
@@ -372,7 +380,7 @@ export function parseExpression(x: unknown): TemplateExpression {
         list: parseListIntrinsic(xs[1]),
       };
     },
-    'Fn::Select': (value) => {
+    [INTRINSIC_NAME_MAP.select]: (value) => {
       const xs = assertList(value, [2]);
       return {
         type: 'intrinsic',
@@ -381,7 +389,7 @@ export function parseExpression(x: unknown): TemplateExpression {
         objects: parseListIntrinsic(xs[1]),
       };
     },
-    'Fn::Split': (value) => {
+    [INTRINSIC_NAME_MAP.split]: (value) => {
       const xs = assertList(value, [2]);
       return {
         type: 'intrinsic',
@@ -390,7 +398,7 @@ export function parseExpression(x: unknown): TemplateExpression {
         value: parseExpression(xs[1]),
       };
     },
-    'Fn::Sub': (value) => {
+    [INTRINSIC_NAME_MAP.sub]: (value) => {
       let pattern: string;
       let context: Record<string, TemplateExpression>;
       if (typeof value === 'string') {
@@ -412,7 +420,7 @@ export function parseExpression(x: unknown): TemplateExpression {
         additionalContext: context,
       };
     },
-    'Fn::Transform': (value) => {
+    [INTRINSIC_NAME_MAP.transform]: (value) => {
       const fields = assertObject(value);
 
       const parameters = parseObject(assertField(fields, 'Parameters'));
@@ -423,28 +431,28 @@ export function parseExpression(x: unknown): TemplateExpression {
         parameters,
       };
     },
-    'Fn::And': (value) => {
+    [INTRINSIC_NAME_MAP.and]: (value) => {
       return {
         type: 'intrinsic',
         fn: 'and',
         operands: assertList(value).map(parseExpression),
       };
     },
-    'Fn::Or': (value) => {
+    [INTRINSIC_NAME_MAP.or]: (value) => {
       return {
         type: 'intrinsic',
         fn: 'or',
         operands: assertList(value).map(parseExpression),
       };
     },
-    'Fn::Not': (value) => {
+    [INTRINSIC_NAME_MAP.not]: (value) => {
       return {
         type: 'intrinsic',
         fn: 'not',
         operand: parseExpression(value),
       };
     },
-    'Fn::Equals': (value) => {
+    [INTRINSIC_NAME_MAP.equals]: (value) => {
       const [x1, x2] = assertList(value, [2]);
       return {
         type: 'intrinsic',
@@ -453,21 +461,21 @@ export function parseExpression(x: unknown): TemplateExpression {
         value2: parseExpression(x2),
       };
     },
-    'CDK::Args': (value) => {
+    [INTRINSIC_NAME_MAP.args]: (value) => {
       return {
         type: 'intrinsic',
         fn: 'args',
         array: assertList(value).map(parseExpression),
       };
     },
-    'Fn::Length': (value) => {
+    [INTRINSIC_NAME_MAP.length]: (value) => {
       return {
         type: 'intrinsic',
         fn: 'length',
         list: parseListIntrinsic(value),
       };
     },
-    'Fn::ToJsonString': (value) => {
+    [INTRINSIC_NAME_MAP.toJsonString]: (value) => {
       return {
         type: 'intrinsic',
         fn: 'toJsonString',

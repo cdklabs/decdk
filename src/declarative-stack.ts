@@ -1,8 +1,8 @@
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as reflect from 'jsii-reflect';
+import { AnnotationsContext, DeclarativeStackError } from './error-handling';
 import { EvaluationContext, Evaluator } from './evaluate';
-import { AnnotationsContext, DeclarativeStackError } from './evaluate/errors';
 import { Template } from './parser/template';
 import { TypedTemplate } from './type-resolution/template';
 // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -43,7 +43,6 @@ export class DeclarativeStack extends cdk.Stack {
       stack: this,
       template,
       typeSystem,
-      annotations,
     });
     const ev = new Evaluator(context);
 
@@ -51,8 +50,8 @@ export class DeclarativeStack extends cdk.Stack {
       ev.evaluateTemplate(annotations);
     });
 
-    if (context.annotations.hasErrors()) {
-      throw new DeclarativeStackError(context.annotations);
+    if (annotations.hasErrors()) {
+      throw new DeclarativeStackError(annotations);
     }
   }
 }

@@ -1,5 +1,4 @@
 import * as reflect from 'jsii-reflect';
-import { SyntaxError } from '../parser/private/types';
 import { IntrinsicExpression, TemplateExpression } from '../parser/template';
 
 export interface AnyTemplateExpression {

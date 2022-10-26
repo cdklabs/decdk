@@ -1,7 +1,7 @@
 import * as cdk from 'aws-cdk-lib';
 import { Stack, Stage } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import { assertObject, SyntaxError } from '../parser/private/types';
+import { assertObject } from '../parser/private/types';
 
 function isPropertyOf(
   instance: Record<string, unknown>,

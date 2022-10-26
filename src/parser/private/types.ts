@@ -1,13 +1,5 @@
 import { RetentionPolicy } from '../template';
 
-export class SyntaxError extends Error {
-  constructor(msg: string) {
-    super(msg);
-    this.name = 'SyntaxError';
-    Object.setPrototypeOf(this, SyntaxError.prototype);
-  }
-}
-
 export function parseNumber(asString: string | number) {
   const asNumber = parseInt(`${asString}`, 10);
   if (`${asNumber}` !== `${asString}`) {

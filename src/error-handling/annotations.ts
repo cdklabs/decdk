@@ -1,30 +1,4 @@
-export class DeclarativeStackError extends Error {
-  constructor(public readonly annotations: AnnotationsContext) {
-    super();
-    this.name = 'Declarative CDK Errors';
-    Object.setPrototypeOf(this, DeclarativeStackError.prototype);
-  }
-
-  public toString() {
-    return `${this.name}:\n\n${this.annotations.toString()}`;
-  }
-}
-
-export class RuntimeError extends Error {
-  constructor(msg: string) {
-    super(msg);
-    this.name = 'RuntimeError';
-    Object.setPrototypeOf(this, RuntimeError.prototype);
-  }
-}
-
-class AnnotatedError {
-  constructor(public readonly path: string, public readonly error: Error) {}
-
-  public toString() {
-    return `[${this.path}] ${this.error}`;
-  }
-}
+import { AnnotatedError } from './errors';
 
 export class AnnotationsContext {
   public static root(): AnnotationsContext {
@@ -61,9 +35,9 @@ export class AnnotationsContext {
     return new AnnotationsContext(this, path);
   }
 
-  public wrap(fn: (ctx: AnnotationsContext) => void) {
+  public wrap<T>(fn: (ctx: AnnotationsContext) => T): T | void {
     try {
-      fn(this);
+      return fn(this);
     } catch (error) {
       this.error(error as any);
     }
@@ -77,7 +51,7 @@ export class AnnotationsContext {
     logger(this.toString());
   }
 
-  public toString() {
-    return this.errors.map((e) => e.toString()).join('\n');
+  public toString(printStackStrace = false) {
+    return this.errors.map((e) => e.toString(printStackStrace)).join('\n');
   }
 }

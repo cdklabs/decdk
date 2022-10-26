@@ -1,5 +1,4 @@
 import * as reflect from 'jsii-reflect';
-import { SyntaxError } from '../parser/private/types';
 import { TemplateExpression } from '../parser/template/expression';
 import { TypedTemplateExpression } from './expression';
 import { resolveExpressionType } from './resolve';

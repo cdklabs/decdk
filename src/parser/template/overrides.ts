@@ -5,7 +5,6 @@ import {
   assertObject,
   assertString,
   assertTrue,
-  SyntaxError,
 } from '../private/types';
 import { ifField, parseExpression, TemplateExpression } from './expression';
 
