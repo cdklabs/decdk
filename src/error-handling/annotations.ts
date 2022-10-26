@@ -6,16 +6,19 @@ export class AnnotationsContext {
   }
 
   public readonly children = new Array<AnnotationsContext>();
-  public readonly path: string;
+  public readonly path: string[] = [];
   public readonly parent?: AnnotationsContext;
   private readonly _errorsStack: AnnotatedError[] = [];
 
   private constructor(parent?: AnnotationsContext, path?: string) {
-    this.path = path || '';
     if (parent) {
-      this.path = parent.path ? parent.path + '.' + this.path : this.path;
+      this.path.push(...parent.path);
       this.parent = parent;
       parent.children.push(this);
+    }
+
+    if (path) {
+      this.path.push(path);
     }
   }
 
@@ -47,11 +50,7 @@ export class AnnotationsContext {
     this._errorsStack.push(new AnnotatedError(this.path, error));
   }
 
-  public printErrors(logger: Console['log']) {
-    logger(this.toString());
-  }
-
   public toString(printStackStrace = false) {
-    return this.errors.map((e) => e.toString(printStackStrace)).join('\n');
+    return this.errors.map((e) => e.toString(printStackStrace)).join('\n\n');
   }
 }

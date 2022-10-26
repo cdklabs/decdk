@@ -16,9 +16,16 @@ export class DeclarativeStackError extends Error {
  * Thrown by the Evaluator
  */
 export class RuntimeError extends Error {
-  constructor(msg: string) {
-    super(msg);
+  public static wrap(error: any) {
+    return new RuntimeError(error.message, error.stack);
+  }
+
+  constructor(message: string, stack?: string) {
+    super(message);
     this.name = 'RuntimeError';
+    if (stack) {
+      this.stack = stack;
+    }
     Object.setPrototypeOf(this, RuntimeError.prototype);
   }
 }
@@ -27,9 +34,15 @@ export class RuntimeError extends Error {
  * Annotation any Error with additional info
  */
 export class AnnotatedError {
-  constructor(public readonly path: string, public readonly error: Error) {}
+  constructor(public readonly stack: string[], public readonly error: Error) {}
 
   public toString(printStackStrace = false) {
-    return `[${this.path}] ${printStackStrace ? this.error.stack : this.error}`;
+    return `[${this.error.name} at ${this.renderStack()}]\n    ${
+      printStackStrace ? this.error.stack : this.error.message
+    }`;
+  }
+
+  protected renderStack() {
+    return this.stack.map((s) => (s.includes('.') ? `"${s}"` : s)).join('.');
   }
 }

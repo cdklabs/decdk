@@ -234,7 +234,7 @@ export class Evaluator {
           return this.invoke(x, ctx);
       }
     } catch (error) {
-      ctx.error(new RuntimeError((error as any).message));
+      ctx.error(RuntimeError.wrap(error));
     }
   }
 
