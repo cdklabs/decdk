@@ -1,5 +1,6 @@
 import * as cdk from 'aws-cdk-lib';
 import * as reflect from 'jsii-reflect';
+import { RuntimeError } from '../error-handling';
 import { TypedTemplate } from '../type-resolution/template';
 import { InstanceReference, Reference, References } from './references';
 
@@ -47,7 +48,7 @@ export class EvaluationContext {
   public reference(logicalId: string): Reference {
     const r = this.availableRefs.get(logicalId);
     if (!r) {
-      throw new Error(`No resource or parameter with name: ${logicalId}`);
+      throw new RuntimeError(`No such Resource or Parameter: ${logicalId}`);
     }
     return r;
   }
@@ -55,7 +56,7 @@ export class EvaluationContext {
   public mapping(mappingName: string) {
     const map = this.template?.mappings?.get(mappingName);
     if (!map) {
-      throw new Error(`No such Mapping: ${mappingName}`);
+      throw new RuntimeError(`No such Mapping: ${mappingName}`);
     }
     return map;
   }
@@ -63,7 +64,7 @@ export class EvaluationContext {
   public condition(conditionName: string) {
     const condition = this.template?.conditions?.get(conditionName);
     if (!condition) {
-      throw new Error(`No such condition: ${conditionName}`);
+      throw new RuntimeError(`No such condition: ${conditionName}`);
     }
     return condition;
   }
@@ -84,7 +85,7 @@ export class EvaluationContext {
       }
       curr = curr[next];
       if (!curr) {
-        throw new Error(`unable to resolve class ${className}`);
+        throw new RuntimeError(`Class not found: ${fqn}`);
       }
     }
 

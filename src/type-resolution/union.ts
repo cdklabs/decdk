@@ -1,5 +1,4 @@
 import * as reflect from 'jsii-reflect';
-import { ParserError } from '../parser/private/types';
 import { TemplateExpression } from '../parser/template/expression';
 import { TypedTemplateExpression } from './expression';
 import { resolveExpressionType } from './resolve';
@@ -8,12 +7,12 @@ export function resolveUnionOfTypesExpression(
   x: TemplateExpression,
   unionTypeRefs: reflect.TypeReference[]
 ): TypedTemplateExpression {
-  const errors = new Array<TypeError | ParserError>();
+  const errors = new Array<TypeError | SyntaxError>();
   for (const typeRef of unionTypeRefs) {
     try {
       return resolveExpressionType(x, typeRef);
     } catch (e) {
-      if (!(e instanceof TypeError || e instanceof ParserError)) {
+      if (!(e instanceof TypeError || e instanceof SyntaxError)) {
         throw e;
       }
       errors.push(e);

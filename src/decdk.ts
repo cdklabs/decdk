@@ -2,7 +2,10 @@ import * as cdk from 'aws-cdk-lib';
 import chalk from 'chalk';
 import yargs from 'yargs';
 import { DeclarativeStack } from './declarative-stack';
+import { DeclarativeStackError } from './error-handling';
 import { loadTypeSystem, readTemplate, stackNameFromFileName } from './util';
+
+let verbosity = 0;
 
 async function main() {
   const argv = await yargs
@@ -10,7 +13,14 @@ async function main() {
       '$0 <filename>',
       'Synthesize a CDK stack from a declarative JSON or YAML template'
     )
+    .option('verbose', {
+      alias: 'v',
+      type: 'count',
+      description: 'Show debug output. Repeat to increase verbosity.',
+    })
     .positional('filename', { type: 'string', required: true }).argv;
+
+  verbosity = argv.verbose;
 
   const templateFile = argv.filename;
   if (!templateFile) {
@@ -35,6 +45,9 @@ async function main() {
 }
 
 main().catch((e) => {
+  if (e instanceof DeclarativeStackError) {
+    e = e.toString(verbosity >= 1);
+  }
   // eslint-disable-next-line no-console
   console.error(chalk.red(e));
   process.exit(1);

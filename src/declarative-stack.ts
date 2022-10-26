@@ -1,6 +1,7 @@
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as reflect from 'jsii-reflect';
+import { AnnotationsContext, DeclarativeStackError } from './error-handling';
 import { EvaluationContext, Evaluator } from './evaluate';
 import { Template } from './parser/template';
 import { TypedTemplate } from './type-resolution/template';
@@ -37,6 +38,7 @@ export class DeclarativeStack extends cdk.Stack {
       };
     })(this, '$decdkAnalytics');
 
+    const annotations = AnnotationsContext.root();
     const context = new EvaluationContext({
       stack: this,
       template,
@@ -45,8 +47,12 @@ export class DeclarativeStack extends cdk.Stack {
     const ev = new Evaluator(context);
 
     _cwd(props.workingDirectory, () => {
-      ev.evaluateTemplate();
+      ev.evaluateTemplate(annotations);
     });
+
+    if (annotations.hasErrors()) {
+      throw new DeclarativeStackError(annotations);
+    }
   }
 }
 

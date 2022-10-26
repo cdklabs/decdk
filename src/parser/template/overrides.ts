@@ -5,7 +5,6 @@ import {
   assertObject,
   assertString,
   assertTrue,
-  ParserError,
 } from '../private/types';
 import { ifField, parseExpression, TemplateExpression } from './expression';
 
@@ -53,7 +52,7 @@ function parseOverride(x: unknown): ResourceOverride {
     case 'RemoveResource':
       return parseRemoveResource(override);
     default:
-      throw new ParserError('Unexpected Error');
+      throw new SyntaxError('Unexpected Error');
   }
 }
 
