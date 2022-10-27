@@ -18,11 +18,6 @@ TypedTemplate {
         "MyApi",
       },
     },
-    "keys": Set {
-      "HelloLambda",
-      "MyApi",
-      "GetRoot",
-    },
     "nodes": Object {
       "GetRoot": Object {
         "dependsOn": Array [],
@@ -284,10 +279,6 @@ TypedTemplate {
       "ASG" => Set {
         "VPC",
       },
-      "AModestLoad" => Set {
-        "Target",
-        "ASG",
-      },
       "LB" => Set {
         "VPC",
       },
@@ -301,15 +292,10 @@ TypedTemplate {
       "AllowFromEverywhere" => Set {
         "Listener",
       },
-    },
-    "keys": Set {
-      "VPC",
-      "ASG",
-      "LB",
-      "Listener",
-      "Target",
-      "AllowFromEverywhere",
-      "AModestLoad",
+      "AModestLoad" => Set {
+        "Target",
+        "ASG",
+      },
     },
     "nodes": Object {
       "AModestLoad": Object {
@@ -941,10 +927,10 @@ TypedTemplate {
   "resources": DependencyGraph {
     "_dependencies": Map {
       "VPC" => Set {},
+      "MyTaskDef" => Set {},
       "Cluster" => Set {
         "VPC",
       },
-      "MyTaskDef" => Set {},
       "ContainerDef" => Set {
         "MyTaskDef",
       },
@@ -952,13 +938,6 @@ TypedTemplate {
         "Cluster",
         "MyTaskDef",
       },
-    },
-    "keys": Set {
-      "VPC",
-      "MyTaskDef",
-      "Cluster",
-      "ContainerDef",
-      "Service",
     },
     "nodes": Object {
       "Cluster": Object {
@@ -1356,10 +1335,6 @@ TypedTemplate {
         "MyVpc",
       },
     },
-    "keys": Set {
-      "MyVpc",
-      "MyFleet",
-    },
     "nodes": Object {
       "MyFleet": Object {
         "dependsOn": Array [],
@@ -1598,10 +1573,6 @@ TypedTemplate {
       "ProxyResource" => Set {
         "ProxyApi",
       },
-    },
-    "keys": Set {
-      "ProxyApi",
-      "ProxyResource",
     },
     "nodes": Object {
       "ProxyApi": Object {
@@ -2048,15 +2019,6 @@ TypedTemplate {
         "Throttles",
         "SampleLambda",
       },
-    },
-    "keys": Set {
-      "SampleLambda",
-      "Invocations",
-      "Errors",
-      "Duration",
-      "Throttles",
-      "TitleWidget",
-      "ServiceDashboard",
     },
     "nodes": Object {
       "Duration": Object {
@@ -3052,11 +3014,6 @@ TypedTemplate {
         "MyTopic",
       },
     },
-    "keys": Set {
-      "MyTopic",
-      "Table",
-      "HelloWorldFunction",
-    },
     "nodes": Object {
       "HelloWorldFunction": Object {
         "dependsOn": Array [],
@@ -3519,10 +3476,6 @@ TypedTemplate {
         "AwsCliLayer",
       },
     },
-    "keys": Set {
-      "AwsCliLayer",
-      "Lambda",
-    },
     "nodes": Object {
       "AwsCliLayer": Object {
         "dependsOn": Array [],
@@ -3731,14 +3684,10 @@ TypedTemplate {
   },
   "resources": DependencyGraph {
     "_dependencies": Map {
+      "MyBucket" => Set {},
       "MyLambda" => Set {
         "MyBucket",
       },
-      "MyBucket" => Set {},
-    },
-    "keys": Set {
-      "MyBucket",
-      "MyLambda",
     },
     "nodes": Object {
       "MyBucket": Object {
@@ -4140,10 +4089,6 @@ TypedTemplate {
         "Topic",
       },
     },
-    "keys": Set {
-      "Topic",
-      "Lambda",
-    },
     "nodes": Object {
       "Lambda": Object {
         "dependsOn": Array [],
@@ -4347,24 +4292,18 @@ TypedTemplate {
   "parameters": Map {},
   "resources": DependencyGraph {
     "_dependencies": Map {
+      "Key" => Set {},
+      "BuildProject" => Set {
+        "Key",
+      },
       "Repo" => Set {
         "Key",
         "BuildProject",
       },
-      "BuildProject" => Set {
-        "Key",
-      },
-      "Key" => Set {},
       "Pipeline" => Set {
         "Repo",
         "BuildProject",
       },
-    },
-    "keys": Set {
-      "Key",
-      "BuildProject",
-      "Repo",
-      "Pipeline",
     },
     "nodes": Object {
       "BuildProject": Object {
@@ -5024,11 +4963,11 @@ TypedTemplate {
     "_dependencies": Map {
       "CloudFrontOAI" => Set {},
       "SiteBucket" => Set {},
+      "HostedZone" => Set {},
       "SiteBucketAccess" => Set {
         "CloudFrontOAI",
         "SiteBucket",
       },
-      "HostedZone" => Set {},
       "SiteCertificate" => Set {
         "HostedZone",
       },
@@ -5045,16 +4984,6 @@ TypedTemplate {
         "SiteBucket",
         "SiteDistribution",
       },
-    },
-    "keys": Set {
-      "CloudFrontOAI",
-      "SiteBucket",
-      "HostedZone",
-      "SiteBucketAccess",
-      "SiteCertificate",
-      "SiteDistribution",
-      "SiteAliasRecord",
-      "SiteDeployment",
     },
     "nodes": Object {
       "CloudFrontOAI": Object {
@@ -6165,9 +6094,6 @@ TypedTemplate {
     "_dependencies": Map {
       "VPC" => Set {},
     },
-    "keys": Set {
-      "VPC",
-    },
     "nodes": Object {
       "VPC": Object {
         "dependsOn": Array [],
@@ -6560,14 +6486,9 @@ TypedTemplate {
   },
   "resources": DependencyGraph {
     "_dependencies": Map {
-      "WebServerGroup" => Set {
-        "LaunchConfig",
-        "ALBTargetGroup",
-      },
-      "LaunchConfig" => Set {
-        "InstanceSecurityGroup",
-      },
       "ELBSecurityGroup" => Set {},
+      "ALBTargetGroup" => Set {},
+      "Dashboard" => Set {},
       "ApplicationLoadBalancer" => Set {
         "ELBSecurityGroup",
       },
@@ -6575,28 +6496,23 @@ TypedTemplate {
         "ALBTargetGroup",
         "ApplicationLoadBalancer",
       },
-      "ALBTargetGroup" => Set {},
       "InstanceSecurityGroup" => Set {
         "ApplicationLoadBalancer",
       },
       "RecordSet" => Set {
         "ApplicationLoadBalancer",
       },
-      "Dashboard" => Set {},
-    },
-    "keys": Set {
-      "ELBSecurityGroup",
-      "ALBTargetGroup",
-      "Dashboard",
-      "ApplicationLoadBalancer",
-      "ALBListener",
-      "InstanceSecurityGroup",
-      "RecordSet",
-      "LaunchConfig",
-      "WebServerGroup",
+      "LaunchConfig" => Set {
+        "InstanceSecurityGroup",
+      },
+      "WebServerGroup" => Set {
+        "LaunchConfig",
+        "ALBTargetGroup",
+      },
     },
     "nodes": Object {
       "ALBListener": Object {
+        "cfnType": "AWS::ElasticLoadBalancingV2::Listener",
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependsOn": Array [],
@@ -6714,6 +6630,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
       "ALBTargetGroup": Object {
+        "cfnType": "AWS::ElasticLoadBalancingV2::TargetGroup",
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependsOn": Array [],
@@ -6791,6 +6708,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
       "ApplicationLoadBalancer": Object {
+        "cfnType": "AWS::ElasticLoadBalancingV2::LoadBalancer",
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependsOn": Array [],
@@ -6839,6 +6757,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
       "Dashboard": Object {
+        "cfnType": "AWS::CloudWatch::Dashboard",
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependsOn": Array [],
@@ -6932,6 +6851,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
       "ELBSecurityGroup": Object {
+        "cfnType": "AWS::EC2::SecurityGroup",
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependsOn": Array [],
@@ -7029,6 +6949,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
       "InstanceSecurityGroup": Object {
+        "cfnType": "AWS::EC2::SecurityGroup",
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependsOn": Array [],
@@ -7135,6 +7056,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
       "LaunchConfig": Object {
+        "cfnType": "AWS::AutoScaling::LaunchConfiguration",
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependsOn": Array [],
@@ -7401,6 +7323,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
       "RecordSet": Object {
+        "cfnType": "AWS::Route53::RecordSetGroup",
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependsOn": Array [],
@@ -7539,6 +7462,7 @@ TypedTemplate {
         "updateReplacePolicy": "Delete",
       },
       "WebServerGroup": Object {
+        "cfnType": "AWS::AutoScaling::AutoScalingGroup",
         "creationPolicy": Object {
           "fields": Object {
             "ResourceSignal": Object {
@@ -9763,14 +9687,10 @@ TypedTemplate {
   },
   "resources": DependencyGraph {
     "_dependencies": Map {
+      "MyBucket" => Set {},
       "MyLambda" => Set {
         "MyBucket",
       },
-      "MyBucket" => Set {},
-    },
-    "keys": Set {
-      "MyBucket",
-      "MyLambda",
     },
     "nodes": Object {
       "MyBucket": Object {
@@ -10309,11 +10229,9 @@ TypedTemplate {
     "_dependencies": Map {
       "myEC2Instance" => Set {},
     },
-    "keys": Set {
-      "myEC2Instance",
-    },
     "nodes": Object {
       "myEC2Instance": Object {
+        "cfnType": "AWS::EC2::Instance",
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependsOn": Array [],
@@ -10490,9 +10408,6 @@ TypedTemplate {
     "_dependencies": Map {
       "MyQueue" => Set {},
     },
-    "keys": Set {
-      "MyQueue",
-    },
     "nodes": Object {
       "MyQueue": Object {
         "dependsOn": Array [],
@@ -10625,10 +10540,6 @@ TypedTemplate {
       "Lambda" => Set {
         "Topic",
       },
-    },
-    "keys": Set {
-      "Topic",
-      "Lambda",
     },
     "nodes": Object {
       "Lambda": Object {
@@ -10903,11 +10814,6 @@ TypedTemplate {
       "GetRoot" => Set {
         "MyApi",
       },
-    },
-    "keys": Set {
-      "HelloLambda",
-      "MyApi",
-      "GetRoot",
     },
     "nodes": Object {
       "GetRoot": Object {
@@ -11225,9 +11131,6 @@ TypedTemplate {
     "_dependencies": Map {
       "Bucket" => Set {},
     },
-    "keys": Set {
-      "Bucket",
-    },
     "nodes": Object {
       "Bucket": Object {
         "dependsOn": Array [],
@@ -11481,17 +11384,14 @@ TypedTemplate {
   "parameters": Map {},
   "resources": DependencyGraph {
     "_dependencies": Map {
+      "LaunchConfig" => Set {},
       "AutoScalingGroup" => Set {
         "LaunchConfig",
       },
-      "LaunchConfig" => Set {},
-    },
-    "keys": Set {
-      "LaunchConfig",
-      "AutoScalingGroup",
     },
     "nodes": Object {
       "AutoScalingGroup": Object {
+        "cfnType": "AWS::AutoScaling::AutoScalingGroup",
         "creationPolicy": Object {
           "fields": Object {
             "AutoScalingCreationPolicy": Object {
@@ -11674,6 +11574,7 @@ TypedTemplate {
         "updateReplacePolicy": "Retain",
       },
       "LaunchConfig": Object {
+        "cfnType": "AWS::AutoScaling::LaunchConfiguration",
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
         "dependsOn": Array [],
@@ -12084,9 +11985,6 @@ TypedTemplate {
     "_dependencies": Map {
       "MyQueue" => Set {},
     },
-    "keys": Set {
-      "MyQueue",
-    },
     "nodes": Object {
       "MyQueue": Object {
         "dependsOn": Array [],
@@ -12183,9 +12081,6 @@ TypedTemplate {
   "resources": DependencyGraph {
     "_dependencies": Map {
       "MyQueue" => Set {},
-    },
-    "keys": Set {
-      "MyQueue",
     },
     "nodes": Object {
       "MyQueue": Object {
@@ -12313,9 +12208,6 @@ TypedTemplate {
   "resources": DependencyGraph {
     "_dependencies": Map {
       "Lambda" => Set {},
-    },
-    "keys": Set {
-      "Lambda",
     },
     "nodes": Object {
       "Lambda": Object {
@@ -12470,11 +12362,6 @@ TypedTemplate {
         "Table",
         "MyTopic",
       },
-    },
-    "keys": Set {
-      "MyTopic",
-      "Table",
-      "HelloWorldFunction",
     },
     "nodes": Object {
       "HelloWorldFunction": Object {
@@ -12969,10 +12856,6 @@ TypedTemplate {
         "MyBucket",
       },
     },
-    "keys": Set {
-      "MyBucket",
-      "MyLambda",
-    },
     "nodes": Object {
       "MyBucket": Object {
         "dependsOn": Array [],
@@ -13252,18 +13135,19 @@ TypedTemplate {
   "resources": DependencyGraph {
     "_dependencies": Map {
       "SourceBucket" => Set {},
+      "ReadBucket" => Set {},
+      "WriteBucket" => Set {},
+      "User" => Set {},
       "BusinessLogic" => Set {
         "SourceBucket",
       },
       "MyFunction" => Set {
         "BusinessLogic",
       },
-      "ReadBucket" => Set {},
       "GrantRead" => Set {
         "MyFunction",
         "ReadBucket",
       },
-      "WriteBucket" => Set {},
       "GrantWrite" => Set {
         "MyFunction",
         "WriteBucket",
@@ -13271,27 +13155,13 @@ TypedTemplate {
       "Alias" => Set {
         "MyFunction",
       },
-      "ConfigureAsyncInvokeStatement" => Set {
-        "Alias",
-      },
-      "User" => Set {},
       "GrantLogGroupAccess" => Set {
         "User",
         "MyFunction",
       },
-    },
-    "keys": Set {
-      "SourceBucket",
-      "ReadBucket",
-      "WriteBucket",
-      "User",
-      "BusinessLogic",
-      "MyFunction",
-      "GrantRead",
-      "GrantWrite",
-      "Alias",
-      "GrantLogGroupAccess",
-      "ConfigureAsyncInvokeStatement",
+      "ConfigureAsyncInvokeStatement" => Set {
+        "Alias",
+      },
     },
     "nodes": Object {
       "Alias": Object {
@@ -14126,15 +13996,6 @@ TypedTemplate {
         "Throttles",
         "SampleLambda",
       },
-    },
-    "keys": Set {
-      "SampleLambda",
-      "Invocations",
-      "Errors",
-      "Duration",
-      "Throttles",
-      "TitleWidget",
-      "ServiceDashboard",
     },
     "nodes": Object {
       "Duration": Object {

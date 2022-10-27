@@ -2,7 +2,6 @@ import * as reflect from 'jsii-reflect';
 import {
   ObjectLiteral,
   RetentionPolicy,
-  Template,
   TemplateResource,
 } from '../parser/template';
 import { FactoryMethodCall } from '../parser/template/calls';
@@ -14,7 +13,7 @@ import {
   StaticMethodCallExpression,
 } from './callables';
 import { isExpressionShaped, TypedTemplateExpression } from './expression';
-import { resolveExpressionType } from './resolve';
+import { resolveExpressionType, TypeResolutionContext } from './resolve';
 
 export type ResourceLike =
   | CfnResource
@@ -31,6 +30,7 @@ interface BaseResourceLike {
 export interface CfnResource extends BaseResourceLike {
   readonly fqn: string;
   readonly type: 'resource';
+  readonly cfnType: string;
   readonly props: TypedTemplateExpression;
   readonly creationPolicy?: TypedTemplateExpression;
   readonly deletionPolicy?: RetentionPolicy;
@@ -62,32 +62,31 @@ export function isCdkConstructExpression(x: unknown): x is CdkConstruct {
 }
 
 export function resolveResourceLike(
-  template: Template,
-  resource: TemplateResource,
   logicalId: string,
-  typeSystem: reflect.TypeSystem
+  resource: TemplateResource,
+  ctx: TypeResolutionContext
 ): ResourceLike {
+  const { typeSystem } = ctx;
+
   if (isCfnResource(resource)) {
-    return resolveCfnResource(
-      resource,
-      logicalId,
-      typeSystem.findFqn('aws-cdk-lib.CfnResource') as reflect.ClassType
-    );
+    const type = ctx.typeSystem.findClass('aws-cdk-lib.CfnResource');
+    return resolveCfnResource(logicalId, resource, type);
   }
 
-  const type = resource.type ? typeSystem.findFqn(resource.type) : undefined;
   if (isLazyResource(resource)) {
-    return replaceLogicalIds(
-      resolveLazyResource(template, resource, logicalId, typeSystem, type)
-    );
+    return replaceLogicalIds(resolveLazyResource(logicalId, resource, ctx));
   }
 
-  if (isConstruct(type)) {
-    return replaceLogicalIds(resolveCdkConstruct(resource, logicalId, type));
-  }
+  if (resource.type) {
+    const type = typeSystem.findFqn(resource.type);
 
-  if (isCdkObject(type)) {
-    return resolveCdkObject(resource, logicalId, type);
+    if (isConstruct(type)) {
+      return replaceLogicalIds(resolveCdkConstruct(logicalId, resource, type));
+    }
+
+    if (isCdkObject(type)) {
+      return resolveCdkObject(logicalId, resource, type);
+    }
   }
 
   throw new TypeError(
@@ -171,20 +170,15 @@ function replaceLogicalIds<X extends TypedTemplateExpression>(
 }
 
 function resolveLazyResource(
-  template: Template,
-  resource: TemplateResource & Required<Pick<TemplateResource, 'call'>>,
   logicalId: string,
-  typeSystem: reflect.TypeSystem,
-  type?: reflect.Type
+  resource: TemplateResource & Required<Pick<TemplateResource, 'call'>>,
+  ctx: TypeResolutionContext
 ): LazyResource {
+  const type = ctx.typeSystem.tryFindFqn(resource.type ?? '');
+
   const call = isInstanceMethodCall(resource.call)
-    ? resolveInstanceMethodCallExpression(
-        template,
-        resource.call,
-        typeSystem,
-        type
-      )
-    : resolveStaticMethodCallExpression(resource.call, typeSystem, type);
+    ? resolveInstanceMethodCallExpression(resource.call, ctx, type)
+    : resolveStaticMethodCallExpression(resource.call, ctx.typeSystem, type);
 
   return {
     type: 'lazyResource',
@@ -197,15 +191,9 @@ function resolveLazyResource(
   };
 }
 
-function isInstanceMethodCall(
-  c: FactoryMethodCall
-): c is Required<FactoryMethodCall> {
-  return c.target != null;
-}
-
 function resolveCfnResource(
-  resource: TemplateResource,
   logicalId: string,
+  resource: TemplateResource,
   type: reflect.ClassType
 ): CfnResource {
   const propsExpressions: ObjectLiteral = {
@@ -224,6 +212,7 @@ function resolveCfnResource(
 
   return {
     type: 'resource',
+    cfnType: resource.type!,
     logicalId,
     namespace: type.namespace,
     fqn: type.fqn,
@@ -242,8 +231,8 @@ function resolveCfnResource(
 }
 
 function resolveCdkConstruct(
-  resource: TemplateResource,
   logicalId: string,
+  resource: TemplateResource,
   type: reflect.ClassType
 ): CdkConstruct {
   const [_scopeParam, _idParam, propsParam] =
@@ -269,8 +258,8 @@ function resolveCdkConstruct(
 }
 
 function resolveCdkObject(
-  resource: TemplateResource,
   logicalId: string,
+  resource: TemplateResource,
   type: reflect.ClassType
 ): CdkObject {
   const [propsParam] = type.initializer?.parameters ?? [];
@@ -291,6 +280,12 @@ function resolveCdkObject(
       ? resolveExpressionType(propsExpressions, propsParam.type)
       : { type: 'void' },
   };
+}
+
+function isInstanceMethodCall(
+  c: FactoryMethodCall
+): c is Required<FactoryMethodCall> {
+  return c.target != null;
 }
 
 export function isCfnResource(resource: TemplateResource) {

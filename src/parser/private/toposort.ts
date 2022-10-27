@@ -1,9 +1,7 @@
 export class DependencyGraph<A> {
-  public readonly keys = new Set(Object.keys(this.nodes));
-
   constructor(
-    private readonly nodes: Record<string, A>,
-    private readonly _dependencies: Map<string, Set<string>>
+    private readonly nodes: Record<string, A> = {},
+    private readonly _dependencies: Map<string, Set<string>> = new Map()
   ) {
     // Restrict dependencies to only keys in nodes
     for (const [name, deps] of this._dependencies.entries()) {
@@ -90,6 +88,16 @@ export class DependencyGraph<A> {
   }
 
   /**
+   * Set a node in the graph
+   */
+  public setNode(key: string, node: A, deps?: Set<string>) {
+    this.nodes[key] = node;
+    if (deps) {
+      this._dependencies.set(key, intersect(deps, this.keys));
+    }
+  }
+
+  /**
    * Merge two graphs, return a new graph
    */
   public merge<B>(other: DependencyGraph<B>): DependencyGraph<A | B> {
@@ -109,6 +117,13 @@ export class DependencyGraph<A> {
    */
   public copy() {
     return new DependencyGraph({ ...this.nodes }, this.copyDependencies());
+  }
+
+  /**
+   * List all keys
+   */
+  public get keys() {
+    return new Set(Object.keys(this.nodes));
   }
 
   /**
