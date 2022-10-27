@@ -5615,7 +5615,10 @@ Object {
   },
   "Parameters": Object {
     "ProxyUrl": Object {
-      "Default": "https://aws.amazon.com/ko/",
+      "AllowedPattern": ".*[^\\\\/]$",
+      "ConstraintDescription": "MUST NOT end in a forward slash (\\"/\\")",
+      "Default": "https://example.com",
+      "Description": "The url to proxy",
       "Type": "String",
     },
   },
@@ -5627,9 +5630,32 @@ Object {
             "EDGE",
           ],
         },
-        "Name": "Hello",
+        "Name": "WebsiteProxy",
       },
       "Type": "AWS::ApiGateway::RestApi",
+    },
+    "ProxyApiANY510A7082": Object {
+      "Properties": Object {
+        "AuthorizationType": "NONE",
+        "HttpMethod": "ANY",
+        "Integration": Object {
+          "IntegrationHttpMethod": "GET",
+          "Type": "HTTP_PROXY",
+          "Uri": Object {
+            "Ref": "ProxyUrl",
+          },
+        },
+        "ResourceId": Object {
+          "Fn::GetAtt": Array [
+            "ProxyApi0DF2D7AE",
+            "RootResourceId",
+          ],
+        },
+        "RestApiId": Object {
+          "Ref": "ProxyApi0DF2D7AE",
+        },
+      },
+      "Type": "AWS::ApiGateway::Method",
     },
     "ProxyApiAccount987F032E": Object {
       "DeletionPolicy": "Retain",
@@ -5680,9 +5706,10 @@ Object {
       "Type": "AWS::IAM::Role",
       "UpdateReplacePolicy": "Retain",
     },
-    "ProxyApiDeployment6107D4F3d1a71147efeff25ca021f34ec61cf677": Object {
+    "ProxyApiDeployment6107D4F3d730c90b47744ccbd5536158d828ed86": Object {
       "DependsOn": Array [
-        "ProxyMethod54C3A837",
+        "ProxyApiANY510A7082",
+        "ProxyResourceANYD2521206",
         "ProxyResourceD65343FB",
       ],
       "Properties": Object {
@@ -5699,7 +5726,7 @@ Object {
       ],
       "Properties": Object {
         "DeploymentId": Object {
-          "Ref": "ProxyApiDeployment6107D4F3d1a71147efeff25ca021f34ec61cf677",
+          "Ref": "ProxyApiDeployment6107D4F3d730c90b47744ccbd5536158d828ed86",
         },
         "RestApiId": Object {
           "Ref": "ProxyApi0DF2D7AE",
@@ -5708,10 +5735,10 @@ Object {
       },
       "Type": "AWS::ApiGateway::Stage",
     },
-    "ProxyMethod54C3A837": Object {
+    "ProxyResourceANYD2521206": Object {
       "Properties": Object {
         "AuthorizationType": "NONE",
-        "HttpMethod": "GET",
+        "HttpMethod": "ANY",
         "Integration": Object {
           "IntegrationHttpMethod": "GET",
           "RequestParameters": Object {

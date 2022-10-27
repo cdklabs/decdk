@@ -1579,11 +1579,11 @@ TypedTemplate {
   "outputs": Map {},
   "parameters": Map {
     "ProxyUrl" => Object {
-      "allowedPattern": undefined,
+      "allowedPattern": ".*[^\\\\/]$",
       "allowedValues": undefined,
-      "constraintDescription": undefined,
-      "default": "https://aws.amazon.com/ko/",
-      "description": undefined,
+      "constraintDescription": "MUST NOT end in a forward slash (\\"/\\")",
+      "default": "https://example.com",
+      "description": "The url to proxy",
       "maxLength": undefined,
       "maxValue": undefined,
       "minLength": undefined,
@@ -1598,14 +1598,10 @@ TypedTemplate {
       "ProxyResource" => Set {
         "ProxyApi",
       },
-      "ProxyMethod" => Set {
-        "ProxyResource",
-      },
     },
     "keys": Set {
       "ProxyApi",
       "ProxyResource",
-      "ProxyMethod",
     },
     "nodes": Object {
       "ProxyApi": Object {
@@ -1616,6 +1612,24 @@ TypedTemplate {
         "overrides": Array [],
         "props": Object {
           "fields": Object {
+            "defaultIntegration": Object {
+              "args": Object {
+                "array": Array [
+                  Object {
+                    "fn": "ref",
+                    "logicalId": "ProxyUrl",
+                    "type": "intrinsic",
+                  },
+                  Object {
+                    "type": "void",
+                  },
+                ],
+                "type": "array",
+              },
+              "fqn": "aws-cdk-lib.aws_apigateway.HttpIntegration",
+              "namespace": "aws_apigateway",
+              "type": "initializer",
+            },
             "endpointConfiguration": Object {
               "fields": Object {
                 "types": Object {
@@ -1634,7 +1648,7 @@ TypedTemplate {
             },
             "restApiName": Object {
               "type": "string",
-              "value": "Hello",
+              "value": "WebsiteProxy",
             },
           },
           "type": "struct",
@@ -1642,19 +1656,19 @@ TypedTemplate {
         "tags": Array [],
         "type": "construct",
       },
-      "ProxyMethod": Object {
+      "ProxyResource": Object {
         "dependsOn": Array [],
-        "fqn": "aws-cdk-lib.aws_apigateway.Method",
-        "logicalId": "ProxyMethod",
+        "fqn": "aws-cdk-lib.aws_apigateway.ProxyResource",
+        "logicalId": "ProxyResource",
         "namespace": "aws_apigateway",
         "overrides": Array [],
         "props": Object {
           "fields": Object {
-            "httpMethod": Object {
-              "type": "string",
-              "value": "GET",
+            "anyMethod": Object {
+              "type": "boolean",
+              "value": true,
             },
-            "integration": Object {
+            "defaultIntegration": Object {
               "args": Object {
                 "array": Array [
                   Object {
@@ -1710,7 +1724,7 @@ TypedTemplate {
               "namespace": "aws_apigateway",
               "type": "initializer",
             },
-            "options": Object {
+            "defaultMethodOptions": Object {
               "fields": Object {
                 "requestParameters": Object {
                   "fields": Object {
@@ -1723,32 +1737,6 @@ TypedTemplate {
                 },
               },
               "type": "struct",
-            },
-            "resource": Object {
-              "reference": Object {
-                "fn": "ref",
-                "logicalId": "ProxyResource",
-                "type": "intrinsic",
-              },
-              "type": "resolve-reference",
-            },
-          },
-          "type": "struct",
-        },
-        "tags": Array [],
-        "type": "construct",
-      },
-      "ProxyResource": Object {
-        "dependsOn": Array [],
-        "fqn": "aws-cdk-lib.aws_apigateway.ProxyResource",
-        "logicalId": "ProxyResource",
-        "namespace": "aws_apigateway",
-        "overrides": Array [],
-        "props": Object {
-          "fields": Object {
-            "anyMethod": Object {
-              "type": "boolean",
-              "value": false,
             },
             "parent": Object {
               "reference": Object {
@@ -1777,11 +1765,11 @@ TypedTemplate {
     "outputs": Map {},
     "parameters": Map {
       "ProxyUrl" => Object {
-        "allowedPattern": undefined,
+        "allowedPattern": ".*[^\\\\/]$",
         "allowedValues": undefined,
-        "constraintDescription": undefined,
-        "default": "https://aws.amazon.com/ko/",
-        "description": undefined,
+        "constraintDescription": "MUST NOT end in a forward slash (\\"/\\")",
+        "default": "https://example.com",
+        "description": "The url to proxy",
         "maxLength": undefined,
         "maxValue": undefined,
         "minLength": undefined,
@@ -1796,11 +1784,23 @@ TypedTemplate {
         "conditionName": undefined,
         "creationPolicy": undefined,
         "deletionPolicy": "Delete",
-        "dependencies": Set {},
+        "dependencies": Set {
+          "ProxyUrl",
+        },
         "dependsOn": Set {},
         "metadata": Object {},
         "overrides": Array [],
         "properties": Object {
+          "defaultIntegration": Object {
+            "fields": Object {
+              "aws-cdk-lib.aws_apigateway.HttpIntegration": Object {
+                "fn": "ref",
+                "logicalId": "ProxyUrl",
+                "type": "intrinsic",
+              },
+            },
+            "type": "object",
+          },
           "endpointConfiguration": Object {
             "fields": Object {
               "types": Object {
@@ -1817,7 +1817,7 @@ TypedTemplate {
           },
           "restApiName": Object {
             "type": "string",
-            "value": "Hello",
+            "value": "WebsiteProxy",
           },
         },
         "tags": Array [],
@@ -1832,6 +1832,7 @@ TypedTemplate {
         "deletionPolicy": "Delete",
         "dependencies": Set {
           "ProxyApi",
+          "ProxyUrl",
         },
         "dependsOn": Set {},
         "metadata": Object {},
@@ -1839,38 +1840,9 @@ TypedTemplate {
         "properties": Object {
           "anyMethod": Object {
             "type": "boolean",
-            "value": false,
+            "value": true,
           },
-          "parent": Object {
-            "fn": "getProp",
-            "logicalId": "ProxyApi",
-            "property": "root",
-            "type": "intrinsic",
-          },
-        },
-        "tags": Array [],
-        "type": "aws-cdk-lib.aws_apigateway.ProxyResource",
-        "updatePolicy": undefined,
-        "updateReplacePolicy": "Delete",
-      },
-      "ProxyMethod" => Object {
-        "call": undefined,
-        "conditionName": undefined,
-        "creationPolicy": undefined,
-        "deletionPolicy": "Delete",
-        "dependencies": Set {
-          "ProxyResource",
-          "ProxyUrl",
-        },
-        "dependsOn": Set {},
-        "metadata": Object {},
-        "overrides": Array [],
-        "properties": Object {
-          "httpMethod": Object {
-            "type": "string",
-            "value": "GET",
-          },
-          "integration": Object {
+          "defaultIntegration": Object {
             "fields": Object {
               "aws-cdk-lib.aws_apigateway.HttpIntegration": Object {
                 "array": Array [
@@ -1926,7 +1898,7 @@ TypedTemplate {
             },
             "type": "object",
           },
-          "options": Object {
+          "defaultMethodOptions": Object {
             "fields": Object {
               "requestParameters": Object {
                 "fields": Object {
@@ -1940,14 +1912,15 @@ TypedTemplate {
             },
             "type": "object",
           },
-          "resource": Object {
-            "fn": "ref",
-            "logicalId": "ProxyResource",
+          "parent": Object {
+            "fn": "getProp",
+            "logicalId": "ProxyApi",
+            "property": "root",
             "type": "intrinsic",
           },
         },
         "tags": Array [],
-        "type": "aws-cdk-lib.aws_apigateway.Method",
+        "type": "aws-cdk-lib.aws_apigateway.ProxyResource",
         "updatePolicy": undefined,
         "updateReplacePolicy": "Delete",
       },
@@ -1956,26 +1929,34 @@ TypedTemplate {
     "template": Object {
       "Parameters": Object {
         "ProxyUrl": Object {
-          "Default": "https://aws.amazon.com/ko/",
+          "AllowedPattern": ".*[^\\\\/]$",
+          "ConstraintDescription": "MUST NOT end in a forward slash (\\"/\\")",
+          "Default": "https://example.com",
+          "Description": "The url to proxy",
           "Type": "String",
         },
       },
       "Resources": Object {
         "ProxyApi": Object {
           "Properties": Object {
+            "defaultIntegration": Object {
+              "aws-cdk-lib.aws_apigateway.HttpIntegration": Object {
+                "Ref": "ProxyUrl",
+              },
+            },
             "endpointConfiguration": Object {
               "types": Array [
                 "EDGE",
               ],
             },
-            "restApiName": "Hello",
+            "restApiName": "WebsiteProxy",
           },
           "Type": "aws-cdk-lib.aws_apigateway.RestApi",
         },
-        "ProxyMethod": Object {
+        "ProxyResource": Object {
           "Properties": Object {
-            "httpMethod": "GET",
-            "integration": Object {
+            "anyMethod": true,
+            "defaultIntegration": Object {
               "aws-cdk-lib.aws_apigateway.HttpIntegration": Array [
                 Object {
                   "Fn::Join": Array [
@@ -1999,20 +1980,11 @@ TypedTemplate {
                 },
               ],
             },
-            "options": Object {
+            "defaultMethodOptions": Object {
               "requestParameters": Object {
                 "method.request.path.proxy": true,
               },
             },
-            "resource": Object {
-              "Ref": "ProxyResource",
-            },
-          },
-          "Type": "aws-cdk-lib.aws_apigateway.Method",
-        },
-        "ProxyResource": Object {
-          "Properties": Object {
-            "anyMethod": false,
             "parent": Object {
               "CDK::GetProp": "ProxyApi.root",
             },
