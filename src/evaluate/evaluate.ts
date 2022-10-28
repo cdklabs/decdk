@@ -44,7 +44,7 @@ import {
 } from '../type-resolution/expression';
 import { DateLiteral } from '../type-resolution/literals';
 import { ResolveReferenceExpression } from '../type-resolution/references';
-import { EvaluationContext } from './context';
+import { EvaluationContext, IEvaluationContext } from './context';
 import { DeCDKCfnOutput } from './outputs';
 import { applyOverride } from './overrides';
 import {
@@ -55,8 +55,8 @@ import {
   ValueOnlyReference,
 } from './references';
 
-export abstract class BaseEvaluator {
-  constructor(public readonly context: EvaluationContext) {}
+export abstract class BaseEvaluator<T extends IEvaluationContext> {
+  constructor(public readonly context: T) {}
 
   public abstract evaluateDescription(ctx: AnnotationsContext): any;
   public abstract evaluateTemplateFormatVersion(ctx: AnnotationsContext): any;
@@ -309,7 +309,7 @@ export abstract class BaseEvaluator {
   }
 }
 
-export class Evaluator extends BaseEvaluator {
+export class Evaluator extends BaseEvaluator<EvaluationContext> {
   public evaluateTemplate(ctx: AnnotationsContext): void {
     const cdkContext =
       this.context.template.metadata.get('AWS::CDK::Context') ?? {};
