@@ -58,6 +58,8 @@ import {
 export abstract class BaseEvaluator {
   constructor(public readonly context: EvaluationContext) {}
 
+  public abstract evaluateDescription(ctx: AnnotationsContext): any;
+  public abstract evaluateTemplateFormatVersion(ctx: AnnotationsContext): any;
   public abstract evaluateMappings(ctx: AnnotationsContext): any;
   public abstract evaluateParameters(ctx: AnnotationsContext): any;
   public abstract evaluateResources(ctx: AnnotationsContext): any;
@@ -146,7 +148,9 @@ export abstract class BaseEvaluator {
   protected abstract fnLength(x: unknown): any;
   protected abstract fnToJsonString(x: unknown): any;
 
-  public evaluateTemplate(ctx: AnnotationsContext) {
+  public evaluateTemplate(ctx: AnnotationsContext): any {
+    this.evaluateDescription(ctx.child('Description'));
+    this.evaluateTemplateFormatVersion(ctx.child('AWSTemplateFormatVersion'));
     this.evaluateParameters(ctx.child('Parameters'));
     this.evaluateMetadata(ctx.child('Metadata'));
     this.evaluateRules(ctx.child('Rules'));
@@ -286,7 +290,7 @@ export abstract class BaseEvaluator {
   protected resolveReference(
     intrinsic: RefIntrinsic | GetPropIntrinsic,
     ctx: AnnotationsContext
-  ) {
+  ): any {
     const { logicalId, fn } = intrinsic;
 
     if (fn !== 'ref') {
@@ -306,6 +310,25 @@ export abstract class BaseEvaluator {
 }
 
 export class Evaluator extends BaseEvaluator {
+  public evaluateTemplate(ctx: AnnotationsContext): void {
+    const cdkContext =
+      this.context.template.metadata.get('AWS::CDK::Context') ?? {};
+    Object.entries(cdkContext).forEach(([k, v]) =>
+      this.context.stack.node.setContext(k, v)
+    );
+    super.evaluateTemplate(ctx);
+  }
+
+  public evaluateDescription(_ctx: AnnotationsContext) {
+    this.context.stack.templateOptions.description =
+      this.context.template.description;
+  }
+
+  public evaluateTemplateFormatVersion(_ctx: AnnotationsContext) {
+    this.context.stack.templateOptions.templateFormatVersion =
+      this.context.template.templateFormatVersion;
+  }
+
   public evaluateMappings(ctx: AnnotationsContext) {
     const scope = new Construct(this.context.stack, '$Mappings');
     this.context.template.mappings.forEach((mapping, mapName) =>

@@ -21,6 +21,8 @@ export interface TypedTemplateProps {
  * A template describes the desired state of some infrastructure
  */
 export class TypedTemplate {
+  public readonly description?: string;
+  public readonly templateFormatVersion?: string;
   public readonly resources: DependencyGraph<ResourceLike>;
   public readonly parameters: Map<string, TemplateParameter>;
   public readonly conditions: Map<string, TypedTemplateExpression>;
@@ -52,6 +54,8 @@ export class TypedTemplate {
       return node;
     });
 
+    this.description = template.description;
+    this.templateFormatVersion = template.templateFormatVersion;
     this.parameters = template.parameters;
     this.conditions = new Map();
     for (let [logicalId, condition] of template.conditions) {

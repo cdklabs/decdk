@@ -20,30 +20,12 @@ export class DeclarativeStack extends cdk.Stack {
   constructor(scope: cdk.App, id: string, props: DeclarativeStackProps) {
     super(scope, id, props);
 
-    const {
-      template: { description, metadata, templateFormatVersion },
-    } = props;
-
-    const ctx = metadata.get('AWS::CDK::Context') ?? {};
-    Object.entries(ctx).forEach(([k, v]) => this.node.setContext(k, v));
-
-    this.templateOptions.templateFormatVersion = templateFormatVersion;
-    this.templateOptions.description = description;
-
     const annotations = AnnotationsContext.root();
     const typeSystem = props.typeSystem;
     const template = new TypedTemplate(props.template, {
       annotations,
       typeSystem,
     });
-
-    new (class extends Construct {
-      //@ts-ignore
-      private static readonly [JSII_RTTI_SYMBOL] = {
-        fqn: '@cdklabs/decdk',
-        version,
-      };
-    })(this, '$decdkAnalytics');
 
     const context = new EvaluationContext({
       stack: this,
@@ -54,11 +36,22 @@ export class DeclarativeStack extends cdk.Stack {
 
     _cwd(props.workingDirectory, () => {
       ev.evaluateTemplate(annotations);
+      this.addAnalyticsData();
     });
 
     if (annotations.hasErrors()) {
       throw new DeclarativeStackError(annotations);
     }
+  }
+
+  private addAnalyticsData() {
+    new (class extends Construct {
+      //@ts-ignore
+      private static readonly [JSII_RTTI_SYMBOL] = {
+        fqn: '@cdklabs/decdk',
+        version,
+      };
+    })(this, '$decdkAnalytics');
   }
 }
 
