@@ -1,4 +1,5 @@
 import * as reflect from 'jsii-reflect';
+import { AnnotationsContext } from '../error-handling';
 import { DependencyGraph } from '../parser/private/toposort';
 import { Template, TemplateParameter } from '../parser/template';
 import { TemplateHook } from '../parser/template/hooks';
@@ -13,6 +14,7 @@ import { resolveResourceLike, ResourceLike } from './resource-like';
 
 export interface TypedTemplateProps {
   typeSystem: reflect.TypeSystem;
+  annotations?: AnnotationsContext;
 }
 
 /**
@@ -30,11 +32,25 @@ export class TypedTemplate {
   public readonly hooks: Map<string, TemplateHook>;
 
   constructor(public template: Template, props: TypedTemplateProps) {
-    this.resources = template
-      .resourceGraph()
-      .map((logicalId, resource) =>
-        resolveResourceLike(template, resource, logicalId, props.typeSystem)
+    const { annotations = AnnotationsContext.root(), typeSystem } = props;
+
+    const ctx = {
+      annotations,
+      typeSystem,
+      template: this,
+    };
+
+    const resourceGraph = template.resourceGraph();
+    this.resources = new DependencyGraph();
+    resourceGraph.forEach((logicalId, resource) => {
+      const node = resolveResourceLike(logicalId, resource, ctx);
+      this.resources.setNode(
+        logicalId,
+        node,
+        new Set(resourceGraph.dependencies.get(logicalId))
       );
+      return node;
+    });
 
     this.parameters = template.parameters;
     this.conditions = new Map();
@@ -61,7 +77,7 @@ export class TypedTemplate {
     }
   }
 
-  public resource(logicalId: string) {
+  public resource(logicalId: string): ResourceLike {
     return this.resources.get(logicalId);
   }
 }

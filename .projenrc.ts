@@ -11,7 +11,6 @@ const project = new typescript.TypeScriptProject({
   authorOrganization: true,
   prerelease: 'pre',
   deps: [
-    'aws-cdk-lib',
     'constructs@^10',
     'fs-extra@^8',
     'jsii-reflect',
@@ -26,9 +25,14 @@ const project = new typescript.TypeScriptProject({
     '@types/semver',
     '@types/yaml',
     '@types/yargs',
+    'aws-cdk-lib',
     'jsii',
     'fast-check',
   ],
+  peerDeps: ['aws-cdk-lib@^2.1.0'],
+  peerDependencyOptions: {
+    pinnedDevDependency: false,
+  },
   releaseFailureIssue: true,
   releaseToNpm: true,
 

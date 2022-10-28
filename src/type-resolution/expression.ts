@@ -1,4 +1,5 @@
 import * as reflect from 'jsii-reflect';
+import { unparseExpression } from '../error-handling/unparse';
 import {
   ArrayExpression,
   BooleanLiteral,
@@ -8,7 +9,6 @@ import {
   ObjectExpression,
   StringLiteral,
   TemplateExpression,
-  unparseExpression,
 } from '../parser/template';
 import {
   InitializerExpression,

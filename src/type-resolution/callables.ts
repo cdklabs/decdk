@@ -1,5 +1,5 @@
 import * as reflect from 'jsii-reflect';
-import { TypeReference, TypeSystem } from 'jsii-reflect';
+import { TypeReference } from 'jsii-reflect';
 import {
   assertExactlyOneOfFields,
   assertOneField,
@@ -11,15 +11,12 @@ import {
   GetPropIntrinsic,
   ObjectLiteral,
   RefIntrinsic,
-  Template,
   TemplateExpression,
-  TemplateResource,
 } from '../parser/template';
 import { FactoryMethodCall, toArrayLiteral } from '../parser/template/calls';
 import { TypedArrayExpression, TypedTemplateExpression } from './expression';
 import { ResolveReferenceExpression } from './references';
-import { resolveExpressionType } from './resolve';
-import { isCfnResource } from './resource-like';
+import { resolveExpressionType, TypeResolutionContext } from './resolve';
 import { assertImplements } from './types';
 
 export interface StaticMethodCallExpression {
@@ -71,16 +68,11 @@ export function resolveStaticMethodCallExpression(
 }
 
 export function resolveInstanceMethodCallExpression(
-  template: Template,
   call: Required<FactoryMethodCall>,
-  typeSystem: reflect.TypeSystem,
+  ctx: TypeResolutionContext,
   resultType?: reflect.Type
 ): InstanceMethodCallExpression {
-  const { target, method, args } = inferInstanceMethodCall(
-    typeSystem,
-    template,
-    call
-  );
+  const { target, method, args } = inferInstanceMethodCall(call, ctx);
 
   if (resultType) {
     assertImplements(method.returns.type, resultType);
@@ -98,13 +90,8 @@ function inferStaticMethodCall(
   typeSystem: reflect.TypeSystem,
   call: FactoryMethodCall
 ): MethodCall {
-  const candidateFqn = enclosingClassFqn(call.methodName);
-  const candidateClass = typeSystem.findClass(candidateFqn);
-
-  const methods = staticNonVoidMethods(candidateClass);
-  const methodNames = methods.map(methodFQN);
-  const methodName = assertOneOf(call.methodName, methodNames);
-  const method = methods.find((m) => methodFQN(m) === methodName)!;
+  const [candidateFqn, methodName] = splitFqnToClassAndMethod(call.methodName);
+  const method = findStaticClassMethod(candidateFqn, methodName, typeSystem);
 
   return {
     method,
@@ -112,10 +99,23 @@ function inferStaticMethodCall(
   };
 }
 
+function findStaticClassMethod(
+  classFqn: string,
+  method: string,
+  typeSystem: reflect.TypeSystem
+) {
+  const candidateClass = typeSystem.findClass(classFqn);
+
+  const methods = staticNonVoidMethods(candidateClass);
+  const methodNames = methods.map((m) => m.name);
+  const methodName = assertOneOf(method, methodNames);
+
+  return methods.find((m) => m.name === methodName)!;
+}
+
 function inferInstanceMethodCall(
-  typeSystem: TypeSystem,
-  template: Template,
-  call: Required<FactoryMethodCall>
+  call: Required<FactoryMethodCall>,
+  ctx: TypeResolutionContext
 ): InstanceMethodCall {
   const factory = inferType(call.target);
   const method = inferInstanceMethod(factory, call.methodName);
@@ -131,37 +131,47 @@ function inferInstanceMethodCall(
   };
 
   function inferType(refPath: string): TypeReference {
-    let res: TemplateResource;
-    if (!refPath.includes('.')) {
-      res = template.resource(refPath);
-      if (isCfnResource(res)) {
-        throw new Error(
-          `${res.type} is a CloudFormation resource. Method calls are not allowed.`
-        );
-      }
-
-      if (res.type) {
-        return typeSystem.findFqn(res.type).reference;
-      }
-
-      if (res.call?.target) {
-        return inferInstanceMethod(
-          inferType(res.call.target),
-          res.call.methodName
-        ).returns.type;
-      }
-
-      if (res.call != null) {
-        const methodCall = inferStaticMethodCall(typeSystem, res.call);
-        return methodCall.method.returns.type;
-      }
-
-      throw new Error(
-        `The type of ${refPath} could not be inferred. Please provide the type explicitly.`
-      );
-    } else {
+    if (refPath.includes('.')) {
       const [logicalId, ...propPath] = refPath.split('.');
       return resolveTypeFromPath(inferType(logicalId).type, propPath).reference;
+    }
+
+    const res = ctx.template.resource(refPath);
+
+    switch (res.type) {
+      case 'resource':
+        throw new Error(
+          `${res.logicalId} is a CloudFormation resource of type ${res.cfnType}. Method calls are not allowed.`
+        );
+      case 'lazyResource':
+        switch (res.call.type) {
+          case 'instanceMethodCall':
+            const targetRef = res.call.target.reference;
+            let instanceTypeRef = inferType(targetRef.logicalId);
+            if (targetRef.fn === 'getProp') {
+              instanceTypeRef = resolveTypeFromPath(
+                instanceTypeRef.type,
+                targetRef.property.split('.')
+              ).reference;
+            }
+
+            return inferInstanceMethod(instanceTypeRef, res.call.method).returns
+              .type;
+
+          case 'staticMethodCall':
+            const staticMethod = findStaticClassMethod(
+              res.call.fqn,
+              res.call.method,
+              ctx.typeSystem
+            );
+            return staticMethod.returns.type;
+          default:
+            throw new Error(
+              `The type of ${refPath} could not be inferred. Please provide the type explicitly.`
+            );
+        }
+      default:
+        return ctx.typeSystem.findFqn(res.fqn).reference;
     }
   }
 }
@@ -200,15 +210,16 @@ function resolveTypeFromPath(
   return assertReferenceType(result);
 }
 
-function enclosingClassFqn(methodFqn: string): string {
+function splitFqnToClassAndMethod(methodFqn: string): [string, string] {
   const parts = methodFqn.split('.');
-  const enclosingFqn = parts.slice(0, parts.length - 1).join('.');
+  const lastElementIdx = parts.length - 1;
+  const enclosingFqn = parts.slice(0, lastElementIdx).join('.');
   if (!enclosingFqn) {
     throw new TypeError(
       `Expected static method, got: ${JSON.stringify(methodFqn)}`
     );
   }
-  return enclosingFqn;
+  return [enclosingFqn, parts[lastElementIdx]];
 }
 
 export interface InitializerExpression {
@@ -362,7 +373,7 @@ function assertReferenceType(
   return t;
 }
 
-function staticNonVoidMethods(cls: reflect.ClassType) {
+function staticNonVoidMethods(cls: reflect.ClassType): reflect.Method[] {
   return cls.allMethods.filter(
     (m) => m.static && m.returns && m.returns.type.type
   );

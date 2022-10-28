@@ -1,4 +1,5 @@
 import { expect } from 'expect';
+import { DeclarativeStackError } from '../../src/error-handling';
 import { Template } from '../../src/parser/template';
 import { Testing } from '../util';
 
@@ -92,6 +93,58 @@ suite('Evaluation errors', () => {
       await expect(synth).rejects.toThrow(
         'Expected aws-cdk-lib.aws_s3.IBucket, got: "MyBucket'
       );
+    });
+  });
+
+  suite('Multiple errors', () => {
+    test('Evaluation errors are collected', async () => {
+      // GIVEN
+      const template = {
+        Resources: {
+          SiteDistribution: {
+            Type: 'aws-cdk-lib.aws_cloudfront.Distribution',
+            Properties: {
+              certificate: {
+                Ref: 'SiteBucket', // this should be SiteCertificate
+              },
+              defaultRootObject: 'index.html',
+              domainNames: [
+                {
+                  Ref: 'DomainName',
+                },
+              ],
+              minimumProtocolVersion: 'TLS_V1_2_2021',
+              defaultBehavior: {
+                origin: {
+                  'aws-cdk-lib.aws_cloudfront_origins.S3Origin': [
+                    { Ref: 'SiteCertificate' }, // this should be SiteBucket
+                    {
+                      originAccessIdentity: {
+                        Ref: 'CloudFrontOAI',
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        },
+      };
+      const synth = Testing.synth(await Template.fromObject(template), {
+        validateTemplate: false,
+      });
+
+      // THEN
+      await expect(synth).rejects.toThrow(DeclarativeStackError);
+      try {
+        await synth;
+      } catch (error) {
+        const msg = error.toString();
+        expect(msg).toContain('No such Resource or Parameter: SiteCertificate');
+        expect(msg).toContain('No such Resource or Parameter: CloudFrontOAI');
+        expect(msg).toContain('No such Resource or Parameter: SiteBucket');
+        expect(msg).toContain('No such Resource or Parameter: DomainName');
+      }
     });
   });
 });

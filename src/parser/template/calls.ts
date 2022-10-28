@@ -1,4 +1,4 @@
-import { assertOneField, assertString, ParserError } from '../private/types';
+import { assertOneField, assertString } from '../private/types';
 import {
   ArrayLiteral,
   parseExpression,
@@ -21,7 +21,7 @@ export function parseCall(x: unknown): FactoryMethodCall | undefined {
     case 2:
       return parseInstanceCall(array);
     default:
-      throw new ParserError(
+      throw new SyntaxError(
         `Method calls should have 1 or 2 elements, got ${array}`
       );
   }

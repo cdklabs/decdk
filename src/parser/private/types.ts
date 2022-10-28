@@ -1,16 +1,9 @@
 import { RetentionPolicy } from '../template';
 
-export class ParserError extends Error {
-  constructor(msg: string) {
-    super(msg);
-    Object.setPrototypeOf(this, ParserError.prototype);
-  }
-}
-
 export function parseNumber(asString: string | number) {
   const asNumber = parseInt(`${asString}`, 10);
   if (`${asNumber}` !== `${asString}`) {
-    throw new ParserError(`Not a number: ${asString}`);
+    throw new SyntaxError(`Not a number: ${asString}`);
   }
   return { asString: `${asNumber}`, asNumber };
 }
@@ -22,7 +15,7 @@ export function assertString(x: unknown): string {
   if (typeof x === 'string') {
     return x;
   }
-  throw new ParserError(`Expected string, got: ${JSON.stringify(x)}`);
+  throw new SyntaxError(`Expected string, got: ${JSON.stringify(x)}`);
 }
 
 export function assertNumber(x: unknown): number {
@@ -32,15 +25,15 @@ export function assertNumber(x: unknown): number {
   if (typeof x === 'string') {
     return parseNumber(x).asNumber;
   }
-  throw new ParserError(`Expected number, got: ${JSON.stringify(x)}`);
+  throw new SyntaxError(`Expected number, got: ${JSON.stringify(x)}`);
 }
 
 export function assertList<T = unknown>(x: unknown, lengths?: number[]): T[] {
   if (!Array.isArray(x)) {
-    throw new ParserError(`Expected list, got: ${JSON.stringify(x)}`);
+    throw new SyntaxError(`Expected list, got: ${JSON.stringify(x)}`);
   }
   if (lengths && !lengths.includes(x.length)) {
-    throw new ParserError(
+    throw new SyntaxError(
       `Expected list of length ${lengths}, got ${x.length}`
     );
   }
@@ -56,7 +49,7 @@ export function assertListOfForm<T>(
     return assertList(x).map(assertForm);
   } catch (e) {
     if (form) {
-      throw new ParserError(
+      throw new SyntaxError(
         `Expected list of form ${form}, got: ${JSON.stringify(x)}`
       );
     }
@@ -76,21 +69,21 @@ export function assertBoolean(x: unknown): boolean {
     case 'false':
       return false;
     default:
-      throw new ParserError(`Expected boolean, got: ${JSON.stringify(x)}`);
+      throw new SyntaxError(`Expected boolean, got: ${JSON.stringify(x)}`);
   }
 }
 
 export function assertTrue(x: unknown): true {
   assertBoolean(x);
   if (x !== true) {
-    throw new ParserError(`Expected 'true', got: ${JSON.stringify(x)}`);
+    throw new SyntaxError(`Expected 'true', got: ${JSON.stringify(x)}`);
   }
   return x;
 }
 
 export function assertObject(x: unknown): Record<string, unknown> {
   if (typeof x !== 'object' || x == null || Array.isArray(x)) {
-    throw new ParserError(`Expected object, got: ${JSON.stringify(x)}`);
+    throw new SyntaxError(`Expected object, got: ${JSON.stringify(x)}`);
   }
   return x as any;
 }
@@ -100,13 +93,13 @@ export function assertField<A extends object, K extends keyof A>(
   fieldName: K
 ): unknown {
   if (!(fieldName in xs)) {
-    throw new ParserError(`Expected field named '${String(fieldName)}'`);
+    throw new SyntaxError(`Expected field named '${String(fieldName)}'`);
   }
   return xs[fieldName];
 }
 export function assertOneOf<A extends unknown>(x: A, allowed: unknown[]): A {
   if (!allowed.includes(x)) {
-    throw new ParserError(
+    throw new SyntaxError(
       `Expected one of ${allowed
         .map((f) => `'${String(f)}'`)
         .join('|')}, got: ${JSON.stringify(x)}`
@@ -121,7 +114,7 @@ export function assertExactlyOneOfFields<A extends object, K extends keyof A>(
 ): K {
   const foundFields = fieldNames.filter((f) => f in xs);
   if (foundFields.length !== 1) {
-    throw new ParserError(
+    throw new SyntaxError(
       `Expected exactly one of the fields ${fieldNames
         .map((f) => `'${String(f)}'`)
         .join(', ')}, got: ${JSON.stringify(xs)}`
@@ -136,7 +129,7 @@ export function assertAtMostOneOfFields<A extends object, K extends keyof A>(
 ): K | undefined {
   const foundFields = fieldNames.filter((f) => f in xs);
   if (foundFields.length > 1) {
-    throw new ParserError(
+    throw new SyntaxError(
       `Expected at most one of the fields ${fieldNames
         .map((f) => `'${String(f)}'`)
         .join(', ')}, got: ${JSON.stringify(xs)}`
@@ -148,7 +141,7 @@ export function assertAtMostOneOfFields<A extends object, K extends keyof A>(
 export function assertOneField(xs: unknown): string {
   const fields = Object.keys(assertObject(xs));
   if (fields.length !== 1) {
-    throw new ParserError(
+    throw new SyntaxError(
       `Expected exactly one field, got: ${JSON.stringify(xs)}`
     );
   }
@@ -162,13 +155,13 @@ export function assertStringOrListIntoList(x: unknown): string[] {
   if (Array.isArray(x)) {
     const nonStrings = x.filter((y) => typeof y !== 'string');
     if (nonStrings.length > 0) {
-      throw new ParserError(
+      throw new SyntaxError(
         `Expected all strings in array, found: ${nonStrings}`
       );
     }
     return x as string[];
   }
-  throw new ParserError(
+  throw new SyntaxError(
     `Expected string or list of strings, got: ${JSON.stringify(x)}`
   );
 }
@@ -187,7 +180,7 @@ export function parseRetentionPolicy(x: unknown): RetentionPolicy {
       return 'Snapshot';
   }
 
-  throw new ParserError(
+  throw new SyntaxError(
     `Expected one of Delete|Retain|Snapshot, got: ${JSON.stringify(x)}`
   );
 }
@@ -212,7 +205,7 @@ export function assertOr<T>(
     } catch {}
   }
 
-  throw new ParserError(error(JSON.stringify(x)));
+  throw new SyntaxError(error(JSON.stringify(x)));
 }
 
 export function assertStringOrStringList(xs: unknown): string | string[] {

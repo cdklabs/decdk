@@ -1,7 +1,7 @@
 import * as cdk from 'aws-cdk-lib';
 import { Stack, Stage } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import { assertObject, ParserError } from '../parser/private/types';
+import { assertObject } from '../parser/private/types';
 
 function isPropertyOf(
   instance: Record<string, unknown>,
@@ -21,7 +21,7 @@ export function getPropDot(instance: unknown, path: string): unknown {
     if (Array.isArray(o)) {
       const index = parseInt(p);
       if (isNaN(index) || !(0 <= index && index < o.length)) {
-        throw new ParserError(
+        throw new SyntaxError(
           `Expected an integer between 0 and ${o.length - 1}, got ${index}`
         );
       }
@@ -30,7 +30,7 @@ export function getPropDot(instance: unknown, path: string): unknown {
 
     const obj = assertObject(o);
     if (!isPropertyOf(obj, p)) {
-      throw new ParserError(`Expected Construct property path, got: ${path}`);
+      throw new SyntaxError(`Expected Construct property path, got: ${path}`);
     }
     return obj[p];
   }, instance);

@@ -343,7 +343,7 @@ suite('Type Resolution: Callables', () => {
     });
 
     expect(() => new TypedTemplate(template, { typeSystem })).toThrow(
-      'AWS::Logs::LogGroup is a CloudFormation resource. Method calls are not allowed.'
+      'MyLogGroup is a CloudFormation resource of type AWS::Logs::LogGroup. Method calls are not allowed.'
     );
   });
 

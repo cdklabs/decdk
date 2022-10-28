@@ -1,6 +1,7 @@
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as reflect from 'jsii-reflect';
+import { AnnotationsContext, DeclarativeStackError } from './error-handling';
 import { EvaluationContext, Evaluator } from './evaluate';
 import { Template } from './parser/template';
 import { TypedTemplate } from './type-resolution/template';
@@ -19,15 +20,22 @@ export class DeclarativeStack extends cdk.Stack {
   constructor(scope: cdk.App, id: string, props: DeclarativeStackProps) {
     super(scope, id, props);
 
-    const ctx = props.template.metadata.get('AWS::CDK::Context') ?? {};
+    const {
+      template: { description, metadata, templateFormatVersion },
+    } = props;
+
+    const ctx = metadata.get('AWS::CDK::Context') ?? {};
     Object.entries(ctx).forEach(([k, v]) => this.node.setContext(k, v));
 
-    this.templateOptions.templateFormatVersion =
-      props.template.templateFormatVersion;
-    this.templateOptions.description = props.template.description;
+    this.templateOptions.templateFormatVersion = templateFormatVersion;
+    this.templateOptions.description = description;
 
+    const annotations = AnnotationsContext.root();
     const typeSystem = props.typeSystem;
-    const template = new TypedTemplate(props.template, { typeSystem });
+    const template = new TypedTemplate(props.template, {
+      annotations,
+      typeSystem,
+    });
 
     new (class extends Construct {
       //@ts-ignore
@@ -45,8 +53,12 @@ export class DeclarativeStack extends cdk.Stack {
     const ev = new Evaluator(context);
 
     _cwd(props.workingDirectory, () => {
-      ev.evaluateTemplate();
+      ev.evaluateTemplate(annotations);
     });
+
+    if (annotations.hasErrors()) {
+      throw new DeclarativeStackError(annotations);
+    }
   }
 }
 

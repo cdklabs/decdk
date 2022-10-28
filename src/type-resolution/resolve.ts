@@ -1,4 +1,5 @@
 import * as reflect from 'jsii-reflect';
+import { AnnotationsContext } from '../error-handling';
 import { TemplateExpression } from '../parser/template';
 import {
   isBehavioralInterface,
@@ -35,7 +36,14 @@ import {
 import { assertRef, refOrResolve, resolveRefToValue } from './references';
 import { isConstruct } from './resource-like';
 import { assertInterface, resolveStructExpression } from './struct';
+import { TypedTemplate } from './template';
 import { assertUnionOfTypes, resolveUnionOfTypesExpression } from './union';
+
+export interface TypeResolutionContext {
+  annotations: AnnotationsContext;
+  template: TypedTemplate;
+  typeSystem: reflect.TypeSystem;
+}
 
 export function resolveExpressionType(
   x: TemplateExpression,

@@ -1,5 +1,5 @@
 import * as path from 'path';
-import * as jsiiReflect from 'jsii-reflect';
+import * as reflect from 'jsii-reflect';
 import { Template } from './parser/template';
 
 /**
@@ -10,7 +10,7 @@ export async function readTemplate(templateFile: string): Promise<Template> {
 }
 
 export async function loadTypeSystem(validate = true) {
-  const typeSystem = new jsiiReflect.TypeSystem();
+  const typeSystem = new reflect.TypeSystem();
   await typeSystem.loadNpmDependencies(path.resolve(__dirname, '..'), {
     validate,
   });

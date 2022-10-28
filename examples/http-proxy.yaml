@@ -2,35 +2,35 @@
 Parameters:
   ProxyUrl:
     Type: String
-    Default: https://aws.amazon.com/ko/
+    Description: The url to proxy
+    AllowedPattern: .*[^\/]$
+    ConstraintDescription: MUST NOT end in a forward slash ("/")
+    Default: https://example.com
 Resources:
   ProxyApi:
     Type: aws-cdk-lib.aws_apigateway.RestApi
     Properties:
-      restApiName: Hello
+      restApiName: WebsiteProxy
       endpointConfiguration:
         types:
           - EDGE
+      defaultIntegration:
+        aws-cdk-lib.aws_apigateway.HttpIntegration:
+          Ref: ProxyUrl
   ProxyResource:
     Type: aws-cdk-lib.aws_apigateway.ProxyResource
     Properties:
       parent:
         CDK::GetProp: ProxyApi.root
-      anyMethod: false
-  ProxyMethod:
-    Type: aws-cdk-lib.aws_apigateway.Method
-    Properties:
-      httpMethod: GET
-      resource:
-        Ref: ProxyResource
-      integration:
+      anyMethod: true
+      defaultIntegration:
         aws-cdk-lib.aws_apigateway.HttpIntegration:
-          - Fn::Join: ['/', [!Ref ProxyUrl, '{proxy}']]
+          - Fn::Join: ['/', [Ref: ProxyUrl, '{proxy}']]
           - proxy: true
             httpMethod: GET
             options:
               requestParameters:
                 integration.request.path.proxy: method.request.path.proxy
-      options:
+      defaultMethodOptions:
         requestParameters:
           method.request.path.proxy: true
