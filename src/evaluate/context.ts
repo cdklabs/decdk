@@ -11,7 +11,11 @@ export interface EvaluationContextOptions {
 }
 class PseudoParamRef extends InstanceReference {}
 
-export class EvaluationContext {
+export interface IEvaluationContext {
+  reference(logicalId: string): Reference;
+}
+
+export class EvaluationContext implements IEvaluationContext {
   public readonly stack: cdk.Stack;
   public readonly typeSystem: reflect.TypeSystem;
   public readonly template: TypedTemplate;

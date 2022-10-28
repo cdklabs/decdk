@@ -17,10 +17,13 @@ import {
 import { SubFragment } from '../parser/private/sub';
 import { assertString } from '../parser/private/types';
 import {
+  BooleanLiteral,
   GetPropIntrinsic,
   IntrinsicExpression,
   LazyLogicalId,
+  NumberLiteral,
   RefIntrinsic,
+  StringLiteral,
 } from '../parser/template';
 import { ResourceOverride } from '../parser/template/overrides';
 import { ResourceTag } from '../parser/template/tags';
@@ -39,8 +42,9 @@ import {
   TypedArrayExpression,
   TypedTemplateExpression,
 } from '../type-resolution/expression';
+import { DateLiteral } from '../type-resolution/literals';
 import { ResolveReferenceExpression } from '../type-resolution/references';
-import { EvaluationContext } from './context';
+import { EvaluationContext, IEvaluationContext } from './context';
 import { DeCDKCfnOutput } from './outputs';
 import { applyOverride } from './overrides';
 import {
@@ -51,10 +55,102 @@ import {
   ValueOnlyReference,
 } from './references';
 
-export class Evaluator {
-  constructor(public readonly context: EvaluationContext) {}
+export abstract class BaseEvaluator<T extends IEvaluationContext> {
+  constructor(public readonly context: T) {}
 
-  public evaluateTemplate(ctx: AnnotationsContext) {
+  public abstract evaluateDescription(ctx: AnnotationsContext): any;
+  public abstract evaluateTemplateFormatVersion(ctx: AnnotationsContext): any;
+  public abstract evaluateMappings(ctx: AnnotationsContext): any;
+  public abstract evaluateParameters(ctx: AnnotationsContext): any;
+  public abstract evaluateResources(ctx: AnnotationsContext): any;
+  public abstract evaluateOutputs(ctx: AnnotationsContext): any;
+  public abstract evaluateTransform(ctx: AnnotationsContext): any;
+  public abstract evaluateMetadata(ctx: AnnotationsContext): any;
+  public abstract evaluateRules(ctx: AnnotationsContext): any;
+  public abstract evaluateHooks(ctx: AnnotationsContext): any;
+  public abstract evaluateConditions(ctx: AnnotationsContext): any;
+
+  protected abstract evaluateNull(): any;
+  protected abstract evaluateVoid(): any;
+  protected abstract evaluateDate(x: DateLiteral): any;
+  protected abstract evaluatePrimitive(
+    x: StringLiteral | NumberLiteral | BooleanLiteral
+  ): any;
+  protected abstract evaluateCfnResource(
+    x: CfnResourceNode,
+    ctx: AnnotationsContext
+  ): any;
+  protected abstract evaluateConstruct(
+    x: CdkConstruct,
+    ctx: AnnotationsContext
+  ): any;
+  protected abstract evaluateCdkObject(
+    x: CdkObject,
+    ctx: AnnotationsContext
+  ): any;
+  protected abstract evaluateObject(
+    xs: Record<string, TypedTemplateExpression>,
+    ctx: AnnotationsContext
+  ): Record<string, unknown>;
+  protected abstract evaluateArray(
+    xs: TypedTemplateExpression[],
+    ctx: AnnotationsContext
+  ): any;
+
+  protected abstract evaluateCall(
+    call: StaticMethodCallExpression | InstanceMethodCallExpression,
+    ctx: AnnotationsContext
+  ): any;
+  protected abstract evaluateEnum(fqn: string, choice: string): any;
+  protected abstract evaluateInitializer(
+    fqn: string,
+    parameters: unknown[]
+  ): any;
+
+  protected abstract fnBase64(x: string): any;
+  protected abstract fnCidr(
+    ipBlock: string,
+    count: number,
+    sizeMask?: string
+  ): any;
+  protected abstract fnFindInMap(
+    mapName: string,
+    topLevelKey: string,
+    secondLevelKey: string
+  ): any;
+  protected abstract fnGetProp(logicalId: string, prop: string): any;
+  protected abstract fnGetAtt(logicalId: string, attribute: string): any;
+  protected abstract fnGetAzs(region: string): any;
+  protected abstract fnIf(
+    conditionName: string,
+    ifYes: TypedTemplateExpression,
+    ifNo: TypedTemplateExpression,
+    ctx: AnnotationsContext
+  ): any;
+  protected abstract fnImportValue(exportName: string): any;
+  protected abstract fnJoin(separator: string, array: any[]): any;
+  protected abstract fnRef(logicalId: string): any;
+  protected abstract fnSelect(index: number, elements: any[]): any;
+  protected abstract fnSplit(separator: string, value: string): any;
+  protected abstract fnSub(
+    fragments: SubFragment[],
+    additionalContext: Record<string, any>
+  ): any;
+  protected abstract fnTransform(
+    transformName: string,
+    parameters: Record<string, unknown>
+  ): any;
+  protected abstract fnAnd(operands: unknown[]): any;
+  protected abstract fnOr(operands: unknown[]): any;
+  protected abstract fnNot(operand: unknown): any;
+  protected abstract fnEquals(value1: unknown, value2: unknown): any;
+  protected abstract fnLazyLogicalId(x: LazyLogicalId): any;
+  protected abstract fnLength(x: unknown): any;
+  protected abstract fnToJsonString(x: unknown): any;
+
+  public evaluateTemplate(ctx: AnnotationsContext): any {
+    this.evaluateDescription(ctx.child('Description'));
+    this.evaluateTemplateFormatVersion(ctx.child('AWSTemplateFormatVersion'));
     this.evaluateParameters(ctx.child('Parameters'));
     this.evaluateMetadata(ctx.child('Metadata'));
     this.evaluateRules(ctx.child('Rules'));
@@ -66,143 +162,19 @@ export class Evaluator {
     this.evaluateHooks(ctx.child('Hooks'));
   }
 
-  private evaluateMappings(ctx: AnnotationsContext) {
-    const scope = new Construct(this.context.stack, '$Mappings');
-    this.context.template.mappings.forEach((mapping, mapName) =>
-      ctx.child(mapName).wrap(() => {
-        new cdk.CfnMapping(scope, mapName, {
-          mapping: mapping.toObject(),
-        }).overrideLogicalId(mapName);
-      })
-    );
-  }
-
-  private evaluateParameters(ctx: AnnotationsContext) {
-    this.context.template.parameters.forEach((param, paramName) => {
-      ctx.child(paramName).wrap(() => {
-        new cdk.CfnParameter(
-          this.context.stack,
-          paramName,
-          param
-        ).overrideLogicalId(paramName);
-        this.context.addReference(new SimpleReference(paramName));
-      });
-    });
-  }
-
-  private evaluateResources(ctx: AnnotationsContext) {
-    this.context.template.resources.forEach((logicalId, resource) =>
-      ctx.child(logicalId).wrap((c) => this.evaluateResource(resource, c))
-    );
-  }
-
-  private evaluateOutputs(ctx: AnnotationsContext) {
-    const scope = new Construct(this.context.stack, '$Outputs');
-    this.context.template.outputs.forEach((output, outputId) => {
-      ctx.child(outputId).wrap(() => {
-        new DeCDKCfnOutput(scope, outputId, {
-          value: this.evaluate(output.value, ctx),
-          description: output.description,
-          exportName: output.exportName
-            ? this.evaluate(output.exportName, ctx)
-            : output.exportName,
-          condition: output.conditionName,
-        }).overrideLogicalId(outputId);
-      });
-    });
-  }
-
-  private evaluateTransform(ctx: AnnotationsContext) {
-    ctx.wrap(() => {
-      this.context.template.transform.forEach((t) => {
-        this.context.stack.addTransform(t);
-      });
-    });
-  }
-
-  private evaluateMetadata(ctx: AnnotationsContext) {
-    this.context.template.metadata.forEach((v, k) => {
-      ctx.child(k).wrap(() => {
-        this.context.stack.addMetadata(k, v);
-      });
-    });
-  }
-
-  private evaluateRules(ctx: AnnotationsContext) {
-    const scope = new Construct(this.context.stack, '$Rules');
-    this.context.template.rules.forEach((rule, name) => {
-      ctx.child(name).wrap(() => {
-        new CfnRule(scope, name, rule).overrideLogicalId(name);
-      });
-    });
-  }
-
-  private evaluateHooks(ctx: AnnotationsContext) {
-    const scope = new Construct(this.context.stack, '$Hooks');
-    this.context.template.hooks.forEach((hook, name) => {
-      ctx.child(name).wrap(() => {
-        new CfnHook(scope, name, hook).overrideLogicalId(name);
-      });
-    });
-  }
-
-  private evaluateConditions(ctx: AnnotationsContext) {
-    const scope = new Construct(this.context.stack, '$Conditions');
-    this.context.template.conditions.forEach((condition, logicalId) => {
-      ctx.child(logicalId).wrap(() => {
-        const conditionFn = this.evaluate(condition, ctx);
-        new cdk.CfnCondition(scope, logicalId, {
-          expression: conditionFn,
-        }).overrideLogicalId(logicalId);
-      });
-    });
-  }
-
-  public evaluateResource(resource: ResourceLike, ctx: AnnotationsContext) {
-    const construct = this.evaluate(resource, ctx);
-
-    // If this is the result of a call to a method with no
-    // return type (void), then there is nothing else to do here.
-    if (construct == null) return;
-
-    this.applyTags(construct, resource.tags);
-    this.applyDependsOn(construct, resource.dependsOn);
-    if (isCdkConstructExpression(resource)) {
-      this.applyOverrides(
-        construct,
-        resource.overrides,
-        ctx.child('Overrides')
-      );
-    }
-
-    this.context.addReference(
-      this.referenceForResourceLike(resource.logicalId, construct)
-    );
-  }
-
-  private referenceForResourceLike(logicalId: string, value: unknown) {
-    if (!Construct.isConstruct(value)) {
-      return new ValueOnlyReference(logicalId, value);
-    }
-
-    if (cdk.CfnResource.isCfnResource(value)) {
-      return new CfnResourceReference(logicalId, value);
-    }
-
-    return new ConstructReference(logicalId, value as Construct);
-  }
-
   public evaluate(x: TypedTemplateExpression, ctx: AnnotationsContext): any {
     try {
       switch (x.type) {
         case 'null':
-          return undefined;
+          return this.evaluateNull();
+        case 'void':
+          return this.evaluateVoid();
         case 'string':
         case 'number':
         case 'boolean':
-          return x.value;
+          return this.evaluatePrimitive(x);
         case 'date':
-          return x.date;
+          return this.evaluateDate(x);
         case 'array':
           return this.evaluateArray(x.array, ctx);
         case 'struct':
@@ -213,104 +185,42 @@ export class Evaluator {
         case 'intrinsic':
           return this.evaluateIntrinsic(x, ctx);
         case 'enum':
-          return this.enum(x.fqn, x.choice);
+          return this.evaluateEnum(x.fqn, x.choice);
         case 'staticProperty':
-          return this.enum(x.fqn, x.property);
+          return this.evaluateEnum(x.fqn, x.property);
         case 'any':
           return this.evaluate(x.value, ctx);
-        case 'void':
-          return;
         case 'lazyResource':
-          return this.invoke(x.call, ctx.child('Call'));
+          return this.evaluateCall(x.call, ctx.child('Call'));
         case 'construct':
-          return this.initializeConstruct(x, ctx);
+          return this.evaluateConstruct(x, ctx);
         case 'cdkObject':
-          return this.initializeCdkObject(x, ctx);
+          return this.evaluateCdkObject(x, ctx);
         case 'resource':
-          return this.initializeCfnResource(x, ctx);
+          return this.evaluateCfnResource(x, ctx);
         case 'initializer':
           return ctx
             .child(x.fqn)
             .wrap((innerCtx) =>
-              this.initializer(
+              this.evaluateInitializer(
                 x.fqn,
                 this.evaluateArray(x.args.array, innerCtx)
               )
             );
         case 'staticMethodCall':
-          return this.invoke(x, ctx);
+          return this.evaluateCall(x, ctx);
       }
     } catch (error) {
       ctx.error(RuntimeError.wrap(error));
     }
   }
 
-  protected initializeCfnResource(x: CfnResourceNode, ctx: AnnotationsContext) {
-    const resource = this.initializer(x.fqn, [
-      this.context.stack,
-      x.logicalId,
-      this.evaluate(x.props, ctx.child('Properties')),
-    ]) as CfnResource;
-
-    resource.cfnOptions.creationPolicy = x.creationPolicy
-      ? this.evaluate(x.creationPolicy, ctx.child('CreationPolicy'))
-      : undefined;
-    resource.cfnOptions.updatePolicy = x.updatePolicy
-      ? this.evaluate(x.updatePolicy, ctx.child('UpdatePolicy'))
-      : undefined;
-    resource.cfnOptions.metadata = x.metadata;
-    resource.cfnOptions.updateReplacePolicy =
-      x.updateReplacePolicy as CfnDeletionPolicy;
-    resource.cfnOptions.deletionPolicy = x.deletionPolicy as CfnDeletionPolicy;
-
-    return resource;
-  }
-
-  protected initializeConstruct(x: CdkConstruct, ctx: AnnotationsContext) {
-    return this.initializer(x.fqn, [
-      this.context.stack,
-      x.logicalId,
-      this.evaluate(x.props, ctx.child('Properties')),
-    ]);
-  }
-
-  protected initializeCdkObject(x: CdkObject, ctx: AnnotationsContext) {
-    return this.initializer(x.fqn, [
-      this.evaluate(x.props, ctx.child('Properties')),
-    ]);
-  }
-
-  protected lazyLogicalId(x: LazyLogicalId) {
-    if (x.value) {
-      return x.value;
-    }
-    throw new Error(x.errorMessage);
-  }
-
-  protected fnLength(x: unknown) {
-    return cdk.Fn.len(x);
-  }
-
-  protected toJsonString(x: unknown) {
-    return cdk.Fn.toJsonString(x);
-  }
-
-  public evaluateObject(
-    xs: Record<string, TypedTemplateExpression>,
+  protected evaluateIntrinsic(
+    x: IntrinsicExpression,
     ctx: AnnotationsContext
-  ): Record<string, unknown> {
-    return Object.fromEntries(
-      Object.entries(xs).map(([k, v]) => [k, this.evaluate(v, ctx.child(k))])
-    );
-  }
-
-  public evaluateArray(xs: TypedTemplateExpression[], ctx: AnnotationsContext) {
-    return xs.map((x, idx) => this.evaluate(x, ctx.child(idx)));
-  }
-
-  public evaluateIntrinsic(x: IntrinsicExpression, ctx: AnnotationsContext) {
+  ): any {
     if (x.fn === 'lazyLogicalId') {
-      return this.lazyLogicalId(x);
+      return this.fnLazyLogicalId(x);
     }
 
     return ctx.child(intrinsicToLongForm(x.fn)).wrap((intrinsicCtx) => {
@@ -342,7 +252,7 @@ export class Evaluator {
         case 'join':
           return this.fnJoin(assertString(x.separator), ev(x.list));
         case 'ref':
-          return this.cfnRef(x.logicalId);
+          return this.fnRef(x.logicalId);
         case 'select':
           return this.fnSelect(ev(x.index), ev(x.objects));
         case 'split':
@@ -370,23 +280,251 @@ export class Evaluator {
         case 'length':
           return this.fnLength(ev(x.list));
         case 'toJsonString':
-          return this.toJsonString(this.evaluateObject(x.value, intrinsicCtx));
+          return this.fnToJsonString(
+            this.evaluateObject(x.value, intrinsicCtx)
+          );
       }
     });
   }
 
-  public evaluateCondition(conditionName: string, ctx: AnnotationsContext) {
-    const condition = this.context.condition(conditionName);
-    const result = this.evaluate(condition, ctx);
-    if (typeof result !== 'boolean') {
-      throw new Error(
-        `Condition does not evaluate to boolean: ${JSON.stringify(result)}`
-      );
+  protected resolveReference(
+    intrinsic: RefIntrinsic | GetPropIntrinsic,
+    ctx: AnnotationsContext
+  ): any {
+    const { logicalId, fn } = intrinsic;
+
+    if (fn !== 'ref') {
+      return this.evaluateIntrinsic(intrinsic, ctx);
     }
-    return result;
+
+    return ctx.child('Ref').wrap(() => {
+      const c = this.context.reference(logicalId);
+
+      if (!c.instance) {
+        return this.fnRef(logicalId);
+      }
+
+      return c.instance;
+    });
+  }
+}
+
+export class Evaluator extends BaseEvaluator<EvaluationContext> {
+  public evaluateTemplate(ctx: AnnotationsContext): void {
+    const cdkContext =
+      this.context.template.metadata.get('AWS::CDK::Context') ?? {};
+    Object.entries(cdkContext).forEach(([k, v]) =>
+      this.context.stack.node.setContext(k, v)
+    );
+    super.evaluateTemplate(ctx);
   }
 
-  protected invoke(
+  public evaluateDescription(_ctx: AnnotationsContext) {
+    this.context.stack.templateOptions.description =
+      this.context.template.description;
+  }
+
+  public evaluateTemplateFormatVersion(_ctx: AnnotationsContext) {
+    this.context.stack.templateOptions.templateFormatVersion =
+      this.context.template.templateFormatVersion;
+  }
+
+  public evaluateMappings(ctx: AnnotationsContext) {
+    const scope = new Construct(this.context.stack, '$Mappings');
+    this.context.template.mappings.forEach((mapping, mapName) =>
+      ctx.child(mapName).wrap(() => {
+        new cdk.CfnMapping(scope, mapName, {
+          mapping: mapping.toObject(),
+        }).overrideLogicalId(mapName);
+      })
+    );
+  }
+
+  public evaluateParameters(ctx: AnnotationsContext) {
+    this.context.template.parameters.forEach((param, paramName) => {
+      ctx.child(paramName).wrap(() => {
+        new cdk.CfnParameter(
+          this.context.stack,
+          paramName,
+          param
+        ).overrideLogicalId(paramName);
+        this.context.addReference(new SimpleReference(paramName));
+      });
+    });
+  }
+
+  public evaluateResources(ctx: AnnotationsContext) {
+    this.context.template.resources.forEach((logicalId, resource) =>
+      ctx.child(logicalId).wrap((c) => this._evaluateResource(resource, c))
+    );
+  }
+
+  private _evaluateResource(resource: ResourceLike, ctx: AnnotationsContext) {
+    const construct = this.evaluate(resource, ctx);
+
+    // If this is the result of a call to a method with no
+    // return type (void), then there is nothing else to do here.
+    if (construct == null) return;
+
+    this._applyTags(construct, resource.tags);
+    this._applyDependsOn(construct, resource.dependsOn);
+    if (isCdkConstructExpression(resource)) {
+      this._applyOverrides(
+        construct,
+        resource.overrides,
+        ctx.child('Overrides')
+      );
+    }
+
+    this.context.addReference(
+      this._referenceForResourceLike(resource.logicalId, construct)
+    );
+  }
+
+  private _referenceForResourceLike(logicalId: string, value: unknown) {
+    if (!Construct.isConstruct(value)) {
+      return new ValueOnlyReference(logicalId, value);
+    }
+
+    if (cdk.CfnResource.isCfnResource(value)) {
+      return new CfnResourceReference(logicalId, value);
+    }
+
+    return new ConstructReference(logicalId, value as Construct);
+  }
+
+  public evaluateOutputs(ctx: AnnotationsContext) {
+    const scope = new Construct(this.context.stack, '$Outputs');
+    this.context.template.outputs.forEach((output, outputId) => {
+      ctx.child(outputId).wrap(() => {
+        new DeCDKCfnOutput(scope, outputId, {
+          value: this.evaluate(output.value, ctx),
+          description: output.description,
+          exportName: output.exportName
+            ? this.evaluate(output.exportName, ctx)
+            : output.exportName,
+          condition: output.conditionName,
+        }).overrideLogicalId(outputId);
+      });
+    });
+  }
+
+  public evaluateTransform(ctx: AnnotationsContext) {
+    ctx.wrap(() => {
+      this.context.template.transform.forEach((t) => {
+        this.context.stack.addTransform(t);
+      });
+    });
+  }
+
+  public evaluateMetadata(ctx: AnnotationsContext) {
+    this.context.template.metadata.forEach((v, k) => {
+      ctx.child(k).wrap(() => {
+        this.context.stack.addMetadata(k, v);
+      });
+    });
+  }
+
+  public evaluateRules(ctx: AnnotationsContext) {
+    const scope = new Construct(this.context.stack, '$Rules');
+    this.context.template.rules.forEach((rule, name) => {
+      ctx.child(name).wrap(() => {
+        new CfnRule(scope, name, rule).overrideLogicalId(name);
+      });
+    });
+  }
+
+  public evaluateHooks(ctx: AnnotationsContext) {
+    const scope = new Construct(this.context.stack, '$Hooks');
+    this.context.template.hooks.forEach((hook, name) => {
+      ctx.child(name).wrap(() => {
+        new CfnHook(scope, name, hook).overrideLogicalId(name);
+      });
+    });
+  }
+
+  public evaluateConditions(ctx: AnnotationsContext) {
+    const scope = new Construct(this.context.stack, '$Conditions');
+    this.context.template.conditions.forEach((condition, logicalId) => {
+      ctx.child(logicalId).wrap(() => {
+        const conditionFn = this.evaluate(condition, ctx);
+        new cdk.CfnCondition(scope, logicalId, {
+          expression: conditionFn,
+        }).overrideLogicalId(logicalId);
+      });
+    });
+  }
+
+  protected evaluateNull() {
+    return undefined;
+  }
+
+  protected evaluateVoid() {
+    return undefined;
+  }
+
+  protected evaluatePrimitive(
+    x: StringLiteral | NumberLiteral | BooleanLiteral
+  ) {
+    return x.value;
+  }
+
+  protected evaluateDate(x: DateLiteral) {
+    return x.date;
+  }
+
+  protected evaluateCfnResource(x: CfnResourceNode, ctx: AnnotationsContext) {
+    const resource = this.evaluateInitializer(x.fqn, [
+      this.context.stack,
+      x.logicalId,
+      this.evaluate(x.props, ctx.child('Properties')),
+    ]) as CfnResource;
+
+    resource.cfnOptions.creationPolicy = x.creationPolicy
+      ? this.evaluate(x.creationPolicy, ctx.child('CreationPolicy'))
+      : undefined;
+    resource.cfnOptions.updatePolicy = x.updatePolicy
+      ? this.evaluate(x.updatePolicy, ctx.child('UpdatePolicy'))
+      : undefined;
+    resource.cfnOptions.metadata = x.metadata;
+    resource.cfnOptions.updateReplacePolicy =
+      x.updateReplacePolicy as CfnDeletionPolicy;
+    resource.cfnOptions.deletionPolicy = x.deletionPolicy as CfnDeletionPolicy;
+
+    return resource;
+  }
+
+  protected evaluateConstruct(x: CdkConstruct, ctx: AnnotationsContext) {
+    return this.evaluateInitializer(x.fqn, [
+      this.context.stack,
+      x.logicalId,
+      this.evaluate(x.props, ctx.child('Properties')),
+    ]);
+  }
+
+  protected evaluateCdkObject(x: CdkObject, ctx: AnnotationsContext) {
+    return this.evaluateInitializer(x.fqn, [
+      this.evaluate(x.props, ctx.child('Properties')),
+    ]);
+  }
+
+  protected evaluateObject(
+    xs: Record<string, TypedTemplateExpression>,
+    ctx: AnnotationsContext
+  ): Record<string, unknown> {
+    return Object.fromEntries(
+      Object.entries(xs).map(([k, v]) => [k, this.evaluate(v, ctx.child(k))])
+    );
+  }
+
+  protected evaluateArray(
+    xs: TypedTemplateExpression[],
+    ctx: AnnotationsContext
+  ) {
+    return xs.map((x, idx) => this.evaluate(x, ctx.child(idx)));
+  }
+
+  protected evaluateCall(
     call: StaticMethodCallExpression | InstanceMethodCallExpression,
     ctx: AnnotationsContext
   ) {
@@ -397,7 +535,7 @@ export class Evaluator {
 
     if (call.type === 'staticMethodCall') {
       return ctx.child(`${call.fqn}.${call.method}`).wrap((innerCtx) => {
-        return this.invokeStaticMethod(
+        return this._invokeStaticMethod(
           call.fqn,
           call.method,
           evalParams(call.args, innerCtx)
@@ -408,7 +546,7 @@ export class Evaluator {
     return ctx
       .child(`${call.target.reference}.${call.method}`)
       .wrap((innerCtx) => {
-        return this.invokeInstanceMethod(
+        return this._invokeInstanceMethod(
           call.target,
           call.method,
           evalParams(call.args, innerCtx),
@@ -417,7 +555,12 @@ export class Evaluator {
       });
   }
 
-  private invokeInstanceMethod(
+  protected evaluateEnum(fqn: string, choice: string): any {
+    const typeClass = this.context.resolveClass(fqn);
+    return typeClass[choice];
+  }
+
+  private _invokeInstanceMethod(
     target: ResolveReferenceExpression,
     method: string,
     parameters: any[],
@@ -427,7 +570,7 @@ export class Evaluator {
     return instance[method](...parameters);
   }
 
-  private invokeStaticMethod(
+  private _invokeStaticMethod(
     fqn: string,
     method: string,
     parameters: unknown[]
@@ -436,14 +579,9 @@ export class Evaluator {
     return typeClass[method](...parameters);
   }
 
-  protected initializer(fqn: string, parameters: unknown[]): any {
+  protected evaluateInitializer(fqn: string, parameters: unknown[]): any {
     const typeClass = this.context.resolveClass(fqn);
     return new typeClass(...parameters);
-  }
-
-  protected enum(fqn: string, choice: string): any {
-    const typeClass = this.context.resolveClass(fqn);
-    return typeClass[choice];
   }
 
   protected fnBase64(x: string) {
@@ -507,28 +645,7 @@ export class Evaluator {
     return cdk.Fn.join(separator, array);
   }
 
-  protected resolveReference(
-    intrinsic: RefIntrinsic | GetPropIntrinsic,
-    ctx: AnnotationsContext
-  ) {
-    const { logicalId, fn } = intrinsic;
-
-    if (fn !== 'ref') {
-      return this.evaluateIntrinsic(intrinsic, ctx);
-    }
-
-    return ctx.child('Ref').wrap(() => {
-      const c = this.context.reference(logicalId);
-
-      if (!c.instance) {
-        return this.cfnRef(logicalId);
-      }
-
-      return c.instance;
-    });
-  }
-
-  protected cfnRef(logicalId: string) {
+  protected fnRef(logicalId: string) {
     const c = this.context.reference(logicalId);
     return cdk.Fn.ref(c.ref);
   }
@@ -615,13 +732,28 @@ export class Evaluator {
     return cdk.Fn.conditionEquals(value1, value2);
   }
 
-  protected applyTags(resource: IConstruct, tags: ResourceTag[] = []) {
+  protected fnLazyLogicalId(x: LazyLogicalId) {
+    if (x.value) {
+      return x.value;
+    }
+    throw new Error(x.errorMessage);
+  }
+
+  protected fnLength(x: unknown) {
+    return cdk.Fn.len(x);
+  }
+
+  protected fnToJsonString(x: unknown) {
+    return cdk.Fn.toJsonString(x);
+  }
+
+  private _applyTags(resource: IConstruct, tags: ResourceTag[] = []) {
     tags.forEach((tag: ResourceTag) => {
       cdk.Tags.of(resource).add(tag.key, tag.value);
     });
   }
 
-  protected applyDependsOn(from: IConstruct, dependencies: string[] = []) {
+  private _applyDependsOn(from: IConstruct, dependencies: string[] = []) {
     from.node?.addDependency(
       ...dependencies
         .map((to) => this.context.stack.node.tryFindChild(to))
@@ -629,7 +761,7 @@ export class Evaluator {
     );
   }
 
-  protected applyOverrides(
+  private _applyOverrides(
     resource: IConstruct,
     overrides: ResourceOverride[],
     ctx: AnnotationsContext
