@@ -1984,6 +1984,7 @@ TypedTemplate {
 exports[`Type Resolution: Fixtures examples/integration.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "description": undefined,
   "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
@@ -2624,6 +2625,7 @@ TypedTemplate {
       "AWS::SecretsManager-2020-07-23",
     ],
   },
+  "templateFormatVersion": undefined,
   "transform": Array [
     "AWS::LanguageExtensions",
     "AWS::SecretsManager-2020-07-23",
