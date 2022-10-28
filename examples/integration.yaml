@@ -1,0 +1,58 @@
+# Features:
+#  * CDK constructs
+#  * CFN resources
+#  * Language extension functions (inside constructs and resources)
+#  * Assets
+#  * Method calls
+#  * Additional transform
+
+Transform:
+  - 'AWS::LanguageExtensions'
+  - 'AWS::SecretsManager-2020-07-23'
+Parameters:
+  QueueList:
+    Type: CommaDelimitedList
+    Default: 'a,b,c,d,e,f,g'
+Resources:
+  Function:
+    Type: aws-cdk-lib.aws_lambda.Function
+    Properties:
+      handler: 'index.handler'
+      runtime: 'NODEJS_14_X'
+      code:
+        'aws-cdk-lib.aws_lambda.Code.fromInline': "exports.handler = async () => { console.log('hello world'); };"
+      timeout:
+        'aws-cdk-lib.Duration.seconds':
+          'Fn::Length': !Ref QueueList
+  GrantRead:
+    Call:
+      - WebsiteBucket
+      - grantRead:
+          Ref: Function
+  BucketDeployment:
+    Type: aws-cdk-lib.aws_s3_deployment.BucketDeployment
+    Properties:
+      destinationBucket:
+        Ref: WebsiteBucket
+      sources:
+        - aws-cdk-lib.aws_s3_deployment.Source.data:
+            - 'README.md'
+            - 'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
+  WebsiteBucket:
+    Type: aws-cdk-lib.aws_s3.Bucket
+  Queue:
+    Type: 'AWS::SQS::Queue'
+    Properties:
+      DelaySeconds:
+        'Fn::Length': !Ref QueueList
+  Secret:
+    Type: aws-cdk-lib.aws_secretsmanager.Secret
+  RotationSchedule:
+    Type: aws-cdk-lib.aws_secretsmanager.RotationSchedule
+    Properties:
+      secret:
+        Ref: Secret
+      automaticallyAfter:
+        'aws-cdk-lib.Duration.days': 30
+      hostedRotation:
+        'aws-cdk-lib.aws_secretsmanager.HostedRotation.mysqlSingleUser': []
