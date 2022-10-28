@@ -1,0 +1,11 @@
+# yaml-language-server: $schema=./cdk.schema.json
+Description: t"es't d\'e\"scription
+Resources:
+  HelloWorld:
+    Type: AWS::S3::Bucket
+  HelloTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      DisplayName:
+        Fn::GetAtt: 'HelloWorld.DomainName'
+      FifoTopic: true

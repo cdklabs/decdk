@@ -19,6 +19,8 @@ const project = new typescript.TypeScriptProject({
     'yargs',
     'chalk@^4',
     'semver',
+    'ts-morph',
+    '@ts-morph/common',
   ],
   devDeps: [
     '@types/fs-extra@^8',

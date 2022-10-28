@@ -135,6 +135,10 @@
       "type": "peer"
     },
     {
+      "name": "@ts-morph/common",
+      "type": "runtime"
+    },
+    {
       "name": "chalk",
       "version": "^4",
       "type": "runtime"
@@ -159,6 +163,10 @@
     },
     {
       "name": "semver",
+      "type": "runtime"
+    },
+    {
+      "name": "ts-morph",
       "type": "runtime"
     },
     {

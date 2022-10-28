@@ -2,6 +2,7 @@
   "name": "decdk",
   "description": "Declarative CDK: a CloudFormation-like syntax for defining CDK stacks",
   "bin": {
+    "dasm": "bin/dasm",
     "decdk": "bin/decdk",
     "decdk-schema": "bin/decdk-schema"
   },
@@ -63,12 +64,14 @@
     "aws-cdk-lib": "^2.1.0"
   },
   "dependencies": {
+    "@ts-morph/common": "^0.17.0",
     "chalk": "^4",
     "constructs": "^10",
     "fs-extra": "^8",
     "jsii-reflect": "^1.70.0",
     "jsonschema": "^1.4.1",
     "semver": "^7.3.8",
+    "ts-morph": "^16.0.0",
     "yaml": "^1.10.2",
     "yargs": "^17.6.0"
   },
