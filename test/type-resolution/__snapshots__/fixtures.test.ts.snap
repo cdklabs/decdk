@@ -3,6 +3,7 @@
 exports[`Type Resolution: Fixtures examples/apigw.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "description": "A template creates a lambda function with an api gateway",
   "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
@@ -261,6 +262,7 @@ TypedTemplate {
     "templateFormatVersion": "2010-09-09",
     "transform": Array [],
   },
+  "templateFormatVersion": "2010-09-09",
   "transform": Array [],
 }
 `;
@@ -268,6 +270,7 @@ TypedTemplate {
 exports[`Type Resolution: Fixtures examples/application-load-balancer.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "description": undefined,
   "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
@@ -912,6 +915,7 @@ TypedTemplate {
     "templateFormatVersion": undefined,
     "transform": Array [],
   },
+  "templateFormatVersion": undefined,
   "transform": Array [],
 }
 `;
@@ -919,6 +923,7 @@ TypedTemplate {
 exports[`Type Resolution: Fixtures examples/ecs.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "description": "A template creates a Fargate service with necessary resources",
   "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
@@ -1316,6 +1321,7 @@ TypedTemplate {
     "templateFormatVersion": "2010-09-09",
     "transform": Array [],
   },
+  "templateFormatVersion": "2010-09-09",
   "transform": Array [],
 }
 `;
@@ -1323,6 +1329,7 @@ TypedTemplate {
 exports[`Type Resolution: Fixtures examples/fleet.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "description": "A template creates an ASG and Vpc",
   "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
@@ -1541,6 +1548,7 @@ TypedTemplate {
     "templateFormatVersion": undefined,
     "transform": Array [],
   },
+  "templateFormatVersion": undefined,
   "transform": Array [],
 }
 `;
@@ -1548,6 +1556,7 @@ TypedTemplate {
 exports[`Type Resolution: Fixtures examples/http-proxy.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "description": undefined,
   "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
@@ -1967,13 +1976,667 @@ TypedTemplate {
     "templateFormatVersion": undefined,
     "transform": Array [],
   },
+  "templateFormatVersion": undefined,
   "transform": Array [],
+}
+`;
+
+exports[`Type Resolution: Fixtures examples/integration.yaml 1`] = `
+TypedTemplate {
+  "conditions": Map {},
+  "description": undefined,
+  "hooks": Map {},
+  "mappings": Map {},
+  "metadata": Map {},
+  "outputs": Map {},
+  "parameters": Map {
+    "QueueList" => Object {
+      "allowedPattern": undefined,
+      "allowedValues": undefined,
+      "constraintDescription": undefined,
+      "default": "a,b,c,d,e,f,g",
+      "description": undefined,
+      "maxLength": undefined,
+      "maxValue": undefined,
+      "minLength": undefined,
+      "minValue": undefined,
+      "noEcho": undefined,
+      "type": "CommaDelimitedList",
+    },
+  },
+  "resources": DependencyGraph {
+    "_dependencies": Map {
+      "Function" => Set {},
+      "WebsiteBucket" => Set {},
+      "Queue" => Set {},
+      "Secret" => Set {},
+      "GrantRead" => Set {
+        "Function",
+        "WebsiteBucket",
+      },
+      "BucketDeployment" => Set {
+        "WebsiteBucket",
+      },
+      "RotationSchedule" => Set {
+        "Secret",
+      },
+    },
+    "nodes": Object {
+      "BucketDeployment": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_s3_deployment.BucketDeployment",
+        "logicalId": "BucketDeployment",
+        "namespace": "aws_s3_deployment",
+        "overrides": Array [],
+        "props": Object {
+          "fields": Object {
+            "destinationBucket": Object {
+              "reference": Object {
+                "fn": "ref",
+                "logicalId": "WebsiteBucket",
+                "type": "intrinsic",
+              },
+              "type": "resolve-reference",
+            },
+            "sources": Object {
+              "array": Array [
+                Object {
+                  "args": Object {
+                    "array": Array [
+                      Object {
+                        "type": "string",
+                        "value": "README.md",
+                      },
+                      Object {
+                        "type": "string",
+                        "value": "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+                      },
+                    ],
+                    "type": "array",
+                  },
+                  "fqn": "aws-cdk-lib.aws_s3_deployment.Source",
+                  "method": "data",
+                  "namespace": "aws_s3_deployment",
+                  "type": "staticMethodCall",
+                },
+              ],
+              "type": "array",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "construct",
+      },
+      "Function": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_lambda.Function",
+        "logicalId": "Function",
+        "namespace": "aws_lambda",
+        "overrides": Array [],
+        "props": Object {
+          "fields": Object {
+            "code": Object {
+              "args": Object {
+                "array": Array [
+                  Object {
+                    "type": "string",
+                    "value": "exports.handler = async () => { console.log('hello world'); };",
+                  },
+                ],
+                "type": "array",
+              },
+              "fqn": "aws-cdk-lib.aws_lambda.Code",
+              "method": "fromInline",
+              "namespace": "aws_lambda",
+              "type": "staticMethodCall",
+            },
+            "handler": Object {
+              "type": "string",
+              "value": "index.handler",
+            },
+            "runtime": Object {
+              "fqn": "aws-cdk-lib.aws_lambda.Runtime",
+              "namespace": "aws_lambda",
+              "property": "NODEJS_14_X",
+              "type": "staticProperty",
+            },
+            "timeout": Object {
+              "args": Object {
+                "array": Array [
+                  Object {
+                    "fn": "length",
+                    "list": Object {
+                      "fn": "ref",
+                      "logicalId": "QueueList",
+                      "type": "intrinsic",
+                    },
+                    "type": "intrinsic",
+                  },
+                ],
+                "type": "array",
+              },
+              "fqn": "aws-cdk-lib.Duration",
+              "method": "seconds",
+              "namespace": undefined,
+              "type": "staticMethodCall",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "construct",
+      },
+      "GrantRead": Object {
+        "call": Object {
+          "args": Object {
+            "array": Array [
+              Object {
+                "reference": Object {
+                  "fn": "ref",
+                  "logicalId": "Function",
+                  "type": "intrinsic",
+                },
+                "type": "resolve-reference",
+              },
+              Object {
+                "type": "void",
+              },
+            ],
+            "type": "array",
+          },
+          "method": "grantRead",
+          "target": Object {
+            "reference": Object {
+              "fn": "ref",
+              "logicalId": "WebsiteBucket",
+              "type": "intrinsic",
+            },
+            "type": "resolve-reference",
+          },
+          "type": "instanceMethodCall",
+        },
+        "dependsOn": Array [],
+        "logicalId": "GrantRead",
+        "namespace": undefined,
+        "overrides": Array [],
+        "tags": Array [],
+        "type": "lazyResource",
+      },
+      "Queue": Object {
+        "cfnType": "AWS::SQS::Queue",
+        "creationPolicy": undefined,
+        "deletionPolicy": "Delete",
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.CfnResource",
+        "logicalId": "Queue",
+        "metadata": Object {},
+        "namespace": undefined,
+        "props": Object {
+          "fields": Object {
+            "properties": Object {
+              "fields": Object {
+                "DelaySeconds": Object {
+                  "type": "any",
+                  "value": Object {
+                    "fn": "length",
+                    "list": Object {
+                      "fn": "ref",
+                      "logicalId": "QueueList",
+                      "type": "intrinsic",
+                    },
+                    "type": "intrinsic",
+                  },
+                },
+              },
+              "type": "object",
+            },
+            "type": Object {
+              "type": "string",
+              "value": "AWS::SQS::Queue",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "resource",
+        "updatePolicy": undefined,
+        "updateReplacePolicy": "Delete",
+      },
+      "RotationSchedule": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_secretsmanager.RotationSchedule",
+        "logicalId": "RotationSchedule",
+        "namespace": "aws_secretsmanager",
+        "overrides": Array [],
+        "props": Object {
+          "fields": Object {
+            "automaticallyAfter": Object {
+              "args": Object {
+                "array": Array [
+                  Object {
+                    "type": "number",
+                    "value": 30,
+                  },
+                ],
+                "type": "array",
+              },
+              "fqn": "aws-cdk-lib.Duration",
+              "method": "days",
+              "namespace": undefined,
+              "type": "staticMethodCall",
+            },
+            "hostedRotation": Object {
+              "args": Object {
+                "array": Array [
+                  Object {
+                    "type": "void",
+                  },
+                ],
+                "type": "array",
+              },
+              "fqn": "aws-cdk-lib.aws_secretsmanager.HostedRotation",
+              "method": "mysqlSingleUser",
+              "namespace": "aws_secretsmanager",
+              "type": "staticMethodCall",
+            },
+            "secret": Object {
+              "reference": Object {
+                "fn": "ref",
+                "logicalId": "Secret",
+                "type": "intrinsic",
+              },
+              "type": "resolve-reference",
+            },
+          },
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "construct",
+      },
+      "Secret": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_secretsmanager.Secret",
+        "logicalId": "Secret",
+        "namespace": "aws_secretsmanager",
+        "overrides": Array [],
+        "props": Object {
+          "fields": Object {},
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "construct",
+      },
+      "WebsiteBucket": Object {
+        "dependsOn": Array [],
+        "fqn": "aws-cdk-lib.aws_s3.Bucket",
+        "logicalId": "WebsiteBucket",
+        "namespace": "aws_s3",
+        "overrides": Array [],
+        "props": Object {
+          "fields": Object {},
+          "type": "struct",
+        },
+        "tags": Array [],
+        "type": "construct",
+      },
+    },
+  },
+  "rules": Map {},
+  "template": Template {
+    "conditions": Map {},
+    "description": undefined,
+    "hooks": Map {},
+    "mappings": Map {},
+    "metadata": Map {},
+    "outputs": Map {},
+    "parameters": Map {
+      "QueueList" => Object {
+        "allowedPattern": undefined,
+        "allowedValues": undefined,
+        "constraintDescription": undefined,
+        "default": "a,b,c,d,e,f,g",
+        "description": undefined,
+        "maxLength": undefined,
+        "maxValue": undefined,
+        "minLength": undefined,
+        "minValue": undefined,
+        "noEcho": undefined,
+        "type": "CommaDelimitedList",
+      },
+    },
+    "resources": Map {
+      "Function" => Object {
+        "call": undefined,
+        "conditionName": undefined,
+        "creationPolicy": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "QueueList",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "overrides": Array [],
+        "properties": Object {
+          "code": Object {
+            "fields": Object {
+              "aws-cdk-lib.aws_lambda.Code.fromInline": Object {
+                "type": "string",
+                "value": "exports.handler = async () => { console.log('hello world'); };",
+              },
+            },
+            "type": "object",
+          },
+          "handler": Object {
+            "type": "string",
+            "value": "index.handler",
+          },
+          "runtime": Object {
+            "type": "string",
+            "value": "NODEJS_14_X",
+          },
+          "timeout": Object {
+            "fields": Object {
+              "aws-cdk-lib.Duration.seconds": Object {
+                "fn": "length",
+                "list": Object {
+                  "fn": "ref",
+                  "logicalId": "QueueList",
+                  "type": "intrinsic",
+                },
+                "type": "intrinsic",
+              },
+            },
+            "type": "object",
+          },
+        },
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_lambda.Function",
+        "updatePolicy": undefined,
+        "updateReplacePolicy": "Delete",
+      },
+      "GrantRead" => Object {
+        "call": Object {
+          "arguments": Object {
+            "array": Array [
+              Object {
+                "fn": "ref",
+                "logicalId": "Function",
+                "type": "intrinsic",
+              },
+            ],
+            "type": "array",
+          },
+          "methodName": "grantRead",
+          "target": "WebsiteBucket",
+        },
+        "conditionName": undefined,
+        "creationPolicy": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "Function",
+          "WebsiteBucket",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "overrides": Array [],
+        "properties": Object {},
+        "tags": Array [],
+        "type": undefined,
+        "updatePolicy": undefined,
+        "updateReplacePolicy": "Delete",
+      },
+      "BucketDeployment" => Object {
+        "call": undefined,
+        "conditionName": undefined,
+        "creationPolicy": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "WebsiteBucket",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "overrides": Array [],
+        "properties": Object {
+          "destinationBucket": Object {
+            "fn": "ref",
+            "logicalId": "WebsiteBucket",
+            "type": "intrinsic",
+          },
+          "sources": Object {
+            "array": Array [
+              Object {
+                "fields": Object {
+                  "aws-cdk-lib.aws_s3_deployment.Source.data": Object {
+                    "array": Array [
+                      Object {
+                        "type": "string",
+                        "value": "README.md",
+                      },
+                      Object {
+                        "type": "string",
+                        "value": "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+                      },
+                    ],
+                    "type": "array",
+                  },
+                },
+                "type": "object",
+              },
+            ],
+            "type": "array",
+          },
+        },
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_s3_deployment.BucketDeployment",
+        "updatePolicy": undefined,
+        "updateReplacePolicy": "Delete",
+      },
+      "WebsiteBucket" => Object {
+        "call": undefined,
+        "conditionName": undefined,
+        "creationPolicy": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {},
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "overrides": Array [],
+        "properties": Object {},
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_s3.Bucket",
+        "updatePolicy": undefined,
+        "updateReplacePolicy": "Delete",
+      },
+      "Queue" => Object {
+        "call": undefined,
+        "conditionName": undefined,
+        "creationPolicy": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "QueueList",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "overrides": Array [],
+        "properties": Object {
+          "DelaySeconds": Object {
+            "fn": "length",
+            "list": Object {
+              "fn": "ref",
+              "logicalId": "QueueList",
+              "type": "intrinsic",
+            },
+            "type": "intrinsic",
+          },
+        },
+        "tags": Array [],
+        "type": "AWS::SQS::Queue",
+        "updatePolicy": undefined,
+        "updateReplacePolicy": "Delete",
+      },
+      "Secret" => Object {
+        "call": undefined,
+        "conditionName": undefined,
+        "creationPolicy": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {},
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "overrides": Array [],
+        "properties": Object {},
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_secretsmanager.Secret",
+        "updatePolicy": undefined,
+        "updateReplacePolicy": "Delete",
+      },
+      "RotationSchedule" => Object {
+        "call": undefined,
+        "conditionName": undefined,
+        "creationPolicy": undefined,
+        "deletionPolicy": "Delete",
+        "dependencies": Set {
+          "Secret",
+        },
+        "dependsOn": Set {},
+        "metadata": Object {},
+        "overrides": Array [],
+        "properties": Object {
+          "automaticallyAfter": Object {
+            "fields": Object {
+              "aws-cdk-lib.Duration.days": Object {
+                "type": "number",
+                "value": 30,
+              },
+            },
+            "type": "object",
+          },
+          "hostedRotation": Object {
+            "fields": Object {
+              "aws-cdk-lib.aws_secretsmanager.HostedRotation.mysqlSingleUser": Object {
+                "array": Array [],
+                "type": "array",
+              },
+            },
+            "type": "object",
+          },
+          "secret": Object {
+            "fn": "ref",
+            "logicalId": "Secret",
+            "type": "intrinsic",
+          },
+        },
+        "tags": Array [],
+        "type": "aws-cdk-lib.aws_secretsmanager.RotationSchedule",
+        "updatePolicy": undefined,
+        "updateReplacePolicy": "Delete",
+      },
+    },
+    "rules": Map {},
+    "template": Object {
+      "Parameters": Object {
+        "QueueList": Object {
+          "Default": "a,b,c,d,e,f,g",
+          "Type": "CommaDelimitedList",
+        },
+      },
+      "Resources": Object {
+        "BucketDeployment": Object {
+          "Properties": Object {
+            "destinationBucket": Object {
+              "Ref": "WebsiteBucket",
+            },
+            "sources": Array [
+              Object {
+                "aws-cdk-lib.aws_s3_deployment.Source.data": Array [
+                  "README.md",
+                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+                ],
+              },
+            ],
+          },
+          "Type": "aws-cdk-lib.aws_s3_deployment.BucketDeployment",
+        },
+        "Function": Object {
+          "Properties": Object {
+            "code": Object {
+              "aws-cdk-lib.aws_lambda.Code.fromInline": "exports.handler = async () => { console.log('hello world'); };",
+            },
+            "handler": "index.handler",
+            "runtime": "NODEJS_14_X",
+            "timeout": Object {
+              "aws-cdk-lib.Duration.seconds": Object {
+                "Fn::Length": Object {
+                  "Ref": "QueueList",
+                },
+              },
+            },
+          },
+          "Type": "aws-cdk-lib.aws_lambda.Function",
+        },
+        "GrantRead": Object {
+          "Call": Array [
+            "WebsiteBucket",
+            Object {
+              "grantRead": Object {
+                "Ref": "Function",
+              },
+            },
+          ],
+        },
+        "Queue": Object {
+          "Properties": Object {
+            "DelaySeconds": Object {
+              "Fn::Length": Object {
+                "Ref": "QueueList",
+              },
+            },
+          },
+          "Type": "AWS::SQS::Queue",
+        },
+        "RotationSchedule": Object {
+          "Properties": Object {
+            "automaticallyAfter": Object {
+              "aws-cdk-lib.Duration.days": 30,
+            },
+            "hostedRotation": Object {
+              "aws-cdk-lib.aws_secretsmanager.HostedRotation.mysqlSingleUser": Array [],
+            },
+            "secret": Object {
+              "Ref": "Secret",
+            },
+          },
+          "Type": "aws-cdk-lib.aws_secretsmanager.RotationSchedule",
+        },
+        "Secret": Object {
+          "Type": "aws-cdk-lib.aws_secretsmanager.Secret",
+        },
+        "WebsiteBucket": Object {
+          "Type": "aws-cdk-lib.aws_s3.Bucket",
+        },
+      },
+      "Transform": Array [
+        "AWS::LanguageExtensions",
+        "AWS::SecretsManager-2020-07-23",
+      ],
+    },
+    "templateFormatVersion": undefined,
+    "transform": Array [
+      "AWS::LanguageExtensions",
+      "AWS::SecretsManager-2020-07-23",
+    ],
+  },
+  "templateFormatVersion": undefined,
+  "transform": Array [
+    "AWS::LanguageExtensions",
+    "AWS::SecretsManager-2020-07-23",
+  ],
 }
 `;
 
 exports[`Type Resolution: Fixtures examples/lambda-dashboard.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "description": undefined,
   "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
@@ -2993,6 +3656,7 @@ TypedTemplate {
     "templateFormatVersion": undefined,
     "transform": Array [],
   },
+  "templateFormatVersion": undefined,
   "transform": Array [],
 }
 `;
@@ -3000,6 +3664,7 @@ TypedTemplate {
 exports[`Type Resolution: Fixtures examples/lambda-events.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "description": "A template creates a lambda function which can be invoked by an sns topic",
   "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
@@ -3457,6 +4122,7 @@ TypedTemplate {
     "templateFormatVersion": undefined,
     "transform": Array [],
   },
+  "templateFormatVersion": undefined,
   "transform": Array [],
 }
 `;
@@ -3464,6 +4130,7 @@ TypedTemplate {
 exports[`Type Resolution: Fixtures examples/lambda-layer.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "description": "A template creates a aws cli lambda layer",
   "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
@@ -3643,6 +4310,7 @@ TypedTemplate {
     "templateFormatVersion": "2010-09-09",
     "transform": Array [],
   },
+  "templateFormatVersion": "2010-09-09",
   "transform": Array [],
 }
 `;
@@ -3650,6 +4318,7 @@ TypedTemplate {
 exports[`Type Resolution: Fixtures examples/lambda-policy.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "description": undefined,
   "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
@@ -4070,6 +4739,7 @@ TypedTemplate {
     "templateFormatVersion": undefined,
     "transform": Array [],
   },
+  "templateFormatVersion": undefined,
   "transform": Array [],
 }
 `;
@@ -4077,6 +4747,7 @@ TypedTemplate {
 exports[`Type Resolution: Fixtures examples/lambda-topic.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "description": undefined,
   "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
@@ -4278,6 +4949,7 @@ TypedTemplate {
     "templateFormatVersion": undefined,
     "transform": Array [],
   },
+  "templateFormatVersion": undefined,
   "transform": Array [],
 }
 `;
@@ -4285,6 +4957,7 @@ TypedTemplate {
 exports[`Type Resolution: Fixtures examples/pipeline.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "description": "A template creates a CodePipeline along with its CodeCommit repository source",
   "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
@@ -4920,6 +5593,7 @@ TypedTemplate {
     "templateFormatVersion": "2010-09-09",
     "transform": Array [],
   },
+  "templateFormatVersion": "2010-09-09",
   "transform": Array [],
 }
 `;
@@ -4927,6 +5601,7 @@ TypedTemplate {
 exports[`Type Resolution: Fixtures examples/static-site.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "description": undefined,
   "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
@@ -6078,6 +6753,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
     "templateFormatVersion": undefined,
     "transform": Array [],
   },
+  "templateFormatVersion": undefined,
   "transform": Array [],
 }
 `;
@@ -6085,6 +6761,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
 exports[`Type Resolution: Fixtures examples/vpc.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "description": undefined,
   "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
@@ -6148,6 +6825,7 @@ TypedTemplate {
     "templateFormatVersion": undefined,
     "transform": Array [],
   },
+  "templateFormatVersion": undefined,
   "transform": Array [],
 }
 `;
@@ -6178,6 +6856,7 @@ TypedTemplate {
       "type": "intrinsic",
     },
   },
+  "description": "AWS CloudFormation Sample Template for using Assertions: Create a load balanced, Auto Scaled sample website where the instances are locked down to only accept traffic from the load balancer. This example creates an Auto Scaling group behind a load balancer with a health check. The web site is available on port 80 or 443 based on the input.",
   "hooks": Map {},
   "mappings": Map {
     "AWSAMIRegionMap" => TemplateMapping {
@@ -9632,6 +10311,7 @@ TypedTemplate {
     "templateFormatVersion": "2010-09-09",
     "transform": Array [],
   },
+  "templateFormatVersion": "2010-09-09",
   "transform": Array [],
 }
 `;
@@ -9653,6 +10333,7 @@ TypedTemplate {
       },
     },
   },
+  "description": undefined,
   "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
@@ -10200,6 +10881,7 @@ TypedTemplate {
     "templateFormatVersion": undefined,
     "transform": Array [],
   },
+  "templateFormatVersion": undefined,
   "transform": Array [],
 }
 `;
@@ -10207,6 +10889,7 @@ TypedTemplate {
 exports[`Type Resolution: Fixtures templates/cfn-mappings.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "description": undefined,
   "hooks": Map {},
   "mappings": Map {
     "RegionMap" => TemplateMapping {
@@ -10385,6 +11068,7 @@ TypedTemplate {
     "templateFormatVersion": undefined,
     "transform": Array [],
   },
+  "templateFormatVersion": undefined,
   "transform": Array [],
 }
 `;
@@ -10392,6 +11076,7 @@ TypedTemplate {
 exports[`Type Resolution: Fixtures templates/cfn-metadata.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "description": undefined,
   "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {
@@ -10492,6 +11177,7 @@ TypedTemplate {
     "templateFormatVersion": undefined,
     "transform": Array [],
   },
+  "templateFormatVersion": undefined,
   "transform": Array [],
 }
 `;
@@ -10499,6 +11185,7 @@ TypedTemplate {
 exports[`Type Resolution: Fixtures templates/cfn-outputs-complex.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "description": undefined,
   "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
@@ -10780,6 +11467,7 @@ TypedTemplate {
     "templateFormatVersion": undefined,
     "transform": Array [],
   },
+  "templateFormatVersion": undefined,
   "transform": Array [],
 }
 `;
@@ -10787,6 +11475,7 @@ TypedTemplate {
 exports[`Type Resolution: Fixtures templates/cfn-outputs-simple.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "description": "A template creates a lambda function with an api gateway",
   "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
@@ -11080,6 +11769,7 @@ TypedTemplate {
     "templateFormatVersion": "2010-09-09",
     "transform": Array [],
   },
+  "templateFormatVersion": "2010-09-09",
   "transform": Array [],
 }
 `;
@@ -11087,6 +11777,7 @@ TypedTemplate {
 exports[`Type Resolution: Fixtures templates/cfn-parameters.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "description": undefined,
   "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
@@ -11370,6 +12061,7 @@ TypedTemplate {
     "templateFormatVersion": undefined,
     "transform": Array [],
   },
+  "templateFormatVersion": undefined,
   "transform": Array [],
 }
 `;
@@ -11377,6 +12069,7 @@ TypedTemplate {
 exports[`Type Resolution: Fixtures templates/cfn-policies.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "description": undefined,
   "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
@@ -11969,6 +12662,7 @@ yum update -y aws-cfn-bootstrap
     "templateFormatVersion": undefined,
     "transform": Array [],
   },
+  "templateFormatVersion": undefined,
   "transform": Array [],
 }
 `;
@@ -11976,6 +12670,7 @@ yum update -y aws-cfn-bootstrap
 exports[`Type Resolution: Fixtures templates/cfn-transform.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "description": undefined,
   "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
@@ -12057,6 +12752,7 @@ TypedTemplate {
       "AWS::LanguageExtensions",
     ],
   },
+  "templateFormatVersion": undefined,
   "transform": Array [
     "AWS::LanguageExtensions",
   ],
@@ -12066,6 +12762,7 @@ TypedTemplate {
 exports[`Type Resolution: Fixtures templates/overrides-delete-path.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "description": undefined,
   "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {
@@ -12191,6 +12888,7 @@ TypedTemplate {
       "AWS::LanguageExtensions",
     ],
   },
+  "templateFormatVersion": undefined,
   "transform": Array [
     "AWS::LanguageExtensions",
   ],
@@ -12200,6 +12898,7 @@ TypedTemplate {
 exports[`Type Resolution: Fixtures templates/overrides-remove-resource.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "description": undefined,
   "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
@@ -12342,6 +13041,7 @@ TypedTemplate {
     "templateFormatVersion": undefined,
     "transform": Array [],
   },
+  "templateFormatVersion": undefined,
   "transform": Array [],
 }
 `;
@@ -12349,6 +13049,7 @@ TypedTemplate {
 exports[`Type Resolution: Fixtures templates/overrides-update-path.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "description": "A template creates a lambda function which can be invoked by an sns topic",
   "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
@@ -12837,6 +13538,7 @@ TypedTemplate {
     "templateFormatVersion": undefined,
     "transform": Array [],
   },
+  "templateFormatVersion": undefined,
   "transform": Array [],
 }
 `;
@@ -12844,6 +13546,7 @@ TypedTemplate {
 exports[`Type Resolution: Fixtures templates/syntax-lambda-policy-from-constructor.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "description": undefined,
   "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
@@ -13120,6 +13823,7 @@ TypedTemplate {
     "templateFormatVersion": undefined,
     "transform": Array [],
   },
+  "templateFormatVersion": undefined,
   "transform": Array [],
 }
 `;
@@ -13127,6 +13831,7 @@ TypedTemplate {
 exports[`Type Resolution: Fixtures templates/syntax-method-calls.json 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "description": undefined,
   "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
@@ -13944,6 +14649,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
     "templateFormatVersion": "2010-09-09",
     "transform": Array [],
   },
+  "templateFormatVersion": "2010-09-09",
   "transform": Array [],
 }
 `;
@@ -13951,6 +14657,7 @@ failed because the id could not be inferred. Use the intrinsic function CDK::Arg
 exports[`Type Resolution: Fixtures templates/syntax-short-intrinsics.yaml 1`] = `
 TypedTemplate {
   "conditions": Map {},
+  "description": undefined,
   "hooks": Map {},
   "mappings": Map {},
   "metadata": Map {},
@@ -14970,6 +15677,7 @@ TypedTemplate {
     "templateFormatVersion": undefined,
     "transform": Array [],
   },
+  "templateFormatVersion": undefined,
   "transform": Array [],
 }
 `;

@@ -148,7 +148,7 @@
       "type": "object"
     },
     "Transform": {
-      "type": ["object", "string"]
+      "type": ["object", "array", "string"]
     },
     "Hooks": {
       "additionalProperties": false,
