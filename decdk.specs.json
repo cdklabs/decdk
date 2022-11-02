@@ -5858,6 +5858,13 @@
               "Type": "aws-cdk-lib.aws_lambda.LambdaInsightsVersion",
               "Static": true
             },
+            "VERSION_1_0_143_0": {
+              "Remarks": "",
+              "Summary": "Version 1.0.143.0.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.LambdaInsightsVersion",
+              "Static": true
+            },
             "VERSION_1_0_54_0": {
               "Remarks": "",
               "Summary": "Version 1.0.54.0.",
