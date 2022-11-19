@@ -6428,6 +6428,13 @@
               "Type": "aws-cdk-lib.aws_lambda.Runtime",
               "Static": true
             },
+            "NODEJS_18_X": {
+              "Remarks": "",
+              "Summary": "The NodeJS 18.x runtime (nodejs18.x) supported in all commercial regions except me-central-1, eu-central-2 and eu-south-2.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Runtime",
+              "Static": true
+            },
             "NODEJS_4_3": {
               "Remarks": "",
               "Summary": "The NodeJS 4.3 runtime (nodejs4.3).",
