@@ -1089,10 +1089,10 @@ at-least-node@^1.0.0:
   resolved "https://registry.yarnpkg.com/at-least-node/-/at-least-node-1.0.0.tgz#602cd4b46e844ad4effc92a8011a3c46e0238dc2"
   integrity sha512-+q/t7Ekv1EDY2l6Gda6LLiX14rU9TV20Wa3ofeQmwPFZbOMo9DXrLbOjFaaclkXKWidIaopwAObQDqwWtGUjqg==
 
-aws-cdk-lib@^2.51.1:
-  version "2.51.1"
-  resolved "https://registry.yarnpkg.com/aws-cdk-lib/-/aws-cdk-lib-2.51.1.tgz#951402ea0b867043596d84170a567d7b9f6f1e80"
-  integrity sha512-88HC6giHaShsP1z7z1+7gdY3bmHUrp77hWefutE1JcH3O2nzCpFnd6exDQLjFyzauJa+uEFo1u5ToXynfQi2zg==
+aws-cdk-lib@^2.52.0:
+  version "2.52.0"
+  resolved "https://registry.yarnpkg.com/aws-cdk-lib/-/aws-cdk-lib-2.52.0.tgz#6467144aba3ba5db21d127519984b8ab426960ca"
+  integrity sha512-6pIPiDiSsyPAmRxf/EzIHoHkTEfkhr9GPhQgIWAUmlTnQ2hirvdSPpOzqyNUcE9DOEzrir9Kg3kjVqVa0my13Q==
   dependencies:
     "@aws-cdk/asset-awscli-v1" "^2.2.9"
     "@aws-cdk/asset-kubectl-v20" "^2.1.1"
@@ -1517,9 +1517,9 @@ console-control-strings@^1.1.0:
   integrity sha512-ty/fTekppD2fIwRvnZAVdeOiGd1c7YXEixbgJTNzqcxJWKQnjJ/V1bNEEE6hygpM3WjwHFUVK6HTjWSzV4a8sQ==
 
 constructs@^10:
-  version "10.1.172"
-  resolved "https://registry.yarnpkg.com/constructs/-/constructs-10.1.172.tgz#b01899e70d9518d4ce20320e66d3f7732c7bfa71"
-  integrity sha512-D8ZLeRzRGsZ3YM+utjaCsk/EubzxfGXUdyxVDqj/JRu+t/hppwtqegg02ouhzRbrv/ykDkV4YIYu8gYNKkNhbA==
+  version "10.1.173"
+  resolved "https://registry.yarnpkg.com/constructs/-/constructs-10.1.173.tgz#fdb8bab9c117054dfa2ebf5979386a459105ebb2"
+  integrity sha512-8J4T2gBxjlqSyb0U8IRShxQcYyihXXTdvmAQytjFOLLxUFlfQS8rLkrgN7N5qArFYPfTDTNEGMqf0fSZY+onUA==
 
 conventional-changelog-angular@^5.0.12:
   version "5.0.13"
@@ -2807,9 +2807,9 @@ ignore-walk@^6.0.0:
     minimatch "^5.0.1"
 
 ignore@^5.2.0:
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.2.0.tgz#6d3bac8fa7fe0d45d9f9be7bac2fc279577e345a"
-  integrity sha512-CmxgYGiEPCLhfLnpPp1MoRmifwEIOgjcHXxOBjv7mY96c+eWScsOP9c112ZyLdWHi0FxHjI+4uVhKYp/gcdRmQ==
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.2.1.tgz#c2b1f76cb999ede1502f3a226a9310fdfe88d46c"
+  integrity sha512-d2qQLzTJ9WxQftPAuEQpSPmKqzxePjzVbpAVv62AQ64NTL+wR4JkrVqR/LqFsFEUsHDAiId52mJteHDFuDkElA==
 
 import-fresh@^3.0.0, import-fresh@^3.2.1:
   version "3.3.0"
