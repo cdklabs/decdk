@@ -3,6 +3,7 @@
     "declarationMap": false,
     "inlineSourceMap": true,
     "inlineSources": true,
+    "types": [],
     "alwaysStrict": true,
     "charset": "utf8",
     "declaration": true,

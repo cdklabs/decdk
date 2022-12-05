@@ -115,7 +115,8 @@ project.package.addDevDeps(
   'nyc'
 );
 project.testTask.prependExec(
-  'TS_NODE_PROJECT="tsconfig.dev.json" nyc --reporter=html --reporter=text mocha --updateSnapshot'
+  'TS_NODE_PROJECT="tsconfig.dev.json" nyc --reporter=html --reporter=text mocha --updateSnapshot',
+  { receiveArgs: true }
 );
 
 new YamlFile(project, '.mocharc.yaml', {
