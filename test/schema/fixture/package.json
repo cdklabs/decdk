@@ -5,7 +5,9 @@
   "main": "index.js",
   "types": "index.d.ts",
   "jsii": {
-    "outdir": "dist"
+    "tsc": {
+      "types": []
+    }
   },
   "repository": {
     "url": "https://github.com/aws/aws-cdk",
