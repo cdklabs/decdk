@@ -174,7 +174,8 @@
       "description": "Run tests",
       "steps": [
         {
-          "exec": "TS_NODE_PROJECT=\"tsconfig.dev.json\" nyc --reporter=html --reporter=text mocha --updateSnapshot"
+          "exec": "TS_NODE_PROJECT=\"tsconfig.dev.json\" nyc --reporter=html --reporter=text mocha --updateSnapshot",
+          "receiveArgs": true
         },
         {
           "spawn": "eslint"
