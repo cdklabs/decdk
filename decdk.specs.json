@@ -666,6 +666,12 @@
               "Required": false,
               "Type": "Number"
             },
+            "adotInstrumentation": {
+              "Remarks": "",
+              "Summary": "Specify the configuration of AWS Distro for OpenTelemetry (ADOT) instrumentation.",
+              "Required": false,
+              "Type": "aws-cdk-lib.aws_lambda.AdotInstrumentationConfig"
+            },
             "allowAllOutbound": {
               "Remarks": "If set to false, you must individually add traffic rules to allow the\nLambda to connect to network targets.",
               "Summary": "Whether to allow the Lambda to send all network traffic.",
@@ -1908,6 +1914,12 @@
               "Required": false,
               "Type": "Number"
             },
+            "adotInstrumentation": {
+              "Remarks": "",
+              "Summary": "Specify the configuration of AWS Distro for OpenTelemetry (ADOT) instrumentation.",
+              "Required": false,
+              "Type": "aws-cdk-lib.aws_lambda.AdotInstrumentationConfig"
+            },
             "allowAllOutbound": {
               "Remarks": "If set to false, you must individually add traffic rules to allow the\nLambda to connect to network targets.",
               "Summary": "Whether to allow the Lambda to send all network traffic.",
@@ -3137,6 +3149,12 @@
               "Required": false,
               "Type": "Number"
             },
+            "adotInstrumentation": {
+              "Remarks": "",
+              "Summary": "Specify the configuration of AWS Distro for OpenTelemetry (ADOT) instrumentation.",
+              "Required": false,
+              "Type": "aws-cdk-lib.aws_lambda.AdotInstrumentationConfig"
+            },
             "allowAllOutbound": {
               "Remarks": "If set to false, you must individually add traffic rules to allow the\nLambda to connect to network targets.",
               "Summary": "Whether to allow the Lambda to send all network traffic.",
@@ -4289,6 +4307,257 @@
         }
       },
       "PropertyTypes": {
+        "AdotLambdaLayerGenericVersion": {
+          "Properties": {},
+          "Methods": {
+            "layerArn": {
+              "Parameters": {
+                "scope": {
+                  "Summary": "The binding scope.",
+                  "Type": "constructs.IConstruct"
+                },
+                "architecture": {
+                  "Summary": "The architecture of the Lambda layer (either X86_64 or ARM_64).",
+                  "Type": "aws-cdk-lib.aws_lambda.Architecture"
+                }
+              },
+              "Summary": "The ARN of the Lambda layer.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "String"
+            }
+          },
+          "PublicProperties": {
+            "LATEST": {
+              "Remarks": "New versions could\nintroduce incompatible changes. Make sure to test them before deploying to production.",
+              "Summary": "The latest layer version available in this CDK version.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerGenericVersion",
+              "Static": true
+            },
+            "V0_62_1": {
+              "Remarks": "",
+              "Summary": "Version 0.62.1.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerGenericVersion",
+              "Static": true
+            }
+          }
+        },
+        "AdotLambdaLayerJavaAutoInstrumentationVersion": {
+          "Properties": {},
+          "Methods": {
+            "layerArn": {
+              "Parameters": {
+                "scope": {
+                  "Summary": "The binding scope.",
+                  "Type": "constructs.IConstruct"
+                },
+                "architecture": {
+                  "Summary": "The architecture of the Lambda layer (either X86_64 or ARM_64).",
+                  "Type": "aws-cdk-lib.aws_lambda.Architecture"
+                }
+              },
+              "Summary": "The ARN of the Lambda layer.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "String"
+            }
+          },
+          "PublicProperties": {
+            "LATEST": {
+              "Remarks": "New versions could\nintroduce incompatible changes. Make sure to test them before deploying to production.",
+              "Summary": "The latest layer version available in this CDK version.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerJavaAutoInstrumentationVersion",
+              "Static": true
+            },
+            "V1_19_2": {
+              "Remarks": "",
+              "Summary": "Version 1.19.2.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerJavaAutoInstrumentationVersion",
+              "Static": true
+            }
+          }
+        },
+        "AdotLambdaLayerJavaScriptSdkVersion": {
+          "Properties": {},
+          "Methods": {
+            "layerArn": {
+              "Parameters": {
+                "scope": {
+                  "Summary": "The binding scope.",
+                  "Type": "constructs.IConstruct"
+                },
+                "architecture": {
+                  "Summary": "The architecture of the Lambda layer (either X86_64 or ARM_64).",
+                  "Type": "aws-cdk-lib.aws_lambda.Architecture"
+                }
+              },
+              "Summary": "The ARN of the Lambda layer.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "String"
+            }
+          },
+          "PublicProperties": {
+            "LATEST": {
+              "Remarks": "New versions could\nintroduce incompatible changes. Make sure to test them before deploying to production.",
+              "Summary": "The latest layer version available in this CDK version.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerJavaScriptSdkVersion",
+              "Static": true
+            },
+            "V1_7_0": {
+              "Remarks": "",
+              "Summary": "Version 1.7.0.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerJavaScriptSdkVersion",
+              "Static": true
+            }
+          }
+        },
+        "AdotLambdaLayerJavaSdkVersion": {
+          "Properties": {},
+          "Methods": {
+            "layerArn": {
+              "Parameters": {
+                "scope": {
+                  "Summary": "The binding scope.",
+                  "Type": "constructs.IConstruct"
+                },
+                "architecture": {
+                  "Summary": "The architecture of the Lambda layer (either X86_64 or ARM_64).",
+                  "Type": "aws-cdk-lib.aws_lambda.Architecture"
+                }
+              },
+              "Summary": "The ARN of the Lambda layer.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "String"
+            }
+          },
+          "PublicProperties": {
+            "LATEST": {
+              "Remarks": "New versions could\nintroduce incompatible changes. Make sure to test them before deploying to production.",
+              "Summary": "The latest layer version available in this CDK version.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerJavaSdkVersion",
+              "Static": true
+            },
+            "V1_19_0": {
+              "Remarks": "",
+              "Summary": "Version 1.19.0.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerJavaSdkVersion",
+              "Static": true
+            }
+          }
+        },
+        "AdotLambdaLayerPythonSdkVersion": {
+          "Properties": {},
+          "Methods": {
+            "layerArn": {
+              "Parameters": {
+                "scope": {
+                  "Summary": "The binding scope.",
+                  "Type": "constructs.IConstruct"
+                },
+                "architecture": {
+                  "Summary": "The architecture of the Lambda layer (either X86_64 or ARM_64).",
+                  "Type": "aws-cdk-lib.aws_lambda.Architecture"
+                }
+              },
+              "Summary": "The ARN of the Lambda layer.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "String"
+            }
+          },
+          "PublicProperties": {
+            "LATEST": {
+              "Remarks": "New versions could\nintroduce incompatible changes. Make sure to test them before deploying to production.",
+              "Summary": "The latest layer version available in this CDK version.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerPythonSdkVersion",
+              "Static": true
+            },
+            "V1_13_0": {
+              "Remarks": "",
+              "Summary": "Version 1.13.0.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerPythonSdkVersion",
+              "Static": true
+            }
+          }
+        },
+        "AdotLayerVersion": {
+          "Properties": {},
+          "Methods": {
+            "aws-cdk-lib.aws_lambda.AdotLayerVersion.fromGenericLayerVersion": {
+              "Parameters": {
+                "version": {
+                  "Summary": "The version of the Lambda layer to use.",
+                  "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerGenericVersion"
+                }
+              },
+              "Summary": "The ADOT Lambda layer for generic use cases.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.AdotLayerVersion"
+            },
+            "aws-cdk-lib.aws_lambda.AdotLayerVersion.fromJavaAutoInstrumentationLayerVersion": {
+              "Parameters": {
+                "version": {
+                  "Summary": "The version of the Lambda layer to use.",
+                  "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerJavaAutoInstrumentationVersion"
+                }
+              },
+              "Summary": "The ADOT Lambda layer for Java auto instrumentation.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.AdotLayerVersion"
+            },
+            "aws-cdk-lib.aws_lambda.AdotLayerVersion.fromJavaScriptSdkLayerVersion": {
+              "Parameters": {
+                "version": {
+                  "Summary": "The version of the Lambda layer to use.",
+                  "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerJavaScriptSdkVersion"
+                }
+              },
+              "Summary": "The ADOT Lambda layer for JavaScript SDK.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.AdotLayerVersion"
+            },
+            "aws-cdk-lib.aws_lambda.AdotLayerVersion.fromJavaSdkLayerVersion": {
+              "Parameters": {
+                "version": {
+                  "Summary": "The version of the Lambda layer to use.",
+                  "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerJavaSdkVersion"
+                }
+              },
+              "Summary": "The ADOT Lambda layer for Java SDK.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.AdotLayerVersion"
+            },
+            "aws-cdk-lib.aws_lambda.AdotLayerVersion.fromPythonSdkLayerVersion": {
+              "Parameters": {
+                "version": {
+                  "Summary": "The version of the Lambda layer to use.",
+                  "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerPythonSdkVersion"
+                }
+              },
+              "Summary": "The ADOT Lambda layer for Python SDK.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.AdotLayerVersion"
+            }
+          },
+          "PublicProperties": {}
+        },
         "Architecture": {
           "Properties": {},
           "Methods": {
