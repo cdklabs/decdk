@@ -1,16 +1,16 @@
 import * as reflect from 'jsii-reflect';
-import { AnnotationsContext } from '../error-handling';
-import { DependencyGraph } from '../parser/private/toposort';
-import { Template, TemplateParameter } from '../parser/template';
-import { TemplateHook } from '../parser/template/hooks';
-import { TemplateMapping } from '../parser/template/mappings';
-import { TemplateRule } from '../parser/template/rules';
 import {
   toTypedTemplateExpression,
   TypedTemplateExpression,
   TypedTemplateOutput,
 } from './expression';
 import { resolveResourceLike, ResourceLike } from './resource-like';
+import { AnnotationsContext } from '../error-handling';
+import { DependencyGraph } from '../parser/private/toposort';
+import { Template, TemplateParameter } from '../parser/template';
+import { TemplateHook } from '../parser/template/hooks';
+import { TemplateMapping } from '../parser/template/mappings';
+import { TemplateRule } from '../parser/template/rules';
 
 export interface TypedTemplateProps {
   typeSystem: reflect.TypeSystem;

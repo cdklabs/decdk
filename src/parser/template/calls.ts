@@ -1,9 +1,9 @@
-import { assertOneField, assertString } from '../private/types';
 import {
   ArrayLiteral,
   parseExpression,
   TemplateExpression,
 } from './expression';
+import { assertOneField, assertString } from '../private/types';
 
 export interface FactoryMethodCall {
   readonly target?: string;

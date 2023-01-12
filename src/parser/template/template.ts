@@ -1,7 +1,4 @@
 import { promises as fs } from 'fs';
-import { parseCfnYaml } from '../private/cfn-yaml';
-import { DependencyGraph } from '../private/toposort';
-import { schema } from '../schema';
 import { parseExpression, TemplateExpression } from './expression';
 import { parseHook, TemplateHook } from './hooks';
 import { parseMapping, TemplateMapping } from './mappings';
@@ -10,6 +7,9 @@ import { parseParameter, TemplateParameter } from './parameters';
 import { parseTemplateResource, TemplateResource } from './resource';
 import { parseRule, TemplateRule } from './rules';
 import { parseTransform } from './transform';
+import { parseCfnYaml } from '../private/cfn-yaml';
+import { DependencyGraph } from '../private/toposort';
+import { schema } from '../schema';
 
 /**
  * A template describes the desired state of some infrastructure

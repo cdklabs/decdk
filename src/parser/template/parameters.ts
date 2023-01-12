@@ -1,4 +1,5 @@
 import { CfnParameterProps } from 'aws-cdk-lib';
+import { ifField } from './expression';
 import {
   assertBoolean,
   assertList,
@@ -6,7 +7,6 @@ import {
   assertObject,
   assertString,
 } from '../private/types';
-import { ifField } from './expression';
 
 export interface TemplateParameter extends CfnParameterProps {}
 

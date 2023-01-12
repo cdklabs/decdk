@@ -1,15 +1,4 @@
 import * as reflect from 'jsii-reflect';
-import { unparseExpression } from '../error-handling/unparse';
-import {
-  ArrayExpression,
-  BooleanLiteral,
-  IntrinsicExpression,
-  NullLiteral,
-  NumberLiteral,
-  ObjectExpression,
-  StringLiteral,
-  TemplateExpression,
-} from '../parser/template';
 import {
   InitializerExpression,
   InstanceMethodCallExpression,
@@ -21,6 +10,17 @@ import { AnyTemplateExpression, VoidExpression } from './primitives';
 import { ResolveReferenceExpression } from './references';
 import { ResourceLike } from './resource-like';
 import { StructExpression } from './struct';
+import { unparseExpression } from '../error-handling/unparse';
+import {
+  ArrayExpression,
+  BooleanLiteral,
+  IntrinsicExpression,
+  NullLiteral,
+  NumberLiteral,
+  ObjectExpression,
+  StringLiteral,
+  TemplateExpression,
+} from '../parser/template';
 
 export type TypedTemplateExpression =
   | IntrinsicExpression

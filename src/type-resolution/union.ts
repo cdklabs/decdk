@@ -1,7 +1,7 @@
 import * as reflect from 'jsii-reflect';
-import { TemplateExpression } from '../parser/template/expression';
 import { TypedTemplateExpression } from './expression';
 import { resolveExpressionType } from './resolve';
+import { TemplateExpression } from '../parser/template/expression';
 
 export function resolveUnionOfTypesExpression(
   x: TemplateExpression,

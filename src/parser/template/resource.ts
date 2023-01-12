@@ -1,12 +1,3 @@
-import { fragmentToExpr } from '../private/sub';
-import {
-  assertAtMostOneOfFields,
-  assertObject,
-  assertString,
-  assertStringOrListIntoList,
-  parseRetentionPolicy,
-} from '../private/types';
-import { schema } from '../schema';
 import { FactoryMethodCall, parseCall } from './calls';
 import { RetentionPolicy } from './enums';
 import {
@@ -17,6 +8,15 @@ import {
 } from './expression';
 import { parseOverrides, ResourceOverride } from './overrides';
 import { parseTags, ResourceTag } from './tags';
+import { fragmentToExpr } from '../private/sub';
+import {
+  assertAtMostOneOfFields,
+  assertObject,
+  assertString,
+  assertStringOrListIntoList,
+  parseRetentionPolicy,
+} from '../private/types';
+import { schema } from '../schema';
 
 export interface TemplateResource {
   readonly type?: string;

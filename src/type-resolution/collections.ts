@@ -1,7 +1,7 @@
 import * as reflect from 'jsii-reflect';
-import { ArrayLiteral, ObjectLiteral } from '../parser/template/expression';
 import { TypedArrayExpression, TypedObjectExpression } from './expression';
 import { resolveExpressionType } from './resolve';
+import { ArrayLiteral, ObjectLiteral } from '../parser/template/expression';
 
 export function resolveMapOfTypeExpression(
   x: ObjectLiteral,
