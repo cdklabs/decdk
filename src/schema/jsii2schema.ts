@@ -1,6 +1,8 @@
 import * as util from 'util';
 import * as reflect from 'jsii-reflect';
 import { Initializer, TypeReference } from 'jsii-reflect';
+import { schemaForCall } from './cdk-schema';
+import { $ref } from './expression';
 import { methodFQN } from '../type-resolution/callables';
 import {
   allImplementationsOfType,
@@ -12,8 +14,6 @@ import {
   allStaticFactoryMethods,
   allStaticMethods,
 } from '../type-system/factories';
-import { schemaForCall } from './cdk-schema';
-import { $ref } from './expression';
 
 /* eslint-disable no-console */
 

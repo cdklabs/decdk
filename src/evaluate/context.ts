@@ -1,8 +1,8 @@
 import * as cdk from 'aws-cdk-lib';
 import * as reflect from 'jsii-reflect';
+import { InstanceReference, Reference, References } from './references';
 import { RuntimeError } from '../error-handling';
 import { TypedTemplate } from '../type-resolution/template';
-import { InstanceReference, Reference, References } from './references';
 
 export interface EvaluationContextOptions {
   readonly stack: cdk.Stack;

@@ -1,12 +1,12 @@
 import * as reflect from 'jsii-reflect';
-import { assertString } from '../parser/private/types';
-import { StringLiteral, TemplateExpression } from '../parser/template';
 import {
   InitializerExpression,
   resolveInstanceExpression,
   StaticMethodCallExpression,
 } from './callables';
 import { assertExpressionForType } from './expression';
+import { assertString } from '../parser/private/types';
+import { StringLiteral, TemplateExpression } from '../parser/template';
 
 export interface StaticPropertyExpression {
   readonly type: 'staticProperty';

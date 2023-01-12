@@ -1,6 +1,5 @@
 import chalk from 'chalk';
 import * as reflect from 'jsii-reflect';
-import { hasPropsParam } from '../type-system';
 import { schemaForIntrinsicFunctions } from './intrinsics';
 import {
   SchemaContext,
@@ -8,6 +7,7 @@ import {
   schemaForTypeReference,
 } from './jsii2schema';
 import { schemaForRules } from './rules';
+import { hasPropsParam } from '../type-system';
 
 /* eslint-disable no-console */
 

@@ -1,7 +1,7 @@
 import * as reflect from 'jsii-reflect';
-import { ObjectLiteral } from '../parser/template';
 import { TypedTemplateExpression } from './expression';
 import { resolveExpressionType } from './resolve';
+import { ObjectLiteral } from '../parser/template';
 
 export interface StructExpression {
   type: 'struct';

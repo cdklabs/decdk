@@ -1,3 +1,4 @@
+import { ifField, parseExpression, TemplateExpression } from './expression';
 import {
   assertExactlyOneOfFields,
   assertField,
@@ -6,7 +7,6 @@ import {
   assertString,
   assertTrue,
 } from '../private/types';
-import { ifField, parseExpression, TemplateExpression } from './expression';
 
 export type ResourceOverride =
   | UpdateOverride

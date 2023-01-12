@@ -1,5 +1,5 @@
-import { assertField, assertObject, assertString } from '../private/types';
 import { ifField, parseObject, TemplateExpression } from './expression';
+import { assertField, assertObject, assertString } from '../private/types';
 
 export interface TemplateHook {
   readonly type: string;

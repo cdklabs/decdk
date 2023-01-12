@@ -1,12 +1,4 @@
 import * as reflect from 'jsii-reflect';
-import { AnnotationsContext } from '../error-handling';
-import { TemplateExpression } from '../parser/template';
-import {
-  isBehavioralInterface,
-  isEnum,
-  isEnumLikeClass,
-  isSerializableInterface,
-} from '../type-system';
 import { resolveInstanceExpression } from './callables';
 import {
   assertArrayOfType,
@@ -38,6 +30,14 @@ import { isConstruct } from './resource-like';
 import { assertInterface, resolveStructExpression } from './struct';
 import { TypedTemplate } from './template';
 import { assertUnionOfTypes, resolveUnionOfTypesExpression } from './union';
+import { AnnotationsContext } from '../error-handling';
+import { TemplateExpression } from '../parser/template';
+import {
+  isBehavioralInterface,
+  isEnum,
+  isEnumLikeClass,
+  isSerializableInterface,
+} from '../type-system';
 
 export interface TypeResolutionContext {
   annotations: AnnotationsContext;

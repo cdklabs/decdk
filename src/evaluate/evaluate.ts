@@ -9,6 +9,16 @@ import {
   Token,
 } from 'aws-cdk-lib';
 import { Construct, IConstruct } from 'constructs';
+import { EvaluationContext, IEvaluationContext } from './context';
+import { DeCDKCfnOutput } from './outputs';
+import { applyOverride } from './overrides';
+import {
+  CfnResourceReference,
+  ConstructReference,
+  getPropDot,
+  SimpleReference,
+  ValueOnlyReference,
+} from './references';
 import {
   AnnotationsContext,
   RuntimeError,
@@ -44,16 +54,6 @@ import {
 } from '../type-resolution/expression';
 import { DateLiteral } from '../type-resolution/literals';
 import { ResolveReferenceExpression } from '../type-resolution/references';
-import { EvaluationContext, IEvaluationContext } from './context';
-import { DeCDKCfnOutput } from './outputs';
-import { applyOverride } from './overrides';
-import {
-  CfnResourceReference,
-  ConstructReference,
-  getPropDot,
-  SimpleReference,
-  ValueOnlyReference,
-} from './references';
 
 export abstract class BaseEvaluator<T extends IEvaluationContext> {
   constructor(public readonly context: T) {}

@@ -1,9 +1,9 @@
+import { TypedTemplateExpression } from './expression';
 import {
   GetPropIntrinsic,
   RefIntrinsic,
   TemplateExpression,
 } from '../parser/template';
-import { TypedTemplateExpression } from './expression';
 
 export interface ResolveReferenceExpression {
   type: 'resolve-reference';

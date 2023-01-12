@@ -1,12 +1,5 @@
 import * as reflect from 'jsii-reflect';
 import {
-  ObjectLiteral,
-  RetentionPolicy,
-  TemplateResource,
-} from '../parser/template';
-import { FactoryMethodCall } from '../parser/template/calls';
-import { ResourceTag } from '../parser/template/tags';
-import {
   InstanceMethodCallExpression,
   resolveInstanceMethodCallExpression,
   resolveStaticMethodCallExpression,
@@ -14,6 +7,13 @@ import {
 } from './callables';
 import { isExpressionShaped, TypedTemplateExpression } from './expression';
 import { resolveExpressionType, TypeResolutionContext } from './resolve';
+import {
+  ObjectLiteral,
+  RetentionPolicy,
+  TemplateResource,
+} from '../parser/template';
+import { FactoryMethodCall } from '../parser/template/calls';
+import { ResourceTag } from '../parser/template/tags';
 
 export type ResourceLike =
   | CfnResource

@@ -1,5 +1,9 @@
 import * as reflect from 'jsii-reflect';
 import { TypeReference } from 'jsii-reflect';
+import { TypedArrayExpression, TypedTemplateExpression } from './expression';
+import { ResolveReferenceExpression } from './references';
+import { resolveExpressionType, TypeResolutionContext } from './resolve';
+import { assertImplements } from './types';
 import {
   assertExactlyOneOfFields,
   assertOneField,
@@ -14,10 +18,6 @@ import {
   TemplateExpression,
 } from '../parser/template';
 import { FactoryMethodCall, toArrayLiteral } from '../parser/template/calls';
-import { TypedArrayExpression, TypedTemplateExpression } from './expression';
-import { ResolveReferenceExpression } from './references';
-import { resolveExpressionType, TypeResolutionContext } from './resolve';
-import { assertImplements } from './types';
 
 export interface StaticMethodCallExpression {
   readonly type: 'staticMethodCall';

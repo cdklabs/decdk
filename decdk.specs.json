@@ -4665,7 +4665,7 @@
             "aws-cdk-lib.aws_lambda.AssetCode.fromCfnParameters": {
               "Parameters": {
                 "props": {
-                  "Summary": "optional construction properties of {@link CfnParametersCode}.",
+                  "Summary": "optional construction properties of `CfnParametersCode`.",
                   "Type": "aws-cdk-lib.aws_lambda.CfnParametersCodeProps"
                 }
               },
@@ -4819,7 +4819,7 @@
             "aws-cdk-lib.aws_lambda.AssetImageCode.fromCfnParameters": {
               "Parameters": {
                 "props": {
-                  "Summary": "optional construction properties of {@link CfnParametersCode}.",
+                  "Summary": "optional construction properties of `CfnParametersCode`.",
                   "Type": "aws-cdk-lib.aws_lambda.CfnParametersCodeProps"
                 }
               },
@@ -4967,7 +4967,7 @@
             "aws-cdk-lib.aws_lambda.CfnParametersCode.fromCfnParameters": {
               "Parameters": {
                 "props": {
-                  "Summary": "optional construction properties of {@link CfnParametersCode}.",
+                  "Summary": "optional construction properties of `CfnParametersCode`.",
                   "Type": "aws-cdk-lib.aws_lambda.CfnParametersCodeProps"
                 }
               },
@@ -5139,7 +5139,7 @@
             "aws-cdk-lib.aws_lambda.Code.fromCfnParameters": {
               "Parameters": {
                 "props": {
-                  "Summary": "optional construction properties of {@link CfnParametersCode}.",
+                  "Summary": "optional construction properties of `CfnParametersCode`.",
                   "Type": "aws-cdk-lib.aws_lambda.CfnParametersCodeProps"
                 }
               },
@@ -5318,7 +5318,7 @@
             "aws-cdk-lib.aws_lambda.EcrImageCode.fromCfnParameters": {
               "Parameters": {
                 "props": {
-                  "Summary": "optional construction properties of {@link CfnParametersCode}.",
+                  "Summary": "optional construction properties of `CfnParametersCode`.",
                   "Type": "aws-cdk-lib.aws_lambda.CfnParametersCodeProps"
                 }
               },
@@ -6006,7 +6006,7 @@
             "aws-cdk-lib.aws_lambda.InlineCode.fromCfnParameters": {
               "Parameters": {
                 "props": {
-                  "Summary": "optional construction properties of {@link CfnParametersCode}.",
+                  "Summary": "optional construction properties of `CfnParametersCode`.",
                   "Type": "aws-cdk-lib.aws_lambda.CfnParametersCodeProps"
                 }
               },
@@ -6878,7 +6878,7 @@
             "aws-cdk-lib.aws_lambda.S3Code.fromCfnParameters": {
               "Parameters": {
                 "props": {
-                  "Summary": "optional construction properties of {@link CfnParametersCode}.",
+                  "Summary": "optional construction properties of `CfnParametersCode`.",
                   "Type": "aws-cdk-lib.aws_lambda.CfnParametersCodeProps"
                 }
               },
