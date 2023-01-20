@@ -1359,6 +1359,17 @@
               "Summary": "Adds one or more Lambda Layers to this Lambda function.",
               "Remarks": "",
               "Static": false
+            },
+            "invalidateVersionBasedOn": {
+              "Parameters": {
+                "x": {
+                  "Summary": "",
+                  "Type": "String"
+                }
+              },
+              "Summary": "Mix additional information into the hash of the Version object.",
+              "Remarks": "The Lambda Function construct does its best to automatically create a new\nVersion when anything about the Function changes (its code, its layers,\nany of the other properties).\n\nHowever, you can sometimes source information from places that the CDK cannot\nlook into, like the deploy-time values of SSM parameters. In those cases,\nthe CDK would not force the creation of a new Version object when it actually\nshould.\n\nThis method can be used to invalidate the current Version object. Pass in\nany string into this method, and make sure the string changes when you know\na new Version needs to be created.\n\nThis method may be called more than once.",
+              "Static": false
             }
           },
           "PublicProperties": {
@@ -2618,6 +2629,17 @@
               },
               "Summary": "Adds one or more Lambda Layers to this Lambda function.",
               "Remarks": "",
+              "Static": false
+            },
+            "invalidateVersionBasedOn": {
+              "Parameters": {
+                "x": {
+                  "Summary": "",
+                  "Type": "String"
+                }
+              },
+              "Summary": "Mix additional information into the hash of the Version object.",
+              "Remarks": "The Lambda Function construct does its best to automatically create a new\nVersion when anything about the Function changes (its code, its layers,\nany of the other properties).\n\nHowever, you can sometimes source information from places that the CDK cannot\nlook into, like the deploy-time values of SSM parameters. In those cases,\nthe CDK would not force the creation of a new Version object when it actually\nshould.\n\nThis method can be used to invalidate the current Version object. Pass in\nany string into this method, and make sure the string changes when you know\na new Version needs to be created.\n\nThis method may be called more than once.",
               "Static": false
             }
           },
