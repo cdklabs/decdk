@@ -1699,6 +1699,12 @@
               "Required": false,
               "Type": "aws-cdk-lib.Duration"
             },
+            "maxConcurrency": {
+              "Remarks": "",
+              "Summary": "The maximum concurrency setting limits the number of concurrent instances of the function that an Amazon SQS event source can invoke.",
+              "Required": false,
+              "Type": "Number"
+            },
             "maxRecordAge": {
               "Remarks": "Valid Range:\n* Minimum value of 60 seconds\n* Maximum value of 7 days",
               "Summary": "The maximum age of a record that Lambda sends to a function for processing.",
