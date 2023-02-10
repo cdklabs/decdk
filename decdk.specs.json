@@ -832,6 +832,12 @@
               "Required": false,
               "Type": "aws-cdk-lib.aws_iam.IRole"
             },
+            "runtimeManagementMode": {
+              "Remarks": "",
+              "Summary": "Sets the runtime management configuration for a function's version.",
+              "Required": false,
+              "Type": "aws-cdk-lib.aws_lambda.RuntimeManagementMode"
+            },
             "securityGroups": {
               "Remarks": "Only used if 'vpc' is supplied.",
               "Summary": "The list of security groups to associate with the Lambda's network interfaces.",
@@ -2097,6 +2103,12 @@
               "Required": false,
               "Type": "aws-cdk-lib.aws_iam.IRole"
             },
+            "runtimeManagementMode": {
+              "Remarks": "",
+              "Summary": "Sets the runtime management configuration for a function's version.",
+              "Required": false,
+              "Type": "aws-cdk-lib.aws_lambda.RuntimeManagementMode"
+            },
             "securityGroups": {
               "Remarks": "Only used if 'vpc' is supplied.",
               "Summary": "The list of security groups to associate with the Lambda's network interfaces.",
@@ -3342,6 +3354,12 @@
               "Summary": "Lambda execution role.",
               "Required": false,
               "Type": "aws-cdk-lib.aws_iam.IRole"
+            },
+            "runtimeManagementMode": {
+              "Remarks": "",
+              "Summary": "Sets the runtime management configuration for a function's version.",
+              "Required": false,
+              "Type": "aws-cdk-lib.aws_lambda.RuntimeManagementMode"
             },
             "securityGroups": {
               "Remarks": "Only used if 'vpc' is supplied.",
@@ -6845,6 +6863,57 @@
               "Summary": "The runtime family.",
               "Required": false,
               "Type": "aws-cdk-lib.aws_lambda.RuntimeFamily"
+            }
+          }
+        },
+        "RuntimeManagementMode": {
+          "Properties": {},
+          "Methods": {
+            "aws-cdk-lib.aws_lambda.RuntimeManagementMode.manual": {
+              "Parameters": {
+                "arn": {
+                  "Summary": "",
+                  "Type": "String"
+                }
+              },
+              "Summary": "You specify a runtime version in your function configuration.",
+              "Remarks": "The function uses this runtime version indefinitely.\nIn the rare case in which a new runtime version is incompatible with an existing function,\nyou can use this mode to roll back your function to an earlier runtime version.",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.RuntimeManagementMode"
+            }
+          },
+          "PublicProperties": {
+            "AUTO": {
+              "Remarks": "We recommend this mode for most customers so that you always benefit from runtime updates.",
+              "Summary": "Automatically update to the most recent and secure runtime version using Two-phase runtime version rollout.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.RuntimeManagementMode",
+              "Static": true
+            },
+            "FUNCTION_UPDATE": {
+              "Remarks": "This approach synchronizes runtime updates with function deployments,\ngiving you control over when Lambda applies runtime updates.\nWith this mode, you can detect and mitigate rare runtime update incompatibilities early.\nWhen using this mode, you must regularly update your functions to keep their runtime up to date.",
+              "Summary": "When you update your function, Lambda updates the runtime of your function to the most recent and secure runtime version.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.RuntimeManagementMode",
+              "Static": true
+            },
+            "mode": {
+              "Remarks": "",
+              "Summary": "",
+              "Required": true,
+              "Type": "String"
+            },
+            "runtimeManagementConfig": {
+              "Remarks": "",
+              "Summary": "https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-lambda-function-runtimemanagementconfig.html.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.CfnFunction.RuntimeManagementConfigProperty"
+            },
+            "arn": {
+              "Remarks": "",
+              "Summary": "",
+              "Required": false,
+              "Type": "String"
             }
           }
         },
