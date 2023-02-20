@@ -11,9 +11,9 @@
     "@jridgewell/trace-mapping" "^0.3.9"
 
 "@aws-cdk/asset-awscli-v1@^2.2.65":
-  version "2.2.72"
-  resolved "https://registry.yarnpkg.com/@aws-cdk/asset-awscli-v1/-/asset-awscli-v1-2.2.72.tgz#06f50a190f698390dad0be9787b3d406564945b8"
-  integrity sha512-7Qo7fkvodB8TUncfYPH+XLVFybt7AWKzLg7HWLT/GBrv9mZ3Iwf9Zq1YNoVqHEaNnqd9rnTrWjoAoDIOB0pZeg==
+  version "2.2.73"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/asset-awscli-v1/-/asset-awscli-v1-2.2.73.tgz#a6bcba315d4075b80e0ac09d6abeac6bec4672b3"
+  integrity sha512-zELCc24F0BKwDC1WkC1PGt+bsPAXp3ihHynjm3x932bZlhopp9of3kbEcR6/JxdrwCgw7GzYZ3Oi8mo7NiAJHw==
 
 "@aws-cdk/asset-kubectl-v20@^2.1.1":
   version "2.1.1"
@@ -21,9 +21,9 @@
   integrity sha512-U1ntiX8XiMRRRH5J1IdC+1t5CE89015cwyt5U63Cpk0GnMlN5+h9WsWMlKlPXZR4rdq/m806JRlBMRpBUB2Dhw==
 
 "@aws-cdk/asset-node-proxy-agent-v5@^2.0.54":
-  version "2.0.61"
-  resolved "https://registry.yarnpkg.com/@aws-cdk/asset-node-proxy-agent-v5/-/asset-node-proxy-agent-v5-2.0.61.tgz#023a631d2b441e0cf819388d8772cdb3bde1de9d"
-  integrity sha512-SZZk/NtuAGHnPZV1egzrBu90zNrwvERfAOB1P6WxLkK8vbbi7pyumBpUXQ5Gxz4WhYHrmixSO/i7eBUZ2FAM8Q==
+  version "2.0.62"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/asset-node-proxy-agent-v5/-/asset-node-proxy-agent-v5-2.0.62.tgz#4b48fd71da0dc23c5c4ab9c6c68b366d35cda7b8"
+  integrity sha512-WYxEid/S+tb7ce/sxBvsY85uZt6vZMW0Bh4FP0e0oGY8O93ipsOJsAew+RLtOfO91GdIrZVr6ptXCxZgboPHZA==
 
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.12.13", "@babel/code-frame@^7.18.6":
   version "7.18.6"
