@@ -5783,7 +5783,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "679066847909511778943bd4d081cd2468b890d5fc1272dd1fb101adb17c9b0d.zip",
+          "S3Key": "9851da99dbbb72e4b5ea38e666b1b7a4d33131f3791223f114f5e999e731474d.zip",
         },
         "Description": "/opt/awscli/aws",
       },
@@ -6949,7 +6949,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "679066847909511778943bd4d081cd2468b890d5fc1272dd1fb101adb17c9b0d.zip",
+          "S3Key": "9851da99dbbb72e4b5ea38e666b1b7a4d33131f3791223f114f5e999e731474d.zip",
         },
         "Description": "/opt/awscli/aws",
       },
@@ -9026,7 +9026,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "679066847909511778943bd4d081cd2468b890d5fc1272dd1fb101adb17c9b0d.zip",
+          "S3Key": "9851da99dbbb72e4b5ea38e666b1b7a4d33131f3791223f114f5e999e731474d.zip",
         },
         "Description": "/opt/awscli/aws",
       },
