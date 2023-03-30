@@ -30,7 +30,7 @@
               "Type": "Number"
             },
             "additionalVersions": {
-              "Remarks": "Individual additional version weights specified here should add up to\n(less than) one. All remaining weight is routed to the default\nversion.\n\nFor example, the config is\n\n    version: \"1\"\n    additionalVersions: [{ version: \"2\", weight: 0.05 }]\n\nThen 5% of traffic will be routed to function version 2, while\nthe remaining 95% of traffic will be routed to function version 1.",
+              "Remarks": "Individual additional version weights specified here should add up to\n(less than) one. All remaining weight is routed to the default\nversion.\n\nFor example, the config is\n\n   version: \"1\"\n   additionalVersions: [{ version: \"2\", weight: 0.05 }]\n\nThen 5% of traffic will be routed to function version 2, while\nthe remaining 95% of traffic will be routed to function version 1.",
               "Summary": "Additional versions with individual weights this alias points to.",
               "Required": false,
               "Type": "List",
@@ -456,7 +456,7 @@
             },
             "lambda": {
               "Remarks": "",
-              "Summary": "",
+              "Summary": "The underlying `IFunction`.",
               "Required": true,
               "Type": "aws-cdk-lib.aws_lambda.IFunction"
             },
@@ -1331,7 +1331,7 @@
                 }
               },
               "Summary": "Defines an alias for this function.",
-              "Remarks": "The alias will automatically be updated to point to the latest version of\nthe function as it is being updated during a deployment.\n\n```ts\ndeclare const fn: lambda.Function;\n\nfn.addAlias('Live');\n\n// Is equivalent to\n\nnew lambda.Alias(this, 'AliasLive', {\n   aliasName: 'Live',\n   version: fn.currentVersion,\n});\n```",
+              "Remarks": "The alias will automatically be updated to point to the latest version of\nthe function as it is being updated during a deployment.\n\n```ts\ndeclare const fn: lambda.Function;\n\nfn.addAlias('Live');\n\n// Is equivalent to\n\nnew lambda.Alias(this, 'AliasLive', {\n  aliasName: 'Live',\n  version: fn.currentVersion,\n});\n```",
               "Static": false,
               "ReturnType": "aws-cdk-lib.aws_lambda.Alias"
             },
@@ -2614,7 +2614,7 @@
                 }
               },
               "Summary": "Defines an alias for this function.",
-              "Remarks": "The alias will automatically be updated to point to the latest version of\nthe function as it is being updated during a deployment.\n\n```ts\ndeclare const fn: lambda.Function;\n\nfn.addAlias('Live');\n\n// Is equivalent to\n\nnew lambda.Alias(this, 'AliasLive', {\n   aliasName: 'Live',\n   version: fn.currentVersion,\n});\n```",
+              "Remarks": "The alias will automatically be updated to point to the latest version of\nthe function as it is being updated during a deployment.\n\n```ts\ndeclare const fn: lambda.Function;\n\nfn.addAlias('Live');\n\n// Is equivalent to\n\nnew lambda.Alias(this, 'AliasLive', {\n  aliasName: 'Live',\n  version: fn.currentVersion,\n});\n```",
               "Static": false,
               "ReturnType": "aws-cdk-lib.aws_lambda.Alias"
             },
@@ -4333,7 +4333,7 @@
             },
             "lambda": {
               "Remarks": "",
-              "Summary": "The underlying AWS Lambda function.",
+              "Summary": "The underlying `IFunction`.",
               "Required": true,
               "Type": "aws-cdk-lib.aws_lambda.IFunction"
             },
@@ -6588,7 +6588,7 @@
             },
             "lambda": {
               "Remarks": "",
-              "Summary": "",
+              "Summary": "The underlying `IFunction`.",
               "Required": true,
               "Type": "aws-cdk-lib.aws_lambda.IFunction"
             }

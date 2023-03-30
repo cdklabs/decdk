@@ -14054,6 +14054,9 @@ TypedTemplate {
               Object {
                 "type": "void",
               },
+              Object {
+                "type": "void",
+              },
             ],
             "type": "array",
           },
