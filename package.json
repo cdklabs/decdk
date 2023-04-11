@@ -67,7 +67,7 @@
     "fs-extra": "^8",
     "jsii-reflect": "^1.80.0",
     "jsonschema": "^1.4.1",
-    "semver": "^7.3.8",
+    "semver": "^7.4.0",
     "yaml": "^1.10.2",
     "yargs": "^17.7.1"
   },
