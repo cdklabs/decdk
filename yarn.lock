@@ -11,9 +11,9 @@
     "@jridgewell/trace-mapping" "^0.3.9"
 
 "@aws-cdk/asset-awscli-v1@^2.2.97":
-  version "2.2.140"
-  resolved "https://registry.yarnpkg.com/@aws-cdk/asset-awscli-v1/-/asset-awscli-v1-2.2.140.tgz#bfba1811ac083a6cc85d19c914b75a890c6db15b"
-  integrity sha512-WipYHhlU/zPSs/5TNCT38GvrE3U9opuSdtQsnnD+OXPt4hv7ISXH3Lui6A16GpnhBehWrlc4r5/83vlrNT7g4A==
+  version "2.2.141"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/asset-awscli-v1/-/asset-awscli-v1-2.2.141.tgz#6509c38a6dc2ef3904c63a22a20b0057d3576829"
+  integrity sha512-kl4Cr1vNMm7a7g0jhOK2o7t0wcxLAz8jgB+m4u4xGsjk+AxEol7hd1Ob4twEbRXGLC8tEHjEaVVgWNTwwP647A==
 
 "@aws-cdk/asset-kubectl-v20@^2.1.1":
   version "2.1.1"
@@ -21,9 +21,9 @@
   integrity sha512-U1ntiX8XiMRRRH5J1IdC+1t5CE89015cwyt5U63Cpk0GnMlN5+h9WsWMlKlPXZR4rdq/m806JRlBMRpBUB2Dhw==
 
 "@aws-cdk/asset-node-proxy-agent-v5@^2.0.77":
-  version "2.0.117"
-  resolved "https://registry.yarnpkg.com/@aws-cdk/asset-node-proxy-agent-v5/-/asset-node-proxy-agent-v5-2.0.117.tgz#c670c84c01fece61b2660320ecb43a6ddfcb3403"
-  integrity sha512-cQlqZdQf82XMyChx9rRo6O47EXXsWb3bSU9WiEyywr07OjS3239mkKtz51UVRymckZK2lyBdL/JAQb/AMuDJhA==
+  version "2.0.118"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/asset-node-proxy-agent-v5/-/asset-node-proxy-agent-v5-2.0.118.tgz#9cd7cf7bbd4f28ba073e2dbb6c24600468dc2b3b"
+  integrity sha512-BvLXKsAykxnmW7A+pXdND0lsJCJDK52JXVD+BfO8XAsWV5nSO3MAooxgbWCT8vyTXU8G2Zm+H6F5fikQhi3T9Q==
 
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.12.13", "@babel/code-frame@^7.18.6", "@babel/code-frame@^7.21.4":
   version "7.21.4"
@@ -1409,9 +1409,9 @@ camelcase@^7.0.0:
   integrity sha512-xlx1yCK2Oc1APsPXDL2LdlNP6+uu8OCDdhOBSVT279M/S+y75O30C2VuD8T2ogdePBBl7PfPF4504tnLgX3zfw==
 
 caniuse-lite@^1.0.30001449:
-  version "1.0.30001478"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001478.tgz#0ef8a1cf8b16be47a0f9fc4ecfc952232724b32a"
-  integrity sha512-gMhDyXGItTHipJj2ApIvR+iVB5hd0KP3svMWWXDvZOmjzJJassGLMfxRkQCSYgGd2gtdL/ReeiyvMSFD1Ss6Mw==
+  version "1.0.30001479"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001479.tgz#ef3d6f76011e44181af411fd4896123afbc14eda"
+  integrity sha512-6nuRFim5dx8Eu2tO+KJ9PiBdPHs7WB5Hdf+klDcyefyEuOAcfhihIv7pS+JFknJLUiNQbm1AJYKm0c9QOlQS/Q==
 
 case@1.6.3, case@^1.6.3:
   version "1.6.3"
@@ -1609,9 +1609,9 @@ console-control-strings@^1.1.0:
   integrity sha512-ty/fTekppD2fIwRvnZAVdeOiGd1c7YXEixbgJTNzqcxJWKQnjJ/V1bNEEE6hygpM3WjwHFUVK6HTjWSzV4a8sQ==
 
 constructs@^10:
-  version "10.1.312"
-  resolved "https://registry.yarnpkg.com/constructs/-/constructs-10.1.312.tgz#2f7cc2792fed431bfa02265a230173799d0e306c"
-  integrity sha512-eC6tBCDIz/arXAvJwqlv+fPZb6tly4Z58kcTFygSLDp+XuqOxuLTaEyBcLcJQy20+zeUopgWw7K2Go0EWmJ8NQ==
+  version "10.1.313"
+  resolved "https://registry.yarnpkg.com/constructs/-/constructs-10.1.313.tgz#faa59fa14044e6ad0b2aaa2f0758117a159013df"
+  integrity sha512-O/koKidDn8A1j1MWs7M1P27GszzvYFTD935/hG7FaWvDghOTp+0aZZ6ZPWPV9vuAiHW4E+TAbX/DN3oXYwhnvg==
 
 conventional-changelog-angular@^5.0.12:
   version "5.0.13"
@@ -4642,10 +4642,10 @@ progress@^2.0.3:
   resolved "https://registry.yarnpkg.com/progress/-/progress-2.0.3.tgz#7e8cf8d8f5b8f239c1bc68beb4eb78567d572ef8"
   integrity sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==
 
-projen@^0.71.9:
-  version "0.71.9"
-  resolved "https://registry.yarnpkg.com/projen/-/projen-0.71.9.tgz#da732db618a3890ab933086c81c3193492c87a6e"
-  integrity sha512-iUFEus6eTHg91fG6A1ABTN0rvgYspkfhY1SBKYfP2A0bIYN5NNC4F++5TADmfWTSYAu4UbqL7Nyx5feUFnsuCA==
+projen@^0.71.11:
+  version "0.71.11"
+  resolved "https://registry.yarnpkg.com/projen/-/projen-0.71.11.tgz#0e7da256ef6dca8221e56c369b03440f0c413522"
+  integrity sha512-ANIR8VNsFnqDI3yIMtMHPquD+U9K1gldTw8gnzfFcWCb1sy6u2o3+Cr50hMZBEDYiBGV3k922ejMOB5yp5GDCg==
   dependencies:
     "@iarna/toml" "^2.2.5"
     case "^1.6.3"
@@ -4655,7 +4655,7 @@ projen@^0.71.9:
     fast-json-patch "^3.1.1"
     glob "^8"
     ini "^2.0.0"
-    semver "^7.3.8"
+    semver "^7.4.0"
     shx "^0.3.4"
     xmlbuilder2 "^2.4.1"
     yaml "2.0.0"
