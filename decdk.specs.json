@@ -6799,6 +6799,13 @@
               "Type": "aws-cdk-lib.aws_lambda.Runtime",
               "Static": true
             },
+            "PYTHON_3_10": {
+              "Remarks": "",
+              "Summary": "The Python 3.10 runtime (python3.10).",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Runtime",
+              "Static": true
+            },
             "PYTHON_3_6": {
               "Remarks": "The Python 3.6 runtime is deprecated as of July 2022.",
               "Summary": "The Python 3.6 runtime (python3.6) (not recommended).",
