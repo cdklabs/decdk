@@ -1903,6 +1903,12 @@
               "Required": true,
               "Type": "aws-cdk-lib.Stack"
             },
+            "eventSourceMappingArn": {
+              "Remarks": "",
+              "Summary": "The ARN of the event source mapping (i.e. arn:aws:lambda:region:account-id:event-source-mapping/event-source-mapping-id).",
+              "Required": true,
+              "Type": "String"
+            },
             "eventSourceMappingId": {
               "Remarks": "",
               "Summary": "The identifier for this EventSourceMapping.",
@@ -6701,6 +6707,13 @@
               "Type": "aws-cdk-lib.aws_lambda.Runtime",
               "Static": true
             },
+            "JAVA_17": {
+              "Remarks": "",
+              "Summary": "The Java 17 runtime (java17).",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Runtime",
+              "Static": true
+            },
             "JAVA_8": {
               "Remarks": "",
               "Summary": "The Java 8 runtime (java8).",
@@ -7574,6 +7587,12 @@
               "Summary": "The stack in which this resource is defined.",
               "Required": true,
               "Type": "aws-cdk-lib.Stack"
+            },
+            "eventSourceMappingArn": {
+              "Remarks": "",
+              "Summary": "The ARN of the event source mapping (i.e. arn:aws:lambda:region:account-id:event-source-mapping/event-source-mapping-id).",
+              "Required": true,
+              "Type": "String"
             },
             "eventSourceMappingId": {
               "Remarks": "",
