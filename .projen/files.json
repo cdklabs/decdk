@@ -12,6 +12,7 @@
     ".mergify.yml",
     ".mocharc.yaml",
     ".npmignore",
+    ".npmrc",
     ".prettierignore",
     ".prettierrc.json",
     ".projen/deps.json",
