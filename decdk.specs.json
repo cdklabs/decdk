@@ -2799,6 +2799,12 @@
               "Required": false,
               "Type": "aws-cdk-lib.aws_lambda.FunctionUrlCorsOptions"
             },
+            "invokeMode": {
+              "Remarks": "",
+              "Summary": "The type of invocation mode that your Lambda function uses.",
+              "Required": false,
+              "Type": "aws-cdk-lib.aws_lambda.InvokeMode"
+            },
             "function": {
               "Remarks": "It can also be an `Alias` but not a `Version`.",
               "Summary": "The function to which this url refers.",
@@ -6857,6 +6863,13 @@
             "RUBY_2_7": {
               "Remarks": "",
               "Summary": "The Ruby 2.7 runtime (ruby2.7).",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Runtime",
+              "Static": true
+            },
+            "RUBY_3_2": {
+              "Remarks": "",
+              "Summary": "The Ruby 3.2 runtime (ruby3.2).",
               "Required": true,
               "Type": "aws-cdk-lib.aws_lambda.Runtime",
               "Static": true
