@@ -808,6 +808,12 @@
               "Required": false,
               "Type": "Number"
             },
+            "paramsAndSecrets": {
+              "Remarks": "",
+              "Summary": "Specify the configuration of Parameters and Secrets Extension.",
+              "Required": false,
+              "Type": "aws-cdk-lib.aws_lambda.ParamsAndSecretsLayerVersion"
+            },
             "profiling": {
               "Remarks": "",
               "Summary": "Enable profiling.",
@@ -2085,6 +2091,12 @@
               "Required": false,
               "Type": "Number"
             },
+            "paramsAndSecrets": {
+              "Remarks": "",
+              "Summary": "Specify the configuration of Parameters and Secrets Extension.",
+              "Required": false,
+              "Type": "aws-cdk-lib.aws_lambda.ParamsAndSecretsLayerVersion"
+            },
             "profiling": {
               "Remarks": "",
               "Summary": "Enable profiling.",
@@ -3342,6 +3354,12 @@
               "Summary": "The amount of memory, in MB, that is allocated to your Lambda function.",
               "Required": false,
               "Type": "Number"
+            },
+            "paramsAndSecrets": {
+              "Remarks": "",
+              "Summary": "Specify the configuration of Parameters and Secrets Extension.",
+              "Required": false,
+              "Type": "aws-cdk-lib.aws_lambda.ParamsAndSecretsLayerVersion"
             },
             "profiling": {
               "Remarks": "",
@@ -6234,6 +6252,44 @@
               "Type": "String"
             }
           }
+        },
+        "ParamsAndSecretsLayerVersion": {
+          "Properties": {},
+          "Methods": {
+            "aws-cdk-lib.aws_lambda.ParamsAndSecretsLayerVersion.fromVersion": {
+              "Parameters": {
+                "version": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.ParamsAndSecretsVersions"
+                },
+                "options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.ParamsAndSecretsOptions"
+                }
+              },
+              "Summary": "Use a specific version of the Parameters and Secrets Extension to generate a layer version.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.ParamsAndSecretsLayerVersion"
+            },
+            "aws-cdk-lib.aws_lambda.ParamsAndSecretsLayerVersion.fromVersionArn": {
+              "Parameters": {
+                "arn": {
+                  "Summary": "",
+                  "Type": "String"
+                },
+                "options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.ParamsAndSecretsOptions"
+                }
+              },
+              "Summary": "Use the Parameters and Secrets Extension associated with the provided ARN.",
+              "Remarks": "Make sure the ARN is associated\nwith the same region and architecture as your function.",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.ParamsAndSecretsLayerVersion"
+            }
+          },
+          "PublicProperties": {}
         },
         "QualifiedFunctionBase": {
           "Properties": {},
