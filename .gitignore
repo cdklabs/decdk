@@ -51,6 +51,7 @@ cdk.out
 /lib
 /dist/
 !/.eslintrc.json
+!/.github/workflows/upgrade-cdklabs-projen-project-types-main.yml
 !/.vscode/extensions.json
 !/.vscode/settings.json
 !/.mocharc.yaml

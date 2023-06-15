@@ -1,6 +1,10 @@
+import { CdklabsTypeScriptProject } from 'cdklabs-projen-project-types';
 import { typescript, vscode, YamlFile } from 'projen';
 
-const project = new typescript.TypeScriptProject({
+const project = new CdklabsTypeScriptProject({
+  setNodeEngineVersion: false,
+  stability: 'stable',
+  private: false,
   projenrcTs: true,
   defaultReleaseBranch: 'main',
   name: 'decdk',
