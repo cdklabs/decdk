@@ -4778,6 +4778,9 @@ Object {
       "Type": "AWS::IAM::Role",
     },
     "ServiceD69D759B": Object {
+      "DependsOn": Array [
+        "MyTaskDefTaskRole727F9D3B",
+      ],
       "Properties": Object {
         "Cluster": Object {
           "Ref": "ClusterEB0386A7",
@@ -4813,6 +4816,9 @@ Object {
       "Type": "AWS::ECS::Service",
     },
     "ServiceSecurityGroupC96ED6A7": Object {
+      "DependsOn": Array [
+        "MyTaskDefTaskRole727F9D3B",
+      ],
       "Properties": Object {
         "GroupDescription": "Test/Service/SecurityGroup",
         "SecurityGroupEgress": Array [
