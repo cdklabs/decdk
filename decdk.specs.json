@@ -159,7 +159,7 @@
                 }
               },
               "Summary": "Adds an event source to this function.",
-              "Remarks": "Event sources are implemented in the @aws-cdk/aws-lambda-event-sources module.\n\nThe following example adds an SQS Queue as an event source:\n```\nimport { SqsEventSource } from '@aws-cdk/aws-lambda-event-sources';\nmyFunction.addEventSource(new SqsEventSource(myQueue));\n```",
+              "Remarks": "Event sources are implemented in the",
               "Static": false
             },
             "addEventSourceMapping": {
@@ -980,7 +980,7 @@
                 }
               },
               "Summary": "Adds an event source to this function.",
-              "Remarks": "Event sources are implemented in the @aws-cdk/aws-lambda-event-sources module.\n\nThe following example adds an SQS Queue as an event source:\n```\nimport { SqsEventSource } from '@aws-cdk/aws-lambda-event-sources';\nmyFunction.addEventSource(new SqsEventSource(myQueue));\n```",
+              "Remarks": "Event sources are implemented in the",
               "Static": false
             },
             "addEventSourceMapping": {
@@ -2275,7 +2275,7 @@
                 }
               },
               "Summary": "Adds an event source to this function.",
-              "Remarks": "Event sources are implemented in the @aws-cdk/aws-lambda-event-sources module.\n\nThe following example adds an SQS Queue as an event source:\n```\nimport { SqsEventSource } from '@aws-cdk/aws-lambda-event-sources';\nmyFunction.addEventSource(new SqsEventSource(myQueue));\n```",
+              "Remarks": "Event sources are implemented in the",
               "Static": false
             },
             "addEventSourceMapping": {
@@ -3551,7 +3551,7 @@
                 }
               },
               "Summary": "Adds an event source to this function.",
-              "Remarks": "Event sources are implemented in the @aws-cdk/aws-lambda-event-sources module.\n\nThe following example adds an SQS Queue as an event source:\n```\nimport { SqsEventSource } from '@aws-cdk/aws-lambda-event-sources';\nmyFunction.addEventSource(new SqsEventSource(myQueue));\n```",
+              "Remarks": "Event sources are implemented in the",
               "Static": false
             },
             "addEventSourceMapping": {
@@ -4042,7 +4042,7 @@
                 }
               },
               "Summary": "Adds an event source to this function.",
-              "Remarks": "Event sources are implemented in the @aws-cdk/aws-lambda-event-sources module.\n\nThe following example adds an SQS Queue as an event source:\n```\nimport { SqsEventSource } from '@aws-cdk/aws-lambda-event-sources';\nmyFunction.addEventSource(new SqsEventSource(myQueue));\n```",
+              "Remarks": "Event sources are implemented in the",
               "Static": false
             },
             "addEventSourceMapping": {
@@ -4565,6 +4565,41 @@
               "Required": true,
               "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerPythonSdkVersion",
               "Static": true
+            },
+            "V1_14_0": {
+              "Remarks": "",
+              "Summary": "Version 1.14.0.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerPythonSdkVersion",
+              "Static": true
+            },
+            "V1_15_0": {
+              "Remarks": "",
+              "Summary": "Version 1.15.0.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerPythonSdkVersion",
+              "Static": true
+            },
+            "V1_16_0": {
+              "Remarks": "",
+              "Summary": "Version 1.16.0.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerPythonSdkVersion",
+              "Static": true
+            },
+            "V1_17_0": {
+              "Remarks": "",
+              "Summary": "Version 1.17.0.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerPythonSdkVersion",
+              "Static": true
+            },
+            "V1_18_0": {
+              "Remarks": "",
+              "Summary": "Version 1.18.0.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerPythonSdkVersion",
+              "Static": true
             }
           }
         },
@@ -4652,6 +4687,13 @@
               "Remarks": "Use this if the architecture name is not yet supported by the CDK.",
               "Static": true,
               "ReturnType": "aws-cdk-lib.aws_lambda.Architecture"
+            },
+            "toString": {
+              "Parameters": {},
+              "Summary": "Returns a string representation of the architecture using the name.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "String"
             }
           },
           "PublicProperties": {
@@ -5729,7 +5771,7 @@
                 }
               },
               "Summary": "Adds an event source to this function.",
-              "Remarks": "Event sources are implemented in the @aws-cdk/aws-lambda-event-sources module.\n\nThe following example adds an SQS Queue as an event source:\n```\nimport { SqsEventSource } from '@aws-cdk/aws-lambda-event-sources';\nmyFunction.addEventSource(new SqsEventSource(myQueue));\n```",
+              "Remarks": "Event sources are implemented in the",
               "Static": false
             },
             "addEventSourceMapping": {
@@ -6398,7 +6440,7 @@
                 }
               },
               "Summary": "Adds an event source to this function.",
-              "Remarks": "Event sources are implemented in the @aws-cdk/aws-lambda-event-sources module.\n\nThe following example adds an SQS Queue as an event source:\n```\nimport { SqsEventSource } from '@aws-cdk/aws-lambda-event-sources';\nmyFunction.addEventSource(new SqsEventSource(myQueue));\n```",
+              "Remarks": "Event sources are implemented in the",
               "Static": false
             },
             "addEventSourceMapping": {
@@ -6888,6 +6930,13 @@
               "Type": "aws-cdk-lib.aws_lambda.Runtime",
               "Static": true
             },
+            "PYTHON_3_11": {
+              "Remarks": "",
+              "Summary": "The Python 3.11 runtime (python3.11).",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Runtime",
+              "Static": true
+            },
             "PYTHON_3_6": {
               "Remarks": "The Python 3.6 runtime is deprecated as of July 2022.",
               "Summary": "The Python 3.6 runtime (python3.6) (not recommended).",
@@ -7266,7 +7315,7 @@
                 }
               },
               "Summary": "Adds an event source to this function.",
-              "Remarks": "Event sources are implemented in the @aws-cdk/aws-lambda-event-sources module.\n\nThe following example adds an SQS Queue as an event source:\n```\nimport { SqsEventSource } from '@aws-cdk/aws-lambda-event-sources';\nmyFunction.addEventSource(new SqsEventSource(myQueue));\n```",
+              "Remarks": "Event sources are implemented in the",
               "Static": false
             },
             "addEventSourceMapping": {
@@ -7700,7 +7749,7 @@
                 }
               },
               "Summary": "Adds an event source to this function.",
-              "Remarks": "Event sources are implemented in the @aws-cdk/aws-lambda-event-sources module.\n\nThe following example adds an SQS Queue as an event source:\n```\nimport { SqsEventSource } from '@aws-cdk/aws-lambda-event-sources';\nmyFunction.addEventSource(new SqsEventSource(myQueue));\n```",
+              "Remarks": "Event sources are implemented in the",
               "Static": false
             },
             "addEventSourceMapping": {
@@ -8124,7 +8173,7 @@
                 }
               },
               "Summary": "Adds an event source to this function.",
-              "Remarks": "Event sources are implemented in the @aws-cdk/aws-lambda-event-sources module.\n\nThe following example adds an SQS Queue as an event source:\n```\nimport { SqsEventSource } from '@aws-cdk/aws-lambda-event-sources';\nmyFunction.addEventSource(new SqsEventSource(myQueue));\n```",
+              "Remarks": "Event sources are implemented in the",
               "Static": false
             },
             "addEventSourceMapping": {
