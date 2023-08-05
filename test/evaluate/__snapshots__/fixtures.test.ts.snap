@@ -6183,109 +6183,6 @@ Object {
 
 exports[`Evaluation Valid templates examples/lambda-dashboard.yaml 1`] = `
 Object {
-  "Mappings": Object {
-    "DefaultCrNodeVersionMap": Object {
-      "af-south-1": Object {
-        "value": "nodejs16.x",
-      },
-      "ap-east-1": Object {
-        "value": "nodejs16.x",
-      },
-      "ap-northeast-1": Object {
-        "value": "nodejs16.x",
-      },
-      "ap-northeast-2": Object {
-        "value": "nodejs16.x",
-      },
-      "ap-northeast-3": Object {
-        "value": "nodejs16.x",
-      },
-      "ap-south-1": Object {
-        "value": "nodejs16.x",
-      },
-      "ap-south-2": Object {
-        "value": "nodejs16.x",
-      },
-      "ap-southeast-1": Object {
-        "value": "nodejs16.x",
-      },
-      "ap-southeast-2": Object {
-        "value": "nodejs16.x",
-      },
-      "ap-southeast-3": Object {
-        "value": "nodejs16.x",
-      },
-      "ca-central-1": Object {
-        "value": "nodejs16.x",
-      },
-      "cn-north-1": Object {
-        "value": "nodejs16.x",
-      },
-      "cn-northwest-1": Object {
-        "value": "nodejs16.x",
-      },
-      "eu-central-1": Object {
-        "value": "nodejs16.x",
-      },
-      "eu-central-2": Object {
-        "value": "nodejs16.x",
-      },
-      "eu-north-1": Object {
-        "value": "nodejs16.x",
-      },
-      "eu-south-1": Object {
-        "value": "nodejs16.x",
-      },
-      "eu-south-2": Object {
-        "value": "nodejs16.x",
-      },
-      "eu-west-1": Object {
-        "value": "nodejs16.x",
-      },
-      "eu-west-2": Object {
-        "value": "nodejs16.x",
-      },
-      "eu-west-3": Object {
-        "value": "nodejs16.x",
-      },
-      "me-central-1": Object {
-        "value": "nodejs16.x",
-      },
-      "me-south-1": Object {
-        "value": "nodejs16.x",
-      },
-      "sa-east-1": Object {
-        "value": "nodejs16.x",
-      },
-      "us-east-1": Object {
-        "value": "nodejs16.x",
-      },
-      "us-east-2": Object {
-        "value": "nodejs16.x",
-      },
-      "us-gov-east-1": Object {
-        "value": "nodejs16.x",
-      },
-      "us-gov-west-1": Object {
-        "value": "nodejs16.x",
-      },
-      "us-iso-east-1": Object {
-        "value": "nodejs14.x",
-      },
-      "us-iso-west-1": Object {
-        "value": "nodejs14.x",
-      },
-      "us-isob-east-1": Object {
-        "value": "nodejs14.x",
-      },
-      "us-west-1": Object {
-        "value": "nodejs16.x",
-      },
-      "us-west-2": Object {
-        "value": "nodejs16.x",
-      },
-    },
-  },
   "Parameters": Object {
     "DashboardName": Object {
       "AllowedPattern": "^[a-zA-Z0-9-_]*$",
@@ -6304,7 +6201,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "5fa1330271b8967d9254ba2d4a07144f8acefe8b77e6d6bba38261373a50d5f8.zip",
+          "S3Key": "5cc92ed0cea39e2b8de2dbc527dfb5980a3af9564bd1084d840b9787c7d0467e.zip",
         },
         "Handler": "index.handler",
         "Role": Object {
@@ -6313,15 +6210,7 @@ Object {
             "Arn",
           ],
         },
-        "Runtime": Object {
-          "Fn::FindInMap": Array [
-            "DefaultCrNodeVersionMap",
-            Object {
-              "Ref": "AWS::Region",
-            },
-            "value",
-          ],
-        },
+        "Runtime": "nodejs18.x",
       },
       "Type": "AWS::Lambda::Function",
     },
@@ -12239,109 +12128,6 @@ Object {
 exports[`Evaluation Valid templates templates/syntax-method-calls.json 1`] = `
 Object {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Mappings": Object {
-    "DefaultCrNodeVersionMap": Object {
-      "af-south-1": Object {
-        "value": "nodejs16.x",
-      },
-      "ap-east-1": Object {
-        "value": "nodejs16.x",
-      },
-      "ap-northeast-1": Object {
-        "value": "nodejs16.x",
-      },
-      "ap-northeast-2": Object {
-        "value": "nodejs16.x",
-      },
-      "ap-northeast-3": Object {
-        "value": "nodejs16.x",
-      },
-      "ap-south-1": Object {
-        "value": "nodejs16.x",
-      },
-      "ap-south-2": Object {
-        "value": "nodejs16.x",
-      },
-      "ap-southeast-1": Object {
-        "value": "nodejs16.x",
-      },
-      "ap-southeast-2": Object {
-        "value": "nodejs16.x",
-      },
-      "ap-southeast-3": Object {
-        "value": "nodejs16.x",
-      },
-      "ca-central-1": Object {
-        "value": "nodejs16.x",
-      },
-      "cn-north-1": Object {
-        "value": "nodejs16.x",
-      },
-      "cn-northwest-1": Object {
-        "value": "nodejs16.x",
-      },
-      "eu-central-1": Object {
-        "value": "nodejs16.x",
-      },
-      "eu-central-2": Object {
-        "value": "nodejs16.x",
-      },
-      "eu-north-1": Object {
-        "value": "nodejs16.x",
-      },
-      "eu-south-1": Object {
-        "value": "nodejs16.x",
-      },
-      "eu-south-2": Object {
-        "value": "nodejs16.x",
-      },
-      "eu-west-1": Object {
-        "value": "nodejs16.x",
-      },
-      "eu-west-2": Object {
-        "value": "nodejs16.x",
-      },
-      "eu-west-3": Object {
-        "value": "nodejs16.x",
-      },
-      "me-central-1": Object {
-        "value": "nodejs16.x",
-      },
-      "me-south-1": Object {
-        "value": "nodejs16.x",
-      },
-      "sa-east-1": Object {
-        "value": "nodejs16.x",
-      },
-      "us-east-1": Object {
-        "value": "nodejs16.x",
-      },
-      "us-east-2": Object {
-        "value": "nodejs16.x",
-      },
-      "us-gov-east-1": Object {
-        "value": "nodejs16.x",
-      },
-      "us-gov-west-1": Object {
-        "value": "nodejs16.x",
-      },
-      "us-iso-east-1": Object {
-        "value": "nodejs14.x",
-      },
-      "us-iso-west-1": Object {
-        "value": "nodejs14.x",
-      },
-      "us-isob-east-1": Object {
-        "value": "nodejs14.x",
-      },
-      "us-west-1": Object {
-        "value": "nodejs16.x",
-      },
-      "us-west-2": Object {
-        "value": "nodejs16.x",
-      },
-    },
-  },
   "Resources": Object {
     "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A": Object {
       "DependsOn": Array [
@@ -12353,7 +12139,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "5fa1330271b8967d9254ba2d4a07144f8acefe8b77e6d6bba38261373a50d5f8.zip",
+          "S3Key": "5cc92ed0cea39e2b8de2dbc527dfb5980a3af9564bd1084d840b9787c7d0467e.zip",
         },
         "Handler": "index.handler",
         "Role": Object {
@@ -12362,15 +12148,7 @@ Object {
             "Arn",
           ],
         },
-        "Runtime": Object {
-          "Fn::FindInMap": Array [
-            "DefaultCrNodeVersionMap",
-            Object {
-              "Ref": "AWS::Region",
-            },
-            "value",
-          ],
-        },
+        "Runtime": "nodejs18.x",
       },
       "Type": "AWS::Lambda::Function",
     },
@@ -12702,109 +12480,6 @@ Object {
 
 exports[`Evaluation Valid templates templates/syntax-short-intrinsics.yaml 1`] = `
 Object {
-  "Mappings": Object {
-    "DefaultCrNodeVersionMap": Object {
-      "af-south-1": Object {
-        "value": "nodejs16.x",
-      },
-      "ap-east-1": Object {
-        "value": "nodejs16.x",
-      },
-      "ap-northeast-1": Object {
-        "value": "nodejs16.x",
-      },
-      "ap-northeast-2": Object {
-        "value": "nodejs16.x",
-      },
-      "ap-northeast-3": Object {
-        "value": "nodejs16.x",
-      },
-      "ap-south-1": Object {
-        "value": "nodejs16.x",
-      },
-      "ap-south-2": Object {
-        "value": "nodejs16.x",
-      },
-      "ap-southeast-1": Object {
-        "value": "nodejs16.x",
-      },
-      "ap-southeast-2": Object {
-        "value": "nodejs16.x",
-      },
-      "ap-southeast-3": Object {
-        "value": "nodejs16.x",
-      },
-      "ca-central-1": Object {
-        "value": "nodejs16.x",
-      },
-      "cn-north-1": Object {
-        "value": "nodejs16.x",
-      },
-      "cn-northwest-1": Object {
-        "value": "nodejs16.x",
-      },
-      "eu-central-1": Object {
-        "value": "nodejs16.x",
-      },
-      "eu-central-2": Object {
-        "value": "nodejs16.x",
-      },
-      "eu-north-1": Object {
-        "value": "nodejs16.x",
-      },
-      "eu-south-1": Object {
-        "value": "nodejs16.x",
-      },
-      "eu-south-2": Object {
-        "value": "nodejs16.x",
-      },
-      "eu-west-1": Object {
-        "value": "nodejs16.x",
-      },
-      "eu-west-2": Object {
-        "value": "nodejs16.x",
-      },
-      "eu-west-3": Object {
-        "value": "nodejs16.x",
-      },
-      "me-central-1": Object {
-        "value": "nodejs16.x",
-      },
-      "me-south-1": Object {
-        "value": "nodejs16.x",
-      },
-      "sa-east-1": Object {
-        "value": "nodejs16.x",
-      },
-      "us-east-1": Object {
-        "value": "nodejs16.x",
-      },
-      "us-east-2": Object {
-        "value": "nodejs16.x",
-      },
-      "us-gov-east-1": Object {
-        "value": "nodejs16.x",
-      },
-      "us-gov-west-1": Object {
-        "value": "nodejs16.x",
-      },
-      "us-iso-east-1": Object {
-        "value": "nodejs14.x",
-      },
-      "us-iso-west-1": Object {
-        "value": "nodejs14.x",
-      },
-      "us-isob-east-1": Object {
-        "value": "nodejs14.x",
-      },
-      "us-west-1": Object {
-        "value": "nodejs16.x",
-      },
-      "us-west-2": Object {
-        "value": "nodejs16.x",
-      },
-    },
-  },
   "Parameters": Object {
     "DashboardName": Object {
       "AllowedPattern": "^[a-zA-Z0-9-_]*$",
@@ -12823,7 +12498,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "5fa1330271b8967d9254ba2d4a07144f8acefe8b77e6d6bba38261373a50d5f8.zip",
+          "S3Key": "5cc92ed0cea39e2b8de2dbc527dfb5980a3af9564bd1084d840b9787c7d0467e.zip",
         },
         "Handler": "index.handler",
         "Role": Object {
@@ -12832,15 +12507,7 @@ Object {
             "Arn",
           ],
         },
-        "Runtime": Object {
-          "Fn::FindInMap": Array [
-            "DefaultCrNodeVersionMap",
-            Object {
-              "Ref": "AWS::Region",
-            },
-            "value",
-          ],
-        },
+        "Runtime": "nodejs18.x",
       },
       "Type": "AWS::Lambda::Function",
     },
