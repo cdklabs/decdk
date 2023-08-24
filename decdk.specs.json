@@ -6719,6 +6719,12 @@
               "Required": false,
               "Type": "String"
             },
+            "isVariable": {
+              "Remarks": "",
+              "Summary": "Whether the runtime enum is meant to change over time, IE NODEJS_LATEST.",
+              "Required": false,
+              "Type": "Boolean"
+            },
             "supportsCodeGuruProfiling": {
               "Remarks": "",
               "Summary": "Whether this runtime is integrated with and supported for profiling using Amazon CodeGuru Profiler.",
@@ -6902,6 +6908,13 @@
               "Type": "aws-cdk-lib.aws_lambda.Runtime",
               "Static": true
             },
+            "NODEJS_LATEST": {
+              "Remarks": "",
+              "Summary": "The latest NodeJS version currently available.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Runtime",
+              "Static": true
+            },
             "PROVIDED": {
               "Remarks": "",
               "Summary": "The custom provided runtime (provided).",
@@ -6991,6 +7004,12 @@
               "Summary": "The bundling Docker image for this runtime.",
               "Required": true,
               "Type": "aws-cdk-lib.DockerImage"
+            },
+            "isVariable": {
+              "Remarks": "",
+              "Summary": "Enabled for runtime enums that always target the latest available.",
+              "Required": true,
+              "Type": "Boolean"
             },
             "name": {
               "Remarks": "",
