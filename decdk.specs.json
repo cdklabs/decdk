@@ -851,6 +851,12 @@
               "Type": "List",
               "ItemType": "aws-cdk-lib.aws_ec2.ISecurityGroup"
             },
+            "snapStart": {
+              "Remarks": "SnapStart is currently supported only for Java 11, 17 runtime",
+              "Summary": "Enable SnapStart for Lambda Function.",
+              "Required": false,
+              "Type": "aws-cdk-lib.aws_lambda.SnapStartConf"
+            },
             "timeout": {
               "Remarks": "Because the execution time affects cost, set this value\nbased on the function's expected execution time.",
               "Summary": "The function execution time (in seconds) after which Lambda terminates the function.",
@@ -2134,6 +2140,12 @@
               "Type": "List",
               "ItemType": "aws-cdk-lib.aws_ec2.ISecurityGroup"
             },
+            "snapStart": {
+              "Remarks": "SnapStart is currently supported only for Java 11, 17 runtime",
+              "Summary": "Enable SnapStart for Lambda Function.",
+              "Required": false,
+              "Type": "aws-cdk-lib.aws_lambda.SnapStartConf"
+            },
             "timeout": {
               "Remarks": "Because the execution time affects cost, set this value\nbased on the function's expected execution time.",
               "Summary": "The function execution time (in seconds) after which Lambda terminates the function.",
@@ -3398,6 +3410,12 @@
               "Type": "List",
               "ItemType": "aws-cdk-lib.aws_ec2.ISecurityGroup"
             },
+            "snapStart": {
+              "Remarks": "SnapStart is currently supported only for Java 11, 17 runtime",
+              "Summary": "Enable SnapStart for Lambda Function.",
+              "Required": false,
+              "Type": "aws-cdk-lib.aws_lambda.SnapStartConf"
+            },
             "timeout": {
               "Remarks": "Because the execution time affects cost, set this value\nbased on the function's expected execution time.",
               "Summary": "The function execution time (in seconds) after which Lambda terminates the function.",
@@ -4417,6 +4435,13 @@
               "Required": true,
               "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerGenericVersion",
               "Static": true
+            },
+            "V0_82_0": {
+              "Remarks": "",
+              "Summary": "Version 0.82.0.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerGenericVersion",
+              "Static": true
             }
           }
         },
@@ -4454,6 +4479,13 @@
               "Required": true,
               "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerJavaAutoInstrumentationVersion",
               "Static": true
+            },
+            "V1_28_1": {
+              "Remarks": "",
+              "Summary": "Version 1.28.1.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerJavaAutoInstrumentationVersion",
+              "Static": true
             }
           }
         },
@@ -4481,6 +4513,13 @@
             "LATEST": {
               "Remarks": "New versions could\nintroduce incompatible changes. Make sure to test them before deploying to production.",
               "Summary": "The latest layer version available in this CDK version.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerJavaScriptSdkVersion",
+              "Static": true
+            },
+            "V1_15_0_1": {
+              "Remarks": "",
+              "Summary": "Version 1.15.0.",
               "Required": true,
               "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerJavaScriptSdkVersion",
               "Static": true
@@ -4525,6 +4564,13 @@
             "V1_19_0": {
               "Remarks": "",
               "Summary": "Version 1.19.0.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerJavaSdkVersion",
+              "Static": true
+            },
+            "V1_28_1": {
+              "Remarks": "",
+              "Summary": "Version 1.28.1.",
               "Required": true,
               "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerJavaSdkVersion",
               "Static": true
@@ -4597,6 +4643,13 @@
             "V1_18_0": {
               "Remarks": "",
               "Summary": "Version 1.18.0.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerPythonSdkVersion",
+              "Static": true
+            },
+            "V1_19_0_1": {
+              "Remarks": "",
+              "Summary": "Version 1.19.0.",
               "Required": true,
               "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerPythonSdkVersion",
               "Static": true
@@ -6736,6 +6789,12 @@
               "Summary": "Whether the ``ZipFile`` (aka inline code) property can be used with this runtime.",
               "Required": false,
               "Type": "Boolean"
+            },
+            "supportsSnapStart": {
+              "Remarks": "",
+              "Summary": "Whether this runtime supports SnapStart.",
+              "Required": false,
+              "Type": "Boolean"
             }
           },
           "Methods": {
@@ -7029,6 +7088,12 @@
               "Required": true,
               "Type": "Boolean"
             },
+            "supportsSnapStart": {
+              "Remarks": "",
+              "Summary": "Whether this runtime supports snapstart.",
+              "Required": true,
+              "Type": "Boolean"
+            },
             "family": {
               "Remarks": "",
               "Summary": "The runtime family.",
@@ -7233,6 +7298,19 @@
               "Summary": "Determines whether this Code is inline code or not.",
               "Required": true,
               "Type": "Boolean"
+            }
+          }
+        },
+        "SnapStartConf": {
+          "Properties": {},
+          "Methods": {},
+          "PublicProperties": {
+            "ON_PUBLISHED_VERSIONS": {
+              "Remarks": "",
+              "Summary": "",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.SnapStartConf",
+              "Static": true
             }
           }
         },
