@@ -37,7 +37,7 @@
     "@types/node": "^16",
     "@types/semver": "^7.5.3",
     "@types/yaml": "^1.9.7",
-    "@types/yargs": "^17.0.27",
+    "@types/yargs": "^17.0.28",
     "@typescript-eslint/eslint-plugin": "^6",
     "@typescript-eslint/parser": "^6",
     "aws-cdk-lib": "^2.93.0",
