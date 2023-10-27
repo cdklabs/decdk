@@ -254,6 +254,18 @@
               "Static": false,
               "ReturnType": "aws-cdk-lib.aws_iam.Grant"
             },
+            "grantInvokeCompositePrincipal": {
+              "Parameters": {
+                "compositePrincipal": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.CompositePrincipal"
+                }
+              },
+              "Summary": "Grant multiple principals the ability to invoke this Lambda via CompositePrincipal.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "List"
+            },
             "grantInvokeUrl": {
               "Parameters": {
                 "grantee": {
@@ -1080,6 +1092,18 @@
               "Remarks": "",
               "Static": false,
               "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            },
+            "grantInvokeCompositePrincipal": {
+              "Parameters": {
+                "compositePrincipal": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.CompositePrincipal"
+                }
+              },
+              "Summary": "Grant multiple principals the ability to invoke this Lambda via CompositePrincipal.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "List"
             },
             "grantInvokeUrl": {
               "Parameters": {
@@ -2382,6 +2406,18 @@
               "Static": false,
               "ReturnType": "aws-cdk-lib.aws_iam.Grant"
             },
+            "grantInvokeCompositePrincipal": {
+              "Parameters": {
+                "compositePrincipal": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.CompositePrincipal"
+                }
+              },
+              "Summary": "Grant multiple principals the ability to invoke this Lambda via CompositePrincipal.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "List"
+            },
             "grantInvokeUrl": {
               "Parameters": {
                 "grantee": {
@@ -3664,6 +3700,18 @@
               "Static": false,
               "ReturnType": "aws-cdk-lib.aws_iam.Grant"
             },
+            "grantInvokeCompositePrincipal": {
+              "Parameters": {
+                "compositePrincipal": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.CompositePrincipal"
+                }
+              },
+              "Summary": "Grant multiple principals the ability to invoke this Lambda via CompositePrincipal.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "List"
+            },
             "grantInvokeUrl": {
               "Parameters": {
                 "grantee": {
@@ -4154,6 +4202,18 @@
               "Remarks": "",
               "Static": false,
               "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            },
+            "grantInvokeCompositePrincipal": {
+              "Parameters": {
+                "compositePrincipal": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.CompositePrincipal"
+                }
+              },
+              "Summary": "Grant multiple principals the ability to invoke this Lambda via CompositePrincipal.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "List"
             },
             "grantInvokeUrl": {
               "Parameters": {
@@ -5954,6 +6014,18 @@
               "Static": false,
               "ReturnType": "aws-cdk-lib.aws_iam.Grant"
             },
+            "grantInvokeCompositePrincipal": {
+              "Parameters": {
+                "compositePrincipal": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.CompositePrincipal"
+                }
+              },
+              "Summary": "Grant multiple principals the ability to invoke this Lambda via CompositePrincipal.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "List"
+            },
             "grantInvokeUrl": {
               "Parameters": {
                 "grantee": {
@@ -6622,6 +6694,18 @@
               "Remarks": "",
               "Static": false,
               "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            },
+            "grantInvokeCompositePrincipal": {
+              "Parameters": {
+                "compositePrincipal": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.CompositePrincipal"
+                }
+              },
+              "Summary": "Grant multiple principals the ability to invoke this Lambda via CompositePrincipal.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "List"
             },
             "grantInvokeUrl": {
               "Parameters": {
@@ -7527,6 +7611,18 @@
               "Static": false,
               "ReturnType": "aws-cdk-lib.aws_iam.Grant"
             },
+            "grantInvokeCompositePrincipal": {
+              "Parameters": {
+                "compositePrincipal": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.CompositePrincipal"
+                }
+              },
+              "Summary": "Grant multiple principals the ability to invoke this Lambda via CompositePrincipal.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "List"
+            },
             "grantInvokeUrl": {
               "Parameters": {
                 "identity": {
@@ -7961,6 +8057,18 @@
               "Static": false,
               "ReturnType": "aws-cdk-lib.aws_iam.Grant"
             },
+            "grantInvokeCompositePrincipal": {
+              "Parameters": {
+                "compositePrincipal": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.CompositePrincipal"
+                }
+              },
+              "Summary": "Grant multiple principals the ability to invoke this Lambda via CompositePrincipal.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "List"
+            },
             "grantInvokeUrl": {
               "Parameters": {
                 "identity": {
@@ -8384,6 +8492,18 @@
               "Remarks": "",
               "Static": false,
               "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            },
+            "grantInvokeCompositePrincipal": {
+              "Parameters": {
+                "compositePrincipal": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.CompositePrincipal"
+                }
+              },
+              "Summary": "Grant multiple principals the ability to invoke this Lambda via CompositePrincipal.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "List"
             },
             "grantInvokeUrl": {
               "Parameters": {
