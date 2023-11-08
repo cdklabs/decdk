@@ -7102,7 +7102,14 @@
             },
             "PROVIDED_AL2": {
               "Remarks": "",
-              "Summary": "The custom provided runtime (provided).",
+              "Summary": "The custom provided runtime with Amazon Linux 2 (provided.al2).",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Runtime",
+              "Static": true
+            },
+            "PROVIDED_AL2023": {
+              "Remarks": "",
+              "Summary": "The custom provided runtime with Amazon Linux 2023 (provided.al2023).",
               "Required": true,
               "Type": "aws-cdk-lib.aws_lambda.Runtime",
               "Static": true
