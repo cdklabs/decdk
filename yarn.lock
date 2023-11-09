@@ -1224,7 +1224,7 @@ available-typed-arrays@^1.0.5:
   resolved "https://registry.yarnpkg.com/available-typed-arrays/-/available-typed-arrays-1.0.5.tgz#92f95616501069d07d10edb2fc37d3e1c65123b7"
   integrity sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==
 
-aws-cdk-lib@^2.104.0:
+aws-cdk-lib@^2.105.0:
   version "2.105.0"
   resolved "https://registry.yarnpkg.com/aws-cdk-lib/-/aws-cdk-lib-2.105.0.tgz#9cf71716c8c54495fbdfc00d613ff6ddc7c44782"
   integrity sha512-pByAPfRyOzF+AVz56aLUPLhYiRZzfIjyV9Bf2t0X3cpwVW21zVC+8GrQcQwy+zWgFGg3Gx6IVFNio3t8awHXHA==
@@ -3332,9 +3332,9 @@ isexe@^2.0.0:
   integrity sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==
 
 istanbul-lib-coverage@^3.0.0, istanbul-lib-coverage@^3.2.0:
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/istanbul-lib-coverage/-/istanbul-lib-coverage-3.2.1.tgz#c680fd1544600460367af5811866c34c44c6f3b1"
-  integrity sha512-opCrKqbthmq3SKZ10mFMQG9dk3fTa3quaOLD35kJa5ejwZHd9xAr+kLuziiZz2cG32s4lMZxNdmdcEQnTDP4+g==
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/istanbul-lib-coverage/-/istanbul-lib-coverage-3.2.2.tgz#2d166c4b0644d43a39f04bf6c2edd1e585f31756"
+  integrity sha512-O8dpsF+r0WV/8MNRKfnmrtCWhuKjxrq2w+jpzBL5UZKTi2LeVWnWOmWRxFlesJONmc+wLAGvKQZEOanko0LFTg==
 
 istanbul-lib-hook@^3.0.0:
   version "3.0.0"
