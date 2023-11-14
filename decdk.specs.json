@@ -7100,6 +7100,13 @@
               "Type": "aws-cdk-lib.aws_lambda.Runtime",
               "Static": true
             },
+            "NODEJS_20_X": {
+              "Remarks": "",
+              "Summary": "The NodeJS 20.x runtime (nodejs20.x).",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Runtime",
+              "Static": true
+            },
             "NODEJS_4_3": {
               "Remarks": "",
               "Summary": "The NodeJS 4.3 runtime (nodejs4.3).",
