@@ -1796,6 +1796,12 @@
               "Required": false,
               "Type": "Number"
             },
+            "supportS3OnFailureDestination": {
+              "Remarks": "Currently only MSK and self managed kafka event support S3 ODF",
+              "Summary": "Check if support S3 onfailure destination(ODF).",
+              "Required": false,
+              "Type": "Boolean"
+            },
             "tumblingWindow": {
               "Remarks": "",
               "Summary": "The size of the tumbling windows to group records sent to DynamoDB or Kinesis.",
@@ -7040,6 +7046,13 @@
             "JAVA_17": {
               "Remarks": "",
               "Summary": "The Java 17 runtime (java17).",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Runtime",
+              "Static": true
+            },
+            "JAVA_21": {
+              "Remarks": "",
+              "Summary": "The Java 21 runtime (java21).",
               "Required": true,
               "Type": "aws-cdk-lib.aws_lambda.Runtime",
               "Static": true
