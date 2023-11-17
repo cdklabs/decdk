@@ -696,6 +696,12 @@
               "Required": false,
               "Type": "Boolean"
             },
+            "applicationLogLevel": {
+              "Remarks": "",
+              "Summary": "Sets the application log level for the function.",
+              "Required": false,
+              "Type": "String"
+            },
             "architecture": {
               "Remarks": "",
               "Summary": "The system architectures compatible with this lambda function.",
@@ -796,6 +802,18 @@
               "Type": "List",
               "ItemType": "aws-cdk-lib.aws_lambda.ILayerVersion"
             },
+            "logFormat": {
+              "Remarks": "",
+              "Summary": "Sets the logFormat for the function.",
+              "Required": false,
+              "Type": "String"
+            },
+            "logGroup": {
+              "Remarks": "",
+              "Summary": "Sets the log group name for the function.",
+              "Required": false,
+              "Type": "aws-cdk-lib.aws_logs.ILogGroup"
+            },
             "logRetention": {
               "Remarks": "When updating\nthis property, unsetting it doesn't remove the log retention policy. To\nremove the retention policy, set the value to `INFINITE`.",
               "Summary": "The number of days log events are kept in CloudWatch Logs.",
@@ -868,6 +886,12 @@
               "Summary": "Enable SnapStart for Lambda Function.",
               "Required": false,
               "Type": "aws-cdk-lib.aws_lambda.SnapStartConf"
+            },
+            "systemLogLevel": {
+              "Remarks": "",
+              "Summary": "Sets the system log level for the function.",
+              "Required": false,
+              "Type": "String"
             },
             "timeout": {
               "Remarks": "Because the execution time affects cost, set this value\nbased on the function's expected execution time.",
@@ -2003,6 +2027,12 @@
               "Required": false,
               "Type": "Boolean"
             },
+            "applicationLogLevel": {
+              "Remarks": "",
+              "Summary": "Sets the application log level for the function.",
+              "Required": false,
+              "Type": "String"
+            },
             "architecture": {
               "Remarks": "",
               "Summary": "The system architectures compatible with this lambda function.",
@@ -2103,6 +2133,18 @@
               "Type": "List",
               "ItemType": "aws-cdk-lib.aws_lambda.ILayerVersion"
             },
+            "logFormat": {
+              "Remarks": "",
+              "Summary": "Sets the logFormat for the function.",
+              "Required": false,
+              "Type": "String"
+            },
+            "logGroup": {
+              "Remarks": "",
+              "Summary": "Sets the log group name for the function.",
+              "Required": false,
+              "Type": "aws-cdk-lib.aws_logs.ILogGroup"
+            },
             "logRetention": {
               "Remarks": "When updating\nthis property, unsetting it doesn't remove the log retention policy. To\nremove the retention policy, set the value to `INFINITE`.",
               "Summary": "The number of days log events are kept in CloudWatch Logs.",
@@ -2175,6 +2217,12 @@
               "Summary": "Enable SnapStart for Lambda Function.",
               "Required": false,
               "Type": "aws-cdk-lib.aws_lambda.SnapStartConf"
+            },
+            "systemLogLevel": {
+              "Remarks": "",
+              "Summary": "Sets the system log level for the function.",
+              "Required": false,
+              "Type": "String"
             },
             "timeout": {
               "Remarks": "Because the execution time affects cost, set this value\nbased on the function's expected execution time.",
@@ -3285,6 +3333,12 @@
               "Required": false,
               "Type": "Boolean"
             },
+            "applicationLogLevel": {
+              "Remarks": "",
+              "Summary": "Sets the application log level for the function.",
+              "Required": false,
+              "Type": "String"
+            },
             "architecture": {
               "Remarks": "",
               "Summary": "The system architectures compatible with this lambda function.",
@@ -3385,6 +3439,18 @@
               "Type": "List",
               "ItemType": "aws-cdk-lib.aws_lambda.ILayerVersion"
             },
+            "logFormat": {
+              "Remarks": "",
+              "Summary": "Sets the logFormat for the function.",
+              "Required": false,
+              "Type": "String"
+            },
+            "logGroup": {
+              "Remarks": "",
+              "Summary": "Sets the log group name for the function.",
+              "Required": false,
+              "Type": "aws-cdk-lib.aws_logs.ILogGroup"
+            },
             "logRetention": {
               "Remarks": "When updating\nthis property, unsetting it doesn't remove the log retention policy. To\nremove the retention policy, set the value to `INFINITE`.",
               "Summary": "The number of days log events are kept in CloudWatch Logs.",
@@ -3457,6 +3523,12 @@
               "Summary": "Enable SnapStart for Lambda Function.",
               "Required": false,
               "Type": "aws-cdk-lib.aws_lambda.SnapStartConf"
+            },
+            "systemLogLevel": {
+              "Remarks": "",
+              "Summary": "Sets the system log level for the function.",
+              "Required": false,
+              "Type": "String"
             },
             "timeout": {
               "Remarks": "Because the execution time affects cost, set this value\nbased on the function's expected execution time.",
