@@ -226,9 +226,6 @@
       },
       "steps": [
         {
-          "exec": "npx npm-check-updates@latest --upgrade --target=minor --peer --dep=prod,peer --filter=chalk,constructs,fs-extra,jsii-reflect,jsonschema,semver,yaml,yargs,aws-cdk-lib"
-        },
-        {
           "exec": "yarn install --check-files"
         },
         {
@@ -249,9 +246,6 @@
         "CI": "0"
       },
       "steps": [
-        {
-          "exec": "npx npm-check-updates@latest --upgrade --target=latest --peer --dep=dev,peer,prod,optional --filter=cdklabs-projen-project-types,projen"
-        },
         {
           "exec": "yarn install --check-files"
         },
@@ -274,13 +268,10 @@
       },
       "steps": [
         {
-          "exec": "npx npm-check-updates@latest --upgrade --target=minor --peer --dep=dev --filter=@types/fs-extra,@types/mocha,@types/node,@types/semver,@types/yaml,@types/yargs,@typescript-eslint/eslint-plugin,@typescript-eslint/parser,aws-cdk-lib,cdklabs-projen-project-types,constructs,eslint-config-prettier,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,eslint,expect,fast-check,jsii,mocha,mocha-expect-snapshot,npm-check-updates,nyc,prettier,projen,standard-version,ts-node,typescript"
-        },
-        {
           "exec": "yarn install --check-files"
         },
         {
-          "exec": "yarn upgrade @types/fs-extra @types/mocha @types/node @types/semver @types/yaml @types/yargs @typescript-eslint/eslint-plugin @typescript-eslint/parser aws-cdk-lib cdklabs-projen-project-types constructs eslint-config-prettier eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint expect fast-check jsii mocha mocha-expect-snapshot npm-check-updates nyc prettier projen standard-version ts-node typescript"
+          "exec": "yarn upgrade @types/fs-extra @types/mocha @types/node @types/semver @types/yaml @types/yargs @typescript-eslint/eslint-plugin @typescript-eslint/parser aws-cdk-lib cdklabs-projen-project-types constructs eslint-config-prettier eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint expect fast-check jsii mocha mocha-expect-snapshot nyc prettier projen standard-version ts-node typescript"
         },
         {
           "exec": "npx projen"
