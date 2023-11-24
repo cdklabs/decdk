@@ -229,7 +229,7 @@
           "exec": "yarn install --check-files"
         },
         {
-          "exec": "yarn upgrade chalk constructs fs-extra jsii-reflect jsonschema semver yaml yargs aws-cdk-lib"
+          "exec": "yarn upgrade chalk constructs fs-extra jsii-reflect jsonschema semver yaml yargs"
         },
         {
           "exec": "npx projen"
