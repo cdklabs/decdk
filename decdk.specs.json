@@ -1247,7 +1247,7 @@
                 }
               },
               "Summary": "Import a lambda function into the CDK using its ARN.",
-              "Remarks": "",
+              "Remarks": "For `Function.addPermissions()` to work on this imported lambda, make sure that is\nin the same account and region as the stack you are importing it into.",
               "Static": true,
               "ReturnType": "aws-cdk-lib.aws_lambda.IFunction"
             },
@@ -1267,7 +1267,7 @@
                 }
               },
               "Summary": "Creates a Lambda function object which represents a function not defined within this stack.",
-              "Remarks": "",
+              "Remarks": "For `Function.addPermissions()` to work on this imported lambda, set the sameEnvironment property to true\nif this imported lambda is in the same account and region as the stack you are importing it into.",
               "Static": true,
               "ReturnType": "aws-cdk-lib.aws_lambda.IFunction"
             },
@@ -2590,7 +2590,7 @@
                 }
               },
               "Summary": "Import a lambda function into the CDK using its ARN.",
-              "Remarks": "",
+              "Remarks": "For `Function.addPermissions()` to work on this imported lambda, make sure that is\nin the same account and region as the stack you are importing it into.",
               "Static": true,
               "ReturnType": "aws-cdk-lib.aws_lambda.IFunction"
             },
@@ -2610,7 +2610,7 @@
                 }
               },
               "Summary": "Creates a Lambda function object which represents a function not defined within this stack.",
-              "Remarks": "",
+              "Remarks": "For `Function.addPermissions()` to work on this imported lambda, set the sameEnvironment property to true\nif this imported lambda is in the same account and region as the stack you are importing it into.",
               "Static": true,
               "ReturnType": "aws-cdk-lib.aws_lambda.IFunction"
             },
@@ -7215,7 +7215,7 @@
             },
             "NODEJS_LATEST": {
               "Remarks": "",
-              "Summary": "The latest NodeJS version currently available.",
+              "Summary": "The latest NodeJS version currently available in ALL regions (not necessarily the latest NodeJS version available in YOUR region).",
               "Required": true,
               "Type": "aws-cdk-lib.aws_lambda.Runtime",
               "Static": true
