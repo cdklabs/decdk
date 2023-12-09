@@ -51,14 +51,14 @@
     "eslint-plugin-prettier": "^4.2.1",
     "expect": "^29.7.0",
     "fast-check": "^3.14.0",
-    "jsii": "^1.92.0",
+    "jsii": "^1.93.0",
     "mocha": "^10.2.0",
     "mocha-expect-snapshot": "^7.0.1",
     "nyc": "^15.1.0",
     "prettier": "^2.8.8",
     "projen": "^0.77.5",
     "standard-version": "^9",
-    "ts-node": "^10.9.1",
+    "ts-node": "^10.9.2",
     "typescript": "^4.9.5"
   },
   "peerDependencies": {
