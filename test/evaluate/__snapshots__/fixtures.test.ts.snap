@@ -6108,7 +6108,7 @@ Object {
           "RotationType": "MySQLSingleUser",
         },
         "RotationRules": Object {
-          "AutomaticallyAfterDays": 30,
+          "ScheduleExpression": "rate(30 days)",
         },
         "SecretId": Object {
           "Ref": "SecretA720EF05",
