@@ -685,7 +685,7 @@
               "Type": "aws-cdk-lib.aws_lambda.AdotInstrumentationConfig"
             },
             "allowAllOutbound": {
-              "Remarks": "If set to false, you must individually add traffic rules to allow the\nLambda to connect to network targets.",
+              "Remarks": "If set to false, you must individually add traffic rules to allow the\nLambda to connect to network targets.\n\nDo not specify this property if the `securityGroups` or `securityGroup` property is set.\nInstead, configure `allowAllOutbound` directly on the security group.",
               "Summary": "Whether to allow the Lambda to send all network traffic.",
               "Required": false,
               "Type": "Boolean"
@@ -2016,7 +2016,7 @@
               "Type": "aws-cdk-lib.aws_lambda.AdotInstrumentationConfig"
             },
             "allowAllOutbound": {
-              "Remarks": "If set to false, you must individually add traffic rules to allow the\nLambda to connect to network targets.",
+              "Remarks": "If set to false, you must individually add traffic rules to allow the\nLambda to connect to network targets.\n\nDo not specify this property if the `securityGroups` or `securityGroup` property is set.\nInstead, configure `allowAllOutbound` directly on the security group.",
               "Summary": "Whether to allow the Lambda to send all network traffic.",
               "Required": false,
               "Type": "Boolean"
@@ -3322,7 +3322,7 @@
               "Type": "aws-cdk-lib.aws_lambda.AdotInstrumentationConfig"
             },
             "allowAllOutbound": {
-              "Remarks": "If set to false, you must individually add traffic rules to allow the\nLambda to connect to network targets.",
+              "Remarks": "If set to false, you must individually add traffic rules to allow the\nLambda to connect to network targets.\n\nDo not specify this property if the `securityGroups` or `securityGroup` property is set.\nInstead, configure `allowAllOutbound` directly on the security group.",
               "Summary": "Whether to allow the Lambda to send all network traffic.",
               "Required": false,
               "Type": "Boolean"
