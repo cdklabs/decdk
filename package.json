@@ -68,7 +68,7 @@
     "chalk": "^4",
     "constructs": "^10",
     "fs-extra": "^8",
-    "jsii-reflect": "^1.93.0",
+    "jsii-reflect": "^1.94.0",
     "jsonschema": "^1.4.1",
     "semver": "^7.5.4",
     "yaml": "^1.10.2",
