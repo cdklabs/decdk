@@ -33,7 +33,6 @@ jspm_packages/
 .cache
 cdk.out
 /.idea
-!/.projenrc.js
 !/.github/workflows/build.yml
 /dist/changelog.md
 /dist/version.txt
@@ -55,3 +54,4 @@ cdk.out
 !/.vscode/extensions.json
 !/.vscode/settings.json
 !/.mocharc.yaml
+!/.projenrc.ts
