@@ -4,6 +4,8 @@ permissions-backup.acl
 /dist/changelog.md
 /dist/version.txt
 /.mergify.yml
+/.prettierignore
+/.prettierrc.json
 /test/
 /tsconfig.dev.json
 /src/
@@ -26,3 +28,5 @@ tsconfig.tsbuildinfo
 .mocharc.yaml
 /coverage/
 /.nyc_output/
+/.gitattributes
+/.projenrc.ts
