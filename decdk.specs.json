@@ -809,8 +809,8 @@
               "Type": "String"
             },
             "logGroup": {
-              "Remarks": "",
-              "Summary": "Sets the log group name for the function.",
+              "Remarks": "By default, Lambda functions send logs to an automatically created default log group named /aws/lambda/<function name>.\nHowever you cannot change the properties of this auto-created log group using the AWS CDK, e.g. you cannot set a different log retention.\n\nUse the `logGroup` property to create a fully customizable LogGroup ahead of time, and instruct the Lambda function to send logs to it.",
+              "Summary": "The log group the function sends logs to.",
               "Required": false,
               "Type": "aws-cdk-lib.aws_logs.ILogGroup"
             },
@@ -2140,8 +2140,8 @@
               "Type": "String"
             },
             "logGroup": {
-              "Remarks": "",
-              "Summary": "Sets the log group name for the function.",
+              "Remarks": "By default, Lambda functions send logs to an automatically created default log group named /aws/lambda/<function name>.\nHowever you cannot change the properties of this auto-created log group using the AWS CDK, e.g. you cannot set a different log retention.\n\nUse the `logGroup` property to create a fully customizable LogGroup ahead of time, and instruct the Lambda function to send logs to it.",
+              "Summary": "The log group the function sends logs to.",
               "Required": false,
               "Type": "aws-cdk-lib.aws_logs.ILogGroup"
             },
@@ -3446,8 +3446,8 @@
               "Type": "String"
             },
             "logGroup": {
-              "Remarks": "",
-              "Summary": "Sets the log group name for the function.",
+              "Remarks": "By default, Lambda functions send logs to an automatically created default log group named /aws/lambda/<function name>.\nHowever you cannot change the properties of this auto-created log group using the AWS CDK, e.g. you cannot set a different log retention.\n\nUse the `logGroup` property to create a fully customizable LogGroup ahead of time, and instruct the Lambda function to send logs to it.",
+              "Summary": "The log group the function sends logs to.",
               "Required": false,
               "Type": "aws-cdk-lib.aws_logs.ILogGroup"
             },
@@ -4594,6 +4594,13 @@
               "Required": true,
               "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerGenericVersion",
               "Static": true
+            },
+            "V0_90_1": {
+              "Remarks": "",
+              "Summary": "Version 0.90.1.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerGenericVersion",
+              "Static": true
             }
           }
         },
@@ -4652,6 +4659,13 @@
               "Required": true,
               "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerJavaAutoInstrumentationVersion",
               "Static": true
+            },
+            "V1_32_0": {
+              "Remarks": "",
+              "Summary": "Version 1.32.0.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerJavaAutoInstrumentationVersion",
+              "Static": true
             }
           }
         },
@@ -4700,6 +4714,13 @@
             "V1_17_1": {
               "Remarks": "",
               "Summary": "Version 1.17.1.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerJavaScriptSdkVersion",
+              "Static": true
+            },
+            "V1_18_1": {
+              "Remarks": "",
+              "Summary": "Version 1.18.1.",
               "Required": true,
               "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerJavaScriptSdkVersion",
               "Static": true
@@ -4765,6 +4786,13 @@
             "V1_31_0": {
               "Remarks": "",
               "Summary": "Version 1.31.0.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerJavaSdkVersion",
+              "Static": true
+            },
+            "V1_32_0": {
+              "Remarks": "",
+              "Summary": "Version 1.32.0.",
               "Required": true,
               "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerJavaSdkVersion",
               "Static": true
@@ -4858,6 +4886,13 @@
             "V1_20_0_1": {
               "Remarks": "",
               "Summary": "Version 1.20.0.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerPythonSdkVersion",
+              "Static": true
+            },
+            "V1_21_0": {
+              "Remarks": "",
+              "Summary": "Version 1.21.0.",
               "Required": true,
               "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerPythonSdkVersion",
               "Static": true
