@@ -809,25 +809,25 @@
               "Type": "String"
             },
             "logGroup": {
-              "Remarks": "By default, Lambda functions send logs to an automatically created default log group named /aws/lambda/\\<function name\\>.\nHowever you cannot change the properties of this auto-created log group using the AWS CDK, e.g. you cannot set a different log retention.\n\nUse the `logGroup` property to create a fully customizable LogGroup ahead of time, and instruct the Lambda function to send logs to it.",
+              "Remarks": "By default, Lambda functions send logs to an automatically created default log group named /aws/lambda/\\<function name\\>.\nHowever you cannot change the properties of this auto-created log group using the AWS CDK, e.g. you cannot set a different log retention.\n\nUse the `logGroup` property to create a fully customizable LogGroup ahead of time, and instruct the Lambda function to send logs to it.\n\nProviding a user-controlled log group was rolled out to commercial regions on 2023-11-16.\nIf you are deploying to another type of region, please check regional availability first.",
               "Summary": "The log group the function sends logs to.",
               "Required": false,
               "Type": "aws-cdk-lib.aws_logs.ILogGroup"
             },
             "logRetention": {
-              "Remarks": "When updating\nthis property, unsetting it doesn't remove the log retention policy. To\nremove the retention policy, set the value to `INFINITE`.",
+              "Remarks": "When updating\nthis property, unsetting it doesn't remove the log retention policy. To\nremove the retention policy, set the value to `INFINITE`.\n\nThis is a legacy API and we strongly recommend you move away from it if you can.\nInstead create a fully customizable log group with `logs.LogGroup` and use the `logGroup` property\nto instruct the Lambda function to send logs to it.\nMigrating from `logRetention` to `logGroup` will cause the name of the log group to change.\nUsers and code and referencing the name verbatim will have to adjust.\n\nIn AWS CDK code, you can access the log group name directly from the LogGroup construct:\n```ts\nimport * as logs from 'aws-cdk-lib/aws-logs';\n\ndeclare const myLogGroup: logs.LogGroup;\nmyLogGroup.logGroupName;\n```",
               "Summary": "The number of days log events are kept in CloudWatch Logs.",
               "Required": false,
               "Type": "aws-cdk-lib.aws_logs.RetentionDays"
             },
             "logRetentionRetryOptions": {
-              "Remarks": "These options control the retry policy when interacting with CloudWatch APIs.",
+              "Remarks": "These options control the retry policy when interacting with CloudWatch APIs.\n\nThis is a legacy API and we strongly recommend you migrate to `logGroup` if you can.\n`logGroup` allows you to create a fully customizable log group and instruct the Lambda function to send logs to it.",
               "Summary": "When log retention is specified, a custom resource attempts to create the CloudWatch log group.",
               "Required": false,
               "Type": "aws-cdk-lib.aws_lambda.LogRetentionRetryOptions"
             },
             "logRetentionRole": {
-              "Remarks": "",
+              "Remarks": "This is a legacy API and we strongly recommend you migrate to `logGroup` if you can.\n`logGroup` allows you to create a fully customizable log group and instruct the Lambda function to send logs to it.",
               "Summary": "The IAM role for the Lambda function associated with the custom resource that sets the retention policy.",
               "Required": false,
               "Type": "aws-cdk-lib.aws_iam.IRole"
@@ -2140,25 +2140,25 @@
               "Type": "String"
             },
             "logGroup": {
-              "Remarks": "By default, Lambda functions send logs to an automatically created default log group named /aws/lambda/\\<function name\\>.\nHowever you cannot change the properties of this auto-created log group using the AWS CDK, e.g. you cannot set a different log retention.\n\nUse the `logGroup` property to create a fully customizable LogGroup ahead of time, and instruct the Lambda function to send logs to it.",
+              "Remarks": "By default, Lambda functions send logs to an automatically created default log group named /aws/lambda/\\<function name\\>.\nHowever you cannot change the properties of this auto-created log group using the AWS CDK, e.g. you cannot set a different log retention.\n\nUse the `logGroup` property to create a fully customizable LogGroup ahead of time, and instruct the Lambda function to send logs to it.\n\nProviding a user-controlled log group was rolled out to commercial regions on 2023-11-16.\nIf you are deploying to another type of region, please check regional availability first.",
               "Summary": "The log group the function sends logs to.",
               "Required": false,
               "Type": "aws-cdk-lib.aws_logs.ILogGroup"
             },
             "logRetention": {
-              "Remarks": "When updating\nthis property, unsetting it doesn't remove the log retention policy. To\nremove the retention policy, set the value to `INFINITE`.",
+              "Remarks": "When updating\nthis property, unsetting it doesn't remove the log retention policy. To\nremove the retention policy, set the value to `INFINITE`.\n\nThis is a legacy API and we strongly recommend you move away from it if you can.\nInstead create a fully customizable log group with `logs.LogGroup` and use the `logGroup` property\nto instruct the Lambda function to send logs to it.\nMigrating from `logRetention` to `logGroup` will cause the name of the log group to change.\nUsers and code and referencing the name verbatim will have to adjust.\n\nIn AWS CDK code, you can access the log group name directly from the LogGroup construct:\n```ts\nimport * as logs from 'aws-cdk-lib/aws-logs';\n\ndeclare const myLogGroup: logs.LogGroup;\nmyLogGroup.logGroupName;\n```",
               "Summary": "The number of days log events are kept in CloudWatch Logs.",
               "Required": false,
               "Type": "aws-cdk-lib.aws_logs.RetentionDays"
             },
             "logRetentionRetryOptions": {
-              "Remarks": "These options control the retry policy when interacting with CloudWatch APIs.",
+              "Remarks": "These options control the retry policy when interacting with CloudWatch APIs.\n\nThis is a legacy API and we strongly recommend you migrate to `logGroup` if you can.\n`logGroup` allows you to create a fully customizable log group and instruct the Lambda function to send logs to it.",
               "Summary": "When log retention is specified, a custom resource attempts to create the CloudWatch log group.",
               "Required": false,
               "Type": "aws-cdk-lib.aws_lambda.LogRetentionRetryOptions"
             },
             "logRetentionRole": {
-              "Remarks": "",
+              "Remarks": "This is a legacy API and we strongly recommend you migrate to `logGroup` if you can.\n`logGroup` allows you to create a fully customizable log group and instruct the Lambda function to send logs to it.",
               "Summary": "The IAM role for the Lambda function associated with the custom resource that sets the retention policy.",
               "Required": false,
               "Type": "aws-cdk-lib.aws_iam.IRole"
@@ -3446,25 +3446,25 @@
               "Type": "String"
             },
             "logGroup": {
-              "Remarks": "By default, Lambda functions send logs to an automatically created default log group named /aws/lambda/\\<function name\\>.\nHowever you cannot change the properties of this auto-created log group using the AWS CDK, e.g. you cannot set a different log retention.\n\nUse the `logGroup` property to create a fully customizable LogGroup ahead of time, and instruct the Lambda function to send logs to it.",
+              "Remarks": "By default, Lambda functions send logs to an automatically created default log group named /aws/lambda/\\<function name\\>.\nHowever you cannot change the properties of this auto-created log group using the AWS CDK, e.g. you cannot set a different log retention.\n\nUse the `logGroup` property to create a fully customizable LogGroup ahead of time, and instruct the Lambda function to send logs to it.\n\nProviding a user-controlled log group was rolled out to commercial regions on 2023-11-16.\nIf you are deploying to another type of region, please check regional availability first.",
               "Summary": "The log group the function sends logs to.",
               "Required": false,
               "Type": "aws-cdk-lib.aws_logs.ILogGroup"
             },
             "logRetention": {
-              "Remarks": "When updating\nthis property, unsetting it doesn't remove the log retention policy. To\nremove the retention policy, set the value to `INFINITE`.",
+              "Remarks": "When updating\nthis property, unsetting it doesn't remove the log retention policy. To\nremove the retention policy, set the value to `INFINITE`.\n\nThis is a legacy API and we strongly recommend you move away from it if you can.\nInstead create a fully customizable log group with `logs.LogGroup` and use the `logGroup` property\nto instruct the Lambda function to send logs to it.\nMigrating from `logRetention` to `logGroup` will cause the name of the log group to change.\nUsers and code and referencing the name verbatim will have to adjust.\n\nIn AWS CDK code, you can access the log group name directly from the LogGroup construct:\n```ts\nimport * as logs from 'aws-cdk-lib/aws-logs';\n\ndeclare const myLogGroup: logs.LogGroup;\nmyLogGroup.logGroupName;\n```",
               "Summary": "The number of days log events are kept in CloudWatch Logs.",
               "Required": false,
               "Type": "aws-cdk-lib.aws_logs.RetentionDays"
             },
             "logRetentionRetryOptions": {
-              "Remarks": "These options control the retry policy when interacting with CloudWatch APIs.",
+              "Remarks": "These options control the retry policy when interacting with CloudWatch APIs.\n\nThis is a legacy API and we strongly recommend you migrate to `logGroup` if you can.\n`logGroup` allows you to create a fully customizable log group and instruct the Lambda function to send logs to it.",
               "Summary": "When log retention is specified, a custom resource attempts to create the CloudWatch log group.",
               "Required": false,
               "Type": "aws-cdk-lib.aws_lambda.LogRetentionRetryOptions"
             },
             "logRetentionRole": {
-              "Remarks": "",
+              "Remarks": "This is a legacy API and we strongly recommend you migrate to `logGroup` if you can.\n`logGroup` allows you to create a fully customizable log group and instruct the Lambda function to send logs to it.",
               "Summary": "The IAM role for the Lambda function associated with the custom resource that sets the retention policy.",
               "Required": false,
               "Type": "aws-cdk-lib.aws_iam.IRole"
