@@ -227,7 +227,7 @@
       },
       "steps": [
         {
-          "exec": "npx npm-check-updates@16 --upgrade --target=minor --peer --dep=prod --filter=chalk,constructs,fs-extra,jsii-reflect,jsonschema,semver,yaml,yargs"
+          "exec": "npx npm-check-updates@16 --upgrade --target=minor --peer --dep=prod --filter=jsii-reflect,jsonschema,semver,yaml,yargs"
         },
         {
           "exec": "yarn install --check-files"
@@ -275,7 +275,7 @@
       },
       "steps": [
         {
-          "exec": "npx npm-check-updates@16 --upgrade --target=minor --peer --dep=dev --filter=@types/fs-extra,@types/mocha,@types/node,@types/semver,@types/yaml,@types/yargs,@typescript-eslint/eslint-plugin,@typescript-eslint/parser,aws-cdk-lib,cdklabs-projen-project-types,constructs,eslint-config-prettier,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,eslint,expect,fast-check,jsii,mocha,mocha-expect-snapshot,nyc,prettier,projen,standard-version,ts-node,typescript"
+          "exec": "npx npm-check-updates@16 --upgrade --target=minor --peer --dep=dev --filter=@types/mocha,@types/semver,@types/yaml,@types/yargs,aws-cdk-lib,cdklabs-projen-project-types,eslint-config-prettier,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,expect,fast-check,jsii,mocha,mocha-expect-snapshot,nyc,prettier,projen,ts-node,typescript"
         },
         {
           "exec": "yarn install --check-files"
