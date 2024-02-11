@@ -808,6 +808,12 @@
               "Required": false,
               "Type": "String"
             },
+            "loggingFormat": {
+              "Remarks": "",
+              "Summary": "Sets the loggingFormat for the function.",
+              "Required": false,
+              "Type": "aws-cdk-lib.aws_lambda.LoggingFormat"
+            },
             "logGroup": {
               "Remarks": "By default, Lambda functions send logs to an automatically created default log group named /aws/lambda/\\<function name\\>.\nHowever you cannot change the properties of this auto-created log group using the AWS CDK, e.g. you cannot set a different log retention.\n\nUse the `logGroup` property to create a fully customizable LogGroup ahead of time, and instruct the Lambda function to send logs to it.\n\nProviding a user-controlled log group was rolled out to commercial regions on 2023-11-16.\nIf you are deploying to another type of region, please check regional availability first.",
               "Summary": "The log group the function sends logs to.",
@@ -2139,6 +2145,12 @@
               "Required": false,
               "Type": "String"
             },
+            "loggingFormat": {
+              "Remarks": "",
+              "Summary": "Sets the loggingFormat for the function.",
+              "Required": false,
+              "Type": "aws-cdk-lib.aws_lambda.LoggingFormat"
+            },
             "logGroup": {
               "Remarks": "By default, Lambda functions send logs to an automatically created default log group named /aws/lambda/\\<function name\\>.\nHowever you cannot change the properties of this auto-created log group using the AWS CDK, e.g. you cannot set a different log retention.\n\nUse the `logGroup` property to create a fully customizable LogGroup ahead of time, and instruct the Lambda function to send logs to it.\n\nProviding a user-controlled log group was rolled out to commercial regions on 2023-11-16.\nIf you are deploying to another type of region, please check regional availability first.",
               "Summary": "The log group the function sends logs to.",
@@ -3444,6 +3456,12 @@
               "Summary": "Sets the logFormat for the function.",
               "Required": false,
               "Type": "String"
+            },
+            "loggingFormat": {
+              "Remarks": "",
+              "Summary": "Sets the loggingFormat for the function.",
+              "Required": false,
+              "Type": "aws-cdk-lib.aws_lambda.LoggingFormat"
             },
             "logGroup": {
               "Remarks": "By default, Lambda functions send logs to an automatically created default log group named /aws/lambda/\\<function name\\>.\nHowever you cannot change the properties of this auto-created log group using the AWS CDK, e.g. you cannot set a different log retention.\n\nUse the `logGroup` property to create a fully customizable LogGroup ahead of time, and instruct the Lambda function to send logs to it.\n\nProviding a user-controlled log group was rolled out to commercial regions on 2023-11-16.\nIf you are deploying to another type of region, please check regional availability first.",
