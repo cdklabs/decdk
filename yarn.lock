@@ -1010,10 +1010,10 @@ available-typed-arrays@^1.0.5, available-typed-arrays@^1.0.6:
   resolved "https://registry.yarnpkg.com/available-typed-arrays/-/available-typed-arrays-1.0.6.tgz#ac812d8ce5a6b976d738e1c45f08d0b00bc7d725"
   integrity sha512-j1QzY8iPNPG4o4xmO3ptzpRxTciqD3MgEHtifP/YnJpIo58Xu+ne4BejlbkuaLfXn/nz6HFiw29bLpj2PNMdGg==
 
-aws-cdk-lib@^2.126.0:
-  version "2.126.0"
-  resolved "https://registry.yarnpkg.com/aws-cdk-lib/-/aws-cdk-lib-2.126.0.tgz#9b64a798b35f5d4843588b0548ed695e8b5ef5d8"
-  integrity sha512-HlwBYiqNCfhPUyozjoV4zJIBgH0adE/zTVATmeaM1jcNGs6jwkPMpWsF75JuXOoVtkcfpBFyNKloGd82nTiB0A==
+aws-cdk-lib@^2.127.0:
+  version "2.127.0"
+  resolved "https://registry.yarnpkg.com/aws-cdk-lib/-/aws-cdk-lib-2.127.0.tgz#dc27045badd07579194c1b1af9f8fdfcfb3093fe"
+  integrity sha512-pEdp2TqgNLYY+kAo68oVzMDEHJevYoRArZJoH+bjM9YTwqRJJiwF1k6tc78e3jca4sCNDZAgX2ytOgqW6lVTWQ==
   dependencies:
     "@aws-cdk/asset-awscli-v1" "^2.2.202"
     "@aws-cdk/asset-kubectl-v20" "^2.1.2"
@@ -1021,7 +1021,7 @@ aws-cdk-lib@^2.126.0:
     "@balena/dockerignore" "^1.0.2"
     case "1.6.3"
     fs-extra "^11.2.0"
-    ignore "^5.3.0"
+    ignore "^5.3.1"
     jsonschema "^1.4.1"
     minimatch "^3.1.2"
     punycode "^2.3.1"
@@ -2421,7 +2421,7 @@ html-escaper@^2.0.0:
   resolved "https://registry.yarnpkg.com/html-escaper/-/html-escaper-2.0.2.tgz#dfd60027da36a36dfcbe236262c00a5822681453"
   integrity sha512-H2iMtd0I4Mt5eYiapRdIDjp+XzelXQ0tFE4JS7YFwFevXXMmOp9myNrUvCg0D6ws8iqkRPBfKHgbwig1SmlLfg==
 
-ignore@^5.2.0, ignore@^5.2.4, ignore@^5.3.0:
+ignore@^5.2.0, ignore@^5.2.4, ignore@^5.3.1:
   version "5.3.1"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.3.1.tgz#5073e554cd42c5b33b394375f538b8593e34d4ef"
   integrity sha512-5Fytz/IraMjqpwfd34ke28PTVMjZjJG2MPn5t7OE4eUCUNf8BAa7b5WUS9/Qvr6mwOQS7Mk6vdsMno5he+T8Xw==
@@ -3644,10 +3644,10 @@ process-on-spawn@^1.0.0:
   dependencies:
     fromentries "^1.2.0"
 
-projen@^0.79.15:
-  version "0.79.15"
-  resolved "https://registry.yarnpkg.com/projen/-/projen-0.79.15.tgz#33b45058055d6ec65510e62f6b81200b3e824885"
-  integrity sha512-0B6w91QIDoHbva3yM4GZVPnurPCMeiZmB8b67wlrMmssfEHzOr4iK974iriv+B8/TTwD1aq6rgc4Wi7zKWm6HA==
+projen@^0.79.16:
+  version "0.79.16"
+  resolved "https://registry.yarnpkg.com/projen/-/projen-0.79.16.tgz#49604da02a95024ef0f789c35732ba6ca7f26693"
+  integrity sha512-Q0t7OJJHtXAJ4MiUaxInNqgbKEcY51P8BYQrK2sBvcAQl06BFbtcV+AaxIytPD//EklNMyxjXFzzHcHN307uMw==
   dependencies:
     "@iarna/toml" "^2.2.5"
     case "^1.6.3"
