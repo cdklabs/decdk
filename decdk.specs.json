@@ -795,6 +795,12 @@
               "Required": false,
               "Type": "aws-cdk-lib.aws_lambda.LambdaInsightsVersion"
             },
+            "ipv6AllowedForDualStack": {
+              "Remarks": "Only used if 'vpc' is supplied.",
+              "Summary": "Allows outbound IPv6 traffic on VPC functions that are connected to dual-stack subnets.",
+              "Required": false,
+              "Type": "Boolean"
+            },
             "layers": {
               "Remarks": "You can configure your Lambda function to pull in\nadditional code during initialization in the form of layers. Layers are packages of libraries or other dependencies\nthat can be used by multiple functions.",
               "Summary": "A list of layers to add to the function's execution environment.",
@@ -2132,6 +2138,12 @@
               "Required": false,
               "Type": "aws-cdk-lib.aws_lambda.LambdaInsightsVersion"
             },
+            "ipv6AllowedForDualStack": {
+              "Remarks": "Only used if 'vpc' is supplied.",
+              "Summary": "Allows outbound IPv6 traffic on VPC functions that are connected to dual-stack subnets.",
+              "Required": false,
+              "Type": "Boolean"
+            },
             "layers": {
               "Remarks": "You can configure your Lambda function to pull in\nadditional code during initialization in the form of layers. Layers are packages of libraries or other dependencies\nthat can be used by multiple functions.",
               "Summary": "A list of layers to add to the function's execution environment.",
@@ -3443,6 +3455,12 @@
               "Summary": "Specify the version of CloudWatch Lambda insights to use for monitoring.",
               "Required": false,
               "Type": "aws-cdk-lib.aws_lambda.LambdaInsightsVersion"
+            },
+            "ipv6AllowedForDualStack": {
+              "Remarks": "Only used if 'vpc' is supplied.",
+              "Summary": "Allows outbound IPv6 traffic on VPC functions that are connected to dual-stack subnets.",
+              "Required": false,
+              "Type": "Boolean"
             },
             "layers": {
               "Remarks": "You can configure your Lambda function to pull in\nadditional code during initialization in the form of layers. Layers are packages of libraries or other dependencies\nthat can be used by multiple functions.",
@@ -7115,6 +7133,13 @@
             "DOTNET_6": {
               "Remarks": "",
               "Summary": "The .NET 6 runtime (dotnet6).",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Runtime",
+              "Static": true
+            },
+            "DOTNET_8": {
+              "Remarks": "",
+              "Summary": "The .NET 8 runtime (dotnet8).",
               "Required": true,
               "Type": "aws-cdk-lib.aws_lambda.Runtime",
               "Static": true
