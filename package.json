@@ -36,7 +36,7 @@
     "@types/fs-extra": "^8",
     "@types/mocha": "^10.0.6",
     "@types/node": "^18",
-    "@types/semver": "^7.5.7",
+    "@types/semver": "^7.5.8",
     "@types/yaml": "^1.9.7",
     "@types/yargs": "^17.0.32",
     "@typescript-eslint/eslint-plugin": "^6",
@@ -56,7 +56,7 @@
     "mocha-expect-snapshot": "^7.0.1",
     "nyc": "^15.1.0",
     "prettier": "^2.8.8",
-    "projen": "^0.79.27",
+    "projen": "^0.80.1",
     "standard-version": "^9",
     "ts-node": "^10.9.2",
     "typescript": "^4.9.5"
