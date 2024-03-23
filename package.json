@@ -51,7 +51,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "expect": "^29.7.0",
     "fast-check": "^3.16.0",
-    "jsii": "^1.95.0",
+    "jsii": "^1.96.0",
     "mocha": "^10.3.0",
     "mocha-expect-snapshot": "^7.0.1",
     "nyc": "^15.1.0",
