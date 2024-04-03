@@ -7396,6 +7396,13 @@
               "Type": "aws-cdk-lib.aws_lambda.Runtime",
               "Static": true
             },
+            "RUBY_3_3": {
+              "Remarks": "",
+              "Summary": "The Ruby 3.3 runtime (ruby3.3).",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Runtime",
+              "Static": true
+            },
             "bundlingImage": {
               "Remarks": "",
               "Summary": "The bundling Docker image for this runtime.",
