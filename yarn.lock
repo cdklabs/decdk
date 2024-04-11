@@ -1004,10 +1004,10 @@ available-typed-arrays@^1.0.7:
   dependencies:
     possible-typed-array-names "^1.0.0"
 
-aws-cdk-lib@^2.136.0:
-  version "2.136.0"
-  resolved "https://registry.yarnpkg.com/aws-cdk-lib/-/aws-cdk-lib-2.136.0.tgz#d817db8d33559eb7bb632a0dc2fa917ae2923e3e"
-  integrity sha512-zdkWNe91mvZH6ESghUoIxB8ORoreExg2wowTLEVfy3vWY1a6n69crxk8mkCG+vn6GhXEnEPpovoG1QV8BpXTpA==
+aws-cdk-lib@^2.136.1:
+  version "2.136.1"
+  resolved "https://registry.yarnpkg.com/aws-cdk-lib/-/aws-cdk-lib-2.136.1.tgz#b15d974ad48d9297c5200885822f5910300d26fa"
+  integrity sha512-2wlTABbgaVqARlCGyG88uY4oSNnXdGxD54bb71VxM6YBKk2qxUiKdUcu5wKeSiz+/VNT8Kv7nItTPPFxEY82RA==
   dependencies:
     "@aws-cdk/asset-awscli-v1" "^2.2.202"
     "@aws-cdk/asset-kubectl-v20" "^2.1.2"
@@ -1158,9 +1158,9 @@ camelcase@^6.0.0:
   integrity sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==
 
 caniuse-lite@^1.0.30001587:
-  version "1.0.30001607"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001607.tgz#b91e8e033f6bca4e13d3d45388d87fa88931d9a5"
-  integrity sha512-WcvhVRjXLKFB/kmOFVwELtMxyhq3iM/MvmXcyCe2PNf166c39mptscOc/45TTS96n2gpNV2z7+NakArTWZCQ3w==
+  version "1.0.30001608"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001608.tgz#7ae6e92ffb300e4b4ec2f795e0abab456ec06cc0"
+  integrity sha512-cjUJTQkk9fQlJR2s4HMuPMvTiRggl0rAVMtthQuyOlDWuqHXqN8azLq+pi8B2TjwKJ32diHjUqRIKeFX4z1FoA==
 
 case@1.6.3, case@^1.6.3:
   version "1.6.3"
@@ -1679,9 +1679,9 @@ dotgitignore@^2.1.0:
     minimatch "^3.0.4"
 
 electron-to-chromium@^1.4.668:
-  version "1.4.731"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.731.tgz#d3dc19f359045b750a1fb0bc42315a502d950187"
-  integrity sha512-+TqVfZjpRz2V/5SPpmJxq9qK620SC5SqCnxQIOi7i/U08ZDcTpKbT7Xjj9FU5CbXTMUb4fywbIr8C7cGv4hcjw==
+  version "1.4.733"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.733.tgz#708d51ce01a7ed3b401d5ced85e9f5d504fd4217"
+  integrity sha512-gUI9nhI2iBGF0OaYYLKOaOtliFMl+Bt1rY7VmEjwxOxqoYLub/D9xmduPEhbw2imE6gYkJKhIE5it+KE2ulVxQ==
 
 emoji-regex@^8.0.0:
   version "8.0.0"
