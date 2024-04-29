@@ -30,3 +30,4 @@ tsconfig.tsbuildinfo
 /.nyc_output/
 /.gitattributes
 /.projenrc.ts
+/projenrc
