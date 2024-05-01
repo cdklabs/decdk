@@ -500,10 +500,25 @@
     chalk "^4.1.2"
     semver "^7.5.4"
 
+"@jsii/check-node@1.98.0":
+  version "1.98.0"
+  resolved "https://registry.yarnpkg.com/@jsii/check-node/-/check-node-1.98.0.tgz#140860478009834aa35dc8479a26db1a221439d5"
+  integrity sha512-hI53TMW/fylHyY3CrJvqWvfSPJvBL82GSAB1m2CKNC0yHb0pZHCdBZnLrrr4rgTCQx8kIJjcUc0rQ/Ba3w+GaA==
+  dependencies:
+    chalk "^4.1.2"
+    semver "^7.5.4"
+
 "@jsii/spec@^1.97.0":
   version "1.97.0"
   resolved "https://registry.yarnpkg.com/@jsii/spec/-/spec-1.97.0.tgz#951109ad43bdd7c1ea2de96a74e4fa645bd9a413"
   integrity sha512-5YIq1fgOtToH6eUyTNlqAXuZzUzTD6wBukE7m5DpsxHjQlbR7TVP750FcPqH9qCitCwaePPl5IdCZJ/AS0IwEA==
+  dependencies:
+    ajv "^8.12.0"
+
+"@jsii/spec@^1.98.0":
+  version "1.98.0"
+  resolved "https://registry.yarnpkg.com/@jsii/spec/-/spec-1.98.0.tgz#7495f2d123b95b67ba0da4d3a18cac763d401da2"
+  integrity sha512-5FCJedjFrxKt0wrcSnXetHHTXQV6OQM2NlE/WJNvjwqlk+RYfw+BwZOBYHsoaQx1Qh0pTwN7ZM9WmEusN3GdNw==
   dependencies:
     ajv "^8.12.0"
 
@@ -999,10 +1014,10 @@ available-typed-arrays@^1.0.7:
   dependencies:
     possible-typed-array-names "^1.0.0"
 
-aws-cdk-lib@^2.139.0:
-  version "2.139.0"
-  resolved "https://registry.yarnpkg.com/aws-cdk-lib/-/aws-cdk-lib-2.139.0.tgz#bee393c979d74cf58c087850ce896df145b04776"
-  integrity sha512-G9yoc+VFwF10kpgf4omtrAVmUNPeAP708oF5fc7XlRTzoTXMmAdUJW9cRGOMtAkFY83SxiJP0wm8n5Z9tjAdUA==
+aws-cdk-lib@^2.139.1:
+  version "2.139.1"
+  resolved "https://registry.yarnpkg.com/aws-cdk-lib/-/aws-cdk-lib-2.139.1.tgz#806674aaa2649b9d94d0cb5a2abc6ab33fc17ca2"
+  integrity sha512-Nn2VUpVY1zh5ipV3QEyAIZ9lSXF1p7mnB1mqEffWxYnrX6TUQs/eJY7IrqAEnCaVFAhJpGJzTw/wRXTtBjWObg==
   dependencies:
     "@aws-cdk/asset-awscli-v1" "^2.2.202"
     "@aws-cdk/asset-kubectl-v20" "^2.1.2"
@@ -1593,7 +1608,7 @@ define-data-property@^1.0.1, define-data-property@^1.1.4:
     es-errors "^1.3.0"
     gopd "^1.0.1"
 
-define-properties@^1.1.3, define-properties@^1.2.0, define-properties@^1.2.1:
+define-properties@^1.2.0, define-properties@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/define-properties/-/define-properties-1.2.1.tgz#10781cc616eb951a80a034bafcaa7377f6af2b6c"
   integrity sha512-8QmQKqEASLd5nx0U1B1okLElbUuuttJ/AnYmRXbbbGDWh6uS208EjD4Xqq/I9wK7u0v6O08XhTWnt5XtEbR6Dg==
@@ -1674,9 +1689,9 @@ dotgitignore@^2.1.0:
     minimatch "^3.0.4"
 
 electron-to-chromium@^1.4.668:
-  version "1.4.751"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.751.tgz#b5b19742a435c589de02f60c16618150498bbd59"
-  integrity sha512-2DEPi++qa89SMGRhufWTiLmzqyuGmNF3SK4+PQetW1JKiZdEpF4XQonJXJCzyuYSA6mauiMhbyVhqYAP45Hvfw==
+  version "1.4.752"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.752.tgz#99227455547c8254488e3dab7d316c34a2c067b8"
+  integrity sha512-P3QJreYI/AUTcfBVrC4zy9KvnZWekViThgQMX/VpJ+IsOBbcX5JFpORM4qWapwWQ+agb2nYAOyn/4PMXOk0m2Q==
 
 emoji-regex@^8.0.0:
   version "8.0.0"
@@ -2321,11 +2336,12 @@ globals@^13.19.0:
     type-fest "^0.20.2"
 
 globalthis@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/globalthis/-/globalthis-1.0.3.tgz#5852882a52b80dc301b0660273e1ed082f0b6ccf"
-  integrity sha512-sFdI5LyBiNTHjRd7cGPWapiHWMOXKyuBNX/cWJ3NfzrZQVa8GI/8cofCl74AOVqq9W5kNmguTIzJ/1s2gyI9wA==
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/globalthis/-/globalthis-1.0.4.tgz#7430ed3a975d97bfb59bcce41f5cabbafa651236"
+  integrity sha512-DpLKbNU4WylpxJykQujfCcwYWiV/Jhm50Goo0wrVILAv5jOr9d+H+UR3PhSCD2rCCEIg0uc+G+muBTwD54JhDQ==
   dependencies:
-    define-properties "^1.1.3"
+    define-properties "^1.2.1"
+    gopd "^1.0.1"
 
 globby@^11.1.0:
   version "11.1.0"
@@ -2934,13 +2950,13 @@ jsii-reflect@^1.97.0:
     oo-ascii-tree "^1.97.0"
     yargs "^16.2.0"
 
-jsii@^1.97.0:
-  version "1.97.0"
-  resolved "https://registry.yarnpkg.com/jsii/-/jsii-1.97.0.tgz#5ceee9f1b4715b82e37ec5a24b509336d8ebef83"
-  integrity sha512-C3GA2Q50DkHnFozg7HKel7ZaBMCUKb/dzgH2ykfrbuJ/C/KebkPkqY/XRf95zGB42mzagPfawSLDFQiGGueQ9w==
+jsii@^1.98.0:
+  version "1.98.0"
+  resolved "https://registry.yarnpkg.com/jsii/-/jsii-1.98.0.tgz#884f414670885c201bc9e14151e5d3f162ddf97d"
+  integrity sha512-P/Q/mlcbZsJqZDE4zJ+GyLLZRyMPqlx+Fb/p6oDei9JA+fBmBX5Adbw4B8+VClZqvr8I0PxHxLk06n+EVQn3cQ==
   dependencies:
-    "@jsii/check-node" "1.97.0"
-    "@jsii/spec" "^1.97.0"
+    "@jsii/check-node" "1.98.0"
+    "@jsii/spec" "^1.98.0"
     case "^1.6.3"
     chalk "^4"
     fast-deep-equal "^3.1.3"
