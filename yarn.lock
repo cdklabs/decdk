@@ -999,10 +999,10 @@ available-typed-arrays@^1.0.7:
   dependencies:
     possible-typed-array-names "^1.0.0"
 
-aws-cdk-lib@^2.141.0:
-  version "2.141.0"
-  resolved "https://registry.yarnpkg.com/aws-cdk-lib/-/aws-cdk-lib-2.141.0.tgz#022c577b08563c226e7649be7283947d2c49fb0b"
-  integrity sha512-xda56Lfwpdqg9MssnFdXrAKTmeeNjfrfFCaWwqGqToG6cfGY2W+6wyyoObX60/MeZGhhs3Lhdb/K94ulLJ4X/A==
+aws-cdk-lib@^2.142.0:
+  version "2.142.0"
+  resolved "https://registry.yarnpkg.com/aws-cdk-lib/-/aws-cdk-lib-2.142.0.tgz#afae300bfb67d6f7491a603660ab85ede464b384"
+  integrity sha512-WQc+1jk6mC3QrJnWyvZCmjQHcBcsrhSP3rCqLVvDcjOiZIvCRUHXDtkVmB5iUgaf2RhPu15sPwYegkCPpa7afQ==
   dependencies:
     "@aws-cdk/asset-awscli-v1" "^2.2.202"
     "@aws-cdk/asset-kubectl-v20" "^2.1.2"
@@ -1674,9 +1674,9 @@ dotgitignore@^2.1.0:
     minimatch "^3.0.4"
 
 electron-to-chromium@^1.4.668:
-  version "1.4.768"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.768.tgz#3795bd000ccb8978be1af2d06320b2dac810a372"
-  integrity sha512-z2U3QcvNuxdkk33YV7R1bVMNq7fL23vq3WfO5BHcqrm4TnDGReouBfYKLEFh5umoK1XACjEwp8mmnhXk2EJigw==
+  version "1.4.771"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.771.tgz#fcaf0e80b78d42e35b86d1c892378c08a8d29414"
+  integrity sha512-b/CmBh1c5SXZy5oFu4a0o+2TdM0AYStiwoQebEoImGAINstCsS/s/MOvPKMoxu1nA2BJtEOJI1nC/VoVRzdXWA==
 
 emoji-regex@^8.0.0:
   version "8.0.0"
@@ -3701,10 +3701,10 @@ process-on-spawn@^1.0.0:
   dependencies:
     fromentries "^1.2.0"
 
-projen@^0.81.11:
-  version "0.81.11"
-  resolved "https://registry.yarnpkg.com/projen/-/projen-0.81.11.tgz#e933cd8b3df19fcc6c3ca7c9918a0995eeaefb8a"
-  integrity sha512-4zfviP7jWXLa7JP2PSBJZIvfy6IVZcPkjBD1LcVjvxeSc+f2al1NdWe3jLY8ssD+siARQU53YwGuGRGiCh1rXQ==
+projen@^0.81.13:
+  version "0.81.13"
+  resolved "https://registry.yarnpkg.com/projen/-/projen-0.81.13.tgz#ea2cab002a00df46dc324515b4b47571cda2afd9"
+  integrity sha512-gmH+/lvhUitjrCNNvV2ZRmiQ6D4sbGVfOBHND5bsEUm/58b5zz5LUvjj3wn5O3/2dECNMlimaYTBAyNuzV1aCw==
   dependencies:
     "@iarna/toml" "^2.2.5"
     case "^1.6.3"
