@@ -45,7 +45,7 @@
     "@types/yargs": "^17.0.32",
     "@typescript-eslint/eslint-plugin": "^6",
     "@typescript-eslint/parser": "^6",
-    "aws-cdk-lib": "^2.142.1",
+    "aws-cdk-lib": "^2.143.0",
     "cdklabs-projen-project-types": "^0.1.196",
     "constructs": "^10.0.0",
     "eslint": "^8",
