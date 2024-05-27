@@ -3700,10 +3700,10 @@ process-on-spawn@^1.0.0:
   dependencies:
     fromentries "^1.2.0"
 
-projen@^0.81.15:
-  version "0.81.15"
-  resolved "https://registry.yarnpkg.com/projen/-/projen-0.81.15.tgz#6eca919899099fa7a74894a2a0e189c1769e1e00"
-  integrity sha512-Frr2bcYzqZqgk6yQarjHm+lOQRWW6qAP6LAB7ZgtoxqJUN74tzllbceoGTBY/QOG6DLHJORNlvFQ9xMnXM576A==
+projen@^0.81.16:
+  version "0.81.16"
+  resolved "https://registry.yarnpkg.com/projen/-/projen-0.81.16.tgz#7fd2041c3892eccdd8f7cf97a8317d7aed64c96a"
+  integrity sha512-AjzA5l/qqWJaQwX1FZbsY/TWqyS4vIsV2CfMw3wpqROthIfqCeqa3ov3xBK2YQXmMrDHB1NqZK3Z4kwzwWO0YQ==
   dependencies:
     "@iarna/toml" "^2.2.5"
     case "^1.6.3"
