@@ -998,10 +998,10 @@ available-typed-arrays@^1.0.7:
   dependencies:
     possible-typed-array-names "^1.0.0"
 
-aws-cdk-lib@^2.143.0:
-  version "2.143.0"
-  resolved "https://registry.yarnpkg.com/aws-cdk-lib/-/aws-cdk-lib-2.143.0.tgz#6cec2b589737a219f9e3e8ef7f2317efcfcdbc59"
-  integrity sha512-mIu+ftBt1OvDEMxpbMNQPZIPtb7ucp+z01xrtaB/3EqZRUXLha2W1/3JodW9X5h7IliFi4oBeMmzH3wWtvHbog==
+aws-cdk-lib@^2.143.1:
+  version "2.143.1"
+  resolved "https://registry.yarnpkg.com/aws-cdk-lib/-/aws-cdk-lib-2.143.1.tgz#20f570677f4f3087a3c510b56681b5614b0b2d9e"
+  integrity sha512-GY1+5vRE8x0AWZLrsCeQowpq+Mw8dvKjN+pXLz6HXh6a9zVI+vLPJwBFprTxu05P3slzKu3iOPS5hOa9iaqLiQ==
   dependencies:
     "@aws-cdk/asset-awscli-v1" "^2.2.202"
     "@aws-cdk/asset-kubectl-v20" "^2.1.2"
@@ -1673,9 +1673,9 @@ dotgitignore@^2.1.0:
     minimatch "^3.0.4"
 
 electron-to-chromium@^1.4.668:
-  version "1.4.784"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.784.tgz#729a80154cee6ee9cb8bc3948af83431ab5cb394"
-  integrity sha512-9CZwh+sDrhDAeOEFh8s3PqwduzTyYIeYwZolc1b9ENAUt3ePu7R1sJSCWr/820ISssRxCJUyHI9Wb7j+0Uo1AA==
+  version "1.4.787"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.787.tgz#3eedd0a3b8be2b9e96e21675d399786ad90b99ed"
+  integrity sha512-d0EFmtLPjctczO3LogReyM2pbBiiZbnsKnGF+cdZhsYzHm/A0GV7W94kqzLD8SN4O3f3iHlgLUChqghgyznvCQ==
 
 emoji-regex@^8.0.0:
   version "8.0.0"
