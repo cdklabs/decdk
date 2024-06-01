@@ -702,6 +702,12 @@
               "Required": false,
               "Type": "String"
             },
+            "applicationLogLevelV2": {
+              "Remarks": "",
+              "Summary": "Sets the application log level for the function.",
+              "Required": false,
+              "Type": "aws-cdk-lib.aws_lambda.ApplicationLogLevel"
+            },
             "architecture": {
               "Remarks": "",
               "Summary": "The system architectures compatible with this lambda function.",
@@ -904,6 +910,12 @@
               "Summary": "Sets the system log level for the function.",
               "Required": false,
               "Type": "String"
+            },
+            "systemLogLevelV2": {
+              "Remarks": "",
+              "Summary": "Sets the system log level for the function.",
+              "Required": false,
+              "Type": "aws-cdk-lib.aws_lambda.SystemLogLevel"
             },
             "timeout": {
               "Remarks": "Because the execution time affects cost, set this value\nbased on the function's expected execution time.",
@@ -2045,6 +2057,12 @@
               "Required": false,
               "Type": "String"
             },
+            "applicationLogLevelV2": {
+              "Remarks": "",
+              "Summary": "Sets the application log level for the function.",
+              "Required": false,
+              "Type": "aws-cdk-lib.aws_lambda.ApplicationLogLevel"
+            },
             "architecture": {
               "Remarks": "",
               "Summary": "The system architectures compatible with this lambda function.",
@@ -2247,6 +2265,12 @@
               "Summary": "Sets the system log level for the function.",
               "Required": false,
               "Type": "String"
+            },
+            "systemLogLevelV2": {
+              "Remarks": "",
+              "Summary": "Sets the system log level for the function.",
+              "Required": false,
+              "Type": "aws-cdk-lib.aws_lambda.SystemLogLevel"
             },
             "timeout": {
               "Remarks": "Because the execution time affects cost, set this value\nbased on the function's expected execution time.",
@@ -3363,6 +3387,12 @@
               "Required": false,
               "Type": "String"
             },
+            "applicationLogLevelV2": {
+              "Remarks": "",
+              "Summary": "Sets the application log level for the function.",
+              "Required": false,
+              "Type": "aws-cdk-lib.aws_lambda.ApplicationLogLevel"
+            },
             "architecture": {
               "Remarks": "",
               "Summary": "The system architectures compatible with this lambda function.",
@@ -3565,6 +3595,12 @@
               "Summary": "Sets the system log level for the function.",
               "Required": false,
               "Type": "String"
+            },
+            "systemLogLevelV2": {
+              "Remarks": "",
+              "Summary": "Sets the system log level for the function.",
+              "Required": false,
+              "Type": "aws-cdk-lib.aws_lambda.SystemLogLevel"
             },
             "timeout": {
               "Remarks": "Because the execution time affects cost, set this value\nbased on the function's expected execution time.",
@@ -5124,6 +5160,26 @@
               "Static": true,
               "ReturnType": "aws-cdk-lib.aws_lambda.CfnParametersCode"
             },
+            "aws-cdk-lib.aws_lambda.AssetCode.fromCustomCommand": {
+              "Parameters": {
+                "output": {
+                  "Summary": "Where the output of the command will be directed, either a directory or a .zip file with the output Lambda code bundle * For example, if you use the command to run a build script (e.g., [ 'node', 'bundle_code.js' ]), and the build script generates a directory `/my/lambda/code` containing code that should be ran in a Lambda function, then output should be set to `/my/lambda/code`.",
+                  "Type": "String"
+                },
+                "command": {
+                  "Summary": "The command which will be executed to generate the output, for example, [ 'node', 'bundle_code.js' ].",
+                  "Type": "List"
+                },
+                "options": {
+                  "Summary": "options for the custom command, and other asset options -- but bundling options are not allowed.",
+                  "Type": "aws-cdk-lib.aws_lambda.CustomCommandOptions"
+                }
+              },
+              "Summary": "Runs a command to build the code asset that will be used.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.AssetCode"
+            },
             "aws-cdk-lib.aws_lambda.AssetCode.fromDockerBuild": {
               "Parameters": {
                 "path": {
@@ -5278,6 +5334,26 @@
               "Static": true,
               "ReturnType": "aws-cdk-lib.aws_lambda.CfnParametersCode"
             },
+            "aws-cdk-lib.aws_lambda.AssetImageCode.fromCustomCommand": {
+              "Parameters": {
+                "output": {
+                  "Summary": "Where the output of the command will be directed, either a directory or a .zip file with the output Lambda code bundle * For example, if you use the command to run a build script (e.g., [ 'node', 'bundle_code.js' ]), and the build script generates a directory `/my/lambda/code` containing code that should be ran in a Lambda function, then output should be set to `/my/lambda/code`.",
+                  "Type": "String"
+                },
+                "command": {
+                  "Summary": "The command which will be executed to generate the output, for example, [ 'node', 'bundle_code.js' ].",
+                  "Type": "List"
+                },
+                "options": {
+                  "Summary": "options for the custom command, and other asset options -- but bundling options are not allowed.",
+                  "Type": "aws-cdk-lib.aws_lambda.CustomCommandOptions"
+                }
+              },
+              "Summary": "Runs a command to build the code asset that will be used.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.AssetCode"
+            },
             "aws-cdk-lib.aws_lambda.AssetImageCode.fromDockerBuild": {
               "Parameters": {
                 "path": {
@@ -5425,6 +5501,26 @@
               "Remarks": "",
               "Static": true,
               "ReturnType": "aws-cdk-lib.aws_lambda.CfnParametersCode"
+            },
+            "aws-cdk-lib.aws_lambda.CfnParametersCode.fromCustomCommand": {
+              "Parameters": {
+                "output": {
+                  "Summary": "Where the output of the command will be directed, either a directory or a .zip file with the output Lambda code bundle * For example, if you use the command to run a build script (e.g., [ 'node', 'bundle_code.js' ]), and the build script generates a directory `/my/lambda/code` containing code that should be ran in a Lambda function, then output should be set to `/my/lambda/code`.",
+                  "Type": "String"
+                },
+                "command": {
+                  "Summary": "The command which will be executed to generate the output, for example, [ 'node', 'bundle_code.js' ].",
+                  "Type": "List"
+                },
+                "options": {
+                  "Summary": "options for the custom command, and other asset options -- but bundling options are not allowed.",
+                  "Type": "aws-cdk-lib.aws_lambda.CustomCommandOptions"
+                }
+              },
+              "Summary": "Runs a command to build the code asset that will be used.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.AssetCode"
             },
             "aws-cdk-lib.aws_lambda.CfnParametersCode.fromDockerBuild": {
               "Parameters": {
@@ -5597,6 +5693,26 @@
               "Remarks": "",
               "Static": true,
               "ReturnType": "aws-cdk-lib.aws_lambda.CfnParametersCode"
+            },
+            "aws-cdk-lib.aws_lambda.Code.fromCustomCommand": {
+              "Parameters": {
+                "output": {
+                  "Summary": "Where the output of the command will be directed, either a directory or a .zip file with the output Lambda code bundle * For example, if you use the command to run a build script (e.g., [ 'node', 'bundle_code.js' ]), and the build script generates a directory `/my/lambda/code` containing code that should be ran in a Lambda function, then output should be set to `/my/lambda/code`.",
+                  "Type": "String"
+                },
+                "command": {
+                  "Summary": "The command which will be executed to generate the output, for example, [ 'node', 'bundle_code.js' ].",
+                  "Type": "List"
+                },
+                "options": {
+                  "Summary": "options for the custom command, and other asset options -- but bundling options are not allowed.",
+                  "Type": "aws-cdk-lib.aws_lambda.CustomCommandOptions"
+                }
+              },
+              "Summary": "Runs a command to build the code asset that will be used.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.AssetCode"
             },
             "aws-cdk-lib.aws_lambda.Code.fromDockerBuild": {
               "Parameters": {
@@ -5776,6 +5892,26 @@
               "Remarks": "",
               "Static": true,
               "ReturnType": "aws-cdk-lib.aws_lambda.CfnParametersCode"
+            },
+            "aws-cdk-lib.aws_lambda.EcrImageCode.fromCustomCommand": {
+              "Parameters": {
+                "output": {
+                  "Summary": "Where the output of the command will be directed, either a directory or a .zip file with the output Lambda code bundle * For example, if you use the command to run a build script (e.g., [ 'node', 'bundle_code.js' ]), and the build script generates a directory `/my/lambda/code` containing code that should be ran in a Lambda function, then output should be set to `/my/lambda/code`.",
+                  "Type": "String"
+                },
+                "command": {
+                  "Summary": "The command which will be executed to generate the output, for example, [ 'node', 'bundle_code.js' ].",
+                  "Type": "List"
+                },
+                "options": {
+                  "Summary": "options for the custom command, and other asset options -- but bundling options are not allowed.",
+                  "Type": "aws-cdk-lib.aws_lambda.CustomCommandOptions"
+                }
+              },
+              "Summary": "Runs a command to build the code asset that will be used.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.AssetCode"
             },
             "aws-cdk-lib.aws_lambda.EcrImageCode.fromDockerBuild": {
               "Parameters": {
@@ -6476,6 +6612,26 @@
               "Remarks": "",
               "Static": true,
               "ReturnType": "aws-cdk-lib.aws_lambda.CfnParametersCode"
+            },
+            "aws-cdk-lib.aws_lambda.InlineCode.fromCustomCommand": {
+              "Parameters": {
+                "output": {
+                  "Summary": "Where the output of the command will be directed, either a directory or a .zip file with the output Lambda code bundle * For example, if you use the command to run a build script (e.g., [ 'node', 'bundle_code.js' ]), and the build script generates a directory `/my/lambda/code` containing code that should be ran in a Lambda function, then output should be set to `/my/lambda/code`.",
+                  "Type": "String"
+                },
+                "command": {
+                  "Summary": "The command which will be executed to generate the output, for example, [ 'node', 'bundle_code.js' ].",
+                  "Type": "List"
+                },
+                "options": {
+                  "Summary": "options for the custom command, and other asset options -- but bundling options are not allowed.",
+                  "Type": "aws-cdk-lib.aws_lambda.CustomCommandOptions"
+                }
+              },
+              "Summary": "Runs a command to build the code asset that will be used.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.AssetCode"
             },
             "aws-cdk-lib.aws_lambda.InlineCode.fromDockerBuild": {
               "Parameters": {
@@ -7564,6 +7720,26 @@
               "Remarks": "",
               "Static": true,
               "ReturnType": "aws-cdk-lib.aws_lambda.CfnParametersCode"
+            },
+            "aws-cdk-lib.aws_lambda.S3Code.fromCustomCommand": {
+              "Parameters": {
+                "output": {
+                  "Summary": "Where the output of the command will be directed, either a directory or a .zip file with the output Lambda code bundle * For example, if you use the command to run a build script (e.g., [ 'node', 'bundle_code.js' ]), and the build script generates a directory `/my/lambda/code` containing code that should be ran in a Lambda function, then output should be set to `/my/lambda/code`.",
+                  "Type": "String"
+                },
+                "command": {
+                  "Summary": "The command which will be executed to generate the output, for example, [ 'node', 'bundle_code.js' ].",
+                  "Type": "List"
+                },
+                "options": {
+                  "Summary": "options for the custom command, and other asset options -- but bundling options are not allowed.",
+                  "Type": "aws-cdk-lib.aws_lambda.CustomCommandOptions"
+                }
+              },
+              "Summary": "Runs a command to build the code asset that will be used.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.AssetCode"
             },
             "aws-cdk-lib.aws_lambda.S3Code.fromDockerBuild": {
               "Parameters": {
