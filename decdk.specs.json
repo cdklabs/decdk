@@ -4673,6 +4673,13 @@
               "Required": true,
               "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerGenericVersion",
               "Static": true
+            },
+            "V0_98_0": {
+              "Remarks": "",
+              "Summary": "Version 0.98.0.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerGenericVersion",
+              "Static": true
             }
           }
         },
@@ -4965,6 +4972,13 @@
             "V1_21_0": {
               "Remarks": "",
               "Summary": "Version 1.21.0.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerPythonSdkVersion",
+              "Static": true
+            },
+            "V1_24_0": {
+              "Remarks": "",
+              "Summary": "Version 1.24.0.",
               "Required": true,
               "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerPythonSdkVersion",
               "Static": true
