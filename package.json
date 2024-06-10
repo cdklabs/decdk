@@ -46,7 +46,7 @@
     "@typescript-eslint/eslint-plugin": "^7",
     "@typescript-eslint/parser": "^7",
     "aws-cdk-lib": "^2.145.0",
-    "cdklabs-projen-project-types": "^0.1.198",
+    "cdklabs-projen-project-types": "^0.1.199",
     "constructs": "^10.0.0",
     "eslint": "^8",
     "eslint-config-prettier": "^8.10.0",
@@ -60,7 +60,7 @@
     "mocha-expect-snapshot": "^7.0.1",
     "nyc": "^15.1.0",
     "prettier": "^2.8.8",
-    "projen": "^0.82.5",
+    "projen": "^0.82.6",
     "standard-version": "^9",
     "ts-node": "^10.9.2",
     "typescript": "^4.9.5"
