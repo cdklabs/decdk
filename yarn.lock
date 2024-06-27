@@ -495,14 +495,6 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@jsii/check-node@1.100.0":
-  version "1.100.0"
-  resolved "https://registry.yarnpkg.com/@jsii/check-node/-/check-node-1.100.0.tgz#98e8db619d026c8693f2fe0417961e8fb1e9daff"
-  integrity sha512-4bsO7Y6YyekBk4v4iatAl5E7QQs2UUPtHoP9gfT3UnpbKzyMjH8XholSVCjfcNSKBwFobPMb8iA7NCMIMqFKsQ==
-  dependencies:
-    chalk "^4.1.2"
-    semver "^7.6.0"
-
 "@jsii/check-node@1.101.0":
   version "1.101.0"
   resolved "https://registry.yarnpkg.com/@jsii/check-node/-/check-node-1.101.0.tgz#175e5a2b9b31f232fd5df2942dacc4b20820aa93"
@@ -510,13 +502,6 @@
   dependencies:
     chalk "^4.1.2"
     semver "^7.6.0"
-
-"@jsii/spec@^1.100.0":
-  version "1.100.0"
-  resolved "https://registry.yarnpkg.com/@jsii/spec/-/spec-1.100.0.tgz#44e5c6fb84299664f40479b2ebe11e2aee0b727e"
-  integrity sha512-4LJCpSkmi3Hfcbmbchv+2JPIquV+cgrkhQcwglBAWqS4liLGbWPwgfHRL22sMXEKXiyXeHfitVwkP+IoGIyJ8g==
-  dependencies:
-    ajv "^8.13.0"
 
 "@jsii/spec@^1.101.0":
   version "1.101.0"
@@ -1163,9 +1148,9 @@ camelcase@^6.0.0:
   integrity sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==
 
 caniuse-lite@^1.0.30001629:
-  version "1.0.30001636"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001636.tgz#b15f52d2bdb95fad32c2f53c0b68032b85188a78"
-  integrity sha512-bMg2vmr8XBsbL6Lr0UHXy/21m84FTxDLWn2FSqMd5PrlbMxwJlQnC2YWYxVgp66PZE+BBNF2jYQUBKCo1FDeZg==
+  version "1.0.30001637"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001637.tgz#d9fab531493d9ef46a8ff305e9812190ac463f21"
+  integrity sha512-1x0qRI1mD1o9e+7mBI7XtzFAP4XszbHaVWsMiGbSPLYekKTJF7K+FNk6AsXH4sUpc+qrsI3pVgf1Jdl/uGkuSQ==
 
 case@1.6.3, case@^1.6.3:
   version "1.6.3"
@@ -1691,9 +1676,9 @@ dotgitignore@^2.1.0:
     minimatch "^3.0.4"
 
 electron-to-chromium@^1.4.796:
-  version "1.4.811"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.811.tgz#031c8b101e7d0a7cde1dfdb0623dbdb5e19655cd"
-  integrity sha512-CDyzcJ5XW78SHzsIOdn27z8J4ist8eaFLhdto2hSMSJQgsiwvbv2fbizcKUICryw1Wii1TI/FEkvzvJsR3awrA==
+  version "1.4.812"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.812.tgz#21b78709c5a13af5d5c688d135a22dcea7617acf"
+  integrity sha512-7L8fC2Ey/b6SePDFKR2zHAy4mbdp1/38Yk5TsARO66W3hC5KEaeKMMHoxwtuH+jcu2AYLSn9QX04i95t6Fl1Hg==
 
 emoji-regex@^8.0.0:
   version "8.0.0"
@@ -2952,13 +2937,13 @@ jsii-reflect@^1.101.0:
     oo-ascii-tree "^1.101.0"
     yargs "^16.2.0"
 
-jsii@^1.100.0:
-  version "1.100.0"
-  resolved "https://registry.yarnpkg.com/jsii/-/jsii-1.100.0.tgz#7e9dcb7d7b1b0d9874a7d25a4b1a02de6f35054e"
-  integrity sha512-DUTvq90XyyIRE+O/CAIHXZwBsxVy9ZkFDGkDjUknYV84VyzlMnBkdptQq0oJj8LRPTMJl2yiiPPMsJCvuv01Xg==
+jsii@^1.101.0:
+  version "1.101.0"
+  resolved "https://registry.yarnpkg.com/jsii/-/jsii-1.101.0.tgz#5ce783f7963a071c456152e4e80652f251cfbc61"
+  integrity sha512-ZPJSTZVqlbSDkIy3ixrxdvE0JzFH9KMyNl7W0QbcMmpvlfU3uVVOOr3Zkzmmaly8vwrSMqvtw424sutmTMGuXw==
   dependencies:
-    "@jsii/check-node" "1.100.0"
-    "@jsii/spec" "^1.100.0"
+    "@jsii/check-node" "1.101.0"
+    "@jsii/spec" "^1.101.0"
     case "^1.6.3"
     chalk "^4"
     fast-deep-equal "^3.1.3"
@@ -3307,10 +3292,10 @@ mocha-expect-snapshot@^7.0.1:
     expect "^29.0.0"
     jest-snapshot "^29.0.0"
 
-mocha@^10.5.1:
-  version "10.5.1"
-  resolved "https://registry.yarnpkg.com/mocha/-/mocha-10.5.1.tgz#54cfa5212ffc9e04ee68b27aa0f36519919ae877"
-  integrity sha512-eq5tEnaz2kM9ade8cuGJBMh5fBb9Ih/TB+ddlmPR+wLQmwLhUwa0ovqDlg7OTfKquW0BI7NUcNWX7DH8sC+3gw==
+mocha@^10.5.2:
+  version "10.5.2"
+  resolved "https://registry.yarnpkg.com/mocha/-/mocha-10.5.2.tgz#0a3481fb67c0a7fc144a909b2d6a9fec35ec5989"
+  integrity sha512-9btlN3JKCefPf+vKd/kcKz2SXxi12z6JswkGfaAF0saQvnsqLJk504ZmbxhSoENge08E9dsymozKgFMTl5PQsA==
   dependencies:
     ansi-colors "4.1.1"
     browser-stdout "1.3.1"
