@@ -266,6 +266,18 @@
               "Static": false,
               "ReturnType": "List"
             },
+            "grantInvokeLatestVersion": {
+              "Parameters": {
+                "grantee": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.IGrantable"
+                }
+              },
+              "Summary": "Grant the given identity permissions to invoke the $LATEST version or unqualified version of this Lambda.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            },
             "grantInvokeUrl": {
               "Parameters": {
                 "grantee": {
@@ -274,6 +286,22 @@
                 }
               },
               "Summary": "Grant the given identity permissions to invoke this Lambda Function URL.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            },
+            "grantInvokeVersion": {
+              "Parameters": {
+                "grantee": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.IGrantable"
+                },
+                "version": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.IVersion"
+                }
+              },
+              "Summary": "Grant the given identity permissions to invoke the given version of this Lambda.",
               "Remarks": "",
               "Static": false,
               "ReturnType": "aws-cdk-lib.aws_iam.Grant"
@@ -1153,6 +1181,18 @@
               "Static": false,
               "ReturnType": "List"
             },
+            "grantInvokeLatestVersion": {
+              "Parameters": {
+                "grantee": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.IGrantable"
+                }
+              },
+              "Summary": "Grant the given identity permissions to invoke the $LATEST version or unqualified version of this Lambda.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            },
             "grantInvokeUrl": {
               "Parameters": {
                 "grantee": {
@@ -1161,6 +1201,22 @@
                 }
               },
               "Summary": "Grant the given identity permissions to invoke this Lambda Function URL.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            },
+            "grantInvokeVersion": {
+              "Parameters": {
+                "grantee": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.IGrantable"
+                },
+                "version": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.IVersion"
+                }
+              },
+              "Summary": "Grant the given identity permissions to invoke the given version of this Lambda.",
               "Remarks": "",
               "Static": false,
               "ReturnType": "aws-cdk-lib.aws_iam.Grant"
@@ -2520,6 +2576,18 @@
               "Static": false,
               "ReturnType": "List"
             },
+            "grantInvokeLatestVersion": {
+              "Parameters": {
+                "grantee": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.IGrantable"
+                }
+              },
+              "Summary": "Grant the given identity permissions to invoke the $LATEST version or unqualified version of this Lambda.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            },
             "grantInvokeUrl": {
               "Parameters": {
                 "grantee": {
@@ -2528,6 +2596,22 @@
                 }
               },
               "Summary": "Grant the given identity permissions to invoke this Lambda Function URL.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            },
+            "grantInvokeVersion": {
+              "Parameters": {
+                "grantee": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.IGrantable"
+                },
+                "version": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.IVersion"
+                }
+              },
+              "Summary": "Grant the given identity permissions to invoke the given version of this Lambda.",
               "Remarks": "",
               "Static": false,
               "ReturnType": "aws-cdk-lib.aws_iam.Grant"
@@ -3862,6 +3946,18 @@
               "Static": false,
               "ReturnType": "List"
             },
+            "grantInvokeLatestVersion": {
+              "Parameters": {
+                "grantee": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.IGrantable"
+                }
+              },
+              "Summary": "Grant the given identity permissions to invoke the $LATEST version or unqualified version of this Lambda.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            },
             "grantInvokeUrl": {
               "Parameters": {
                 "grantee": {
@@ -3870,6 +3966,22 @@
                 }
               },
               "Summary": "Grant the given identity permissions to invoke this Lambda Function URL.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            },
+            "grantInvokeVersion": {
+              "Parameters": {
+                "grantee": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.IGrantable"
+                },
+                "version": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.IVersion"
+                }
+              },
+              "Summary": "Grant the given identity permissions to invoke the given version of this Lambda.",
               "Remarks": "",
               "Static": false,
               "ReturnType": "aws-cdk-lib.aws_iam.Grant"
@@ -4365,6 +4477,18 @@
               "Static": false,
               "ReturnType": "List"
             },
+            "grantInvokeLatestVersion": {
+              "Parameters": {
+                "grantee": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.IGrantable"
+                }
+              },
+              "Summary": "Grant the given identity permissions to invoke the $LATEST version or unqualified version of this Lambda.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            },
             "grantInvokeUrl": {
               "Parameters": {
                 "grantee": {
@@ -4373,6 +4497,22 @@
                 }
               },
               "Summary": "Grant the given identity permissions to invoke this Lambda Function URL.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            },
+            "grantInvokeVersion": {
+              "Parameters": {
+                "grantee": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.IGrantable"
+                },
+                "version": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.IVersion"
+                }
+              },
+              "Summary": "Grant the given identity permissions to invoke the given version of this Lambda.",
               "Remarks": "",
               "Static": false,
               "ReturnType": "aws-cdk-lib.aws_iam.Grant"
@@ -6360,6 +6500,18 @@
               "Static": false,
               "ReturnType": "List"
             },
+            "grantInvokeLatestVersion": {
+              "Parameters": {
+                "grantee": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.IGrantable"
+                }
+              },
+              "Summary": "Grant the given identity permissions to invoke the $LATEST version or unqualified version of this Lambda.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            },
             "grantInvokeUrl": {
               "Parameters": {
                 "grantee": {
@@ -6368,6 +6520,22 @@
                 }
               },
               "Summary": "Grant the given identity permissions to invoke this Lambda Function URL.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            },
+            "grantInvokeVersion": {
+              "Parameters": {
+                "grantee": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.IGrantable"
+                },
+                "version": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.IVersion"
+                }
+              },
+              "Summary": "Grant the given identity permissions to invoke the given version of this Lambda.",
               "Remarks": "",
               "Static": false,
               "ReturnType": "aws-cdk-lib.aws_iam.Grant"
@@ -6780,6 +6948,34 @@
               "Type": "aws-cdk-lib.aws_lambda.LambdaInsightsVersion",
               "Static": true
             },
+            "VERSION_1_0_273_0": {
+              "Remarks": "",
+              "Summary": "Version 1.0.273.0.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.LambdaInsightsVersion",
+              "Static": true
+            },
+            "VERSION_1_0_275_0": {
+              "Remarks": "",
+              "Summary": "Version 1.0.275.0.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.LambdaInsightsVersion",
+              "Static": true
+            },
+            "VERSION_1_0_295_0": {
+              "Remarks": "",
+              "Summary": "Version 1.0.295.0.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.LambdaInsightsVersion",
+              "Static": true
+            },
+            "VERSION_1_0_317_0": {
+              "Remarks": "",
+              "Summary": "Version 1.0.317.0.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.LambdaInsightsVersion",
+              "Static": true
+            },
             "VERSION_1_0_54_0": {
               "Remarks": "",
               "Summary": "Version 1.0.54.0.",
@@ -7061,6 +7257,18 @@
               "Static": false,
               "ReturnType": "List"
             },
+            "grantInvokeLatestVersion": {
+              "Parameters": {
+                "grantee": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.IGrantable"
+                }
+              },
+              "Summary": "Grant the given identity permissions to invoke the $LATEST version or unqualified version of this Lambda.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            },
             "grantInvokeUrl": {
               "Parameters": {
                 "grantee": {
@@ -7069,6 +7277,22 @@
                 }
               },
               "Summary": "Grant the given identity permissions to invoke this Lambda Function URL.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            },
+            "grantInvokeVersion": {
+              "Parameters": {
+                "grantee": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.IGrantable"
+                },
+                "version": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.IVersion"
+                }
+              },
+              "Summary": "Grant the given identity permissions to invoke the given version of this Lambda.",
               "Remarks": "",
               "Static": false,
               "ReturnType": "aws-cdk-lib.aws_iam.Grant"
@@ -8039,6 +8263,18 @@
               "Static": false,
               "ReturnType": "List"
             },
+            "grantInvokeLatestVersion": {
+              "Parameters": {
+                "identity": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.IGrantable"
+                }
+              },
+              "Summary": "Grant the given identity permissions to invoke the $LATEST version or unqualified version of this Lambda.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            },
             "grantInvokeUrl": {
               "Parameters": {
                 "identity": {
@@ -8047,6 +8283,22 @@
                 }
               },
               "Summary": "Grant the given identity permissions to invoke this Lambda Function URL.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            },
+            "grantInvokeVersion": {
+              "Parameters": {
+                "identity": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.IGrantable"
+                },
+                "version": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.IVersion"
+                }
+              },
+              "Summary": "Grant the given identity permissions to invoke the given version of this Lambda.",
               "Remarks": "",
               "Static": false,
               "ReturnType": "aws-cdk-lib.aws_iam.Grant"
@@ -8485,6 +8737,18 @@
               "Static": false,
               "ReturnType": "List"
             },
+            "grantInvokeLatestVersion": {
+              "Parameters": {
+                "identity": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.IGrantable"
+                }
+              },
+              "Summary": "Grant the given identity permissions to invoke the $LATEST version or unqualified version of this Lambda.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            },
             "grantInvokeUrl": {
               "Parameters": {
                 "identity": {
@@ -8493,6 +8757,22 @@
                 }
               },
               "Summary": "Grant the given identity permissions to invoke this Lambda Function URL.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            },
+            "grantInvokeVersion": {
+              "Parameters": {
+                "identity": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.IGrantable"
+                },
+                "version": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.IVersion"
+                }
+              },
+              "Summary": "Grant the given identity permissions to invoke the given version of this Lambda.",
               "Remarks": "",
               "Static": false,
               "ReturnType": "aws-cdk-lib.aws_iam.Grant"
@@ -8921,6 +9201,18 @@
               "Static": false,
               "ReturnType": "List"
             },
+            "grantInvokeLatestVersion": {
+              "Parameters": {
+                "identity": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.IGrantable"
+                }
+              },
+              "Summary": "Grant the given identity permissions to invoke the $LATEST version or unqualified version of this Lambda.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            },
             "grantInvokeUrl": {
               "Parameters": {
                 "identity": {
@@ -8929,6 +9221,22 @@
                 }
               },
               "Summary": "Grant the given identity permissions to invoke this Lambda Function URL.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_iam.Grant"
+            },
+            "grantInvokeVersion": {
+              "Parameters": {
+                "identity": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_iam.IGrantable"
+                },
+                "version": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.IVersion"
+                }
+              },
+              "Summary": "Grant the given identity permissions to invoke the given version of this Lambda.",
               "Remarks": "",
               "Static": false,
               "ReturnType": "aws-cdk-lib.aws_iam.Grant"
