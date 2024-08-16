@@ -1813,6 +1813,12 @@
               "Required": false,
               "Type": "String"
             },
+            "filterEncryption": {
+              "Remarks": "",
+              "Summary": "Add Customer managed KMS key to encrypt Filter Criteria.",
+              "Required": false,
+              "Type": "aws-cdk-lib.aws_kms.IKey"
+            },
             "filters": {
               "Remarks": "",
               "Summary": "Add filter criteria to Event Source.",
