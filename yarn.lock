@@ -984,10 +984,10 @@ available-typed-arrays@^1.0.7:
   dependencies:
     possible-typed-array-names "^1.0.0"
 
-aws-cdk-lib@^2.152.0:
-  version "2.152.0"
-  resolved "https://registry.yarnpkg.com/aws-cdk-lib/-/aws-cdk-lib-2.152.0.tgz#f34eb97e61b46fe8c2b0b5f0b9dc244e21fee36c"
-  integrity sha512-w8Dn92xYCUWSRL9ncoXzpGzyDAHbljnrhXFm/pTR1YZTxdbLHvIOdh7D9b9qhtghUnq2i522I6/z2NJggPcNWQ==
+aws-cdk-lib@^2.153.0:
+  version "2.153.0"
+  resolved "https://registry.yarnpkg.com/aws-cdk-lib/-/aws-cdk-lib-2.153.0.tgz#1ed9418b060ca09c101a76c4666ba32c30361fe1"
+  integrity sha512-wj8NnZb/F/SZGz7SqMgXL5eAu4CkJdjUIzDDXh16Fdo7vE8o59qFGZz8m0vA4aTXG10jtWxnJwAfoQPgzXqFCw==
   dependencies:
     "@aws-cdk/asset-awscli-v1" "^2.2.202"
     "@aws-cdk/asset-kubectl-v20" "^2.1.2"
@@ -1662,9 +1662,9 @@ dotgitignore@^2.1.0:
     minimatch "^3.0.4"
 
 electron-to-chromium@^1.5.4:
-  version "1.5.11"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.11.tgz#258077f1077a1c72f2925cd5b326c470a7f5adef"
-  integrity sha512-R1CccCDYqndR25CaXFd6hp/u9RaaMcftMkphmvuepXr5b1vfLkRml6aWVeBhXJ7rbevHkKEMJtz8XqPf7ffmew==
+  version "1.5.12"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.12.tgz#ee31756eaa2e06f2aa606f170b7ad06dd402b4e4"
+  integrity sha512-tIhPkdlEoCL1Y+PToq3zRNehUaKp3wBX/sr7aclAWdIWjvqAe/Im/H0SiCM4c1Q8BLPHCdoJTol+ZblflydehA==
 
 emoji-regex@^8.0.0:
   version "8.0.0"
@@ -4095,9 +4095,9 @@ spdx-expression-parse@^3.0.0:
     spdx-license-ids "^3.0.0"
 
 spdx-license-ids@^3.0.0:
-  version "3.0.18"
-  resolved "https://registry.yarnpkg.com/spdx-license-ids/-/spdx-license-ids-3.0.18.tgz#22aa922dcf2f2885a6494a261f2d8b75345d0326"
-  integrity sha512-xxRs31BqRYHwiMzudOrpSiHtZ8i/GeionCBDSilhYRj+9gIcI8wCZTlXZKu9vZIVqViP3dcp9qE5G6AlIaD+TQ==
+  version "3.0.20"
+  resolved "https://registry.yarnpkg.com/spdx-license-ids/-/spdx-license-ids-3.0.20.tgz#e44ed19ed318dd1e5888f93325cee800f0f51b89"
+  integrity sha512-jg25NiDV/1fLtSgEgyvVyDunvaNHbuwF9lfNV17gSmPFAlYzdfNBlLtLzXTevwkPj7DhGbmN9VnmJIgLnhvaBw==
 
 spdx-license-list@^6.9.0:
   version "6.9.0"
