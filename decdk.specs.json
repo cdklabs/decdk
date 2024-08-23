@@ -4127,6 +4127,25 @@
               "Remarks": "",
               "Static": false
             },
+            "addMetadata": {
+              "Parameters": {
+                "type": {
+                  "Summary": "",
+                  "Type": "String"
+                },
+                "data": {
+                  "Summary": "",
+                  "Type": "Any"
+                },
+                "options": {
+                  "Summary": "",
+                  "Type": "constructs.MetadataOptions"
+                }
+              },
+              "Summary": "Use this method to write to the construct tree.",
+              "Remarks": "The metadata entries are written to the Cloud Assembly Manifest if the `treeMetadata` property is specified in the props of the App that contains this Construct.",
+              "Static": false
+            },
             "dependOn": {
               "Parameters": {
                 "down": {
