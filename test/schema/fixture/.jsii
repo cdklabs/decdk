@@ -8,7 +8,7 @@
   },
   "description": "test fixtures for deCDK",
   "homepage": "https://github.com/aws/aws-cdk",
-  "jsiiVersion": "1.102.0 (build e354887)",
+  "jsiiVersion": "1.103.0 (build 3b9adc4)",
   "license": "Apache-2.0",
   "metadata": {
     "jsii": {
@@ -362,5 +362,5 @@
     }
   },
   "version": "0.0.0",
-  "fingerprint": "/wtXusmIkH1fHB6j71koX7sS7bKIhfe9xlAPLsApekg="
+  "fingerprint": "l9tsHc9kYXYjdFD8bEa+9BJm81A4pjiawfKLFqH0dVg="
 }
