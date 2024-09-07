@@ -45,7 +45,7 @@
     "@types/yargs": "^17.0.33",
     "@typescript-eslint/eslint-plugin": "^7",
     "@typescript-eslint/parser": "^7",
-    "aws-cdk-lib": "^2.155.0",
+    "aws-cdk-lib": "^2.156.0",
     "cdklabs-projen-project-types": "^0.1.201",
     "commit-and-tag-version": "^12",
     "constructs": "^10.0.0",
@@ -61,7 +61,7 @@
     "mocha-expect-snapshot": "^7.0.1",
     "nyc": "^15.1.0",
     "prettier": "^2.8.8",
-    "projen": "^0.86.10",
+    "projen": "^0.87.0",
     "ts-node": "^10.9.2",
     "typescript": "^4.9.5"
   },
