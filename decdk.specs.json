@@ -712,9 +712,15 @@
               "Required": false,
               "Type": "aws-cdk-lib.aws_lambda.AdotInstrumentationConfig"
             },
+            "allowAllIpv6Outbound": {
+              "Remarks": "If set to true, there will only be a single egress rule which allows all\noutbound ipv6 traffic. If set to false, you must individually add traffic rules to allow the\nLambda to connect to network targets using ipv6.\n\nDo not specify this property if the `securityGroups` or `securityGroup` property is set.\nInstead, configure `allowAllIpv6Outbound` directly on the security group.",
+              "Summary": "Whether to allow the Lambda to send all ipv6 network traffic.",
+              "Required": false,
+              "Type": "Boolean"
+            },
             "allowAllOutbound": {
               "Remarks": "If set to false, you must individually add traffic rules to allow the\nLambda to connect to network targets.\n\nDo not specify this property if the `securityGroups` or `securityGroup` property is set.\nInstead, configure `allowAllOutbound` directly on the security group.",
-              "Summary": "Whether to allow the Lambda to send all network traffic.",
+              "Summary": "Whether to allow the Lambda to send all network traffic (except ipv6).",
               "Required": false,
               "Type": "Boolean"
             },
@@ -2107,9 +2113,15 @@
               "Required": false,
               "Type": "aws-cdk-lib.aws_lambda.AdotInstrumentationConfig"
             },
+            "allowAllIpv6Outbound": {
+              "Remarks": "If set to true, there will only be a single egress rule which allows all\noutbound ipv6 traffic. If set to false, you must individually add traffic rules to allow the\nLambda to connect to network targets using ipv6.\n\nDo not specify this property if the `securityGroups` or `securityGroup` property is set.\nInstead, configure `allowAllIpv6Outbound` directly on the security group.",
+              "Summary": "Whether to allow the Lambda to send all ipv6 network traffic.",
+              "Required": false,
+              "Type": "Boolean"
+            },
             "allowAllOutbound": {
               "Remarks": "If set to false, you must individually add traffic rules to allow the\nLambda to connect to network targets.\n\nDo not specify this property if the `securityGroups` or `securityGroup` property is set.\nInstead, configure `allowAllOutbound` directly on the security group.",
-              "Summary": "Whether to allow the Lambda to send all network traffic.",
+              "Summary": "Whether to allow the Lambda to send all network traffic (except ipv6).",
               "Required": false,
               "Type": "Boolean"
             },
@@ -3471,9 +3483,15 @@
               "Required": false,
               "Type": "aws-cdk-lib.aws_lambda.AdotInstrumentationConfig"
             },
+            "allowAllIpv6Outbound": {
+              "Remarks": "If set to true, there will only be a single egress rule which allows all\noutbound ipv6 traffic. If set to false, you must individually add traffic rules to allow the\nLambda to connect to network targets using ipv6.\n\nDo not specify this property if the `securityGroups` or `securityGroup` property is set.\nInstead, configure `allowAllIpv6Outbound` directly on the security group.",
+              "Summary": "Whether to allow the Lambda to send all ipv6 network traffic.",
+              "Required": false,
+              "Type": "Boolean"
+            },
             "allowAllOutbound": {
               "Remarks": "If set to false, you must individually add traffic rules to allow the\nLambda to connect to network targets.\n\nDo not specify this property if the `securityGroups` or `securityGroup` property is set.\nInstead, configure `allowAllOutbound` directly on the security group.",
-              "Summary": "Whether to allow the Lambda to send all network traffic.",
+              "Summary": "Whether to allow the Lambda to send all network traffic (except ipv6).",
               "Required": false,
               "Type": "Boolean"
             },
