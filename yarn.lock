@@ -26,9 +26,9 @@
   integrity sha512-7bY3J8GCVxLupn/kNmpPc5VJz8grx+4RKfnnJiO1LG+uxkZfANZG3RMHhE+qQxxwkyQ9/MfPtTpf748UhR425A==
 
 "@aws-cdk/cloud-assembly-schema@^36.0.24":
-  version "36.0.25"
-  resolved "https://registry.yarnpkg.com/@aws-cdk/cloud-assembly-schema/-/cloud-assembly-schema-36.0.25.tgz#3e98d99d109636e4b65cee7684b4d41bffef13cd"
-  integrity sha512-AK86v4IMV4zcWfp392e3wlaVJPT72/dk39Lo2SDDFxQR+sikMOyY2IGrULyhK1TwQmPiyxM7QB/0MkTbMDAPrw==
+  version "36.1.1"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/cloud-assembly-schema/-/cloud-assembly-schema-36.1.1.tgz#3fd870d4f422a34a50054df1c41e74a27e9f7b14"
+  integrity sha512-yCF4uTJ3jMtS3e/KKWYVgK2Y6YgdFE6LBQ/7RAAUBufdu+f0oJWFvTjPJPCms78dE71vmeYPuKprLpIsOOL1HQ==
   dependencies:
     jsonschema "^1.4.1"
     semver "^7.6.3"
@@ -3820,10 +3820,10 @@ process-on-spawn@^1.0.0:
   dependencies:
     fromentries "^1.2.0"
 
-projen@^0.87.3:
-  version "0.87.3"
-  resolved "https://registry.yarnpkg.com/projen/-/projen-0.87.3.tgz#2cc9df7bf934d4cf7c717b1f43df15064a78c6cb"
-  integrity sha512-eNaXICh0xc5xzdvd8ZBqK5emcPPARgTGqf8qcfuEcnRdM3nO6SuXzl9k/QzkLaOJU/Fcrcv+XYSXtukHK+RPuA==
+projen@^0.87.4:
+  version "0.87.4"
+  resolved "https://registry.yarnpkg.com/projen/-/projen-0.87.4.tgz#97da75d7893a28ea110b887215975c50a7d6d160"
+  integrity sha512-PJA8xQubV/1x5S4xbP2uazpkTd5zYb7JqEprGxNZ+KNsWUab0MK2cXeYgW6zp/xpITiD+l9Z0fR5TG83OyU6nQ==
   dependencies:
     "@iarna/toml" "^2.2.5"
     case "^1.6.3"
