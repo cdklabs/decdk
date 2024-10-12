@@ -62,18 +62,6 @@
             }
           },
           "Methods": {
-            "aws-cdk-lib.aws_lambda.Alias.createRoot": {
-              "Parameters": {
-                "id": {
-                  "Summary": "The scoped construct ID.",
-                  "Type": "String"
-                }
-              },
-              "Summary": "Creates a new root construct node.",
-              "Remarks": "",
-              "Static": true,
-              "ReturnType": "constructs.Construct"
-            },
             "aws-cdk-lib.aws_lambda.Alias.isConstruct": {
               "Parameters": {
                 "x": {
@@ -549,18 +537,6 @@
             }
           },
           "Methods": {
-            "aws-cdk-lib.aws_lambda.CodeSigningConfig.createRoot": {
-              "Parameters": {
-                "id": {
-                  "Summary": "The scoped construct ID.",
-                  "Type": "String"
-                }
-              },
-              "Summary": "Creates a new root construct node.",
-              "Remarks": "",
-              "Static": true,
-              "ReturnType": "constructs.Construct"
-            },
             "aws-cdk-lib.aws_lambda.CodeSigningConfig.isConstruct": {
               "Parameters": {
                 "x": {
@@ -1013,18 +989,6 @@
             }
           },
           "Methods": {
-            "aws-cdk-lib.aws_lambda.DockerImageFunction.createRoot": {
-              "Parameters": {
-                "id": {
-                  "Summary": "The scoped construct ID.",
-                  "Type": "String"
-                }
-              },
-              "Summary": "Creates a new root construct node.",
-              "Remarks": "",
-              "Static": true,
-              "ReturnType": "constructs.Construct"
-            },
             "aws-cdk-lib.aws_lambda.DockerImageFunction.isConstruct": {
               "Parameters": {
                 "x": {
@@ -1724,18 +1688,6 @@
             }
           },
           "Methods": {
-            "aws-cdk-lib.aws_lambda.EventInvokeConfig.createRoot": {
-              "Parameters": {
-                "id": {
-                  "Summary": "The scoped construct ID.",
-                  "Type": "String"
-                }
-              },
-              "Summary": "Creates a new root construct node.",
-              "Remarks": "",
-              "Static": true,
-              "ReturnType": "constructs.Construct"
-            },
             "aws-cdk-lib.aws_lambda.EventInvokeConfig.isConstruct": {
               "Parameters": {
                 "x": {
@@ -1986,18 +1938,6 @@
             }
           },
           "Methods": {
-            "aws-cdk-lib.aws_lambda.EventSourceMapping.createRoot": {
-              "Parameters": {
-                "id": {
-                  "Summary": "The scoped construct ID.",
-                  "Type": "String"
-                }
-              },
-              "Summary": "Creates a new root construct node.",
-              "Remarks": "",
-              "Static": true,
-              "ReturnType": "constructs.Construct"
-            },
             "aws-cdk-lib.aws_lambda.EventSourceMapping.isConstruct": {
               "Parameters": {
                 "x": {
@@ -2462,18 +2402,6 @@
             }
           },
           "Methods": {
-            "aws-cdk-lib.aws_lambda.Function.createRoot": {
-              "Parameters": {
-                "id": {
-                  "Summary": "The scoped construct ID.",
-                  "Type": "String"
-                }
-              },
-              "Summary": "Creates a new root construct node.",
-              "Remarks": "",
-              "Static": true,
-              "ReturnType": "constructs.Construct"
-            },
             "aws-cdk-lib.aws_lambda.Function.isConstruct": {
               "Parameters": {
                 "x": {
@@ -3161,18 +3089,6 @@
             }
           },
           "Methods": {
-            "aws-cdk-lib.aws_lambda.FunctionUrl.createRoot": {
-              "Parameters": {
-                "id": {
-                  "Summary": "The scoped construct ID.",
-                  "Type": "String"
-                }
-              },
-              "Summary": "Creates a new root construct node.",
-              "Remarks": "",
-              "Static": true,
-              "ReturnType": "constructs.Construct"
-            },
             "aws-cdk-lib.aws_lambda.FunctionUrl.isConstruct": {
               "Parameters": {
                 "x": {
@@ -3362,18 +3278,6 @@
             }
           },
           "Methods": {
-            "aws-cdk-lib.aws_lambda.LayerVersion.createRoot": {
-              "Parameters": {
-                "id": {
-                  "Summary": "The scoped construct ID.",
-                  "Type": "String"
-                }
-              },
-              "Summary": "Creates a new root construct node.",
-              "Remarks": "",
-              "Static": true,
-              "ReturnType": "constructs.Construct"
-            },
             "aws-cdk-lib.aws_lambda.LayerVersion.isConstruct": {
               "Parameters": {
                 "x": {
@@ -3886,18 +3790,6 @@
             }
           },
           "Methods": {
-            "aws-cdk-lib.aws_lambda.SingletonFunction.createRoot": {
-              "Parameters": {
-                "id": {
-                  "Summary": "The scoped construct ID.",
-                  "Type": "String"
-                }
-              },
-              "Summary": "Creates a new root construct node.",
-              "Remarks": "",
-              "Static": true,
-              "ReturnType": "constructs.Construct"
-            },
             "aws-cdk-lib.aws_lambda.SingletonFunction.isConstruct": {
               "Parameters": {
                 "x": {
@@ -4448,18 +4340,6 @@
             }
           },
           "Methods": {
-            "aws-cdk-lib.aws_lambda.Version.createRoot": {
-              "Parameters": {
-                "id": {
-                  "Summary": "The scoped construct ID.",
-                  "Type": "String"
-                }
-              },
-              "Summary": "Creates a new root construct node.",
-              "Remarks": "",
-              "Static": true,
-              "ReturnType": "constructs.Construct"
-            },
             "aws-cdk-lib.aws_lambda.Version.isConstruct": {
               "Parameters": {
                 "x": {
@@ -6497,18 +6377,6 @@
         "FunctionBase": {
           "Properties": {},
           "Methods": {
-            "aws-cdk-lib.aws_lambda.FunctionBase.createRoot": {
-              "Parameters": {
-                "id": {
-                  "Summary": "The scoped construct ID.",
-                  "Type": "String"
-                }
-              },
-              "Summary": "Creates a new root construct node.",
-              "Remarks": "",
-              "Static": true,
-              "ReturnType": "constructs.Construct"
-            },
             "aws-cdk-lib.aws_lambda.FunctionBase.isConstruct": {
               "Parameters": {
                 "x": {
@@ -7273,18 +7141,6 @@
         "QualifiedFunctionBase": {
           "Properties": {},
           "Methods": {
-            "aws-cdk-lib.aws_lambda.QualifiedFunctionBase.createRoot": {
-              "Parameters": {
-                "id": {
-                  "Summary": "The scoped construct ID.",
-                  "Type": "String"
-                }
-              },
-              "Summary": "Creates a new root construct node.",
-              "Remarks": "",
-              "Static": true,
-              "ReturnType": "constructs.Construct"
-            },
             "aws-cdk-lib.aws_lambda.QualifiedFunctionBase.isConstruct": {
               "Parameters": {
                 "x": {
