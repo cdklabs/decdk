@@ -6357,7 +6357,7 @@
               "Summary": "Null comparison operator.",
               "Remarks": "",
               "Static": true,
-              "ReturnType": "List"
+              "ReturnType": "Any"
             },
             "aws-cdk-lib.aws_lambda.FilterRule.or": {
               "Parameters": {
