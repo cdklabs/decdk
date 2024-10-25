@@ -909,7 +909,7 @@
               "Type": "aws-cdk-lib.aws_codeguruprofiler.IProfilingGroup"
             },
             "recursiveLoop": {
-              "Remarks": "It lets Lambda detect and terminate unintended recusrive loops.",
+              "Remarks": "It lets Lambda detect and terminate unintended recursive loops.",
               "Summary": "Sets the Recursive Loop Protection for Lambda Function.",
               "Required": false,
               "Type": "aws-cdk-lib.aws_lambda.RecursiveLoop"
@@ -2310,7 +2310,7 @@
               "Type": "aws-cdk-lib.aws_codeguruprofiler.IProfilingGroup"
             },
             "recursiveLoop": {
-              "Remarks": "It lets Lambda detect and terminate unintended recusrive loops.",
+              "Remarks": "It lets Lambda detect and terminate unintended recursive loops.",
               "Summary": "Sets the Recursive Loop Protection for Lambda Function.",
               "Required": false,
               "Type": "aws-cdk-lib.aws_lambda.RecursiveLoop"
@@ -3686,7 +3686,7 @@
               "Type": "aws-cdk-lib.aws_codeguruprofiler.IProfilingGroup"
             },
             "recursiveLoop": {
-              "Remarks": "It lets Lambda detect and terminate unintended recusrive loops.",
+              "Remarks": "It lets Lambda detect and terminate unintended recursive loops.",
               "Summary": "Sets the Recursive Loop Protection for Lambda Function.",
               "Required": false,
               "Type": "aws-cdk-lib.aws_lambda.RecursiveLoop"
