@@ -2017,10 +2017,10 @@ expect@^29.0.0, expect@^29.7.0:
     jest-message-util "^29.7.0"
     jest-util "^29.7.0"
 
-fast-check@^3.22.0:
-  version "3.22.0"
-  resolved "https://registry.yarnpkg.com/fast-check/-/fast-check-3.22.0.tgz#1a8153e9d6fbdcc60b818f447cbb9cac1fdd8fb6"
-  integrity sha512-8HKz3qXqnHYp/VCNn2qfjHdAdcI8zcSqOyX64GOMukp7SL2bfzfeDKjSd+UyECtejccaZv3LcvZTm9YDD22iCQ==
+fast-check@^3.23.0:
+  version "3.23.0"
+  resolved "https://registry.yarnpkg.com/fast-check/-/fast-check-3.23.0.tgz#0f4a41ca9aaffcb92bad95575fb2d967f1e3d504"
+  integrity sha512-TmpgSeJ2jUV+FNWnSy9iIE9bOV9nCNQ4it+K9BpCNT9JsQOfZYznWGSbMw+Wa4uusEss0IcL/trFVoRxS6IuAA==
   dependencies:
     pure-rand "^6.1.0"
 
