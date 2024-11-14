@@ -940,7 +940,7 @@
               "ItemType": "aws-cdk-lib.aws_ec2.ISecurityGroup"
             },
             "snapStart": {
-              "Remarks": "SnapStart is currently supported only for Java 11, 17 runtime",
+              "Remarks": "SnapStart is currently supported for Java 11, Java 17, Python 3.12, Python 3.13, and .NET 8 runtime",
               "Summary": "Enable SnapStart for Lambda Function.",
               "Required": false,
               "Type": "aws-cdk-lib.aws_lambda.SnapStartConf"
@@ -2341,7 +2341,7 @@
               "ItemType": "aws-cdk-lib.aws_ec2.ISecurityGroup"
             },
             "snapStart": {
-              "Remarks": "SnapStart is currently supported only for Java 11, 17 runtime",
+              "Remarks": "SnapStart is currently supported for Java 11, Java 17, Python 3.12, Python 3.13, and .NET 8 runtime",
               "Summary": "Enable SnapStart for Lambda Function.",
               "Required": false,
               "Type": "aws-cdk-lib.aws_lambda.SnapStartConf"
@@ -3717,7 +3717,7 @@
               "ItemType": "aws-cdk-lib.aws_ec2.ISecurityGroup"
             },
             "snapStart": {
-              "Remarks": "SnapStart is currently supported only for Java 11, 17 runtime",
+              "Remarks": "SnapStart is currently supported for Java 11, Java 17, Python 3.12, Python 3.13, and .NET 8 runtime",
               "Summary": "Enable SnapStart for Lambda Function.",
               "Required": false,
               "Type": "aws-cdk-lib.aws_lambda.SnapStartConf"
@@ -5383,6 +5383,26 @@
               "Static": true,
               "ReturnType": "aws-cdk-lib.aws_lambda.S3Code"
             },
+            "aws-cdk-lib.aws_lambda.AssetCode.fromBucketV2": {
+              "Parameters": {
+                "bucket": {
+                  "Summary": "The S3 bucket.",
+                  "Type": "aws-cdk-lib.aws_s3.IBucket"
+                },
+                "key": {
+                  "Summary": "The object key.",
+                  "Type": "String"
+                },
+                "options": {
+                  "Summary": "Optional parameters for setting the code, current optional parameters to set here are 1.",
+                  "Type": "aws-cdk-lib.aws_lambda.BucketOptions"
+                }
+              },
+              "Summary": "Lambda handler code as an S3 object.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.S3CodeV2"
+            },
             "aws-cdk-lib.aws_lambda.AssetCode.fromCfnParameters": {
               "Parameters": {
                 "props": {
@@ -5557,6 +5577,26 @@
               "Static": true,
               "ReturnType": "aws-cdk-lib.aws_lambda.S3Code"
             },
+            "aws-cdk-lib.aws_lambda.AssetImageCode.fromBucketV2": {
+              "Parameters": {
+                "bucket": {
+                  "Summary": "The S3 bucket.",
+                  "Type": "aws-cdk-lib.aws_s3.IBucket"
+                },
+                "key": {
+                  "Summary": "The object key.",
+                  "Type": "String"
+                },
+                "options": {
+                  "Summary": "Optional parameters for setting the code, current optional parameters to set here are 1.",
+                  "Type": "aws-cdk-lib.aws_lambda.BucketOptions"
+                }
+              },
+              "Summary": "Lambda handler code as an S3 object.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.S3CodeV2"
+            },
             "aws-cdk-lib.aws_lambda.AssetImageCode.fromCfnParameters": {
               "Parameters": {
                 "props": {
@@ -5724,6 +5764,26 @@
               "Remarks": "",
               "Static": true,
               "ReturnType": "aws-cdk-lib.aws_lambda.S3Code"
+            },
+            "aws-cdk-lib.aws_lambda.CfnParametersCode.fromBucketV2": {
+              "Parameters": {
+                "bucket": {
+                  "Summary": "The S3 bucket.",
+                  "Type": "aws-cdk-lib.aws_s3.IBucket"
+                },
+                "key": {
+                  "Summary": "The object key.",
+                  "Type": "String"
+                },
+                "options": {
+                  "Summary": "Optional parameters for setting the code, current optional parameters to set here are 1.",
+                  "Type": "aws-cdk-lib.aws_lambda.BucketOptions"
+                }
+              },
+              "Summary": "Lambda handler code as an S3 object.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.S3CodeV2"
             },
             "aws-cdk-lib.aws_lambda.CfnParametersCode.fromCfnParameters": {
               "Parameters": {
@@ -5916,6 +5976,26 @@
               "Remarks": "",
               "Static": true,
               "ReturnType": "aws-cdk-lib.aws_lambda.S3Code"
+            },
+            "aws-cdk-lib.aws_lambda.Code.fromBucketV2": {
+              "Parameters": {
+                "bucket": {
+                  "Summary": "The S3 bucket.",
+                  "Type": "aws-cdk-lib.aws_s3.IBucket"
+                },
+                "key": {
+                  "Summary": "The object key.",
+                  "Type": "String"
+                },
+                "options": {
+                  "Summary": "Optional parameters for setting the code, current optional parameters to set here are 1.",
+                  "Type": "aws-cdk-lib.aws_lambda.BucketOptions"
+                }
+              },
+              "Summary": "Lambda handler code as an S3 object.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.S3CodeV2"
             },
             "aws-cdk-lib.aws_lambda.Code.fromCfnParameters": {
               "Parameters": {
@@ -6115,6 +6195,26 @@
               "Remarks": "",
               "Static": true,
               "ReturnType": "aws-cdk-lib.aws_lambda.S3Code"
+            },
+            "aws-cdk-lib.aws_lambda.EcrImageCode.fromBucketV2": {
+              "Parameters": {
+                "bucket": {
+                  "Summary": "The S3 bucket.",
+                  "Type": "aws-cdk-lib.aws_s3.IBucket"
+                },
+                "key": {
+                  "Summary": "The object key.",
+                  "Type": "String"
+                },
+                "options": {
+                  "Summary": "Optional parameters for setting the code, current optional parameters to set here are 1.",
+                  "Type": "aws-cdk-lib.aws_lambda.BucketOptions"
+                }
+              },
+              "Summary": "Lambda handler code as an S3 object.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.S3CodeV2"
             },
             "aws-cdk-lib.aws_lambda.EcrImageCode.fromCfnParameters": {
               "Parameters": {
@@ -6863,6 +6963,26 @@
               "Remarks": "",
               "Static": true,
               "ReturnType": "aws-cdk-lib.aws_lambda.S3Code"
+            },
+            "aws-cdk-lib.aws_lambda.InlineCode.fromBucketV2": {
+              "Parameters": {
+                "bucket": {
+                  "Summary": "The S3 bucket.",
+                  "Type": "aws-cdk-lib.aws_s3.IBucket"
+                },
+                "key": {
+                  "Summary": "The object key.",
+                  "Type": "String"
+                },
+                "options": {
+                  "Summary": "Optional parameters for setting the code, current optional parameters to set here are 1.",
+                  "Type": "aws-cdk-lib.aws_lambda.BucketOptions"
+                }
+              },
+              "Summary": "Lambda handler code as an S3 object.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.S3CodeV2"
             },
             "aws-cdk-lib.aws_lambda.InlineCode.fromCfnParameters": {
               "Parameters": {
@@ -7829,6 +7949,13 @@
               "Type": "aws-cdk-lib.aws_lambda.Runtime",
               "Static": true
             },
+            "PYTHON_3_13": {
+              "Remarks": "",
+              "Summary": "The Python 3.13 runtime (python3.13).",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Runtime",
+              "Static": true
+            },
             "PYTHON_3_6": {
               "Remarks": "The Python 3.6 runtime is deprecated as of July 2022.",
               "Summary": "The Python 3.6 runtime (python3.6) (not recommended).",
@@ -8035,6 +8162,26 @@
               "Static": true,
               "ReturnType": "aws-cdk-lib.aws_lambda.S3Code"
             },
+            "aws-cdk-lib.aws_lambda.S3Code.fromBucketV2": {
+              "Parameters": {
+                "bucket": {
+                  "Summary": "The S3 bucket.",
+                  "Type": "aws-cdk-lib.aws_s3.IBucket"
+                },
+                "key": {
+                  "Summary": "The object key.",
+                  "Type": "String"
+                },
+                "options": {
+                  "Summary": "Optional parameters for setting the code, current optional parameters to set here are 1.",
+                  "Type": "aws-cdk-lib.aws_lambda.BucketOptions"
+                }
+              },
+              "Summary": "Lambda handler code as an S3 object.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.S3CodeV2"
+            },
             "aws-cdk-lib.aws_lambda.S3Code.fromCfnParameters": {
               "Parameters": {
                 "props": {
@@ -8100,6 +8247,207 @@
               "ReturnType": "aws-cdk-lib.aws_lambda.EcrImageCode"
             },
             "aws-cdk-lib.aws_lambda.S3Code.fromInline": {
+              "Parameters": {
+                "code": {
+                  "Summary": "The actual handler code (limited to 4KiB).",
+                  "Type": "String"
+                }
+              },
+              "Summary": "Inline code for Lambda handler.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.InlineCode"
+            },
+            "bind": {
+              "Parameters": {
+                "_scope": {
+                  "Summary": "",
+                  "Type": "constructs.Construct"
+                }
+              },
+              "Summary": "Called when the lambda or layer is initialized to allow this object to bind to the stack, add resources and have fun.",
+              "Remarks": "",
+              "Static": false,
+              "ReturnType": "aws-cdk-lib.aws_lambda.CodeConfig"
+            },
+            "bindToResource": {
+              "Parameters": {
+                "_resource": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.CfnResource"
+                },
+                "_options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_lambda.ResourceBindOptions"
+                }
+              },
+              "Summary": "Called after the CFN function resource has been created to allow the code class to bind to it.",
+              "Remarks": "Specifically it's required to allow assets to add\nmetadata for tooling like SAM CLI to be able to find their origins.",
+              "Static": false
+            }
+          },
+          "PublicProperties": {
+            "isInline": {
+              "Remarks": "",
+              "Summary": "Determines whether this Code is inline code or not.",
+              "Required": true,
+              "Type": "Boolean"
+            }
+          }
+        },
+        "S3CodeV2": {
+          "Properties": {
+            "objectVersion": {
+              "Remarks": "",
+              "Summary": "Optional S3 object version.",
+              "Required": false,
+              "Type": "String"
+            },
+            "sourceKMSKey": {
+              "Remarks": "",
+              "Summary": "The ARN of the KMS key used to encrypt the handler code.",
+              "Required": false,
+              "Type": "aws-cdk-lib.aws_kms.IKey"
+            }
+          },
+          "Methods": {
+            "aws-cdk-lib.aws_lambda.S3CodeV2.fromAsset": {
+              "Parameters": {
+                "path": {
+                  "Summary": "Either a directory with the Lambda code bundle or a .zip file.",
+                  "Type": "String"
+                },
+                "options": {
+                  "Summary": "",
+                  "Type": "aws-cdk-lib.aws_s3_assets.AssetOptions"
+                }
+              },
+              "Summary": "Loads the function code from a local disk path.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.AssetCode"
+            },
+            "aws-cdk-lib.aws_lambda.S3CodeV2.fromAssetImage": {
+              "Parameters": {
+                "directory": {
+                  "Summary": "the directory from which the asset must be created.",
+                  "Type": "String"
+                },
+                "props": {
+                  "Summary": "properties to further configure the selected image.",
+                  "Type": "aws-cdk-lib.aws_lambda.AssetImageCodeProps"
+                }
+              },
+              "Summary": "Create an ECR image from the specified asset and bind it as the Lambda code.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.AssetImageCode"
+            },
+            "aws-cdk-lib.aws_lambda.S3CodeV2.fromBucket": {
+              "Parameters": {
+                "bucket": {
+                  "Summary": "The S3 bucket.",
+                  "Type": "aws-cdk-lib.aws_s3.IBucket"
+                },
+                "key": {
+                  "Summary": "The object key.",
+                  "Type": "String"
+                },
+                "objectVersion": {
+                  "Summary": "Optional S3 object version.",
+                  "Type": "String"
+                }
+              },
+              "Summary": "Lambda handler code as an S3 object.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.S3Code"
+            },
+            "aws-cdk-lib.aws_lambda.S3CodeV2.fromBucketV2": {
+              "Parameters": {
+                "bucket": {
+                  "Summary": "The S3 bucket.",
+                  "Type": "aws-cdk-lib.aws_s3.IBucket"
+                },
+                "key": {
+                  "Summary": "The object key.",
+                  "Type": "String"
+                },
+                "options": {
+                  "Summary": "Optional parameters for setting the code, current optional parameters to set here are 1.",
+                  "Type": "aws-cdk-lib.aws_lambda.BucketOptions"
+                }
+              },
+              "Summary": "Lambda handler code as an S3 object.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.S3CodeV2"
+            },
+            "aws-cdk-lib.aws_lambda.S3CodeV2.fromCfnParameters": {
+              "Parameters": {
+                "props": {
+                  "Summary": "optional construction properties of `CfnParametersCode`.",
+                  "Type": "aws-cdk-lib.aws_lambda.CfnParametersCodeProps"
+                }
+              },
+              "Summary": "Creates a new Lambda source defined using CloudFormation parameters.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.CfnParametersCode"
+            },
+            "aws-cdk-lib.aws_lambda.S3CodeV2.fromCustomCommand": {
+              "Parameters": {
+                "output": {
+                  "Summary": "Where the output of the command will be directed, either a directory or a .zip file with the output Lambda code bundle * For example, if you use the command to run a build script (e.g., [ 'node', 'bundle_code.js' ]), and the build script generates a directory `/my/lambda/code` containing code that should be ran in a Lambda function, then output should be set to `/my/lambda/code`.",
+                  "Type": "String"
+                },
+                "command": {
+                  "Summary": "The command which will be executed to generate the output, for example, [ 'node', 'bundle_code.js' ].",
+                  "Type": "List"
+                },
+                "options": {
+                  "Summary": "options for the custom command, and other asset options -- but bundling options are not allowed.",
+                  "Type": "aws-cdk-lib.aws_lambda.CustomCommandOptions"
+                }
+              },
+              "Summary": "Runs a command to build the code asset that will be used.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.AssetCode"
+            },
+            "aws-cdk-lib.aws_lambda.S3CodeV2.fromDockerBuild": {
+              "Parameters": {
+                "path": {
+                  "Summary": "The path to the directory containing the Docker file.",
+                  "Type": "String"
+                },
+                "options": {
+                  "Summary": "Docker build options.",
+                  "Type": "aws-cdk-lib.aws_lambda.DockerBuildAssetOptions"
+                }
+              },
+              "Summary": "Loads the function code from an asset created by a Docker build.",
+              "Remarks": "By default, the asset is expected to be located at `/asset` in the\nimage.",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.AssetCode"
+            },
+            "aws-cdk-lib.aws_lambda.S3CodeV2.fromEcrImage": {
+              "Parameters": {
+                "repository": {
+                  "Summary": "the ECR repository that the image is in.",
+                  "Type": "aws-cdk-lib.aws_ecr.IRepository"
+                },
+                "props": {
+                  "Summary": "properties to further configure the selected image.",
+                  "Type": "aws-cdk-lib.aws_lambda.EcrImageCodeProps"
+                }
+              },
+              "Summary": "Use an existing ECR image as the Lambda code.",
+              "Remarks": "",
+              "Static": true,
+              "ReturnType": "aws-cdk-lib.aws_lambda.EcrImageCode"
+            },
+            "aws-cdk-lib.aws_lambda.S3CodeV2.fromInline": {
               "Parameters": {
                 "code": {
                   "Summary": "The actual handler code (limited to 4KiB).",
