@@ -1875,6 +1875,12 @@
               "Required": false,
               "Type": "aws-cdk-lib.Duration"
             },
+            "metricsConfig": {
+              "Remarks": "",
+              "Summary": "Configuration for enhanced monitoring metrics collection When specified, enables collection of additional metrics for the stream event source.",
+              "Required": false,
+              "Type": "aws-cdk-lib.aws_lambda.MetricsConfig"
+            },
             "onFailure": {
               "Remarks": "",
               "Summary": "An Amazon SQS queue or Amazon SNS topic destination for discarded records.",
@@ -7872,6 +7878,13 @@
               "Type": "aws-cdk-lib.aws_lambda.Runtime",
               "Static": true
             },
+            "NODEJS_22_X": {
+              "Remarks": "",
+              "Summary": "The NodeJS 22.x runtime (nodejs22.x).",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.Runtime",
+              "Static": true
+            },
             "NODEJS_4_3": {
               "Remarks": "",
               "Summary": "The NodeJS 4.3 runtime (nodejs4.3).",
@@ -9405,6 +9418,12 @@
               "Summary": "The stack in which this resource is defined.",
               "Required": true,
               "Type": "aws-cdk-lib.Stack"
+            },
+            "authType": {
+              "Remarks": "",
+              "Summary": "The authType of the function URL, used for access control.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.FunctionUrlAuthType"
             },
             "functionArn": {
               "Remarks": "",
