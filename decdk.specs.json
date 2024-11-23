@@ -1893,6 +1893,12 @@
               "Required": false,
               "Type": "Number"
             },
+            "provisionedPollerConfig": {
+              "Remarks": "When specified, allows control over the minimum and maximum number of pollers\nthat can be provisioned to process events from the source.",
+              "Summary": "Configuration for provisioned pollers that read from the event source.",
+              "Required": false,
+              "Type": "aws-cdk-lib.aws_lambda.ProvisionedPollerConfig"
+            },
             "reportBatchItemFailures": {
               "Remarks": "",
               "Summary": "Allow functions to return partially successful responses for a batch of records.",
