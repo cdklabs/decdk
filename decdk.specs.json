@@ -5482,7 +5482,7 @@
             "aws-cdk-lib.aws_lambda.AssetCode.fromInline": {
               "Parameters": {
                 "code": {
-                  "Summary": "The actual handler code (limited to 4KiB).",
+                  "Summary": "The actual handler code (the resulting zip file cannot exceed 4MB).",
                   "Type": "String"
                 }
               },
@@ -5676,7 +5676,7 @@
             "aws-cdk-lib.aws_lambda.AssetImageCode.fromInline": {
               "Parameters": {
                 "code": {
-                  "Summary": "The actual handler code (limited to 4KiB).",
+                  "Summary": "The actual handler code (the resulting zip file cannot exceed 4MB).",
                   "Type": "String"
                 }
               },
@@ -5864,7 +5864,7 @@
             "aws-cdk-lib.aws_lambda.CfnParametersCode.fromInline": {
               "Parameters": {
                 "code": {
-                  "Summary": "The actual handler code (limited to 4KiB).",
+                  "Summary": "The actual handler code (the resulting zip file cannot exceed 4MB).",
                   "Type": "String"
                 }
               },
@@ -6076,7 +6076,7 @@
             "aws-cdk-lib.aws_lambda.Code.fromInline": {
               "Parameters": {
                 "code": {
-                  "Summary": "The actual handler code (limited to 4KiB).",
+                  "Summary": "The actual handler code (the resulting zip file cannot exceed 4MB).",
                   "Type": "String"
                 }
               },
@@ -6295,7 +6295,7 @@
             "aws-cdk-lib.aws_lambda.EcrImageCode.fromInline": {
               "Parameters": {
                 "code": {
-                  "Summary": "The actual handler code (limited to 4KiB).",
+                  "Summary": "The actual handler code (the resulting zip file cannot exceed 4MB).",
                   "Type": "String"
                 }
               },
@@ -7063,7 +7063,7 @@
             "aws-cdk-lib.aws_lambda.InlineCode.fromInline": {
               "Parameters": {
                 "code": {
-                  "Summary": "The actual handler code (limited to 4KiB).",
+                  "Summary": "The actual handler code (the resulting zip file cannot exceed 4MB).",
                   "Type": "String"
                 }
               },
@@ -8268,7 +8268,7 @@
             "aws-cdk-lib.aws_lambda.S3Code.fromInline": {
               "Parameters": {
                 "code": {
-                  "Summary": "The actual handler code (limited to 4KiB).",
+                  "Summary": "The actual handler code (the resulting zip file cannot exceed 4MB).",
                   "Type": "String"
                 }
               },
@@ -8469,7 +8469,7 @@
             "aws-cdk-lib.aws_lambda.S3CodeV2.fromInline": {
               "Parameters": {
                 "code": {
-                  "Summary": "The actual handler code (limited to 4KiB).",
+                  "Summary": "The actual handler code (the resulting zip file cannot exceed 4MB).",
                   "Type": "String"
                 }
               },
