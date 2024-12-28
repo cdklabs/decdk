@@ -996,10 +996,10 @@ available-typed-arrays@^1.0.7:
   dependencies:
     possible-typed-array-names "^1.0.0"
 
-aws-cdk-lib@^2.173.3:
-  version "2.173.3"
-  resolved "https://registry.yarnpkg.com/aws-cdk-lib/-/aws-cdk-lib-2.173.3.tgz#a329470b9c1b61773239622a30b4c07ddf596123"
-  integrity sha512-AarLLLZK07R8SnMo0rrUDlmRuTIkhZpFmxjY2u62jzqALW88VKkEZcC9Yt9i/7yzUHnya7SbC84KTNNfJEVc1A==
+aws-cdk-lib@^2.173.4:
+  version "2.173.4"
+  resolved "https://registry.yarnpkg.com/aws-cdk-lib/-/aws-cdk-lib-2.173.4.tgz#a690ea79e976e86c761e118fd055aa24a51b7852"
+  integrity sha512-0reN94TzkWmyVZDDBlYB4qzJUig8wTHEe82YLHlWRUhrU78fT+drVGUr+lYZwwETaZ+8fLdCOl9ULvFNq7iczQ==
   dependencies:
     "@aws-cdk/asset-awscli-v1" "^2.2.208"
     "@aws-cdk/asset-kubectl-v20" "^2.1.3"
