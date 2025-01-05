@@ -4274,6 +4274,12 @@
               "Required": false,
               "Type": "aws-cdk-lib.aws_iam.IRole"
             },
+            "constructName": {
+              "Remarks": "It acts as a unique ID within its CDK stack.",
+              "Summary": "The name of the singleton function.",
+              "Required": true,
+              "Type": "String"
+            },
             "currentVersion": {
               "Remarks": "You can specify options for this version using the `currentVersionOptions`\nprop when initializing the `lambda.SingletonFunction`.",
               "Summary": "Returns a `lambda.Version` which represents the current version of this singleton Lambda function. A new version will be created every time the function's configuration changes.",
