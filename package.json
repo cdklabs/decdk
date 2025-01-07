@@ -73,7 +73,7 @@
     "constructs": "^10",
     "fs-extra": "^8",
     "jsii-reflect": "^1.106.0",
-    "jsonschema": "^1.4.1",
+    "jsonschema": "^1.5.0",
     "semver": "^7.6.3",
     "yaml": "^1.10.2",
     "yargs": "^17.7.2"
