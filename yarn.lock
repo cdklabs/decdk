@@ -11,9 +11,9 @@
     "@jridgewell/trace-mapping" "^0.3.24"
 
 "@aws-cdk/asset-awscli-v1@^2.2.208":
-  version "2.2.217"
-  resolved "https://registry.yarnpkg.com/@aws-cdk/asset-awscli-v1/-/asset-awscli-v1-2.2.217.tgz#fb726a1ab1a304743e614c3ea629b2c97e3ea352"
-  integrity sha512-vqMxZaMO3ILc7OuPGH59KryvGqY1wNx7RYLfxM4aMk6uda5eG/rCo1jGRovB1fXXQCPd9NedicJz3n+DkhxIzw==
+  version "2.2.218"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/asset-awscli-v1/-/asset-awscli-v1-2.2.218.tgz#00dd1b98b1ec1efebd2173c60ce757c643ed73ba"
+  integrity sha512-t5M+dk7qNM0N6ZbHVDs/6lO7xPw4ogUUsTbXzAfnqrpZQ/wKpphwgBxTNrHMV+NKOFxyCbF5fWUAD7I36jRqZw==
 
 "@aws-cdk/asset-kubectl-v20@^2.1.3":
   version "2.1.3"
@@ -26,9 +26,9 @@
   integrity sha512-7bY3J8GCVxLupn/kNmpPc5VJz8grx+4RKfnnJiO1LG+uxkZfANZG3RMHhE+qQxxwkyQ9/MfPtTpf748UhR425A==
 
 "@aws-cdk/cloud-assembly-schema@^39.0.1":
-  version "39.1.37"
-  resolved "https://registry.yarnpkg.com/@aws-cdk/cloud-assembly-schema/-/cloud-assembly-schema-39.1.37.tgz#341c8432601cce2aec71add7143394bb1bd2682c"
-  integrity sha512-qChylPyI545731cXpH8LlosZKKZtkCz4Yo8404zOwAuIbdyR5CLW+RrG10DKyvVHqE8ufcI62astdcQuYY8D9A==
+  version "39.1.38"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/cloud-assembly-schema/-/cloud-assembly-schema-39.1.38.tgz#7232f922e91e34f1225b5b41d318b77eed377fd0"
+  integrity sha512-T5nc7+y3pmfXD/LNft1mA8E8Q6IdsE0mta5nC1FZu5sQd+LUo9xGd0BwdzJpR54cgTW/bNcIs5ARoc6kWoRJaA==
   dependencies:
     jsonschema "^1.4.1"
     semver "^7.6.3"
@@ -634,9 +634,9 @@
     undici-types "~6.20.0"
 
 "@types/node@^18":
-  version "18.19.69"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.19.69.tgz#748d301818ba4b238854c53d290257a70aae7d01"
-  integrity sha512-ECPdY1nlaiO/Y6GUnwgtAAhLNaQ53AyIVz+eILxpEo5OvuqE6yWkqWBIb5dU0DqhKQtMeny+FBD3PK6lm7L5xQ==
+  version "18.19.70"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.19.70.tgz#5a77508f5568d16fcd3b711c8102d7a430a04df7"
+  integrity sha512-RE+K0+KZoEpDUbGGctnGdkrLFwi1eYKTlIHNl2Um98mUkGsm1u2Ff6Ltd0e8DktTtC98uy7rSj+hO8t/QuLoVQ==
   dependencies:
     undici-types "~5.26.4"
 
@@ -1734,9 +1734,9 @@ dunder-proto@^1.0.0, dunder-proto@^1.0.1:
     gopd "^1.2.0"
 
 electron-to-chromium@^1.5.73:
-  version "1.5.76"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.76.tgz#db20295c5061b68f07c8ea4dfcbd701485d94a3d"
-  integrity sha512-CjVQyG7n7Sr+eBXE86HIulnL5N8xZY1sgmOPGuq/F0Rr0FJq63lg0kEtOIDfZBk44FnDLf6FUJ+dsJcuiUDdDQ==
+  version "1.5.77"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.77.tgz#b9e7aa2d833084aac5253d36fc85f99d7cf8ce98"
+  integrity sha512-AnJSrt5JpRVgY6dgd5yccguLc5A7oMSF0Kt3fcW+Hp5WTuFbl5upeSFZbMZYy2o7jhmIhU8Ekrd82GhyXUqUUg==
 
 emoji-regex@^8.0.0:
   version "8.0.0"
@@ -4623,17 +4623,17 @@ through@2, "through@>=2.2.7 <3":
   resolved "https://registry.yarnpkg.com/through/-/through-2.3.8.tgz#0dd4c9ffaabc357960b1b724115d7e0e86a2e1f5"
   integrity sha512-w89qg7PI8wAdvX60bMDP+bFoD5Dvhm9oLheFp5O4a2QF0cSBGsBX4qZmadPMvVqlLJBBci+WqGGOAPvcDeNSVg==
 
-tldts-core@^6.1.70:
-  version "6.1.70"
-  resolved "https://registry.yarnpkg.com/tldts-core/-/tldts-core-6.1.70.tgz#a954e93237ece2e1705b438600793c86a25f8c00"
-  integrity sha512-RNnIXDB1FD4T9cpQRErEqw6ZpjLlGdMOitdV+0xtbsnwr4YFka1zpc7D4KD+aAn8oSG5JyFrdasZTE04qDE9Yg==
+tldts-core@^6.1.71:
+  version "6.1.71"
+  resolved "https://registry.yarnpkg.com/tldts-core/-/tldts-core-6.1.71.tgz#04069cbdcf75b7fcb68fb4c1e00591cd3a2d4a5c"
+  integrity sha512-LRbChn2YRpic1KxY+ldL1pGXN/oVvKfCVufwfVzEQdFYNo39uF7AJa/WXdo+gYO7PTvdfkCPCed6Hkvz/kR7jg==
 
 tldts@^6.1.32:
-  version "6.1.70"
-  resolved "https://registry.yarnpkg.com/tldts/-/tldts-6.1.70.tgz#b571e5645ab9dc6f289453115d52602b8a384cfe"
-  integrity sha512-/W1YVgYVJd9ZDjey5NXadNh0mJXkiUMUue9Zebd0vpdo1sU+H4zFFTaJ1RKD4N6KFoHfcXy6l+Vu7bh+bdWCzA==
+  version "6.1.71"
+  resolved "https://registry.yarnpkg.com/tldts/-/tldts-6.1.71.tgz#e0db0853dd533628729d6a97a211450205fa21e4"
+  integrity sha512-LQIHmHnuzfZgZWAf2HzL83TIIrD8NhhI0DVxqo9/FdOd4ilec+NTNZOlDZf7EwrTNoutccbsHjvWHYXLAtvxjw==
   dependencies:
-    tldts-core "^6.1.70"
+    tldts-core "^6.1.71"
 
 tmpl@1.0.5:
   version "1.0.5"
