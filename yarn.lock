@@ -37,9 +37,9 @@
   integrity sha512-7bY3J8GCVxLupn/kNmpPc5VJz8grx+4RKfnnJiO1LG+uxkZfANZG3RMHhE+qQxxwkyQ9/MfPtTpf748UhR425A==
 
 "@aws-cdk/cloud-assembly-schema@^39.0.1":
-  version "39.1.48"
-  resolved "https://registry.yarnpkg.com/@aws-cdk/cloud-assembly-schema/-/cloud-assembly-schema-39.1.48.tgz#b5721c8a16016b8ab8dc6ccee155ea087a5ce3b6"
-  integrity sha512-CKntOO+uwLdfi5iDdayPq7DrVBVYL6AJlp+YMtsQ1jYGml14BlnK2BQAw0ftYBnkr+4kFFqNjeoc2mo4XdNOQQ==
+  version "39.1.49"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/cloud-assembly-schema/-/cloud-assembly-schema-39.1.49.tgz#31476007f9c335d7501b64ec877cbabc6f1b9617"
+  integrity sha512-IXTT9ZbJoUEN6/+zDhp+HxbZPUBHSDp4JbSi7knh4WjlMQ2Ee7rLqq2xlndcBQzKDykA/hmrvIRN8KKqdJ3+ag==
   dependencies:
     jsonschema "~1.4.1"
     semver "^7.6.3"
@@ -1208,9 +1208,9 @@ camelcase@^6.0.0:
   integrity sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==
 
 caniuse-lite@^1.0.30001688:
-  version "1.0.30001692"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001692.tgz#4585729d95e6b95be5b439da6ab55250cd125bf9"
-  integrity sha512-A95VKan0kdtrsnMubMKxEKUKImOPSuCpYgxSQBo036P5YYgVIcOYJEgt/txJWqObiRQeISNCfef9nvlQ0vbV7A==
+  version "1.0.30001695"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001695.tgz#39dfedd8f94851132795fdf9b79d29659ad9c4d4"
+  integrity sha512-vHyLade6wTgI2u1ec3WQBxv+2BrTERV28UXQu9LO6lZ9pYeMk34vjXFLOxo1A4UBA8XTL4njRQZdno/yYaSmWw==
 
 case@1.6.3, case@^1.6.3:
   version "1.6.3"
