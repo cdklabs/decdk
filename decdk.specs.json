@@ -4871,6 +4871,13 @@
               "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerGenericVersion",
               "Static": true
             },
+            "V0_115_0": {
+              "Remarks": "",
+              "Summary": "Version 0.115.0.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerGenericVersion",
+              "Static": true
+            },
             "V0_62_1": {
               "Remarks": "",
               "Summary": "Version 0.62.1.",
@@ -4977,6 +4984,13 @@
               "Required": true,
               "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerJavaAutoInstrumentationVersion",
               "Static": true
+            },
+            "V1_32_0_1": {
+              "Remarks": "",
+              "Summary": "Version 1.32.0.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerJavaAutoInstrumentationVersion",
+              "Static": true
             }
           }
         },
@@ -5032,6 +5046,13 @@
             "V1_18_1": {
               "Remarks": "",
               "Summary": "Version 1.18.1.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerJavaScriptSdkVersion",
+              "Static": true
+            },
+            "V1_30_0": {
+              "Remarks": "",
+              "Summary": "Version 1.30.0.",
               "Required": true,
               "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerJavaScriptSdkVersion",
               "Static": true
@@ -5102,6 +5123,13 @@
               "Static": true
             },
             "V1_32_0": {
+              "Remarks": "",
+              "Summary": "Version 1.32.0.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerJavaSdkVersion",
+              "Static": true
+            },
+            "V1_32_0_1": {
               "Remarks": "",
               "Summary": "Version 1.32.0.",
               "Required": true,
@@ -5218,6 +5246,13 @@
             "V1_25_0": {
               "Remarks": "",
               "Summary": "Version 1.25.0.",
+              "Required": true,
+              "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerPythonSdkVersion",
+              "Static": true
+            },
+            "V1_29_0": {
+              "Remarks": "",
+              "Summary": "Version 1.29.0.",
               "Required": true,
               "Type": "aws-cdk-lib.aws_lambda.AdotLambdaLayerPythonSdkVersion",
               "Static": true
