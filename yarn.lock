@@ -3539,10 +3539,10 @@ minimist@^1.2.0, minimist@^1.2.3, minimist@^1.2.5, minimist@^1.2.6:
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.8.tgz#c1a464e7693302e082a075cee0c057741ac4772c"
   integrity sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==
 
-mocha-expect-snapshot@^7.1.0:
-  version "7.1.0"
-  resolved "https://registry.yarnpkg.com/mocha-expect-snapshot/-/mocha-expect-snapshot-7.1.0.tgz#515a5d6d322032e324ce78bb7e273d0d3f5b3d40"
-  integrity sha512-ROFkMmps9iU3igILichwQF9svk84FcECIaWt39K7khb+sEE9MS2aOOS3J4vJRUWpisDHts38EXzm66Y4O/9b2A==
+mocha-expect-snapshot@^7.2.0:
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/mocha-expect-snapshot/-/mocha-expect-snapshot-7.2.0.tgz#5fa2e3f494686f00a6186dbe5b92a5e2744e4f55"
+  integrity sha512-76m3P1ozasF6bqxIIqdrYRZ6fnRBsUZoao+bYULFx3l0lj5xDsRUX2Xp0s2aKlmddgW8FkL/KkBE0xbiizn4aA==
   dependencies:
     "@jest/expect" "^29.0.0"
     expect "^29.0.0"
